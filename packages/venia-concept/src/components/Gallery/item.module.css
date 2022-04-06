@@ -1,0 +1,80 @@
+.root {
+}
+
+.productName,
+.productPrice {
+    display: flex;
+    justify-content: center;
+    grid-gap: 0.5rem;
+}
+.images {
+    display: grid;
+    grid-template-areas: 'main';
+    margin-bottom: 0.65rem;
+    height: 70%;
+}
+
+.imageContainer {
+    grid-area: main;
+    height: 80%;
+}
+
+.image {
+    display: block;
+    /* height: auto; */
+    height: 100%;
+    opacity: 1;
+    transition-duration: 512ms;
+    transition-property: opacity, visibility;
+    transition-timing-function: ease-out;
+    visibility: visible;
+    width: 100%;
+}
+
+.imagePlaceholder {
+    composes: image;
+    background-color: rgb(var(--venia-global-color-gray));
+}
+
+.name,
+.price {
+    font-size: 0.875rem;
+    line-height: 1rem;
+    margin: 0.5rem 0;
+    min-height: 1rem;
+}
+
+.oldPrice {
+    font-size: 0.875rem;
+    line-height: 1rem;
+    margin: 0.5rem 0;
+    min-height: 1rem;
+    text-decoration: line-through;
+    color: '#666666';
+}
+
+/* state: pending */
+
+.root_pending {
+    composes: root;
+}
+
+.image_pending {
+    composes: image;
+    background-color: rgb(var(--venia-global-color-gray));
+}
+
+.images_pending {
+    composes: images;
+}
+
+.name_pending {
+    composes: name;
+    background-color: rgb(var(--venia-global-color-gray));
+}
+
+.price_pending {
+    composes: price;
+    background-color: rgb(var(--venia-global-color-gray));
+    width: 3rem;
+}

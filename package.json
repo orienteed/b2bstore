@@ -21,6 +21,10 @@
   "bugs": {
     "url": "https://github.com/magento/pwa-studio/issues"
   },
+  "main": "src/index.js",
+  "browser": {
+    "@magento/venia-drivers": "src/drivers"
+  },
   "scripts": {
     "build": "yarn venia run build",
     "build:dev": "yarn venia run build:dev",
@@ -44,6 +48,27 @@
     "venia": "yarn workspace @magento/venia-concept",
     "watch:all": "node scripts/watch-all.js",
     "watch:venia": "yarn venia run watch"
+  },
+  "dependencies": {
+    "@magento/pwa-buildpack": "^11.0.0",
+    "@orienteed/adminPwaLogin": "link:./@orienteed/adminPwaLogin",
+    "@orienteed/buyLaterNotes": "link:./@orienteed/buyLaterNotes",
+    "@orienteed/customComponents": "link:./@orienteed/customComponents",
+    "@orienteed/customerCreditSystem": "link:./@orienteed/customerCreditSystem",
+    "@orienteed/defaultBillingAddress": "link:./@orienteed/defaultBillingAddress",
+    "@orienteed/filterProductAttributesBasedOnAvailability": "link:./@orienteed/filterProductAttributesBasedOnAvailability",
+    "@orienteed/locale": "link:./@orienteed/locale",
+    "@orienteed/megaMenuIsRequiredLogin": "link:./@orienteed/megaMenuIsRequiredLogin",
+    "@orienteed/payWithBankTransfer": "link:./@orienteed/payWithBankTransfer",
+    "@orienteed/reorder": "link:./@orienteed/reorder",
+    "@orienteed/requestQuote": "link:./@orienteed/requestQuote",
+    "react-csv": "^2.2.2",
+    "react-drag-drop-files": "^2.3.4",
+    "react-icons": "^4.3.1",
+    "reactjs-popup": "^2.0.5",
+    "react-dropzone": "^12.0.4",
+    "react-to-print": "^2.14.4",
+    "babel-plugin-require-context-hook": "^1.0.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "~7.4.4",
@@ -111,5 +136,13 @@
       "path": "./packages/venia-concept/dist/+([0-9]).*.js",
       "maxSize": "100 kB"
     }
-  ]
+  ],
+  "module": "src/index.js",
+  "es2015": "src/index.js",
+  "esnext": "src/index.js",
+  "pwa-studio": {
+    "targets": {
+      "intercept": "./local-intercept.js"
+    }
+  }
 }
