@@ -5,7 +5,7 @@ import { useAutocomplete } from '@magento/peregrine/lib/talons/SearchBar';
 import { useIntl } from 'react-intl';
 
 import defaultClasses from './autocomplete.module.css';
-import { mergeClasses } from '../../../node_modules/@magento/venia-ui/lib/classify';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import Suggestions from './suggestions';
 
 const GET_AUTOCOMPLETE_RESULTS = gql`

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { node, number, oneOfType, shape, string } from 'prop-types';
-import { BasicText, asField } from '../../../node_modules/informed';
-import { compose } from '../../../node_modules/redux';
+import { BasicText, asField } from 'informed';
+import { compose } from 'redux';
 
-import classify from '../../../node_modules/@magento/venia-ui/lib/classify';
-import { FieldIcons, Message } from '../../../node_modules/@magento/venia-ui/lib/components/Field';
+import classify from '@magento/venia-ui/lib/classify';
+import { FieldIcons, Message } from '@magento/venia-ui/lib/components/Field';
 import defaultClasses from './textInput.module.css';
 
 export class TextInput extends Component {

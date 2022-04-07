@@ -117,7 +117,7 @@
 }
 
 .quantityTitle {
-    composes: title from '../../../node_modules/@magento/venia-ui/lib/components/ProductOptions/option.module.css'
+    composes: title from '../../../../venia-ui/lib/components/ProductOptions/option.module.css'
 }
 
 .actions {
@@ -186,7 +186,7 @@
 }
 
 .quantityRoot {
-    composes: root from '../../../node_modules/@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+    composes: root from '../../../../venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }

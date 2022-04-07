@@ -34,7 +34,7 @@
 }
 
 .sortButton {
-    composes: root_lowPriority from '../../../node_modules/@magento/venia-ui/lib/components/Button/button.module.css';
+    composes: root_lowPriority from '../../../../venia-ui/lib/components/Button/button.module.css';
     min-width: 6.25rem;
 }
 
@@ -48,12 +48,12 @@
 }
 
 .desktopIconWrapper {
-    composes: root from '../../../node_modules/@magento/venia-ui/lib/components/Icon/icon.module.css';
+    composes: root from '../../../../venia-ui/lib/components/Icon/icon.module.css';
     transform: translateX(10px);
 }
 
 .desktopIcon {
-    composes: icon from '../../../node_modules/@magento/venia-ui/lib/components/Icon/icon.module.css';
+    composes: icon from '../../../../venia-ui/lib/components/Icon/icon.module.css';
     stroke: rgb(var(--venia-global-color-gray-500));
 }
 

@@ -3,8 +3,8 @@ import { shape, string } from 'prop-types';
 import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import Icon from '../../../node_modules/@magento/venia-ui/lib/components/Icon';
-import { mergeClasses } from '../../../node_modules/@magento/venia-ui/lib/classify';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './searchTrigger.module.css';
 import { useSearchTrigger } from '@magento/peregrine/lib/talons/Header/useSearchTrigger';
 import customSearchIcon from './icons/ICONO_BUSCAR.svg';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { array, func } from 'prop-types';
 
-import Option from '../../../node_modules/@magento/venia-ui/lib/components/ProductOptions/option';
+import Option from '@magento/venia-ui/lib/components/ProductOptions/option';
 import { useOptions } from '@magento/peregrine/lib/talons/ProductOptions/useOptions';
 
 const Options = props => {

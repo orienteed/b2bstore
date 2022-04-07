@@ -8,11 +8,11 @@ import {
 import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
 
-import { mergeClasses } from '../../../node_modules/@magento/venia-ui/lib/classify';
-import Icon from '../../../node_modules/@magento/venia-ui/lib/components/Icon';
-import Image from '../../../node_modules/@magento/venia-ui/lib/components/Image';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import Image from '@magento/venia-ui/lib/components/Image';
 import defaultClasses from './carousel.module.css';
-import Thumbnail from '../../../node_modules/@magento/venia-ui/lib/components/ProductImageCarousel/thumbnail';
+import Thumbnail from '@magento/venia-ui/lib/components/ProductImageCarousel/thumbnail';
 
 
 

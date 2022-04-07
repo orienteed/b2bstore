@@ -3,10 +3,10 @@ import { func, number, shape, string } from 'prop-types';
 import { Link } from 'react-router-dom';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import Price from '@magento/venia-ui/lib/components/Price';
-import { useStyle } from '../../../node_modules/@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import Icon from '../Icon';
-import Image from '../../../node_modules/@magento/venia-ui/lib/components/Image';
+import Image from '@magento/venia-ui/lib/components/Image';
 import defaultClasses from './suggestedProduct.module.css';
 
 import Button from '@magento/venia-ui/lib/components/Button';

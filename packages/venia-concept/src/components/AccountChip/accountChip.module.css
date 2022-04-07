@@ -7,7 +7,7 @@
 }
 
 .loader {
-    composes: indicator from '../../../node_modules/@magento/venia-ui/lib/components/LoadingIndicator/indicator.module.css';
+    composes: indicator from '../../../../venia-ui/lib/components/LoadingIndicator/indicator.module.css';
 }
 
 .userContainer{

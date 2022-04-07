@@ -1,7 +1,7 @@
 import React from 'react';
 import { func, number, shape, string } from 'prop-types';
 
-import { mergeClasses } from '../../../node_modules/@magento/venia-ui/lib/classify';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './icon.module.css';
 
 const Icon = props => {

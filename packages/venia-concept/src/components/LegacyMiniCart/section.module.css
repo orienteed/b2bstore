@@ -20,7 +20,7 @@
 }
 
 .icon {
-    composes: root from '../../../node_modules/@magento/venia-ui/lib/components/Icon/icon.module.css';
+    composes: root from '../../../../venia-ui/lib/components/Icon/icon.module.css';
     --stroke: var(--orienteed-primary-color-base1);
 }
 

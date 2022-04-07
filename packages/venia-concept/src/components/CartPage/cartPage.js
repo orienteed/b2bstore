@@ -16,9 +16,9 @@ import ProductListing from '@magento/venia-ui/lib/components/CartPage/ProductLis
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/cartPage.module.css';
 import { useCustomContext } from '@orienteed/customComponents/components/PrintPdfPopup/CustomProvider/customProvider';
 
-import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
+// import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
 
-import { useReactToPrint } from 'react-to-print';
+// import { useReactToPrint } from 'react-to-print';
 
 const CheckIcon = <Icon size={20} src={Check} />;
 
@@ -149,12 +149,12 @@ const CartPage = props => {
                     </div>
                 </div>
 
-                <PrintPdfPopup
+                {/* <PrintPdfPopup
                     ref={componentRef}
                     openPopup={openPopup}
                     handleClosePopup={handleClosePopup}
                     handlePrint={handlePrint}
-                />
+                /> */}
             </div>
         </div>
     );

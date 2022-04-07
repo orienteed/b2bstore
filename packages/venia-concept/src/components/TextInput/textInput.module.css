@@ -1,5 +1,5 @@
 .input {
-    composes: input from '../../../node_modules/@magento/venia-ui/lib/components/Field/field.module.css';
+    composes: input from '../../../../venia-ui/lib/components/Field/field.module.css';
 }
 
 
@@ -9,7 +9,7 @@
 }
 
 .input_error {
-    composes: input from '../../../node_modules/@magento/venia-ui/lib/components/Field/field.module.css';
+    composes: input from '../../../../venia-ui/lib/components/Field/field.module.css';
     border-color: rgb(var(--venia-global-color-red-400));
     
 }

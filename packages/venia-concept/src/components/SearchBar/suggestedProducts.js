@@ -1,8 +1,8 @@
 import React from 'react';
 import { arrayOf, func, number, oneOfType, shape, string } from 'prop-types';
 
-import { mergeClasses } from '../../../node_modules/@magento/venia-ui/lib/classify';
-import mapProduct from '../../../node_modules/@magento/venia-ui/lib/util/mapProduct';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import mapProduct from '@magento/venia-ui/lib/util/mapProduct';
 import SuggestedProduct from './suggestedProduct';
 import defaultClasses from './suggestedProducts.module.css';
 
