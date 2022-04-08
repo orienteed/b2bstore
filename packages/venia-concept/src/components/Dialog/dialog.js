@@ -10,7 +10,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Portal } from '@magento/venia-ui/lib/components/Portal';
-import defaultClasses from './customDialog.module.css';
+import defaultClasses from '@magento/venia-ui/lib/components/Dialog/dialog.module.css';
 
 /**
  * The Dialog component shows its children content in a dialog,
@@ -53,7 +53,8 @@ const Dialog = props => {
         shouldDisableConfirmButton,
         shouldShowButtons = true,
         shouldUnmountOnHide,
-        title
+        title,
+        shouldHideCancelButton
     } = props;
 
     // Prevent the page from scrolling in the background
@@ -86,18 +87,20 @@ const Dialog = props => {
 
     const maybeButtons = shouldShowButtons ? (
         <div className={classes.buttons}>
-            <Button
-                classes={cancelButtonClasses}
-                disabled={shouldDisableAllButtons}
-                onClick={onCancel}
-                priority="low"
-                type="reset"
-            >
-                <FormattedMessage
-                    id={cancelTranslationId}
-                    defaultMessage={cancelText}
-                />
-            </Button>
+            {shouldHideCancelButton ? null : (
+                <Button
+                    classes={cancelButtonClasses}
+                    disabled={shouldDisableAllButtons}
+                    onClick={onCancel}
+                    priority="low"
+                    type="reset"
+                >
+                    <FormattedMessage
+                        id={cancelTranslationId}
+                        defaultMessage={cancelText}
+                    />
+                </Button>
+            )}
             <Button
                 classes={confirmButtonClasses}
                 disabled={confirmButtonDisabled}

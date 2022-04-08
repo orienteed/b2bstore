@@ -16,9 +16,10 @@ import ProductListing from '@magento/venia-ui/lib/components/CartPage/ProductLis
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/cartPage.module.css';
 import { useCustomContext } from '@orienteed/customComponents/components/PrintPdfPopup/CustomProvider/customProvider';
 
-// import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
+import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
 
-// import { useReactToPrint } from 'react-to-print';
+import { useReactToPrint } from 'react-to-print';
+import AddProductByCSV from '@orienteed/customComponents/components/AddProductsByCSV/AddProductByCSV';
 
 const CheckIcon = <Icon size={20} src={Check} />;
 
@@ -60,7 +61,15 @@ const CartPage = props => {
         onAddToWishlistSuccess,
         setIsCartUpdating,
         shouldShowLoadingIndicator,
-        wishlistSuccessProps
+        wishlistSuccessProps,
+        csvErrorType,
+        setCsvErrorType,
+        csvSkuErrorList,
+        setCsvSkuErrorList,
+        isCsvDialogOpen,
+        setIsCsvDialogOpen,
+        handleCancelCsvDialog,
+        skuList
     } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -145,16 +154,26 @@ const CartPage = props => {
                         {priceSummary}
                         <div className={classes.printPdfButtonContainer}>
                             {hasItems ? printPdfButton : null}
+                            <AddProductByCSV
+                            csvErrorType={csvErrorType}
+                            setCsvErrorType={setCsvErrorType}
+                            csvSkuErrorList={csvSkuErrorList}
+                            setCsvSkuErrorList={setCsvSkuErrorList}
+                            isCsvDialogOpen={isCsvDialogOpen}
+                            setIsCsvDialogOpen={setIsCsvDialogOpen}
+                            handleCancelCsvDialog={handleCancelCsvDialog}
+                            skuList={skuList}
+                        />
                         </div>
                     </div>
                 </div>
 
-                {/* <PrintPdfPopup
+                <PrintPdfPopup
                     ref={componentRef}
                     openPopup={openPopup}
                     handleClosePopup={handleClosePopup}
                     handlePrint={handlePrint}
-                /> */}
+                />
             </div>
         </div>
     );
