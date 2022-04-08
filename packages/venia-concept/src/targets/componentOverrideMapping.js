@@ -111,5 +111,16 @@ module.exports = componentOverrideMapping = {
   [`@orienteed/buyLaterNotes/components/SavedCarts/savedCartsTable.js`]: './src/components/SavedCarts/savedCartsTable.js',
   ////CSS
   [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css',
-  [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css'
+  [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css',
+
+
+  /* PRODUCT FULL DETAIL B2B
+  //JS
+  [`@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.js`]: './src/components/ProductListing/quantity.js',
+  [`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.js`]: './src/components/ProductFullDetail/productFullDetail.js',
+
+  //TALONS
+  [`@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity.js`]: './src/talons/ProductListing/useQuantity.js',
+  [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
+  */
 };

@@ -1,28 +1,23 @@
-import React, { Fragment, Suspense, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
-import { Form } from 'informed';
 import { Info } from 'react-feather';
 
-import Price from '@magento/venia-ui/lib/components/Price';
-import { useProductFullDetail } from '@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail';
+import { ProductOptionsShimmer } from '@magento/venia-ui/lib/components/ProductOptions';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
-
+import { useProductFullDetail } from '@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+
 import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import Button from '@magento/venia-ui/lib/components/Button';
-import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
-import FormError from '@magento/venia-ui/lib/components/FormError';
-import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity';
-import RichContent from '@magento/venia-ui/lib/components/RichContent/richContent';
-
-import { ProductOptionsShimmer } from '@magento/venia-ui/lib/components/ProductOptions';
+import Price from '@magento/venia-ui/lib/components/Price';
+import ProductFullDetailB2B from '../../../@orienteed/customComponents/components/ProductFullDetailB2B';
+import ProductFullDetailB2C from '../../../@orienteed/customComponents/components/ProductFullDetailB2C';
 import defaultClasses from './productFullDetail.module.css';
 
-import noImage from './icons/product-package-cancelled.svg';
-
-const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
-const Options = React.lazy(() => import('@magento/venia-ui/lib/components/ProductOptions'));
+const Options = React.lazy(() =>
+    import('@magento/venia-ui/lib/components/ProductOptions')
+);
 
 // Correlate a GQL error message to a field. GQL could return a longer error
 // string but it may contain contextual info such as product id. We can use
@@ -39,6 +34,8 @@ const ERROR_FIELD_TO_MESSAGE_MAPPING = {
 };
 
 const ProductFullDetail = props => {
+    const isB2B = true;
+
     const { product } = props;
     const [quantity, setQuantity] = useState(1);
 
@@ -55,51 +52,58 @@ const ProductFullDetail = props => {
         mediaGalleryEntries,
         productDetails,
         wishlistButtonProps,
-        hasOptionsOfTheSelection
+        hasOptionsOfTheSelection,
+        addConfigurableProductToCart,
+        isAddConfigurableLoading,
+        cartId
     } = talonProps;
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, props.classes);
 
     const {
-        price:{
-            regularPrice:{
-                amount:{
-                    value: regularPriceValue
-                }
+        price: {
+            regularPrice: {
+                amount: { value: regularPriceValue }
             },
-            minimalPrice:{
-                amount:{
-                    value: minimalPriceValue
-                }
+            minimalPrice: {
+                amount: { value: minimalPriceValue }
             }
         }
-    }= productDetails;
+    } = productDetails;
 
-    const priceRender = (regularPriceValue == minimalPriceValue) ? 
-        <div>
-            <p className={classes.productPrice}>
-                <Price
-                    currencyCode={productDetails.price.regularPrice.amount.currency}
-                    value={productDetails.price.regularPrice.amount.value}
-                />
-            </p>
-        </div>
-    :
-        <div>
-            <p className={classes.productOldPrice}>
-                <Price
-                    currencyCode={productDetails.price.regularPrice.amount.currency}
-                    value={productDetails.price.regularPrice.amount.value}
-                />
-            </p>
-            <p className={classes.productPrice}>
-                <Price
-                    currencyCode={productDetails.price.minimalPrice.amount.currency}
-                    value={productDetails.price.minimalPrice.amount.value}
-                />
-            </p>
-        </div>
+    const priceRender =
+        regularPriceValue == minimalPriceValue ? (
+            <div>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={
+                            productDetails.price.regularPrice.amount.currency
+                        }
+                        value={productDetails.price.regularPrice.amount.value}
+                    />
+                </p>
+            </div>
+        ) : (
+            <div>
+                <p className={classes.productOldPrice}>
+                    <Price
+                        currencyCode={
+                            productDetails.price.regularPrice.amount.currency
+                        }
+                        value={productDetails.price.regularPrice.amount.value}
+                    />
+                </p>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={
+                            productDetails.price.minimalPrice.amount.currency
+                        }
+                        value={productDetails.price.minimalPrice.amount.value}
+                    />
+                </p>
+            </div>
+        );
 
     const options = isProductConfigurable(product) ? (
         <Suspense fallback={<ProductOptionsShimmer />}>
@@ -216,6 +220,7 @@ const ProductFullDetail = props => {
     const handleQuantityChange = tempQuantity => {
         setQuantity(tempQuantity);
     };
+
     const cartCallToActionText = !isOutOfStock ? (
         <FormattedMessage
             id="productFullDetail.addItemToCart"
@@ -230,7 +235,11 @@ const ProductFullDetail = props => {
 
     const cartActionContent = isSupportedProductType ? (
         <div className={isAddToCartDisabled ? classes.disabledButton : null}>
-            <Button disabled={isAddToCartDisabled} priority="high" type="submit">
+            <Button
+                disabled={isAddToCartDisabled}
+                priority="high"
+                type="submit"
+            >
                 {cartCallToActionText}
             </Button>
         </div>
@@ -248,86 +257,33 @@ const ProductFullDetail = props => {
         </div>
     );
 
-    return (
-        <Fragment>
-            {breadcrumbs}
-            <Form className={classes.root} onSubmit={handleAddToCart}>
-                <section className={classes.title}>
-                    <h1 className={classes.productName}>
-                        {productDetails.name}
-                    </h1>
-                </section>
-                <article className={classes.priceContainer}>
-                    {' '}
-                    {priceRender}
-                </article>
-                <section className={classes.imageCarousel}>
-                    { hasOptionsOfTheSelection ? 
-                        <Carousel images={mediaGalleryEntries} /> 
-                    : <div className={classes.noImageContainer}>
-                        <img className={classes.noImage} src={noImage} alt="No image" />
-                    </div> }
-                </section>
-                {!hasOptionsOfTheSelection ? 
-                    <div className={classes.errorOptionCombination}>
-                        <FormattedMessage
-                            id="productFullDetail.errorOptionCombination"
-                            defaultMessage="This combination of options doesn´t exist."
-                        />
-                    </div> 
-                :   null}
-                <FormError
-                    classes={{
-                        root: classes.formErrors
-                    }}
-                    errors={errors.get('form') || []}
-                />
-                <section className={classes.options}>{options}</section>
-                <section className={classes.quantity}>
-                    <span className={classes.quantityTitle}>
-                        <FormattedMessage
-                            id={'global.quantity'}
-                            defaultMessage={'Quantity'}
-                        />
-                    </span>
-                    <article className={classes.quantityTotalPrice}>
-                        <QuantityFields
-                            classes={{ root: classes.quantityRoot }}
-                            min={1}
-                            onChange={handleQuantityChange}
-                            message={errors.get('quantity')}
-                        />
-                        <article className={classes.totalPrice}>
-                            {tempTotalPrice}
-                        </article>
-                    </article>
-                </section>
-                <section className={classes.actions}>
-                    {cartActionContent}
-                    <Suspense fallback={null}>
-                        <WishlistButton {...wishlistButtonProps} />
-                    </Suspense>
-                </section>
-                <section className={classes.description}>
-                    <span className={classes.descriptionTitle}>
-                        <FormattedMessage
-                            id={'productFullDetail.productDescription'}
-                            defaultMessage={'Product Description'}
-                        />
-                    </span>
-                    <RichContent html={productDetails.description} />
-                </section>
-                <section className={classes.details}>
-                    <span className={classes.detailsTitle}>
-                        <FormattedMessage
-                            id={'global.sku'}
-                            defaultMessage={'SKU'}
-                        />
-                    </span>
-                    <strong>{productDetails.sku}</strong>
-                </section>
-            </Form>
-        </Fragment>
+    return isB2B ? (
+        <ProductFullDetailB2B
+            breadcrumbs={breadcrumbs}
+            product={product}
+            errors={errors}
+            productDetails={productDetails}
+            priceRender={priceRender}
+            mediaGalleryEntries={mediaGalleryEntries}
+            addConfigurableProductToCart={addConfigurableProductToCart}
+            cartId={cartId}
+            isAddConfigurableLoading={isAddConfigurableLoading}
+        />
+    ) : (
+        <ProductFullDetailB2C
+            breadcrumbs={breadcrumbs}
+            errors={errors}
+            handleAddToCart={handleAddToCart}
+            productDetails={productDetails}
+            priceRender={priceRender}
+            mediaGalleryEntries={mediaGalleryEntries}
+            availableOptions={options}
+            hasOptionsOfTheSelection={hasOptionsOfTheSelection}
+            wishlistButtonProps={wishlistButtonProps}
+            handleQuantityChange={handleQuantityChange}
+            tempTotalPrice={tempTotalPrice}
+            cartActionContent={cartActionContent}
+        />
     );
 };
 
@@ -339,7 +295,7 @@ ProductFullDetail.propTypes = {
         details: string,
         detailsTitle: string,
         imageCarousel: string,
-        options: string,
+        availableOptions: string,
         productName: string,
         productPrice: string,
         quantity: string,

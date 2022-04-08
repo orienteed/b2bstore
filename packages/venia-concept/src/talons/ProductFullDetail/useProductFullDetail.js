@@ -65,7 +65,11 @@ const getIsMissingOptions = (product, optionSelections) => {
     return numProductSelections < numProductOptions;
 };
 
-const getHasOptionsOfTheSelection = (product, optionCodes, optionSelections) => {
+const getHasOptionsOfTheSelection = (
+    product,
+    optionCodes,
+    optionSelections
+) => {
     const { variants } = product;
     const item = findMatchingVariant({
         optionCodes,
@@ -73,12 +77,12 @@ const getHasOptionsOfTheSelection = (product, optionCodes, optionSelections) => 
         variants
     });
 
-    if(item == null){
+    if (item == null) {
         return false;
     }
 
     return true;
-}
+};
 
 const getIsOutOfStock = (product, optionCodes, optionSelections) => {
     const { stock_status, variants } = product;
@@ -94,7 +98,7 @@ const getIsOutOfStock = (product, optionCodes, optionSelections) => {
             variants
         });
 
-        if(item != null){
+        if (item != null) {
             return item.product.stock_status === OUT_OF_STOCK_CODE;
         }
     }
@@ -311,7 +315,8 @@ export const useProductFullDetail = props => {
     );
 
     const hasOptionsOfTheSelection = useMemo(
-        () => getHasOptionsOfTheSelection(product, optionCodes, optionSelections),
+        () =>
+            getHasOptionsOfTheSelection(product, optionCodes, optionSelections),
         [product, optionCodes, optionSelections]
     );
 
@@ -369,11 +374,7 @@ export const useProductFullDetail = props => {
             };
 
             if (isProductConfigurable(product)) {
-                appendOptionsToPayload(
-                    payload,
-                    optionSelections,
-                    optionCodes
-                );
+                appendOptionsToPayload(payload, optionSelections, optionCodes);
             }
 
             if (isSupportedProductType) {
@@ -403,16 +404,14 @@ export const useProductFullDetail = props => {
                     }
                 }
             } else {
-                console.error(
-                    'Unsupported product type. Cannot add to cart.'
-                );
+                console.error('Unsupported product type. Cannot add to cart.');
             }
 
             /*
                 @deprecated in favor of general addProductsToCart mutation. Will support until the next MAJOR.
                 @deprecated Orienteed custom - If not possible use addProductToCart GraphQL
              */
-           /* if (hasDeprecatedOperationProp) {
+            /* if (hasDeprecatedOperationProp) {
                 const payload = {
                     item: product,
                     productType,
@@ -525,10 +524,10 @@ export const useProductFullDetail = props => {
         description: product.description,
         name: product.name,
         price: {
-            regularPrice:{
+            regularPrice: {
                 amount: productPriceRegular
             },
-            minimalPrice:{
+            minimalPrice: {
                 amount: productPriceMinimal
             }
         },
@@ -599,7 +598,9 @@ export const useProductFullDetail = props => {
         productDetails,
         wishlistButtonProps,
         wishlistItemOptions,
-        hasOptionsOfTheSelection: hasOptionsOfTheSelection
+        hasOptionsOfTheSelection,
+        addConfigurableProductToCart,
+        isAddConfigurableLoading,
+        cartId
     };
 };
-

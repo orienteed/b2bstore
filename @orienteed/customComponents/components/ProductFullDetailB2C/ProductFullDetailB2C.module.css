@@ -117,7 +117,7 @@
 }
 
 .quantityTitle {
-    composes: title from '../../../../venia-ui/lib/components/ProductOptions/option.module.css'
+    composes: title from '../../../../node_modules/@magento/venia-ui/lib/components/ProductOptions/option.module.css';
 }
 
 .actions {
@@ -186,7 +186,7 @@
 }
 
 .quantityRoot {
-    composes: root from '../../../../venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+    composes: root from '../../../../node_modules/@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }
@@ -204,26 +204,26 @@
     width: 100%;
 }
 
-.noImageContainer{
+.noImageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0.2;
 }
 
-.noImage{
+.noImage {
     margin: 200px 0;
 }
 
-.errorOptionCombination{
+.errorOptionCombination {
     padding: 1.5rem;
     color: rgb(var(--venia-global-color-error));
 }
 
-.disabledButton{
+.disabledButton {
     opacity: 0.4;
 }
 
-.productOldPrice{
+.productOldPrice {
     text-decoration-line: line-through;
 }
