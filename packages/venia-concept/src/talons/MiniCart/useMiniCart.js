@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -47,8 +47,6 @@ export const useMiniCart = props => {
             skip: !cartId
         }
     );
-
-    const { data: skuList } = useQuery(GET_PRODUCT_LIST);
 
     const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
         fetchPolicy: 'cache-and-network'
@@ -130,9 +128,7 @@ export const useMiniCart = props => {
 
     const [csvErrorType, setCsvErrorType] = useState('');
     const [csvSkuErrorList, setCsvSkuErrorList] = useState([]);
-
     const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
-
     const handleCancelCsvDialog = useCallback(() => {
         setIsCsvDialogOpen(false);
     }, []);
@@ -155,24 +151,6 @@ export const useMiniCart = props => {
         setCsvSkuErrorList,
         isCsvDialogOpen,
         setIsCsvDialogOpen,
-        handleCancelCsvDialog,
-        skuList
+        handleCancelCsvDialog
     };
 };
-
-export const GET_PRODUCT_LIST = gql`
-    query getProductList {
-        products(filter: { sku: { eq: "" } }) {
-            items {
-                ... on ConfigurableProduct {
-                    variants {
-                        product {
-                            orParentSku
-                            sku
-                        }
-                    }
-                }
-            }
-        }
-    }
-`;

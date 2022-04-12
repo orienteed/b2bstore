@@ -1,17 +1,17 @@
-/*import React, { useEffect, useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Upload as UploadFileIcon } from 'react-feather';
-import Button from '@magento/venia-ui/lib/components/Button';
+
 import Icon from '@magento/venia-ui/lib/components/Icon';
-import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
-import defaultClasses from '../../css/forms.module.css';
+import Button from '@magento/venia-ui/lib/components/Button';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
-import AddProductErrorPopup from '../AddProductErrorPopup/AddProductErrorPopup';
 
-const AddProductByCSV = props => {
+import AddProductErrorPopup from './ErrorPopup/addProductErrorPopup';
+import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
+import defaultClasses from './addProductByCsv.module.css';
+
+const AddProductByCsv = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
-
-    const { formatMessage } = useIntl();
 
     const {
         csvErrorType,
@@ -20,28 +20,20 @@ const AddProductByCSV = props => {
         setCsvSkuErrorList,
         isCsvDialogOpen,
         setIsCsvDialogOpen,
-        handleCancelCsvDialog,
-        skuList
+        handleCancelCsvDialog
     } = props;
 
-    const {
-        handleCSVFile
-    } = useAddProductsByCSV({
+    const { handleCSVFile } = useAddProductsByCSV({
         csvErrorType,
         setCsvErrorType,
         csvSkuErrorList,
         setCsvSkuErrorList,
-        setIsCsvDialogOpen,
-        skuList
+        setIsCsvDialogOpen
     });
 
     return (
         <>
-            <Button
-                onClick={handleCSVFile}
-                priority="high"
-                className={classes.orderUsingCSV}
-            >
+            <Button onClick={handleCSVFile} priority={'high'}>
                 <Icon
                     size={16}
                     src={UploadFileIcon}
@@ -50,7 +42,7 @@ const AddProductByCSV = props => {
                     }}
                 />
                 <FormattedMessage
-                    id={'AddProductByCSV.orderUsingCSV'} // TODOJ - Translations
+                    id={'AddProductByCsv.orderUsingCSV'} // TODO_B2B - Translations
                     defaultMessage={'CSV ORDER'}
                 />
             </Button>
@@ -64,4 +56,4 @@ const AddProductByCSV = props => {
     );
 };
 
-export default AddProductByCSV;*/
+export default AddProductByCsv;

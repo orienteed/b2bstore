@@ -8,9 +8,10 @@ import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
 import Logo from '@magento/venia-ui/lib/components/Logo';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
-import { DEFAULT_LINKS, LOREM_IPSUM } from '@magento/venia-ui/lib/components/Footer/sampleData';
+import {
+    DEFAULT_LINKSAddProductByCSV} from '@magento/venia-ui/lib/components/Footer/sampleData';
 
-import MyComponent from '../MyComponent'
+import MyComponent from '../MyComponent';
 
 const Footer = props => {
     const { links } = props;

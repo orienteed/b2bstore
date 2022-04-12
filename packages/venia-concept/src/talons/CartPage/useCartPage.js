@@ -26,8 +26,6 @@ export const useCartPage = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getCartDetailsQuery } = operations;
 
-    const { data: skuList } = useQuery(GET_PRODUCT_LIST);
-
     const [{ cartId }] = useCartContext();
 
     const [isCartUpdating, setIsCartUpdating] = useState(false);
@@ -85,8 +83,7 @@ export const useCartPage = (props = {}) => {
         setCsvSkuErrorList,
         isCsvDialogOpen,
         setIsCsvDialogOpen,
-        handleCancelCsvDialog,
-        skuList
+        handleCancelCsvDialog
     };
 };
 
@@ -114,20 +111,3 @@ export const useCartPage = (props = {}) => {
  * @property {function} setIsCartUpdating Callback function for setting the updating state of the cart page.
  * @property {boolean} shouldShowLoadingIndicator True if the loading indicator should be rendered. False otherwise.
  */
-
-export const GET_PRODUCT_LIST = gql`
-    query getProductList {
-        products(filter: { sku: { eq: "" } }) {
-            items {
-                ... on ConfigurableProduct {
-                    variants {
-                        product {
-                            orParentSku
-                            sku
-                        }
-                    }
-                }
-            }
-        }
-    }
-`;

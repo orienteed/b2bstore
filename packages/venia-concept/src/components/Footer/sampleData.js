@@ -1,7 +1,7 @@
 export const accountLinks = new Map()
     .set('Account', null)
-    .set('Sign In', "/sign-in")
-    .set('Register', "/create-account")
+    .set('Sign In', '/sign-in')
+    .set('Register', '/create-account')
     .set('Order Status', null)
     .set('Returns', null);
 
@@ -21,28 +21,29 @@ export const aboutLinks = new Map()
 export const DEFAULT_LINKS = new Map()
     .set('account', accountLinks)
     .set('about', aboutLinks);
-    // .set('help', helpLinks);
+// .set('help', helpLinks);
 
 //CUSTOM DATA
 
 export const sedeOperaciones = {
-    title: "Company title",
-    address1: "Address1",
-    address2: "Address2",
-    country:"Country",
-    tel: "Phone"
+    title: 'Company title',
+    address1: 'Address1',
+    address2: 'Address2',
+    country: 'Country',
+    tel: 'Phone'
 };
 
 export const sedeFinanciera = {
-    title: "Company title",
-    address1: "Address1",
-    address2: "Address2",
-    country:"Country",
-    tel: "Phone"
+    title: 'Company title',
+    address1: 'Address1',
+    address2: 'Address2',
+    country: 'Country',
+    tel: 'Phone'
 };
 
-export const PHONE =
-    'Phone';
+export const PHONE = 'Phone';
 
-export const MAIL =
-    'mail@mail.com';
+export const MAIL = 'mail@mail.com';
+
+export const LOREM_IPSUM =
+    'Lorem ipsum dolor sit amet, consectetur adipsicing elit, sed do eiusmod tempor incididunt ut labore et dolore.';

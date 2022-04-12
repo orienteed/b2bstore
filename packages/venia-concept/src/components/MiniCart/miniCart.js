@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import {
     Lock as LockIcon,
     AlertCircle as AlertCircleIcon
@@ -16,7 +16,7 @@ import StockStatusMessage from '@magento/venia-ui/lib/components/StockStatusMess
 import ProductList from '@magento/venia-ui/lib/components/MiniCart/ProductList';
 import defaultClasses from '@magento/venia-ui/lib/components/MiniCart/miniCart.module.css';
 import operations from '@magento/venia-ui/lib/components/MiniCart/miniCart.gql';
-import AddProductByCSV from '@orienteed/customComponents/components/AddProductsByCSV/AddProductByCSV';
+import AddProductByCsv from '@orienteed/customComponents/components/AddProductsByCsv/addProductByCsv';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
@@ -55,8 +55,7 @@ const MiniCart = React.forwardRef((props, ref) => {
         setCsvSkuErrorList,
         isCsvDialogOpen,
         setIsCsvDialogOpen,
-        handleCancelCsvDialog,
-        skuList
+        handleCancelCsvDialog
     } = talonProps;
 
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -118,7 +117,7 @@ const MiniCart = React.forwardRef((props, ref) => {
                     defaultMessage={'There are no items in your cart.'}
                 />
             </div>
-            <AddProductByCSV
+            <AddProductByCsv
                 csvErrorType={csvErrorType}
                 setCsvErrorType={setCsvErrorType}
                 csvSkuErrorList={csvSkuErrorList}
@@ -126,7 +125,6 @@ const MiniCart = React.forwardRef((props, ref) => {
                 isCsvDialogOpen={isCsvDialogOpen}
                 setIsCsvDialogOpen={setIsCsvDialogOpen}
                 handleCancelCsvDialog={handleCancelCsvDialog}
-                skuList={skuList}
             />
         </div>
     ) : (
@@ -160,7 +158,7 @@ const MiniCart = React.forwardRef((props, ref) => {
                         defaultMessage={'CHECKOUT'}
                     />
                 </Button>
-                <AddProductByCSV
+                <AddProductByCsv
                     csvErrorType={csvErrorType}
                     setCsvErrorType={setCsvErrorType}
                     csvSkuErrorList={csvSkuErrorList}
@@ -168,7 +166,6 @@ const MiniCart = React.forwardRef((props, ref) => {
                     isCsvDialogOpen={isCsvDialogOpen}
                     setIsCsvDialogOpen={setIsCsvDialogOpen}
                     handleCancelCsvDialog={handleCancelCsvDialog}
-                    skuList={skuList}
                 />
                 <Button
                     onClick={handleEditCart}

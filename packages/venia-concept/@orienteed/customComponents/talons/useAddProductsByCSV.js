@@ -1,21 +1,22 @@
-import { useCallback, useState, useEffect } from 'react';
-import { gql, useMutation, useLazyQuery } from '@apollo/client';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { CartTriggerFragment } from '@magento/venia-ui/lib/components/Header/cartTriggerFragments.gql';
-import { MiniCartFragment } from '@magento/venia-ui/lib/components/MiniCart/miniCart.gql';
+import { useCallback } from 'react';
+import { useMutation } from '@apollo/client';
 import Papa from 'papaparse';
 
-export const useAddProductsByCSV = props => {
-    let { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen } = props;
+import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
+import {
+    ADD_CONFIGURABLE_MUTATION,
+    GET_PARENT_SKU
+} from '../query/addProductByCsv.gql';
+
+export const useAddProductsByCSV = props => {
+    const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen } = props;
     const [{ cartId }] = useCartContext();
 
-    const [
-        addConfigurableProductToCart,
-        { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }
-    ] = useMutation(ADD_CONFIGURABLE_MUTATION);
-
+    const [addConfigurableProductToCart] = useMutation(
+        ADD_CONFIGURABLE_MUTATION
+    );
     const getParentSku = useAwaitQuery(GET_PARENT_SKU);
 
     const handleCSVFile = () => {
@@ -23,11 +24,11 @@ export const useAddProductsByCSV = props => {
         setCsvSkuErrorList([]);
         setIsCsvDialogOpen(false);
 
-        let input = document.createElement('input');
+        const input = document.createElement('input');
         input.type = 'file';
         input.accept = '.csv';
-        input.onchange = _ => {
-            let files = Array.from(input.files);
+        input.onchange = () => {
+            const files = Array.from(input.files);
 
             if (files.length > 1) alert('Only 1 file is allowed');
             else if (files.length == 1) processCSVFile(files[0]);
@@ -50,7 +51,7 @@ export const useAddProductsByCSV = props => {
     };
 
     const formatData = rawData => {
-        let dataValidated = [];
+        const dataValidated = [];
         for (let i = 1; i < rawData.length - 1; i++) {
             if (
                 rawData[i][0] != '' &&
@@ -72,7 +73,7 @@ export const useAddProductsByCSV = props => {
 
     const handleAddProductsToCart = useCallback(
         async csvProducts => {
-            let tempSkuErrorList = [];
+            const tempSkuErrorList = [];
             for (let i = 0; i < csvProducts.length; i++) {
                 try {
                     const parentSkuResponse = await getParentSku({
@@ -116,44 +117,3 @@ export const useAddProductsByCSV = props => {
         handleAddProductsToCart
     };
 };
-
-export const ADD_CONFIGURABLE_MUTATION = gql`
-    mutation addConfigurableProductToCart(
-        $cartId: String!
-        $quantity: Float!
-        $sku: String!
-        $parentSku: String!
-    ) {
-        addConfigurableProductsToCart(
-            input: {
-                cart_id: $cartId
-                cart_items: [
-                    {
-                        data: { quantity: $quantity, sku: $sku }
-                        parent_sku: $parentSku
-                    }
-                ]
-            }
-        ) @connection(key: "addConfigurableProductsToCart") {
-            cart {
-                id
-                # Update the cart trigger when adding an item.
-                ...CartTriggerFragment
-                # Update the mini cart when adding an item.
-                ...MiniCartFragment
-            }
-        }
-    }
-    ${CartTriggerFragment}
-    ${MiniCartFragment}
-`;
-
-export const GET_PARENT_SKU = gql`
-    query getParentSku($sku: String) {
-        products(search: $sku, filter: { sku: { eq: $sku } }) {
-            items {
-                orParentSku
-            }
-        }
-    }
-`;

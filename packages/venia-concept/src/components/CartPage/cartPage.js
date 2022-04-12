@@ -3,22 +3,22 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useReactToPrint } from 'react-to-print';
 import { Check } from 'react-feather';
 
-import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useToasts } from '@magento/peregrine';
+import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
 
-import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
-import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
-import StockStatusMessage from '@magento/venia-ui/lib/components/StockStatusMessage';
-import PriceAdjustments from '@magento/venia-ui/lib/components/CartPage/PriceAdjustments';
+import Button from '@magento/venia-ui/lib/components/Button';
 import PriceSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary';
-import ProductListing from '@magento/venia-ui/lib/components/CartPage/ProductListing';
+import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/cartPage.module.css';
+import ProductListing from '@magento/venia-ui/lib/components/CartPage/ProductListing';
+import PriceAdjustments from '@magento/venia-ui/lib/components/CartPage/PriceAdjustments';
+import StockStatusMessage from '@magento/venia-ui/lib/components/StockStatusMessage';
+import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
 
 import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
-// import AddProductByCSV from '@orienteed/customComponents/components/AddProductsByCSV/AddProductByCSV';
+import AddProductByCsv from '@orienteed/customComponents/components/AddProductsByCsv/addProductByCsv';
 
 const CheckIcon = <Icon size={20} src={Check} />;
 
@@ -65,8 +65,7 @@ const CartPage = props => {
         setCsvSkuErrorList,
         isCsvDialogOpen,
         setIsCsvDialogOpen,
-        handleCancelCsvDialog,
-        skuList
+        handleCancelCsvDialog
     } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -151,7 +150,7 @@ const CartPage = props => {
                         {priceSummary}
                         <div className={classes.printPdfButtonContainer}>
                             {hasItems ? printPdfButton : null}
-                            {/* <AddProductByCSV
+                            <AddProductByCsv
                                 csvErrorType={csvErrorType}
                                 setCsvErrorType={setCsvErrorType}
                                 csvSkuErrorList={csvSkuErrorList}
@@ -159,19 +158,17 @@ const CartPage = props => {
                                 isCsvDialogOpen={isCsvDialogOpen}
                                 setIsCsvDialogOpen={setIsCsvDialogOpen}
                                 handleCancelCsvDialog={handleCancelCsvDialog}
-                                skuList={skuList}
-                            /> */}
+                            />
                         </div>
                     </div>
                 </div>
-
                 <PrintPdfPopup
                     ref={componentRef}
                     openPopup={openPopup}
                     handleClosePopup={handleClosePopup}
                     handlePrint={handlePrint}
                 />
-                </div>
+            </div>
         </div>
     );
 };
