@@ -24,24 +24,24 @@ const ProductSort = props => {
     }, [currentSort]);
 
     availableSortMethods = [
-        {
-            id: 'fullCatalogPvP',
-            text: formatMessage({
-                id: 'fullCatalog',
-                defaultMessage: 'Full Catalog + PvP'
-            }),
-            attribute: 'fullCatalogPvP',
-            sortDirection: 'ASC'
-        },
-        {
-            id: 'fullCatalogPersonal',
-            text: formatMessage({
-                id: 'fullCatalogPersonal',
-                defaultMessage: 'Full + Personal'
-            }),
-            attribute: 'fullCatalogPersonal',
-            sortDirection: 'ASC'
-        },
+        // {
+        //     id: 'fullCatalogPvP',
+        //     text: formatMessage({
+        //         id: 'fullCatalog',
+        //         defaultMessage: 'Full Catalog + PvP'
+        //     }),
+        //     attribute: 'fullCatalogPvP',
+        //     sortDirection: 'ASC'
+        // },
+        // {
+        //     id: 'fullCatalogPersonal',
+        //     text: formatMessage({
+        //         id: 'fullCatalogPersonal',
+        //         defaultMessage: 'Full + Personal'
+        //     }),
+        //     attribute: 'fullCatalogPersonal',
+        //     sortDirection: 'ASC'
+        // },
         {
             id: 'thisCatalogPvP',
             text: formatMessage({

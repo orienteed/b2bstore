@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomButton from './CustomButton/customButton';
 import { FormattedMessage } from 'react-intl';
-import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
+// import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
 import { useDownloadCsvContext } from '../DownloadCsvProvider/downloadCsvProvider';
 
 import defaultClasses from './downloadCsv.module.css';
@@ -13,123 +13,138 @@ import { useSortCatalog } from '../../talons/DownloadCsv/useSortCatalog';
 
 const DownloadCsv = () => {
     const { galleryItem, currentCatalog } = useDownloadCsvContext();
+    const [data, setData] = useState();
+    // const talonProps = useDownloadCsv();
+    // const { catalogRegularPrice, catalogDiscountPrice } = talonProps;
+    // const { handleFullCatalog } = talonProps;
 
-    const talonProps = useDownloadCsv();
-    const { catalogRegularPrice, catalogDiscountPrice } = talonProps;
+    // useEffect(() => {
+    //     handleFullCatalog().then(res => {
+    //         setData(res);
+    //     });
+    // }, [handleFullCatalog]);
 
+    // console.log('downloadCsv', data);
     const sortProps1 = useSortCatalog();
 
-    let newCatalogRegularPrice;
-    let newCatalogDiscountPrice;
+    let flatData;
+
     let newGalleryItemRegularPrice;
     let newGalleryItemDiscountPrice;
 
     let donwloadButton;
 
-    if (galleryItem) {
+    if (galleryItem.length > 0) {
         newGalleryItemRegularPrice = galleryItem.map(item => {
-            return {
-                categorie: item.categories[0].name,
-                description: item.description.html,
-                name: item.name,
-                price: item.price.regularPrice.amount.value,
-                sku: item.sku
-            };
+            return item.variants.map(variant => {
+                return {
+                    categorie: variant.product.categories[0].name,
+                    description: variant.product.description.html,
+                    name: variant.product.name,
+                    price: variant.product.price.regularPrice.amount.value,
+                    sku: variant.product.sku
+                };
+            });
         });
     }
 
-    if (galleryItem) {
+    if (galleryItem.length > 0) {
         newGalleryItemDiscountPrice = galleryItem.map(item => {
-            return {
-                categorie: item.categories[0].name,
-                description: item.description.html,
-                name: item.name,
-                price: item.price.minimalPrice.amount.value,
-                sku: item.sku
-            };
+            return item.variants.map(variant => {
+                return {
+                    categorie: variant.product.categories[0].name,
+                    description: variant.product.description.html,
+                    name: variant.product.name,
+                    price: variant.product.price.minimalPrice.amount.value,
+                    sku: variant.product.sku
+                };
+            });
         });
     }
+    // let flattenRegularPrice;
+    // if (data) {
+    //     flatData = data.flat();
+    //     let newCatalogRegularPrice = flatData.map(product =>
+    //         product.variants.map(variant => {
+    //             return {
+    //                 categorie: variant.product.categories[0].name,
+    //                 description: variant.product.description.html,
+    //                 name: variant.product.name,
+    //                 price: variant.product.price.regularPrice.amount.value,
+    //                 sku: variant.product.sku
+    //             };
+    //         })
+    //     );
+    //     flattenRegularPrice = newCatalogRegularPrice.flat();
+    // } else {
+    //     return null;
+    // }
 
-    if (catalogRegularPrice) {
-        newCatalogRegularPrice = catalogRegularPrice.products.items.map(
-            product =>
-                product.variants.map(variant => {
-                    return {
-                        categorie: variant.product.categories[0].name,
-                        description: variant.product.description.html,
-                        name: variant.product.name,
-                        price: variant.product.price.regularPrice.amount.value,
-                        sku: variant.product.sku
-                    };
-                })
-        );
-    } else {
-        return null;
-    }
+    // let flattenDiscountPrice;
+    // if (data) {
+    //     flatData = data.flat();
+    //     let newCatalogDiscountPrice = flatData.map(product =>
+    //         product.variants.map(variant => {
+    //             return {
+    //                 categorie: variant.product.categories[0].name,
+    //                 description: variant.product.description.html,
+    //                 name: variant.product.name,
+    //                 price: variant.product.price.minimalPrice.amount.value,
+    //                 sku: variant.product.sku
+    //             };
+    //         })
+    //     );
+    //     flattenDiscountPrice = newCatalogDiscountPrice.flat();
+    // } else {
+    //     return null;
+    // }
 
-    if (catalogDiscountPrice) {
-        newCatalogDiscountPrice = catalogDiscountPrice.products.items.map(
-            product =>
-                product.variants.map(variant => {
-                    return {
-                        categorie: variant.product.categories[0].name,
-                        description: variant.product.description.html,
-                        name: variant.product.name,
-                        price: variant.product.price.minimalPrice.amount.value,
-                        sku: variant.product.sku
-                    };
-                })
-        );
-    } else {
-        return null;
-    }
-
-    const flatNewCatalogRegularPrice = newCatalogRegularPrice.flat();
-    const flatNewCatalogDiscountPrice = newCatalogDiscountPrice.flat();
+    const flatNewGalleryItemRegularPrice = newGalleryItemRegularPrice.flat();
+    const flatNewGalleryItemMinimalPrice = newGalleryItemDiscountPrice.flat();
 
     if (currentCatalog === 'fullCatalogPvP') {
         donwloadButton = (
-            <CustomButton priority={'high'}>
-                <CSVLink data={flatNewCatalogRegularPrice}>
+            <CSVLink data={flattenRegularPrice}>
+                <CustomButton priority={'high'}>
                     <FormattedMessage
                         id={'download'}
                         defaultMessage={'download'}
                     />
-                </CSVLink>
-            </CustomButton>
+                </CustomButton>
+            </CSVLink>
         );
     } else if (currentCatalog === 'fullCatalogPersonal') {
         donwloadButton = (
-            <CustomButton priority={'high'}>
-                <CSVLink data={flatNewCatalogDiscountPrice}>
+            <CSVLink data={flattenDiscountPrice}>
+                <CustomButton priority={'high'}>
                     <FormattedMessage
                         id={'download'}
                         defaultMessage={'download'}
                     />
-                </CSVLink>
-            </CustomButton>
+                </CustomButton>
+            </CSVLink>
         );
     } else if (currentCatalog === 'thisCatalogPvP') {
         donwloadButton = (
-            <CustomButton priority={'high'}>
-                <CSVLink data={newGalleryItemRegularPrice}>
+            <CSVLink data={flatNewGalleryItemRegularPrice}>
+                <CustomButton priority={'high'}>
                     <FormattedMessage
                         id={'download'}
                         defaultMessage={'download'}
                     />
-                </CSVLink>
-            </CustomButton>
+                </CustomButton>
+            </CSVLink>
         );
     } else {
         donwloadButton = (
-            <CustomButton priority={'high'}>
-                <CSVLink data={newGalleryItemDiscountPrice}>
+            <CSVLink data={flatNewGalleryItemMinimalPrice}>
+                <CustomButton priority={'high'}>
                     <FormattedMessage
                         id={'download'}
                         defaultMessage={'download'}
                     />
-                </CSVLink>
-            </CustomButton>
+                </CustomButton>
+            </CSVLink>
         );
     }
 

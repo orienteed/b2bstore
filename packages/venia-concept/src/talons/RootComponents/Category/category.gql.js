@@ -1,7 +1,5 @@
 import { gql } from '@apollo/client';
 
-import { CategoryFragment, ProductsFragment } from './categoryFragments.gql';
-
 export const GET_CATEGORY = gql`
     query GetCategories(
         $id: Int!
@@ -12,7 +10,12 @@ export const GET_CATEGORY = gql`
     ) {
         category(id: $id) {
             id
-            ...CategoryFragment
+            description
+            name
+            product_count
+            meta_title
+            meta_keywords
+            meta_description
         }
         products(
             pageSize: $pageSize
@@ -21,6 +24,35 @@ export const GET_CATEGORY = gql`
             sort: $sort
         ) {
             items {
+                ... on ConfigurableProduct {
+                    variants {
+                        product {
+                            name
+                            sku
+                            description {
+                                html
+                            }
+                            categories {
+                                name
+                            }
+                            price {
+                                regularPrice {
+                                    amount {
+                                        currency
+                                        value
+                                    }
+                                }
+                                minimalPrice {
+                                    amount {
+                                        currency
+                                        value
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 # id is always required, even if the fragment includes it.
                 id
                 # TODO: Once this issue is resolved we can use a
@@ -60,7 +92,6 @@ export const GET_CATEGORY = gql`
             total_count
         }
     }
-    ${CategoryFragment}
 `;
 
 export const GET_FILTER_INPUTS = gql`

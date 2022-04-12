@@ -34,7 +34,7 @@ const FilterSidebar = React.lazy(() =>
     import('@magento/venia-ui/lib/components/FilterSidebar')
 );
 
-// import DownloadCsv from '@orienteed/customComponents/components/DownloadCsv';
+import DownloadCsv from '@orienteed/customComponents/components/DownloadCsv';
 
 const CategoryContent = props => {
     const {
@@ -180,7 +180,7 @@ const CategoryContent = props => {
                             </div>
                             <div className={classes.headerButtons}>
                                 <article className={classes.downloadCsvDesktop}>
-                                    {/* <DownloadCsv /> */}
+                                    <DownloadCsv />
                                 </article>
 
                                 {maybeFilterButtons}
@@ -188,7 +188,7 @@ const CategoryContent = props => {
                             </div>
                             <section>
                                 <article className={classes.downloadCsvMobile}>
-                                    {/* <DownloadCsv /> */}
+                                    <DownloadCsv />
                                 </article>
 
                                 {maybeSortContainer}
