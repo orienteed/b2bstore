@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomButton from './CustomButton/customButton';
 import { FormattedMessage } from 'react-intl';
-// import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
+import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
 import { useDownloadCsvContext } from '../DownloadCsvProvider/downloadCsvProvider';
 
 import defaultClasses from './downloadCsv.module.css';
@@ -14,7 +14,7 @@ import { useSortCatalog } from '../../talons/DownloadCsv/useSortCatalog';
 const DownloadCsv = () => {
     const { galleryItem, currentCatalog } = useDownloadCsvContext();
     const [data, setData] = useState();
-    // const talonProps = useDownloadCsv();
+    const talonProps = useDownloadCsv();
     // const { catalogRegularPrice, catalogDiscountPrice } = talonProps;
     // const { handleFullCatalog } = talonProps;
 
