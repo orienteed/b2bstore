@@ -25,26 +25,26 @@ module.exports = componentOverrideMapping = {
   [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
   //[`@magento/venia-ui/lib/components/MegaMenu/megaMenu.js`]: './src/components/MegaMenu/megaMenu.js',
   [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.js`]: './src/components/AddToCartDialog/addToCartDialog.js',
-  //[`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
+  [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
   //[`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
   [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.js`]: './src/components/CartPage/ProductListing/product.js',
   [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
   [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js',
-  //[`@magento/venia-ui/lib/components/CartPage/cartPage.js`]: './src/components/CartPage/cartPage.js',
+  [`@magento/venia-ui/lib/components/CartPage/cartPage.js`]: './src/components/CartPage/cartPage.js',
 
   //TALONS
-  /* [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
-  [`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js',
-  [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
-  [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
+  //  [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
+  // [`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js',
+  // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
+  // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
   [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
 
   //GRAPHQL
-  [`@magento/peregrine/lib/talons/WishlistPage/wishlistItemFragments.gql.js`]: './src/talons/WishlistPage/wishlistItemFragments.gql.js',
-  [`@magento/peregrine/lib/talons/MegaMenu/megaMenu.gql.js`]: './src/talons/MegaMenu/megaMenu.gql.js',
-  [`@magento/peregrine/lib/talons/SearchPage/searchPage.gql.js`]: './src/talons/SearchPage/searchPage.gql.js',
-  [`@magento/peregrine/lib/talons/RootComponents/Product/productDetailFragment.gql.js`]: './src/talons/RootComponents/Product/productDetailFragment.gql.js',
-  [`@magento/peregrine/lib/talons/RootComponents/Category/categoryFragments.gql.js`]: './src/talons/RootComponents/Category/categoryFragments.gql.js',*/
+  // [`@magento/peregrine/lib/talons/WishlistPage/wishlistItemFragments.gql.js`]: './src/talons/WishlistPage/wishlistItemFragments.gql.js',
+  // [`@magento/peregrine/lib/talons/MegaMenu/megaMenu.gql.js`]: './src/talons/MegaMenu/megaMenu.gql.js',
+  // [`@magento/peregrine/lib/talons/SearchPage/searchPage.gql.js`]: './src/talons/SearchPage/searchPage.gql.js',
+  // [`@magento/peregrine/lib/talons/RootComponents/Product/productDetailFragment.gql.js`]: './src/talons/RootComponents/Product/productDetailFragment.gql.js',
+  // [`@magento/peregrine/lib/talons/RootComponents/Category/categoryFragments.gql.js`]: './src/talons/RootComponents/Category/categoryFragments.gql.js',
 
   //CSS
   [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',

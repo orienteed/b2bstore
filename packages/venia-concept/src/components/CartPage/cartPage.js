@@ -17,8 +17,8 @@ import PriceSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary
 import ProductListing from '@magento/venia-ui/lib/components/CartPage/ProductListing';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/cartPage.module.css';
 
-//import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
-import AddProductByCSV from '@orienteed/customComponents/components/AddProductsByCSV/AddProductByCSV';
+import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
+// import AddProductByCSV from '@orienteed/customComponents/components/AddProductsByCSV/AddProductByCSV';
 
 const CheckIcon = <Icon size={20} src={Check} />;
 
@@ -151,7 +151,7 @@ const CartPage = props => {
                         {priceSummary}
                         <div className={classes.printPdfButtonContainer}>
                             {hasItems ? printPdfButton : null}
-                            <AddProductByCSV
+                            {/* <AddProductByCSV
                                 csvErrorType={csvErrorType}
                                 setCsvErrorType={setCsvErrorType}
                                 csvSkuErrorList={csvSkuErrorList}
@@ -160,17 +160,17 @@ const CartPage = props => {
                                 setIsCsvDialogOpen={setIsCsvDialogOpen}
                                 handleCancelCsvDialog={handleCancelCsvDialog}
                                 skuList={skuList}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
 
-                {/*<PrintPdfPopup
+                <PrintPdfPopup
                     ref={componentRef}
                     openPopup={openPopup}
                     handleClosePopup={handleClosePopup}
                     handlePrint={handlePrint}
-                />*/}
+                />
                 </div>
         </div>
     );

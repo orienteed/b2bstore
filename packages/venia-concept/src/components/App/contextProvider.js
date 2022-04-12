@@ -5,7 +5,7 @@ import {
     WindowSizeContextProvider
 } from '@magento/peregrine';
 import LocaleProvider from '@magento/venia-ui/lib/components/App/localeProvider';
-import { DownloadCsvProvider } from '@orienteed/customComponents/components/DownloadCsvProvider/downloadCsvProvider';
+// import { DownloadCsvProvider } from '@orienteed/customComponents/components/DownloadCsvProvider/downloadCsvProvider';
 import { CustomProvider } from '@orienteed/customComponents/components/PrintPdfPopup/CustomProvider/customProvider';
 
 /**
@@ -23,11 +23,11 @@ const contextProviders = [
 const ContextProvider = ({ children }) => {
     return contextProviders.reduceRight((memo, ContextProvider) => {
         return (
-            <DownloadCsvProvider>
+            // <DownloadCsvProvider>
                 <CustomProvider>
                     <ContextProvider>{memo}</ContextProvider>
                 </CustomProvider>
-            </DownloadCsvProvider>
+        
         );
     }, children);
 };
