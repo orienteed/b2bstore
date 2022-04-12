@@ -34,7 +34,7 @@ const DownloadCsv = () => {
 
     let donwloadButton;
 
-    if (galleryItem.length > 0) {
+  
         newGalleryItemRegularPrice = galleryItem.map(item => {
             return item.variants.map(variant => {
                 return {
@@ -46,9 +46,9 @@ const DownloadCsv = () => {
                 };
             });
         });
-    }
+    
 
-    if (galleryItem.length > 0) {
+
         newGalleryItemDiscountPrice = galleryItem.map(item => {
             return item.variants.map(variant => {
                 return {
@@ -60,7 +60,7 @@ const DownloadCsv = () => {
                 };
             });
         });
-    }
+    
     // let flattenRegularPrice;
     // if (data) {
     //     flatData = data.flat();
