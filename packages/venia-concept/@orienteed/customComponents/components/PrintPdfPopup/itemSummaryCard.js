@@ -20,7 +20,7 @@ const ItemSummaryCard = props => {
             : 0
     );
     const [currency, setCurrency] = useState(
-        priceSummary.taxes[0] ? priceSummary.taxes[0].amount.currency : 'EUR'
+        priceSummary.taxes[0] ? priceSummary.taxes[0].amount.currency :priceSummary.subtotal.currency
     );
 
     return (
