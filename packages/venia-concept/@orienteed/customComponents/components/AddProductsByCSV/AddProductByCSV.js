@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+/*import React, { useEffect, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Upload as UploadFileIcon } from 'react-feather';
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -64,4 +64,4 @@ const AddProductByCSV = props => {
     );
 };
 
-export default AddProductByCSV;
+export default AddProductByCSV;*/

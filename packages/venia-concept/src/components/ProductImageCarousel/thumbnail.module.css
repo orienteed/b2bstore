@@ -1,7 +1,7 @@
 /** The "thumbnail" is a round pil button below the product image in mobile or
  * as a thumbnail to the left of the product image in desktop.
  */
-.root {
+ .root {
     border: 1px solid rgb(var(--venia-global-color-text));
     border-radius: 50%;
     height: 0.875rem;
@@ -26,7 +26,6 @@
         border-radius: 0;
         height: auto;
         width: auto;
-        width: 5rem;
     }
     .rootSelected {
         composes: root;
@@ -43,6 +42,5 @@
         object-fit: contain;
         object-position: center;
         width: 100%;
-        width: 5rem;
     }
 }

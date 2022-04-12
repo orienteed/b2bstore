@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useReactToPrint } from 'react-to-print';
 import { Check } from 'react-feather';
+
 import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useToasts } from '@magento/peregrine';
-import Button from '@magento/venia-ui/lib/components/Button';
 
+import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
@@ -14,11 +16,8 @@ import PriceAdjustments from '@magento/venia-ui/lib/components/CartPage/PriceAdj
 import PriceSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary';
 import ProductListing from '@magento/venia-ui/lib/components/CartPage/ProductListing';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/cartPage.module.css';
-import { useCustomContext } from '@orienteed/customComponents/components/PrintPdfPopup/CustomProvider/customProvider';
 
-import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
-
-import { useReactToPrint } from 'react-to-print';
+//import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
 import AddProductByCSV from '@orienteed/customComponents/components/AddProductsByCSV/AddProductByCSV';
 
 const CheckIcon = <Icon size={20} src={Check} />;
@@ -43,8 +42,6 @@ const CheckIcon = <Icon size={20} src={Check} />;
 const CartPage = props => {
     const talonProps = useCartPage();
     const [openPopup, setOpenPopup] = useState(false);
-
-    const { toogleStyles, setToogleStyles } = useCustomContext();
 
     const componentRef = useRef();
     // const onBeforeGetContentResolve = useRef();
@@ -126,7 +123,7 @@ const CartPage = props => {
         </Button>
     );
     return (
-        <div className={classes.root}>
+        <div className={classes.root} data-cy="CartPage-root">
             <StoreTitle>
                 {formatMessage({
                     id: 'cartPage.title',
@@ -134,7 +131,7 @@ const CartPage = props => {
                 })}
             </StoreTitle>
             <div className={classes.heading_container}>
-                <h1 className={classes.heading}>
+                <h1 data-cy="CartPage-heading" className={classes.heading}>
                     <FormattedMessage
                         id={'cartPage.heading'}
                         defaultMessage={'Cart'}
@@ -155,26 +152,26 @@ const CartPage = props => {
                         <div className={classes.printPdfButtonContainer}>
                             {hasItems ? printPdfButton : null}
                             <AddProductByCSV
-                            csvErrorType={csvErrorType}
-                            setCsvErrorType={setCsvErrorType}
-                            csvSkuErrorList={csvSkuErrorList}
-                            setCsvSkuErrorList={setCsvSkuErrorList}
-                            isCsvDialogOpen={isCsvDialogOpen}
-                            setIsCsvDialogOpen={setIsCsvDialogOpen}
-                            handleCancelCsvDialog={handleCancelCsvDialog}
-                            skuList={skuList}
-                        />
+                                csvErrorType={csvErrorType}
+                                setCsvErrorType={setCsvErrorType}
+                                csvSkuErrorList={csvSkuErrorList}
+                                setCsvSkuErrorList={setCsvSkuErrorList}
+                                isCsvDialogOpen={isCsvDialogOpen}
+                                setIsCsvDialogOpen={setIsCsvDialogOpen}
+                                handleCancelCsvDialog={handleCancelCsvDialog}
+                                skuList={skuList}
+                            />
                         </div>
                     </div>
                 </div>
 
-                <PrintPdfPopup
+                {/*<PrintPdfPopup
                     ref={componentRef}
                     openPopup={openPopup}
                     handleClosePopup={handleClosePopup}
                     handlePrint={handlePrint}
-                />
-            </div>
+                />*/}
+                </div>
         </div>
     );
 };

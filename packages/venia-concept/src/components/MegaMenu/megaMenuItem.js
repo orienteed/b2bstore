@@ -1,8 +1,7 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
 
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { useMegaMenuItem } from '@magento/peregrine/lib/talons/MegaMenu/useMegaMenuItem';
@@ -11,18 +10,16 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './megaMenuItem.module.css';
 import Submenu from '@magento/venia-ui/lib/components/MegaMenu/submenu';
 import Icon from '@magento/venia-ui/lib/components/Icon';
+
 import Offers from './icons/ICONO_OFERTAS_TERRAZAS.svg';
 import Outlet from './icons/ICONO_OUTLET.svg';
 import SpareParts from './icons/ICONO_REPUESTOS.svg';
 
-const Navigation = React.lazy(() =>
-    import('@magento/venia-ui/lib/components/Navigation')
-);
 /**
  * The MegaMenuItem component displays mega menu item
  *
  * @param {MegaMenuCategory} props.category
- * @param {int} props.activeCategoryId - id of active category
+ * @param {String} props.activeCategoryId - uid of active category
  * @param {int} props.mainNavWidth - width of the main nav. It's used for setting min-width of the submenu
  * @param {function} props.onNavigate - function called when clicking on Link
  */
@@ -34,12 +31,10 @@ const MegaMenuItem = props => {
         categoryUrlSuffix,
         subMenuState,
         disableFocus,
-        onNavigate
+        onNavigate,
+        handleSubMenuFocus,
+        handleClickOutside
     } = props;
-
-    const { formatMessage } = useIntl();
-    const urlBaseIcons = '/src/components/MegaMenu/icons/';
-    const urlBaseMime = '.svg';
 
     const classes = useStyle(defaultClasses, props.classes);
     const categoryUrl = resourceUrl(
@@ -53,13 +48,10 @@ const MegaMenuItem = props => {
         disableFocus
     });
 
-    const categoryOutletId = 15;
-    const categoryOfferId = 14;
-    const categoryChangesId = 16;
-
     const {
         isFocused,
         isActive,
+        handleMenuItemFocus,
         handleCloseSubMenu,
         isMenuActive,
         handleKeyDown
@@ -103,6 +95,8 @@ const MegaMenuItem = props => {
           }
         : {};
 
+    /*
+
     const validationSrc = () => {
         if (category.name === 'Ofertas terrazas') {
             return Offers;
@@ -112,7 +106,7 @@ const MegaMenuItem = props => {
             return SpareParts;
         }
     };
-
+    
     const contentLink =
         category.category_icon != '' ? (
             <img
@@ -123,23 +117,38 @@ const MegaMenuItem = props => {
         ) : (
             category.name
         );
-
-    // src={images[category.category_icon]}
-    // require.context(Offers)
-    // {urlBaseIcons + category.category_icon + urlBaseMime}
+        
+    */    
 
     return (
-        <div className={megaMenuItemClassname}>
+        <div
+            className={megaMenuItemClassname}
+            data-cy="MegaMenu-MegaMenuItem-megaMenuItem"
+            onMouseEnter={() => {
+                handleSubMenuFocus();
+                handleMenuItemFocus();
+            }}
+            onTouchStart={() => {
+                handleSubMenuFocus();
+                handleMenuItemFocus();
+            }}
+            onMouseLeave={e => {
+                handleClickOutside(e);
+                handleCloseSubMenu();
+            }}
+        >
             <Link
                 {...linkAttributes}
                 onKeyDown={handleKeyDown}
                 className={
                     isActive ? classes.megaMenuLinkActive : classes.megaMenuLink
                 }
+                data-cy="MegaMenu-MegaMenuItem-link"
                 to={categoryUrl}
                 onClick={onNavigate}
             >
-                {contentLink}
+                {category.name}
+                {maybeDownArrowIcon}
             </Link>
             {children}
         </div>
@@ -151,7 +160,7 @@ export default MegaMenuItem;
 MegaMenuItem.propTypes = {
     category: PropTypes.shape({
         children: PropTypes.array,
-        id: PropTypes.number.isRequired,
+        uid: PropTypes.string.isRequired,
         include_in_menu: PropTypes.number,
         isActive: PropTypes.bool.isRequired,
         name: PropTypes.string.isRequired,
@@ -159,8 +168,10 @@ MegaMenuItem.propTypes = {
         position: PropTypes.number.isRequired,
         url_path: PropTypes.string.isRequired
     }).isRequired,
-    activeCategoryId: PropTypes.number,
+    activeCategoryId: PropTypes.string,
     mainNavWidth: PropTypes.number.isRequired,
     categoryUrlSuffix: PropTypes.string,
-    onNavigate: PropTypes.func.isRequired
+    onNavigate: PropTypes.func.isRequired,
+    handleSubMenuFocus: PropTypes.func.isRequired,
+    handleClickOutside: PropTypes.func.isRequired
 };

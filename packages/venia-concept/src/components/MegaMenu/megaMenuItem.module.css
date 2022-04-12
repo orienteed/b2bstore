@@ -13,39 +13,6 @@
     text-decoration: underline;
 }
 
-.megaMenuItem:hover > div,
-.megaMenuItem:focus > div {
-    display: flex;
-}
-
-.iconMenu{
-    width: 54px;
-    border: 1px solid var(--orienteed-primary-color-base1);
-    border-radius: 28px;
-    height: 54px;
-}
-
-/*
-.iconMenuO{
-    width: 54px;
-    background-color: #45655F;
-    border-radius: 28px;
-    height: 54px;
-}
-
-.iconMenuC{
-    width: 54px;
-    background-color: #616160;
-    border-radius: 28px;
-    height: 54px;
-}
-*/
-
-.iconMenu::after{
-    fill: white;
-    color: white;
-}
-
 .megaMenuItem_active {
     composes: megaMenuItem;
     display: flex;

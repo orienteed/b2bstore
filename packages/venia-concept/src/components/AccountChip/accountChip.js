@@ -4,11 +4,12 @@ import { bool, shape, string } from 'prop-types';
 import { Loader, User as AccountIcon } from 'react-feather';
 
 import { useAccountChip } from '@magento/peregrine/lib/talons/AccountChip/useAccountChip';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import Icon from '../Icon';
 import defaultClasses from './accountChip.module.css';
 import { GET_CUSTOMER_DETAILS } from './accountChip.gql';
+
 /**
  * The AccountChip component shows an icon next to some text.
  * Sometimes the text is static, sometimes it is dynamic based on the user's name,
@@ -31,7 +32,7 @@ const AccountChip = props => {
     });
     const { currentUser, isLoadingUserName, isUserSignedIn } = talonProps;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     let chipText;
@@ -40,7 +41,7 @@ const AccountChip = props => {
     } else {
         if (!isLoadingUserName) {
             chipText = formatMessage(
-                { id: 'accountChip.chipText', defaultMessage: 'Hi' },
+                { id: 'accountChip.chipText', defaultMessage: 'Hi, {name}' },
                 { name: currentUser.firstname }
             );
         } else if (shouldIndicateLoading) {
@@ -53,7 +54,9 @@ const AccountChip = props => {
     return (
         <span className={classes.root}>
             <Icon src={AccountIcon} />
-            <span className={classes.text}>{chipText}</span>
+            <span data-cy="AccountChip-text" className={classes.text}>
+                {chipText}
+            </span>
         </span>
     );
 };

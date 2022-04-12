@@ -3309,47 +3309,47 @@
   dependencies:
     "@octokit/openapi-types" "^9.5.0"
 
-"@orienteed/adminPwaLogin@link:./@orienteed/adminPwaLogin":
+"@orienteed/adminPwaLogin@link:./packages/venia-concept/@orienteed/adminPwaLogin":
   version "0.0.0"
   uid ""
 
-"@orienteed/buyLaterNotes@link:./@orienteed/buyLaterNotes":
+"@orienteed/buyLaterNotes@link:./packages/venia-concept/@orienteed/buyLaterNotes":
   version "0.0.0"
   uid ""
 
-"@orienteed/customComponents@link:./@orienteed/customComponents":
+"@orienteed/customComponents@link:./packages/venia-concept/@orienteed/customComponents":
   version "0.0.0"
   uid ""
 
-"@orienteed/customerCreditSystem@link:./@orienteed/customerCreditSystem":
+"@orienteed/customerCreditSystem@link:./packages/venia-concept/@orienteed/customerCreditSystem":
   version "0.0.0"
   uid ""
 
-"@orienteed/defaultBillingAddress@link:./@orienteed/defaultBillingAddress":
+"@orienteed/defaultBillingAddress@link:./packages/venia-concept/@orienteed/defaultBillingAddress":
   version "0.0.0"
   uid ""
 
-"@orienteed/filterProductAttributesBasedOnAvailability@link:./@orienteed/filterProductAttributesBasedOnAvailability":
+"@orienteed/filterProductAttributesBasedOnAvailability@link:./packages/venia-concept/@orienteed/filterProductAttributesBasedOnAvailability":
   version "0.0.0"
   uid ""
 
-"@orienteed/locale@link:./@orienteed/locale":
+"@orienteed/locale@link:./packages/venia-concept/@orienteed/locale":
   version "0.0.0"
   uid ""
 
-"@orienteed/megaMenuIsRequiredLogin@link:./@orienteed/megaMenuIsRequiredLogin":
+"@orienteed/megaMenuIsRequiredLogin@link:./packages/venia-concept/@orienteed/megaMenuIsRequiredLogin":
   version "0.0.0"
   uid ""
 
-"@orienteed/payWithBankTransfer@link:./@orienteed/payWithBankTransfer":
+"@orienteed/payWithBankTransfer@link:./packages/venia-concept/@orienteed/payWithBankTransfer":
   version "0.0.0"
   uid ""
 
-"@orienteed/reorder@link:./@orienteed/reorder":
+"@orienteed/reorder@link:./packages/venia-concept/@orienteed/reorder":
   version "0.0.0"
   uid ""
 
-"@orienteed/requestQuote@link:./@orienteed/requestQuote":
+"@orienteed/requestQuote@link:./packages/venia-concept/@orienteed/requestQuote":
   version "0.0.0"
   uid ""
 

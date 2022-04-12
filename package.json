@@ -50,25 +50,13 @@
     "watch:venia": "yarn venia run watch"
   },
   "dependencies": {
-    "@magento/pwa-buildpack": "^11.0.0",
-    "@orienteed/adminPwaLogin": "link:./@orienteed/adminPwaLogin",
-    "@orienteed/buyLaterNotes": "link:./@orienteed/buyLaterNotes",
-    "@orienteed/customComponents": "link:./@orienteed/customComponents",
-    "@orienteed/customerCreditSystem": "link:./@orienteed/customerCreditSystem",
-    "@orienteed/defaultBillingAddress": "link:./@orienteed/defaultBillingAddress",
-    "@orienteed/filterProductAttributesBasedOnAvailability": "link:./@orienteed/filterProductAttributesBasedOnAvailability",
-    "@orienteed/locale": "link:./@orienteed/locale",
-    "@orienteed/megaMenuIsRequiredLogin": "link:./@orienteed/megaMenuIsRequiredLogin",
-    "@orienteed/payWithBankTransfer": "link:./@orienteed/payWithBankTransfer",
-    "@orienteed/reorder": "link:./@orienteed/reorder",
-    "@orienteed/requestQuote": "link:./@orienteed/requestQuote",
+    "babel-plugin-require-context-hook": "^1.0.0",
     "react-csv": "^2.2.2",
     "react-drag-drop-files": "^2.3.4",
-    "react-icons": "^4.3.1",
-    "reactjs-popup": "^2.0.5",
     "react-dropzone": "^12.0.4",
+    "react-icons": "^4.3.1",
     "react-to-print": "^2.14.4",
-    "babel-plugin-require-context-hook": "^1.0.0"
+    "reactjs-popup": "^2.0.5"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "~7.4.4",

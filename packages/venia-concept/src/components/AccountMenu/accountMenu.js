@@ -2,7 +2,7 @@ import React from 'react';
 import { shape, string } from 'prop-types';
 import { useAccountMenu } from '../../talons/Header/useAccountMenu';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import CreateAccount from '@magento/venia-ui/lib/components/CreateAccount';
 import SignIn from '@magento/venia-ui/lib/components/SignIn/signIn';
 import AccountMenuItems from '@magento/venia-ui/lib/components/AccountMenu/accountMenuItems';
@@ -26,7 +26,7 @@ const AccountMenu = React.forwardRef((props, ref) => {
         updateUsername
     } = talonProps;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const rootClass = accountMenuIsOpen ? classes.root_open : classes.root;
     const contentsClass = accountMenuIsOpen
         ? classes.contents_open

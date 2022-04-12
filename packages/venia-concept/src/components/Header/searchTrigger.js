@@ -4,7 +4,7 @@ import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './searchTrigger.module.css';
 import { useSearchTrigger } from '@magento/peregrine/lib/talons/Header/useSearchTrigger';
 import customSearchIcon from './icons/ICONO_BUSCAR.svg';
@@ -18,7 +18,7 @@ const SearchTrigger = React.forwardRef((props, ref) => {
     const { handleClick } = talonProps;
     const { formatMessage } = useIntl();
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const searchClass = active ? classes.open : classes.root;
 
@@ -30,13 +30,15 @@ const SearchTrigger = React.forwardRef((props, ref) => {
     return (
         <button
             className={searchClass}
+            data-cy="SearchTrigger-button"
             aria-label={searchText}
             onClick={handleClick}
             ref={ref}
         >
-       
-            <Icon src={SearchIcon} /> 
-            <span className={classes.label}>{searchText}</span>
+            <Icon src={SearchIcon} />
+            <span data-cy="SearchTrigger-label" className={classes.label}>
+                {searchText}
+            </span>
         </button>
     );
 });

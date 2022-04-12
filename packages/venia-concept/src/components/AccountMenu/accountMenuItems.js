@@ -1,9 +1,9 @@
 import React from 'react';
 import { func, shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import { Link } from '@magento/venia-drivers';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useAccountMenuItems } from '@magento/peregrine/lib/talons/AccountMenu/useAccountMenuItems';
 
 import defaultClasses from './accountMenuItems.module.css';
@@ -14,23 +14,29 @@ const AccountMenuItems = props => {
     const talonProps = useAccountMenuItems({ onSignOut });
     const { handleSignOut, menuItems } = talonProps;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const menu = menuItems.map(item => {
         return (
-            <Link className={classes.link} key={item.name} to={item.url}>
+            <Link
+                data-cy="AccountMenuItems-link"
+                className={classes.link}
+                key={item.name}
+                to={item.url}
+            >
                 <FormattedMessage id={item.id} defaultMessage={item.name} />
             </Link>
         );
     });
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} data-cy="AccountMenuItems-root">
             {menu}
             <button
                 className={classes.signOut}
                 onClick={handleSignOut}
                 type="button"
+                data-cy="AccountMenuItems-signOut"
             >
                 <FormattedMessage
                     id={'accountMenu.signOutButtonText'}
