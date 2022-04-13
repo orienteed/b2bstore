@@ -24,6 +24,7 @@ import Shimmer from '@magento/venia-ui/lib/components/Shimmer';
 import SortedByContainer, {
     SortedByContainerShimmer
 } from '@magento/venia-ui/lib/components/SortedByContainer';
+
 import defaultClasses from '@magento/venia-ui/lib/RootComponents/Category/category.module.css';
 import NoProductsFound from '@magento/venia-ui/lib/RootComponents/Category/NoProductsFound';
 
@@ -54,6 +55,7 @@ const CategoryContent = props => {
     });
 
     const {
+        availableSortMethods,
         categoryName,
         categoryDescription,
         filters,
@@ -72,7 +74,7 @@ const CategoryContent = props => {
     const shouldShowFilterShimmer = filters === null;
 
     // If there are no products we can hide the sort button.
-    const shouldShowSortButtons = totalPagesFromData;
+    const shouldShowSortButtons = totalPagesFromData && availableSortMethods;
     const shouldShowSortShimmer = !totalPagesFromData && isLoading;
 
     const maybeFilterButtons = shouldShowFilterButtons ? (
@@ -92,7 +94,10 @@ const CategoryContent = props => {
     ) : null;
 
     const maybeSortButton = shouldShowSortButtons ? (
-        <ProductSort sortProps={sortProps} />
+        <ProductSort
+            sortProps={sortProps}
+            availableSortMethods={availableSortMethods}
+        />
     ) : shouldShowSortShimmer ? (
         <ProductSortShimmer />
     ) : null;
@@ -157,10 +162,13 @@ const CategoryContent = props => {
         <Fragment>
             <Breadcrumbs categoryId={categoryId} />
             <StoreTitle>{categoryName}</StoreTitle>
-            <article className={classes.root}>
+            <article className={classes.root} data-cy="CategoryContent-root">
                 <div className={classes.categoryHeader}>
                     <h1 className={classes.title}>
-                        <div className={classes.categoryTitle}>
+                        <div
+                            className={classes.categoryTitle}
+                            data-cy="CategoryContent-categoryTitle"
+                        >
                             {categoryTitle}
                         </div>
                     </h1>
@@ -172,17 +180,18 @@ const CategoryContent = props => {
                             {shouldRenderSidebarContent ? sidebar : null}
                         </Suspense>
                     </div>
-
                     <div className={classes.categoryContent}>
                         <div className={classes.heading}>
-                            <div className={classes.categoryInfo}>
+                            <div
+                                data-cy="CategoryContent-categoryInfo"
+                                className={classes.categoryInfo}
+                            >
                                 {categoryResultsHeading}
                             </div>
                             <div className={classes.headerButtons}>
                                 <article className={classes.downloadCsvDesktop}>
                                     <DownloadCsv />
                                 </article>
-
                                 {maybeFilterButtons}
                                 {maybeSortButton}
                             </div>

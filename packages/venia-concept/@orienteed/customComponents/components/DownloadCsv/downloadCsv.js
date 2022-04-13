@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomButton from './CustomButton/customButton';
 import { FormattedMessage } from 'react-intl';
-import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
+// import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
 import { useDownloadCsvContext } from '../DownloadCsvProvider/downloadCsvProvider';
 
 import defaultClasses from './downloadCsv.module.css';
@@ -14,7 +14,7 @@ import { useSortCatalog } from '../../talons/DownloadCsv/useSortCatalog';
 const DownloadCsv = () => {
     const { galleryItem, currentCatalog } = useDownloadCsvContext();
     const [data, setData] = useState();
-    const talonProps = useDownloadCsv();
+    // const talonProps = useDownloadCsv();
     // const { catalogRegularPrice, catalogDiscountPrice } = talonProps;
     // const { handleFullCatalog } = talonProps;
 
@@ -25,6 +25,7 @@ const DownloadCsv = () => {
     // }, [handleFullCatalog]);
 
     // console.log('downloadCsv', data);
+    console.log('Provider', galleryItem);
     const sortProps1 = useSortCatalog();
 
     let flatData;
@@ -34,33 +35,30 @@ const DownloadCsv = () => {
 
     let donwloadButton;
 
-  
-        newGalleryItemRegularPrice = galleryItem.map(item => {
-            return item.variants.map(variant => {
-                return {
-                    categorie: variant.product.categories[0].name,
-                    description: variant.product.description.html,
-                    name: variant.product.name,
-                    price: variant.product.price.regularPrice.amount.value,
-                    sku: variant.product.sku
-                };
-            });
+    newGalleryItemRegularPrice = galleryItem.map(item => {
+        return item.variants.map(variant => {
+            return {
+                // categorie: variant.product.categories[0].name, // the products from cloud and the new back doesn't have categories
+                description: variant.product.description.html,
+                name: variant.product.name,
+                price: variant.product.price.regularPrice.amount.value,
+                sku: variant.product.sku
+            };
         });
-    
+    });
 
-
-        newGalleryItemDiscountPrice = galleryItem.map(item => {
-            return item.variants.map(variant => {
-                return {
-                    categorie: variant.product.categories[0].name,
-                    description: variant.product.description.html,
-                    name: variant.product.name,
-                    price: variant.product.price.minimalPrice.amount.value,
-                    sku: variant.product.sku
-                };
-            });
+    newGalleryItemDiscountPrice = galleryItem.map(item => {
+        return item.variants.map(variant => {
+            return {
+                // categorie: variant.product.categories[0].name,
+                description: variant.product.description.html,
+                name: variant.product.name,
+                price: variant.product.price.minimalPrice.amount.value,
+                sku: variant.product.sku
+            };
         });
-    
+    });
+
     // let flattenRegularPrice;
     // if (data) {
     //     flatData = data.flat();

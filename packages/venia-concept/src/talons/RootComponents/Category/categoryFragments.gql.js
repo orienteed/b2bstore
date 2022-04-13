@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client';
 
 export const CategoryFragment = gql`
+    # eslint-disable-next-line @graphql-eslint/require-id-when-available
     fragment CategoryFragment on CategoryTree {
-        id
+        uid
         meta_title
         meta_keywords
         meta_description
@@ -14,6 +15,35 @@ export const ProductsFragment = gql`
         items {
             id
             uid
+            ... on ConfigurableProduct {
+                variants {
+                    product {
+                        uid
+                        name
+                        sku
+                        description {
+                            html
+                        }
+                        categories {
+                            name
+                        }
+                        price {
+                            regularPrice {
+                                amount {
+                                    currency
+                                    value
+                                }
+                            }
+                            minimalPrice {
+                                amount {
+                                    currency
+                                    value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             name
             price_range {
                 maximum_price {
@@ -42,7 +72,10 @@ export const ProductsFragment = gql`
                 url
             }
             stock_status
+
+            rating_summary
             type_id
+            __typename
             url_key
             url_suffix
         }

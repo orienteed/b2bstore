@@ -12,7 +12,8 @@ import {
     getFilterInput
 } from '@magento/peregrine/lib/talons/FilterModal/helpers';
 
-import DEFAULT_OPERATIONS from './category.gql';
+// import DEFAULT_OPERATIONS from './category.gql';
+import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/RootComponents/Category/category.gql.js';
 
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that

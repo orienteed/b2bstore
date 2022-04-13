@@ -8,31 +8,23 @@ import defaultClasses from '@magento/venia-ui/lib/components/Gallery/gallery.mod
 import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
 import { useDownloadCsvContext } from '@orienteed/customComponents/components/DownloadCsvProvider/downloadCsvProvider';
 
-const mapGalleryItem = item => {
-    const { small_image } = item;
-    return {
-        ...item,
-        small_image:
-            typeof small_image === 'object' ? small_image.url : small_image
-    };
-};
-
 /**
  * Renders a Gallery of items. If items is an array of nulls Gallery will render
  * a placeholder item for each.
  *
  * @params {Array} props.items an array of items to render
  */
-const Gallery = props => {
+ const Gallery = props => {
     const { items } = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const { setGalleryItem } = useDownloadCsvContext();
     const talonProps = useGallery();
     const { storeConfig } = talonProps;
+    const { setGalleryItem } = useDownloadCsvContext();
 
     useEffect(() => {
         setGalleryItem(items);
     }, [items]);
+    
 
     const galleryItems = useMemo(
         () =>
@@ -43,7 +35,7 @@ const Gallery = props => {
                 return (
                     <GalleryItem
                         key={item.id}
-                        item={mapGalleryItem(item)}
+                        item={item}
                         storeConfig={storeConfig}
                     />
                 );
@@ -52,7 +44,12 @@ const Gallery = props => {
     );
 
     return (
-        <div className={classes.root} aria-live="polite" aria-busy="false">
+        <div
+            data-cy="Gallery-root"
+            className={classes.root}
+            aria-live="polite"
+            aria-busy="false"
+        >
             <div className={classes.items}>{galleryItems}</div>
         </div>
     );
