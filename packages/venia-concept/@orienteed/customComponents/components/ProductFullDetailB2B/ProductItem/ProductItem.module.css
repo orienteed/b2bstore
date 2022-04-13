@@ -1,12 +1,12 @@
 .quantityRoot {
-    composes: root from '../../../../../node_modules/@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+    composes: root from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }
 
 /* Add to cart button */
 .buttonAddToCart {
-    composes: root_highPriority from '../../../../../node_modules/@magento/venia-ui/lib/components/Button/button.module.css';
+    composes: root_highPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
     background-color: rgb(var(--venia-brand-color-1-700));
     border: none;
     font-weight: bold;

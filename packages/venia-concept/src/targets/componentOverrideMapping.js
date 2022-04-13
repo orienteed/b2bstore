@@ -1,48 +1,38 @@
 module.exports = componentOverrideMapping = {
-  //JS
-  [`@magento/venia-ui/lib/components/Button/button.js`]: './src/components/Button/button.js',
-  [`@magento/venia-ui/lib/components/Checkbox/checkbox.js`]: './src/components/Checkbox/checkbox.js',
-  [`@magento/venia-ui/lib/components/Select/select.js`]: './src/components/Select/select.js',
-  [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',
-  [`@magento/venia-ui/lib/components/RadioGroup/radio.js`]: './src/components/RadioGroup/radio.js',
-  [`@magento/venia-ui/lib/components/Logo/logo.js`]: './src/components/Logo/logo.js',
-  [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
-  [`@magento/venia-ui/lib/components/ErrorView/errorView.js`]: './src/components/ErrorView/errorView.js',
-  [`@magento/venia-ui/lib/components/Footer/sampleData.js`]: './src/components/Footer/sampleData.js',
-  //[`@magento/venia-ui/lib/components/ProductImageCarousel/carousel.js`]: './src/components/ProductImageCarousel/carousel.js',
-  //[`@magento/venia-ui/lib/components/ProductOptions/options.js`]: './src/components/ProductOptions/options.js',
-  [`@magento/venia-ui/lib/components/Header/searchTrigger.js`]: './src/components/Header/searchTrigger.js',
-  [`@magento/venia-ui/lib/components/AccountChip/accountChip.js`]: './src/components/AccountChip/accountChip.js',
-  //[`@magento/venia-ui/lib/components/Header/cartTrigger.js`]: './src/components/Header/cartTrigger.js',
-  //[`@magento/venia-ui/lib/components/ProductSort/productSort.js`]: './src/components/ProductSort/productSort.js',
-  [`@magento/venia-ui/lib/components/OrderHistoryPage/collapsedImageGallery.js`]: './src/components/OrderHistoryPage/collapsedImageGallery.js',
-  [`@magento/venia-ui/lib/components/SearchBar/suggestedProduct.js`]: './src/components/SearchBar/suggestedProduct.js',
-  [`@magento/venia-ui/lib/components/SearchBar/autocomplete.js`]: './src/components/SearchBar/autocomplete.js',
-  //[`@magento/venia-ui/lib/components/Price/price.js`]: './src/components/Price/price.js',
-  //[`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.js`]: './src/components/ProductFullDetail/productFullDetail.js',
-  //[`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
-  // [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
-  [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
-  //[`@magento/venia-ui/lib/components/MegaMenu/megaMenu.js`]: './src/components/MegaMenu/megaMenu.js',
-  [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.js`]: './src/components/AddToCartDialog/addToCartDialog.js',
-  [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
-  // [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
-  [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.js`]: './src/components/CartPage/ProductListing/product.js',
-  [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
-  [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js',
-  [`@magento/venia-ui/lib/components/CartPage/cartPage.js`]: './src/components/CartPage/cartPage.js',
-
-  //TALONS
-  //  [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
-  // [`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js',
-  // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
-  // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
-  [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
+    //JS
+    [`@magento/venia-ui/lib/components/Button/button.js`]: './src/components/Button/button.js',
+    [`@magento/venia-ui/lib/components/Checkbox/checkbox.js`]: './src/components/Checkbox/checkbox.js',
+    [`@magento/venia-ui/lib/components/Select/select.js`]: './src/components/Select/select.js',
+    [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',
+    [`@magento/venia-ui/lib/components/RadioGroup/radio.js`]: './src/components/RadioGroup/radio.js',
+    [`@magento/venia-ui/lib/components/Logo/logo.js`]: './src/components/Logo/logo.js',
+    [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
+    [`@magento/venia-ui/lib/components/ErrorView/errorView.js`]: './src/components/ErrorView/errorView.js',
+    [`@magento/venia-ui/lib/components/Footer/sampleData.js`]: './src/components/Footer/sampleData.js',
+    //[`@magento/venia-ui/lib/components/ProductImageCarousel/carousel.js`]: './src/components/ProductImageCarousel/carousel.js',
+    //[`@magento/venia-ui/lib/components/ProductOptions/options.js`]: './src/components/ProductOptions/options.js',
+    [`@magento/venia-ui/lib/components/Header/searchTrigger.js`]: './src/components/Header/searchTrigger.js',
+    [`@magento/venia-ui/lib/components/AccountChip/accountChip.js`]: './src/components/AccountChip/accountChip.js',
+    //[`@magento/venia-ui/lib/components/Header/cartTrigger.js`]: './src/components/Header/cartTrigger.js',
+    //[`@magento/venia-ui/lib/components/ProductSort/productSort.js`]: './src/components/ProductSort/productSort.js',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/collapsedImageGallery.js`]: './src/components/OrderHistoryPage/collapsedImageGallery.js',
+    [`@magento/venia-ui/lib/components/SearchBar/suggestedProduct.js`]: './src/components/SearchBar/suggestedProduct.js',
+    [`@magento/venia-ui/lib/components/SearchBar/autocomplete.js`]: './src/components/SearchBar/autocomplete.js',
+[`@magento/venia-ui/lib/components/Price/price.js`]: './src/components/Price/price.js',
+    [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
+    [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
+    //[`@magento/venia-ui/lib/components/MegaMenu/megaMenu.js`]: './src/components/MegaMenu/megaMenu.js',
+    [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.js`]: './src/components/AddToCartDialog/addToCartDialog.js',
+    [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
+[`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
+    [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.js`]: './src/components/CartPage/ProductListing/product.js',
+    [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
+    [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js',
 
     //TALONS
-    //  [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
     // [`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js',
-    // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
+    [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
     // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
     [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
 
@@ -50,8 +40,8 @@ module.exports = componentOverrideMapping = {
     // [`@magento/peregrine/lib/talons/WishlistPage/wishlistItemFragments.gql.js`]: './src/talons/WishlistPage/wishlistItemFragments.gql.js',
     // [`@magento/peregrine/lib/talons/MegaMenu/megaMenu.gql.js`]: './src/talons/MegaMenu/megaMenu.gql.js',
     // [`@magento/peregrine/lib/talons/SearchPage/searchPage.gql.js`]: './src/talons/SearchPage/searchPage.gql.js',
-    // [`@magento/peregrine/lib/talons/RootComponents/Product/productDetailFragment.gql.js`]: './src/talons/RootComponents/Product/productDetailFragment.gql.js',
-    // [`@magento/peregrine/lib/talons/RootComponents/Category/categoryFragments.gql.js`]: './src/talons/RootComponents/Category/categoryFragments.gql.js',
+    [`@magento/peregrine/lib/talons/RootComponents/Product/productDetailFragment.gql.js`]: './src/talons/RootComponents/Product/productDetailFragment.gql.js',
+    [`@magento/peregrine/lib/talons/RootComponents/Category/categoryFragments.gql.js`]: './src/talons/RootComponents/Category/categoryFragments.gql.js',
 
     //CSS
     [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',
@@ -120,15 +110,14 @@ module.exports = componentOverrideMapping = {
     [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css',
     [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css',
 
-    /* PRODUCT FULL DETAIL B2B
-  //JS
-  [`@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.js`]: './src/components/ProductListing/quantity.js',
-  [`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.js`]: './src/components/ProductFullDetail/productFullDetail.js',
+    // PRODUCT FULL DETAIL B2B
+    //JS
+    [`@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.js`]: './src/components/ProductListing/quantity.js',
+    [`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.js`]: './src/components/ProductFullDetail/productFullDetail.js',
 
-  //TALONS
-  [`@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity.js`]: './src/talons/ProductListing/useQuantity.js',
-  [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
-  */
+    //TALONS
+    [`@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity.js`]: './src/talons/ProductListing/useQuantity.js',
+    [`@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail.js`]: './src/talons/ProductFullDetail/useProductFullDetail.js',
 
     // ORDER BY CSV. Library dependency: papaparse
     //JS

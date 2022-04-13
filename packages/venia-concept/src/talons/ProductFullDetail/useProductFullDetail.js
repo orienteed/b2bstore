@@ -156,12 +156,12 @@ const getBreadcrumbCategoryId = categories => {
     // Until we can get the single canonical breadcrumb path to a product we
     // will just return the first category id of the potential leaf categories.
     const leafCategory = categories.find(
-        category => !breadcrumbSet.has(category.id)
+        category => !breadcrumbSet.has(category.uid)
     );
 
     // If we couldn't find a leaf category then just use the first category
     // in the list for this product.
-    return leafCategory.id || categories[0].id;
+    return leafCategory.uid || categories[0].uid;
 };
 
 const getConfigPriceRegular = (product, optionCodes, optionSelections) => {
@@ -485,16 +485,13 @@ export const useProductFullDetail = props => {
         },
         [
             addConfigurableProductToCart,
-            addProductToCart,
             addSimpleProductToCart,
             cartId,
-            hasDeprecatedOperationProp,
             isSupportedProductType,
             optionCodes,
             optionSelections,
             product,
-            productType,
-            selectedOptionsArray
+            productType
         ]
     );
 

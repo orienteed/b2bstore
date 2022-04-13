@@ -11,9 +11,9 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Price from '@magento/venia-ui/lib/components/Price';
-import ProductFullDetailB2B from '../../../@orienteed/customComponents/components/ProductFullDetailB2B';
-import ProductFullDetailB2C from '../../../@orienteed/customComponents/components/ProductFullDetailB2C';
-import defaultClasses from './productFullDetail.module.css';
+import ProductFullDetailB2B from '@orienteed/customComponents/components/ProductFullDetailB2B';
+import ProductFullDetailB2C from '@orienteed/customComponents/components/ProductFullDetailB2C';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
 
 const Options = React.lazy(() =>
     import('@magento/venia-ui/lib/components/ProductOptions')
@@ -256,6 +256,7 @@ const ProductFullDetail = props => {
             </p>
         </div>
     );
+    console.log(product);
 
     return isB2B ? (
         <ProductFullDetailB2B
