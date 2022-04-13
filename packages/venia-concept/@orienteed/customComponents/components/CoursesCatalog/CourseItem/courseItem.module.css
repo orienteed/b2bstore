@@ -1,0 +1,107 @@
+.courseImage {
+    height: 250px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+.courseContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: 1px solid rgb(var(--venia-global-color-border));
+    padding: 10px;
+    background-color: transparent;
+}
+
+.courseContainer::hover {
+    opacity: 0.5;
+}
+
+.courseTitle {
+    font-weight: 900;
+    text-align: center;
+}
+
+.courseDescriptionContainer {
+    margin: 5px 0;
+}
+
+.courseDescription {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding: 1px 0;
+    height: 50px;
+}
+
+.categoryTag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 5px;
+    width: fit-content;
+    border-radius: 25px;
+
+    background-color: rgba(31, 57, 255, 0.8);
+    color: white;
+    font-weight: bold;
+}
+
+.subscribeButtonContainer {
+    display: none;
+}
+
+@media (max-width: 960px) {
+    .subscribeButtonContainer {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        margin-top: 5px;
+    }
+}
+
+.subscribeButton {
+    composes: root_normalPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
+}
+
+.card__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.card__overlay:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.subscribeButtonOverla {
+    composes: root_normalPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
+}
+
+.card__overlay .subscribeButtonOverlay {
+    visibility: hidden;
+}
+
+.card__overlay:hover .subscribeButtonOverlay {
+    visibility: visible;
+    position: relative;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    border: 5px solid white;
+}

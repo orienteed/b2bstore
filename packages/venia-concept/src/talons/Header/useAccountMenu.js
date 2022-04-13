@@ -40,7 +40,6 @@ export const useAccountMenu = props => {
     const [{ isSignedIn: isUserSignedIn }, { signOut }] = useUserContext();
 
     const handleSignOut = useCallback(async () => {
-        console.log('HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
         setView('SIGNIN');
         setAccountMenuIsOpen(false);
 

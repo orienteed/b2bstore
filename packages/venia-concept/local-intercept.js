@@ -50,8 +50,8 @@ module.exports = targets => {
         // Orienteed - Talons used
         //talonWrapperConfig.Header.useStoreSwitcher.wrapWith(require.resolve('./src/hooks/useStoreSwitcher'))
         talonWrapperConfig.Header.useAccountTrigger.wrapWith(require.resolve('./src/talons/useAccountTrigger'))
-        talonWrapperConfig.SignIn.useSignIn.wrapWith(require.resolve('./src/talons/useSignIn'))
         talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(require.resolve('./src/talons/useForgotPassword'))
+        //talonWrapperConfig.SignIn.useSignIn.wrapWith(require.resolve('./src/talons/useSignIn'))
         // talonWrapperConfig.RootComponents.Product.useProduct.wrapWith(require.resolve('./src/talons/RootComponents/Product/useProduct'))
         // talonWrapperConfig.RootComponents.Category.useCategory.wrapWith(require.resolve('./src/talons/RootComponents/Category/useCategory'))
     });

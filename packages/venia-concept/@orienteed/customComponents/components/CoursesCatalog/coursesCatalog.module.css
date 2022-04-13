@@ -1,0 +1,17 @@
+.container {
+    display: grid;
+    padding: 2.5rem 3rem;
+    row-gap: 2rem;
+}
+
+.pageTitle {
+    justify-self: center;
+    font-family: var(--venia-global-fontFamily-serif);
+    font-weight: var(--venia-global-fontWeight-bold);
+}
+
+.courseContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+}
