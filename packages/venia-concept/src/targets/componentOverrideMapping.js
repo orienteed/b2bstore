@@ -19,7 +19,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/SearchBar/suggestedProduct.js`]: './src/components/SearchBar/suggestedProduct.js',
     [`@magento/venia-ui/lib/components/SearchBar/autocomplete.js`]: './src/components/SearchBar/autocomplete.js',
     [`@magento/venia-ui/lib/components/Price/price.js`]: './src/components/Price/price.js',
-    // [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js', // for the page to work thi must be commented
+    [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
     [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
     //[`@magento/venia-ui/lib/components/MegaMenu/megaMenu.js`]: './src/components/MegaMenu/megaMenu.js',
@@ -103,6 +103,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.module.css`]: './src/components/CartPage/PriceSummary/priceSummary.module.css',
     [`@magento/venia-ui/lib/components/Gallery/addToCartButton.module.css`]: './src/components/Gallery/addToCartButton.module.css',
     [`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css`]: './src/components/ProductFullDetail/productFullDetail.module.css',
+    [`@magento/venia-ui/lib/components/Gallery/item.module.css`]: './src/components/Gallery/item.module.css',
 
     //Orienteed components
     ////JS

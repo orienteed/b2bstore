@@ -1,15 +1,23 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Info } from 'react-feather';
 import { string, number, shape } from 'prop-types';
 import { Link } from 'react-router-dom';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import Price from '@magento/venia-ui/lib/components/Price';
-import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
+
 import { UNCONSTRAINED_SIZE_KEY } from '@magento/peregrine/lib/talons/Image/useImage';
 import { useGalleryItem } from '@magento/peregrine/lib/talons/Gallery/useGalleryItem';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Image from '@magento/venia-ui/lib/components/Image';
-import defaultClasses from './item.module.css';
+import GalleryItemShimmer from '@magento/venia-ui/lib/components/Gallery/item.shimmer';
+import defaultClasses from '@magento/venia-ui/lib/components/Gallery/item.module.css';
+import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
+
+import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartButton';
+// eslint-disable-next-line no-unused-vars
+import Rating from '@magento/venia-ui/lib/components/Rating';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -21,46 +29,43 @@ const IMAGE_WIDTHS = new Map()
     .set(640, IMAGE_WIDTH)
     .set(UNCONSTRAINED_SIZE_KEY, 840);
 
-const ItemPlaceholder = ({ classes }) => (
-    <div className={classes.root_pending}>
-        <div className={classes.images_pending}>
-            <Image
-                alt="Placeholder for gallery item image"
-                classes={{
-                    image: classes.image_pending,
-                    root: classes.imageContainer
-                }}
-                src={transparentPlaceholder}
-            />
-        </div>
-        <div className={classes.name_pending} />
-        <div className={classes.price_pending} />
-    </div>
-);
-
 const GalleryItem = props => {
-    const { handleLinkClick, item } = useGalleryItem(props);
+    const {
+        handleLinkClick,
+        item,
+        wishlistButtonProps,
+        isSupportedProductType
+    } = useGalleryItem(props);
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const { storeConfig } = props;
+
+    const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
+
+    const classes = useStyle(defaultClasses, props.classes);
 
     if (!item) {
-        return <ItemPlaceholder classes={classes} />;
+        return <GalleryItemShimmer classes={classes} />;
     }
 
+    // eslint-disable-next-line no-unused-vars
     const {
         orParentUrlKey,
         name,
         price,
+        price_range,
         small_image,
         url_key,
-        url_suffix
+        url_suffix,
+        rating_summary
     } = item;
+
+    const { url: smallImageURL } = small_image;
+
     const productLink = resourceUrl(
         `/${
             item.__typename === 'ConfigurableProduct' ? url_key : orParentUrlKey
-        }${url_suffix || ''}`
+        }${productUrlSuffix || ''}`
     );
-
     const {
         minimalPrice: {
             amount: { currency: minimalPriceCurrency, value: minimalPriceValue }
@@ -95,8 +100,37 @@ const GalleryItem = props => {
             </>
         );
 
+    const wishlistButton = wishlistButtonProps ? (
+        <WishlistGalleryButton {...wishlistButtonProps} />
+    ) : null;
+
+    const addButton = isSupportedProductType ? (
+        <AddToCartbutton item={item} urlSuffix={productUrlSuffix} />
+    ) : (
+        <div className={classes.unavailableContainer}>
+            <Info />
+            <p>
+                <FormattedMessage
+                    id={'galleryItem.unavailableProduct'}
+                    defaultMessage={'Currently unavailable for purchase.'}
+                />
+            </p>
+        </div>
+    );
+
+    // Hide the Rating component until it is updated with the new look and feel (PWA-2512).
+    const ratingAverage = null;
+    // const ratingAverage = rating_summary ? (
+    //     <Rating rating={rating_summary} />
+    // ) : null;
+
     return (
-        <div className={classes.root}>
+        <div
+            data-cy="GalleryItem-root"
+            className={classes.root}
+            aria-live="polite"
+            aria-busy="false"
+        >
             <Link
                 onClick={handleLinkClick}
                 to={productLink}
@@ -106,24 +140,39 @@ const GalleryItem = props => {
                     alt={name}
                     classes={{
                         image: classes.image,
+                        loaded: classes.imageLoaded,
+                        notLoaded: classes.imageNotLoaded,
                         root: classes.imageContainer
                     }}
                     height={IMAGE_HEIGHT}
-                    resource={small_image}
+                    resource={smallImageURL}
                     widths={IMAGE_WIDTHS}
                 />
+                {ratingAverage}
             </Link>
             <Link
                 onClick={handleLinkClick}
                 to={productLink}
                 className={classes.name}
+                data-cy="GalleryItem-name"
             >
-                <div className={classes.productName}>
-                    <span>{name}</span>
-                </div>
+                <span>{name}</span>
             </Link>
+            <div data-cy="GalleryItem-price" className={classes.price}>
+                <div className={classes.productPrice}>{priceRender}</div>
+                {/* <Price
+                    value={price_range.maximum_price.regular_price.value}
+                    currencyCode={
+                        price_range.maximum_price.regular_price.currency
+                    }
+                /> */}
+            </div>
 
-            <div className={classes.productPrice}>{priceRender}</div>
+            <div className={classes.actionsContainer}>
+                {' '}
+                {addButton}
+                {wishlistButton}
+            </div>
         </div>
     );
 };
@@ -131,31 +180,37 @@ const GalleryItem = props => {
 GalleryItem.propTypes = {
     classes: shape({
         image: string,
+        imageLoaded: string,
+        imageNotLoaded: string,
         imageContainer: string,
-        imagePlaceholder: string,
-        image_pending: string,
         images: string,
-        images_pending: string,
         name: string,
-        name_pending: string,
         price: string,
-        price_pending: string,
-        root: string,
-        root_pending: string
+        root: string
     }),
     item: shape({
         id: number.isRequired,
+        uid: string.isRequired,
         name: string.isRequired,
-        small_image: string.isRequired,
+        small_image: shape({
+            url: string.isRequired
+        }),
+        stock_status: string.isRequired,
+        __typename: string.isRequired,
         url_key: string.isRequired,
-        price: shape({
-            regularPrice: shape({
-                amount: shape({
+        sku: string.isRequired,
+        price_range: shape({
+            maximum_price: shape({
+                regular_price: shape({
                     value: number.isRequired,
                     currency: string.isRequired
                 }).isRequired
             }).isRequired
         }).isRequired
+    }),
+    storeConfig: shape({
+        magento_wishlist_general_is_enabled: string.isRequired,
+        product_url_suffix: string.isRequired
     })
 };
 
