@@ -34,7 +34,7 @@ const ERROR_FIELD_TO_MESSAGE_MAPPING = {
 };
 
 const ProductFullDetail = props => {
-    const isB2B = true;
+    const isB2B = false;
 
     const { product } = props;
     const [quantity, setQuantity] = useState(1);

@@ -26,6 +26,7 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                 orParentSku
                 orParentUrlKey
                 id
+                uid
                 name
                 sku
                 small_image {
