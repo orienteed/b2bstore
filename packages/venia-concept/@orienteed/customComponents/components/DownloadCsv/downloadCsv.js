@@ -35,29 +35,37 @@ const DownloadCsv = () => {
 
     let donwloadButton;
 
-    newGalleryItemRegularPrice = galleryItem.map(item => {
-        return item.variants.map(variant => {
-            return {
-                // categorie: variant.product.categories[0].name, // the products from cloud and the new back doesn't have categories
-                description: variant.product.description.html,
-                name: variant.product.name,
-                price: variant.product.price.regularPrice.amount.value,
-                sku: variant.product.sku
-            };
+    if (galleryItem.length > 1) {
+        newGalleryItemRegularPrice = galleryItem.map(item => {
+            return item.variants.map(variant => {
+                return {
+                    // categorie: variant.product.categories[0].name, // the products from cloud doesn't have categories
+                    description: variant.product.description.html,
+                    name: variant.product.name,
+                    price: variant.product.price.regularPrice.amount.value,
+                    sku: variant.product.sku
+                };
+            });
         });
-    });
+    } else {
+        return null;
+    }
 
-    newGalleryItemDiscountPrice = galleryItem.map(item => {
-        return item.variants.map(variant => {
-            return {
-                // categorie: variant.product.categories[0].name,
-                description: variant.product.description.html,
-                name: variant.product.name,
-                price: variant.product.price.minimalPrice.amount.value,
-                sku: variant.product.sku
-            };
+    if (galleryItem.length > 1) {
+        newGalleryItemDiscountPrice = galleryItem.map(item => {
+            return item.variants.map(variant => {
+                return {
+                    // categorie: variant.product.categories[0].name,
+                    description: variant.product.description.html,
+                    name: variant.product.name,
+                    price: variant.product.price.minimalPrice.amount.value,
+                    sku: variant.product.sku
+                };
+            });
         });
-    });
+    } else {
+        return null;
+    }
 
     // let flattenRegularPrice;
     // if (data) {
