@@ -8,7 +8,7 @@ const getToken = async (username, password) => {
     };
 
     return await axios
-        .get(`https://34.246.201.179:8443/login/token.php`, { params: params })
+        .get(`https://demo-moodle.orienteed.com/login/token.php`, { params: params })
         .then(tokenResponse => {
             return tokenResponse.data.token;
         })

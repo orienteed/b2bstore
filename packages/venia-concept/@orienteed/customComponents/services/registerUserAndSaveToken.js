@@ -20,7 +20,7 @@ const registerUserAndSaveToken = async (
     };
 
     return await axios
-        .get(`https://34.246.201.179:8443/webservice/rest/server.php`, {
+        .get(`https://demo-moodle.orienteed.com/webservice/rest/server.php`, {
             params: params
         })
         .then(res => {
