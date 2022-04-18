@@ -34,7 +34,7 @@ const ERROR_FIELD_TO_MESSAGE_MAPPING = {
 };
 
 const ProductFullDetail = props => {
-    const isB2B = false;
+    const isB2B = true;
 
     const { product } = props;
     const [quantity, setQuantity] = useState(1);
@@ -192,17 +192,6 @@ const ProductFullDetail = props => {
             </div>
         ) : (
             <div>
-                <p className={classes.productPrice}>
-                    <Price
-                        currencyCode={
-                            productDetails.price.minimalPrice.amount.currency
-                        }
-                        value={
-                            productDetails.price.minimalPrice.amount.value *
-                            quantity
-                        }
-                    />
-                </p>
                 <p className={classes.productOldPrice}>
                     <Price
                         currencyCode={
@@ -210,6 +199,17 @@ const ProductFullDetail = props => {
                         }
                         value={
                             productDetails.price.regularPrice.amount.value *
+                            quantity
+                        }
+                    />
+                </p>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={
+                            productDetails.price.minimalPrice.amount.currency
+                        }
+                        value={
+                            productDetails.price.minimalPrice.amount.value *
                             quantity
                         }
                     />
