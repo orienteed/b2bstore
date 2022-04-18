@@ -33,7 +33,7 @@ module.exports = componentOverrideMapping = {
     //TALONS
     // [`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js',
     [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
-    // [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
+    [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
     [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
 
     //GRAPHQL
@@ -102,6 +102,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CartPage/cartPage.module.css`]: './src/components/CartPage/cartPage.module.css',
     [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.module.css`]: './src/components/CartPage/PriceSummary/priceSummary.module.css',
     [`@magento/venia-ui/lib/components/Gallery/addToCartButton.module.css`]: './src/components/Gallery/addToCartButton.module.css',
+    // [`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css`]: './src/components/ProductFullDetail/productFullDetail.module.css',
 
     //Orienteed components
     ////JS
