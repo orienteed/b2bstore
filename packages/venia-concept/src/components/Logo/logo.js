@@ -20,8 +20,8 @@ const Logo = props => {
     const classes = mergeClasses({}, props.classes);
     const { formatMessage } = useIntl();
 
-    const width = 144
-    const height = 48
+    const width = 144;
+    const height = 48;
 
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
 
