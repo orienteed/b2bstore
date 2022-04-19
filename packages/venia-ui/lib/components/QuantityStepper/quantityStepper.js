@@ -66,13 +66,13 @@ const QuantityStepper = props => {
                         <Icon classes={iconClasses} src={MinusIcon} size={22} />
                     </button>
                 )}
-                <TextInput
+                <input
                     aria-label={formatMessage({
                         id: 'quantity.input',
                         defaultMessage: 'Item Quantity'
                     })}
                     data-cy="QuantityStepper-input"
-                    classes={{ input: classes.input }}
+                    className={classes.inputQty}
                     field="quantity"
                     id={itemId}
                     inputMode="numeric"
@@ -82,7 +82,7 @@ const QuantityStepper = props => {
                     onBlur={handleBlur}
                     quickOrder={quickOrder}
                     pattern="[0-9]*"
-                    onValueChange={onChange}
+                    onChange={(e)=>onChange(e.target.value)}
                     type="number"
                 />
                 {!hideButtons && (

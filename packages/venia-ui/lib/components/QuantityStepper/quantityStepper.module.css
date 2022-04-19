@@ -7,9 +7,8 @@
     align-items: center;
     justify-items: center;
 }
-.quickOrder{
-    display: block
-
+.quickOrder {
+    display: block;
 }
 .wrap {
     display: flex;
@@ -76,4 +75,17 @@
 .input {
     composes: input from '../TextInput/textInput.module.css';
     text-align: center;
+}
+.inputQty {
+    composes: input from '@magento/venia-ui/lib/components/Field/field.module.css';
+    background: #ffffff;
+    border: 1px solid #eaecee;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+.inputQty:focus {
+    border: 1px solid rgb(var(--venia-global-color-gray-600));
+}
+.inputQty:focus {
+    box-shadow: none;
 }

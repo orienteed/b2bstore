@@ -6,8 +6,10 @@ import { useSearchField } from '@magento/peregrine/lib/talons/SearchBar';
 import Icon from '../Icon';
 import TextInput from '../TextInput';
 import Trigger from '../Trigger';
+import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
 
 import defaultClasses from './searchField.module.css';
+import { useStyle } from '../../classify';
 const clearIcon = <Icon src={ClearIcon} size={24} />;
 const searchIcon = <Icon src={SearchIcon} size={24} />;
 
@@ -18,9 +20,13 @@ const SearchField = props => {
         onFocus,
         quickOrder,
         value,
-        placeholder
+        placeholder,
+        ...rest
     } = props;
+    const classes = useStyle(defaultClasses);
     const { inputRef, resetForm } = useSearchField({ isSearchOpen });
+    const fieldState = useFieldState('search_query');
+    const inputClass = fieldState.error ? classes.input_error : classes.input;
 
     const resetButton = value ? (
         <Trigger action={resetForm}>{clearIcon}</Trigger>
@@ -28,17 +34,12 @@ const SearchField = props => {
 
     return (
         <div className={defaultClasses.searchField}>
-            <TextInput
-                after={resetButton}
-                before={searchIcon}
-                quickOrder={quickOrder}
-                field="search_query"
-                data-cy="SearchField-textInput"
-                onFocus={onFocus}
-                onValueChange={onChange}
-                forwardedRef={inputRef}
+            <input
+                onChange={e => onChange(e.target.value)}
                 value={value}
-                placeholder={placeholder}
+                {...rest}
+                className={`${inputClass} ${quickOrder &&
+                    defaultClasses.inputQty}`}
             />
         </div>
     );

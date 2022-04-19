@@ -14,8 +14,6 @@ const TextInput = props => {
         classes: propClasses,
         field,
         message,
-        onValueChange,
-        value,
         quickOrder,
         ...rest
     } = props;
@@ -25,13 +23,8 @@ const TextInput = props => {
 
     return (
         <Fragment>
-            <FieldIcons
-                after={!quickOrder && after}
-                before={!quickOrder && before}
-            >
-                <input
-                    onChange={e => onValueChange(e.target.value)}
-                    value={value}
+            <FieldIcons after={after} before={before}>
+                <InformedText
                     {...rest}
                     className={`${inputClass} ${quickOrder &&
                         defaultClasses.inputQty}`}

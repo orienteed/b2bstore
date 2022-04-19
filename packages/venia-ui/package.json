@@ -48,6 +48,7 @@
         "react-slick": "~0.28.0",
         "redux-actions": "~2.6.4",
         "react-csv": "^2.2.2",
+        "papaparse": "^5.3.1",
         "redux-thunk": "~2.3.0",
         "uuid": "~8.3.2"
     },

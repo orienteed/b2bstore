@@ -8,6 +8,7 @@ import { ArrowDown } from 'react-feather';
 import Dialog from '../Dialog';
 // import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
 // import { useAddProductBySku } from '../../talons/QuotePage/useAddProductBySku';
+import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/useAddProductsByCSV';
 import SearchBar from '../SearchBar';
 import TextInput from '../TextInput';
 import Quantity from '../CartPage/ProductListing/quantity';
@@ -21,19 +22,19 @@ const AddQuickOrder = props => {
     const [searchText, setSearchText] = useState('');
     const [errorProductsMsg, setErrorProductsMsg] = useState(null);
     const [csvData, setCsvData] = useState([]);
+    const [uploadData, setUploadData] = useState([]);
     const classes = mergeClasses(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
-    // const { handleAddProductsToCart } = useAddProductsByCSV({
-    //     setCsvErrorType: setErrorProductsMsg,
-    //     setCsvSkuErrorList: setErrorProductsMsg,
-    //     setIsCsvDialogOpen: () => {}
-    // });
+    const { handleAddProductsToCart, handleCSVFile } = useAddProductsByCSV({
+        setCsvErrorType: setErrorProductsMsg,
+        setCsvSkuErrorList: setErrorProductsMsg,
+        setIsCsvDialogOpen: () => {},
+        setProducts
+    });
 
     useEffect(() => {
         downloadCsv();
     }, [products]);
-
-    // const { handleAddItemBySku } = useAddProductBySku();
     const onOrderClick = () => setIsOpen(!isOpen);
     const handleSearchClick = (product, index) => {
         let newProducts = [...products];
@@ -65,18 +66,18 @@ const AddQuickOrder = props => {
     };
     const addToCartClick = () => {
         let dataValidated = formatData(products);
-        // handleAddProductsToCart(dataValidated);
+        handleAddProductsToCart(dataValidated);
     };
     const addQuoteClick = () => {
         let dataValidated = formatData(products);
-        // dataValidated.forEach(item => handleAddItemBySku(item[0], item[1]));
+        dataValidated.forEach(item => handleAddItemBySku(item[0], item[1]));
     };
     const downloadCsv = () => {
         let newArr = [...products];
         let newData = [];
         newArr.map(item => {
             if (item.name) {
-                const {  sku, quantity } = item;
+                const { sku, quantity } = item;
                 newData.push({
                     sku,
                     quantity
@@ -159,13 +160,10 @@ const AddQuickOrder = props => {
                                             </div>
                                             <div>
                                                 <TextInput
-                                                    aria-label={formatMessage({
-                                                        id: 'quantity.input',
-                                                        defaultMessage:
-                                                            'Item Quantity'
-                                                    })}
-                                                    placholder="Quantity"
+                                                    field="Unit"
                                                     quickOrder={true}
+                                                    disabled
+                                                    data-cy="Unit"
                                                 />
                                             </div>
                                             <div
@@ -209,7 +207,10 @@ const AddQuickOrder = props => {
                                         Here you can upload own file XLS, XLSX
                                         or CSV and products to cart.
                                     </p>
-                                    <Button className={classes.orderbtn}>
+                                    <Button
+                                        onClick={handleCSVFile}
+                                        className={classes.orderbtn}
+                                    >
                                         Upload your file
                                     </Button>
                                     <CSVLink data={csvData}>
