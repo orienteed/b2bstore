@@ -3,7 +3,7 @@ import getToken from './getToken';
 import getUserId from './getUserId';
 import { v4 as uuidv4 } from 'uuid';
 
-const registerUserAndSaveToken = async (
+const registerUserAndSaveData = async (
     email,
     password,
     setMoodleTokenAndId
@@ -48,4 +48,4 @@ const registerUserAndSaveToken = async (
         .catch(error => console.error(error));
 };
 
-export default registerUserAndSaveToken;
+export default registerUserAndSaveData;

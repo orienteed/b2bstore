@@ -11,7 +11,7 @@ import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { retrieveCartId } from '@magento/peregrine/lib/store/actions/cart';
 
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/SignIn/signIn.gql.js';
-import registerUserAndSaveToken from '@orienteed/customComponents/services/registerUserAndSaveToken.js';
+import registerUserAndSaveData from '@orienteed/customComponents/services/registerUserAndSaveData.js';
 
 export const useSignIn = props => {
     const {
@@ -77,7 +77,7 @@ export const useSignIn = props => {
                 const moodleTokenResponse = await fetchMoodleToken();
                 moodleTokenResponse.data.customer.moodle_token !== null
                     ? {}
-                    : registerUserAndSaveToken(
+                    : registerUserAndSaveData(
                           email,
                           password,
                           setMoodleTokenAndId
