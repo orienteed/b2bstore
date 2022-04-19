@@ -37,15 +37,25 @@ const DownloadCsv = () => {
 
     if (galleryItem.length > 1) {
         newGalleryItemRegularPrice = galleryItem.map(item => {
-            return item.variants.map(variant => {
+            if (item.__typename === 'ConfigurableProduct') {
+                return item.variants.map(variant => {
+                    return {
+                        // categorie: variant.product.categories[0].name, // the products from cloud doesn't have categories
+                        description: variant.product.description.html,
+                        name: variant.product.name,
+                        price: variant.product.price.regularPrice.amount.value,
+                        sku: variant.product.sku
+                    };
+                });
+            } else {
                 return {
                     // categorie: variant.product.categories[0].name, // the products from cloud doesn't have categories
-                    description: variant.product.description.html,
-                    name: variant.product.name,
-                    price: variant.product.price.regularPrice.amount.value,
-                    sku: variant.product.sku
+                    description: 'not defined',
+                    name: 'not defined',
+                    price: 'not defined',
+                    sku: 'not defined'
                 };
-            });
+            }
         });
     } else {
         return null;
@@ -53,15 +63,25 @@ const DownloadCsv = () => {
 
     if (galleryItem.length > 1) {
         newGalleryItemDiscountPrice = galleryItem.map(item => {
-            return item.variants.map(variant => {
+            if (item.__typename === 'ConfigurableProduct') {
+                return item.variants.map(variant => {
+                    return {
+                        // categorie: variant.product.categories[0].name,
+                        description: variant.product.description.html,
+                        name: variant.product.name,
+                        price: variant.product.price.minimalPrice.amount.value,
+                        sku: variant.product.sku
+                    };
+                });
+            } else {
                 return {
-                    // categorie: variant.product.categories[0].name,
-                    description: variant.product.description.html,
-                    name: variant.product.name,
-                    price: variant.product.price.minimalPrice.amount.value,
-                    sku: variant.product.sku
+                    // categorie: variant.product.categories[0].name, // the products from cloud doesn't have categories
+                    description: 'not defined',
+                    name: 'not defined',
+                    price: 'not defined',
+                    sku: 'not defined'
                 };
-            });
+            }
         });
     } else {
         return null;
