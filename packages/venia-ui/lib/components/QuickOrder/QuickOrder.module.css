@@ -12,7 +12,7 @@
 
 .labalWrapper {
     display: grid;
-    grid-template-columns: 35% 17% 21% 15%;
+    grid-template-columns: 35% 17% 21% 15% 1%;
     gap: 16px;
 }
 .m_1 {
@@ -54,7 +54,12 @@
     color: rgb(var(--venia-global-color-blue-200));
     font-size: var(--venia-global-fontSize-100);
 }
-
+.addBtn {
+    align-content: center;
+    display: flex;
+    color: rgb(var(--venia-global-color-blue-200));
+    font-size: var(--venia-global-fontSize-100);
+}
 .container {
     margin: 8px 0;
 }
@@ -123,4 +128,3 @@
         text-align: center;
     }
 }
-

@@ -54,7 +54,10 @@ export const useAddProductsByCSV = props => {
                         const { data } = await getproduct({
                             variables: { sku: item[0] }
                         });
-                        res.push({ ...data.products.items[0], quantity: item[1] });
+                        res.push({
+                            ...data.products.items[0],
+                            quantity: item[1]
+                        });
                     });
                     setProducts(res);
                     // andleAddProductsToCart(dataValidated);
@@ -89,24 +92,28 @@ export const useAddProductsByCSV = props => {
             const csvProducts = formatData(data);
             let tempSkuErrorList = [];
             for (let i = 0; i < csvProducts.length; i++) {
+                const parentSkuRespon = getParentSku({
+                    variables: { sku: csvProducts[i][0], uid: 'MTEwMQ==' }
+                });
                 try {
-                    console.log(csvProducts[i][0],'csvProducts[i][0]');
                     const parentSkuResponse = await getParentSku({
                         variables: { sku: csvProducts[i][0] }
                     });
-                    console.log(parentSkuResponse,'parentSkuResponse');
                     const variables = {
                         cartId,
                         quantity: parseInt(csvProducts[i][1], 10),
                         sku: csvProducts[i][0],
                         parentSku:
-                            parentSkuResponse.data.products.items[0].orParentSku
+                            parentSkuResponse.data.products.items[0]
+                                .orParentSku || csvProducts[i][0]
                     };
 
+                    console.log(variables, 'csvProducts[i][0]', csvProducts[i]);
                     await addConfigurableProductToCart({
                         variables
                     });
                 } catch {
+                    console.log('err');
                     tempSkuErrorList.push(csvProducts[i][0]);
                     setCsvErrorType('loading');
                     setIsCsvDialogOpen(true);
@@ -168,7 +175,7 @@ export const GET_PARENT_SKU = gql`
     query getParentSku($sku: String) {
         products(search: $sku, filter: { sku: { eq: $sku } }) {
             items {
-                name
+                uid
                 orParentSku
             }
         }

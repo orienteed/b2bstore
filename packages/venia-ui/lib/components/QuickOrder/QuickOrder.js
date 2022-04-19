@@ -5,6 +5,7 @@ import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './QuickOrder.module.css';
 import { Download } from 'react-feather';
 import { ArrowDown } from 'react-feather';
+import { PlusCircle } from 'react-feather';
 import Dialog from '../Dialog';
 // import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
 // import { useAddProductBySku } from '../../talons/QuotePage/useAddProductBySku';
@@ -14,7 +15,7 @@ import TextInput from '../TextInput';
 import Quantity from '../CartPage/ProductListing/quantity';
 import Icon from '../Icon';
 import { CSVLink } from 'react-csv';
-let iniArray = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+let iniArray = [{}, {}, {}];
 
 const AddQuickOrder = props => {
     const [isOpen, setIsOpen] = useState(false);
@@ -69,8 +70,8 @@ const AddQuickOrder = props => {
         handleAddProductsToCart(dataValidated);
     };
     const addQuoteClick = () => {
-        let dataValidated = formatData(products);
-        dataValidated.forEach(item => handleAddItemBySku(item[0], item[1]));
+        // let dataValidated = formatData(products);
+        // dataValidated.forEach(item => handleAddItemBySku(item[0], item[1]));
     };
     const downloadCsv = () => {
         let newArr = [...products];
@@ -194,6 +195,20 @@ const AddQuickOrder = props => {
                                                     </span>
                                                 )}
                                             </div>
+                                            {key === products.length - 1 && (
+                                                <div>
+                                                    <Button
+                                                        className={
+                                                            classes.downloadBtn
+                                                        }
+                                                    >
+                                                        <Icon
+                                                            src={PlusCircle}
+                                                            alt="download-icon"
+                                                        />
+                                                    </Button>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
