@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment, Suspense, useState } from 'react';
 import { shape, string } from 'prop-types';
 import { Link, Route } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ import StoreSwitcher from './storeSwitcher';
 import CurrencySwitcher from './currencySwitcher';
 import MegaMenu from '../MegaMenu';
 import PageLoadingIndicator from '../PageLoadingIndicator';
+import QuickOrder from '../QuickOrder';
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 
@@ -29,6 +30,7 @@ const Header = props => {
         searchRef,
         searchTriggerRef
     } = useHeader();
+    const [searchText, setSearchText] = useState('');
 
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isSearchOpen ? classes.open : classes.closed;
@@ -43,7 +45,13 @@ const Header = props => {
     const searchBar = isSearchOpen ? (
         <Suspense fallback={searchBarFallback}>
             <Route>
-                <SearchBar isOpen={isSearchOpen} ref={searchRef} />
+                <SearchBar
+                    setSearchText={setSearchText}
+                    searchText={searchText}
+                    isOpen={isSearchOpen}
+                    ref={searchRef}
+                    handleSearchClick={()=>{}}
+                />
             </Route>
         </Suspense>
     ) : null;
@@ -83,6 +91,10 @@ const Header = props => {
                     </div>
                 </div>
                 {searchBar}
+                <div>
+                    <QuickOrder />
+                </div>
+
                 <PageLoadingIndicator absolute />
             </header>
         </Fragment>

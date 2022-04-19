@@ -27,6 +27,7 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                 id
                 uid
                 name
+                sku
                 small_image {
                     url
                 }
@@ -50,11 +51,19 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
 `;
 
 const Autocomplete = props => {
-    const { setVisible, valid, visible } = props;
+    const {
+        setVisible,
+        valid,
+        visible,
+        quickOrder,
+        handleSearchClick,
+        value
+    } = props;
     const talonProps = useAutocomplete({
         queries: {
             getAutocompleteResults: GET_AUTOCOMPLETE_RESULTS
         },
+        inputText: value,
         valid,
         visible
     });
@@ -63,8 +72,8 @@ const Autocomplete = props => {
         filters,
         messageType,
         products,
-        resultCount,
-        value
+        resultCount
+        // value
     } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -124,7 +133,11 @@ const Autocomplete = props => {
             : messageTpl;
 
     return (
-        <div data-cy="Autocomplete-root" className={rootClassName}>
+        <div
+            data-cy="Autocomplete-root"
+            className={`${rootClassName} ${quickOrder &&
+                defaultClasses.quickOrder}`}
+        >
             <div data-cy="Autocomplete-message" className={classes.message}>
                 {message}
             </div>
@@ -136,6 +149,8 @@ const Autocomplete = props => {
                     searchValue={value}
                     setVisible={setVisible}
                     visible={visible}
+                    handleSearchClick={handleSearchClick}
+                    quickOrder={quickOrder}
                 />
             </div>
         </div>

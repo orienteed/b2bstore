@@ -21,14 +21,13 @@ export const useAutocomplete = props => {
         visible
     } = props;
 
+    const { inputText: value } = props;
     // Prepare to run the queries.
     const [runSearch, productResult] = useLazyQuery(getAutocompleteResults, {
         fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
+        variables: { search_query: value },
+        nextFetchPolicy: 'cache-first',
     });
-
-    // Get the search term from the field.
-    const { value } = useFieldState('search_query');
 
     // Create a debounced function so we only search some delay after the last
     // keypress.

@@ -31,6 +31,13 @@
     transition-property: opacity, transform, visibility;
     z-index: 2;
 }
+.quickOrder {
+    border: 1px solid rgb(var(--venia-global-color-gray-600));
+    border-top-style: none;
+    left: -0.5px;
+    box-shadow: none;
+    right: 0.5px;
+}
 
 .root_hidden {
     composes: root hidden;

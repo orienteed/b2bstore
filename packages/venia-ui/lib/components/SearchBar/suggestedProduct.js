@@ -12,11 +12,19 @@ const IMAGE_WIDTH = 60;
 
 const SuggestedProduct = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { url_key, small_image, name, onNavigate, price, url_suffix } = props;
+    const {
+        url_key,
+        small_image,
+        name,
+        onNavigate,
+        price,
+        url_suffix,
+        quickOrder
+    } = props;
 
     const handleClick = useCallback(() => {
         if (typeof onNavigate === 'function') {
-            onNavigate();
+            onNavigate(props);
         }
     }, [onNavigate]);
 
@@ -26,27 +34,64 @@ const SuggestedProduct = props => {
     ]);
 
     return (
-        <Link
-            className={classes.root}
-            to={uri}
-            onClick={handleClick}
-            data-cy="SuggestedProduct-root"
-        >
-            <Image
-                alt={name}
-                classes={{ image: classes.thumbnail, root: classes.image }}
-                resource={small_image}
-                width={IMAGE_WIDTH}
-                data-cy="SuggestedProduct-image"
-            />
-            <span className={classes.name}>{name}</span>
-            <span data-cy="SuggestedProduct-price" className={classes.price}>
-                <Price
-                    currencyCode={price.regularPrice.amount.currency}
-                    value={price.regularPrice.amount.value}
-                />
-            </span>
-        </Link>
+        <>
+            {quickOrder ? (
+                <div
+                    className={classes.root}
+                    onClick={handleClick}
+                    data-cy="SuggestedProduct-root"
+                >
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.thumbnail,
+                            root: classes.image
+                        }}
+                        resource={small_image}
+                        width={IMAGE_WIDTH}
+                        data-cy="SuggestedProduct-image"
+                    />
+                    <span className={classes.name}>{name}</span>
+                    <span
+                        data-cy="SuggestedProduct-price"
+                        className={classes.price}
+                    >
+                        <Price
+                            currencyCode={price.regularPrice.amount.currency}
+                            value={price.regularPrice.amount.value}
+                        />
+                    </span>
+                </div>
+            ) : (
+                <Link
+                    className={classes.root}
+                    to={uri}
+                    onClick={handleClick}
+                    data-cy="SuggestedProduct-root"
+                >
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.thumbnail,
+                            root: classes.image
+                        }}
+                        resource={small_image}
+                        width={IMAGE_WIDTH}
+                        data-cy="SuggestedProduct-image"
+                    />
+                    <span className={classes.name}>{name}</span>
+                    <span
+                        data-cy="SuggestedProduct-price"
+                        className={classes.price}
+                    >
+                        <Price
+                            currencyCode={price.regularPrice.amount.currency}
+                            value={price.regularPrice.amount.value}
+                        />
+                    </span>
+                </Link>
+            )}
+        </>
     );
 };
 

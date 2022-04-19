@@ -10,7 +10,17 @@ import { Message } from '../Field';
 import defaultClasses from './quantityStepper.module.css';
 
 const QuantityStepper = props => {
-    const { initialValue, itemId, label, min, onChange, message } = props;
+    const {
+        initialValue,
+        itemId,
+        quickOrder,
+        label,
+        min,
+        onChange,
+        hideButtons,
+        message,
+        value
+    } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
     const iconClasses = { root: classes.icon };
@@ -34,23 +44,28 @@ const QuantityStepper = props => {
 
     return (
         <Fragment>
-            <div className={classes.root}>
+            <div
+                className={`${classes.root} ${quickOrder &&
+                    defaultClasses.quickOrder}`}
+            >
                 <label className={classes.label} htmlFor={itemId}>
                     {label}
                 </label>
-                <button
-                    aria-label={formatMessage({
-                        id: 'quantity.buttonDecrement',
-                        defaultMessage: 'Decrease Quantity'
-                    })}
-                    className={classes.button_decrement}
-                    disabled={isDecrementDisabled}
-                    onClick={handleDecrement}
-                    type="button"
-                    data-cy="Quantity-decrementButton"
-                >
-                    <Icon classes={iconClasses} src={MinusIcon} size={22} />
-                </button>
+                {!hideButtons && (
+                    <button
+                        aria-label={formatMessage({
+                            id: 'quantity.buttonDecrement',
+                            defaultMessage: 'Decrease Quantity'
+                        })}
+                        className={classes.button_decrement}
+                        disabled={isDecrementDisabled}
+                        onClick={handleDecrement}
+                        type="button"
+                        data-cy="Quantity-decrementButton"
+                    >
+                        <Icon classes={iconClasses} src={MinusIcon} size={22} />
+                    </button>
+                )}
                 <TextInput
                     aria-label={formatMessage({
                         id: 'quantity.input',
@@ -63,22 +78,28 @@ const QuantityStepper = props => {
                     inputMode="numeric"
                     mask={maskInput}
                     min={min}
+                    value={value}
                     onBlur={handleBlur}
+                    quickOrder={quickOrder}
                     pattern="[0-9]*"
+                    onValueChange={onChange}
+                    type="number"
                 />
-                <button
-                    aria-label={formatMessage({
-                        id: 'quantity.buttonIncrement',
-                        defaultMessage: 'Increase Quantity'
-                    })}
-                    className={classes.button_increment}
-                    disabled={isIncrementDisabled}
-                    onClick={handleIncrement}
-                    type="button"
-                    data-cy="Quantity-incrementButton"
-                >
-                    <Icon classes={iconClasses} src={PlusIcon} size={20} />
-                </button>
+                {!hideButtons && (
+                    <button
+                        aria-label={formatMessage({
+                            id: 'quantity.buttonIncrement',
+                            defaultMessage: 'Increase Quantity'
+                        })}
+                        className={classes.button_increment}
+                        disabled={isIncrementDisabled}
+                        onClick={handleIncrement}
+                        type="button"
+                        data-cy="Quantity-incrementButton"
+                    >
+                        <Icon classes={iconClasses} src={PlusIcon} size={20} />
+                    </button>
+                )}
             </div>
             {errorMessage}
         </Fragment>

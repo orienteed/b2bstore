@@ -4,7 +4,6 @@
     display: none;
     justify-items: center;
     max-width: var(--venia-global-maxWidth);
-    padding: 0 1rem;
     width: 100%;
 }
 

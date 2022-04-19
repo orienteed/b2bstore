@@ -8,7 +8,7 @@ import { useStyle } from '../../classify';
 import defaultClasses from './suggestedCategory.module.css';
 
 const SuggestedCategory = props => {
-    const { categoryId, label, onNavigate, value } = props;
+    const { categoryId, label, onNavigate, value, quickOrder } = props;
     const talonProps = useSuggestedCategory({
         categoryId,
         label,
@@ -19,18 +19,42 @@ const SuggestedCategory = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
     return (
-        <Link className={classes.root} to={destination} onClick={handleClick}>
-            <strong className={classes.value}>{value}</strong>
-            <span className={classes.label}>
-                <FormattedMessage
-                    id={'searchBar.label'}
-                    defaultMessage={' in {label}'}
-                    values={{
-                        label
-                    }}
-                />
-            </span>
-        </Link>
+        <>
+            {quickOrder ? (
+                <div
+                    className={classes.root}
+                    onClick={handleClick}
+                >
+                    <strong className={classes.value}>{value}</strong>
+                    <span className={classes.label}>
+                        <FormattedMessage
+                            id={'searchBar.label'}
+                            defaultMessage={' in {label}'}
+                            values={{
+                                label
+                            }}
+                        />
+                    </span>
+                </div>
+            ) : (
+                <Link
+                    className={classes.root}
+                    to={destination}
+                    onClick={handleClick}
+                >
+                    <strong className={classes.value}>{value}</strong>
+                    <span className={classes.label}>
+                        <FormattedMessage
+                            id={'searchBar.label'}
+                            defaultMessage={' in {label}'}
+                            values={{
+                                label
+                            }}
+                        />
+                    </span>
+                </Link>
+            )}
+        </>
     );
 };
 

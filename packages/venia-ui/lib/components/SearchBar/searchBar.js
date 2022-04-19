@@ -7,9 +7,17 @@ import { useStyle } from '../../classify';
 import Autocomplete from './autocomplete';
 import SearchField from './searchField';
 import defaultClasses from './searchBar.module.css';
+import { useIntl } from 'react-intl';
 
 const SearchBar = React.forwardRef((props, ref) => {
-    const { isOpen } = props;
+    const {
+        isOpen,
+        quickOrder,
+        handleSearchClick,
+        value,
+        setSearchText,
+        searchText
+    } = props;
     const talonProps = useSearchBar();
     const {
         containerRef,
@@ -24,6 +32,7 @@ const SearchBar = React.forwardRef((props, ref) => {
 
     const classes = useStyle(defaultClasses, props.classes);
     const rootClassName = isOpen ? classes.root_open : classes.root;
+    const { formatMessage } = useIntl();
 
     return (
         <div className={rootClassName} data-cy="SearchBar-root" ref={ref}>
@@ -37,15 +46,27 @@ const SearchBar = React.forwardRef((props, ref) => {
                     <div className={classes.autocomplete}>
                         <Autocomplete
                             setVisible={setIsAutoCompleteOpen}
+                            value={value || searchText}
                             valid={valid}
                             visible={isAutoCompleteOpen}
+                            quickOrder={quickOrder}
+                            handleSearchClick={handleSearchClick}
                         />
                     </div>
                     <div className={classes.search}>
                         <SearchField
+                            value={value}
                             isSearchOpen={isOpen}
-                            onChange={handleChange}
+                            onChange={e => {
+                                handleChange(e);
+                                setSearchText && setSearchText(e);
+                            }}
                             onFocus={handleFocus}
+                            quickOrder={quickOrder}
+                            placeholder={formatMessage({
+                                id: 'quickOrder.SearchProduct',
+                                defaultMessage: 'Enter SKU or name of product'
+                            })}
                         />
                     </div>
                 </Form>

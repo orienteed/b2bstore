@@ -1,0 +1,4 @@
+.searchField input:focus {
+    border: 1px solid rgb(var(--venia-global-color-gray-600));
+    border-bottom: none;
+}

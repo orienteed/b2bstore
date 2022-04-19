@@ -53,7 +53,8 @@ const Dialog = props => {
         shouldDisableConfirmButton,
         shouldShowButtons = true,
         shouldUnmountOnHide,
-        title
+        title,
+        dialogName
     } = props;
 
     // Prevent the page from scrolling in the background
@@ -150,7 +151,10 @@ const Dialog = props => {
 
     return (
         <Portal>
-            <aside className={rootClass} data-cy="Dialog-root">
+            <aside
+                className={`${rootClass} ${defaultClasses[dialogName]}`}
+                data-cy="Dialog-root"
+            >
                 {maybeForm}
             </aside>
         </Portal>

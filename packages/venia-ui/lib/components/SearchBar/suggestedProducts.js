@@ -7,14 +7,15 @@ import SuggestedProduct from './suggestedProduct';
 import defaultClasses from './suggestedProducts.module.css';
 
 const SuggestedProducts = props => {
-    const { limit, onNavigate, products } = props;
+    const { limit, onNavigate, products, quickOrder } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
     const items = products.slice(0, limit).map(product => (
         <li key={product.id} className={classes.item}>
             <SuggestedProduct
                 {...mapProduct(product)}
-                onNavigate={onNavigate}
+                onNavigate={product => onNavigate(product)}
+                quickOrder={quickOrder}
             />
         </li>
     ));

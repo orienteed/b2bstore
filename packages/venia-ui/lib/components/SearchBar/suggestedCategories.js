@@ -6,7 +6,7 @@ import SuggestedCategory from './suggestedCategory';
 import defaultClasses from './suggestedCategories.module.css';
 
 const SuggestedCategories = props => {
-    const { categories, limit, onNavigate, value } = props;
+    const { categories, limit, onNavigate, value, quickOrder } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
     const items = categories
@@ -14,6 +14,7 @@ const SuggestedCategories = props => {
         .map(({ label, value: categoryId }) => (
             <li key={categoryId} className={classes.item}>
                 <SuggestedCategory
+                    quickOrder={quickOrder}
                     categoryId={categoryId}
                     label={label}
                     onNavigate={onNavigate}

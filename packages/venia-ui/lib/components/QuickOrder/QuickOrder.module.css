@@ -1,0 +1,126 @@
+.orderbtn {
+    width: 182px;
+    height: 48px;
+    background: rgb(var(--venia-global-color-blue-200));
+    border-radius: 30px;
+    color: #fff;
+}
+.flex {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.labalWrapper {
+    display: grid;
+    grid-template-columns: 35% 17% 21% 15%;
+    gap: 16px;
+}
+.m_1 {
+    margin-top: 1rem;
+}
+.gridWrapper {
+    display: grid;
+    grid-template-columns: 68.3% 31.7%;
+    gap: 16px;
+}
+.uploadContainer {
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 24px;
+    height: 256px;
+    margin-top: 2.5rem;
+}
+.uploadHeader {
+    font-weight: var(--venia-global-fontWeight-bold);
+    font-size: var(--venia-global-fontSize-300);
+    font-family: var(--venia-global-fontFamily-Basier-Circle);
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0.5rem 0px;
+}
+.noMargin {
+    margin: 0;
+}
+.icon {
+    margin-left: 0.6rem;
+}
+.downloadBtn {
+    color: rgb(var(--venia-global-color-blue-200));
+    font-size: var(--venia-global-fontSize-100);
+}
+
+.container {
+    margin: 8px 0;
+}
+
+.priceWrapper {
+    display: flex;
+    align-items: center;
+    padding-bottom: 19px;
+}
+
+.spanUnAailable {
+    align-items: center;
+    text-align: center;
+    font-size: var(--venia-global-fontSize-150);
+    color: rgb(var(--venia-global-color-gray-550));
+    font-family: var(--venia-global-fontFamily-Basier-Square);
+}
+.priceText {
+    align-items: center;
+    text-align: center;
+    font-size: var(--venia-global-fontSize-550);
+    color: rgb(var(--venia-global-color-blue-200));
+    font-family: var(--venia-global-fontFamily-Basier-Square);
+}
+.searchBar {
+    padding: 0 !important;
+    margin-left: -1rem;
+}
+.sqs-search-ui-button-wrapper .search-input {
+    padding: 0 !important;
+    margin-left: -1rem;
+}
+.price {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    height: 48px;
+}
+.btnContainer {
+    margin-top: 4.5rem;
+}
+.quoteBtn {
+    padding: 10px 32px;
+    width: 176px;
+    height: 48px;
+    background: #ffffff;
+    border-radius: 30px;
+    margin: 0 16px;
+    color: var(--venia-global-color-blue-200);
+}
+.createOrderBtn {
+    align-items: center;
+    padding: 10px 32px;
+    width: 174px;
+    height: 48px;
+    border-radius: 30px;
+    color: #ffffff;
+    background: #ff4e00;
+}
+
+@media (max-width: 960px) {
+    .gridWrapper {
+        grid-template-columns: 100%;
+    }
+    .btnContainer {
+        text-align: center;
+    }
+}
+

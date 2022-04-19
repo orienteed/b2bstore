@@ -15,7 +15,9 @@ const Suggestions = props => {
         products,
         searchValue,
         setVisible,
-        visible
+        visible,
+        handleSearchClick,
+        quickOrder
     } = props;
     const { items } = products;
 
@@ -38,8 +40,12 @@ const Suggestions = props => {
         <Fragment>
             <SuggestedCategories
                 categories={categories}
-                onNavigate={onNavigate}
+                onNavigate={e => {
+                    handleSearchClick(e);
+                    setVisible(false);
+                }}
                 value={searchValue}
+                quickOrder={quickOrder}
             />
             <h2 data-cy="Suggestions-heading" className={classes.heading}>
                 <span>
@@ -49,7 +55,14 @@ const Suggestions = props => {
                     />
                 </span>
             </h2>
-            <SuggestedProducts onNavigate={onNavigate} products={items} />
+            <SuggestedProducts
+                onNavigate={e => {
+                    handleSearchClick(e);
+                    setVisible(false);
+                }}
+                quickOrder={quickOrder}
+                products={items}
+            />
         </Fragment>
     );
 };
