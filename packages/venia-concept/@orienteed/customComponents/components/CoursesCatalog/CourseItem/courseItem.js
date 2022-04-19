@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+
+import Button from '@magento/venia-ui/lib/components/Button';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
-import { FormattedMessage, useIntl } from 'react-intl';
+
 import defaultClasses from './courseItem.module.css';
 import noImageAvailable from './Icons/noImageAvailable.svg';
-import Button from '@magento/venia-ui/lib/components/Button';
 
 const CourseItem = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
+    const history = useHistory();
+
     const { data } = props;
+
     const handleSubscription = () => {
-        console.log(`Suscrito a ${data.fullname}`);
+        history.push(`/course?id=${data.id}`);
     };
 
     return (
@@ -37,10 +42,14 @@ const CourseItem = props => {
                     src={`${
                         data.overviewfiles[0].fileurl
                     }?token=af547e6e35fca251a48ff4bedb7f1298`}
-                    alt='Course logo'
+                    alt="Course logo"
                 />
             ) : (
-                <img className={classes.courseImage} src={noImageAvailable} alt='Course logo not available'/>
+                <img
+                    className={classes.courseImage}
+                    src={noImageAvailable}
+                    alt="Course logo not available"
+                />
             )}
             <p className={classes.courseTitle}>{data.fullname}</p>
             <div className={classes.courseDescriptionContainer}>

@@ -29,9 +29,14 @@ module.exports = targets => {
                 path: '@orienteed/customComponents/components/OrderIncidences'
             },
             {
-                name: "Courses",
-                pattern: "/learning",
+                name: 'Courses',
+                pattern: '/learning',
                 path: '@orienteed/customComponents/components/CoursesCatalog'
+            },
+            {
+                name: 'Course',
+                pattern: '/course',
+                path: '@orienteed/customComponents/components/CourseContent'
             }
         );
         return routes;

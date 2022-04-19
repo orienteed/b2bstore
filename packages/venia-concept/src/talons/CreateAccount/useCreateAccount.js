@@ -9,7 +9,7 @@ import { retrieveCartId } from '@magento/peregrine/lib/store/actions/cart';
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
 
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CreateAccount/createAccount.gql.js';
-import registerUserAndSaveToken from '@orienteed/customComponents/services/registerUserAndSaveToken.js';
+import registerUserAndSaveData from '@orienteed/customComponents/services/registerUserAndSaveData.js';
 
 /**
  * Returns props necessary to render CreateAccount component. In particular this
@@ -122,7 +122,7 @@ export const useCreateAccount = props => {
                 await setToken(token);
 
                 // Moodle logic
-                registerUserAndSaveToken(
+                registerUserAndSaveData(
                     formValues.customer.email,
                     formValues.password,
                     setMoodleTokenAndId
