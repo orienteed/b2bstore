@@ -18,7 +18,6 @@ const CustomerOrdersFragment = gql`
                     value
                 }
                 quantity_ordered
-                
             }
             number
             order_date
@@ -29,9 +28,7 @@ const CustomerOrdersFragment = gql`
 `;
 
 export const GET_CUSTOMER_ORDERS = gql`
-    query GetCustomerOrders(
-        $filter: CustomerOrdersFilterInput
-    ) {
+    query GetCustomerOrders($filter: CustomerOrdersFilterInput) {
         customer {
             id
             orders(filter: $filter) {
@@ -45,7 +42,7 @@ export const GET_CUSTOMER_ORDERS = gql`
 export const INCIDENCE_SUBMIT_EMAIL = gql`
     mutation orderIncidencesEmail($input: OrderIncidencesEmailInput) {
         orderIncidencesEmail(input: $input) {
-            status,
+            status
             message
         }
     }
