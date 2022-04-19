@@ -1,13 +1,13 @@
 .container {
     display: grid;
-    padding: 2.5rem 3rem;
+    padding: 1rem;
     row-gap: 2rem;
 }
 
 .pageTitle {
     justify-self: center;
-    font-family: var(--venia-global-fontFamily-serif);
-    font-weight: var(--venia-global-fontWeight-bold);
+    font-weight: bold;
+    font-size: 25px;
 }
 
 .courseContainer {

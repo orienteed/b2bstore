@@ -1,17 +1,50 @@
 .container {
     display: grid;
-    padding: 2.5rem 3rem;
+    padding: 1rem;
     row-gap: 2rem;
 }
 
-.pageTitle {
-    justify-self: center;
-    font-family: var(--venia-global-fontFamily-serif);
-    font-weight: var(--venia-global-fontWeight-bold);
+.courseContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.courseContainer {
+.goBackButton {
+    composes: root_highPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
+    background: var(--orienteed-primary-color-base1);
+    border-color: var(--orienteed-primary-color-base1);
+    border-radius: 0px;
+    width: fit-content;
+    /* TODO_B2B: Remove the last params when button.module.css override is complete */
+}
+
+.arrowLeftIcon {
+    stroke: white 2px;
+}
+
+.headerCourseContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 10px;
+    border-bottom: 1px solid var(--orienteed-primary-color-base2);
+}
+
+.courseImage {
+    object-fit: contain;
+    padding: clamp(5px, 7vw, 150px);
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.courseTitle {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--orienteed-primary-color-base2);
+}
+
+.summaryText {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

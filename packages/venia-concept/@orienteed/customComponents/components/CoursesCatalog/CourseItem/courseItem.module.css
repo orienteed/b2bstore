@@ -35,7 +35,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     padding: 1px 0;
-    height: 50px;
+    height: 62px;
+    line-height: normal;
 }
 
 .categoryTag {

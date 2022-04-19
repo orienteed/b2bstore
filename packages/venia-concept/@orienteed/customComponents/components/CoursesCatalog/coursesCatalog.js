@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
+
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
-import { FormattedMessage, useIntl } from 'react-intl';
+
 import defaultClasses from './coursesCatalog.module.css';
 import getCourses from '../../services/getCourses';
 import CourseItem from './CourseItem/courseItem';
 
 const CoursesCatalog = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
 
     const [courses, setCourses] = useState();
 
     useEffect(() => {
-        getCourses().then(reply => setCourses(reply.courses));
+        getCourses().then(coursesData => setCourses(coursesData));
     }, []);
 
     return (

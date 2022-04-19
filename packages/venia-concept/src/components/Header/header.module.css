@@ -77,6 +77,7 @@
 .logo {
     height: var(--height);
     width: var(--width);
+    object-fit: contain;
 }
 
 .primaryActions {
