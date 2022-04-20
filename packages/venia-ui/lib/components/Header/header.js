@@ -50,7 +50,7 @@ const Header = props => {
                     searchText={searchText}
                     isOpen={isSearchOpen}
                     ref={searchRef}
-                    handleSearchClick={()=>{}}
+                    handleSearchClick={e => setSearchText(e.name)}
                 />
             </Route>
         </Suspense>
@@ -91,10 +91,7 @@ const Header = props => {
                     </div>
                 </div>
                 {searchBar}
-                <div>
                     <QuickOrder />
-                </div>
-
                 <PageLoadingIndicator absolute />
             </header>
         </Fragment>

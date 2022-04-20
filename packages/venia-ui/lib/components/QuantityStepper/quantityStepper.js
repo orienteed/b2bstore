@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
 import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper';
+import { Text as InformedText } from 'informed';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
@@ -66,7 +67,7 @@ const QuantityStepper = props => {
                         <Icon classes={iconClasses} src={MinusIcon} size={22} />
                     </button>
                 )}
-                <input
+                <InformedText 
                     aria-label={formatMessage({
                         id: 'quantity.input',
                         defaultMessage: 'Item Quantity'
@@ -79,6 +80,7 @@ const QuantityStepper = props => {
                     mask={maskInput}
                     min={min}
                     value={value}
+                    initialValue={value}
                     onBlur={handleBlur}
                     quickOrder={quickOrder}
                     pattern="[0-9]*"

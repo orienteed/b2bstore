@@ -36,6 +36,7 @@ const SearchField = props => {
         <div className={defaultClasses.searchField}>
             <input
                 onChange={e => onChange(e.target.value)}
+                placeholder={placeholder}
                 value={value}
                 {...rest}
                 className={`${inputClass} ${quickOrder &&

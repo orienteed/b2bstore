@@ -3,12 +3,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './QuickOrder.module.css';
-import { Download } from 'react-feather';
-import { ArrowDown } from 'react-feather';
-import { PlusCircle } from 'react-feather';
+import { Download, PlusCircle, ArrowDown } from 'react-feather';
 import Dialog from '../Dialog';
-// import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
-// import { useAddProductBySku } from '../../talons/QuotePage/useAddProductBySku';
 import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/useAddProductsByCSV';
 import SearchBar from '../SearchBar';
 import TextInput from '../TextInput';
@@ -23,7 +19,6 @@ const AddQuickOrder = props => {
     const [searchText, setSearchText] = useState('');
     const [errorProductsMsg, setErrorProductsMsg] = useState(null);
     const [csvData, setCsvData] = useState([]);
-    const [uploadData, setUploadData] = useState([]);
     const classes = mergeClasses(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const { handleAddProductsToCart, handleCSVFile } = useAddProductsByCSV({
@@ -39,11 +34,19 @@ const AddQuickOrder = props => {
     const onOrderClick = () => setIsOpen(!isOpen);
     const handleSearchClick = (product, index) => {
         let newProducts = [...products];
+
         newProducts[index] = product;
         newProducts[index] = {
             ...newProducts[index],
             quantity: 1
         };
+        setProducts(newProducts);
+        // setSearchText(product.name);
+    };
+    const handleChangeText = (e, key) => {
+        let newProducts = [...products];
+        newProducts[key].name = e;
+        newProducts[key].price && delete newProducts[key].price;
         setProducts(newProducts);
     };
     const onChangeQty = (value, index) => {
@@ -66,12 +69,12 @@ const AddQuickOrder = props => {
         return dataValidated;
     };
     const addToCartClick = () => {
+        //TODO : wait until fix the customer category to get parentSKU
         let dataValidated = formatData(products);
         handleAddProductsToCart(dataValidated);
     };
     const addQuoteClick = () => {
-        // let dataValidated = formatData(products);
-        // dataValidated.forEach(item => handleAddItemBySku(item[0], item[1]));
+        //TODO => we are still wating to migrate this feature from the template to b2bstore
     };
     const downloadCsv = () => {
         let newArr = [...products];
@@ -89,9 +92,9 @@ const AddQuickOrder = props => {
     };
     return (
         <>
-            <div className={classes.btnContainer}>
+            <div className={classes.btnOrderContainer}>
                 <Button
-                    className={classes.orderbtn}
+                    className={`${classes.orderbtn} ${classes.gridBtn}`}
                     onClick={() => onOrderClick()}
                 >
                     Quick order Form
@@ -116,9 +119,7 @@ const AddQuickOrder = props => {
                                     <div>
                                         <span>Qty</span>
                                     </div>
-                                    <div>
-                                        <span>Unit</span>
-                                    </div>
+
                                     <div>
                                         <span>Price</span>
                                     </div>
@@ -138,33 +139,31 @@ const AddQuickOrder = props => {
                                                             key
                                                         )
                                                     }
-                                                    setSearchText={
-                                                        setSearchText
+                                                    setSearchText={e =>
+                                                        handleChangeText(e, key)
                                                     }
-                                                    searchText={searchText}
+                                                    searchText={item.name}
                                                     quickOrder={true}
+                                                    placeholder={formatMessage({
+                                                        id:
+                                                            'quickOrder.SearchProduct',
+                                                        defaultMessage:
+                                                            'Enter SKU or name of product'
+                                                    })}
                                                     value={item.name}
                                                 />
                                             </div>
                                             <div>
                                                 <Quantity
-                                                    value={item.quantity}
-                                                    fieldName="test"
-                                                    min={1}
+                                                    initialValue={item.quantity}
+                                                    fieldName="quantity"
+                                                    min={0}
                                                     quickOrder={true}
                                                     itemId={key}
                                                     onChange={e =>
                                                         onChangeQty(e, key)
                                                     }
                                                     hideButtons={true}
-                                                />
-                                            </div>
-                                            <div>
-                                                <TextInput
-                                                    field="Unit"
-                                                    quickOrder={true}
-                                                    disabled
-                                                    data-cy="Unit"
                                                 />
                                             </div>
                                             <div
@@ -179,11 +178,12 @@ const AddQuickOrder = props => {
                                                         {' '}
                                                         {item.price.regularPrice
                                                             .amount.currency ===
-                                                            'USD' && '$'}
+                                                        'USD'
+                                                            ? '$'
+                                                            : '€'}
                                                         {item.price.regularPrice
                                                             .amount.value *
                                                             item.quantity}{' '}
-                                                        net
                                                     </span>
                                                 ) : (
                                                     <span

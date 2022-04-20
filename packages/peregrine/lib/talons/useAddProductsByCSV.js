@@ -54,12 +54,13 @@ export const useAddProductsByCSV = props => {
                         const { data } = await getproduct({
                             variables: { sku: item[0] }
                         });
+                        console.log(data, 'datadata');
                         res.push({
-                            ...data.products.items[0],
+                            ...data?.products?.items[0],
                             quantity: item[1]
                         });
                     });
-                    setProducts(res);
+                    setProducts(JSON.parse(JSON.stringify([...res])));
                     // andleAddProductsToCart(dataValidated);
                 }
             });
@@ -93,7 +94,7 @@ export const useAddProductsByCSV = props => {
             let tempSkuErrorList = [];
             for (let i = 0; i < csvProducts.length; i++) {
                 const parentSkuRespon = getParentSku({
-                    variables: { sku: csvProducts[i][0], uid: 'MTEwMQ==' }
+                    variables: { sku: csvProducts[i][0] }
                 });
                 try {
                     const parentSkuResponse = await getParentSku({
@@ -105,15 +106,13 @@ export const useAddProductsByCSV = props => {
                         sku: csvProducts[i][0],
                         parentSku:
                             parentSkuResponse.data.products.items[0]
-                                .orParentSku || csvProducts[i][0]
+                                .orParentSku || ''
                     };
 
-                    console.log(variables, 'csvProducts[i][0]', csvProducts[i]);
                     await addConfigurableProductToCart({
                         variables
                     });
                 } catch {
-                    console.log('err');
                     tempSkuErrorList.push(csvProducts[i][0]);
                     setCsvErrorType('loading');
                     setIsCsvDialogOpen(true);

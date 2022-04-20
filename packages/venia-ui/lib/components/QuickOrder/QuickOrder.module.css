@@ -3,6 +3,7 @@
     height: 48px;
     background: rgb(var(--venia-global-color-blue-200));
     border-radius: 30px;
+    grid-column: 16;
     color: #fff;
 }
 .flex {
@@ -100,6 +101,12 @@
 }
 .btnContainer {
     margin-top: 4.5rem;
+}
+.btnOrderContainer {
+    display: grid;
+}
+.gridBtn{
+    grid-column: 16;
 }
 .quoteBtn {
     padding: 10px 32px;
