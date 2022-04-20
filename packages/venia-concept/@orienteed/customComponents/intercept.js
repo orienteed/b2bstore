@@ -41,4 +41,13 @@ module.exports = targets => {
         );
         return routes;
     });
+
+    // Override Talons
+    const peregrineTargets = targets.of('@magento/peregrine');
+    const talonsTarget = peregrineTargets.talons;
+    talonsTarget.tap(talonWrapperConfig => {
+        talonWrapperConfig.AccountMenu.useAccountMenuItems.wrapWith(
+            '@orienteed/customComponents/talons/useAccountMenuItems.js'
+        );
+    });
 };

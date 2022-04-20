@@ -131,7 +131,6 @@ module.exports = componentOverrideMapping = {
 
     // Moodle Sprint 2
     // TALONS
-    [`@magento/peregrine/lib/talons/AccountMenu/useAccountMenuItems.js`]: './src/talons/AccountMenu/useAccountMenuItems.js',
     [`@magento/peregrine/lib/talons/SignIn/useSignIn.js`]: './src/talons/SignIn/useSignIn.js',
     [`@magento/peregrine/lib/talons/CreateAccount/useCreateAccount.js`]: './src/talons/CreateAccount/useCreateAccount.js',
 
