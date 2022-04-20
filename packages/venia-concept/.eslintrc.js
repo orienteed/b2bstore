@@ -4,7 +4,8 @@ const config = {
     rules: {
         'no-prototype-builtins': 'off',
         'no-undef': 'off',
-        'no-useless-escape': 'off'
+        'no-useless-escape': 'off',
+        'noStrings': 'true'
     }
 };
 
