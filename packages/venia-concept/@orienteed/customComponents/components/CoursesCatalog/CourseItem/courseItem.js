@@ -19,7 +19,7 @@ const CourseItem = props => {
     };
 
     return (
-        <div className={classes.courseContainer}>
+        <div key={data.id} className={classes.courseContainer}>
             <div className={classes.card__overlay}>
                 <Button
                     className={classes.subscribeButtonOverlay}

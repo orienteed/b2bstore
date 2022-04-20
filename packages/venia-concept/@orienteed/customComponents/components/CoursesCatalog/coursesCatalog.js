@@ -35,7 +35,7 @@ const CoursesCatalog = props => {
             <div className={classes.courseContainer}>
                 {courses !== undefined &&
                     courses.map(course => {
-                        return <CourseItem data={course} />;
+                        return <CourseItem key={course.id} data={course} />;
                     })}
             </div>
         </div>

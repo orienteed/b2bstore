@@ -36,37 +36,28 @@ const CourseContent = props => {
         getCourseContent(courseId).then(reply => setCourseContent(reply));
     }, [courseId]);
 
-    const handleGoBack = () => {
-        history.push('/learning');
-    };
+    const breadcrumbs = courseDetails !== undefined && (
+        <div className={classes.root} aria-live="polite" aria-busy="false">
+            <Link className={classes.link} to="/">
+                <FormattedMessage id={'global.home'} defaultMessage={'Home'} />
+            </Link>
+            <span className={classes.divider}>{DELIMITER}</span>
+            <Link className={classes.link} to="/learning">
+                <FormattedMessage
+                    id={'global.learning'} // TODO_B2B: Translations
+                    defaultMessage={'Learning'}
+                />
+            </Link>
+            <span className={classes.divider}>{DELIMITER}</span>
+            <span className={classes.currentPage}>
+                {courseDetails.fullname}
+            </span>
+        </div>
+    );
 
     return (
         <div className={classes.container}>
-            {courseDetails !== undefined && (
-                <div
-                    className={classes.root}
-                    aria-live="polite"
-                    aria-busy="false"
-                >
-                    <Link className={classes.link} to="/">
-                        <FormattedMessage
-                            id={'global.home'}
-                            defaultMessage={'Home'}
-                        />
-                    </Link>
-                    <span className={classes.divider}>{DELIMITER}</span>
-                    <Link className={classes.link} to="/learning">
-                        <FormattedMessage
-                            id={'global.learning'} // TODO_B2B: Translations
-                            defaultMessage={'Learning'}
-                        />
-                    </Link>
-                    <span className={classes.divider}>{DELIMITER}</span>
-                    <span className={classes.currentPage}>
-                        {courseDetails.fullname}
-                    </span>
-                </div>
-            )}
+            {breadcrumbs}
             <div className={classes.courseContainer}>
                 {courseDetails !== undefined && (
                     <div className={classes.headerCourseContainer}>
@@ -93,6 +84,17 @@ const CourseContent = props => {
                                 {courseDetails.summary}
                             </p>
                         </div>
+                    </div>
+                )}
+                {courseContent !== undefined && (
+                    <div className={classes.bodyCourseContainer}>
+                        {courseContent.map(course => {
+                            return (
+                                course.modules.length !== 0 && (
+                                    <p className={classes.sectionTitle}>{course.name}</p>
+                                )
+                            );
+                        })}
                     </div>
                 )}
             </div>
