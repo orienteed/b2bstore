@@ -41,6 +41,7 @@ const GET_PRODUCT_DETAIL = gql`
                 ... on ConfigurableProduct {
                     configurable_options {
                         id
+                        uid
                         attribute_uid
                         label
                         position
