@@ -19,6 +19,7 @@ import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/Loadi
 
 import PrintPdfPopup from '@orienteed/customComponents/components/PrintPdfPopup';
 import AddProductByCsv from '@orienteed/customComponents/components/AddProductsByCsv/addProductByCsv';
+import SavedCartButton from '@magento/venia-concept/src/components/SavedCartButton';
 
 const CheckIcon = <Icon size={20} src={Check} />;
 
@@ -149,6 +150,7 @@ const CartPage = props => {
                     <div className={classes.summary_contents}>
                         {priceSummary}
                         <div className={classes.printPdfButtonContainer}>
+                            <SavedCartButton />
                             {hasItems ? printPdfButton : null}
                             <AddProductByCsv
                                 csvErrorType={csvErrorType}

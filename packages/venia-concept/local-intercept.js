@@ -17,28 +17,31 @@
  * or modify functionality from its dependencies.
  */
 
-const { Targetables } = require('@magento/pwa-buildpack')
+const { Targetables } = require('@magento/pwa-buildpack');
 
 module.exports = targets => {
-    const moduleOverridePlugin = require('./src/targets/moduleOverrideWebpackPlugin')
-    const componentOverrideMapping = require('./src/targets/componentOverrideMapping')
+    const moduleOverridePlugin = require('./src/targets/moduleOverrideWebpackPlugin');
+    const componentOverrideMapping = require('./src/targets/componentOverrideMapping');
 
-    targets.of("@magento/venia-ui").routes.tap(routes => {
-        routes.push({
-            name: "SignIn",
-            pattern: "/sign-in",
-            path: require.resolve("./src/components/SignIn")
-        },{
-            name: "ForgotPassword",
-            pattern: "/forgot-password",
-            path: require.resolve("./src/components/ForgotPassword")
-        });
+    targets.of('@magento/venia-ui').routes.tap(routes => {
+        routes.push(
+            {
+                name: 'SignIn',
+                pattern: '/sign-in',
+                path: require.resolve('./src/components/SignIn')
+            },
+            {
+                name: 'ForgotPassword',
+                pattern: '/forgot-password',
+                path: require.resolve('./src/components/ForgotPassword')
+            }
+        );
         return routes;
     });
 
-    const peregrineTargets = targets.of("@magento/peregrine");
+    const peregrineTargets = targets.of('@magento/peregrine');
     const talonsTarget = peregrineTargets.talons;
-    talonsTarget.tap((talonWrapperConfig) => {
+    talonsTarget.tap(talonWrapperConfig => {
         /* // Cloud Venia - Talons used
         talonWrapperConfig.Header.useStoreSwitcher.wrapWith(require.resolve('./src/hooks/useStoreSwitcher'))
         talonWrapperConfig.Header.useAccountTrigger.wrapWith(require.resolve('./src/talons/useAccountTrigger'))
@@ -49,33 +52,23 @@ module.exports = targets => {
 
         // Orienteed - Talons used
         //talonWrapperConfig.Header.useStoreSwitcher.wrapWith(require.resolve('./src/hooks/useStoreSwitcher'))
-        talonWrapperConfig.Header.useAccountTrigger.wrapWith(require.resolve('./src/talons/useAccountTrigger'))
-        talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(require.resolve('./src/talons/useForgotPassword'))
+        talonWrapperConfig.Header.useAccountTrigger.wrapWith(
+            require.resolve('./src/talons/useAccountTrigger')
+        );
+        talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(
+            require.resolve('./src/talons/useForgotPassword')
+        );
         //talonWrapperConfig.SignIn.useSignIn.wrapWith(require.resolve('./src/talons/useSignIn'))
         // talonWrapperConfig.RootComponents.Product.useProduct.wrapWith(require.resolve('./src/talons/RootComponents/Product/useProduct'))
         // talonWrapperConfig.RootComponents.Category.useCategory.wrapWith(require.resolve('./src/talons/RootComponents/Category/useCategory'))
     });
 
-    const { Targetables } = require('@magento/pwa-buildpack')
+    const { Targetables } = require('@magento/pwa-buildpack');
     const targetables = Targetables.using(targets);
-
-    const priceSummary = targetables.reactComponent(
-        '@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js'
-    );
-
-    // Add an import statement for Venia's Button component
-    const SavedCartButton = priceSummary.addImport(
-        "SavedCartButton from '../../../../../venia-concept/src/components/SavedCartButton'"
-    );
-
-    priceSummary.insertAfterJSX(
-        '<div className={classes.lineItems}>',
-        `<${SavedCartButton} />`
-    )
 
     /**************************************
      * Targetables *
-    ***************************************/
+     ***************************************/
 
     const fs = require('fs');
     const path = require('path');
@@ -91,7 +84,7 @@ module.exports = targets => {
     (async () => {
         const paths = await globby('src/components', {
             expandDirectories: {
-                files: ['*.targetables.js'],
+                files: ['*.targetables.js']
             }
         });
 
@@ -124,7 +117,7 @@ module.exports = targets => {
 
     /**************************************
      * Styles *
-    ***************************************/
+     ***************************************/
 
     // Find our css files
     // (async () => {
@@ -173,7 +166,7 @@ module.exports = targets => {
 
     /**********************************************
      * Components Cache for Targetables and Styles*
-    ***********************************************/
+     ***********************************************/
 
     // Create a cache of components so our styling and intercepts can use the same object
     let componentsCache = [];
@@ -189,9 +182,9 @@ module.exports = targets => {
 
     /**********************************************
      * Component Overrides *
-    ***********************************************/
+     ***********************************************/
 
     targets.of('@magento/pwa-buildpack').webpackCompiler.tap(compiler => {
         new moduleOverridePlugin(componentOverrideMapping).apply(compiler);
-    })
-}
+    });
+};

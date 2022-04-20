@@ -1,7 +1,7 @@
 import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
-import { FormattedMessage, useIntl} from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartPopup.module.css';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Dialog from '@magento/venia-ui/lib/components/Dialog';
@@ -24,21 +24,21 @@ const savedCartPopup = props => {
 
     const cartNameLabel = (
         <>
-        <FormattedMessage
-            id={'mpsavecart.cartName'}
-            defaultMessage={'Cart Name'}
-        />
-        <span className={classes.cartNameUniqueLabel}>
             <FormattedMessage
-                id={'mpsavecart.mpsavecart'}
-                defaultMessage={'( Must be unique )'}
+                id={'mpsavecart.cartName'}
+                defaultMessage={'Cart Name'}
             />
-        </span>
+            <span className={classes.cartNameUniqueLabel}>
+                <FormattedMessage
+                    id={'mpsavecart.mpsavecart'}
+                    defaultMessage={'( Must be unique )'}
+                />
+            </span>
         </>
     );
-   
+
     const cartDescriptionLabel = formatMessage({
-        id: 'mpsavecart.cartName',
+        id: 'mpsavecart.cartDescription',
         defaultMessage: 'Description'
     });
 
@@ -51,9 +51,15 @@ const savedCartPopup = props => {
         ? classes.saveCartname_error
         : classes.saveCartname;
 
-    const nameTextInput = !isError ?
-        <TextInput field="mpsavecart_name" validate={isRequired}/>
-    : <TextInput field="mpsavecart_name" validate={isRequired} message={errorMessage} />
+    const nameTextInput = !isError ? (
+        <TextInput field="mpsavecart_name" validate={isRequired} />
+    ) : (
+        <TextInput
+            field="mpsavecart_name"
+            validate={isRequired}
+            message={errorMessage}
+        />
+    );
 
     return (
         <Dialog
@@ -72,13 +78,21 @@ const savedCartPopup = props => {
                     </Field>
                 </div>
                 <div className={classes.saveCartDescription}>
-                    <Field id="mpsavecart-description" label={cartDescriptionLabel}>
-                        <TextArea field="mpsavecart_description" validate={isRequired} />
+                    <Field
+                        id="mpsavecart-description"
+                        label={cartDescriptionLabel}
+                    >
+                        <TextArea
+                            field="mpsavecart_description"
+                            validate={isRequired}
+                        />
                     </Field>
                     <div className={classes.saveCartDescriptionNote}>
                         <FormattedMessage
                             id={'saveCartDescription.descriptionNote'}
-                            defaultMessage={'Maximum number of characters must be between 1 and 255'}
+                            defaultMessage={
+                                'Maximum number of characters must be between 1 and 255'
+                            }
                         />
                     </div>
                 </div>
@@ -91,8 +105,8 @@ export default savedCartPopup;
 
 savedCartPopup.propTypes = {
     classes: shape({
-        root: string,
+        root: string
     }),
     isOpen: bool,
-    onCancel: func,
+    onCancel: func
 };
