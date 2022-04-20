@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import { ArrowLeft as BackIcon } from 'react-feather';
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
@@ -12,6 +12,8 @@ import defaultClasses from './courseContent.module.css';
 import getCourseContent from '../../services/getCourseContent';
 import getCourseDetails from '../../services/getCourseDetails';
 import noImageAvailable from '../CoursesCatalog/CourseItem/Icons/noImageAvailable.svg';
+
+const DELIMITER = '/';
 
 const CourseContent = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -40,24 +42,32 @@ const CourseContent = props => {
 
     return (
         <div className={classes.container}>
-            <div className={classes.courseContainer}>
-                <Button
-                    className={classes.goBackButton}
-                    type="button"
-                    onClick={handleGoBack}
+            {courseDetails !== undefined && (
+                <div
+                    className={classes.root}
+                    aria-live="polite"
+                    aria-busy="false"
                 >
-                    <Icon
-                        size={16}
-                        src={BackIcon}
-                        classes={{
-                            icon: classes.arrowLeftIcon
-                        }}
-                    />
-                    <FormattedMessage // TODO_B2B: Translations
-                        id={'moodleCourse.goBackText'}
-                        defaultMessage={'Volver a cursos'}
-                    />
-                </Button>
+                    <Link className={classes.link} to="/">
+                        <FormattedMessage
+                            id={'global.home'}
+                            defaultMessage={'Home'}
+                        />
+                    </Link>
+                    <span className={classes.divider}>{DELIMITER}</span>
+                    <Link className={classes.link} to="/learning">
+                        <FormattedMessage
+                            id={'global.learning'} // TODO_B2B: Translations
+                            defaultMessage={'Learning'}
+                        />
+                    </Link>
+                    <span className={classes.divider}>{DELIMITER}</span>
+                    <span className={classes.currentPage}>
+                        {courseDetails.fullname}
+                    </span>
+                </div>
+            )}
+            <div className={classes.courseContainer}>
                 {courseDetails !== undefined && (
                     <div className={classes.headerCourseContainer}>
                         {courseDetails.overviewfiles.length !== 0 ? (
@@ -76,8 +86,12 @@ const CourseContent = props => {
                             />
                         )}
                         <div>
-                            <p className={classes.courseTitle}>{courseDetails.fullname}</p>
-                            <p className={classes.summaryText}>{courseDetails.summary}</p>
+                            <p className={classes.courseTitle}>
+                                {courseDetails.fullname}
+                            </p>
+                            <p className={classes.summaryText}>
+                                {courseDetails.summary}
+                            </p>
                         </div>
                     </div>
                 )}
