@@ -60,8 +60,8 @@ export const useWishlistItem = props => {
     const {
         configurable_options: configurableOptions = [],
         __typename: productType,
-        sku,
         image,
+        sku,
         variants,
         stock_status: stockStatus
     } = product;
@@ -127,6 +127,7 @@ export const useWishlistItem = props => {
         ) {
             const selectedOptionsArray = selectedConfigurableOptions.map(
                 selectedOption => {
+                    // TODO: Use configurable_product_option_uid for ConfigurableWishlistItem when available in 2.4.5
                     const {
                         id: attributeId,
                         value_id: selectedValueId

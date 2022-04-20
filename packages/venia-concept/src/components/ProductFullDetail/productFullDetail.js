@@ -269,6 +269,7 @@ const ProductFullDetail = props => {
             addConfigurableProductToCart={addConfigurableProductToCart}
             cartId={cartId}
             isAddConfigurableLoading={isAddConfigurableLoading}
+            wishlistButtonProps={wishlistButtonProps}
         />
     ) : (
         <ProductFullDetailB2C

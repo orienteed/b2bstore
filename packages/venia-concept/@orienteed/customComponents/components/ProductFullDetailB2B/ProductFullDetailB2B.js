@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, Suspense } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
@@ -10,6 +10,10 @@ import CurrentFilter from '@magento/venia-ui/lib/components/FilterModal/CurrentF
 import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
+
+const WishlistButton = React.lazy(() =>
+    import('@magento/venia-ui/lib/components/Wishlist/AddToListButton')
+);
 
 const ProductFullDetailB2B = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -23,7 +27,8 @@ const ProductFullDetailB2B = props => {
         mediaGalleryEntries,
         addConfigurableProductToCart,
         cartId,
-        isAddConfigurableLoading
+        isAddConfigurableLoading,
+        wishlistButtonProps
     } = props;
 
     const [selectedFilter, setSelectedFilter] = useState([]);
@@ -222,6 +227,9 @@ const ProductFullDetailB2B = props => {
                         />
                     </h2>
                     <RichText content={productDetails.description} />
+                    <Suspense fallback={null}>
+                        <WishlistButton {...wishlistButtonProps} />
+                    </Suspense>
                 </section>
                 <section className={classes.b2cContent}>
                     <h2 className={classes.b2cContentTitle}>
