@@ -20,7 +20,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
     [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
-    //[`@magento/venia-ui/lib/components/MegaMenu/megaMenu.js`]: './src/components/MegaMenu/megaMenu.js',
     [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.js`]: './src/components/AddToCartDialog/addToCartDialog.js',
     [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
     [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
@@ -36,7 +35,6 @@ module.exports = componentOverrideMapping = {
 
     //GRAPHQL
     [`@magento/peregrine/lib/talons/WishlistPage/wishlistItemFragments.gql.js`]: './src/talons/WishlistPage/wishlistItemFragments.gql.js',
-    // [`@magento/peregrine/lib/talons/MegaMenu/megaMenu.gql.js`]: './src/talons/MegaMenu/megaMenu.gql.js',
     // [`@magento/peregrine/lib/talons/SearchPage/searchPage.gql.js`]: './src/talons/SearchPage/searchPage.gql.js',
     [`@magento/peregrine/lib/talons/RootComponents/Product/productDetailFragment.gql.js`]: './src/talons/RootComponents/Product/productDetailFragment.gql.js',
     [`@magento/peregrine/lib/talons/RootComponents/Category/categoryFragments.gql.js`]: './src/talons/RootComponents/Category/categoryFragments.gql.js',
@@ -61,8 +59,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Header/header.module.css`]: './src/components/Header/header.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/orderHistoryPage.module.css`]: './src/components/OrderHistoryPage/orderHistoryPage.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/orderProgressBar.module.css`]: './src/components/OrderHistoryPage/orderProgressBar.module.css',
-    [`@magento/venia-ui/lib/components/MegaMenu/submenu.module.css`]: './src/components/MegaMenu/submenu.module.css',
-    [`@magento/venia-ui/lib/components/MegaMenu/megaMenu.module.css`]: './src/components/MegaMenu/megaMenu.module.css',
     [`@magento/venia-ui/lib/components/FilterModal/filterModal.module.css`]: './src/components/FilterModal/filterModal.module.css',
     [`@magento/venia-ui/lib/components/CheckoutPage/checkoutPage.module.css`]: './src/components/CheckoutPage/checkoutPage.module.css',
     [`@magento/venia-ui/lib/components/CheckoutPage/ShippingInformation/shippingInformation.module.css`]: './src/components/CheckoutPage/ShippingInformation/shippingInformation.module.css',
