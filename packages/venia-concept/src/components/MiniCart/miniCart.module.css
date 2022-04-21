@@ -36,9 +36,7 @@
     box-shadow: 0 1px 6px rgb(var(--venia-global-color-gray-900) / 0.2);
     display: grid;
     /* These heights may change based on PWA-605 and should be based on 1.5 and 2.5 visible items. */
-    min-height: 20rem;
-    max-height: 40rem;
-    /* overflow: hidden; */
+    overflow: hidden;
     position: absolute;
     right: 0;
     top: 0;
@@ -46,10 +44,6 @@
     transition-duration: 192ms;
     transition-property: transform;
     transition-timing-function: var(--venia-global-anim-out);
-    width: var(--content-width);
-
-    overflow-y: auto;
-    scroll-behavior: smooth;
 }
 
 .contents_open {
@@ -84,7 +78,7 @@
 .body {
     max-height: 25rem;
     min-height: 10rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 1.5rem;
 }
 
@@ -129,11 +123,10 @@
 }
 
 .checkoutButton {
-    composes: root_highPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
+    composes: root_highPriority from '../Button/button.module.css';
     grid-column: 1 / span 1;
     width: 10rem;
     margin: auto;
-    background-color: rgb(var(--venia-brand-color-1-700));
     border: none;
     font-weight: bold;
 }
@@ -147,10 +140,6 @@
     display: grid;
     gap: 2rem;
     padding: 2rem;
-    align-content: center;
-
-    overflow-y: auto;
-    scroll-behavior: smooth;
 }
 
 .emptyMessage {
