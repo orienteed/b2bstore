@@ -22,6 +22,8 @@ import urlIcon from './Icons/url.svg';
 import videoIcon from './Icons/video.svg';
 import infoIcon from './Icons/info.svg';
 import notFoundIcon from './Icons/notFound.svg';
+import viewIcon from './Icons/view.svg';
+import downloadIcon from './Icons/download.svg';
 
 const DELIMITER = '/';
 
@@ -46,6 +48,14 @@ const CourseContent = props => {
         getCourseContent(courseId).then(reply => setCourseContent(reply));
     }, [courseId]);
 
+    const handleOpenPopUp = url => {
+        console.log(`Opening ${url}`);
+    };
+
+    const handleDownload = url => {
+        console.log(`Downloading ${url}`);
+    };
+
     const breadcrumbs = courseDetails !== undefined && (
         <div className={classes.root} aria-live="polite" aria-busy="false">
             <Link className={classes.link} to="/">
@@ -63,20 +73,28 @@ const CourseContent = props => {
         </div>
     );
 
-    const selectIcon = mimetype => {
-        switch (mimetype.split('/')[0]) {
-            case 'audio':
-                return audioIcon;
-            case 'video':
-                return videoIcon;
-            case 'application':
-                return pdfIcon;
-            case 'image':
-                return imageIcon;
-            case 'url':
+    const selectIcon = contentFile => {
+        switch (contentFile.type) {
+            case 'file': {
+                switch (contentFile.mimetype.split('/')[0]) {
+                    case 'audio':
+                        return audioIcon;
+                    case 'video':
+                        return videoIcon;
+                    case 'application':
+                        return pdfIcon;
+                    case 'image':
+                        return imageIcon;
+                    default:
+                        return fileIcon;
+                }
+            }
+            case 'url': {
                 return urlIcon;
-            default:
+            }
+            default: {
                 return fileIcon;
+            }
         }
     };
 
@@ -88,28 +106,50 @@ const CourseContent = props => {
                     return (
                         <div className={classes.courseContentContainer} key={module.id}>
                             {module.hasOwnProperty('contents') ? (
-                                <div className={classes.courseContentContainerLeft}>
-                                    <img
-                                        src={selectIcon(module?.contents[0].mimetype)}
-                                        className={classes.courseContentIcon}
-                                        alt="file type icon"
-                                    />
-                                    <p className={classes.moduleTitle}>{module.name}</p>
-                                    {module.hasOwnProperty('description') && (
+                                <>
+                                    <div className={classes.courseContentContainerLeft}>
                                         <img
-                                            src={infoIcon}
+                                            src={selectIcon(module.contents[0])}
                                             className={classes.courseContentIcon}
-                                            alt={module.description}
+                                            alt="file type icon"
                                         />
-                                    )}
-                                </div>
+                                        <p className={classes.moduleTitle}>{module.name}</p>
+                                        {module.hasOwnProperty('description') && (
+                                            <img
+                                                src={infoIcon}
+                                                className={classes.courseContentIcon}
+                                                alt={module.description}
+                                            />
+                                        )}
+                                    </div>
+                                    <div className={classes.courseContentContainerLeft}>
+                                        <img
+                                            src={viewIcon}
+                                            className={classes.actionIcons}
+                                            onClick={() =>
+                                                handleOpenPopUp(
+                                                    `${
+                                                        module.contents[0].fileurl
+                                                    }&token=af547e6e35fca251a48ff4bedb7f1298`
+                                                )
+                                            }
+                                        />
+                                        <img
+                                            src={downloadIcon}
+                                            className={classes.actionIcons}
+                                            onClick={() =>
+                                                handleDownload(
+                                                    `${
+                                                        module.contents[0].fileurl
+                                                    }&token=af547e6e35fca251a48ff4bedb7f1298`
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </>
                             ) : (
                                 <div className={classes.courseContentContainerLeft}>
-                                    <img
-                                        src={notFoundIcon}
-                                        width="50"
-                                        alt="not found icon"
-                                    />
+                                    <img src={notFoundIcon} width="30" alt="not found icon" />
                                     <span>
                                         <FormattedMessage
                                             id={'lms.notfound'} // TODO_B2B: Translations

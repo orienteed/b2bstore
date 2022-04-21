@@ -7,9 +7,7 @@
     padding-left: var(--whitespace-start);
     padding-top: var(--whitespace-start);
     padding-bottom: var(--whitespace-end); /* Allow space for focus ring */
-    margin-bottom: calc(
-        -1 * var(--whitespace-end)
-    ); /* Prevent focus ring space affecting the rest of the UI */
+    margin-bottom: calc(-1 * var(--whitespace-end)); /* Prevent focus ring space affecting the rest of the UI */
     font-size: 0.875rem;
 
     /* Permanent height to prevent pop-in. */
@@ -81,7 +79,7 @@
 .bodyCourseContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 30px;
 }
 
 .contentTitle {
@@ -99,35 +97,37 @@
 .courseSectionContainer {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     /* margin-bottom: 10px; */
 }
 
-.courseContentContainer {
+.courseContentContainerLeft,
+.courseContentContainerRight {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    align-items: flex-end;
 }
-
-.courseContentContainerLeft {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+.courseContentContainer {
+    composes: courseContentContainerLeft;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .courseContentIcon {
-    width: 16px;
-}
-/* NOT USED YET */
-.goBackButton {
-    composes: root_highPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
-    background: var(--orienteed-primary-color-base1);
-    border-color: var(--orienteed-primary-color-base1);
-    border-radius: 0px;
-    width: fit-content;
-    /* TODO_B2B: Remove the last params when button.module.css override is complete */
+    width: 20px;
 }
 
-.arrowLeftIcon {
-    stroke: white 2px;
+/* Action icons to open or download files */
+.actionIcons {
+    composes: courseContentIcon;
+}
+
+.actionIcons:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.2);
+}
+
+.actionIcons:active {
+    transform: translateY(-1px);
 }
