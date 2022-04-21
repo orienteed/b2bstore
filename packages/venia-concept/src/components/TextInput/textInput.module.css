@@ -1,0 +1,15 @@
+.input {
+    composes: input from '../../../../venia-ui/lib/components/Field/field.module.css';
+}
+
+
+.input:disabled {
+    color: rgb(var(--venia-global-color-gray-darker));
+  
+}
+
+.input_error {
+    composes: input from '../../../../venia-ui/lib/components/Field/field.module.css';
+    border-color: rgb(var(--venia-global-color-red-400));
+    
+}

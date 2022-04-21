@@ -1,0 +1,21 @@
+.root {
+    align-items: center;
+    column-gap: 0.5rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto 1fr;
+}
+
+.loader {
+    composes: indicator from '@magento/venia-ui/lib/components/LoadingIndicator/indicator.module.css';
+}
+
+.userContainer{
+    display: flex;
+    align-items: center;
+}
+.userIcon{
+    width: 1.5rem;
+    margin-right: 0.8rem;
+    margin-left: 0.5rem;
+}

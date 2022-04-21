@@ -21,6 +21,10 @@
   "bugs": {
     "url": "https://github.com/magento/pwa-studio/issues"
   },
+  "main": "src/index.js",
+  "browser": {
+    "@magento/venia-drivers": "src/drivers"
+  },
   "scripts": {
     "build": "yarn venia run build",
     "build:dev": "yarn venia run build:dev",
@@ -44,6 +48,17 @@
     "venia": "yarn workspace @magento/venia-concept",
     "watch:all": "node scripts/watch-all.js",
     "watch:venia": "yarn venia run watch"
+  },
+  "dependencies": {
+    "axios": "~0.26.1",
+    "babel-plugin-require-context-hook": "^1.0.0",
+    "papaparse": "~5.3.2",
+    "react-csv": "^2.2.2",
+    "react-drag-drop-files": "^2.3.4",
+    "react-dropzone": "^12.0.4",
+    "react-icons": "^4.3.1",
+    "react-to-print": "^2.14.4",
+    "reactjs-popup": "^2.0.5"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "~7.4.4",
@@ -111,5 +126,13 @@
       "path": "./packages/venia-concept/dist/+([0-9]).*.js",
       "maxSize": "100 kB"
     }
-  ]
+  ],
+  "module": "src/index.js",
+  "es2015": "src/index.js",
+  "esnext": "src/index.js",
+  "pwa-studio": {
+    "targets": {
+      "intercept": "./local-intercept.js"
+    }
+  }
 }
