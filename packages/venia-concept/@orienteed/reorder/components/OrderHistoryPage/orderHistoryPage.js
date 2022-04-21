@@ -1,10 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import {
-    Search as SearchIcon,
-    AlertCircle as AlertCircleIcon,
-    ArrowRight as SubmitIcon
-} from 'react-feather';
+import { Search as SearchIcon, AlertCircle as AlertCircleIcon, ArrowRight as SubmitIcon } from 'react-feather';
 import { shape, string } from 'prop-types';
 import { Form } from 'informed';
 
@@ -13,15 +9,14 @@ import OrderHistoryContextProvider from '@magento/peregrine/lib/talons/OrderHist
 import { useOrderHistoryPage } from '@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import ResetButton from '@magento/venia-ui/lib/components/OrderHistoryPage/resetButton';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
-
 import defaultClasses from '@magento/venia-ui/lib/components/OrderHistoryPage/orderHistoryPage.module.css';
-import OrderRow from '@magento/venia-ui/lib/components/OrderHistoryPage/orderRow';
-import ResetButton from '@magento/venia-ui/lib/components/OrderHistoryPage/resetButton';
+import OrderRow from './orderRow';
 
 const errorIcon = (
     <Icon
@@ -102,9 +97,7 @@ const OrderHistoryPage = props => {
         searchText
     ]);
 
-    const resetButtonElement = searchText ? (
-        <ResetButton onReset={handleReset} />
-    ) : null;
+    const resetButtonElement = searchText ? <ResetButton onReset={handleReset} /> : null;
 
     const submitIcon = (
         <Icon
@@ -131,10 +124,7 @@ const OrderHistoryPage = props => {
             onClick={loadMoreOrders}
             priority="low"
         >
-            <FormattedMessage
-                id={'orderHistoryPage.loadMore'}
-                defaultMessage={'Load More'}
-            />
+            <FormattedMessage id={'orderHistoryPage.loadMore'} defaultMessage={'Load More'} />
         </Button>
     ) : null;
 
@@ -167,9 +157,7 @@ const OrderHistoryPage = props => {
                         />
                         <Button
                             className={classes.searchButton}
-                            disabled={
-                                isBackgroundLoading || isLoadingWithoutData
-                            }
+                            disabled={isBackgroundLoading || isLoadingWithoutData}
                             priority={'high'}
                             type="submit"
                         >
