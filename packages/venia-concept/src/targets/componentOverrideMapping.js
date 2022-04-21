@@ -25,7 +25,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.js`]: './src/components/CartPage/ProductListing/product.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
-    // [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js', //  move saveCart, printPdf here
+    [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js', //  move saveCart, printPdf here
 
     //TALONS
     //[`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js',
@@ -54,7 +54,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/AddressBookPage/addressCard.module.css`]: './src/components/AddressBookPage/addressCard.module.css',
     [`@magento/venia-ui/lib/components/CartPage/PriceAdjustments/ShippingMethods/shippingMethods.module.css`]: './src/components/CartPage/PriceAdjustments/ShippingMethods/shippingMethods.module.css',
     [`@magento/venia-ui/lib/components/CartPage/PriceAdjustments/ShippingMethods/shippingForm.module.css`]: './src/components/CartPage/PriceAdjustments/ShippingMethods/shippingForm.module.css',
-    //[`@magento/venia-ui/lib/components/CartPage/PriceAdjustments/GiftOptions/giftOptions.module.css`]: './src/components/CartPage/PriceAdjustments/GiftOptions/giftOptions.module.css',
     [`@magento/venia-ui/lib/components/Header/accountTrigger.module.css`]: './src/components/Header/accountTrigger.module.css',
     [`@magento/venia-ui/lib/components/Header/header.module.css`]: './src/components/Header/header.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/orderHistoryPage.module.css`]: './src/components/OrderHistoryPage/orderHistoryPage.module.css',
