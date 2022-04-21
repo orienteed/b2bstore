@@ -11,14 +11,11 @@ import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
 
-const AddWishlistButton = React.lazy(() =>
-    import('@magento/venia-ui/lib/components/Wishlist/AddToListButton')
-);
+const AddWishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
 const DeleteWishlistButton = React.lazy(() =>
-    import('../Wishlist/DeleteToListButton/deleteToListButton.js')
+    import('@magento/venia-concept/src/components/Wishlist/DeleteToListButton/deleteToListButton.js')
 );
-
 
 const ProductFullDetailB2B = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -35,16 +32,15 @@ const ProductFullDetailB2B = props => {
         isAddConfigurableLoading,
         wishlistAddButtonProps,
         wishlistDeleteButtonProps,
-        isInWishList,
+        isInWishList
     } = props;
 
     const [selectedFilter, setSelectedFilter] = useState([]);
 
     const getCategoriesValuesNameByVariant = variant => {
         return variant.attributes.map((attribute, i) => {
-            return product.configurable_options[i].values.find(
-                value => value.value_index == attribute.value_index
-            ).label;
+            return product.configurable_options[i].values.find(value => value.value_index == attribute.value_index)
+                .label;
         });
     };
 
@@ -80,24 +76,16 @@ const ProductFullDetailB2B = props => {
 
     const handleRemoveItem = tempItemInfo => {
         let tempFilterList = selectedFilter;
-        tempFilterList = tempFilterList.filter(
-            filter => filter.id != tempItemInfo.item.value
-        );
+        tempFilterList = tempFilterList.filter(filter => filter.id != tempItemInfo.item.value);
         setSelectedFilter(tempFilterList);
     };
 
     const selectedFilterList = (
         <div className={classes.selectedFilterContainer}>
-            <FormattedMessage
-                id={'productFullDetailB2B.selectFiltersTitle'}
-                defaultMessage={'Filters:'}
-            />
+            <FormattedMessage id={'productFullDetailB2B.selectFiltersTitle'} defaultMessage={'Filters:'} />
             <div className={classes.selectedFilter}>
                 {selectedFilter.map(filter => (
-                    <CurrentFilter
-                        item={{ title: filter.text, value: filter.id }}
-                        removeItem={handleRemoveItem}
-                    />
+                    <CurrentFilter item={{ title: filter.text, value: filter.id }} removeItem={handleRemoveItem} />
                 ))}
             </div>
         </div>
@@ -124,44 +112,27 @@ const ProductFullDetailB2B = props => {
         <div className={classes.productItemContainer}>
             <p key="imageIndex" className={classes.indexFixed} />
             <p key="nameIndex" className={classes.indexMobileName}>
-                <FormattedMessage
-                    id={'productFullDetailB2B.indexName'}
-                    defaultMessage={'Name'}
-                />
+                <FormattedMessage id={'productFullDetailB2B.indexName'} defaultMessage={'Name'} />
             </p>
             <p key="skuIndex" className={classes.indexMobileSku}>
                 SKU
             </p>
             <div className={classes.categoriesItemList}>
                 {getCategoriesName().map(category => {
-                    return (
-                        <p className={classes.indexFixedCategory}>{category}</p>
-                    );
+                    return <p className={classes.indexFixedCategory}>{category}</p>;
                 })}
             </div>
             <p key="quantityIndex" className={classes.indexFixed}>
-                <FormattedMessage
-                    id={'productFullDetailB2B.indexQuantity'}
-                    defaultMessage={'Quantity'}
-                />
+                <FormattedMessage id={'productFullDetailB2B.indexQuantity'} defaultMessage={'Quantity'} />
             </p>
             <p className={classes.titles} key="priceIndex">
-                <FormattedMessage
-                    id={'productFullDetailB2B.indexUnitPrice'}
-                    defaultMessage={'Price / Unit'}
-                />
+                <FormattedMessage id={'productFullDetailB2B.indexUnitPrice'} defaultMessage={'Price / Unit'} />
             </p>
             <p className={classes.titles} key="totalPriceIndex">
-                <FormattedMessage
-                    id={'productFullDetailB2B.totalPrice'}
-                    defaultMessage={'Total Price'}
-                />
+                <FormattedMessage id={'productFullDetailB2B.totalPrice'} defaultMessage={'Total Price'} />
             </p>
             <p key="stockIndex">
-                <FormattedMessage
-                    id={'productFullDetailB2B.stockStatus'}
-                    defaultMessage={'Stock Status'}
-                />
+                <FormattedMessage id={'productFullDetailB2B.stockStatus'} defaultMessage={'Stock Status'} />
             </p>
         </div>
     );
@@ -169,22 +140,16 @@ const ProductFullDetailB2B = props => {
     const productsTable = (
         <div className={classes.productsTableContainer}>
             {product.variants.map(variant => {
-                const categoriesValuesName = getCategoriesValuesNameByVariant(
-                    variant
-                );
+                const categoriesValuesName = getCategoriesValuesNameByVariant(variant);
                 const categoriesName = getCategoriesName();
                 const categoriesIds = getCategoriesValuesIdByVariant(variant);
-                const selectedFilterIds = selectedFilter.map(
-                    filter => filter.id
-                );
+                const selectedFilterIds = selectedFilter.map(filter => filter.id);
 
                 // Show all if there isnt any categorie selected
                 // Show only the products that agree with all the filters option
                 if (
                     selectedFilterIds.length === 0 ||
-                    categoriesIds.filter(value =>
-                        selectedFilterIds.includes(value)
-                    ).length === selectedFilterIds.length // !== 0
+                    categoriesIds.filter(value => selectedFilterIds.includes(value)).length === selectedFilterIds.length // !== 0
                 ) {
                     return (
                         <ProductItem
@@ -192,9 +157,7 @@ const ProductFullDetailB2B = props => {
                             variant={variant}
                             categoriesValuesName={categoriesValuesName}
                             categoriesName={categoriesName}
-                            addConfigurableProductToCart={
-                                addConfigurableProductToCart
-                            }
+                            addConfigurableProductToCart={addConfigurableProductToCart}
                             cartId={cartId}
                             errors={errors}
                             isAddConfigurableLoading={isAddConfigurableLoading}
@@ -210,14 +173,9 @@ const ProductFullDetailB2B = props => {
             {breadcrumbs}
             <Form className={classes.root}>
                 <section className={classes.title}>
-                    <h1 className={classes.productName}>
-                        {productDetails.name}
-                    </h1>
+                    <h1 className={classes.productName}>{productDetails.name}</h1>
                     <h2 className={classes.fromPrice}>
-                        <FormattedMessage
-                            id={'productFullDetailB2B.fromPrice'}
-                            defaultMessage={'From '}
-                        />
+                        <FormattedMessage id={'productFullDetailB2B.fromPrice'} defaultMessage={'From '} />
                         {priceRender}
                     </h2>
                 </section>
@@ -235,19 +193,16 @@ const ProductFullDetailB2B = props => {
                     </h2>
                     <RichText content={productDetails.description} />
                     <Suspense fallback={null}>
-                        {isInWishList ? 
-                            <DeleteWishlistButton {...wishlistDeleteButtonProps}/>
-                        :
+                        {isInWishList ? (
+                            <DeleteWishlistButton {...wishlistDeleteButtonProps} />
+                        ) : (
                             <AddWishlistButton {...wishlistAddButtonProps} />
-                        }
+                        )}
                     </Suspense>
                 </section>
                 <section className={classes.b2cContent}>
                     <h2 className={classes.b2cContentTitle}>
-                        <FormattedMessage
-                            id={'productFullDetailB2B.titleTable'}
-                            defaultMessage={'Products table'}
-                        />
+                        <FormattedMessage id={'productFullDetailB2B.titleTable'} defaultMessage={'Products table'} />
                     </h2>
                     <div className={classes.productsContainer}>
                         {selectedFilterList}

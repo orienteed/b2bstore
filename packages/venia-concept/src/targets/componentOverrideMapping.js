@@ -54,6 +54,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/peregrine/lib/talons/SearchPage/searchPage.gql.js`]: './src/talons/SearchPage/searchPage.gql.js',
     [`@magento/peregrine/lib/talons/SignIn/signIn.gql.js`]: './src/talons/SignIn/signIn.gql.js',
     [`@magento/peregrine/lib/talons/WishlistPage/wishlistItemFragments.gql.js`]: './src/talons/WishlistPage/wishlistItemFragments.gql.js',
+    [`@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce.js`]: './src/talons/ProductFullDetail/productFullDetail.gql.ce.js',
 
     //CSS
     [`@magento/venia-ui/lib/components/Accordion/section.module.css`]: './src/components/Accordion/section.module.css',
