@@ -2,8 +2,9 @@ import { gql } from '@apollo/client';
 
 export const GET_PAGE_SIZE = gql`
     query getPageSize {
+        # eslint-disable-next-line @graphql-eslint/require-id-when-available
         storeConfig {
-            id
+            store_code
             grid_per_page
         }
     }
@@ -20,6 +21,7 @@ export const GET_PRODUCT_FILTERS_BY_SEARCH = gql`
                     label
                     value
                 }
+                position
             }
         }
     }
@@ -41,14 +43,15 @@ export const PRODUCT_SEARCH = gql`
             sort: $sort
         ) {
             items {
-                orParentUrlKey
                 id
+                uid
                 name
                 small_image {
                     url
                 }
                 url_key
                 url_suffix
+                orParentUrlKey
                 price {
                     regularPrice {
                         amount {
@@ -63,6 +66,21 @@ export const PRODUCT_SEARCH = gql`
                         }
                     }
                 }
+                price_range {
+                    maximum_price {
+                        regular_price {
+                            currency
+                            value
+                        }
+                    }
+                }
+                sku
+                small_image {
+                    url
+                }
+                stock_status
+                __typename
+                url_key
             }
             page_info {
                 total_pages
@@ -85,9 +103,23 @@ export const GET_FILTER_INPUTS = gql`
     }
 `;
 
+export const GET_SEARCH_AVAILABLE_SORT_METHODS = gql`
+    query getSearchAvailableSortMethods($search: String!) {
+        products(search: $search) {
+            sort_fields {
+                options {
+                    label
+                    value
+                }
+            }
+        }
+    }
+`;
+
 export default {
     getFilterInputsQuery: GET_FILTER_INPUTS,
     getPageSize: GET_PAGE_SIZE,
     getProductFiltersBySearchQuery: GET_PRODUCT_FILTERS_BY_SEARCH,
+    getSearchAvailableSortMethods: GET_SEARCH_AVAILABLE_SORT_METHODS,
     productSearchQuery: PRODUCT_SEARCH
 };
