@@ -54,6 +54,7 @@ const Dialog = props => {
         shouldShowButtons = true,
         shouldUnmountOnHide,
         title,
+        dialogName,
         shouldHideCancelButton
     } = props;
 
@@ -141,7 +142,9 @@ const Dialog = props => {
 
     return (
         <Portal>
-            <aside className={rootClass}>{maybeForm}</aside>
+            <aside className={`${rootClass} ${defaultClasses[dialogName]}`}>
+                {maybeForm}
+            </aside>
         </Portal>
     );
 };

@@ -5,13 +5,13 @@ import { useAutocomplete } from '@magento/peregrine/lib/talons/SearchBar';
 import { useIntl } from 'react-intl';
 
 import defaultClasses from './autocomplete.module.css';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import Suggestions from './suggestions';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 const GET_AUTOCOMPLETE_RESULTS = gql`
     query getAutocompleteResults($inputText: String!) {
         # Limit results to first three.
-        products(search: $inputText, currentPage: 1, pageSize: 20) {
+        products(search: $inputText, currentPage: 1, pageSize: 3) {
             aggregations {
                 label
                 count
@@ -20,13 +20,13 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                     label
                     value
                 }
+                position
             }
-
+            # eslint-disable-next-line @graphql-eslint/require-id-when-available
             items {
-                orParentSku
-                orParentUrlKey
                 id
                 uid
+                orParentSku
                 name
                 sku
                 small_image {
@@ -41,12 +41,6 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                             currency
                         }
                     }
-                    minimalPrice {
-                        amount {
-                            currency
-                            value
-                        }
-                    }
                 }
             }
             page_info {
@@ -56,12 +50,21 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
         }
     }
 `;
+
 const Autocomplete = props => {
-    const { setVisible, valid, visible } = props;
+    const {
+        setVisible,
+        valid,
+        visible,
+        quickOrder,
+        handleSearchClick,
+        value
+    } = props;
     const talonProps = useAutocomplete({
         queries: {
             getAutocompleteResults: GET_AUTOCOMPLETE_RESULTS
         },
+        inputText: value,
         valid,
         visible
     });
@@ -70,11 +73,10 @@ const Autocomplete = props => {
         filters,
         messageType,
         products,
-        resultCount,
-        value
+        resultCount
+        // value
     } = talonProps;
-
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
 
     const { formatMessage } = useIntl();
@@ -131,8 +133,14 @@ const Autocomplete = props => {
             : messageTpl;
 
     return (
-        <div className={rootClassName}>
-            <div className={classes.message}>{message}</div>
+        <div
+            data-cy="Autocomplete-root"
+            className={`${rootClassName} ${quickOrder &&
+                defaultClasses.quickOrder}`}
+        >
+            <div data-cy="Autocomplete-message" className={classes.message}>
+                {message}
+            </div>
             <div className={classes.suggestions}>
                 <Suggestions
                     displayResult={displayResult}
@@ -141,6 +149,8 @@ const Autocomplete = props => {
                     searchValue={value}
                     setVisible={setVisible}
                     visible={visible}
+                    handleSearchClick={handleSearchClick}
+                    quickOrder={quickOrder}
                 />
             </div>
         </div>

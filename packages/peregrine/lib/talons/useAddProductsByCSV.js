@@ -11,7 +11,8 @@ export const useAddProductsByCSV = props => {
         setCsvErrorType,
         setCsvSkuErrorList,
         setIsCsvDialogOpen,
-        setProducts
+        setProducts,
+        success
     } = props;
 
     const [{ cartId }] = useCartContext();
@@ -49,19 +50,18 @@ export const useAddProductsByCSV = props => {
             Papa.parse(file, {
                 complete: function(result) {
                     const dataValidated = formatData(result.data);
-                    let res = [];
                     dataValidated.map(async item => {
-                        const { data } = await getproduct({
+                        const data = await getproduct({
                             variables: { sku: item[0] }
                         });
-                        console.log(data, 'datadata');
-                        res.push({
-                            ...data?.products?.items[0],
-                            quantity: item[1]
-                        });
+                        setProducts(prev => [
+                            {
+                                ...data?.data?.products?.items[0],
+                                quantity: item[1]
+                            },
+                            {}
+                        ]);
                     });
-                    setProducts(JSON.parse(JSON.stringify([...res])));
-                    // andleAddProductsToCart(dataValidated);
                 }
             });
         }
@@ -93,13 +93,11 @@ export const useAddProductsByCSV = props => {
             const csvProducts = formatData(data);
             let tempSkuErrorList = [];
             for (let i = 0; i < csvProducts.length; i++) {
-                const parentSkuRespon = getParentSku({
-                    variables: { sku: csvProducts[i][0] }
-                });
                 try {
                     const parentSkuResponse = await getParentSku({
                         variables: { sku: csvProducts[i][0] }
                     });
+
                     const variables = {
                         cartId,
                         quantity: parseInt(csvProducts[i][1], 10),
@@ -112,6 +110,7 @@ export const useAddProductsByCSV = props => {
                     await addConfigurableProductToCart({
                         variables
                     });
+                    success();
                 } catch {
                     tempSkuErrorList.push(csvProducts[i][0]);
                     setCsvErrorType('loading');
@@ -174,6 +173,7 @@ export const GET_PARENT_SKU = gql`
     query getParentSku($sku: String) {
         products(search: $sku, filter: { sku: { eq: $sku } }) {
             items {
+                __typename
                 uid
                 orParentSku
             }

@@ -7,7 +7,7 @@ import SuggestedProduct from './suggestedProduct';
 import defaultClasses from './suggestedProducts.module.css';
 
 const SuggestedProducts = props => {
-    const { limit, onNavigate, products } = props;
+    const { limit, onNavigate, products, quickOrder } = props;
     const classes = mergeClasses(defaultClasses, props.classes);
 
     const items = products.slice(0, limit).map(product => {
@@ -17,6 +17,7 @@ const SuggestedProducts = props => {
                     {...mapProduct(product)}
                     onNavigate={onNavigate}
                     skuParent={product.sku}
+                    quickOrder={quickOrder}
                 />
             </li>
         );

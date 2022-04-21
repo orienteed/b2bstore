@@ -52,22 +52,20 @@ const QuantityStepper = props => {
                 <label className={classes.label} htmlFor={itemId}>
                     {label}
                 </label>
-                {!hideButtons && (
-                    <button
-                        aria-label={formatMessage({
-                            id: 'quantity.buttonDecrement',
-                            defaultMessage: 'Decrease Quantity'
-                        })}
-                        className={classes.button_decrement}
-                        disabled={isDecrementDisabled}
-                        onClick={handleDecrement}
-                        type="button"
-                        data-cy="Quantity-decrementButton"
-                    >
-                        <Icon classes={iconClasses} src={MinusIcon} size={22} />
-                    </button>
-                )}
-                <InformedText 
+                <button
+                    aria-label={formatMessage({
+                        id: 'quantity.buttonDecrement',
+                        defaultMessage: 'Decrease Quantity'
+                    })}
+                    className={classes.button_decrement}
+                    disabled={isDecrementDisabled}
+                    onClick={handleDecrement}
+                    type="button"
+                    data-cy="Quantity-decrementButton"
+                >
+                    <Icon classes={iconClasses} src={MinusIcon} size={22} />
+                </button>
+                <InformedText
                     aria-label={formatMessage({
                         id: 'quantity.input',
                         defaultMessage: 'Item Quantity'
@@ -84,24 +82,22 @@ const QuantityStepper = props => {
                     onBlur={handleBlur}
                     quickOrder={quickOrder}
                     pattern="[0-9]*"
-                    onChange={(e)=>onChange(e.target.value)}
+                    onChange={e => onChange(e.target.value)}
                     type="number"
                 />
-                {!hideButtons && (
-                    <button
-                        aria-label={formatMessage({
-                            id: 'quantity.buttonIncrement',
-                            defaultMessage: 'Increase Quantity'
-                        })}
-                        className={classes.button_increment}
-                        disabled={isIncrementDisabled}
-                        onClick={handleIncrement}
-                        type="button"
-                        data-cy="Quantity-incrementButton"
-                    >
-                        <Icon classes={iconClasses} src={PlusIcon} size={20} />
-                    </button>
-                )}
+                <button
+                    aria-label={formatMessage({
+                        id: 'quantity.buttonIncrement',
+                        defaultMessage: 'Increase Quantity'
+                    })}
+                    className={classes.button_increment}
+                    disabled={isIncrementDisabled}
+                    onClick={handleIncrement}
+                    type="button"
+                    data-cy="Quantity-incrementButton"
+                >
+                    <Icon classes={iconClasses} src={PlusIcon} size={20} />
+                </button>
             </div>
             {errorMessage}
         </Fragment>

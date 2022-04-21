@@ -17,7 +17,7 @@ import StoreSwitcher from './storeSwitcher';
 import CurrencySwitcher from './currencySwitcher';
 import MegaMenu from '../MegaMenu';
 import PageLoadingIndicator from '../PageLoadingIndicator';
-import QuickOrder from '../QuickOrder';
+import QuickOrder from '../../../../venia-concept/@orienteed/customComponents/components/QuickOrder';
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 
@@ -91,7 +91,7 @@ const Header = props => {
                     </div>
                 </div>
                 {searchBar}
-                    <QuickOrder />
+                <QuickOrder />
                 <PageLoadingIndicator absolute />
             </header>
         </Fragment>

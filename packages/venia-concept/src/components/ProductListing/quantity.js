@@ -4,12 +4,13 @@ import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
 import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
 import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity';
+import { Text as InformedText } from 'informed';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Message } from '@magento/venia-ui/lib/components/Field';
-import defaultClasses from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+import defaultClasses from './quantity.module.css';
 
 export const QuantityFields = props => {
     const {
@@ -19,7 +20,10 @@ export const QuantityFields = props => {
         min,
         onChange,
         message,
-        fieldName
+        fieldName,
+        quickOrder,
+        value,
+        hideButtons
     } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
@@ -46,47 +50,61 @@ export const QuantityFields = props => {
     return (
         <Fragment>
             <div className={classes.root}>
-                <label className={classes.label} htmlFor={itemId}>
-                    {label}
-                </label>
-                <button
-                    aria-label={formatMessage({
-                        id: 'quantity.buttonDecrement',
-                        defaultMessage: 'Decrease Quantity'
-                    })}
-                    className={classes.button_decrement}
-                    disabled={isDecrementDisabled}
-                    onClick={handleDecrement}
-                    type="button"
-                >
-                    <Icon classes={iconClasses} src={MinusIcon} size={22} />
-                </button>
-                <TextInput
+                {label && (
+                    <label className={classes.label} htmlFor={itemId}>
+                        {label}
+                    </label>
+                )}
+                {!hideButtons && (
+                    <button
+                        aria-label={formatMessage({
+                            id: 'quantity.buttonDecrement',
+                            defaultMessage: 'Decrease Quantity'
+                        })}
+                        className={classes.button_decrement}
+                        disabled={isDecrementDisabled}
+                        onClick={handleDecrement}
+                        type="button"
+                        data-cy="Quantity-decrementButton"
+                    >
+                        <Icon classes={iconClasses} src={MinusIcon} size={22} />
+                    </button>
+                )}
+                <InformedText
                     aria-label={formatMessage({
                         id: 'quantity.input',
                         defaultMessage: 'Item Quantity'
                     })}
-                    classes={{ input: classes.input }}
-                    field={fieldName}
+                    data-cy="QuantityStepper-input"
+                    className={classes.inputQty}
+                    field="quantity"
                     id={itemId}
                     inputMode="numeric"
                     mask={maskInput}
                     min={min}
+                    value={value}
+                    initialValue={value}
                     onBlur={handleBlur}
+                    quickOrder={quickOrder}
                     pattern="[0-9]*"
+                    onChange={e => onChange(e.target.value)}
+                    type="number"
                 />
-                <button
-                    aria-label={formatMessage({
-                        id: 'quantity.buttonIncrement',
-                        defaultMessage: 'Increase Quantity'
-                    })}
-                    className={classes.button_increment}
-                    disabled={isIncrementDisabled}
-                    onClick={handleIncrement}
-                    type="button"
-                >
-                    <Icon classes={iconClasses} src={PlusIcon} size={20} />
-                </button>
+                {!hideButtons && (
+                    <button
+                        aria-label={formatMessage({
+                            id: 'quantity.buttonIncrement',
+                            defaultMessage: 'Increase Quantity'
+                        })}
+                        className={classes.button_increment}
+                        disabled={isIncrementDisabled}
+                        onClick={handleIncrement}
+                        type="button"
+                        data-cy="Quantity-incrementButton"
+                    >
+                        <Icon classes={iconClasses} src={PlusIcon} size={20} />
+                    </button>
+                )}
             </div>
             {errorMessage}
         </Fragment>
@@ -108,7 +126,6 @@ const Quantity = props => {
 Quantity.propTypes = {
     initialValue: number,
     itemId: string,
-    label: string,
     min: number,
     onChange: func,
     message: string,
@@ -116,7 +133,6 @@ Quantity.propTypes = {
 };
 
 Quantity.defaultProps = {
-    label: 'Quantity',
     min: 0,
     initialValue: 1,
     onChange: () => {},
