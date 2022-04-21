@@ -50,6 +50,11 @@
      */
     top: 5.5rem;
 }
+.additionalOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 /*
  * Mobile-specific styles.
  */

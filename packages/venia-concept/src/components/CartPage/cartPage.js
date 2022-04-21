@@ -108,7 +108,7 @@ const CartPage = props => {
     };
 
     const printPdfButton = (
-        <Button priority={'high'} onClick={handleOpenPopup}>
+        <Button priority={'normal'} onClick={handleOpenPopup}>
             <FormattedMessage id={'priceSummary.printPdfButton'} defaultMessage={'Print Pdf'} />
         </Button>
     );
@@ -134,7 +134,7 @@ const CartPage = props => {
                 <div className={classes.summary_container}>
                     <div className={classes.summary_contents}>
                         {priceSummary}
-                        <div className={classes.printPdfButtonContainer}>
+                        <div className={classes.additionalOptionsContainer}>
                             {hasItems ? <SavedCartButton /> : null}
                             {hasItems ? printPdfButton : null}
                             <AddProductByCsv

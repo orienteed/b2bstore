@@ -33,14 +33,14 @@ const AddProductByCsv = props => {
 
     return (
         <>
-            <Button onClick={handleCSVFile} priority={'high'}>
-                <Icon
+            <Button onClick={handleCSVFile} priority={'normal'}>
+                {/* <Icon
                     size={16}
                     src={UploadFileIcon}
                     classes={{
                         icon: classes.loadFileIcon
                     }}
-                />
+                /> */}
                 <FormattedMessage
                     id={'AddProductByCsv.orderUsingCSV'} // TODO_B2B - Translations
                     defaultMessage={'CSV ORDER'}
