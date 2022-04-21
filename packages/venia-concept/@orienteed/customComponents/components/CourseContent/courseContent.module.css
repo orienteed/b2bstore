@@ -79,16 +79,45 @@
 
 /* Course body */
 .bodyCourseContainer {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.contentTitle {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .sectionTitle {
     font-weight: bold;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
+    margin-bottom: 5px;
     border-bottom: 1px solid var(--orienteed-primary-color-base2);
 }
 
+.courseSectionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* margin-bottom: 10px; */
+}
+
+.courseContentContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.courseContentContainerLeft {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.courseContentIcon {
+    width: 16px;
+}
 /* NOT USED YET */
 .goBackButton {
     composes: root_highPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
