@@ -20,14 +20,14 @@ const CourseItem = props => {
 
     return (
         <div key={data.id} className={classes.courseContainer}>
-            <div className={classes.card__overlay}>
+            <div className={classes.courseOverlay}>
                 <Button
                     className={classes.subscribeButtonOverlay}
                     onClick={handleSubscription}
                 >
                     <FormattedMessage
-                        id={'moodleCourse.suscribeButton'} // TODO_B2B: Translations
-                        defaultMessage={'Suscribirse'}
+                        id={'lms.watchCourse'} // TODO_B2B: Translations
+                        defaultMessage={'Watch Course'}
                     />
                 </Button>
             </div>
@@ -61,8 +61,8 @@ const CourseItem = props => {
                     onClick={handleSubscription}
                 >
                     <FormattedMessage
-                        id={'moodleCourse.suscribeButton'}
-                        defaultMessage={'Suscribirse'}
+                        id={'lms.watchCourse'} // TODO_B2B: Translations
+                        defaultMessage={'Watch Course'}
                     />
                 </Button>
             </div>

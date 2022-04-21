@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
 
-const CustomContext = React.createContext();
+const PrintPdfContext = React.createContext();
 
-export const CustomProvider = ({ children }) => {
+export const PrintPdfProvider = ({ children }) => {
     const [cartItem, setCartItem] = useState(null);
     const [priceSummary, setPriceSummary] = useState({});
     const [files, setFiles] = useState([]);
     const [toogleStyles, setToogleStyles] = useState(false);
 
     return (
-        <CustomContext.Provider
+        <PrintPdfContext.Provider
             value={{
                 cartItem,
                 setCartItem,
@@ -22,10 +22,10 @@ export const CustomProvider = ({ children }) => {
             }}
         >
             {children}
-        </CustomContext.Provider>
+        </PrintPdfContext.Provider>
     );
 };
 
-export const useCustomContext = () => {
-    return useContext(CustomContext);
+export const usePrintPdfContext = () => {
+    return useContext(PrintPdfContext);
 };

@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CartPage/PriceSummary/priceSummary.gql';
-import { useCustomContext } from '@orienteed/customComponents/components/PrintPdfPopup/CustomProvider/customProvider';
+import { usePrintPdfContext } from '@orienteed/customComponents/components/PrintPdfProvider/printPdfProvider';
 
 /**
  * @ignore
@@ -49,7 +49,7 @@ export const usePriceSummary = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getPriceSummaryQuery } = operations;
 
-    const { setPriceSummary } = useCustomContext();
+    const { setPriceSummary } = usePrintPdfContext();
 
     const [{ cartId }] = useCartContext();
     const history = useHistory();

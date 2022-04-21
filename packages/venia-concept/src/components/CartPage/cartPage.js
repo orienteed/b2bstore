@@ -91,20 +91,13 @@ const CartPage = props => {
         />
     ) : (
         <h3>
-            <FormattedMessage
-                id={'cartPage.emptyCart'}
-                defaultMessage={'There are no items in your cart.'}
-            />
+            <FormattedMessage id={'cartPage.emptyCart'} defaultMessage={'There are no items in your cart.'} />
         </h3>
     );
 
-    const priceAdjustments = hasItems ? (
-        <PriceAdjustments setIsCartUpdating={setIsCartUpdating} />
-    ) : null;
+    const priceAdjustments = hasItems ? <PriceAdjustments setIsCartUpdating={setIsCartUpdating} /> : null;
 
-    const priceSummary = hasItems ? (
-        <PriceSummary isUpdating={isCartUpdating} />
-    ) : null;
+    const priceSummary = hasItems ? <PriceSummary isUpdating={isCartUpdating} /> : null;
 
     const handleOpenPopup = () => {
         setOpenPopup(true);
@@ -115,11 +108,8 @@ const CartPage = props => {
     };
 
     const printPdfButton = (
-        <Button priority={'high'} onClick={handleOpenPopup}>
-            <FormattedMessage
-                id={'priceSummary.printPdfButton'}
-                defaultMessage={'Print Pdf'}
-            />
+        <Button priority={'normal'} onClick={handleOpenPopup}>
+            <FormattedMessage id={'priceSummary.printPdfButton'} defaultMessage={'Print Pdf'} />
         </Button>
     );
     return (
@@ -132,10 +122,7 @@ const CartPage = props => {
             </StoreTitle>
             <div className={classes.heading_container}>
                 <h1 data-cy="CartPage-heading" className={classes.heading}>
-                    <FormattedMessage
-                        id={'cartPage.heading'}
-                        defaultMessage={'Cart'}
-                    />
+                    <FormattedMessage id={'cartPage.heading'} defaultMessage={'Cart'} />
                 </h1>
                 <div className={classes.stockStatusMessageContainer}>
                     <StockStatusMessage cartItems={cartItems} />
@@ -143,14 +130,12 @@ const CartPage = props => {
             </div>
             <div className={classes.body}>
                 <div className={classes.items_container}>{productListing}</div>
-                <div className={classes.price_adjustments_container}>
-                    {priceAdjustments}
-                </div>
+                <div className={classes.price_adjustments_container}>{priceAdjustments}</div>
                 <div className={classes.summary_container}>
                     <div className={classes.summary_contents}>
                         {priceSummary}
-                        <div className={classes.printPdfButtonContainer}>
-                            <SavedCartButton />
+                        <div className={classes.additionalOptionsContainer}>
+                            {hasItems ? <SavedCartButton /> : null}
                             {hasItems ? printPdfButton : null}
                             <AddProductByCsv
                                 csvErrorType={csvErrorType}

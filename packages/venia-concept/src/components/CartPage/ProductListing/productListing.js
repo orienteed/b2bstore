@@ -6,11 +6,9 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.module.css';
 import Product from '@magento/venia-ui/lib/components/CartPage/ProductListing/product';
-import { useCustomContext } from '@orienteed/customComponents/components/PrintPdfPopup/CustomProvider/customProvider';
+import { usePrintPdfContext } from '@orienteed/customComponents/components/PrintPdfProvider/printPdfProvider';
 
-const EditModal = React.lazy(() =>
-    import('@magento/venia-ui/lib/components/CartPage/ProductListing/EditModal')
-);
+const EditModal = React.lazy(() => import('@magento/venia-ui/lib/components/CartPage/ProductListing/EditModal'));
 /**
  * A child component of the CartPage component.
  * This component renders the product listing on the cart page.
@@ -27,22 +25,12 @@ const EditModal = React.lazy(() =>
  * import ProductListing from "@magento/venia-ui/lib/components/CartPage/ProductListing";
  */
 const ProductListing = props => {
-    const {
-        onAddToWishlistSuccess,
-        setIsCartUpdating,
-        fetchCartDetails
-    } = props;
-    const { setCartItem } = useCustomContext();
+    const { onAddToWishlistSuccess, setIsCartUpdating, fetchCartDetails } = props;
+    const { setCartItem } = usePrintPdfContext();
 
     const talonProps = useProductListing();
 
-    const {
-        activeEditItem,
-        isLoading,
-        items,
-        setActiveEditItem,
-        wishlistConfig
-    } = talonProps;
+    const { activeEditItem, isLoading, items, setActiveEditItem, wishlistConfig } = talonProps;
 
     useEffect(() => {
         if (items.length) setCartItem([...items]);
@@ -53,10 +41,7 @@ const ProductListing = props => {
     if (isLoading) {
         return (
             <LoadingIndicator>
-                <FormattedMessage
-                    id={'productListing.loading'}
-                    defaultMessage={'Fetching Cart...'}
-                />
+                <FormattedMessage id={'productListing.loading'} defaultMessage={'Fetching Cart...'} />
             </LoadingIndicator>
         );
     }

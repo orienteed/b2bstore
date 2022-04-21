@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useCustomContext } from './CustomProvider/customProvider';
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 import { FormattedMessage } from 'react-intl';
 
 function DropzoneComponent(props) {
-    const { setFiles } = useCustomContext();
+    const { setFiles } = usePrintPdfContext();
 
     const onDrop = useCallback(acceptedFiles => {
         let reader = new FileReader();
@@ -20,13 +20,7 @@ function DropzoneComponent(props) {
         };
     }, []);
 
-    const {
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject
-    } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
         onDrop,
         accept: 'image/*'
     });
@@ -45,10 +39,7 @@ function DropzoneComponent(props) {
         <section>
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <FormattedMessage
-                    id={'drag&DropMessage'}
-                    defaultMessage={'Drag and drop your images here'}
-                />
+                <FormattedMessage id={'drag&DropMessage'} defaultMessage={'Drag and drop your images here'} />
             </div>
         </section>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCustomContext } from './CustomProvider/customProvider';
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 import defaultClasses from './printPdfPopup.module.css';
 import ItemCard from './itemCard';
 
@@ -12,28 +12,17 @@ import CustomDialog from './customDialog';
 
 const PrintPdfPopup = React.forwardRef((props, ref) => {
     const { openPopup, handleClosePopup, handlePrint } = props;
-    const { priceSummary, cartItem } = useCustomContext();
+    const { priceSummary, cartItem } = usePrintPdfContext();
     const [tooglePrice, setTooglePrice] = useState(false);
     const [companyInfo, setCompanyInfo] = useState(
         " Company info, Información de la compañía, Informação da companhia, Information d'entreprise"
     );
 
-    const infoCompany = (
-        <FormattedMessage id={'companyInfo'} defaultMessage={'Company Info'} />
-    );
+    const infoCompany = <FormattedMessage id={'companyInfo'} defaultMessage={'Company Info'} />;
 
-    const productTitle = (
-        <FormattedMessage id={'productTitle'} defaultMessage={'Products'} />
-    );
-    const descriptionTitle = (
-        <FormattedMessage
-            id={'descriptionTitle'}
-            defaultMessage={'Description'}
-        />
-    );
-    const pricesTitle = (
-        <FormattedMessage id={'pricesTitle'} defaultMessage={'Prices'} />
-    );
+    const productTitle = <FormattedMessage id={'productTitle'} defaultMessage={'Products'} />;
+    const descriptionTitle = <FormattedMessage id={'descriptionTitle'} defaultMessage={'Description'} />;
+    const pricesTitle = <FormattedMessage id={'pricesTitle'} defaultMessage={'Prices'} />;
 
     const handleTooglePrice = () => {
         setTooglePrice(!tooglePrice);
@@ -47,10 +36,7 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
 
     const cancelButton = (
         <Button priority={'low'} onClick={handleClosePopup}>
-            <FormattedMessage
-                id={'cancelPdfButton'}
-                defaultMessage={'Cancel'}
-            />
+            <FormattedMessage id={'cancelPdfButton'} defaultMessage={'Cancel'} />
         </Button>
     );
     const printButton = (
@@ -64,9 +50,7 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
         </Button>
     );
 
-    const printTitle = (
-        <FormattedMessage id={'printTitle'} defaultMessage={'Print'} />
-    );
+    const printTitle = <FormattedMessage id={'printTitle'} defaultMessage={'Print'} />;
 
     return (
         <CustomDialog
@@ -117,13 +101,7 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
                 {cartItem && (
                     <div className={defaultClasses.cartItemContainer}>
                         {cartItem.map(item => {
-                            return (
-                                <ItemCard
-                                    key={item.id}
-                                    item={item}
-                                    tooglePrice={tooglePrice}
-                                />
-                            );
+                            return <ItemCard key={item.id} item={item} tooglePrice={tooglePrice} />;
                         })}
                     </div>
                 )}
@@ -137,22 +115,14 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
             </main>
             <section className={defaultClasses.buttonsContainer}>
                 {tooglePrice ? (
-                    <article className={defaultClasses.individualButton}>
-                        {doneButton}
-                    </article>
+                    <article className={defaultClasses.individualButton}>{doneButton}</article>
                 ) : (
-                    <article className={defaultClasses.individualButton}>
-                        {editPriceButton}
-                    </article>
+                    <article className={defaultClasses.individualButton}>{editPriceButton}</article>
                 )}
 
-                <article className={defaultClasses.individualButton}>
-                    {cancelButton}
-                </article>
+                <article className={defaultClasses.individualButton}>{cancelButton}</article>
 
-                <article className={defaultClasses.individualButton}>
-                    {printButton}
-                </article>
+                <article className={defaultClasses.individualButton}>{printButton}</article>
             </section>
         </CustomDialog>
     );

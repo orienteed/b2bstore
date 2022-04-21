@@ -64,13 +64,18 @@
         align-items: center;
         margin-top: 5px;
     }
+    
+    .courseOverlay {
+        display: none;
+        cursor: auto;
+    }    
 }
 
 .subscribeButton {
     composes: root_normalPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
 }
 
-.card__overlay {
+.courseOverlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -82,7 +87,7 @@
     cursor: pointer;
 }
 
-.card__overlay:hover {
+.courseOverlay:hover {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -90,11 +95,11 @@
     composes: root_normalPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
 }
 
-.card__overlay .subscribeButtonOverlay {
+.courseOverlay .subscribeButtonOverlay {
     visibility: hidden;
 }
 
-.card__overlay:hover .subscribeButtonOverlay {
+.courseOverlay:hover .subscribeButtonOverlay {
     visibility: visible;
     position: relative;
     transform: translate(-50%, -50%);
