@@ -42,22 +42,9 @@ module.exports = targets => {
     const peregrineTargets = targets.of('@magento/peregrine');
     const talonsTarget = peregrineTargets.talons;
     talonsTarget.tap(talonWrapperConfig => {
-        /* // Cloud Venia - Talons used
-        talonWrapperConfig.Header.useStoreSwitcher.wrapWith(require.resolve('./src/hooks/useStoreSwitcher'))
-        talonWrapperConfig.Header.useAccountTrigger.wrapWith(require.resolve('./src/talons/useAccountTrigger'))
-        talonWrapperConfig.SignIn.useSignIn.wrapWith(require.resolve('./src/talons/useSignIn'))
-        talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(require.resolve('./src/talons/useForgotPassword'))
-        //talonWrapperConfig.RootComponents.Product.useProduct.wrapWith(require.resolve('./src/talons/RootComponents/Product/useProduct'))
-        //talonWrapperConfig.RootComponents.Category.useCategory.wrapWith(require.resolve('./src/talons/RootComponents/Category/useCategory')) */
-
-        // Orienteed - Talons used
         //talonWrapperConfig.Header.useStoreSwitcher.wrapWith(require.resolve('./src/hooks/useStoreSwitcher'))
-        talonWrapperConfig.Header.useAccountTrigger.wrapWith(
-            require.resolve('./src/talons/useAccountTrigger')
-        );
-        talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(
-            require.resolve('./src/talons/useForgotPassword')
-        );
+        talonWrapperConfig.Header.useAccountTrigger.wrapWith(require.resolve('./src/talons/useAccountTrigger'));
+        talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(require.resolve('./src/talons/useForgotPassword'));
         //talonWrapperConfig.SignIn.useSignIn.wrapWith(require.resolve('./src/talons/useSignIn'))
         // talonWrapperConfig.RootComponents.Product.useProduct.wrapWith(require.resolve('./src/talons/RootComponents/Product/useProduct'))
         // talonWrapperConfig.RootComponents.Category.useCategory.wrapWith(require.resolve('./src/talons/RootComponents/Category/useCategory'))
@@ -91,18 +78,13 @@ module.exports = targets => {
         paths.forEach(myPath => {
             const relativePath = myPath
                 .replace('.targetables', '')
-                .replace(
-                    `src/components`,
-                    `${magentoPath}/venia-ui/lib/components`
-                );
+                .replace(`src/components`, `${magentoPath}/venia-ui/lib/components`);
             const absolutePath = path.resolve(relativePath);
 
             fs.stat(absolutePath, (err, stat) => {
                 if (!err && stat && stat.isFile()) {
                     // Retrieve the react component from our cache (so we can use it more than once if necessary)
-                    const component = getReactComponent(
-                        relativePath.replace('node_modules/', '')
-                    );
+                    const component = getReactComponent(relativePath.replace('node_modules/', ''));
 
                     /**
                      * Load the targetables file for the component and execute the interceptComponent function
@@ -175,9 +157,7 @@ module.exports = targets => {
             return componentsCache[modulePath];
         }
 
-        return (componentsCache[modulePath] = targetables.reactComponent(
-            modulePath
-        ));
+        return (componentsCache[modulePath] = targetables.reactComponent(modulePath));
     }
 
     /**********************************************
