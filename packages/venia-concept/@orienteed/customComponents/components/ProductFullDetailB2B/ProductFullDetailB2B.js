@@ -11,9 +11,14 @@ import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
 
-const WishlistButton = React.lazy(() =>
+const AddWishlistButton = React.lazy(() =>
     import('@magento/venia-ui/lib/components/Wishlist/AddToListButton')
 );
+
+const DeleteWishlistButton = React.lazy(() =>
+    import('../Wishlist/DeleteToListButton/deleteToListButton.js')
+);
+
 
 const ProductFullDetailB2B = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -28,7 +33,9 @@ const ProductFullDetailB2B = props => {
         addConfigurableProductToCart,
         cartId,
         isAddConfigurableLoading,
-        wishlistButtonProps
+        wishlistAddButtonProps,
+        wishlistDeleteButtonProps,
+        isInWishList,
     } = props;
 
     const [selectedFilter, setSelectedFilter] = useState([]);
@@ -228,7 +235,11 @@ const ProductFullDetailB2B = props => {
                     </h2>
                     <RichText content={productDetails.description} />
                     <Suspense fallback={null}>
-                        <WishlistButton {...wishlistButtonProps} />
+                        {isInWishList ? 
+                            <DeleteWishlistButton {...wishlistDeleteButtonProps}/>
+                        :
+                            <AddWishlistButton {...wishlistAddButtonProps} />
+                        }
                     </Suspense>
                 </section>
                 <section className={classes.b2cContent}>

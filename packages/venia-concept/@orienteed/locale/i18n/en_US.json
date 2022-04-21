@@ -656,5 +656,10 @@
     "wishlistPage.wishlistDisabledMessage": "The wishlist is not currently available.",
     "wishlist.itemCountOpen": "Showing {currentCount} of {count} items in this list",
     "wishlist.itemCountClosed": "You have {count} items in this list",
-    "wishlist.loadMore": "Load More"
+    "wishlist.loadMore": "Load More",
+    "wishlistButton.removeText": "Remove from Favorites",
+    "wishlistButton.removedText": "Removed from Favorites",
+    "wishlist.galleryButton.successMessageGeneralRemove": "Item successfully removed to your favorites list.",
+    "wishlist.galleryButton.addErrorRemove": "Something went wrong removing the product to your wishlist.",
+    "wishlist.galleryButton.successMessageNamedRemove": "Item successfully removed to the \"{wishlistName}\" list."
 }

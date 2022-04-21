@@ -558,20 +558,7 @@ export const useProductFullDetail = props => {
         return options;
     }, [product, productType, selectedOptionsArray]);
 
-    const wishlistButtonProps = {
-        buttonText: isSelected =>
-            isSelected
-                ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
-                : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
-        item: wishlistItemOptions,
-        storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
-    };
+    wishlistItemOptions
 
     return {
         breadcrumbCategoryId,
@@ -594,7 +581,9 @@ export const useProductFullDetail = props => {
             !!storeConfigData.storeConfig.magento_wishlist_general_is_enabled,
         productDetails,
         wishlistButtonProps,
-        wishlistItemOptions,
+        wishlistAddButtonProps,
+        wishlistDeleteButtonProps,
+        isInWishList,
         hasOptionsOfTheSelection,
         addConfigurableProductToCart,
         isAddConfigurableLoading,

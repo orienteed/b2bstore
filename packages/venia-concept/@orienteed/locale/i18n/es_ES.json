@@ -542,5 +542,10 @@
     "wishlistPage.wishlistDisabledMessage": "La lista de deseos no está disponible en este momento",
     "wishlist.itemCountOpen": "Mostrando {currentCount} de {count} elementos en la lista",
     "wishlist.itemCountClosed": "Tienes {count} producto(s) en la lista",
-    "wishlist.loadMore": "Cargar más"
+    "wishlist.loadMore": "Cargar más",
+    "wishlistButton.removeText": "Eliminar de favoritos",
+    "wishlistButton.removedText": "Eliminado de favoritos",
+    "wishlist.galleryButton.successMessageGeneralRemove": "Se ha borrado correctamente el producto de la lista de favoritos.",
+    "wishlist.galleryButton.addErrorRemove": "Algo fue mal borrando un producto de la lista de favoritos.",
+    "wishlist.galleryButton.successMessageNamedRemove": "Producto borrado correctamente de \"{wishlistName}\" lista de favoritos."
 }
