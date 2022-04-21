@@ -11,7 +11,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 const GET_AUTOCOMPLETE_RESULTS = gql`
     query getAutocompleteResults($inputText: String!) {
         # Limit results to first three.
-        products(search: $inputText, currentPage: 1, pageSize: 3) {
+        products(search: $inputText, currentPage: 1) {
             aggregations {
                 label
                 count

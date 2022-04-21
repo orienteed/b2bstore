@@ -31,7 +31,7 @@ const AddQuickOrder = props => {
         setCsvErrorType: () =>
             displayMessage('warning', 'something went wrong, try again later'),
         setCsvSkuErrorList: () =>
-            displayMessage('warning', 'something went wrong, try again later'),
+            displayMessage('warning', 'something went wrong with SKU, try again later'),
         setIsCsvDialogOpen: () => {},
         setProducts,
         success
@@ -110,6 +110,9 @@ const AddQuickOrder = props => {
         push('/checkout');
         setIsOpen(false);
         setProducts(iniArray);
+    };
+    const addProduct = () => {
+        setProducts([...products, {}]);
     };
     return (
         <>
@@ -239,6 +242,7 @@ const AddQuickOrder = props => {
                                                             className={
                                                                 classes.downloadBtn
                                                             }
+                                                            onClick={addProduct}
                                                         >
                                                             <Icon
                                                                 src={PlusCircle}

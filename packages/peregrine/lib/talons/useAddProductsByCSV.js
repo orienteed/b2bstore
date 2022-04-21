@@ -26,8 +26,6 @@ export const useAddProductsByCSV = props => {
     const getproduct = useAwaitQuery(GET_PRODUCTS_BY_SKU);
 
     const handleCSVFile = () => {
-        setCsvErrorType('');
-        setCsvSkuErrorList([]);
         setIsCsvDialogOpen(false);
 
         let input = document.createElement('input');
@@ -50,16 +48,17 @@ export const useAddProductsByCSV = props => {
             Papa.parse(file, {
                 complete: function(result) {
                     const dataValidated = formatData(result.data);
+                    setProducts([]);
                     dataValidated.map(async item => {
                         const data = await getproduct({
                             variables: { sku: item[0] }
                         });
                         setProducts(prev => [
+                            ...prev,
                             {
                                 ...data?.data?.products?.items[0],
                                 quantity: item[1]
-                            },
-                            {}
+                            }
                         ]);
                     });
                 }
