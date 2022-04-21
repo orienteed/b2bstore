@@ -558,7 +558,83 @@ export const useProductFullDetail = props => {
         return options;
     }, [product, productType, selectedOptionsArray]);
 
-    wishlistItemOptions
+    const {
+        client,
+        data: { customerWishlistProducts }
+    } = useQuery(operations.getProductsInWishlistsQuery,{fetchPolicy: 'cache-and-network'});
+
+    const { error: errorWishList, loading: loadingWishList, data: dataWishList } = useQuery(operations.getCustomerWishList,{fetchPolicy: 'cache-and-network'});
+
+    const wishListId = useMemo(() => {
+        return (
+            dataWishList ? dataWishList.customer.wishlists[0].id : null
+        );
+    }, [dataWishList]);
+
+    const { error: errorWishListItem, loading: loadingWishListItem , data: dataWishListItem } = useQuery(
+        operations.getCustomerWishlistItems,
+        {
+            fetchPolicy: 'cache-and-network',
+            variables: {
+                id: wishListId
+            }
+        }
+    );
+
+    const wishListItems = useMemo(() => {
+        return (
+            dataWishListItem ? dataWishListItem.customer.wishlist_v2.items_v2.items : null
+        );
+    }, [dataWishListItem]);
+
+
+    const isInWishList = useMemo(() => {
+        let isIn = false;
+        wishListItems != null ? wishListItems.forEach(wishItem => {
+            if(wishItem.product.sku == product.sku){
+                isIn = true;
+            }
+        }) : null;
+
+        return isIn
+    },[ wishListItems, product.sku ]);
+
+    const wishlistAddButtonProps = {
+        buttonText: isSelected =>
+            isSelected
+                ? formatMessage({
+                      id: 'wishlistButton.addedText',
+                      defaultMessage: 'Added to Favorites'
+                  })
+                : formatMessage({
+                      id: 'wishlistButton.addText',
+                      defaultMessage: 'Add to Favorites'
+                  }),
+        item: wishlistItemOptions,
+        client: client,
+        customerWishlistProducts: customerWishlistProducts,
+        wishListItems: wishListItems,
+        storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
+    };
+
+    const wishlistDeleteButtonProps = {
+        buttonText: isSelectedRemove =>
+            isSelectedRemove
+                ? formatMessage({
+                      id: 'wishlistButton.removeText',
+                      defaultMessage: 'Remove from Favorites'
+                  })
+                : formatMessage({
+                      id: 'wishlistButton.removedText',
+                      defaultMessage: 'Removed from Favorites'
+                  }),
+        item: wishlistItemOptions,
+        client: client,
+        customerWishlistProducts: customerWishlistProducts,
+        wishListId: wishListId,
+        wishListItems: wishListItems,
+        storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
+    };
 
     return {
         breadcrumbCategoryId,
