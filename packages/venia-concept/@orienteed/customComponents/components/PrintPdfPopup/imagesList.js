@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { useCustomContext } from './CustomProvider/customProvider';
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 
 const imagesList = () => {
-    const { files } = useCustomContext();
+    const { files } = usePrintPdfContext();
     const imageRef = useRef();
 
     const thumbs = files.map(file => (

@@ -50,15 +50,6 @@
      */
     top: 5.5rem;
 }
-
-.printPdfButtonContainer {
-    align-items: center;
-    display: inline-flex;
-    justify-content: center;
-    min-height: 5.5rem;
-    width: 100%;
-}
-
 /*
  * Mobile-specific styles.
  */

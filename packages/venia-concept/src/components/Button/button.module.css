@@ -73,7 +73,7 @@
     composes: root;
     border: 2px solid var(--orienteed-primary-color-base2);
     width: 100%;
-    color:#616160;
+    color: #616160;
 }
 .root_normalPriorityNegative {
     composes: root_normalPriority;
@@ -88,7 +88,7 @@
     /* background-color: rgb(var(--stroke)); */
     background-color: var(--orienteed-primary-color-base1);
     border: none;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     width: 100%;
     color: rgb(var(--venia-global-color-gray-50));
 }
