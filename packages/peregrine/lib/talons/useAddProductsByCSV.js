@@ -80,7 +80,6 @@ export const useAddProductsByCSV = props => {
                     dataValidated.push(rawData[i]);
                 }
             } else {
-                setCsvErrorType('fields');
                 setIsCsvDialogOpen(true);
             }
         }
