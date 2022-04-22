@@ -9,7 +9,7 @@ import { retrieveCartId } from '@magento/peregrine/lib/store/actions/cart';
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
 
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CreateAccount/createAccount.gql.js';
-import registerUserAndSaveData from '@orienteed/customComponents/services/registerUserAndSaveData.js';
+import registerUserAndSaveData from '@orienteed/lms/services/registerUserAndSaveData';
 
 /**
  * Returns props necessary to render CreateAccount component. In particular this
@@ -42,14 +42,8 @@ export const useCreateAccount = props => {
     } = operations;
     const apolloClient = useApolloClient();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [
-        { cartId },
-        { createCart, removeCart, getCartDetails }
-    ] = useCartContext();
-    const [
-        { isGettingDetails },
-        { getUserDetails, setToken }
-    ] = useUserContext();
+    const [{ cartId }, { createCart, removeCart, getCartDetails }] = useCartContext();
+    const [{ isGettingDetails }, { getUserDetails, setToken }] = useUserContext();
 
     const [fetchCartId] = useMutation(createCartMutation);
 
@@ -57,12 +51,9 @@ export const useCreateAccount = props => {
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
-    const [createAccount, { error: createAccountError }] = useMutation(
-        createAccountMutation,
-        {
-            fetchPolicy: 'no-cache'
-        }
-    );
+    const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
+        fetchPolicy: 'no-cache'
+    });
 
     const [signIn, { error: signInError }] = useMutation(signInMutation, {
         fetchPolicy: 'no-cache'
@@ -73,11 +64,7 @@ export const useCreateAccount = props => {
 
     const [setMoodleTokenAndId] = useMutation(setMoodleTokenAndIdMutation);
 
-    const {
-        generateReCaptchaData,
-        recaptchaLoading,
-        recaptchaWidgetProps
-    } = useGoogleReCaptcha({
+    const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',
         formAction: 'createAccount'
     });
@@ -122,11 +109,7 @@ export const useCreateAccount = props => {
                 await setToken(token);
 
                 // Moodle logic
-                registerUserAndSaveData(
-                    formValues.customer.email,
-                    formValues.password,
-                    setMoodleTokenAndId
-                );
+                registerUserAndSaveData(formValues.customer.email, formValues.password, setMoodleTokenAndId);
 
                 // Clear all cart/customer data from cache and redux.
                 await apolloClient.clearCacheData(apolloClient, 'cart');
@@ -158,7 +141,6 @@ export const useCreateAccount = props => {
                 if (onSubmit) {
                     onSubmit();
                 }
-
             } catch (error) {
                 if (process.env.NODE_ENV !== 'production') {
                     console.error(error);
@@ -196,11 +178,7 @@ export const useCreateAccount = props => {
     }, [initialValues]);
 
     const errors = useMemo(
-        () =>
-            new Map([
-                ['createAccountQuery', createAccountError],
-                ['signInMutation', signInError]
-            ]),
+        () => new Map([['createAccountQuery', createAccountError], ['signInMutation', signInError]]),
         [createAccountError, signInError]
     );
 

@@ -10,8 +10,8 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 import defaultClasses from './courseContent.module.css';
 
-import getCourseContent from '../../services/getCourseContent';
-import getCourseDetails from '../../services/getCourseDetails';
+import getCourseContent from '../../../services/getCourseContent';
+import getCourseDetails from '../../../services/getCourseDetails';
 
 import noImageAvailable from '../CoursesCatalog/CourseItem/Icons/noImageAvailable.svg';
 import audioIcon from './Icons/audio.svg';
@@ -64,7 +64,7 @@ const CourseContent = props => {
             <span className={classes.divider}>{DELIMITER}</span>
             <Link className={classes.link} to="/learning">
                 <FormattedMessage
-                    id={'global.learning'} // TODO_B2B: Translations
+                    id={'lms.learning'} // TODO_B2B: Translations
                     defaultMessage={'Learning'}
                 />
             </Link>
@@ -194,7 +194,7 @@ const CourseContent = props => {
                     <>
                         <span className={classes.contentTitle}>
                             <FormattedMessage
-                                id={'learning.content'} // TODO_B2B: Translations
+                                id={'lms.content'} // TODO_B2B: Translations
                                 defaultMessage={'Content'}
                             />
                         </span>

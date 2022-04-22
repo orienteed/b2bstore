@@ -11,15 +11,10 @@ import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { retrieveCartId } from '@magento/peregrine/lib/store/actions/cart';
 
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/SignIn/signIn.gql.js';
-import registerUserAndSaveData from '@orienteed/customComponents/services/registerUserAndSaveData.js';
+import registerUserAndSaveData from '@orienteed/lms/services/registerUserAndSaveData';
 
 export const useSignIn = props => {
-    const {
-        getCartDetailsQuery,
-        setDefaultUsername,
-        showCreateAccount,
-        showForgotPassword
-    } = props;
+    const { getCartDetailsQuery, setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const {
@@ -35,15 +30,9 @@ export const useSignIn = props => {
     const [isSigningIn, setIsSigningIn] = useState(false);
     const history = useHistory();
 
-    const [
-        { cartId },
-        { createCart, removeCart, getCartDetails }
-    ] = useCartContext();
+    const [{ cartId }, { createCart, removeCart, getCartDetails }] = useCartContext();
 
-    const [
-        { isGettingDetails, getDetailsError },
-        { getUserDetails, setToken }
-    ] = useUserContext();
+    const [{ isGettingDetails, getDetailsError }, { getUserDetails, setToken }] = useUserContext();
 
     const [signIn, { error: signInError }] = useMutation(signInMutation, {
         fetchPolicy: 'no-cache'
@@ -77,11 +66,7 @@ export const useSignIn = props => {
                 const moodleTokenResponse = await fetchMoodleToken();
                 moodleTokenResponse.data.customer.moodle_token !== null
                     ? {}
-                    : registerUserAndSaveData(
-                          email,
-                          password,
-                          setMoodleTokenAndId
-                      );
+                    : registerUserAndSaveData(email, password, setMoodleTokenAndId);
 
                 // Clear all cart/customer data from cache and redux.
                 await clearCartDataFromCache(apolloClient);
@@ -143,14 +128,10 @@ export const useSignIn = props => {
         history.push('/forgot-password');
     }, [history]);
 
-    const errors = useMemo(
-        () =>
-            new Map([
-                ['getUserDetailsQuery', getDetailsError],
-                ['signInMutation', signInError]
-            ]),
-        [getDetailsError, signInError]
-    );
+    const errors = useMemo(() => new Map([['getUserDetailsQuery', getDetailsError], ['signInMutation', signInError]]), [
+        getDetailsError,
+        signInError
+    ]);
 
     return {
         errors,

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from './coursesCatalog.module.css';
-import getCourses from '../../services/getCourses';
+import getCourses from '../../../services/getCourses';
 import CourseItem from './CourseItem/courseItem';
 
 const DELIMITER = '/';

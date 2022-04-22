@@ -41,6 +41,7 @@
     "@orienteed/customComponents": "link:./@orienteed/customComponents",
     "@orienteed/customerCreditSystem": "link:./@orienteed/customerCreditSystem",
     "@orienteed/defaultBillingAddress": "link:./@orienteed/defaultBillingAddress",
+    "@orienteed/lms": "link:./@orienteed/lms",
     "@orienteed/locale": "link:./@orienteed/locale",
     "@orienteed/megaMenuIsRequiredLogin": "link:./@orienteed/megaMenuIsRequiredLogin",
     "@orienteed/payWithBankTransfer": "link:./@orienteed/payWithBankTransfer",
