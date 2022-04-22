@@ -35,9 +35,9 @@ const DownloadCsv = () => {
 
     let donwloadButton;
 
-    if (galleryItem.length > 1) {
+    if (galleryItem.length > 0) {
         newGalleryItemRegularPrice = galleryItem.map(item => {
-            if (item.__typename === 'ConfigurableProduct') {
+            if (item.__typename === 'ConfigurableProduct' && item.variants) {
                 return item.variants.map(variant => {
                     return {
                         // categorie: variant.product.categories[0].name, // the products from cloud doesn't have categories
@@ -61,9 +61,9 @@ const DownloadCsv = () => {
         return null;
     }
 
-    if (galleryItem.length > 1) {
+    if (galleryItem.length > 0) {
         newGalleryItemDiscountPrice = galleryItem.map(item => {
-            if (item.__typename === 'ConfigurableProduct') {
+            if (item.__typename === 'ConfigurableProduct' && item.variants) {
                 return item.variants.map(variant => {
                     return {
                         // categorie: variant.product.categories[0].name,
@@ -132,10 +132,7 @@ const DownloadCsv = () => {
         donwloadButton = (
             <CSVLink data={flattenRegularPrice}>
                 <CustomButton priority={'high'}>
-                    <FormattedMessage
-                        id={'download'}
-                        defaultMessage={'download'}
-                    />
+                    <FormattedMessage id={'download'} defaultMessage={'download'} />
                 </CustomButton>
             </CSVLink>
         );
@@ -143,10 +140,7 @@ const DownloadCsv = () => {
         donwloadButton = (
             <CSVLink data={flattenDiscountPrice}>
                 <CustomButton priority={'high'}>
-                    <FormattedMessage
-                        id={'download'}
-                        defaultMessage={'download'}
-                    />
+                    <FormattedMessage id={'download'} defaultMessage={'download'} />
                 </CustomButton>
             </CSVLink>
         );
@@ -154,10 +148,7 @@ const DownloadCsv = () => {
         donwloadButton = (
             <CSVLink data={flatNewGalleryItemRegularPrice}>
                 <CustomButton priority={'high'}>
-                    <FormattedMessage
-                        id={'download'}
-                        defaultMessage={'download'}
-                    />
+                    <FormattedMessage id={'download'} defaultMessage={'download'} />
                 </CustomButton>
             </CSVLink>
         );
@@ -165,10 +156,7 @@ const DownloadCsv = () => {
         donwloadButton = (
             <CSVLink data={flatNewGalleryItemMinimalPrice}>
                 <CustomButton priority={'high'}>
-                    <FormattedMessage
-                        id={'download'}
-                        defaultMessage={'download'}
-                    />
+                    <FormattedMessage id={'download'} defaultMessage={'download'} />
                 </CustomButton>
             </CSVLink>
         );
