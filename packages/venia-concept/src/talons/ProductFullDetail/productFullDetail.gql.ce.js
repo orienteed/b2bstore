@@ -22,8 +22,10 @@ export const ADD_PRODUCT_TO_CART = gql`
 
 export const GET_WISHLIST_CONFIG = gql`
     query GetWishlistConfigForProductCE {
+        # eslint-disable-next-line @graphql-eslint/require-id-when-available
         storeConfig {
             id
+            store_code
             magento_wishlist_general_is_enabled
         }
     }
@@ -33,21 +35,11 @@ export const GET_WISHLIST_CONFIG = gql`
  * @deprecated - replaced by general mutation in @magento/peregrine/lib/talons/productFullDetail.js
  */
 export const ADD_CONFIGURABLE_MUTATION = gql`
-    mutation addConfigurableProductToCart(
-        $cartId: String!
-        $quantity: Float!
-        $sku: String!
-        $parentSku: String!
-    ) {
+    mutation addConfigurableProductToCart($cartId: String!, $quantity: Float!, $sku: String!, $parentSku: String!) {
         addConfigurableProductsToCart(
             input: {
                 cart_id: $cartId
-                cart_items: [
-                    {
-                        data: { quantity: $quantity, sku: $sku }
-                        parent_sku: $parentSku
-                    }
-                ]
+                cart_items: [{ data: { quantity: $quantity, sku: $sku }, parent_sku: $parentSku }]
             }
         ) @connection(key: "addConfigurableProductsToCart") {
             cart {
@@ -63,7 +55,6 @@ export const ADD_CONFIGURABLE_MUTATION = gql`
     ${MiniCartFragment}
 `;
 
-
 export const GET_PRODUCTS_IN_WISHLISTS = gql`
     query GetProductsInWishlistsForGallery {
         customerWishlistProducts @client
@@ -74,16 +65,9 @@ export const GET_PRODUCTS_IN_WISHLISTS = gql`
  * @deprecated - replaced by general mutation in @magento/peregrine/lib/talons/productFullDetail.js
  */
 export const ADD_SIMPLE_MUTATION = gql`
-    mutation addSimpleProductToCart(
-        $cartId: String!
-        $quantity: Float!
-        $sku: String!
-    ) {
+    mutation addSimpleProductToCart($cartId: String!, $quantity: Float!, $sku: String!) {
         addSimpleProductsToCart(
-            input: {
-                cart_id: $cartId
-                cart_items: [{ data: { quantity: $quantity, sku: $sku } }]
-            }
+            input: { cart_id: $cartId, cart_items: [{ data: { quantity: $quantity, sku: $sku } }] }
         ) @connection(key: "addSimpleProductsToCart") {
             cart {
                 id
@@ -136,5 +120,5 @@ export default {
     getWishlistConfigQuery: GET_WISHLIST_CONFIG,
     getProductsInWishlistsQuery: GET_PRODUCTS_IN_WISHLISTS,
     getCustomerWishList: GET_CUSTOMER_WISHLIST,
-    getCustomerWishlistItems: GET_CUSTOMER_WISHLIST_ITEMS,
+    getCustomerWishlistItems: GET_CUSTOMER_WISHLIST_ITEMS
 };
