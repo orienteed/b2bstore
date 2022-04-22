@@ -12,11 +12,8 @@ import DEFAULT_OPERATIONS from './orderHistoryPage.gql';
 
 const PAGE_SIZE = 10;
 
-export default original => {
-
-  return function useOrderHistoryPage(props, ...restArgs) {
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, restArgs.operations);
+export const useOrderHistoryPage = (props = {}) => {
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getCustomerOrdersQuery, getStoreConfigData } = operations;
 
     const [
@@ -31,11 +28,7 @@ export default original => {
     const [pageSize, setPageSize] = useState(PAGE_SIZE);
     const [searchText, setSearchText] = useState('');
 
-    const {
-        data: orderData,
-        error: getOrderError,
-        loading: orderLoading
-    } = useQuery(getCustomerOrdersQuery, {
+    const { data: orderData, error: getOrderError, loading: orderLoading } = useQuery(getCustomerOrdersQuery, {
         fetchPolicy: 'cache-and-network',
         variables: {
             filter: {
@@ -70,10 +63,7 @@ export default original => {
         return null;
     }, [orderData, pageSize]);
 
-    const derivedErrorMessage = useMemo(
-        () => deriveErrorMessage([getOrderError]),
-        [getOrderError]
-    );
+    const derivedErrorMessage = useMemo(() => deriveErrorMessage([getOrderError]), [getOrderError]);
 
     const handleReset = useCallback(() => {
         setSearchText('');
@@ -120,5 +110,4 @@ export default original => {
         searchText,
         storeConfigData
     };
-  };
 };
