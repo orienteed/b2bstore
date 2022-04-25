@@ -8,9 +8,6 @@ import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
 import Logo from '@magento/venia-ui/lib/components/Logo';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
-import { DEFAULT_LINKSAddProductByCSV } from '@magento/venia-ui/lib/components/Footer/sampleData';
-
-import MyComponent from '../MyComponent';
 
 const Footer = props => {
     const { links } = props;
@@ -71,7 +68,6 @@ const Footer = props => {
                 </div>
             </div>
             <div className={classes.branding}>
-                <MyComponent />
                 <ul className={classes.legal}>
                     <li className={classes.terms}>
                         <FormattedMessage id={'footer.termsText'} defaultMessage={'Terms of Use'} />

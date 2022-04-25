@@ -17,6 +17,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/ProductOptions/options.js`]: './src/components/ProductOptions/options.js',
     [`@magento/venia-ui/lib/components/SearchBar/autocomplete.js`]: './src/components/SearchBar/autocomplete.js',
     [`@magento/venia-ui/lib/components/SearchBar/suggestedProduct.js`]: './src/components/SearchBar/suggestedProduct.js',
+    [`@magento/venia-ui/lib/components/SearchBar/suggestedProducts.js`]: './src/components/SearchBar/suggestedProducts.js',
     [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
     [`@magento/venia-ui/lib/components/SignInPage/signInPage.js`]: './src/components/SignInPage/signInPage.js',
     [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',

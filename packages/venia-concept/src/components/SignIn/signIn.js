@@ -11,7 +11,7 @@ import Field from '@magento/venia-ui/lib/components/Field';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import defaultClasses from './signIn.module.css';
-import { GET_CART_DETAILS_QUERY } from './signIn.gql';
+import { GET_CART_DETAILS_QUERY } from '@magento/peregrine/lib/talons/SignIn/signIn.gql.js';
 import LinkButton from '@magento/venia-ui/lib/components/LinkButton';
 import Password from '@magento/venia-ui/lib/components/Password';
 import FormError from '@magento/venia-ui/lib/components/FormError/formError';

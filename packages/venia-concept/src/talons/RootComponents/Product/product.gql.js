@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-import { ProductDetailsFragment } from './productDetailFragment.gql';
+import { ProductDetailsFragment } from '@magento/peregrine/lib/talons/RootComponents/Product/productDetailFragment.gql';
 
 export const GET_STORE_CONFIG_DATA = gql`
     query getStoreConfigData {

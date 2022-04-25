@@ -5,7 +5,7 @@ import { compose } from 'redux';
 
 import classify from '@magento/venia-ui/lib/classify';
 import { FieldIcons, Message } from '@magento/venia-ui/lib/components/Field';
-import defaultClasses from './textInput.module.css';
+import defaultClasses from '@magento/venia-ui/lib/components/TextInput/textInput.module.css';
 
 export class TextInput extends Component {
     static propTypes = {

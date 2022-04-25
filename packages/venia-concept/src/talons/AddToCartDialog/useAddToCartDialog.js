@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import defaultOperations from './addToCartDialog.gql';
+import defaultOperations from '@magento/peregrine/lib/talons/AddToCartDialog/addToCartDialog.gql';
 const OUT_OF_STOCK_CODE = 'OUT_OF_STOCK';
 
 export const useAddToCartDialog = props => {

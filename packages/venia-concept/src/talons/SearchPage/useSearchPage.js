@@ -10,7 +10,7 @@ import { getSearchParam } from '@magento/peregrine/lib/hooks/useSearchParam';
 import { useSort } from '@magento/peregrine/lib/hooks/useSort';
 import { getFiltersFromSearch, getFilterInput } from '@magento/peregrine/lib/talons/FilterModal/helpers';
 
-import DEFAULT_OPERATIONS from './searchPage.gql';
+import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/SearchPage/searchPage.gql';
 
 /**
  * Return props necessary to render a SearchPage component.

@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 
 import defaultClasses from './autocomplete.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Suggestions from './suggestions';
+import Suggestions from '@magento/venia-ui/lib/components/SearchBar/suggestions';
 
 const GET_AUTOCOMPLETE_RESULTS = gql`
     query getAutocompleteResults($inputText: String!) {

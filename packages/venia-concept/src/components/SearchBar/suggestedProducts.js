@@ -3,8 +3,8 @@ import { arrayOf, func, number, oneOfType, shape, string } from 'prop-types';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import mapProduct from '@magento/venia-ui/lib/util/mapProduct';
-import SuggestedProduct from './suggestedProduct';
-import defaultClasses from './suggestedProducts.module.css';
+import SuggestedProduct from '@magento/venia-ui/lib/components/SearchBar/suggestedProduct';
+import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/suggestedProducts.module.css';
 
 const SuggestedProducts = props => {
     const { limit, onNavigate, products } = props;
