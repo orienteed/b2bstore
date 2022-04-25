@@ -14,7 +14,7 @@ import { useDownloadCsvContext } from '@orienteed/customComponents/components/Do
  *
  * @params {Array} props.items an array of items to render
  */
- const Gallery = props => {
+const Gallery = props => {
     const { items } = props;
     const classes = useStyle(defaultClasses, props.classes);
     const talonProps = useGallery();
@@ -24,7 +24,6 @@ import { useDownloadCsvContext } from '@orienteed/customComponents/components/Do
     useEffect(() => {
         setGalleryItem(items);
     }, [items]);
-    
 
     const galleryItems = useMemo(
         () =>
@@ -32,24 +31,13 @@ import { useDownloadCsvContext } from '@orienteed/customComponents/components/Do
                 if (item === null) {
                     return <GalleryItemShimmer key={index} />;
                 }
-                return (
-                    <GalleryItem
-                        key={item.id}
-                        item={item}
-                        storeConfig={storeConfig}
-                    />
-                );
+                return <GalleryItem key={item.id} item={item} storeConfig={storeConfig} />;
             }),
         [items, storeConfig]
     );
 
     return (
-        <div
-            data-cy="Gallery-root"
-            className={classes.root}
-            aria-live="polite"
-            aria-busy="false"
-        >
+        <div data-cy="Gallery-root" className={classes.root} aria-live="polite" aria-busy="false">
             <div className={classes.items}>{galleryItems}</div>
         </div>
     );

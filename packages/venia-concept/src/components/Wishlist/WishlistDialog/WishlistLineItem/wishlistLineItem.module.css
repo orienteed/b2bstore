@@ -1,8 +1,0 @@
-.root {
-    width: 100%;
-    text-align: left;
-
-    border-bottom: 1px solid rgb(var(--venia-global-color-gray-dark));
-    font-weight: var(--venia-global-fontWeight-semibold);
-    height: 3.5rem;
-}

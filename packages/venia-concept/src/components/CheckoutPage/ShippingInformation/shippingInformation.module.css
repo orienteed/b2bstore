@@ -49,7 +49,7 @@
 }
 
 .loading {
-    composes: root from '../../LoadingIndicator/indicator.module.css';
+    composes: root from '@magento/venia-ui/lib/components/LoadingIndicator/indicator.module.css';
     text-align: center;
 }
 

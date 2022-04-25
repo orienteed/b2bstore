@@ -14,7 +14,7 @@
 }
 
 .trigger {
-    composes: root from '../../../../venia-ui/lib/components/clickable.module.css';
+    composes: root from '@magento/venia-ui/lib/components/clickable.module.css';
     align-content: center;
     display: flex;
     height: 3rem;
