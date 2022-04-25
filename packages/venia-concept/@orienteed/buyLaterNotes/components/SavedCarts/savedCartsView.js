@@ -1,59 +1,49 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, } from 'react-intl';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { FormattedMessage } from 'react-intl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartsView.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
-import {DATE_FORMAT} from '@orienteed/buyLaterNotes/config';
+import { DATE_FORMAT } from '@orienteed/buyLaterNotes/config';
 import Price from '@magento/venia-ui/lib/components/Price';
 import SavedCartViewTableItems from '@orienteed/buyLaterNotes/components/SavedCartViewTableItems';
 
 const savedCartsView = props => {
     const {
-        cart:{
-            cart_name,
-            cart_total,
-            created_at,
-            description,
-            items,
-            token
-        },
+        cart: { cart_name, cart_total, created_at, description, items, token },
         handleContentToggle,
         handleRestoreSaveCart,
         handleDeleteSaveCart
-    } = props
+    } = props;
 
     // Format Date
-    const formattedDate = new Date(created_at).toLocaleDateString(
-        undefined,
-        DATE_FORMAT
-    );
+    const formattedDate = new Date(created_at).toLocaleDateString(undefined, DATE_FORMAT);
 
     const classes = useStyle(defaultClasses, props.classes);
 
     const savedCartsViewName = (
         <div className={classes.savedCartName}>
-            <h2><FormattedMessage
-                        id={'savedCartTable.savedCartNameText'}
-                        defaultMessage={'Cart Name'}
-                    />:</h2>
+            <h2>
+                <FormattedMessage id={'savedCartTable.savedCartNameText'} defaultMessage={'Cart Name'} />:
+            </h2>
             <h2 className={classes.savedCartNameTitle}>{cart_name}</h2>
         </div>
     );
 
     const savedCartsViewDescription = (
-        <div className={classes.savedCartDescription}><div className={classes.tilteDescription}><FormattedMessage
-        id={'savedCartTable.savedCartDescripText'}
-        defaultMessage={'Description'}
-    />:</div>{description}</div>
+        <div className={classes.savedCartDescription}>
+            <div className={classes.tilteDescription}>
+                <FormattedMessage id={'savedCartTable.savedCartDescripText'} defaultMessage={'Description'} />:
+            </div>
+            {description}
+        </div>
     );
 
     const savedCartViewDate = (
         <div className={classes.savedCartViewDate}>
-            <h2><FormattedMessage
-                        id={'savedCartTable.savedCartDateText'}
-                        defaultMessage={'Date'}
-                    />:</h2>
+            <h2>
+                <FormattedMessage id={'savedCartTable.savedCartDateText'} defaultMessage={'Date'} />:
+            </h2>
             <h2>{formattedDate}</h2>
         </div>
     );
@@ -61,15 +51,8 @@ const savedCartsView = props => {
     const savedCartViewAction = (
         <div className={classes.savedCartViewActions}>
             <div className={classes.backAction}>
-                <button
-                    className={classes.savedCartBackLink}
-                    type="button"
-                    onClick={handleContentToggle}
-                >
-                    <FormattedMessage
-                        id={'savedCartsView.savedCartBackText'}
-                        defaultMessage={'Back'}
-                    />
+                <button className={classes.savedCartBackLink} type="button" onClick={handleContentToggle}>
+                    <FormattedMessage id={'savedCartsView.savedCartBackText'} defaultMessage={'Back'} />
                 </button>
             </div>
             <div className={classes.restoreAction}>
@@ -79,10 +62,7 @@ const savedCartsView = props => {
                     type="button"
                     onClick={handleRestoreSaveCart}
                 >
-                    <FormattedMessage
-                        id={'savedCartsView.savedCartRestoreText'}
-                        defaultMessage={'Restore'}
-                    />
+                    <FormattedMessage id={'savedCartsView.savedCartRestoreText'} defaultMessage={'Restore'} />
                 </button>
             </div>
         </div>
@@ -92,47 +72,32 @@ const savedCartsView = props => {
         <div className={[classes.savedCartViewTableRow, classes.savedCartViewTableHead].join(' ')}>
             <div className={classes.productName}>
                 <span className={classes.productNameLabel}>
-                    <FormattedMessage
-                        id={'savedCartsView.productNameText'}
-                        defaultMessage={'Product Name'}
-                    />
+                    <FormattedMessage id={'savedCartsView.productNameText'} defaultMessage={'Product Name'} />
                 </span>
             </div>
             <div className={classes.productSku}>
                 <span className={classes.productSkuLabel}>
-                    <FormattedMessage
-                        id={'savedCartsView.productSkuText'}
-                        defaultMessage={'SKU'}
-                    />
+                    <FormattedMessage id={'savedCartsView.productSkuText'} defaultMessage={'SKU'} />
                 </span>
             </div>
             <div className={classes.productImage}>
                 <span className={classes.productImageLabel}>
-                    <FormattedMessage
-                        id={'savedCartsView.productImage'}
-                        defaultMessage={'Image'}
-                    />
+                    <FormattedMessage id={'savedCartsView.productImage'} defaultMessage={'Image'} />
                 </span>
             </div>
-        </div>  
+        </div>
     );
 
     const savedCartViewTableFooter = (
         <div className={[classes.savedCartViewTableRow, classes.savedCartViewTableFooter].join(' ')}>
             <div className={[classes.tableSubtotal, classes.tableSubtotalDesk].join(' ')}>
                 <span className={classes.tableSubtotalLabel}>
-                    <FormattedMessage
-                        id={'savedCartsView.tableSubtotalText'}
-                        defaultMessage={'Subtotal'}
-                    />
+                    <FormattedMessage id={'savedCartsView.tableSubtotalText'} defaultMessage={'Subtotal'} />
                 </span>
             </div>
             <div className={classes.tableSubtotal}>
                 <span className={classes.tableSubtotalMobileLabel}>
-                    <FormattedMessage
-                        id={'savedCartsView.tableSubtotalText'}
-                        defaultMessage={'Subtotal'}
-                    />
+                    <FormattedMessage id={'savedCartsView.tableSubtotalText'} defaultMessage={'Subtotal'} />
                 </span>
                 <span className={classes.tableSubtotalValue}>
                     <Price currencyCode={cart_total.currency} value={cart_total.value} />
@@ -157,15 +122,8 @@ const savedCartsView = props => {
                     {savedCartViewTableFooter}
                     <div className={classes.actionContainer}>
                         <div className={classes.backAction}>
-                            <button
-                                className={classes.savedCartBackLink}
-                                type="button"
-                                onClick={handleContentToggle}
-                            >
-                                <FormattedMessage
-                                    id={'savedCartsView.savedCartBackText'}
-                                    defaultMessage={'Back'}
-                                />
+                            <button className={classes.savedCartBackLink} type="button" onClick={handleContentToggle}>
+                                <FormattedMessage id={'savedCartsView.savedCartBackText'} defaultMessage={'Back'} />
                             </button>
                         </div>
                         <div className={classes.restoreAction}>
@@ -183,18 +141,15 @@ const savedCartsView = props => {
                         </div>
                         <div className={classes.restoreAction}>
                             <button
+                                id={token}
                                 className={classes.savedCartLinkDelete}
                                 type="button"
                                 onClick={handleDeleteSaveCart}
                             >
-                                <FormattedMessage
-                                    id={'savedCartTable.cartDeleteText'}
-                                    defaultMessage={'Delete'}
-                                />
+                                <FormattedMessage id={'savedCartTable.cartDeleteText'} defaultMessage={'Delete'} />
                             </button>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -207,9 +162,7 @@ const savedCartsView = props => {
                     {savedCartsViewName}
                     {savedCartViewDate}
                 </div>
-                <div className={classes.headerDescription}>
-                    {savedCartsViewDescription}
-                </div>
+                <div className={classes.headerDescription}>{savedCartsViewDescription}</div>
             </div>
             {savedCartViewTable}
         </div>
