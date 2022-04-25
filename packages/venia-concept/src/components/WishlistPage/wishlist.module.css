@@ -43,7 +43,7 @@
 }
 
 .loadMore {
-    composes: root_lowPriority from '../Button/button.module.css';
+    composes: root_lowPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     margin: 2rem auto;
     display: block;
     min-width: 20rem;

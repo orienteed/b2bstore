@@ -3,8 +3,10 @@
     /* color */
     --orienteed-global-color-orange: #e8ab00;
     --orienteed-global-color-gray: #808080;
-    --orienteed-global-color-black: #28282B;
-
+    --orienteed-global-color-black: #28282b;
+    --orienteed-global-color-orange-op: 232, 171, 0;
+    --orienteed-global-color-gray-op: 128, 128, 128;
+    --orienteed-global-color-black-op: 40, 40, 43;
 }
 
 /* alias tokens */

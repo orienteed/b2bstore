@@ -13,6 +13,7 @@
     line-height: 1rem;
     padding: 0.5625rem 0.125rem;
     min-height: 2.125rem;
+    color: var(--orienteed-primary-color-base3);
 }
 
 .input {
@@ -31,7 +32,7 @@
 }
 
 .input:focus {
-    box-shadow: -6px 6px rgb(var(--venia-brand-color-1-100));
+    box-shadow: -6px 6px rgba(var(--orienteed-global-color-gray-op), 0.5);
     outline: none;
 }
 

@@ -79,7 +79,7 @@
 }
 
 .orderInsurancesButton{
-    composes: root_normalPriority from '../Button/button.module.css';
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
 }
 
 @media (max-width: 960px) {

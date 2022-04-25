@@ -60,7 +60,7 @@
 }
 
 .signInButton {
-    composes: root_normalPriority from '../Button/button.module.css';
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     min-height: auto;
     min-width: auto;
     padding: 0.25rem 2rem;
@@ -114,13 +114,13 @@
 }
 
 .review_order_button {
-    composes: root_highPriority from '../Button/button.module.css';
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     grid-column: 1 / span 1;
     margin: auto;
 }
 
 .place_order_button {
-    composes: root_highPriority from '../Button/button.module.css';
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     grid-column: 1 / span 1;
     margin: auto;
 }

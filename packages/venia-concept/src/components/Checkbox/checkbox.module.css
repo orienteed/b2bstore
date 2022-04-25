@@ -55,6 +55,6 @@
 
 .input:active:enabled,
 .input:focus:enabled {
-    box-shadow: -3px 3px var(--orienteed-primary-color-base2);
+    box-shadow: -3px 3px rgba(var(--orienteed-global-color-gray-op), 0.5);
     outline: none;
 }

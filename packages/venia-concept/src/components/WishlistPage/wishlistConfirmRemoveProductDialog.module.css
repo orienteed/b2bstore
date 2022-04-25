@@ -4,7 +4,7 @@
 
 .confirmButton {
     composes: confirmButton from '../Dialog/dialog.module.css';
-    composes: root_highPriorityNegative from '../Button/button.module.css';
+    composes: root_highPriorityNegative from '@magento/venia-concept/src/components/Button/button.module.css';
 }
 
 .errorMessage {

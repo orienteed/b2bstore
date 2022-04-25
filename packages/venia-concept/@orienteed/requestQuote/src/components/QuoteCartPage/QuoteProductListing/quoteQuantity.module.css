@@ -90,7 +90,7 @@
     color: rgb(var(--venia-global-color-gray-darker));
 }
 .input:focus {
-    box-shadow: -6px 6px rgb(var(--venia-brand-color-1-100));
+    box-shadow: -6px 6px rgba(var(--orienteed-global-color-gray-op), 0.5);
     outline: none;
 }
 .input_error {

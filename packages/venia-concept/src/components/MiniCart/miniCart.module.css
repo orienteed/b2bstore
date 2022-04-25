@@ -123,7 +123,7 @@
 }
 
 .checkoutButton {
-    composes: root_highPriority from '../Button/button.module.css';
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     grid-column: 1 / span 1;
     width: 10rem;
     margin: auto;

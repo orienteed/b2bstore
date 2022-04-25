@@ -50,7 +50,7 @@
 }
 
 .addToCart {
-    composes: root_highPriority from '../Button/button.module.css';
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     justify-self: left;
     margin-top: 0.25rem;
 }

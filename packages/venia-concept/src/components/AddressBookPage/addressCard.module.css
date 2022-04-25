@@ -29,13 +29,13 @@
 }
 
 .confirmDeleteButton {
-    composes: root_normalPriorityNegative from '../Button/button.module.css';
+    composes: root_normalPriorityNegative from '@magento/venia-concept/src/components/Button/button.module.css';
 
     background-color: white;
     order: 1;
 }
 .cancelDeleteButton {
-    composes: root_lowPriority from '../Button/button.module.css';
+    composes: root_lowPriority from '@magento/venia-concept/src/components/Button/button.module.css';
 
     background-color: white;
 }

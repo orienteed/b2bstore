@@ -45,7 +45,7 @@
 }
 
 .editInformationButton {
-    composes: root_normalPriority from '../Button/button.module.css';
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
 }
 
 @media (min-width: 961px) {

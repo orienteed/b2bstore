@@ -73,7 +73,7 @@
     composes: root;
     border: 2px solid var(--orienteed-primary-color-base2);
     width: 100%;
-    color: #616160;
+    color: var(--orienteed-primary-color-base2);
 }
 .root_normalPriorityNegative {
     composes: root_normalPriority;
