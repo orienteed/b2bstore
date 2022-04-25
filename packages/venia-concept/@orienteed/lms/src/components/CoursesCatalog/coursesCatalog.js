@@ -17,6 +17,14 @@ const CoursesCatalog = props => {
 
     const [courses, setCourses] = useState();
 
+    const handleGoToInProgress = () => {
+        setSelectedButton('inProgress');
+    };
+
+    const handleGoToAllCourses = () => {
+        setSelectedButton('all');
+    };
+
     useEffect(() => {
         getCourses().then(coursesData => setCourses(coursesData));
     }, []);
@@ -31,20 +39,40 @@ const CoursesCatalog = props => {
                 <span className={classes.currentPage}>Learning</span>
             </div>
             <div className={classes.switchViewButtonContainer}>
-                <Button priority={buttonSelected === 'all' ? 'high' : 'normal'} classes={classes.switchViewButton}>
+                <Button
+                    className={buttonSelected === 'all' ? classes.allCoursesButton : classes.inProgressButton}
+                    onClick={handleGoToAllCourses}
+                >
                     <FormattedMessage id={'lms.allCourses'} defaultMessage={'All courses'} />
                 </Button>
-                <Button priority={buttonSelected === 'all' ? 'normal' : 'high'} classes={classes.switchViewButton}>
+                <Button
+                    className={buttonSelected === 'all' ? classes.inProgressButton : classes.allCoursesButton}
+                    onClick={handleGoToInProgress}
+                >
                     <FormattedMessage id={'lms.progressCourses'} defaultMessage={'Course in progress'} />
                 </Button>
             </div>
-            <h1 className={classes.pageTitle}>List of our courses online</h1>
-            <div className={classes.courseContainer}>
-                {courses !== undefined &&
-                    courses.map(course => {
-                        return <CourseItem key={course.id} data={course} />;
-                    })}
-            </div>
+            {buttonSelected === 'all' ? (
+                <div className={classes.bodyContainer}>
+                    <h1 className={classes.pageTitle}>List of our courses online</h1>
+                    <div className={classes.courseContainer}>
+                        {courses !== undefined &&
+                            courses.map(course => {
+                                return <CourseItem key={course.id} data={course} />;
+                            })}
+                    </div>
+                </div>
+            ) : (
+                <div className={classes.bodyContainer}>
+                    <h1 className={classes.pageTitle}>Your courses in progress</h1>
+                    <div className={classes.courseContainer}>
+                        {/* {courses !== undefined &&
+                        courses.map(course => {
+                            return <CourseItem key={course.id} data={course} />;
+                        })} */}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -43,15 +43,25 @@
     gap: 10px;
 }
 
-.switchViewButton {
-    max-width: 300px !important;
+.allCoursesButton {
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    width: minmax(280px, 350px);
+}
+
+.inProgressButton {
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    width: minmax(280px, 350px);
 }
 
 /* Catalog */
-
 .container {
     display: grid;
     padding: 1rem;
+    row-gap: 2rem;
+}
+
+.bodyContainer {
+    display: grid;
     row-gap: 2rem;
 }
 
