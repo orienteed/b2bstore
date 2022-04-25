@@ -3,7 +3,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
 import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './buyLaterNotesPage.module.css';
 import SavedCartsTable from './savedCartsTable';
 import SavedCartsToolbar from './savedCartsToolbar';
@@ -31,7 +31,7 @@ const BuyLaterNotesPage = props => {
         defaultMessage: 'Buy Later Notes'
     });
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const BLOCK_TITLE = formatMessage({
         id: 'savedCartTable.blockTitleText',

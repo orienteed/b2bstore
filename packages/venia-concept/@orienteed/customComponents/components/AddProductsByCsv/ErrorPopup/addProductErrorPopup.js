@@ -1,12 +1,12 @@
 import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
 import { useIntl } from 'react-intl';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './addProductErrorPopup.module.css';
 import Dialog from '@magento/venia-ui/lib/components/Dialog';
 
 const AddProductErrorPopup = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     const { isOpen, onCancel, errorMessage, errorType } = props;

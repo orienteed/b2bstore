@@ -2,13 +2,13 @@ import React, { useMemo } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
 import Tile from '@magento/venia-ui/lib/components/ProductOptions/tile';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/ProductOptions/tileList.module.css';
 
 const TileList = props => {
     const { getItemKey, selectedValue = {}, items, onSelectionChange } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const tiles = useMemo(
         () =>

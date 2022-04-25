@@ -1,7 +1,7 @@
 import React from 'react';
 import { oneOf, shape, string, bool } from 'prop-types';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './customButton.module.css';
 
 const getRootClassName = (priority, negative) =>
@@ -27,7 +27,7 @@ const CustomButton = props => {
         disabled,
         ...restProps
     } = props;
-    const classes = mergeClasses(defaultClasses, propClasses);
+    const classes = useStyle(defaultClasses, propClasses);
     const rootClassName = classes[getRootClassName(priority, negative)];
 
     return (

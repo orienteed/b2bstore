@@ -1,7 +1,7 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesToolbar.module.css';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
 
@@ -15,7 +15,7 @@ const quotesToolbar = props => {
         totalPage
     } = props
     
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
    
     const quotesToolbarPageInfo = (
         <div className={classes.pageInfo}>

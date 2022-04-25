@@ -1,5 +1,5 @@
 .root {
-    composes: root from '../../../../venia-ui/lib/components/clickable.module.css';
+    composes: root from '@magento/venia-ui/lib/components/clickable.module.css';
     --stroke: var(--orienteed-primary-color-base2);
     background: none;
     border-color: rgb(var(--stroke));
@@ -88,7 +88,6 @@
     /* background-color: rgb(var(--stroke)); */
     background-color: var(--orienteed-primary-color-base1);
     border: none;
-    margin-bottom: 1rem;
     width: 100%;
     color: rgb(var(--venia-global-color-gray-50));
 }

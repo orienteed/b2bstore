@@ -5,7 +5,7 @@ import { func, number, string } from 'prop-types';
 import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
 import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity';
 
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Message } from '@magento/venia-ui/lib/components/Field';
@@ -14,7 +14,7 @@ import defaultClasses from './quoteQuantity.module.css';
 export const QuantityFields = props => {
     const { initialValue, label, min, onChange, message } = props;
     const { formatMessage } = useIntl();
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const iconClasses = { root: classes.icon };
 
     const talonProps = useQuantity({

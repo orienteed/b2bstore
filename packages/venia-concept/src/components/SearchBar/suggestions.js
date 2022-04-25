@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { arrayOf, bool, func, shape, string } from 'prop-types';
 import { useSuggestions } from '@magento/peregrine/lib/talons/SearchBar';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import SuggestedCategories from '@magento/venia-ui/lib/components/SearchBar/suggestedCategories';
 import SuggestedProducts from './suggestedProducts';
 import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/suggestions.module.css';
@@ -33,7 +33,7 @@ const Suggestions = props => {
         return null;
     }
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     return (
         <Fragment>

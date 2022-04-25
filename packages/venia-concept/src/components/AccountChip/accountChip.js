@@ -1,12 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { bool, shape, string } from 'prop-types';
-import { Loader, User as AccountIcon } from 'react-feather';
+import { Loader as LoaderIcon, User as AccountIcon } from 'react-feather';
 
-import { useAccountChip } from '@magento/peregrine/lib/talons/AccountChip/useAccountChip';
+import Icon from '@magento/venia-ui/lib/components/Icon';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { useAccountChip } from '@magento/peregrine/lib/talons/AccountChip/useAccountChip';
 
-import Icon from '../Icon';
 import defaultClasses from './accountChip.module.css';
 import { GET_CUSTOMER_DETAILS } from './accountChip.gql';
 
@@ -45,7 +45,7 @@ const AccountChip = props => {
                 { name: currentUser.firstname }
             );
         } else if (shouldIndicateLoading) {
-            chipText = <Icon classes={{ icon: classes.loader }} src={Loader} />;
+            chipText = <Icon classes={{ icon: classes.loader }} src={LoaderIcon} />;
         } else {
             chipText = fallbackText;
         }

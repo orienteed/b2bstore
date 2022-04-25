@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartsView.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
 import {DATE_FORMAT} from '@orienteed/buyLaterNotes/config';
@@ -29,7 +29,7 @@ const savedCartsView = props => {
         DATE_FORMAT
     );
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const savedCartsViewName = (
         <div className={classes.savedCartName}>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartButton.module.css';
 import Button from '@magento/venia-ui/lib/components/Button';
 
 const savedCartButton = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const savedCartBtn = (
         <Button

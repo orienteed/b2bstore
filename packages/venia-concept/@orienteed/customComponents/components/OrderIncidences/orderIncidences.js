@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -18,7 +18,7 @@ import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/Loadi
 
 const OrderIncidences = props => {
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const { formatMessage } = useIntl();
 

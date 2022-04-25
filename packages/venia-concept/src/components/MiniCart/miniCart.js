@@ -8,7 +8,7 @@ import { bool, shape, string } from 'prop-types';
 
 import { useScrollLock, Price, useToasts } from '@magento/peregrine';
 import { useMiniCart } from '../../talons/MiniCart/useMiniCart';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
@@ -58,7 +58,7 @@ const MiniCart = React.forwardRef((props, ref) => {
         handleCancelCsvDialog
     } = talonProps;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isOpen ? classes.root_open : classes.root;
     const contentsClass = isOpen ? classes.contents_open : classes.contents;
     const quantityClassName = loading

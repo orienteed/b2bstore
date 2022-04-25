@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useMemo } from 'react';
 
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
 import defaultClasses from './quoteProductListing.module.css';
 import QuoteProduct from './quoteProduct';
@@ -11,7 +11,7 @@ const QuoteProductListing = props => {
 
     const {items, setActiveEditItem, setIsCartUpdating, handleDeleteQuote}=props
   
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const productComponents = useMemo(() => {
         if (items) {

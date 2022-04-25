@@ -3,7 +3,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
 import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import { useQuotes } from '@orienteed/requestQuote/src/talons/useQuotes'
 import QuotesToolbar from '@orienteed/requestQuote/src/components/Customer/Quotes/quotesToolbar'
 import QuotesRow from './quotesRow';
@@ -34,7 +34,7 @@ const Quotes = props => {
         defaultMessage: 'My Quotes'
     });
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const quotesTableRow = useMemo(() => {
 

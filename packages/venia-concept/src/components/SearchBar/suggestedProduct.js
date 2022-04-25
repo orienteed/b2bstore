@@ -5,7 +5,7 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import Price from '@magento/venia-ui/lib/components/Price';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
-import Icon from '../Icon';
+import Icon from '@magento/venia-ui/lib/components/Icon';
 import Image from '@magento/venia-ui/lib/components/Image';
 import defaultClasses from './suggestedProduct.module.css';
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { func, number, shape, string } from 'prop-types';
+import { object, number, shape, string } from 'prop-types';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './icon.module.css';
 
 const Icon = props => {
@@ -14,7 +14,7 @@ const Icon = props => {
         ...restProps
     } = props;
     const { width, ...restAttrs } = attrs || {};
-    const classes = mergeClasses(defaultClasses, propClasses);
+    const classes = useStyle(defaultClasses, propClasses);
 
     return (
         <span className={classes.root} {...restProps}>
@@ -36,5 +36,5 @@ Icon.propTypes = {
         root: string
     }),
     size: number,
-    src: func.isRequired
+    src: object.isRequired
 };

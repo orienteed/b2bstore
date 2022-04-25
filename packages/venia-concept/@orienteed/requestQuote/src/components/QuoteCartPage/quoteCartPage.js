@@ -3,7 +3,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import QuoteProductListing from './QuoteProductListing';
 import QuotePriceSummary from './QuotePriceSummary';
 import QuotePriceAdjustments from './QuotePriceAdjustments';
@@ -26,7 +26,7 @@ const quoteCartPage = props => {
         getQuoteId
     })
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     
 

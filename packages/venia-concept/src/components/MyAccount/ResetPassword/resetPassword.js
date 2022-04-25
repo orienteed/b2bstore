@@ -6,7 +6,7 @@ import { Form } from 'informed';
 import { useToasts } from '@magento/peregrine';
 import { useResetPassword } from '../../../talons/useResetPassword';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
@@ -20,7 +20,7 @@ import resetPasswordOperations from '@magento/venia-ui/lib/components/MyAccount/
 const ResetPassword = props => {
     const { classes: propClasses } = props;
     const { formatMessage } = useIntl();
-    const classes = mergeClasses(defaultClasses, propClasses);
+    const classes = useStyle(defaultClasses, propClasses);
 
     const {
         hasCompleted,

@@ -5,7 +5,7 @@ import { ArrowLeft as BackIcon } from 'react-feather';
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import Button from '@magento/venia-ui/lib/components/Button';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 import defaultClasses from './courseContent.module.css';
@@ -28,7 +28,7 @@ import downloadIcon from './Icons/download.svg';
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const [{ isSignedIn }] = useUserContext();
     const { search } = useLocation();
     const history = useHistory();

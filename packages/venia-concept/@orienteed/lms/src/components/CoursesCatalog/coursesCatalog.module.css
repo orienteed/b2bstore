@@ -7,9 +7,7 @@
     padding-left: var(--whitespace-start);
     padding-top: var(--whitespace-start);
     padding-bottom: var(--whitespace-end); /* Allow space for focus ring */
-    margin-bottom: calc(
-        -1 * var(--whitespace-end)
-    ); /* Prevent focus ring space affecting the rest of the UI */
+    margin-bottom: calc(-1 * var(--whitespace-end)); /* Prevent focus ring space affecting the rest of the UI */
     font-size: 0.875rem;
 
     /* Permanent height to prevent pop-in. */
@@ -37,6 +35,19 @@
 .currentPage {
     composes: text;
 }
+
+/* Buttons */
+.switchViewButtonContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+}
+
+.switchViewButton {
+    max-width: 300px !important;
+}
+
+/* Catalog */
 
 .container {
     display: grid;

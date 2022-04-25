@@ -1,7 +1,7 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@orienteed/buyLaterNotes/components/SavedCarts/savedCartsView.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
 import ReactHtmlParser from 'react-html-parser'; 
@@ -19,7 +19,7 @@ const savedCartViewTableItems = props => {
         }
     } = props
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const savedCartViewTable = (
         <div className={classes.savedCartViewTableRow}>

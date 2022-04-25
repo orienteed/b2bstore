@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Price from '@magento/venia-ui/lib/components/Price';
 
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Image from '@magento/venia-ui/lib/components/Image';
 import defaultClasses from './quoteProductDetail.module.css';
 import productImage from './vt12-kh_main.jpg';
@@ -12,7 +12,7 @@ const QuoteProductDetail = props => {
   
     const { formatMessage } = useIntl();
   
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     return (
         <div className={classes.root}>

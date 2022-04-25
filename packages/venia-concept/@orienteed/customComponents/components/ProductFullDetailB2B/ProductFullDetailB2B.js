@@ -1,7 +1,7 @@
 import React, { Fragment, useState, Suspense } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import RichText from '@magento/venia-ui/lib/components/RichText';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
@@ -16,7 +16,7 @@ const WishlistButton = React.lazy(() =>
 );
 
 const ProductFullDetailB2B = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const {
         breadcrumbs,

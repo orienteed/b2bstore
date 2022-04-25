@@ -1,5 +1,5 @@
 import React from 'react';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './reOrderBtn.module.css';
 import buttonClasses from '@magento/venia-ui/lib/components/Button/button.module.css';
 import useReOrderItems from '@orienteed/reorder/hooks/useReOrderItems';
@@ -8,7 +8,7 @@ import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/Loadi
 const ReOrder = props => {
 
     const { orderNumber } = props;
-    const classes = mergeClasses(defaultClasses, buttonClasses);
+    const classes = useStyle(defaultClasses, buttonClasses);
 
     const talonPropsForReOrderItems = useReOrderItems();
     const { handleReOrderClick, isLoading } = talonPropsForReOrderItems

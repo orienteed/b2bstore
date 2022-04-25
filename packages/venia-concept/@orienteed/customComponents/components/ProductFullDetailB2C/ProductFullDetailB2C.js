@@ -2,7 +2,7 @@ import React, { Fragment, Suspense } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
 import RichContent from '@magento/venia-ui/lib/components/RichContent';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
@@ -16,7 +16,7 @@ import defaultClasses from './ProductFullDetailB2C.module.css';
 import noImage from './icons/product-package-cancelled.svg';
 
 const ProductFullDetailB2C = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     const {

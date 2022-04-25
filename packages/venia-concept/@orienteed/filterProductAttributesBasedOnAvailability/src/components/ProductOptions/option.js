@@ -9,7 +9,7 @@ import {
     string
 } from 'prop-types';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import getOptionType from '@magento/venia-ui/lib/components/ProductOptions/getOptionType';
 import SwatchList from '@magento/venia-ui/lib/components/ProductOptions/swatchList';
 import TileList from '@magento/venia-ui/lib/components/ProductOptions/tileList';
@@ -54,7 +54,7 @@ const Option = props => {
         values
     ]);
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     return (
         <div className={classes.root}>

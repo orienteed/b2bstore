@@ -11,7 +11,7 @@ import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import BrainTreeDropin from '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/brainTreeDropIn';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/creditCard.module.css';
 import FormError from '@magento/venia-ui/lib/components/FormError';
@@ -47,7 +47,7 @@ const CreditCard = props => {
     } = props;
     const { formatMessage } = useIntl();
 
-    const classes = mergeClasses(defaultClasses, propClasses);
+    const classes = useStyle(defaultClasses, propClasses);
 
     const talonProps = useCreditCard({
         onSuccess,

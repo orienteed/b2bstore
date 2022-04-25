@@ -136,9 +136,9 @@ module.exports = targets => {
     //                 eSModule.addImport(`import localClasses from "${myPath}"`);
     //                 console.log('MY PATH ----> ', myPath);
 
-    //                 /** Update the mergeClasses() method to inject our additional custom css */
+    //                 /** Update the useStyle() method to inject our additional custom css */
     //                 module.insertAfterSource(
-    //                     'const classes = mergeClasses(defaultClasses, ',
+    //                     'const classes = useStyle(defaultClasses, ',
     //                     'localClasses, '
     //                 );
     //             }

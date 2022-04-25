@@ -2,14 +2,14 @@ import React, { useMemo } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
 import Swatch from '@magento/venia-ui/lib/components/ProductOptions/swatch';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/ProductOptions/swatchList.module.css';
 
 const SwatchList = props => {
     
     const { getItemKey, selectedValue = {}, items, onSelectionChange } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const swatches = useMemo(
         () =>

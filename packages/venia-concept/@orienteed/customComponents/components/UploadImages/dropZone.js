@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDropZone } from '../../talons/useDropZone';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from '../../css/dropZone.module.css';
 import FileInput from '../FileInput';
 
@@ -8,7 +8,7 @@ const DropZone = props => {
 
     const { field, setImagesValues } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const {
         dragOver,

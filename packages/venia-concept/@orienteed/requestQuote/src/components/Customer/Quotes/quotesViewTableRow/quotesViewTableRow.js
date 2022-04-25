@@ -1,7 +1,7 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@orienteed/requestQuote/src/components/Customer/Quotes/quotesView/quotesView.module.css';
 import Price from '@magento/venia-ui/lib/components/Price';
 import ProductOptions from './productOptions'
@@ -24,7 +24,7 @@ const quotesViewTableRow = props => {
         }
     }=props
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const quotesViewTableRow = (
         <li className={classes.quotesViewTableRow}>

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Field from '@magento/venia-ui/lib/components/Field';
 import Select from '@magento/venia-ui/lib/components/Select';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
@@ -16,7 +16,7 @@ const OrderIncidence = props => {
 
     const { incidence, orderItems, incidencesImages, setIncidencesImages } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     const IMAGE_WIDTH = 200;

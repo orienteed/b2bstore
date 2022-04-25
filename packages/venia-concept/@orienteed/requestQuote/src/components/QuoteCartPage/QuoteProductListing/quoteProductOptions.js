@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { arrayOf, shape, string } from 'prop-types';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quoteProductOptions.module.css';
 
 const QuoteProductOptions = props => {
 
     const { options = [] } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const displayOptions = useMemo(
         () =>

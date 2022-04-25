@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { func, shape, string } from 'prop-types';
 import { Form } from 'informed';
 
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
@@ -11,7 +11,7 @@ import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import defaultClasses from './forgotPasswordForm.module.css';
 
 const ForgotPasswordForm = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { initialValues, isResettingPassword, onSubmit, onCancel } = props;
 
     const { formatMessage } = useIntl();

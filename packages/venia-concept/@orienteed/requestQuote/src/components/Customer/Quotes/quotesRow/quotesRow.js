@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useQuotes } from '@orienteed/requestQuote/src/talons/useQuotes';
 import Price from '@magento/venia-ui/lib/components/Price';
 import QuotesView from '../quotesView';
@@ -33,7 +33,7 @@ const QuotesTable = props => {
         subtotal
     } = quote;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const talonProps = useQuotes();
     const { isOpen, handleContentToggle } = talonProps;

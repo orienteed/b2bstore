@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Image from '@magento/venia-ui/lib/components/Image';
 import logo from './B2Blogo.png';
 
@@ -17,7 +17,7 @@ import logo from './B2Blogo.png';
  */
 const Logo = props => {
     // const { height, width } = props;
-    const classes = mergeClasses({}, props.classes);
+    const classes = useStyle({}, props.classes);
     const { formatMessage } = useIntl();
 
     const width = 144;

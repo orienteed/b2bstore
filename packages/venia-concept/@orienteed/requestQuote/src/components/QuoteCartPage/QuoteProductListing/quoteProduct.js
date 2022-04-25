@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl'
 import Price from '@magento/venia-ui/lib/components/Price';
 
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Kebab from '@magento/venia-ui/lib/components/LegacyMiniCart/kebab';
 import Section from '@magento/venia-ui/lib/components/LegacyMiniCart/section';
 import Image from '@magento/venia-ui/lib/components/Image';
@@ -45,7 +45,7 @@ const quoteProduct = props => {
 
     const { formatMessage } = useIntl();
     
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const itemLink = useMemo(
         () => resourceUrl('/'+product.url_key + product.url_suffix)

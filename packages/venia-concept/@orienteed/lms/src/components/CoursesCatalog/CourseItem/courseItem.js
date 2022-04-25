@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import Button from '@magento/venia-ui/lib/components/Button';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from './courseItem.module.css';
 import noImageAvailable from './Icons/noImageAvailable.svg';
 
 const CourseItem = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const history = useHistory();
 
     const { data } = props;

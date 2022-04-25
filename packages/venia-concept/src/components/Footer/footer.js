@@ -6,7 +6,7 @@ import { shape, string } from 'prop-types';
 import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
 
 import Logo from '@magento/venia-ui/lib/components/Logo';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
 import {
     DEFAULT_LINKSAddProductByCSV} from '@magento/venia-ui/lib/components/Footer/sampleData';
@@ -15,7 +15,7 @@ import MyComponent from '../MyComponent';
 
 const Footer = props => {
     const { links } = props;
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const talonProps = useFooter();
 
     const { copyrightText } = talonProps;

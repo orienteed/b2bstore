@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
 import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Price from '@magento/venia-ui/lib/components/Price';
 import Image from '@magento/venia-ui/lib/components/Image';
 import Icon from '@magento/venia-ui/lib/components/Icon';
@@ -10,7 +10,7 @@ import defaultClasses from './ProductItem.module.css';
 import CustomButton from '../CustomButtom/CustomButton';
 
 const ProductItem = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const {
         product,

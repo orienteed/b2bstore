@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { mergeClasses } from "@magento/venia-ui/lib/classify";
+import { useStyle } from "@magento/venia-ui/lib/classify";
 import defaultClasses from "./OrderIncidenceBtn.module.css";
 import buttonClasses from "@magento/venia-ui/lib/components/Button/button.module.css";
 import Popup from "reactjs-popup";
@@ -16,7 +16,7 @@ import {
 
 const OrderIncidenceBtn = (props) => {
   const {orderNumber}=props
-  const classes = mergeClasses(defaultClasses, buttonClasses);
+  const classes = useStyle(defaultClasses, buttonClasses);
   const { formatMessage } = useIntl();
   const talonProps = useOrderIncidenceBtn({orderNumber});
   const {

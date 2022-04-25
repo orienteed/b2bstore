@@ -1,5 +1,5 @@
 import React from 'react';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -14,7 +14,7 @@ import FormError from '@magento/venia-ui/lib/components/FormError';
 
 const CreateAccountBeCustomer = props => {
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const { formatMessage } = useIntl();
 

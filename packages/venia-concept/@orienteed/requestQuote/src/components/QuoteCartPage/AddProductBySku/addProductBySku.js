@@ -1,7 +1,7 @@
 import React, {useMemo, Fragment}  from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './addProductBySku.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
 import { Link } from 'react-router-dom';
@@ -24,7 +24,7 @@ const AddProductBySku = props => {
         handleSearchData
     } = useAddProductBySku()
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     const formClass = classes.entryForm;

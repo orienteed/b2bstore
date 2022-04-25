@@ -3,12 +3,12 @@ import {shape, string, bool, func} from 'prop-types';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { usePayWithBankTransfer } from '@orienteed/payWithBankTransfer/src/talons/usePayWithBankTransfer';
 import { FormattedMessage, } from 'react-intl';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './payWithBankTransfer.module.css';
 
 import BillingAddress from '@magento/venia-ui/lib/components/CheckoutPage/BillingAddress';
 const PayWithBankTransfer = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     
     const {
         onPaymentSuccess,

@@ -4,12 +4,12 @@ import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator'
 import { useCustomerCreditSystem } from '@orienteed/customerCreditSystem/src/talons/useCustomerCreditSystem';
 import { FormattedMessage, } from 'react-intl';
 import Button from '@magento/venia-ui/lib/components/Button';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './customerCreditSystem.module.css';
 import BillingAddress from '@magento/venia-ui/lib/components/CheckoutPage/BillingAddress';
 
 const CustomerCreditSystem = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const {
         onPaymentSuccess,
         onPaymentError,

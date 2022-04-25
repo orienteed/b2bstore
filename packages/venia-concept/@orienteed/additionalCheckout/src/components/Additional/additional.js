@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './additional.module.css';
 import ScrollAnchor from '@magento/venia-ui/lib/components/ScrollAnchor/scrollAnchor';
 import Field from '@magento/venia-ui/lib/components/Field';
@@ -14,7 +14,7 @@ import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator'
 
 const Additional = props => {
     const {reviewOrderButtonClicked }=props
-    const classes = mergeClasses(defaultClasses);
+    const classes = useStyle(defaultClasses);
     const { formatMessage } = useIntl();
 
     const {

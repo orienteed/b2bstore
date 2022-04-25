@@ -4,14 +4,14 @@ import { Upload as UploadFileIcon } from 'react-feather';
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import Button from '@magento/venia-ui/lib/components/Button';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import AddProductErrorPopup from './ErrorPopup/addProductErrorPopup';
 import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
 import defaultClasses from './addProductByCsv.module.css';
 
 const AddProductByCsv = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const {
         csvErrorType,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartPopup.module.css';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Dialog from '@magento/venia-ui/lib/components/Dialog';
@@ -19,7 +19,7 @@ const savedCartPopup = props => {
         shouldDisableAllButtons
     } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     const cartNameLabel = (

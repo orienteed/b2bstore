@@ -1,11 +1,11 @@
 import React from 'react';
 import defaultClasses from '../../css/forms.module.css';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useIntl } from 'react-intl';
 import Select from '@magento/venia-ui/lib/components/Select';
 
 const Countries = props => {
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const { formatMessage } = useIntl();
 

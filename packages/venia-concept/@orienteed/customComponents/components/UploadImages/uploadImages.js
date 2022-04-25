@@ -1,6 +1,6 @@
 import React from 'react';
 import DropZone from "./dropZone.js";
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from '../../css/uploadImages.module.css';
 import { useIntl } from 'react-intl';
 
@@ -8,7 +8,7 @@ const UploadImages = props => {
 
   const { field, form, setImagesValues } = props;
 
-  const classes = mergeClasses(defaultClasses, props.classes);
+  const classes = useStyle(defaultClasses, props.classes);
 
   const { formatMessage } = useIntl();
 

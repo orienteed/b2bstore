@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartsTable.module.css';
 import SavedCartsView from './savedCartsView';
 import { useSavedCartsTable } from '@orienteed/buyLaterNotes/talons/useSavedCartsTable';
@@ -27,7 +27,7 @@ const SavedCartTable = props => {
         getSavedCarts
     });
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     const { copied, isOpen, handleContentToggle, copyCartUrl, handleDeleteSaveCart, handleRestoreSaveCart } = talonProps;
 

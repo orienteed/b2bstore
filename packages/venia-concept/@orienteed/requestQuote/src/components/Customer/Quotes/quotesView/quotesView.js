@@ -3,7 +3,7 @@ import { shape, string } from 'prop-types';
 import { FormattedMessage, } from 'react-intl';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Printer } from 'react-feather';
-import {mergeClasses} from '@magento/venia-ui/lib/classify';
+import {useStyle} from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesView.module.css';
 import Price from '@magento/venia-ui/lib/components/Price';
 import QuotesViewTableRow from '@orienteed/requestQuote/src/components/Customer/Quotes/quotesViewTableRow';
@@ -25,7 +25,7 @@ const quotesView = props => {
         }
     } = props
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes);
 
     // Format Date
     const createdAt = new Date(created_at).toLocaleDateString(
