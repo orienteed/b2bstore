@@ -6,6 +6,20 @@
     grid-column: 16;
     color: #fff;
 }
+.orderIcon {
+    width: 65px;
+    height: 48px;
+    background: rgb(var(--venia-global-color-blue-200));
+    border-radius: 30px;
+    grid-column: 18;
+    color: #fff;
+}
+.orderIcon > span {
+    display: flex;
+}
+.orderIcon svg {
+    stroke: #fff;
+}
 .flex {
     display: flex;
     gap: 1.5rem;
@@ -105,7 +119,7 @@
 .btnOrderContainer {
     display: grid;
 }
-.gridBtn{
+.gridBtn {
     grid-column: 16;
 }
 .quoteBtn {

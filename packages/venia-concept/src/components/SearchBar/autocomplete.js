@@ -24,6 +24,7 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
             }
             # eslint-disable-next-line @graphql-eslint/require-id-when-available
             items {
+                __typename
                 id
                 uid
                 orParentSku
@@ -43,23 +44,12 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                     }
                 }
             }
-            page_info {
-                total_pages
-            }
-            total_count
         }
     }
 `;
 
 const Autocomplete = props => {
-    const {
-        setVisible,
-        valid,
-        visible,
-        quickOrder,
-        handleSearchClick,
-        value
-    } = props;
+    const { setVisible, valid, visible, quickOrder, handleSearchClick, value } = props;
     const talonProps = useAutocomplete({
         queries: {
             getAutocompleteResults: GET_AUTOCOMPLETE_RESULTS
@@ -127,17 +117,10 @@ const Autocomplete = props => {
         );
 
     const messageTpl = MESSAGES.get(messageType);
-    const message =
-        typeof messageTpl === 'function'
-            ? messageTpl`${resultCount}`
-            : messageTpl;
+    const message = typeof messageTpl === 'function' ? messageTpl`${resultCount}` : messageTpl;
 
     return (
-        <div
-            data-cy="Autocomplete-root"
-            className={`${rootClassName} ${quickOrder &&
-                defaultClasses.quickOrder}`}
-        >
+        <div data-cy="Autocomplete-root" className={`${rootClassName} ${quickOrder && defaultClasses.quickOrder}`}>
             <div data-cy="Autocomplete-message" className={classes.message}>
                 {message}
             </div>
