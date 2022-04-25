@@ -34,11 +34,7 @@ export const usePdfPopupProduct = props => {
     const { item, wishlistConfig } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        removeItemMutation,
-        updateItemQuantityMutation,
-        getStoreConfigQuery
-    } = operations;
+    const { removeItemMutation, updateItemQuantityMutation, getStoreConfigQuery } = operations;
 
     const { formatMessage } = useIntl();
 
@@ -58,28 +54,16 @@ export const usePdfPopupProduct = props => {
         }
     }, [storeConfigData]);
 
-    const flatProduct = flattenProduct(
-        item,
-        configurableThumbnailSource,
-        storeUrlSuffix
-    );
+    const flatProduct = flattenProduct(item, configurableThumbnailSource, storeUrlSuffix);
 
     const [
         removeItemFromCart,
-        {
-            called: removeItemCalled,
-            error: removeItemError,
-            loading: removeItemLoading
-        }
+        { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }
     ] = useMutation(removeItemMutation);
 
     const [
         updateItemQuantity,
-        {
-            loading: updateItemLoading,
-            error: updateError,
-            called: updateItemCalled
-        }
+        { loading: updateItemLoading, error: updateError, called: updateItemCalled }
     ] = useMutation(updateItemQuantityMutation);
 
     const [{ cartId }] = useCartContext();
@@ -95,19 +79,10 @@ export const usePdfPopupProduct = props => {
         } else {
             return false;
         }
-    }, [
-        updateItemCalled,
-        removeItemCalled,
-        removeItemLoading,
-        updateItemLoading
-    ]);
+    }, [updateItemCalled, removeItemCalled, removeItemLoading, updateItemLoading]);
 
     const derivedErrorMessage = useMemo(() => {
-        return (
-            (displayError &&
-                deriveErrorMessage([updateError, removeItemError])) ||
-            ''
-        );
+        return (displayError && deriveErrorMessage([updateError, removeItemError])) || '';
     }, [displayError, removeItemError, updateError]);
 
     const handleRemoveFromCart = useCallback(async () => {
@@ -152,9 +127,7 @@ export const usePdfPopupProduct = props => {
         item: {
             quantity: item.quantity,
             selected_options: item.configurable_options
-                ? item.configurable_options.map(
-                      option => option.configurable_product_option_value_uid
-                  )
+                ? item.configurable_options.map(option => option.configurable_product_option_value_uid)
                 : [],
             sku: item.product.sku
         },
@@ -174,12 +147,7 @@ export const usePdfPopupProduct = props => {
 
 const flattenProduct = (item, configurableThumbnailSource, storeUrlSuffix) => {
     // const { cartImage, setCartImage } = useCustomContext();
-    const {
-        configurable_options: options = [],
-        prices,
-        product,
-        quantity
-    } = item;
+    const { configurable_options: options = [], prices, product, quantity } = item;
 
     const configured_variant = configuredVariant(options, product);
     // setCartImage(configured_variant)
@@ -187,17 +155,10 @@ const flattenProduct = (item, configurableThumbnailSource, storeUrlSuffix) => {
     const { price } = prices;
     const { value: unitPrice, currency } = price;
 
-    const {
-        name,
-        small_image,
-        stock_status: stockStatus,
-        url_key: urlKey
-    } = product;
+    const { name, small_image, stock_status: stockStatus, url_key: urlKey } = product;
 
     const { url: image } =
-        configurableThumbnailSource === 'itself' && configured_variant
-            ? configured_variant.small_image
-            : small_image;
+        configurableThumbnailSource === 'itself' && configured_variant ? configured_variant.small_image : small_image;
 
     return {
         currency,

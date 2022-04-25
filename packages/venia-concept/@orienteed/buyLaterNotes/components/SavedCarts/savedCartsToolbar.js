@@ -1,18 +1,12 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartsToolbar.module.css';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
 
 const savedCartsToolbar = props => {
-
-    const {
-        handlePageSize,
-        handleCurrentPage,
-        currentPage,
-        totalPage
-    } = props
+    const { handlePageSize, handleCurrentPage, currentPage, totalPage } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -28,10 +22,7 @@ const savedCartsToolbar = props => {
     const savedCartsToolbarLimiter = (
         <div className={classes.limiter}>
             <span className={classes.limiterLabel}>
-                <FormattedMessage
-                    id={'savedCartsToolbar.cartDeleteText'}
-                    defaultMessage={'Show'}
-                />
+                <FormattedMessage id={'savedCartsToolbar.cartDeleteText'} defaultMessage={'Show'} />
             </span>
             <select id="limiter" className={classes.limiterOptions} onChange={handlePageSize}>
                 <option value="5">{'5'}</option>
@@ -39,10 +30,7 @@ const savedCartsToolbar = props => {
                 <option value="50">{'50'}</option>
             </select>
             <span className={classes.limiterText}>
-                <FormattedMessage
-                    id={'savedCartsToolbar.cartDeleteText'}
-                    defaultMessage={'per page'}
-                />
+                <FormattedMessage id={'savedCartsToolbar.cartDeleteText'} defaultMessage={'per page'} />
             </span>
         </div>
     );

@@ -17,22 +17,14 @@ const ForgotPasswordForm = props => {
     const { formatMessage } = useIntl();
 
     return (
-        <Form
-            className={classes.root}
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-        >
+        <Form className={classes.root} initialValues={initialValues} onSubmit={onSubmit}>
             <Field
                 label={formatMessage({
                     id: 'forgotPasswordForm.emailAddressText',
                     defaultMessage: 'Email address'
                 })}
             >
-                <TextInput
-                    autoComplete="email"
-                    field="email"
-                    validate={isRequired}
-                />
+                <TextInput autoComplete="email" field="email" validate={isRequired} />
             </Field>
             <div className={classes.buttonContainer}>
                 <Button
@@ -42,21 +34,10 @@ const ForgotPasswordForm = props => {
                     priority="low"
                     onClick={onCancel}
                 >
-                    <FormattedMessage
-                        id={'forgotPasswordForm.cancelButtonText'}
-                        defaultMessage={'Cancel'}
-                    />
+                    <FormattedMessage id={'forgotPasswordForm.cancelButtonText'} defaultMessage={'Cancel'} />
                 </Button>
-                <Button
-                    className={classes.submitButton}
-                    disabled={isResettingPassword}
-                    type="submit"
-                    priority="high"
-                >
-                    <FormattedMessage
-                        id={'forgotPasswordForm.submitButtonText'}
-                        defaultMessage={'Submit'}
-                    />
+                <Button className={classes.submitButton} disabled={isResettingPassword} type="submit" priority="high">
+                    <FormattedMessage id={'forgotPasswordForm.submitButtonText'} defaultMessage={'Submit'} />
                 </Button>
             </div>
         </Form>

@@ -11,7 +11,8 @@
     color: rgb(var(--venia-global-color-text));
 }
 
-.header, .message{
+.header,
+.message {
     margin-bottom: 40px;
 }
 
@@ -23,7 +24,6 @@
 
 .message {
     line-height: var(--venia-global-lineHeight-200);
-    
 }
 
 .actionsContainer {

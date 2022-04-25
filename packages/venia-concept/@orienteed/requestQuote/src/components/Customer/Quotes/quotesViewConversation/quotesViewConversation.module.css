@@ -1,31 +1,31 @@
-.root{
+.root {
     margin-top: 25px;
 }
-.blockTitle{
+.blockTitle {
     font-weight: var(--venia-global-fontWeight-semibold);
     margin-bottom: 15px;
     font-size: var(--venia-global-fontSize-400);
 }
-.formActions{
+.formActions {
     margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
-.formActions button{
+.formActions button {
     margin-left: auto;
     min-width: 0;
 }
-.fileInputButton{
+.fileInputButton {
     position: relative;
 }
-.fileInputLabel{
+.fileInputLabel {
     background: rgb(var(--venia-global-color-gray-300));
     padding: 5px 10px;
     display: block;
     pointer-events: none;
 }
-.fileInputButton input{
+.fileInputButton input {
     opacity: 0;
     width: 100%;
     height: 100%;
@@ -35,28 +35,28 @@
     z-index: 10;
     cursor: pointer;
 }
-.formNotes{
+.formNotes {
     margin: 15px 0;
     font-style: italic;
     font-size: 80%;
 }
-.attachmentBox{
+.attachmentBox {
     border: 1px solid rgb(var(--venia-global-color-gray-300));
     border-radius: 6px;
     margin-bottom: 15px;
     padding: 15px;
 }
-.attachmentBoxTitle{
+.attachmentBoxTitle {
     margin-bottom: 20px;
 }
-.attachmentNum{
+.attachmentNum {
     margin: 0 5px;
 }
-.attachmentFileRow{
+.attachmentFileRow {
     display: flex;
     flex-wrap: wrap;
 }
-.attachedFileBox{
+.attachedFileBox {
     border: 1px solid rgb(var(--venia-global-color-gray-300));
     padding: 5px 10px;
     cursor: pointer;
@@ -67,41 +67,41 @@
     align-items: center;
     line-height: 1.4;
 }
-.attachedFileBoxInfo{
+.attachedFileBoxInfo {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
     margin-left: 3px;
 }
-.box{
-    background:#f5f7f9;
+.box {
+    background: #f5f7f9;
     border: 1px solid rgb(var(--venia-global-color-gray-300));
     border-radius: 6px;
     margin-bottom: 15px;
 }
 
-.boxHeader{
+.boxHeader {
     border-bottom: 1px solid rgb(var(--venia-global-color-gray-300));
     padding: 12px 16px;
     margin-bottom: 5px;
 }
-.box.customerReply{
-    background:#e5f2fd;
+.box.customerReply {
+    background: #e5f2fd;
     border: 1px solid rgb(var(--venia-brand-color-1-100));
 }
-.box.customerReply .boxHeader{
+.box.customerReply .boxHeader {
     border-bottom: 1px solid rgb(var(--venia-brand-color-1-100));
 }
-.boxContent{
+.boxContent {
     padding: 12px 16px;
 }
-.boxAttachments{
+.boxAttachments {
     padding: 12px 16px;
 }
-.attachedFile{
+.attachedFile {
     composes: attachedFileBox;
 }
-.boxAttachments{
-    composes: attachmentFileRow; 
+.boxAttachments {
+    composes: attachmentFileRow;
 }

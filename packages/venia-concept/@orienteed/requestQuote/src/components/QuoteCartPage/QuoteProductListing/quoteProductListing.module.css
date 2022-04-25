@@ -2,10 +2,10 @@
     display: grid;
     grid-gap: 2rem 1rem;
 }
-.quoteProductActions{
+.quoteProductActions {
     margin: 25px 0 0;
     text-align: center;
 }
-.quoteProductActions button{
+.quoteProductActions button {
     margin: 0 10px 5px;
 }

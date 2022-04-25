@@ -11,7 +11,7 @@
 }
 
 .editButton {
-    color:  var(--orienteed-primary-color-base1);
+    color: var(--orienteed-primary-color-base1);
     padding: 1rem;
     margin: -1rem;
 }

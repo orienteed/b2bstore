@@ -64,11 +64,11 @@
         align-items: center;
         margin-top: 5px;
     }
-    
+
     .courseOverlay {
         display: none;
         cursor: auto;
-    }    
+    }
 }
 
 .subscribeButton {

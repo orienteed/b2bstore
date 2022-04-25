@@ -1,13 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-    arrayOf,
-    func,
-    number,
-    object,
-    oneOfType,
-    shape,
-    string
-} from 'prop-types';
+import { arrayOf, func, number, object, oneOfType, shape, string } from 'prop-types';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import getOptionType from '@magento/venia-ui/lib/components/ProductOptions/getOptionType';
@@ -27,14 +19,7 @@ const getListComponent = (attribute_code, values) => {
 };
 
 const Option = props => {
-    const {
-        attribute_code,
-        attribute_id,
-        label,
-        onSelectionChange,
-        selectedValue,
-        values
-    } = props;
+    const { attribute_code, attribute_id, label, onSelectionChange, selectedValue, values } = props;
 
     const talonProps = useOption({
         attribute_id,
@@ -44,15 +29,9 @@ const Option = props => {
         values
     });
 
-    const {
-        handleSelectionChange,
-        initialSelection
-    } = talonProps;
+    const { handleSelectionChange, initialSelection } = talonProps;
 
-    const ValueList = useMemo(() => getListComponent(attribute_code, values), [
-        attribute_code,
-        values
-    ]);
+    const ValueList = useMemo(() => getListComponent(attribute_code, values), [attribute_code, values]);
 
     const classes = useStyle(defaultClasses, props.classes);
 

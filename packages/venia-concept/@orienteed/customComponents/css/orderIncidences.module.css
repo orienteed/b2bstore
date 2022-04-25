@@ -1,23 +1,22 @@
-.content{
+.content {
     padding: 0 5%;
     margin-bottom: 40px;
 }
 
-.incidencesContainer{
+.incidencesContainer {
     display: grid;
     padding: 5%;
 }
 
-.incidencesHeader{
+.incidencesHeader {
     text-align: center;
 }
 
-.formContent{
-
+.formContent {
 }
 
-.information{
- padding: 5%;
+.information {
+    padding: 5%;
 }
 
 .thumbnail {
@@ -27,23 +26,22 @@
     object-position: center;
 }
 
-.galleryImage{
+.galleryImage {
     max-width: 160px;
     justify-self: center;
 }
 
-.referencesContainer{
-
+.referencesContainer {
 }
 
-.informationRow{
+.informationRow {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 2rem;
     padding: 0px 2rem;
 }
 
-.incidencesTitle{
+.incidencesTitle {
     font-size: 18px;
     display: block;
     margin-bottom: 1rem;
@@ -51,27 +49,26 @@
     padding: 0px 2rem;
 }
 
-.incidencesTitleHeader{
+.incidencesTitleHeader {
     text-align: center;
     margin-top: 2rem;
     margin-bottom: 0;
     font-size: 24px;
 }
 
-
-.itemRow{
+.itemRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 2rem;
     padding: 0px 2rem;
 }
 
-.itemHeader{
+.itemHeader {
     border-bottom: 2px solid rgb(var(--venia-global-color-gray-600));
     margin-bottom: 1rem;
 }
 
-.itemTitle{
+.itemTitle {
     font-size: 18px;
     display: block;
     margin-bottom: 1rem;
@@ -79,11 +76,11 @@
     padding: 0px 2rem;
 }
 
-.textAreaContainer{
+.textAreaContainer {
     padding: 0px 2rem;
 }
 
-.incidenceContainer{
+.incidenceContainer {
     width: 100%;
     border: 2px solid rgb(var(--venia-global-color-gray-600));
     min-height: 50px;
@@ -91,12 +88,12 @@
     padding: 1rem 0 2rem 0;
 }
 
-.incidenceActionsContainer{
+.incidenceActionsContainer {
     max-height: 50px;
     margin-top: 50px;
 }
 
-.incidenceAction{
+.incidenceAction {
     height: 50px;
     width: 50px;
     display: block;
@@ -105,32 +102,32 @@
     margin: 0 auto;
 }
 
-.incidenceAction:hover{
+.incidenceAction:hover {
     background-color: rgb(var(--venia-brand-color-1-100));
 }
 
-.orderNumber{
+.orderNumber {
     margin-left: 10px;
     font-size: 22px;
     font-weight: bold;
     color: rgb(var(--venia-brand-color-1-400));
 }
 
-.submitIncidence{
+.submitIncidence {
     width: 20%;
     min-width: 200px;
     margin: 0 auto;
 }
 
-.submitIncidence .submitIncidence span{
+.submitIncidence .submitIncidence span {
     color: white;
 }
 
-.icon{
+.icon {
     width: 50%;
     margin: 0 auto;
 }
 
-.hide{
+.hide {
     display: none;
 }

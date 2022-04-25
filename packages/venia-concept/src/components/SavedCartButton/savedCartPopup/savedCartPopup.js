@@ -10,29 +10,16 @@ import TextArea from '@magento/venia-ui/lib/components/TextArea';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 
 const savedCartPopup = props => {
-    const {
-        isOpen,
-        onCancel,
-        handleSubmit,
-        errorMessage,
-        isError,
-        shouldDisableAllButtons
-    } = props;
+    const { isOpen, onCancel, handleSubmit, errorMessage, isError, shouldDisableAllButtons } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
     const cartNameLabel = (
         <>
-            <FormattedMessage
-                id={'mpsavecart.cartName'}
-                defaultMessage={'Cart Name'}
-            />
+            <FormattedMessage id={'mpsavecart.cartName'} defaultMessage={'Cart Name'} />
             <span className={classes.cartNameUniqueLabel}>
-                <FormattedMessage
-                    id={'mpsavecart.mpsavecart'}
-                    defaultMessage={'( Must be unique )'}
-                />
+                <FormattedMessage id={'mpsavecart.mpsavecart'} defaultMessage={'( Must be unique )'} />
             </span>
         </>
     );
@@ -47,18 +34,12 @@ const savedCartPopup = props => {
         defaultMessage: 'Save Cart'
     });
 
-    const containerClass = isError
-        ? classes.saveCartname_error
-        : classes.saveCartname;
+    const containerClass = isError ? classes.saveCartname_error : classes.saveCartname;
 
     const nameTextInput = !isError ? (
         <TextInput field="mpsavecart_name" validate={isRequired} />
     ) : (
-        <TextInput
-            field="mpsavecart_name"
-            validate={isRequired}
-            message={errorMessage}
-        />
+        <TextInput field="mpsavecart_name" validate={isRequired} message={errorMessage} />
     );
 
     return (
@@ -78,21 +59,13 @@ const savedCartPopup = props => {
                     </Field>
                 </div>
                 <div className={classes.saveCartDescription}>
-                    <Field
-                        id="mpsavecart-description"
-                        label={cartDescriptionLabel}
-                    >
-                        <TextArea
-                            field="mpsavecart_description"
-                            validate={isRequired}
-                        />
+                    <Field id="mpsavecart-description" label={cartDescriptionLabel}>
+                        <TextArea field="mpsavecart_description" validate={isRequired} />
                     </Field>
                     <div className={classes.saveCartDescriptionNote}>
                         <FormattedMessage
                             id={'saveCartDescription.descriptionNote'}
-                            defaultMessage={
-                                'Maximum number of characters must be between 1 and 255'
-                            }
+                            defaultMessage={'Maximum number of characters must be between 1 and 255'}
                         />
                     </div>
                 </div>

@@ -1,12 +1,12 @@
-.orderAmountError{
+.orderAmountError {
     margin: 20px 0 10px;
     line-height: 1.4;
     color: rgb(var(--venia-global-color-warning-dark));
 }
-.root{
+.root {
     margin: 25px 0 10px;
 }
-.creditTable{
+.creditTable {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
@@ -31,21 +31,21 @@
     font-weight: 600;
     text-align: -internal-center;
     text-align: left;
-    padding:10px 6px;
+    padding: 10px 6px;
     border-bottom: 2px solid rgb(var(--venia-global-color-gray-100));
 }
 .creditTable td {
     display: table-cell;
     vertical-align: inherit;
-    padding:10px 6px;
+    padding: 10px 6px;
 }
-.creditActions{
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
+.creditActions {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
 }
-.customerCreditButton{
+.customerCreditButton {
     --stroke: var(--orienteed-primary-color-base2);
     border-color: rgb(var(--stroke));
     border-radius: 10rem;
@@ -66,7 +66,7 @@
     background-color: rgb(var(--stroke));
     color: rgb(var(--venia-global-color-gray-50));
 }
-.customerCreditButton:hover{
+.customerCreditButton:hover {
     --stroke: var(--orienteed-primary-color-base1);
 }
 

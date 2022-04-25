@@ -7,9 +7,7 @@ import { SAVE_CART, CREATE_CART, MP_SAVE_CART_CONFIG } from './savedCarts.gql';
 import { useHistory } from 'react-router-dom';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
 
-
-export const useSavedCart = (props) => {
-
+export const useSavedCart = props => {
     const [isShow, setIsShow] = useState(false);
     const [buttonTitle, setButtonTitle] = useState();
     const [isSaveCartLoading, setIsSaveCartLoading] = useState(false);
@@ -20,23 +18,18 @@ export const useSavedCart = (props) => {
     const fetchCartDetails = useAwaitQuery(GET_CART_DETAILS);
     const apolloClient = useApolloClient();
 
-    const [
-        { cartId },
-        { getCartDetails, createCart }
-    ] = useCartContext();
+    const [{ cartId }, { getCartDetails, createCart }] = useCartContext();
 
     const [fetchCartId] = useMutation(CREATE_CART);
 
     const history = useHistory();
 
-    
-
     const [getMpSaveCart] = useMutation(SAVE_CART);
 
     // Popup Open
     const handleSaveCart = useCallback(() => {
-        setIsDialogOpen(true)
-    }, [ setIsDialogOpen ]);
+        setIsDialogOpen(true);
+    }, [setIsDialogOpen]);
     const handleCancelDialog = useCallback(() => {
         setIsDialogOpen(false);
     }, []);
@@ -44,64 +37,60 @@ export const useSavedCart = (props) => {
     // Getting Config details
     const { data } = useQuery(MP_SAVE_CART_CONFIG, {
         fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-    })
+        nextFetchPolicy: 'cache-first'
+    });
     useEffect(() => {
-        if(data != undefined) {
-            const { mpSaveCartConfigs:{ enabled, button_title } } = data
+        if (data != undefined) {
+            const {
+                mpSaveCartConfigs: { enabled, button_title }
+            } = data;
             if (enabled) {
-                setButtonTitle(button_title)
-                setIsShow(true)
+                setButtonTitle(button_title);
+                setIsShow(true);
             }
         }
-    }, [data])
+    }, [data]);
 
     // Create New Save Cart
-    const handleSubmitDialog = useCallback(async (params) => {
-        try {
-            const {
-                mpsavecart_description,
-                mpsavecart_name
-            }=params
-            setIsSaveCartLoading(true)
-            setErrorMessage(null)
-            const { data: { o_mpSaveCart } } = await getMpSaveCart({
-                fetchPolicy: 'no-cache',
-                variables: {
-                    cartId: cartId,
-                    cartName: mpsavecart_name,
-                    description: mpsavecart_description
-                },
-            })
-
-            if (o_mpSaveCart) {
-
-                await clearCartDataFromCache(apolloClient);
-                await createCart({
-                    fetchCartId
+    const handleSubmitDialog = useCallback(
+        async params => {
+            try {
+                const { mpsavecart_description, mpsavecart_name } = params;
+                setIsSaveCartLoading(true);
+                setErrorMessage(null);
+                const {
+                    data: { o_mpSaveCart }
+                } = await getMpSaveCart({
+                    fetchPolicy: 'no-cache',
+                    variables: {
+                        cartId: cartId,
+                        cartName: mpsavecart_name,
+                        description: mpsavecart_description
+                    }
                 });
 
-                await getCartDetails({
-                    cartId,
-                    fetchCartDetails
-                });
-                setIsSaveCartLoading(false)
-                history.push('/mpsavecart');
+                if (o_mpSaveCart) {
+                    await clearCartDataFromCache(apolloClient);
+                    await createCart({
+                        fetchCartId
+                    });
+
+                    await getCartDetails({
+                        cartId,
+                        fetchCartDetails
+                    });
+                    setIsSaveCartLoading(false);
+                    history.push('/mpsavecart');
+                }
+            } catch (e) {
+                let error = e.toString();
+                setErrorMessage(error.replace('Error:', ''));
+                setIsError(true);
+                setIsSaveCartLoading(false);
             }
-        } catch (e) {
-            let error = e.toString()
-            setErrorMessage(error.replace('Error:', ''))
-            setIsError(true)
-            setIsSaveCartLoading(false)
-        }
-    }, [
-        getMpSaveCart,
-        getCartDetails,
-        cartId,
-        fetchCartDetails,
-        fetchCartId,
-        createCart
-    ]);
+        },
+        [getMpSaveCart, getCartDetails, cartId, fetchCartDetails, fetchCartId, createCart]
+    );
 
     return {
         isShow,

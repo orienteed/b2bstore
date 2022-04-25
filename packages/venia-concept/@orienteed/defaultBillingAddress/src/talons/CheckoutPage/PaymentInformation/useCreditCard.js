@@ -17,16 +17,7 @@ import DEFAULT_OPERATIONS from './creditCard.gql';
  */
 export const mapAddressData = rawAddressData => {
     if (rawAddressData) {
-        const {
-            firstName,
-            lastName,
-            city,
-            postcode,
-            phoneNumber,
-            street,
-            country,
-            region
-        } = rawAddressData;
+        const { firstName, lastName, city, postcode, phoneNumber, street, country, region } = rawAddressData;
 
         return {
             firstName,
@@ -45,24 +36,20 @@ export const mapAddressData = rawAddressData => {
 };
 
 export const getDefaultBillingAddress = customerAddressesData => {
-    if(customerAddressesData != undefined) {
-        const {
-            customer
-        } = customerAddressesData
+    if (customerAddressesData != undefined) {
+        const { customer } = customerAddressesData;
 
-        if(customer) {
-            const {
-                addresses
-            } = customer
+        if (customer) {
+            const { addresses } = customer;
 
-            const defaultBillingAddressArray = addresses.filter(address => address.default_billing == true)
-            if(defaultBillingAddressArray.length > 0){
-                return defaultBillingAddressArray[0]
+            const defaultBillingAddressArray = addresses.filter(address => address.default_billing == true);
+            if (defaultBillingAddressArray.length > 0) {
+                return defaultBillingAddressArray[0];
             }
         }
     }
     return {};
-}
+};
 
 /**
  * Talon to handle Credit Card payment method.
@@ -105,16 +92,8 @@ export const getDefaultBillingAddress = customerAddressesData => {
  * }
  */
 export default original => {
-
     return function useCreditCard(props, ...restArgs) {
-
-        const {
-            onSuccess,
-            onReady,
-            onError,
-            shouldSubmit,
-            resetShouldSubmit
-        } = props;
+        const { onSuccess, onReady, onError, shouldSubmit, resetShouldSubmit } = props;
 
         const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
@@ -134,9 +113,7 @@ export default original => {
          */
 
         const [isDropinLoading, setDropinLoading] = useState(true);
-        const [shouldRequestPaymentNonce, setShouldRequestPaymentNonce] = useState(
-            false
-        );
+        const [shouldRequestPaymentNonce, setShouldRequestPaymentNonce] = useState(false);
         const [shouldTeardownDropin, setShouldTeardownDropin] = useState(false);
         /**
          * `stepNumber` depicts the state of the process flow in credit card
@@ -158,13 +135,10 @@ export default original => {
 
         const isLoading = isDropinLoading || (stepNumber >= 1 && stepNumber <= 3);
 
-        const { data: customerAddressesData } = useQuery(
-            getCustomerAddressesQuery,
-            {
-                fetchPolicy: 'cache-and-network',
-                skip: !isSignedIn
-            }
-        );
+        const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
+            fetchPolicy: 'cache-and-network',
+            skip: !isSignedIn
+        });
 
         const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
             skip: !cartId,
@@ -174,10 +148,10 @@ export default original => {
             skip: !cartId,
             variables: { cartId }
         });
-        const { data: isBillingAddressSameData } = useQuery(
-            getIsBillingAddressSameQuery,
-            { skip: !cartId, variables: { cartId } }
-        );
+        const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
+            skip: !cartId,
+            variables: { cartId }
+        });
         const [
             updateBillingAddress,
             {
@@ -186,7 +160,6 @@ export default original => {
                 loading: billingAddressMutationLoading
             }
         ] = useMutation(setBillingAddressMutation);
-
 
         const [
             updateDefaultBillingAddress,
@@ -199,23 +172,18 @@ export default original => {
 
         const [
             updateCCDetails,
-            {
-                error: ccMutationError,
-                called: ccMutationCalled,
-                loading: ccMutationLoading
-            }
+            { error: ccMutationError, called: ccMutationCalled, loading: ccMutationLoading }
         ] = useMutation(setCreditCardDetailsOnCartMutation);
 
         const shippingAddressCountry = shippingAddressData
             ? shippingAddressData.cart.shippingAddresses[0].country.code
             : 'US';
 
-        const defaultBillingAddressObject = getDefaultBillingAddress(customerAddressesData)
-        
+        const defaultBillingAddressObject = getDefaultBillingAddress(customerAddressesData);
+
         const isBillingAddressDefault = Object.keys(defaultBillingAddressObject).length > 0 ? true : false;
 
         const initialValues = useMemo(() => {
-
             let billingAddress = {};
             /**
              * If billing address is same as shipping address, do
@@ -277,11 +245,9 @@ export default original => {
 
         const setDefaultBillingAddress = useCallback(() => {
             const {
-                defaultBillingAddressObject:{
-                    id
-                }
-            } = initialValues
-    
+                defaultBillingAddressObject: { id }
+            } = initialValues;
+
             updateDefaultBillingAddress({
                 variables: {
                     cartId,
@@ -453,14 +419,14 @@ export default original => {
                     validateBillingAddressForm();
 
                     if (isBillingAddressDefault) {
-                        setDefaultBillingAddress()
+                        setDefaultBillingAddress();
                         setIsBillingAddressSameInCache();
-                    }else {
+                    } else {
                         const hasErrors = Object.keys(formState.errors).length;
                         if (!hasErrors) {
                             setBillingAddress();
                             setIsBillingAddressSameInCache();
-                        }else{
+                        } else {
                             throw new Error('Errors in the billing address form');
                         }
                     }
@@ -491,13 +457,9 @@ export default original => {
          */
         useEffect(() => {
             try {
-                const billingAddressMutationCompleted =
-                    billingAddressMutationCalled && !billingAddressMutationLoading;
+                const billingAddressMutationCompleted = billingAddressMutationCalled && !billingAddressMutationLoading;
 
-                if (
-                    billingAddressMutationCompleted &&
-                    !billingAddressMutationError
-                ) {
+                if (billingAddressMutationCompleted && !billingAddressMutationError) {
                     /**
                      * Billing address save mutation is successful
                      * we can initiate the braintree nonce request
@@ -506,10 +468,7 @@ export default original => {
                     setShouldRequestPaymentNonce(true);
                 }
 
-                if (
-                    billingAddressMutationCompleted &&
-                    billingAddressMutationError
-                ) {
+                if (billingAddressMutationCompleted && billingAddressMutationError) {
                     /**
                      * Billing address save mutation is not successful.
                      * Reset update button clicked flag.
@@ -534,15 +493,12 @@ export default original => {
         /**
          * Default billing address mutation has completed
          */
-         useEffect(() => {
+        useEffect(() => {
             try {
                 const billingAddressMutationCompleted =
-                defaultBillingAddressMutationCalled && !defaultBillingAddressMutationLoading;
+                    defaultBillingAddressMutationCalled && !defaultBillingAddressMutationLoading;
 
-                if (
-                    billingAddressMutationCompleted &&
-                    !defaultBillingAddressMutationError
-                ) {
+                if (billingAddressMutationCompleted && !defaultBillingAddressMutationError) {
                     /**
                      * Billing address save mutation is successful
                      * we can initiate the braintree nonce request
@@ -551,10 +507,7 @@ export default original => {
                     setShouldRequestPaymentNonce(true);
                 }
 
-                if (
-                    billingAddressMutationCompleted &&
-                    defaultBillingAddressMutationError
-                ) {
+                if (billingAddressMutationCompleted && defaultBillingAddressMutationError) {
                     /**
                      * Billing address save mutation is not successful.
                      * Reset update button clicked flag.
@@ -575,7 +528,6 @@ export default original => {
             defaultBillingAddressMutationLoading,
             resetShouldSubmit
         ]);
-
 
         /**
          * Step 3 effect
@@ -648,5 +600,5 @@ export default original => {
             shouldTeardownDropin,
             resetShouldTeardownDropin
         };
-    }
+    };
 };

@@ -48,13 +48,9 @@ const AddProductErrorPopup = props => {
                     </div>
                 )}
 
-                {errorType === 'format' && (
-                    <div className={classes.errorBox}>{invalidFormat}</div>
-                )}
+                {errorType === 'format' && <div className={classes.errorBox}>{invalidFormat}</div>}
 
-                {errorType === 'fields' && (
-                    <div className={classes.errorBox}>{invalidFields}</div>
-                )}
+                {errorType === 'fields' && <div className={classes.errorBox}>{invalidFields}</div>}
 
                 {errorType === 'loading' && (
                     <div className={classes.loadingRender}>

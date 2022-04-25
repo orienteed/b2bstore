@@ -171,9 +171,7 @@
     margin: 10px 0px;
 }
 
-.productItemBodyInformation
-    > .productItemBodyInformationRow
-    + .productItemBodyInformationRow {
+.productItemBodyInformation > .productItemBodyInformationRow + .productItemBodyInformationRow {
     border-top: 1px solid rgb(var(--venia-global-color-border));
 }
 

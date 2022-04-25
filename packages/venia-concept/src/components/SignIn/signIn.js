@@ -28,23 +28,13 @@ const SignIn = props => {
         showForgotPassword
     });
 
-    const {
-        errors,
-        handleCreateAccount,
-        handleForgotPassword,
-        handleSubmit,
-        isBusy,
-        setFormApi
-    } = talonProps;
+    const { errors, handleCreateAccount, handleForgotPassword, handleSubmit, isBusy, setFormApi } = talonProps;
 
     if (isBusy) {
         return (
             <div className={classes.modal_active}>
                 <LoadingIndicator>
-                    <FormattedMessage
-                        id={'signIn.loadingText'}
-                        defaultMessage={'Signing In'}
-                    />
+                    <FormattedMessage id={'signIn.loadingText'} defaultMessage={'Signing In'} />
                 </LoadingIndicator>
             </div>
         );
@@ -57,28 +47,17 @@ const SignIn = props => {
     return (
         <div className={classes.root}>
             <span className={classes.title}>
-                <FormattedMessage
-                    id={'signIn.titleText'}
-                    defaultMessage={'Sign-in to Your Account'}
-                />
+                <FormattedMessage id={'signIn.titleText'} defaultMessage={'Sign-in to Your Account'} />
             </span>
             <FormError errors={Array.from(errors.values())} />
-            <Form
-                getApi={setFormApi}
-                className={classes.form}
-                onSubmit={handleSubmit}
-            >
+            <Form getApi={setFormApi} className={classes.form} onSubmit={handleSubmit}>
                 <Field
                     label={formatMessage({
                         id: 'signIn.emailAddressText',
                         defaultMessage: 'Email address'
                     })}
                 >
-                    <TextInput
-                        autoComplete="email"
-                        field="email"
-                        validate={isRequired}
-                    />
+                    <TextInput autoComplete="email" field="email" validate={isRequired} />
                 </Field>
                 <Password
                     fieldName="password"
@@ -91,33 +70,16 @@ const SignIn = props => {
                     isToggleButtonHidden={false}
                 />
                 <div className={classes.forgotPasswordButtonContainer}>
-                    <LinkButton
-                        classes={forgotPasswordClasses}
-                        type="button"
-                        onClick={handleForgotPassword}
-                    >
-                        <FormattedMessage
-                            id={'signIn.forgotPasswordText'}
-                            defaultMessage={'Forgot Password?'}
-                        />
+                    <LinkButton classes={forgotPasswordClasses} type="button" onClick={handleForgotPassword}>
+                        <FormattedMessage id={'signIn.forgotPasswordText'} defaultMessage={'Forgot Password?'} />
                     </LinkButton>
                 </div>
                 <div className={classes.buttonsContainer}>
                     <Button priority="high" type="submit">
-                        <FormattedMessage
-                            id={'signIn.signInText'}
-                            defaultMessage={'Sign In'}
-                        />
+                        <FormattedMessage id={'signIn.signInText'} defaultMessage={'Sign In'} />
                     </Button>
-                    <Button
-                        priority="normal"
-                        type="button"
-                        onClick={handleCreateAccount}
-                    >
-                        <FormattedMessage
-                            id={'signIn.createAccountText'}
-                            defaultMessage={'Create an Account'}
-                        />
+                    <Button priority="normal" type="button" onClick={handleCreateAccount}>
+                        <FormattedMessage id={'signIn.createAccountText'} defaultMessage={'Create an Account'} />
                     </Button>
                 </div>
             </Form>

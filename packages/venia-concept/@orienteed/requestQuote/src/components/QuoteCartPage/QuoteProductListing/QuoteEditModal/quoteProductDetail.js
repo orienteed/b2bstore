@@ -2,22 +2,21 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Price from '@magento/venia-ui/lib/components/Price';
 
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Image from '@magento/venia-ui/lib/components/Image';
 import defaultClasses from './quoteProductDetail.module.css';
 import productImage from './vt12-kh_main.jpg';
 const IMAGE_SIZE = 240;
 
 const QuoteProductDetail = props => {
-  
     const { formatMessage } = useIntl();
-  
+
     const classes = useStyle(defaultClasses, props.classes);
 
     return (
         <div className={classes.root}>
             <Image
-                    classes={{
+                classes={{
                     image: classes.image,
                     root: classes.imageContainer
                 }}
@@ -26,26 +25,18 @@ const QuoteProductDetail = props => {
                 src={productImage}
             />
             <span className={classes.productName}>
-                <FormattedMessage
-                    id={'quoteProductDetail.productName'}
-                    defaultMessage={'Jillian Top'}
-                />
+                <FormattedMessage id={'quoteProductDetail.productName'} defaultMessage={'Jillian Top'} />
             </span>
             <div className={classes.stockRow}>
                 <span>
-                    <FormattedMessage
-                        id={'quoteProductDetail.skuNumber'}
-                        defaultMessage={'SKU # JTOP1'}
-                    />
+                    <FormattedMessage id={'quoteProductDetail.skuNumber'} defaultMessage={'SKU # JTOP1'} />
                 </span>
-                <span> <FormattedMessage
-                    id={'quoteProductDetail.productName'}
-                    defaultMessage={'In stock'}
-                /></span>
+                <span>
+                    {' '}
+                    <FormattedMessage id={'quoteProductDetail.productName'} defaultMessage={'In stock'} />
+                </span>
             </div>
-            <div className={classes.price}>
-                $58.00
-            </div>
+            <div className={classes.price}>$58.00</div>
         </div>
     );
 };

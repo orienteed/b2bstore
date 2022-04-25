@@ -4,27 +4,18 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 import { UPDATE_MP_QUOTE, DELETE_ITEM_FROM_MP_QUOTE } from '@orienteed/requestQuote/src/query/requestQuote.gql';
 import { getQuoteId } from '@orienteed/requestQuote/src/store';
-import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '@orienteed/requestQuote/src/talons/useQuoteCartTrigger'
+import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '@orienteed/requestQuote/src/talons/useQuoteCartTrigger';
 
 export const useQuoteProduct = props => {
     const { item, setIsCartUpdating } = props;
 
-    const [
-        removeItem,
-        {
-            called: removeItemCalled,
-            error: removeItemError,
-            loading: removeItemLoading
-        }
-    ] = useMutation(DELETE_ITEM_FROM_MP_QUOTE);
+    const [removeItem, { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }] = useMutation(
+        DELETE_ITEM_FROM_MP_QUOTE
+    );
 
     const [
         updateItemQuantity,
-        {
-            loading: updateItemLoading,
-            error: updateError,
-            called: updateItemCalled
-        }
+        { loading: updateItemLoading, error: updateError, called: updateItemCalled }
     ] = useMutation(UPDATE_MP_QUOTE);
 
     useEffect(() => {
@@ -35,13 +26,7 @@ export const useQuoteProduct = props => {
 
         // Reset updating state on unmount
         return () => setIsCartUpdating(false);
-    }, [
-        removeItemCalled,
-        removeItemLoading,
-        setIsCartUpdating,
-        updateItemCalled,
-        updateItemLoading
-    ]);
+    }, [removeItemCalled, removeItemLoading, setIsCartUpdating, updateItemCalled, updateItemLoading]);
 
     const quoteId = getQuoteId();
 
@@ -51,11 +36,7 @@ export const useQuoteProduct = props => {
     const [displayError, setDisplayError] = useState(false);
 
     const derivedErrorMessage = useMemo(() => {
-        return (
-            (displayError &&
-                deriveErrorMessage([updateError, removeItemError])) ||
-            ''
-        );
+        return (displayError && deriveErrorMessage([updateError, removeItemError])) || '';
     }, [displayError, removeItemError, updateError]);
 
     /*const handleEditItem = useCallback(() => {
@@ -68,12 +49,16 @@ export const useQuoteProduct = props => {
 
     const handleRemoveFromCart = useCallback(async () => {
         try {
-            const {data:{deleteItemFromMpQuote:{quote}}}= await removeItem({
+            const {
+                data: {
+                    deleteItemFromMpQuote: { quote }
+                }
+            } = await removeItem({
                 variables: {
                     itemId: item.id
                 }
             });
-            await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, {detail: quote}));
+            await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: quote }));
         } catch (err) {
             // Make sure any errors from the mutation are displayed.
             setDisplayError(true);
@@ -83,17 +68,23 @@ export const useQuoteProduct = props => {
     const handleUpdateItemQuantity = useCallback(
         async quantity => {
             try {
-                const {data:{updateMpQuote:{quote}}}= await updateItemQuantity({
+                const {
+                    data: {
+                        updateMpQuote: { quote }
+                    }
+                } = await updateItemQuantity({
                     variables: {
-                        input:{
-                            items:[{
-                                item_id: item.id,
-                                qty: quantity
-                            }]
+                        input: {
+                            items: [
+                                {
+                                    item_id: item.id,
+                                    qty: quantity
+                                }
+                            ]
                         }
                     }
                 });
-                await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, {detail: quote}));
+                await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: quote }));
             } catch (err) {
                 // Make sure any errors from the mutation are displayed.
                 setDisplayError(true);

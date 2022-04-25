@@ -10,14 +10,14 @@
     justify-self: center;
     text-transform: capitalize;
 }
-.savedCartsTableSection{
+.savedCartsTableSection {
     margin-bottom: 20px;
 }
-.blockHeading{
+.blockHeading {
     font-weight: var(--venia-global-fontWeight-bold);
     margin-bottom: 20px;
 }
-.savedCartTable{
+.savedCartTable {
     display: grid;
     row-gap: 1rem;
 }

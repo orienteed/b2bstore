@@ -22,19 +22,10 @@ export const useAddToCartDialog = props => {
 
     const selectedOptionsArray = useMemo(() => {
         if (item) {
-            const existingOptionsMap = item.configurable_options.reduce(
-                (optionsMap, selectedOption) => {
-                    return optionsMap.set(
-                        selectedOption.id,
-                        selectedOption.value_id
-                    );
-                },
-                new Map()
-            );
-            const mergedOptionsMap = new Map([
-                ...existingOptionsMap,
-                ...userSelectedOptions
-            ]);
+            const existingOptionsMap = item.configurable_options.reduce((optionsMap, selectedOption) => {
+                return optionsMap.set(selectedOption.id, selectedOption.value_id);
+            }, new Map());
+            const mergedOptionsMap = new Map([...existingOptionsMap, ...userSelectedOptions]);
 
             const selectedOptions = [];
             mergedOptionsMap.forEach((selectedValueId, attributeId) => {
@@ -54,23 +45,19 @@ export const useAddToCartDialog = props => {
         return [];
     }, [item, userSelectedOptions]);
 
-    const { data, loading: isFetchingProductDetail } = useQuery(
-        operations.getProductDetailQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            variables: {
-                configurableOptionValues: selectedOptionsArray,
-                sku
-            },
-            skip: !sku
-        }
-    );
+    const { data, loading: isFetchingProductDetail } = useQuery(operations.getProductDetailQuery, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
+        variables: {
+            configurableOptionValues: selectedOptionsArray,
+            sku
+        },
+        skip: !sku
+    });
 
-    const [
-        addProductToCart,
-        { error: addProductToCartError, loading: isAddingToCart }
-    ] = useMutation(operations.addProductToCartMutation);
+    const [addProductToCart, { error: addProductToCartError, loading: isAddingToCart }] = useMutation(
+        operations.addProductToCartMutation
+    );
 
     useEffect(() => {
         if (data) {
@@ -81,17 +68,16 @@ export const useAddToCartDialog = props => {
             } = product.configurable_product_options_selection;
 
             const currentImage =
-                selectedProductMediaGallery.length &&
-                selectedOptionsArray.length
+                selectedProductMediaGallery.length && selectedOptionsArray.length
                     ? selectedProductMediaGallery[0]
                     : product.image;
 
             setCurrentImage(currentImage);
-            setHasVariants(selectedVariant ? true : false)
+            setHasVariants(selectedVariant ? true : false);
 
-            if(selectedVariant){
+            if (selectedVariant) {
                 setIsOutOfStock(selectedVariant.stock_status === OUT_OF_STOCK_CODE ? true : false);
-            }else{
+            } else {
                 setIsOutOfStock(product.stock_status === OUT_OF_STOCK_CODE ? true : false);
             }
 
@@ -111,9 +97,7 @@ export const useAddToCartDialog = props => {
     }, [onClose]);
 
     const handleOptionSelection = useCallback((optionId, value) => {
-        setUserSelectedOptions(existing =>
-            new Map(existing).set(parseInt(optionId), value)
-        );
+        setUserSelectedOptions(existing => new Map(existing).set(parseInt(optionId), value));
     }, []);
 
     const handleAddToCart = useCallback(async () => {
@@ -168,8 +152,9 @@ export const useAddToCartDialog = props => {
         if (item) {
             return {
                 disabled:
-                    item.product.configurable_options.length !==
-                        selectedOptionsArray.length || isAddingToCart || !hasVariants,
+                    item.product.configurable_options.length !== selectedOptionsArray.length ||
+                    isAddingToCart ||
+                    !hasVariants,
                 onClick: handleAddToCart,
                 priority: 'high'
             };

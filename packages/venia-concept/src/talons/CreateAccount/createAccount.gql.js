@@ -101,14 +101,9 @@ export const GET_CART_DETAILS = gql`
 `;
 
 export const MERGE_CARTS = gql`
-    mutation MergeCartsAfterAccountCreation(
-        $sourceCartId: String!
-        $destinationCartId: String!
-    ) {
-        mergeCarts(
-            source_cart_id: $sourceCartId
-            destination_cart_id: $destinationCartId
-        ) @connection(key: "mergeCarts") {
+    mutation MergeCartsAfterAccountCreation($sourceCartId: String!, $destinationCartId: String!) {
+        mergeCarts(source_cart_id: $sourceCartId, destination_cart_id: $destinationCartId)
+            @connection(key: "mergeCarts") {
             id
             items {
                 id
@@ -137,9 +132,7 @@ export const GET_MOODLE_ID = gql`
 
 export const SET_MOODLE_TOKEN_ID = gql`
     mutation SetMoodleToken($moodle_token: String!, $moodle_id: String!) {
-        updateCustomer(
-            input: { moodle_token: $moodle_token, moodle_id: $moodle_id }
-        ) {
+        updateCustomer(input: { moodle_token: $moodle_token, moodle_id: $moodle_id }) {
             customer {
                 moodle_token
                 moodle_id

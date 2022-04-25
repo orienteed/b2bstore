@@ -6,30 +6,30 @@ import { useToasts } from '@magento/peregrine';
 
 const createParams = (form, files, orderNumber) => {
     let params = {
-        order_number: orderNumber, 
+        order_number: orderNumber,
         name: form.name,
         email: form.email,
         phone: form.telephone,
         indices: []
-    }
+    };
     if (form.description) {
-        form.description.forEach((value, key)=>{
-            params.indices[key]={
+        form.description.forEach((value, key) => {
+            params.indices[key] = {
                 description: value,
                 image: files[key]
-            }
-        })
+            };
+        });
     }
-    return params
-}
+    return params;
+};
 
 export const useOrderIncidenceBtn = props => {
-    const {orderNumber}=props
+    const { orderNumber } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const [, { addToast }] = useToasts();
-    const fileTypes = ["JPG", "PNG"];
-    const [indices, setIndices] = useState([{des: ""}]);
-    const [files, setFiles] = useState([])
+    const fileTypes = ['JPG', 'PNG'];
+    const [indices, setIndices] = useState([{ des: '' }]);
+    const [files, setFiles] = useState([]);
 
     const displayMessage = (type, message, time = 5000) => {
         addToast({
@@ -37,35 +37,40 @@ export const useOrderIncidenceBtn = props => {
             message: message,
             timeout: time
         });
-    }
+    };
 
-    const {
-        sendOrderIncidencesEmail
-    } = operations
+    const { sendOrderIncidencesEmail } = operations;
 
     const [
         sendOrderIncidencesEmailCall,
-        { loading: sendOrderIncidencesEmailLoading, error: sendOrderIncidencesEmailError, data: sendOrderIncidencesEmailData }
+        {
+            loading: sendOrderIncidencesEmailLoading,
+            error: sendOrderIncidencesEmailError,
+            data: sendOrderIncidencesEmailData
+        }
     ] = useMutation(sendOrderIncidencesEmail);
 
-    const handleSendOrderIncidencesEmail = useCallback((form) => {
-        try {
-            const params = createParams(form, files, orderNumber)
-            console.log('params', params)
-            sendOrderIncidencesEmailCall({
-                variables: {
-                    input: params
-                },
-            }).then(() => {
-                displayMessage('success', ("Email send."));
-            })
-        } catch (e) {
-            displayMessage('error', e);
-            return;
-        }
-    }, [files])
+    const handleSendOrderIncidencesEmail = useCallback(
+        form => {
+            try {
+                const params = createParams(form, files, orderNumber);
+                console.log('params', params);
+                sendOrderIncidencesEmailCall({
+                    variables: {
+                        input: params
+                    }
+                }).then(() => {
+                    displayMessage('success', 'Email send.');
+                });
+            } catch (e) {
+                displayMessage('error', e);
+                return;
+            }
+        },
+        [files]
+    );
 
-    const isLoading = sendOrderIncidencesEmailLoading ? true : false
+    const isLoading = sendOrderIncidencesEmailLoading ? true : false;
 
     return {
         isLoading,
@@ -75,5 +80,5 @@ export const useOrderIncidenceBtn = props => {
         handleSendOrderIncidencesEmail,
         setIndices,
         setFiles
-    }
+    };
 };

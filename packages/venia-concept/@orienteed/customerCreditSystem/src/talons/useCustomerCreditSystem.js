@@ -11,130 +11,113 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
-export const useCustomerCreditSystem = (props) => {
+export const useCustomerCreditSystem = props => {
+    const { formatMessage } = useIntl();
 
-  const { formatMessage } = useIntl();
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-  const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { setPaymentMethodOnCartMutation } = operations;
 
-  const {
-    setPaymentMethodOnCartMutation
-  } = operations;
+    console.log('operations');
+    console.log(operations);
 
-  console.log('operations')
-  console.log(operations)
+    const [{ cartId }] = useCartContext();
 
-  const [{ cartId }] = useCartContext();
+    const { onPaymentSuccess, resetShouldSubmit, shouldSubmit, onPaymentError } = props;
 
-  const {
-    onPaymentSuccess,
-    resetShouldSubmit,
-    shouldSubmit,
-    onPaymentError
-  } = props
+    const [, { addToast }] = useToasts();
 
-  const [, { addToast }] = useToasts();
+    const [checkoutData, setCheckoutData] = useState({});
 
-  const [checkoutData, setCheckoutData] = useState({});
+    const [
+        updatePaymentMethod,
+        {
+            error: paymentMethodMutationError,
+            called: paymentMethodMutationCalled,
+            loading: paymentMethodMutationLoading
+        }
+    ] = useMutation(setPaymentMethodOnCartMutation);
 
-  const [
-    updatePaymentMethod,
-    {
-        error: paymentMethodMutationError,
-        called: paymentMethodMutationCalled,
-        loading: paymentMethodMutationLoading
-    }
-  ] = useMutation(setPaymentMethodOnCartMutation);
-
-  
-
-
-  // Get config details
-  const { data, loading } = useQuery(GET_PAYMENT_CREDIT_SYSTEM_CONFIG, {
-    fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first'
-  });
-
-  useEffect(() => {
-    if (data != undefined) {
-      const { WebkulPaymentCreditsystemConfig } = data
-      setCheckoutData(WebkulPaymentCreditsystemConfig)
-    }
-  }, [data]);
-
-  // Handle Review Btn
-  useEffect(() => {
-    if (shouldSubmit) {
-      const {
-        remainingcreditcurrentcurrency,
-        grand_total
-      } = checkoutData
-
-      if (parseFloat(remainingcreditcurrentcurrency) < grand_total) {
-
-        const message = formatMessage({
-          id: 'checkoutPage.customerCreditSystem.errorSubmit',
-          defaultMessage: 'Order Amount Is Greater Than The Credit Amount'
-        });
-
-        addToast({
-          type: 'error',
-          icon: errorIcon,
-          message,
-          dismissable: true,
-          timeout: 7000
-        });
-        resetShouldSubmit();
-      }
-    }
-  }, [checkoutData, shouldSubmit, resetShouldSubmit])
-
-  useEffect(() => {
-    const paymentMethodMutationCompleted =
-        paymentMethodMutationCalled && !paymentMethodMutationLoading;
-    if (paymentMethodMutationCompleted && !paymentMethodMutationError) {
-        onPaymentSuccess();
-    }
-
-    if (paymentMethodMutationCompleted && paymentMethodMutationError) {
-        onPaymentError();
-    }
-}, [
-    paymentMethodMutationError,
-    paymentMethodMutationLoading,
-    paymentMethodMutationCalled,
-    onPaymentSuccess,
-    onPaymentError,
-    resetShouldSubmit
-]);
-
-  /**
-   * This function will be called if cant not set address.
-   */
-  const onBillingAddressChangedError = useCallback(() => {
-    resetShouldSubmit();
-  }, [resetShouldSubmit]);
-
-  /**
-   * This function will be called if address was successfully set.
-   */
-  const onBillingAddressChangedSuccess = useCallback(() => {
-    updatePaymentMethod({
-      variables: { cartId }
+    // Get config details
+    const { data, loading } = useQuery(GET_PAYMENT_CREDIT_SYSTEM_CONFIG, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
     });
-  }, [ updatePaymentMethod, cartId]);
 
-  /** Handle Submit Btn */
-  const handleSubmitBtn = useCallback(() => {
-    onPaymentSuccess()
-  }, [onPaymentSuccess,]);
+    useEffect(() => {
+        if (data != undefined) {
+            const { WebkulPaymentCreditsystemConfig } = data;
+            setCheckoutData(WebkulPaymentCreditsystemConfig);
+        }
+    }, [data]);
 
+    // Handle Review Btn
+    useEffect(() => {
+        if (shouldSubmit) {
+            const { remainingcreditcurrentcurrency, grand_total } = checkoutData;
 
-  return {
-    loading,
-    checkoutData,
-    handleSubmitBtn,
-    onBillingAddressChangedError,
-    onBillingAddressChangedSuccess
-  };
+            if (parseFloat(remainingcreditcurrentcurrency) < grand_total) {
+                const message = formatMessage({
+                    id: 'checkoutPage.customerCreditSystem.errorSubmit',
+                    defaultMessage: 'Order Amount Is Greater Than The Credit Amount'
+                });
+
+                addToast({
+                    type: 'error',
+                    icon: errorIcon,
+                    message,
+                    dismissable: true,
+                    timeout: 7000
+                });
+                resetShouldSubmit();
+            }
+        }
+    }, [checkoutData, shouldSubmit, resetShouldSubmit]);
+
+    useEffect(() => {
+        const paymentMethodMutationCompleted = paymentMethodMutationCalled && !paymentMethodMutationLoading;
+        if (paymentMethodMutationCompleted && !paymentMethodMutationError) {
+            onPaymentSuccess();
+        }
+
+        if (paymentMethodMutationCompleted && paymentMethodMutationError) {
+            onPaymentError();
+        }
+    }, [
+        paymentMethodMutationError,
+        paymentMethodMutationLoading,
+        paymentMethodMutationCalled,
+        onPaymentSuccess,
+        onPaymentError,
+        resetShouldSubmit
+    ]);
+
+    /**
+     * This function will be called if cant not set address.
+     */
+    const onBillingAddressChangedError = useCallback(() => {
+        resetShouldSubmit();
+    }, [resetShouldSubmit]);
+
+    /**
+     * This function will be called if address was successfully set.
+     */
+    const onBillingAddressChangedSuccess = useCallback(() => {
+        updatePaymentMethod({
+            variables: { cartId }
+        });
+    }, [updatePaymentMethod, cartId]);
+
+    /** Handle Submit Btn */
+    const handleSubmitBtn = useCallback(() => {
+        onPaymentSuccess();
+    }, [onPaymentSuccess]);
+
+    return {
+        loading,
+        checkoutData,
+        handleSubmitBtn,
+        onBillingAddressChangedError,
+        onBillingAddressChangedSuccess
+    };
 };

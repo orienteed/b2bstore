@@ -12,8 +12,7 @@
 
     transform: translate3d(-50%, 0, 0);
     /* It animates to being closed, and then moves off screen. */
-    transition: opacity 192ms var(--venia-global-anim-out),
-        visibility 192ms var(--venia-global-anim-out), left 0s 192ms;
+    transition: opacity 192ms var(--venia-global-anim-out), visibility 192ms var(--venia-global-anim-out), left 0s 192ms;
 
     /* It sits over all background content. */
     z-index: 3;
@@ -26,8 +25,7 @@
     visibility: visible;
 
     /* It animates to being open. */
-    transition: opacity 224ms var(--venia-global-anim-in),
-        visibility 224ms var(--venia-global-anim-in), left 0s;
+    transition: opacity 224ms var(--venia-global-anim-in), visibility 224ms var(--venia-global-anim-in), left 0s;
 }
 
 .form {

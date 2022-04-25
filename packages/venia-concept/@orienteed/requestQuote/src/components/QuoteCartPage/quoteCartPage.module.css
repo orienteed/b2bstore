@@ -28,7 +28,7 @@
 .stockStatusMessageContainer:empty {
     display: none;
 }
-.addProductBySku_container{
+.addProductBySku_container {
     grid-area: addproduct;
 }
 .items_container {

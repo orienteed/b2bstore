@@ -1,14 +1,9 @@
 import React from 'react';
 import { shape, string, bool, func } from 'prop-types';
-import PayWithBankTransfer from './PayWithBankTransfer'
+import PayWithBankTransfer from './PayWithBankTransfer';
 
 const PaymentMethods = props => {
-    const {
-        onPaymentSuccess,
-        onPaymentError,
-        resetShouldSubmit,
-        shouldSubmit,
-    } = props;
+    const { onPaymentSuccess, onPaymentError, resetShouldSubmit, shouldSubmit } = props;
 
     return (
         <PayWithBankTransfer

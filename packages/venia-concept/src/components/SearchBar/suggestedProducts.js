@@ -13,11 +13,7 @@ const SuggestedProducts = props => {
     const items = products.slice(0, limit).map(product => {
         return (
             <li key={product.id} className={classes.item}>
-                <SuggestedProduct
-                    {...mapProduct(product)}
-                    onNavigate={onNavigate}
-                    skuParent={product.sku}
-                />
+                <SuggestedProduct {...mapProduct(product)} onNavigate={onNavigate} skuParent={product.sku} />
             </li>
         );
     });

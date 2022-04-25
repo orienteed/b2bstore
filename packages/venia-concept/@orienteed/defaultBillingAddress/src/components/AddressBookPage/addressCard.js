@@ -52,57 +52,39 @@ const AddressCard = props => {
         );
     });
 
-    const defaultBadge = default_shipping || default_billing ? (
-        <span className={classes.defaultBadge}>
-            {default_shipping && !default_billing &&
-                <FormattedMessage
-                    id={'addressCard.defaultShippingText'}
-                    defaultMessage={'Default'}
-                />
-            }
-            {!default_shipping && default_billing &&
-                <FormattedMessage
-                    id={'addressCard.defaultBillingText'}
-                    defaultMessage={'Default'}
-                />
-            }
-            {default_shipping && default_billing &&
-                <FormattedMessage
-                    id={'addressCard.defaultBothText'}
-                    defaultMessage={'Default'}
-                />
-            }
-        </span>
-    ) : null;
+    const defaultBadge =
+        default_shipping || default_billing ? (
+            <span className={classes.defaultBadge}>
+                {default_shipping && !default_billing && (
+                    <FormattedMessage id={'addressCard.defaultShippingText'} defaultMessage={'Default'} />
+                )}
+                {!default_shipping && default_billing && (
+                    <FormattedMessage id={'addressCard.defaultBillingText'} defaultMessage={'Default'} />
+                )}
+                {default_shipping && default_billing && (
+                    <FormattedMessage id={'addressCard.defaultBothText'} defaultMessage={'Default'} />
+                )}
+            </span>
+        ) : null;
 
-    const nameString = [firstname, middlename, lastname]
-        .filter(name => !!name)
-        .join(' ');
+    const nameString = [firstname, middlename, lastname].filter(name => !!name).join(' ');
     const additionalAddressString = `${city}, ${region} ${postcode}`;
 
-    const deleteButtonElement = !default_shipping && !default_billing? (
-        <LinkButton classes={{ root: classes.deleteButton }} onClick={onDelete}>
-            <Icon classes={{ icon: null }} size={16} src={TrashIcon} />
-            <span className={classes.actionLabel}>
-                <FormattedMessage
-                    id="addressBookPage.deleteAddress"
-                    defaultMessage="Delete"
-                />
-            </span>
-        </LinkButton>
-    ) : null;
+    const deleteButtonElement =
+        !default_shipping && !default_billing ? (
+            <LinkButton classes={{ root: classes.deleteButton }} onClick={onDelete}>
+                <Icon classes={{ icon: null }} size={16} src={TrashIcon} />
+                <span className={classes.actionLabel}>
+                    <FormattedMessage id="addressBookPage.deleteAddress" defaultMessage="Delete" />
+                </span>
+            </LinkButton>
+        ) : null;
 
     const editButtonElement = !default_billing ? (
-        <LinkButton
-            classes={{ root: classes.editButton }}
-            onClick={onEdit}
-        >
+        <LinkButton classes={{ root: classes.editButton }} onClick={onEdit}>
             <Icon classes={{ icon: null }} size={16} src={EditIcon} />
             <span className={classes.actionLabel}>
-                <FormattedMessage
-                    id="addressBookPage.editAddress"
-                    defaultMessage="Edit"
-                />
+                <FormattedMessage id="addressBookPage.editAddress" defaultMessage="Edit" />
             </span>
         </LinkButton>
     ) : null;
@@ -117,10 +99,7 @@ const AddressCard = props => {
                 negative={true}
                 onClick={onConfirmDelete}
             >
-                <FormattedMessage
-                    id={'global.deleteButton'}
-                    defaultMessage={'Delete'}
-                />
+                <FormattedMessage id={'global.deleteButton'} defaultMessage={'Delete'} />
             </Button>
             <Button
                 classes={cancelDeleteButtonClasses}
@@ -129,10 +108,7 @@ const AddressCard = props => {
                 type="button"
                 onClick={onCancelDelete}
             >
-                <FormattedMessage
-                    id={'global.cancelButton'}
-                    defaultMessage={'Cancel'}
-                />
+                <FormattedMessage id={'global.cancelButton'} defaultMessage={'Cancel'} />
             </Button>
         </div>
     ) : null;
@@ -143,17 +119,10 @@ const AddressCard = props => {
                 {defaultBadge}
                 <span className={classes.name}>{nameString}</span>
                 {streetRows}
-                <span className={classes.additionalAddress}>
-                    {additionalAddressString}
-                </span>
-                <span className={classes.country}>
-                    {countryName || country_code}
-                </span>
+                <span className={classes.additionalAddress}>{additionalAddressString}</span>
+                <span className={classes.country}>{countryName || country_code}</span>
                 <span className={classes.telephone}>
-                    <FormattedMessage
-                        id="addressBookPage.telephone"
-                        values={{ telephone }}
-                    />
+                    <FormattedMessage id="addressBookPage.telephone" values={{ telephone }} />
                 </span>
             </div>
             <div className={classes.actionContainer}>

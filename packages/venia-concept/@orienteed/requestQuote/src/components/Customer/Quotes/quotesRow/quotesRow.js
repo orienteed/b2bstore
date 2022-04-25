@@ -16,22 +16,9 @@ export const DATE_FORMAT = {
 };
 
 const QuotesTable = props => {
-    const {
-        quote,
-        handleDeleteQuote,
-        handleCancelQuote,
-        handleDuplicateQuote,
-        handleQuoteToCart
-    } = props;
+    const { quote, handleDeleteQuote, handleCancelQuote, handleDuplicateQuote, handleQuoteToCart } = props;
 
-    const {
-        created_at,
-        entity_id,
-        expired_at,
-        quote_currency_code,
-        status,
-        subtotal
-    } = quote;
+    const { created_at, entity_id, expired_at, quote_currency_code, status, subtotal } = quote;
 
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
@@ -40,10 +27,7 @@ const QuotesTable = props => {
     const contentClass = isOpen ? classes.content : classes.content_collapsed;
 
     // Format Date
-    const createdAt = new Date(created_at).toLocaleDateString(
-        undefined,
-        DATE_FORMAT
-    );
+    const createdAt = new Date(created_at).toLocaleDateString(undefined, DATE_FORMAT);
     const expiredAt = () => {
         if (expired_at == undefined || expired_at == null || expired_at == '') {
             return null;
@@ -66,26 +50,12 @@ const QuotesTable = props => {
 
     const quotesTableAction = (
         <div className={classes.quotesLink}>
-            <button
-                className={classes.quotesLinkView}
-                type="button"
-                onClick={handleContentToggle}
-            >
-                <FormattedMessage
-                    id={'quotesTable.quotesViewText'}
-                    defaultMessage={'View'}
-                />
+            <button className={classes.quotesLinkView} type="button" onClick={handleContentToggle}>
+                <FormattedMessage id={'quotesTable.quotesViewText'} defaultMessage={'View'} />
             </button>
             {status === 'approved' && (
-                <button
-                    className={classes.quotesLinkAddtocart}
-                    type="button"
-                    onClick={handleQuoteToCart}
-                >
-                    <FormattedMessage
-                        id={'quotesTable.quotesAddtocartText'}
-                        defaultMessage={'Add To Cart'}
-                    />
+                <button className={classes.quotesLinkAddtocart} type="button" onClick={handleQuoteToCart}>
+                    <FormattedMessage id={'quotesTable.quotesAddtocartText'} defaultMessage={'Add To Cart'} />
                 </button>
             )}
             {/* <button
@@ -99,15 +69,8 @@ const QuotesTable = props => {
                 />
             </button> */}
             {status !== 'cancel' && (
-                <button
-                    className={classes.quotesLinkCancel}
-                    type="button"
-                    onClick={handleCancelQuote}
-                >
-                    <FormattedMessage
-                        id={'quotesTable.quotesCancelText'}
-                        defaultMessage={'Cancel'}
-                    />
+                <button className={classes.quotesLinkCancel} type="button" onClick={handleCancelQuote}>
+                    <FormattedMessage id={'quotesTable.quotesCancelText'} defaultMessage={'Cancel'} />
                 </button>
             )}
             {/* <button
@@ -127,61 +90,36 @@ const QuotesTable = props => {
         <li className={classes.quotesTableRow}>
             <div className={classes.quotesId}>
                 <span className={classes.quotesIdLabel}>
-                    <FormattedMessage
-                        id={'quotesTable.quotesIdText'}
-                        defaultMessage={'Quote #'}
-                    />
+                    <FormattedMessage id={'quotesTable.quotesIdText'} defaultMessage={'Quote #'} />
                 </span>
                 <span className={classes.quotesIdValue}>{entityId}</span>
             </div>
             <div className={classes.quotesSubmitDate}>
                 <span className={classes.quotesSubmitDateLabel}>
-                    <FormattedMessage
-                        id={'quotesTable.quotesSubmitDateText'}
-                        defaultMessage={'Submitted Date'}
-                    />
+                    <FormattedMessage id={'quotesTable.quotesSubmitDateText'} defaultMessage={'Submitted Date'} />
                 </span>
-                <span className={classes.quotesSubmitDateValue}>
-                    {createdAt}
-                </span>
+                <span className={classes.quotesSubmitDateValue}>{createdAt}</span>
             </div>
             <div className={classes.quotesExpiredDate}>
                 <span className={classes.quotesExpiredDateLabel}>
-                    <FormattedMessage
-                        id={'quotesTable.quotesExpiredDateText'}
-                        defaultMessage={'Expired Date'}
-                    />
+                    <FormattedMessage id={'quotesTable.quotesExpiredDateText'} defaultMessage={'Expired Date'} />
                 </span>
-                <span className={classes.quotesExpiredDateValue}>
-                    {expiredAt}
-                </span>
+                <span className={classes.quotesExpiredDateValue}>{expiredAt}</span>
             </div>
             <div className={classes.quotesTotal}>
                 <span className={classes.quotesTotalLabel}>
-                    <FormattedMessage
-                        id={'quotesTable.quotesTotalText'}
-                        defaultMessage={'Quote Total'}
-                    />
+                    <FormattedMessage id={'quotesTable.quotesTotalText'} defaultMessage={'Quote Total'} />
                 </span>
                 <span className={classes.quotesTotalValue}>
-                    <Price
-                        currencyCode={quote_currency_code}
-                        value={subtotal}
-                    />
+                    <Price currencyCode={quote_currency_code} value={subtotal} />
                 </span>
             </div>
             <div className={classes.quotesStatus}>
                 <span className={classes.quotesStatusLabel}>
-                    <FormattedMessage
-                        id={'quotesTable.quotesStatusText'}
-                        defaultMessage={'Status'}
-                    />
+                    <FormattedMessage id={'quotesTable.quotesStatusText'} defaultMessage={'Status'} />
                 </span>
                 <span className={classes.quotesStatusValue}>
-                    <FormattedMessage
-                        id={'quotesTable.quotesStatusValue'}
-                        defaultMessage={status}
-                    />
+                    <FormattedMessage id={'quotesTable.quotesStatusValue'} defaultMessage={status} />
                 </span>
             </div>
             <div className={classes.quotesAction}>{quotesTableAction}</div>

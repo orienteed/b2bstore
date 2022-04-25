@@ -1,7 +1,7 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
-import { useIntl, FormattedMessage, } from 'react-intl';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Paperclip, X as CloseIcon } from 'react-feather';
 import { Form } from 'informed';
@@ -11,29 +11,28 @@ import TextArea from '@magento/venia-ui/lib/components/TextArea';
 import defaultClasses from './quoteConversation.module.css';
 
 const QuoteConversation = props => {
-   
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
-    
+
     const conversationAttachment = (
         <div className={classes.attachmentBox}>
             <div className={classes.attachmentBoxTitle}>
                 <Icon size={14} src={Paperclip} />
                 <span className={classes.attachmentNum}>2</span>
-                <FormattedMessage
-                    id={'quoteConversation.attachmentText'}
-                    defaultMessage={'Attachment(s)'}
-                />
+                <FormattedMessage id={'quoteConversation.attachmentText'} defaultMessage={'Attachment(s)'} />
             </div>
             <div className={classes.attachmentFileRow}>
                 <div className={classes.attachedFileBox}>
                     <Icon size={16} src={CloseIcon} />
-                    <span className={classes.attachedFileBoxInfo}>user.png <span className={classes.attachedFileSize}>(5 KB)</span></span>
-                    
+                    <span className={classes.attachedFileBoxInfo}>
+                        user.png <span className={classes.attachedFileSize}>(5 KB)</span>
+                    </span>
                 </div>
                 <div className={classes.attachedFileBox}>
                     <Icon size={16} src={CloseIcon} />
-                    <span className={classes.attachedFileBoxInfo}>user.png <span className={classes.attachedFileSize}>(5 KB)</span></span>
+                    <span className={classes.attachedFileBoxInfo}>
+                        user.png <span className={classes.attachedFileSize}>(5 KB)</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -44,10 +43,7 @@ const QuoteConversation = props => {
             <div className={classes.blockContent}>
                 <Form className={classes.conversationForm}>
                     <Field id={classes.content} label="Content">
-                        <TextArea
-                            id="content"
-                            field="content"
-                        />
+                        <TextArea id="content" field="content" />
                     </Field>
                     <div className={classes.formActions}>
                         <div className={classes.fileInputButton}>

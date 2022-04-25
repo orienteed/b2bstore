@@ -26,14 +26,7 @@ const Logo = props => {
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
 
     return (
-        <Image
-            alt={title}
-            classes={{ image: classes.logo }}
-            height={height}
-            src={logo}
-            title={title}
-            width={width}
-        />
+        <Image alt={title} classes={{ image: classes.logo }} height={height} src={logo} title={title} width={width} />
     );
 };
 

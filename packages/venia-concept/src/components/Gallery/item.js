@@ -25,17 +25,10 @@ const IMAGE_WIDTH = 300;
 const IMAGE_HEIGHT = 375;
 
 // Gallery switches from two columns to three at 640px.
-const IMAGE_WIDTHS = new Map()
-    .set(640, IMAGE_WIDTH)
-    .set(UNCONSTRAINED_SIZE_KEY, 840);
+const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY, 840);
 
 const GalleryItem = props => {
-    const {
-        handleLinkClick,
-        item,
-        wishlistButtonProps,
-        isSupportedProductType
-    } = useGalleryItem(props);
+    const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
 
     const { storeConfig } = props;
 
@@ -48,23 +41,12 @@ const GalleryItem = props => {
     }
 
     // eslint-disable-next-line no-unused-vars
-    const {
-        orParentUrlKey,
-        name,
-        price,
-        price_range,
-        small_image,
-        url_key,
-        url_suffix,
-        rating_summary
-    } = item;
+    const { orParentUrlKey, name, price, price_range, small_image, url_key, url_suffix, rating_summary } = item;
 
     const { url: smallImageURL } = small_image;
 
     const productLink = resourceUrl(
-        `/${
-            item.__typename === 'ConfigurableProduct' ? url_key : orParentUrlKey
-        }${productUrlSuffix || ''}`
+        `/${item.__typename === 'ConfigurableProduct' ? url_key : orParentUrlKey}${productUrlSuffix || ''}`
     );
     const {
         minimalPrice: {
@@ -78,31 +60,20 @@ const GalleryItem = props => {
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
             <div className={classes.price}>
-                <Price
-                    value={price.regularPrice.amount.value}
-                    currencyCode={price.regularPrice.amount.currency}
-                />
+                <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
             </div>
         ) : (
             <>
                 <div className={classes.oldPrice}>
-                    <Price
-                        value={price.regularPrice.amount.value}
-                        currencyCode={price.regularPrice.amount.currency}
-                    />
+                    <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
                 </div>
                 <div className={classes.price}>
-                    <Price
-                        value={minimalPriceValue}
-                        currencyCode={minimalPriceCurrency}
-                    />
+                    <Price value={minimalPriceValue} currencyCode={minimalPriceCurrency} />
                 </div>
             </>
         );
 
-    const wishlistButton = wishlistButtonProps ? (
-        <WishlistGalleryButton {...wishlistButtonProps} />
-    ) : null;
+    const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
 
     const addButton = isSupportedProductType ? (
         <AddToCartbutton item={item} urlSuffix={productUrlSuffix} />
@@ -125,17 +96,8 @@ const GalleryItem = props => {
     // ) : null;
 
     return (
-        <div
-            data-cy="GalleryItem-root"
-            className={classes.root}
-            aria-live="polite"
-            aria-busy="false"
-        >
-            <Link
-                onClick={handleLinkClick}
-                to={productLink}
-                className={classes.images}
-            >
+        <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
+            <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
                 <Image
                     alt={name}
                     classes={{
@@ -150,12 +112,7 @@ const GalleryItem = props => {
                 />
                 {ratingAverage}
             </Link>
-            <Link
-                onClick={handleLinkClick}
-                to={productLink}
-                className={classes.name}
-                data-cy="GalleryItem-name"
-            >
+            <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>

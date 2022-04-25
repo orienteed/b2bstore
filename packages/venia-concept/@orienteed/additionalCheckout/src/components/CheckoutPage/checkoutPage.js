@@ -5,10 +5,7 @@ import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import { useWindowSize, useToasts } from '@magento/peregrine';
-import {
-    CHECKOUT_STEP,
-    useCheckoutPage
-} from '@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage';
+import { CHECKOUT_STEP, useCheckoutPage } from '@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -86,8 +83,7 @@ const CheckoutPage = props => {
                     ? error.message
                     : formatMessage({
                           id: 'checkoutPage.errorSubmit',
-                          defaultMessage:
-                              'Oops! An error occurred while submitting. Please try again.'
+                          defaultMessage: 'Oops! An error occurred while submitting. Please try again.'
                       });
             addToast({
                 type: 'error',
@@ -121,12 +117,7 @@ const CheckoutPage = props => {
           });
 
     if (orderNumber && orderDetailsData) {
-        return (
-            <OrderConfirmationPage
-                data={orderDetailsData}
-                orderNumber={orderNumber}
-            />
-        );
+        return <OrderConfirmationPage data={orderDetailsData} orderNumber={orderNumber} />;
     } else if (isLoading) {
         return fullPageLoadingIndicator;
     } else if (isCartEmpty) {
@@ -147,20 +138,10 @@ const CheckoutPage = props => {
         const signInContainerElement = isGuestCheckout ? (
             <div className={classes.signInContainer}>
                 <span className={classes.signInLabel}>
-                    <FormattedMessage
-                        id={'checkoutPage.signInLabel'}
-                        defaultMessage={'Sign in for Express Checkout'}
-                    />
+                    <FormattedMessage id={'checkoutPage.signInLabel'} defaultMessage={'Sign in for Express Checkout'} />
                 </span>
-                <Button
-                    className={classes.signInButton}
-                    onClick={toggleSignInContent}
-                    priority="normal"
-                >
-                    <FormattedMessage
-                        id={'checkoutPage.signInButton'}
-                        defaultMessage={'Sign In'}
-                    />
+                <Button className={classes.signInButton} onClick={toggleSignInContent} priority="normal">
+                    <FormattedMessage id={'checkoutPage.signInButton'} defaultMessage={'Sign In'} />
                 </Button>
             </div>
         ) : null;
@@ -175,10 +156,7 @@ const CheckoutPage = props => {
                 />
             ) : (
                 <h3 className={classes.shipping_method_heading}>
-                    <FormattedMessage
-                        id={'checkoutPage.shippingMethodStep'}
-                        defaultMessage={'2. Shipping Method'}
-                    />
+                    <FormattedMessage id={'checkoutPage.shippingMethodStep'} defaultMessage={'2. Shipping Method'} />
                 </h3>
             );
 
@@ -233,16 +211,9 @@ const CheckoutPage = props => {
                     onClick={handleReviewOrder}
                     priority="high"
                     className={classes.review_order_button}
-                    disabled={
-                        reviewOrderButtonClicked ||
-                        isUpdating ||
-                        !isPaymentAvailable
-                    }
+                    disabled={reviewOrderButtonClicked || isUpdating || !isPaymentAvailable}
                 >
-                    <FormattedMessage
-                        id={'checkoutPage.reviewOrder'}
-                        defaultMessage={'Review Order'}
-                    />
+                    <FormattedMessage id={'checkoutPage.reviewOrder'} defaultMessage={'Review Order'} />
                 </Button>
             ) : null;
 
@@ -259,21 +230,14 @@ const CheckoutPage = props => {
                     onClick={handlePlaceOrder}
                     priority="high"
                     className={classes.place_order_button}
-                    disabled={
-                        isUpdating || placeOrderLoading || orderDetailsLoading
-                    }
+                    disabled={isUpdating || placeOrderLoading || orderDetailsLoading}
                 >
-                    <FormattedMessage
-                        id={'checkoutPage.placeOrder'}
-                        defaultMessage={'Place Order'}
-                    />
+                    <FormattedMessage id={'checkoutPage.placeOrder'} defaultMessage={'Place Order'} />
                 </Button>
             ) : null;
 
         // If we're on mobile we should only render price summary in/after review.
-        const shouldRenderPriceSummary = !(
-            isMobile && checkoutStep < CHECKOUT_STEP.REVIEW
-        );
+        const shouldRenderPriceSummary = !(isMobile && checkoutStep < CHECKOUT_STEP.REVIEW);
 
         const orderSummary = shouldRenderPriceSummary ? (
             <div className={classes.summaryContainer}>
@@ -301,9 +265,7 @@ const CheckoutPage = props => {
         }
 
         const checkoutContentClass =
-            activeContent === 'checkout'
-                ? classes.checkoutContent
-                : classes.checkoutContent_hidden;
+            activeContent === 'checkout' ? classes.checkoutContent : classes.checkoutContent_hidden;
 
         const stockStatusMessageElement = (
             <Fragment>
@@ -314,10 +276,7 @@ const CheckoutPage = props => {
                     }
                 />
                 <Link className={classes.cartLink} to={'/cart'}>
-                    <FormattedMessage
-                        id={'checkoutPage.returnToCart'}
-                        defaultMessage={'Return to Cart'}
-                    />
+                    <FormattedMessage id={'checkoutPage.returnToCart'} defaultMessage={'Return to Cart'} />
                 </Link>
             </Fragment>
         );
@@ -330,10 +289,7 @@ const CheckoutPage = props => {
                         }}
                         errors={formErrors}
                     />
-                    <StockStatusMessage
-                        cartItems={cartItems}
-                        message={stockStatusMessageElement}
-                    />
+                    <StockStatusMessage cartItems={cartItems} message={stockStatusMessageElement} />
                     <h1 className={classes.heading}>{headerText}</h1>
                 </div>
                 {signInContainerElement}
@@ -346,17 +302,11 @@ const CheckoutPage = props => {
                         />
                     </ScrollAnchor>
                 </div>
-                <AdditionalFields
-                    reviewOrderButtonClicked={reviewOrderButtonClicked}
-                />   
+                <AdditionalFields reviewOrderButtonClicked={reviewOrderButtonClicked} />
                 <div className={classes.shipping_method_container}>
-                    <ScrollAnchor ref={shippingMethodRef}>
-                        {shippingMethodSection}
-                    </ScrollAnchor>
+                    <ScrollAnchor ref={shippingMethodRef}>{shippingMethodSection}</ScrollAnchor>
                 </div>
-                <div className={classes.payment_information_container}>
-                    {paymentInformationSection}
-                </div>
+                <div className={classes.payment_information_container}>{paymentInformationSection}</div>
                 {priceAdjustmentsSection}
                 {reviewOrderButton}
                 {itemsReview}
@@ -375,10 +325,7 @@ const CheckoutPage = props => {
     ) : null;
 
     const signInElement = isGuestCheckout ? (
-        <GuestSignIn
-            isActive={activeContent === 'signIn'}
-            toggleActiveContent={toggleSignInContent}
-        />
+        <GuestSignIn isActive={activeContent === 'signIn'} toggleActiveContent={toggleSignInContent} />
     ) : null;
 
     return (

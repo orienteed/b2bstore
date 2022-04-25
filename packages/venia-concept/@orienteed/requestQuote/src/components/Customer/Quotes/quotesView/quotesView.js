@@ -1,44 +1,32 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Printer } from 'react-feather';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesView.module.css';
 import Price from '@magento/venia-ui/lib/components/Price';
 import QuotesViewTableRow from '@orienteed/requestQuote/src/components/Customer/Quotes/quotesViewTableRow';
 
 const DATE_FORMAT = {
-    month: 'short', 
-    day: 'numeric', 
+    month: 'short',
+    day: 'numeric',
     year: 'numeric'
-}
+};
 
 const quotesView = props => {
     const {
-        quote:{
-            created_at,
-            subtotal,
-            quote_currency_code,
-            items,
-            discount
-        }
-    } = props
+        quote: { created_at, subtotal, quote_currency_code, items, discount }
+    } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
 
     // Format Date
-    const createdAt = new Date(created_at).toLocaleDateString(
-        undefined,
-        DATE_FORMAT
-    );
+    const createdAt = new Date(created_at).toLocaleDateString(undefined, DATE_FORMAT);
 
     const quotesDate = (
         <div className={classes.quotesDateCol}>
-            <FormattedMessage
-                id={'quotesDate.quotesDateText'}
-                defaultMessage={'Submitted Date: '}
-            />
+            <FormattedMessage id={'quotesDate.quotesDateText'} defaultMessage={'Submitted Date: '} />
             {createdAt}
         </div>
     );
@@ -47,62 +35,41 @@ const quotesView = props => {
         <li className={[classes.quotesViewTableRow, classes.quotesViewTableHead].join(' ')}>
             <div className={classes.productName}>
                 <span className={classes.productNameLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productNameText'}
-                        defaultMessage={'Product Name'}
-                    />
+                    <FormattedMessage id={'quotesView.productNameText'} defaultMessage={'Product Name'} />
                 </span>
             </div>
             <div className={classes.productSku}>
                 <span className={classes.productSkuLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productSkuText'}
-                        defaultMessage={'SKU'}
-                    />
+                    <FormattedMessage id={'quotesView.productSkuText'} defaultMessage={'SKU'} />
                 </span>
             </div>
-           
+
             <div className={classes.productPrice}>
                 <span className={classes.productPriceLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productPriceText'}
-                        defaultMessage={'Price'}
-                    />
+                    <FormattedMessage id={'quotesView.productPriceText'} defaultMessage={'Price'} />
                 </span>
             </div>
             <div className={classes.productQuotePrice}>
                 <span className={classes.productQuotePriceLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productQuotePriceText'}
-                        defaultMessage={'Quote Price'}
-                    />
+                    <FormattedMessage id={'quotesView.productQuotePriceText'} defaultMessage={'Quote Price'} />
                 </span>
             </div>
             <div className={classes.productQty}>
                 <span className={classes.productQtyLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productQtyText'}
-                        defaultMessage={'Qty'}
-                    />
+                    <FormattedMessage id={'quotesView.productQtyText'} defaultMessage={'Qty'} />
                 </span>
             </div>
             <div className={classes.productDiscount}>
                 <span className={classes.productDiscountLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productDiscountText'}
-                        defaultMessage={'Discount'}
-                    />
+                    <FormattedMessage id={'quotesView.productDiscountText'} defaultMessage={'Discount'} />
                 </span>
             </div>
             <div className={classes.productSubtotal}>
                 <span className={classes.productSubtotalLabel}>
-                    <FormattedMessage
-                        id={'quotesView.productSubtotalText'}
-                        defaultMessage={'Subtotal'}
-                    />
+                    <FormattedMessage id={'quotesView.productSubtotalText'} defaultMessage={'Subtotal'} />
                 </span>
             </div>
-        </li>  
+        </li>
     );
 
     const quotesViewTableFooter = (
@@ -110,37 +77,25 @@ const quotesView = props => {
             <li className={[classes.quotesViewTableRow, classes.quotesViewTableFooterRow].join(' ')}>
                 <div className={[classes.tableDiscount, classes.tableDiscountDesk].join(' ')}>
                     <span className={classes.tableDiscountLabel}>
-                        <FormattedMessage
-                            id={'quotesView.tableDiscountText'}
-                            defaultMessage={'Total Discount'}
-                        />
+                        <FormattedMessage id={'quotesView.tableDiscountText'} defaultMessage={'Total Discount'} />
                     </span>
                 </div>
                 <div className={classes.tableDiscount}>
                     <span className={classes.tableDiscountMobileLabel}>
-                        <FormattedMessage
-                            id={'quotesView.tableDiscountText'}
-                            defaultMessage={'Total Discount'}
-                        />
+                        <FormattedMessage id={'quotesView.tableDiscountText'} defaultMessage={'Total Discount'} />
                     </span>
-                    <span className={classes.tableDiscountValue} dangerouslySetInnerHTML={{__html: discount}}></span>
+                    <span className={classes.tableDiscountValue} dangerouslySetInnerHTML={{ __html: discount }} />
                 </div>
             </li>
             <li className={[classes.quotesViewTableRow, classes.quotesViewTableFooterRow].join(' ')}>
                 <div className={[classes.tableSubtotal, classes.tableSubtotalDesk].join(' ')}>
                     <span className={classes.tableSubtotalLabel}>
-                        <FormattedMessage
-                            id={'quotesView.tableSubtotalText'}
-                            defaultMessage={'Subtotal'}
-                        />
+                        <FormattedMessage id={'quotesView.tableSubtotalText'} defaultMessage={'Subtotal'} />
                     </span>
                 </div>
                 <div className={classes.tableSubtotal}>
                     <span className={classes.tableSubtotalMobileLabel}>
-                        <FormattedMessage
-                            id={'quotesView.tableSubtotalText'}
-                            defaultMessage={'Subtotal'}
-                        />
+                        <FormattedMessage id={'quotesView.tableSubtotalText'} defaultMessage={'Subtotal'} />
                     </span>
                     <span className={classes.tableSubtotalValue}>
                         <Price currencyCode={quote_currency_code} value={subtotal} />
@@ -150,18 +105,12 @@ const quotesView = props => {
             <li className={[classes.quotesViewTableRow, classes.quotesViewTableFooterRow].join(' ')}>
                 <div className={[classes.tableQuoteTotal, classes.tableQuoteTotalDesk].join(' ')}>
                     <span className={classes.tableQuoteTotalLabel}>
-                        <FormattedMessage
-                            id={'quotesView.tableQuoteTotalText'}
-                            defaultMessage={'Quote Total'}
-                        />
+                        <FormattedMessage id={'quotesView.tableQuoteTotalText'} defaultMessage={'Quote Total'} />
                     </span>
                 </div>
                 <div className={classes.tableQuoteTotal}>
                     <span className={classes.tableQuoteTotalMobileLabel}>
-                        <FormattedMessage
-                            id={'quotesView.tableQuoteTotalText'}
-                            defaultMessage={'Quote Total'}
-                        />
+                        <FormattedMessage id={'quotesView.tableQuoteTotalText'} defaultMessage={'Quote Total'} />
                     </span>
                     <span className={classes.tableQuoteTotalValue}>
                         <Price currencyCode={quote_currency_code} value={subtotal} />
@@ -172,13 +121,9 @@ const quotesView = props => {
     );
 
     const quotesViewTableRow = useMemo(() => {
-
         if (items.length > 0) {
             return items.map(item => {
-                return <QuotesViewTableRow
-                    key={item.sku}
-                    item={item}
-                />;
+                return <QuotesViewTableRow key={item.sku} item={item} />;
             });
         } else {
             return (
@@ -188,7 +133,7 @@ const quotesView = props => {
                         defaultMessage={"You don't have any items yet."}
                     />
                 </h3>
-            )
+            );
         }
     }, [items]);
 
@@ -204,9 +149,7 @@ const quotesView = props => {
 
     return (
         <div className={classes.root}>
-           <div className={classes.quotesDatePrint}>
-                {quotesDate}
-            </div>
+            <div className={classes.quotesDatePrint}>{quotesDate}</div>
             {quotesViewTable}
         </div>
     );

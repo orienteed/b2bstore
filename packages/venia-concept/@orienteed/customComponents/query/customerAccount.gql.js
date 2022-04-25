@@ -1,16 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const CREATE_ACCOUNT_BE_CUSTOMER = gql`
-    mutation beCustomerSendMail(
-        $email: String!
-        $nif: String!
-        $no_of_client: Int!
-    ) {
-        beCustomerSendMail(
-            email: $email
-            nif: $nif
-            no_of_client: $no_of_client
-        ) {
+    mutation beCustomerSendMail($email: String!, $nif: String!, $no_of_client: Int!) {
+        beCustomerSendMail(email: $email, nif: $nif, no_of_client: $no_of_client) {
             error
             message
         }

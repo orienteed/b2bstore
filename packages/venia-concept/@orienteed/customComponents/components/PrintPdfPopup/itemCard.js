@@ -30,10 +30,7 @@ const ItemCard = props => {
             <section>
                 {item.configurable_options.map((individualOption, index) => {
                     return (
-                        <article
-                            key={index}
-                            className={defaultClasses.optionsContainer}
-                        >
+                        <article key={index} className={defaultClasses.optionsContainer}>
                             <article>{individualOption.option_label}:</article>
                             <article>{individualOption.value_label}</article>
                         </article>
@@ -61,8 +58,7 @@ export default ItemCard;
 
 export const REMOVE_ITEM_MUTATION = gql`
     mutation removeItem($cartId: String!, $itemId: ID!) {
-        removeItemFromCart(input: { cart_id: $cartId, cart_item_uid: $itemId })
-            @connection(key: "removeItemFromCart") {
+        removeItemFromCart(input: { cart_id: $cartId, cart_item_uid: $itemId }) @connection(key: "removeItemFromCart") {
             cart {
                 id
                 ...CartPageFragment
@@ -75,17 +71,9 @@ export const REMOVE_ITEM_MUTATION = gql`
 `;
 
 export const UPDATE_QUANTITY_MUTATION = gql`
-    mutation updateItemQuantity(
-        $cartId: String!
-        $itemId: ID!
-        $quantity: Float!
-    ) {
-        updateCartItems(
-            input: {
-                cart_id: $cartId
-                cart_items: [{ cart_item_uid: $itemId, quantity: $quantity }]
-            }
-        ) @connection(key: "updateCartItems") {
+    mutation updateItemQuantity($cartId: String!, $itemId: ID!, $quantity: Float!) {
+        updateCartItems(input: { cart_id: $cartId, cart_items: [{ cart_item_uid: $itemId, quantity: $quantity }] })
+            @connection(key: "updateCartItems") {
             cart {
                 id
                 ...CartPageFragment

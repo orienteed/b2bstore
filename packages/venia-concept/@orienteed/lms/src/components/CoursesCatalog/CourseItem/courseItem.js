@@ -21,10 +21,7 @@ const CourseItem = props => {
     return (
         <div key={data.id} className={classes.courseContainer}>
             <div className={classes.courseOverlay}>
-                <Button
-                    className={classes.subscribeButtonOverlay}
-                    onClick={handleSubscription}
-                >
+                <Button className={classes.subscribeButtonOverlay} onClick={handleSubscription}>
                     <FormattedMessage
                         id={'lms.watchCourse'} // TODO_B2B: Translations
                         defaultMessage={'Watch Course'}
@@ -39,27 +36,18 @@ const CourseItem = props => {
             {data.overviewfiles.length !== 0 ? (
                 <img
                     className={classes.courseImage}
-                    src={`${
-                        data.overviewfiles[0].fileurl
-                    }?token=af547e6e35fca251a48ff4bedb7f1298`}
+                    src={`${data.overviewfiles[0].fileurl}?token=af547e6e35fca251a48ff4bedb7f1298`}
                     alt="Course logo"
                 />
             ) : (
-                <img
-                    className={classes.courseImage}
-                    src={noImageAvailable}
-                    alt="Course logo not available"
-                />
+                <img className={classes.courseImage} src={noImageAvailable} alt="Course logo not available" />
             )}
             <p className={classes.courseTitle}>{data.fullname}</p>
             <div className={classes.courseDescriptionContainer}>
                 <p className={classes.courseDescription}>{data.summary}</p>
             </div>
             <div className={classes.subscribeButtonContainer}>
-                <Button
-                    className={classes.subscribeButton}
-                    onClick={handleSubscription}
-                >
+                <Button className={classes.subscribeButton} onClick={handleSubscription}>
                     <FormattedMessage
                         id={'lms.watchCourse'} // TODO_B2B: Translations
                         defaultMessage={'Watch Course'}

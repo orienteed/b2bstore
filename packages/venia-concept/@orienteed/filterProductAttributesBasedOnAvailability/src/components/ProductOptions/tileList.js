@@ -15,16 +15,11 @@ const TileList = props => {
             items.map(item => {
                 const isSelected = item.label === selectedValue.label;
 
-                if(!item.status){ return null }
+                if (!item.status) {
+                    return null;
+                }
 
-                return (
-                    <Tile
-                        key={getItemKey(item)}
-                        isSelected={isSelected}
-                        item={item}
-                        onClick={onSelectionChange}
-                    />
-                );
+                return <Tile key={getItemKey(item)} isSelected={isSelected} item={item} onClick={onSelectionChange} />;
             }),
         [getItemKey, selectedValue.label, items, onSelectionChange]
     );

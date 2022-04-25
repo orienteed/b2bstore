@@ -21,26 +21,13 @@ export class TextInput extends Component {
     };
 
     render() {
-        const {
-            after,
-            before,
-            classes,
-            fieldState,
-            message,
-            ...rest
-        } = this.props;
+        const { after, before, classes, fieldState, message, ...rest } = this.props;
 
-        const inputClass = fieldState.error
-            ? classes.input_error
-            : classes.input;
+        const inputClass = fieldState.error ? classes.input_error : classes.input;
         return (
             <Fragment>
                 <FieldIcons after={after} before={before}>
-                    <BasicText
-                        {...rest}
-                        fieldState={fieldState}
-                        className={inputClass}
-                    />
+                    <BasicText {...rest} fieldState={fieldState} className={inputClass} />
                 </FieldIcons>
                 <Message fieldState={fieldState}>{message}</Message>
             </Fragment>

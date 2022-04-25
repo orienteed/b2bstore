@@ -16,9 +16,7 @@ AVAILABLE_STORE_VIEWS.forEach(store => {
     storeSecureBaseMediaUrl[store.code] = store.secure_base_media_url;
 });
 
-let mediaBackend =
-    storage.getItem('store_view_secure_base_media_url') ||
-    storeSecureBaseMediaUrl[storeCode];
+let mediaBackend = storage.getItem('store_view_secure_base_media_url') || storeSecureBaseMediaUrl[storeCode];
 if (!mediaBackend) {
     console.warn('A media backend URL should be defined in your config.');
     mediaBackend = 'https://backend.test/media/';
@@ -28,12 +26,9 @@ if (!mediaBackend) {
 const absoluteUrl = /^(data|http|https)?:/i;
 
 // Simple path joiner that guarantees one and only one slash between segments
-const joinUrls = (base, url) =>{
-   return (base.endsWith('/') ? base.slice(0, -1) : base) +
-    '/' +
-    (url.startsWith('/') ? url.slice(1) : url);
-}
-    
+const joinUrls = (base, url) => {
+    return (base.endsWith('/') ? base.slice(0, -1) : base) + '/' + (url.startsWith('/') ? url.slice(1) : url);
+};
 
 const mediaBases = new Map()
     .set('image-product', 'catalog/product/')
@@ -73,13 +68,11 @@ const getFileType = url => {
  * @param {string} props.fit - how should the image be fit with the dimensions: bounds, cover, crop
  */
 const makeOptimizedUrl = (path, { type, ...opts } = {}) => {
-    console.log('makeOptimizedUrl1')
-    console.log(path)
-    if (typeof path !== 'string'){
-        path = path.url
-        
+    console.log('makeOptimizedUrl1');
+    console.log(path);
+    if (typeof path !== 'string') {
+        path = path.url;
     }
-
 
     // Immediate return if there's no image optimization to attempt
     if (!type || !type.startsWith('image-')) {

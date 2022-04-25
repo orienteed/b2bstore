@@ -18,9 +18,9 @@
  */
 
 module.exports = targets => {
-    const peregrineTargets = targets.of("@magento/peregrine");
+    const peregrineTargets = targets.of('@magento/peregrine');
     const talonsTarget = peregrineTargets.talons;
-    talonsTarget.tap((talonWrapperConfig) => {
-        talonWrapperConfig.MegaMenu.useMegaMenu.wrapWith(require.resolve('./talons/useMegaMenu'))
+    talonsTarget.tap(talonWrapperConfig => {
+        talonWrapperConfig.MegaMenu.useMegaMenu.wrapWith(require.resolve('./talons/useMegaMenu'));
     });
 };

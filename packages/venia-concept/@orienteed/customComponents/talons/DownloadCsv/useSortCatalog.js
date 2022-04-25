@@ -13,5 +13,4 @@ const defaultSort = {
  * @param props
  * @returns {[{sortDirection: string, sortAttribute: string, sortText: string}, React.Dispatch<React.SetStateAction<{sortDirection: string, sortAttribute: string, sortText: string}>>]}
  */
-export const useSortCatalog = (props = {}) =>
-    useState(() => Object.assign({}, props));
+export const useSortCatalog = (props = {}) => useState(() => Object.assign({}, props));

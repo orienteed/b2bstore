@@ -11,12 +11,11 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 // const INITIAL_OPTION_SELECTIONS = new Map();
 
 // const deriveOptionCodesFromProduct = product => {
- 
+
 //     if (!isProductConfigurable(product)) {
 //         return INITIAL_OPTION_CODES;
 //     }
 
-  
 //     const initialOptionCodes = new Map();
 //     for (const {
 //         attribute_id,
@@ -27,7 +26,6 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 
 //     return initialOptionCodes;
 // };
-
 
 // const deriveOptionSelectionsFromProduct = product => {
 //     if (!isProductConfigurable(product)) {
@@ -43,7 +41,7 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 // };
 
 // const getIsMissingOptions = (product, optionSelections) => {
-   
+
 //     if (!isProductConfigurable(product)) {
 //         return false;
 //     }
@@ -63,7 +61,6 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 //     const { media_gallery_entries, variants } = product;
 //     const isConfigurable = isProductConfigurable(product);
 
-    
 //     const optionsSelected =
 //         Array.from(optionSelections.values()).filter(value => !!value).length >
 //         0;
@@ -71,7 +68,7 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 //     if (!isConfigurable || !optionsSelected) {
 //         value = media_gallery_entries;
 //     } else {
-       
+
 //         const item = findMatchingVariant({
 //             optionCodes,
 //             optionSelections,
@@ -86,23 +83,16 @@ import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessa
 //     return value;
 // };
 
-
 const getBreadcrumbCategoryId = categories => {
-   
     if (!categories || !categories.length) {
         return;
     }
     const breadcrumbSet = new Set();
     categories.forEach(({ breadcrumbs }) => {
-    
-        (breadcrumbs || []).forEach(({ category_id }) =>
-            breadcrumbSet.add(category_id)
-        );
+        (breadcrumbs || []).forEach(({ category_id }) => breadcrumbSet.add(category_id));
     });
 
-    const leafCategory = categories.find(
-        category => !breadcrumbSet.has(category.id)
-    );
+    const leafCategory = categories.find(category => !breadcrumbSet.has(category.id));
 
     return leafCategory.id || categories[0].id;
 };
@@ -154,38 +144,26 @@ const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 //  * }}
 //  */
 export const useAddProduct = props => {
-    const {
-        addConfigurableProductToCartMutation,
-        addSimpleProductToCartMutation,
-        suggested_Product
-    } = props;
-
+    const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, suggested_Product } = props;
 
     const productType = suggested_Product.__typename;
 
-    const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(
-        productType
-    );
+    const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(productType);
 
     const [{ cartId }] = useCartContext();
 
     const [
         addConfigurableProductToCart,
-        {
-            error: errorAddingConfigurableProduct,
-            loading: isAddConfigurableLoading
-        }
+        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
     ] = useMutation(addConfigurableProductToCartMutation);
 
-    const [
-        addSimpleProductToCart,
-        { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }
-    ] = useMutation(addSimpleProductToCartMutation);
-
-    const breadcrumbCategoryId = useMemo(
-        () => getBreadcrumbCategoryId(suggested_Product.categories),
-        [suggested_Product.categories]
+    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
+        addSimpleProductToCartMutation
     );
+
+    const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(suggested_Product.categories), [
+        suggested_Product.categories
+    ]);
 
     // const derivedOptionSelections = useMemo(
     //     () => deriveOptionSelectionsFromProduct(suggested_Product),
@@ -212,16 +190,14 @@ export const useAddProduct = props => {
     // );
 
     const handleAddToCart = useCallback(
-        
         async formValues => {
             const { quantity } = formValues;
             const payload = {
                 item: suggested_Product,
                 productType,
-                quantity: 1,
-              
+                quantity: 1
             };
-            
+
             if (isProductConfigurable(suggested_Product)) {
                 appendOptionsToPayload(payload);
             }
@@ -234,7 +210,7 @@ export const useAddProduct = props => {
                     quantity: payload.quantity,
                     sku: payload.item.sku
                 };
-              
+
                 // Use the proper mutation for the type.
                 if (productType === 'SimpleProduct') {
                     try {
@@ -245,7 +221,7 @@ export const useAddProduct = props => {
                         return;
                     }
                 } else if (productType === 'ConfigurableProduct') {
-                   return
+                    return;
                 }
             } else {
                 console.error('Unsupported product type. Cannot add to cart.');
@@ -262,7 +238,7 @@ export const useAddProduct = props => {
     );
     // const handleSelectionChange = useCallback(
     //     (optionId, selection) => {
-         
+
     //         const nextOptionSelections = new Map([...optionSelections]);
     //         nextOptionSelections.set(optionId, selection);
     //         setOptionSelections(nextOptionSelections);

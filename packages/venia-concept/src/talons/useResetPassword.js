@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
-
 export const useResetPassword = props => {
     const { mutations } = props;
 
@@ -14,28 +13,22 @@ export const useResetPassword = props => {
 
     const [errorPassword, setErrorPassword] = useState(false);
     const location = useLocation();
-    const [
-        resetPassword,
-        { error: resetPasswordErrors, loading }
-    ] = useMutation(mutations.resetPasswordMutation);
+    const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(mutations.resetPasswordMutation);
 
-    const searchParams = useMemo(() => new URLSearchParams(location.search), [
-        location
-    ]);
+    const searchParams = useMemo(() => new URLSearchParams(location.search), [location]);
     const token = searchParams.get('token');
 
     const handleSubmit = useCallback(
         async ({ email, newPassword, newPasswordConfirm }) => {
             try {
                 if (email && token && newPassword) {
-
-                    if(newPasswordConfirm == newPassword){
+                    if (newPasswordConfirm == newPassword) {
                         await resetPassword({
                             variables: { email, token, newPassword }
                         });
-                        
+
                         setHasCompleted(true);
-                    }else{
+                    } else {
                         formErrors.push(
                             new Error(
                                 formatMessage({
@@ -43,7 +36,7 @@ export const useResetPassword = props => {
                                     defaultMessage: 'Las contrasenas no coinciden"'
                                 })
                             )
-                        ); 
+                        );
 
                         setErrorPassword(true);
                     }

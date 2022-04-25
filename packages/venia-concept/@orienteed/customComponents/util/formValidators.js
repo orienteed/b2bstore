@@ -2,7 +2,7 @@ const SUCCESS = undefined;
 let input = null;
 
 export const hasIntegerValue = (value, values, id) => {
-    if(input == null){
+    if (input == null) {
         input = document.querySelector('#' + id);
     }
 
@@ -10,7 +10,7 @@ export const hasIntegerValue = (value, values, id) => {
         id: 'validation.hasIntegerValue',
         defaultMessage: 'Only number will be allow.'
     };
-    if(!value.match(/^\d+/)){
+    if (!value.match(/^\d+/)) {
         input.scrollIntoView({
             behavior: 'auto',
             block: 'center',
@@ -25,7 +25,7 @@ export const hasIntegerValue = (value, values, id) => {
 };
 
 export const hasEmail = (value, values, id) => {
-    if(input == null){
+    if (input == null) {
         input = document.querySelector('#' + id);
     }
 
@@ -33,7 +33,7 @@ export const hasEmail = (value, values, id) => {
         id: 'validation.hasEmail',
         defaultMessage: 'Invalid email format.'
     };
-    if(!value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+    if (!value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
         input.scrollIntoView({
             behavior: 'auto',
             block: 'center',
@@ -47,9 +47,8 @@ export const hasEmail = (value, values, id) => {
     return SUCCESS;
 };
 
-
 export const isRequired = (value, values, id) => {
-    if(input == null){
+    if (input == null) {
         input = document.querySelector('#' + id);
     }
 
@@ -57,26 +56,26 @@ export const isRequired = (value, values, id) => {
         id: 'validation.isRequired',
         defaultMessage: 'Is required.'
     };
-    if (!value){
+    if (!value) {
         input.scrollIntoView({
             behavior: 'auto',
             block: 'center',
             inline: 'center'
         });
         return FAILURE;
-    } 
+    }
 
     const stringValue = String(value).trim();
     const measureResult = hasLengthAtLeast(stringValue, null, 1);
 
-    if (measureResult){
+    if (measureResult) {
         input.scrollIntoView({
             behavior: 'auto',
             block: 'center',
             inline: 'center'
         });
         return FAILURE;
-    } 
+    }
 
     input = null;
 

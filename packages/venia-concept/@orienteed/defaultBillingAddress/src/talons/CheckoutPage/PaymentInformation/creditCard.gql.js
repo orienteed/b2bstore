@@ -129,19 +129,13 @@ export const SET_BILLING_ADDRESS = gql`
 `;
 
 export const SET_CC_DETAILS_ON_CART = gql`
-    mutation setSelectedPaymentMethod(
-        $cartId: String!
-        $paymentNonce: String!
-    ) {
+    mutation setSelectedPaymentMethod($cartId: String!, $paymentNonce: String!) {
         setPaymentMethodOnCart(
             input: {
                 cart_id: $cartId
                 payment_method: {
                     code: "braintree"
-                    braintree: {
-                        payment_method_nonce: $paymentNonce
-                        is_active_payment_token_enabler: false
-                    }
+                    braintree: { payment_method_nonce: $paymentNonce, is_active_payment_token_enabler: false }
                 }
             }
         ) @connection(key: "setPaymentMethodOnCart") {
@@ -157,17 +151,9 @@ export const SET_CC_DETAILS_ON_CART = gql`
 `;
 
 export const SET_DEFAULT_BILLING_ADDRESS = gql`
-    mutation setDefaultBillingAddress(
-        $cartId: String!
-        $customerAddressId: Int
-    ) {
+    mutation setDefaultBillingAddress($cartId: String!, $customerAddressId: Int) {
         setBillingAddressOnCart(
-            input: {
-                cart_id: $cartId
-                billing_address: {
-                    customer_address_id: $customerAddressId
-                }
-            }
+            input: { cart_id: $cartId, billing_address: { customer_address_id: $customerAddressId } }
         ) @connection(key: "setBillingAddressOnCart") {
             cart {
                 id

@@ -63,8 +63,7 @@ const Dialog = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isOpen ? classes.root_open : classes.root;
     const isMaskDisabled = shouldDisableAllButtons || isModal;
-    const confirmButtonDisabled =
-        shouldDisableAllButtons || shouldDisableConfirmButton;
+    const confirmButtonDisabled = shouldDisableAllButtons || shouldDisableConfirmButton;
 
     const cancelButtonClasses = {
         root_lowPriority: classes.cancelButton
@@ -74,12 +73,7 @@ const Dialog = props => {
     };
 
     const maybeCloseXButton = !isModal ? (
-        <button
-            className={classes.headerButton}
-            disabled={shouldDisableAllButtons}
-            onClick={onCancel}
-            type="reset"
-        >
+        <button className={classes.headerButton} disabled={shouldDisableAllButtons} onClick={onCancel} type="reset">
             <Icon src={CloseIcon} />
         </button>
     ) : null;
@@ -93,21 +87,10 @@ const Dialog = props => {
                 priority="low"
                 type="reset"
             >
-                <FormattedMessage
-                    id={cancelTranslationId}
-                    defaultMessage={cancelText}
-                />
+                <FormattedMessage id={cancelTranslationId} defaultMessage={cancelText} />
             </Button>
-            <Button
-                classes={confirmButtonClasses}
-                disabled={confirmButtonDisabled}
-                priority="high"
-                type="submit"
-            >
-                <FormattedMessage
-                    id={confirmTranslationId}
-                    defaultMessage={confirmText}
-                />
+            <Button classes={confirmButtonClasses} disabled={confirmButtonDisabled} priority="high" type="submit">
+                <FormattedMessage id={confirmTranslationId} defaultMessage={confirmText} />
             </Button>
         </div>
     ) : null;
@@ -116,12 +99,7 @@ const Dialog = props => {
         isOpen || !shouldUnmountOnHide ? (
             <Form className={classes.form} {...formProps} onSubmit={onConfirm}>
                 {/* The Mask. */}
-                <button
-                    className={classes.mask}
-                    disabled={isMaskDisabled}
-                    onClick={onCancel}
-                    type="reset"
-                />
+                <button className={classes.mask} disabled={isMaskDisabled} onClick={onCancel} type="reset" />
                 {/* The Dialog. */}
                 <div className={classes.dialog}>
                     <div className={classes.header}>

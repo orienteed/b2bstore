@@ -10,29 +10,23 @@ import { useCallback, useMemo, useState } from 'react';
  */
 
 export default original => {
-
-    return function useOption(props, ...restArgs){
-
+    return function useOption(props, ...restArgs) {
         const { attribute_id, onSelectionChange, selectedValue, values } = props;
         const [selection, setSelection] = useState(null);
         const initialSelection = useMemo(() => {
             let initialSelection = {};
             const searchValue = selectedValue;
             if (searchValue) {
-                initialSelection =
-                    values.find(value => value.default_label === searchValue) || {};
+                initialSelection = values.find(value => value.default_label === searchValue) || {};
             }
             return initialSelection;
         }, [selectedValue, selection, values]);
 
         const valuesMap = useMemo(() => {
-            return new Map(
-                values.map(value => [value.value_index, value.store_label])
-            );
+            return new Map(values.map(value => [value.value_index, value.store_label]));
         }, [values]);
 
-        const selectedValueDescription =
-            selection || initialSelection.default_label || 'None';
+        const selectedValueDescription = selection || initialSelection.default_label || 'None';
 
         const handleSelectionChange = useCallback(
             selection => {
@@ -50,4 +44,4 @@ export default original => {
             selectedValueDescription
         };
     };
-}
+};

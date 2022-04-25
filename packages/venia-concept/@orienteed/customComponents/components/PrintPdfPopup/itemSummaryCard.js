@@ -4,33 +4,22 @@ import { FormattedMessage } from 'react-intl';
 
 const ItemSummaryCard = props => {
     const { priceSummary, tooglePrice } = props;
-    const [subtotal, setSubtotal] = useState(
-        priceSummary.subtotal ? priceSummary.subtotal.value : 0
-    );
-    const [total, setTotal] = useState(
-        priceSummary.total ? priceSummary.total.value : 0
-    );
+    const [subtotal, setSubtotal] = useState(priceSummary.subtotal ? priceSummary.subtotal.value : 0);
+    const [total, setTotal] = useState(priceSummary.total ? priceSummary.total.value : 0);
 
-    const [taxes, setTaxes] = useState(
-        priceSummary.taxes[0] ? priceSummary.taxes[0].amount.value : 0
-    );
+    const [taxes, setTaxes] = useState(priceSummary.taxes[0] ? priceSummary.taxes[0].amount.value : 0);
     const [shipping, setShipping] = useState(
-        priceSummary.shipping[0]
-            ? priceSummary.shipping[0].selected_shipping_method.amount.value
-            : 0
+        priceSummary.shipping[0] ? priceSummary.shipping[0].selected_shipping_method.amount.value : 0
     );
     const [currency, setCurrency] = useState(
-        priceSummary.taxes[0] ? priceSummary.taxes[0].amount.currency :priceSummary.subtotal.currency
+        priceSummary.taxes[0] ? priceSummary.taxes[0].amount.currency : priceSummary.subtotal.currency
     );
 
     return (
         <main className={defaultClasses.summaryContainer}>
             <section className={defaultClasses.infoContainer}>
                 <article className={defaultClasses.containerTitles}>
-                    <FormattedMessage
-                        id={'subtotalMessage'}
-                        defaultMessage={'Subtotal:'}
-                    />
+                    <FormattedMessage id={'subtotalMessage'} defaultMessage={'Subtotal:'} />
                 </article>
 
                 <article className={defaultClasses.valuesContainer}>
@@ -47,19 +36,14 @@ const ItemSummaryCard = props => {
                         )}
                     </article>
 
-                    <article className={defaultClasses.currencyTitles}>
-                        {priceSummary.subtotal.currency}
-                    </article>
+                    <article className={defaultClasses.currencyTitles}>{priceSummary.subtotal.currency}</article>
                 </article>
             </section>
 
             <section className={defaultClasses.infoContainer}>
                 <article className={defaultClasses.containerTitles}>
                     <div className={defaultClasses.titles}>
-                        <FormattedMessage
-                            id={'taxesMessage'}
-                            defaultMessage={'Taxes:'}
-                        />
+                        <FormattedMessage id={'taxesMessage'} defaultMessage={'Taxes:'} />
                     </div>
                 </article>
 
@@ -76,19 +60,14 @@ const ItemSummaryCard = props => {
                             />
                         )}
                     </article>
-                    <article className={defaultClasses.currencyTitles}>
-                        {currency}
-                    </article>
+                    <article className={defaultClasses.currencyTitles}>{currency}</article>
                 </article>
             </section>
 
             <section className={defaultClasses.infoContainer}>
                 <article className={defaultClasses.containerTitles}>
                     <div className={defaultClasses.titles}>
-                        <FormattedMessage
-                            id={'shippingMessage'}
-                            defaultMessage={'Shipping Fee:'}
-                        />
+                        <FormattedMessage id={'shippingMessage'} defaultMessage={'Shipping Fee:'} />
                     </div>
                 </article>
 
@@ -105,19 +84,14 @@ const ItemSummaryCard = props => {
                             />
                         )}
                     </article>
-                    <article className={defaultClasses.currencyTitles}>
-                        {currency}
-                    </article>
+                    <article className={defaultClasses.currencyTitles}>{currency}</article>
                 </article>
             </section>
 
             <section className={defaultClasses.infoContainer}>
                 <article className={defaultClasses.containerTitles}>
                     <div className={defaultClasses.titles}>
-                        <FormattedMessage
-                            id={'totalMessage'}
-                            defaultMessage={'Total:'}
-                        />
+                        <FormattedMessage id={'totalMessage'} defaultMessage={'Total:'} />
                     </div>
                 </article>
 
@@ -134,9 +108,7 @@ const ItemSummaryCard = props => {
                             />
                         )}
                     </article>
-                    <article className={defaultClasses.currencyTitles}>
-                        {priceSummary.total.currency}
-                    </article>
+                    <article className={defaultClasses.currencyTitles}>{priceSummary.total.currency}</article>
                 </article>
             </section>
         </main>

@@ -19,34 +19,21 @@ const CollapsedImageGallery = props => {
             const baseImageElements = Object.values(items)
                 .slice(0, DISPLAY_COUNT)
                 .map((item, index) => {
-                    if(item != null){
+                    if (item != null) {
                         const { thumbnail } = item;
                         const { label, url } = thumbnail;
 
-                        return (
-                            <Image
-                                key={Object.keys(items)[index]}
-                                alt={label}
-                                src={url}
-                                width={48}
-                            />
-                        );
-                    }else{
-                        return (
-                            <div>No Image</div>
-                        );
+                        return <Image key={Object.keys(items)[index]} alt={label} src={url} width={48} />;
+                    } else {
+                        return <div>No Image</div>;
                     }
-                    
                 });
 
             // If the order contains more than four products, render a remainder count in the last column.
             if (remainderCount > 0) {
                 const remainderCountString = `+${remainderCount}`;
                 baseImageElements.push(
-                    <span
-                        key={'remainder-column'}
-                        className={classes.remainderCount}
-                    >
+                    <span key={'remainder-column'} className={classes.remainderCount}>
                         {remainderCountString}
                     </span>
                 );

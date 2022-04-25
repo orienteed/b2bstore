@@ -1,16 +1,16 @@
-.contentSearchResultButton{
+.contentSearchResultButton {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.content{
+.content {
     display: grid;
     grid-template-rows: 1fr 55px;
     padding-top: 6px;
 }
 
-.searchResultButton{
+.searchResultButton {
     min-width: 35%;
     height: 40px;
     background-color: var(--orienteed-primary-color-base1);
@@ -19,7 +19,7 @@
     z-index: 500;
 }
 
-.nameHeaderElement{
+.nameHeaderElement {
     font-weight: bold;
     font-size: 20px;
     text-align: center;

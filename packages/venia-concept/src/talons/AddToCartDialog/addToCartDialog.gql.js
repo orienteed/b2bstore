@@ -3,10 +3,7 @@ import { CartTriggerFragment } from '@magento/peregrine/lib/talons/Header/cartTr
 import { MiniCartFragment } from '@magento/peregrine/lib/talons/MiniCart/miniCartFragments.gql';
 
 const GET_PRODUCT_DETAIL = gql`
-    query GetProductDetailForATCDialog(
-        $sku: String!
-        $configurableOptionValues: [ID!]
-    ) {
+    query GetProductDetailForATCDialog($sku: String!, $configurableOptionValues: [ID!]) {
         products(filter: { sku: { eq: $sku } }) {
             items {
                 id
@@ -50,9 +47,7 @@ const GET_PRODUCT_DETAIL = gql`
                             uid
                         }
                     }
-                    configurable_product_options_selection(
-                        configurableOptionValueUids: $configurableOptionValues
-                    ) {
+                    configurable_product_options_selection(configurableOptionValueUids: $configurableOptionValues) {
                         media_gallery {
                             label
                             url
@@ -92,10 +87,7 @@ const GET_PRODUCT_DETAIL = gql`
 `;
 
 const ADD_PRODUCT_TO_CART = gql`
-    mutation AddProductToCartFromDialog(
-        $cartId: String!
-        $cartItem: CartItemInput!
-    ) {
+    mutation AddProductToCartFromDialog($cartId: String!, $cartItem: CartItemInput!) {
         addProductsToCart(cartId: $cartId, cartItems: [$cartItem]) {
             cart {
                 id

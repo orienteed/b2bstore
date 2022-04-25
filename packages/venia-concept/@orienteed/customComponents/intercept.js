@@ -14,14 +14,12 @@ module.exports = targets => {
             {
                 name: 'CreateAccountNonCustomer',
                 pattern: '/create-account-non-customer',
-                path:
-                    '@orienteed/customComponents/components/CreateAccountNonCustomer'
+                path: '@orienteed/customComponents/components/CreateAccountNonCustomer'
             },
             {
                 name: 'CreateAccountBeCustomer',
                 pattern: '/create-account-be-customer',
-                path:
-                    '@orienteed/customComponents/components/CreateAccountBeCustomer'
+                path: '@orienteed/customComponents/components/CreateAccountBeCustomer'
             },
             {
                 name: 'OrderIncidences',

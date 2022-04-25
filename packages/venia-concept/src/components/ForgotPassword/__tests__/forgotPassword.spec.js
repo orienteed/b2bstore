@@ -5,33 +5,23 @@ import { useForgotPassword } from '@magento/peregrine/lib/talons/ForgotPassword/
 
 import ForgotPassword from '../forgotPassword';
 
-jest.mock('../FormSubmissionSuccessful', () => props => (
-    <mock-FormSubmissionSuccessful {...props} />
-));
-jest.mock('../ForgotPasswordForm', () => props => (
-    <mock-ForgotPasswordForm {...props} />
-));
+jest.mock('../FormSubmissionSuccessful', () => props => <mock-FormSubmissionSuccessful {...props} />);
+jest.mock('../ForgotPasswordForm', () => props => <mock-ForgotPasswordForm {...props} />);
 
-jest.mock(
-    '@magento/peregrine/lib/talons/ForgotPassword/useForgotPassword',
-    () => ({
-        useForgotPassword: jest.fn().mockReturnValue({
-            forgotPasswordEmail: 'gooseton@goosemail.com',
-            formErrors: [],
-            handleCancel: jest.fn(),
-            handleFormSubmit: jest.fn(),
-            hasCompleted: false,
-            isResettingPassword: false
-        })
+jest.mock('@magento/peregrine/lib/talons/ForgotPassword/useForgotPassword', () => ({
+    useForgotPassword: jest.fn().mockReturnValue({
+        forgotPasswordEmail: 'gooseton@goosemail.com',
+        formErrors: [],
+        handleCancel: jest.fn(),
+        handleFormSubmit: jest.fn(),
+        hasCompleted: false,
+        isResettingPassword: false
     })
-);
+}));
 
 test('should render properly', () => {
     const tree = createTestInstance(
-        <ForgotPassword
-            initialValues={{ email: 'gooseton@goosemail.com' }}
-            onCancel={jest.fn()}
-        />
+        <ForgotPassword initialValues={{ email: 'gooseton@goosemail.com' }} onCancel={jest.fn()} />
     );
 
     expect(tree.toJSON()).toMatchSnapshot();
@@ -48,10 +38,7 @@ test('should render successful view if hasCompleted is true', () => {
     });
 
     const tree = createTestInstance(
-        <ForgotPassword
-            initialValues={{ email: 'gooseton@goosemail.com' }}
-            onCancel={jest.fn()}
-        />
+        <ForgotPassword initialValues={{ email: 'gooseton@goosemail.com' }} onCancel={jest.fn()} />
     );
 
     expect(tree.toJSON()).toMatchSnapshot();

@@ -8,8 +8,7 @@ import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
 import Logo from '@magento/venia-ui/lib/components/Logo';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
-import {
-    DEFAULT_LINKSAddProductByCSV} from '@magento/venia-ui/lib/components/Footer/sampleData';
+import { DEFAULT_LINKSAddProductByCSV } from '@magento/venia-ui/lib/components/Footer/sampleData';
 
 import MyComponent from '../MyComponent';
 
@@ -53,16 +52,10 @@ const Footer = props => {
                 {linkGroups}
                 <div className={classes.callout}>
                     <h3 className={classes.calloutHeading}>
-                        <FormattedMessage
-                            id={'footer.followText'}
-                            defaultMessage={'Follow Us!'}
-                        />
+                        <FormattedMessage id={'footer.followText'} defaultMessage={'Follow Us!'} />
                     </h3>
                     <p className={classes.calloutBody}>
-                        <FormattedMessage
-                            id={'footer.calloutText'}
-                            defaultMessage={LOREM_IPSUM}
-                        />
+                        <FormattedMessage id={'footer.calloutText'} defaultMessage={LOREM_IPSUM} />
                     </p>
                     <ul className={classes.socialLinks}>
                         <li>
@@ -81,16 +74,10 @@ const Footer = props => {
                 <MyComponent />
                 <ul className={classes.legal}>
                     <li className={classes.terms}>
-                        <FormattedMessage
-                            id={'footer.termsText'}
-                            defaultMessage={'Terms of Use'}
-                        />
+                        <FormattedMessage id={'footer.termsText'} defaultMessage={'Terms of Use'} />
                     </li>
                     <li className={classes.privacy}>
-                        <FormattedMessage
-                            id={'footer.privacyText'}
-                            defaultMessage={'Privacy Policy'}
-                        />
+                        <FormattedMessage id={'footer.privacyText'} defaultMessage={'Privacy Policy'} />
                     </li>
                 </ul>
                 <p className={classes.copyright}>{copyrightText || null}</p>

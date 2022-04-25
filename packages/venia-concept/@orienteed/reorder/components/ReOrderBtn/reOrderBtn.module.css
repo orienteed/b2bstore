@@ -1,19 +1,16 @@
 .reOrderRow {
-    
 }
 
 .reOrderBtn {
 }
 
 .reOrderDiv {
-
 }
 
 @media (min-width: 960px) {
     .reOrderRow {
         grid-template-columns: minmax(5rem, 10rem) minmax(5rem, 10rem) minmax(9rem, 10rem) 25rem 12rem 12rem 5rem;
     }
-    
 }
 @media (max-width: 960px) {
     .orderReOrderContainer {
@@ -21,7 +18,7 @@
         grid-row: unset;
         padding: 1.5rem;
     }
-    .orderReStatusContainer{
+    .orderReStatusContainer {
         grid-column-end: 1 span;
         padding: 1.5rem;
     }

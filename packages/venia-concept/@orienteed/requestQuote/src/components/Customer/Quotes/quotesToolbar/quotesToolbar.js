@@ -1,22 +1,15 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, } from 'react-intl';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { FormattedMessage } from 'react-intl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesToolbar.module.css';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
 
 const quotesToolbar = props => {
+    const { pageSize, handlePageSize, handleCurrentPage, currentPage, totalPage } = props;
 
-    const {
-        pageSize,
-        handlePageSize,
-        handleCurrentPage,
-        currentPage,
-        totalPage
-    } = props
-    
     const classes = useStyle(defaultClasses, props.classes);
-   
+
     const quotesToolbarPageInfo = (
         <div className={classes.pageInfo}>
             <FormattedMessage
@@ -29,29 +22,29 @@ const quotesToolbar = props => {
     const quotesToolbarLimiter = (
         <div className={classes.limiter}>
             <span className={classes.limiterLabel}>
-                <FormattedMessage
-                    id={'quotesToolbar.quotesShowText'}
-                    defaultMessage={'Show'}
-                />
+                <FormattedMessage id={'quotesToolbar.quotesShowText'} defaultMessage={'Show'} />
             </span>
             <select id="limiter" className={classes.limiterOptions} onChange={handlePageSize}>
-                <option value="5" selected={pageSize == 5} >{'5'}</option>
-                <option value="10" selected={pageSize == 10}>{'10'}</option>
-                <option value="50" selected={pageSize == 50}>{'50'}</option>
+                <option value="5" selected={pageSize == 5}>
+                    {'5'}
+                </option>
+                <option value="10" selected={pageSize == 10}>
+                    {'10'}
+                </option>
+                <option value="50" selected={pageSize == 50}>
+                    {'50'}
+                </option>
             </select>
             <span className={classes.limiterText}>
-                <FormattedMessage
-                    id={'quotesToolbar.quotesPerpageText'}
-                    defaultMessage={'per page'}
-                />
+                <FormattedMessage id={'quotesToolbar.quotesPerpageText'} defaultMessage={'per page'} />
             </span>
         </div>
     );
 
     const pageControl = {
-        currentPage:currentPage,
-        setPage:handleCurrentPage,
-        totalPages:totalPage
+        currentPage: currentPage,
+        setPage: handleCurrentPage,
+        totalPages: totalPage
     };
 
     const quotesToolbarPages = (

@@ -5,22 +5,14 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import DEFAULT_OPERATIONS from '@orienteed/payWithBankTransfer/src/query/payWithBankTransfer.gql';
 
-export const usePayWithBankTransfer = (props) => {
-
+export const usePayWithBankTransfer = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const {
-        setPaymentMethodOnCartMutation,
-        getStoreConfig
-    } = operations;
+    const { setPaymentMethodOnCartMutation, getStoreConfig } = operations;
 
     const [{ cartId }] = useCartContext();
 
-    const {
-        onPaymentSuccess,
-        resetShouldSubmit,
-        onPaymentError
-    } = props
+    const { onPaymentSuccess, resetShouldSubmit, onPaymentError } = props;
 
     const [
         updatePaymentMethod,
@@ -54,8 +46,7 @@ export const usePayWithBankTransfer = (props) => {
     }, [updatePaymentMethod, cartId]);
 
     useEffect(() => {
-        const paymentMethodMutationCompleted =
-            paymentMethodMutationCalled && !paymentMethodMutationLoading;
+        const paymentMethodMutationCompleted = paymentMethodMutationCalled && !paymentMethodMutationLoading;
         if (paymentMethodMutationCompleted && !paymentMethodMutationError) {
             onPaymentSuccess();
         }
@@ -74,9 +65,8 @@ export const usePayWithBankTransfer = (props) => {
 
     /** Handle Submit Btn */
     const handleSubmitBtn = useCallback(() => {
-        onPaymentSuccess()
-    }, [onPaymentSuccess,]);
-
+        onPaymentSuccess();
+    }, [onPaymentSuccess]);
 
     return {
         loading,
@@ -85,5 +75,4 @@ export const usePayWithBankTransfer = (props) => {
         onBillingAddressChangedError,
         onBillingAddressChangedSuccess
     };
-
 };

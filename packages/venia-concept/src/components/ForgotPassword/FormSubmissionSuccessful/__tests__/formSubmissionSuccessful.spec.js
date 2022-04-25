@@ -18,9 +18,7 @@ test('renders correctly', () => {
 });
 
 test('text message contains email', () => {
-    const { root } = createTestInstance(
-        <FormSubmissionSuccessful {...props} />
-    );
+    const { root } = createTestInstance(<FormSubmissionSuccessful {...props} />);
 
     const text = root.findByProps({ className: 'text' });
 

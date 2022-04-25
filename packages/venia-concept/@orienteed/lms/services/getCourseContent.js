@@ -9,11 +9,7 @@ const getCourseContent = async id => {
     };
 
     return await axios
-        .post(
-            `https://demo-moodle.orienteed.com/webservice/rest/server.php`,
-            null,
-            { params: data }
-        )
+        .post(`https://demo-moodle.orienteed.com/webservice/rest/server.php`, null, { params: data })
         .then(courseResponse => {
             return courseResponse.data;
         })

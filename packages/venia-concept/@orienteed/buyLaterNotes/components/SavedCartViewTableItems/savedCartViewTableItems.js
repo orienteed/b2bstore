@@ -1,23 +1,15 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, } from 'react-intl';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { FormattedMessage } from 'react-intl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@orienteed/buyLaterNotes/components/SavedCarts/savedCartsView.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
-import ReactHtmlParser from 'react-html-parser'; 
+import ReactHtmlParser from 'react-html-parser';
 
 const savedCartViewTableItems = props => {
-
     const {
-        item: {
-            product_name,
-            image,
-            price,
-            qty,
-            sku,
-            subtotal_converted
-        }
-    } = props
+        item: { product_name, image, price, qty, sku, subtotal_converted }
+    } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -25,11 +17,7 @@ const savedCartViewTableItems = props => {
         <div className={classes.savedCartViewTableRow}>
             <div className={classes.productImage}>
                 <span className={classes.productImageValue}>
-                    <Image
-                        alt={product_name}
-                        src={image}
-                        width={48}
-                    />
+                    <Image alt={product_name} src={image} width={48} />
                 </span>
             </div>
             <div className={classes.productName}>
@@ -39,30 +27,21 @@ const savedCartViewTableItems = props => {
                 <div className={classes.productPriceContent}>
                     <div className={classes.productPrice}>
                         <span className={classes.productPriceLabel}>
-                            <FormattedMessage
-                                id={'savedCartsView.productPriceText'}
-                                defaultMessage={'Price'}
-                            />
+                            <FormattedMessage id={'savedCartsView.productPriceText'} defaultMessage={'Price'} />
                         </span>
                     </div>
                     <div className={classes.productQty}>
                         <span className={classes.productQtyLabel}>
-                            <FormattedMessage
-                                id={'savedCartsView.productQtyText'}
-                                defaultMessage={'Qty'}
-                            />
+                            <FormattedMessage id={'savedCartsView.productQtyText'} defaultMessage={'Qty'} />
                         </span>
                     </div>
                     <div className={classes.productSubtotal}>
                         <span className={classes.productSubtotalLabel}>
-                            <FormattedMessage
-                                id={'savedCartsView.productSubtotalText'}
-                                defaultMessage={'Subtotal'}
-                            />
+                            <FormattedMessage id={'savedCartsView.productSubtotalText'} defaultMessage={'Subtotal'} />
                         </span>
                     </div>
                     <div className={classes.productPrice}>
-                        <span className={classes.productPriceValue}>{ ReactHtmlParser (price) }</span>
+                        <span className={classes.productPriceValue}>{ReactHtmlParser(price)}</span>
                     </div>
                     <div className={classes.productQty}>
                         <span className={classes.productQtyValue}>{qty}</span>
@@ -75,9 +54,7 @@ const savedCartViewTableItems = props => {
         </div>
     );
 
-    return (
-        <>{savedCartViewTable}</>
-    );
+    return <>{savedCartViewTable}</>;
 };
 
 export default savedCartViewTableItems;

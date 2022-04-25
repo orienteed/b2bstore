@@ -10,14 +10,14 @@
     width: 100%;
 }
 
-.noImage{
+.noImage {
     max-width: 320px;
     margin: 0 auto;
     margin-top: 64px;
     opacity: 0.4;
 }
 
-.errorOptionCombination{
+.errorOptionCombination {
     color: rgb(var(--venia-global-color-error));
     margin-bottom: 20px;
 }

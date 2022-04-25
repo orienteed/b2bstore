@@ -2,7 +2,7 @@ import React from 'react';
 import { shape, string, bool, func } from 'prop-types';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { useCustomerCreditSystem } from '@orienteed/customerCreditSystem/src/talons/useCustomerCreditSystem';
-import { FormattedMessage, } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './customerCreditSystem.module.css';
@@ -10,12 +10,7 @@ import BillingAddress from '@magento/venia-ui/lib/components/CheckoutPage/Billin
 
 const CustomerCreditSystem = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const {
-        onPaymentSuccess,
-        onPaymentError,
-        resetShouldSubmit,
-        shouldSubmit
-    } = props
+    const { onPaymentSuccess, onPaymentError, resetShouldSubmit, shouldSubmit } = props;
 
     const talonProps = useCustomerCreditSystem({
         onPaymentSuccess,
@@ -23,31 +18,24 @@ const CustomerCreditSystem = props => {
         resetShouldSubmit,
         shouldSubmit
     });
-    
-    console.log('shouldSubmit CustomerCreditSystem')
-    console.log(shouldSubmit)
 
-    const {
-        loading
-    } = talonProps
+    console.log('shouldSubmit CustomerCreditSystem');
+    console.log(shouldSubmit);
+
+    const { loading } = talonProps;
 
     if (loading) {
         return (
             <LoadingIndicator>
-                <FormattedMessage
-                    id={'creditLoading.creditLoadingText'}
-                    defaultMessage={'Loading Payment'}
-                />
+                <FormattedMessage id={'creditLoading.creditLoadingText'} defaultMessage={'Loading Payment'} />
             </LoadingIndicator>
-        )
+        );
     }
 
-    const {
-        checkoutData
-    } = talonProps
+    const { checkoutData } = talonProps;
 
     if (Object.keys(checkoutData).length == 0) {
-        return null
+        return null;
     }
 
     const {
@@ -60,7 +48,7 @@ const CustomerCreditSystem = props => {
             remainingcreditformatted,
             remainingcreditcurrentcurrency
         }
-    } = talonProps
+    } = talonProps;
 
     if (parseFloat(remainingcreditcurrentcurrency) < grand_total) {
         return (
@@ -70,7 +58,7 @@ const CustomerCreditSystem = props => {
                     defaultMessage={'Order Amount Is Greater Than The Credit Amount'}
                 />
             </div>
-        )
+        );
     }
 
     return (
@@ -113,7 +101,7 @@ const CustomerCreditSystem = props => {
                 onBillingAddressChangedSuccess={onBillingAddressChangedSuccess}
             />
         </div>
-    )
+    );
 };
 
 export default CustomerCreditSystem;
@@ -124,7 +112,7 @@ CustomerCreditSystem.propTypes = {
         orderAmountError: string,
         creditTable: string,
         creditActions: string,
-        customerCreditButton: string,
+        customerCreditButton: string
     }),
     shouldSubmit: bool.isRequired,
     onPaymentSuccess: func,

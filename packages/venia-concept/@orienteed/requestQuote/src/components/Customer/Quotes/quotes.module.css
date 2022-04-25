@@ -9,10 +9,10 @@
     justify-self: center;
     text-transform: capitalize;
 }
-.quotesTableSection{
+.quotesTableSection {
     margin-bottom: 20px;
 }
-.quotesTable{
+.quotesTable {
     display: grid;
     row-gap: 1rem;
 }

@@ -3,10 +3,7 @@ import React from 'react';
 import QuoteProductForm from './quoteProductForm';
 
 const QuoteEditModal = props => {
-
-    return (
-        <QuoteProductForm />
-    );
+    return <QuoteProductForm />;
 };
 
 export default QuoteEditModal;

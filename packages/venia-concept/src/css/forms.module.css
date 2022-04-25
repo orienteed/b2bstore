@@ -1,20 +1,20 @@
-.content{
+.content {
     padding: 5%;
 }
 
-.content .title{
+.content .title {
     font-size: 28px;
     display: block;
     margin-bottom: 60px;
     text-align: center;
 }
 
-.content .formContent{
+.content .formContent {
     width: 80%;
     margin: 0 auto;
 }
 
-.content .formContent button{
+.content .formContent button {
     background-color: var(--orienteed-primary-color-base1);
     width: 90%;
     margin: 5%;
@@ -22,25 +22,25 @@
     color: rgb(var(--venia-global-color-gray-50));
 }
 
-.content .formContent .section{
+.content .formContent .section {
     border-radius: 12px;
     margin-bottom: 60px;
     padding: 5%;
 }
 
-.content .formContent .section .row{
+.content .formContent .section .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-.content .formContent .section .row input{
+.content .formContent .section .row input {
     width: 90%;
     padding-left: calc(1.875rem * var(--iconsBefore) + 0.625rem);
     padding-right: calc(1.875rem * var(--iconsAfter) + 0.625rem);
     flex: none;
 }
 
-.content .formContent .section .titleSection{
+.content .formContent .section .titleSection {
     font-size: 20px;
     display: block;
     margin-bottom: 20px;
@@ -62,7 +62,7 @@
     -webkit-appearance: none;
 }
 
-.comboCountry{
+.comboCountry {
     grid-area: input-start / input-start / input-end / icon-end;
     padding-right: calc(2.25rem - 1px);
 }
@@ -83,11 +83,13 @@
     grid-row: input-start / input-end;
 }
 
-.before:empty, .after:empty {
+.before:empty,
+.after:empty {
     display: none;
 }
 
-.before, .after {
+.before,
+.after {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -96,7 +98,6 @@
     width: 2.5rem;
     z-index: 1;
 }
-
 
 .after {
     grid-area: after;
@@ -116,7 +117,7 @@
 }
 
 @media only screen and (max-width: 980px) {
-    .content .formContent .section .row{
+    .content .formContent .section .row {
         display: block;
     }
 }

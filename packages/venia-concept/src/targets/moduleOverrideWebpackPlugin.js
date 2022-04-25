@@ -21,9 +21,7 @@ module.exports = class NormalModuleOverridePlugin {
             throw new Error(`There is no file '${filePathWithoutExtension}'`);
         }
         if (files.length > 1) {
-            throw new Error(
-                `There is more than one file '${filePathWithoutExtension}'`
-            );
+            throw new Error(`There is more than one file '${filePathWithoutExtension}'`);
         }
 
         return require.resolve(files[0]);
@@ -33,9 +31,7 @@ module.exports = class NormalModuleOverridePlugin {
         return Object.keys(map).reduce(
             (result, x) => ({
                 ...result,
-                [require.resolve(x)]:
-                    this.requireResolveIfCan(map[x]) ||
-                    this.resolveModulePath(context, map[x])
+                [require.resolve(x)]: this.requireResolveIfCan(map[x]) || this.resolveModulePath(context, map[x])
             }),
             {}
         );
@@ -46,10 +42,7 @@ module.exports = class NormalModuleOverridePlugin {
             return;
         }
 
-        const moduleMap = this.resolveModuleOverrideMap(
-            compiler.context,
-            this.moduleOverrideMap
-        );
+        const moduleMap = this.resolveModuleOverrideMap(compiler.context, this.moduleOverrideMap);
 
         compiler.hooks.normalModuleFactory.tap(this.name, nmf => {
             nmf.hooks.beforeResolve.tap(this.name, resolve => {
@@ -57,12 +50,9 @@ module.exports = class NormalModuleOverridePlugin {
                     return;
                 }
 
-                const moduleToReplace = this.requireResolveIfCan(
-                    resolve.request,
-                    {
-                        paths: [resolve.context]
-                    }
-                );
+                const moduleToReplace = this.requireResolveIfCan(resolve.request, {
+                    paths: [resolve.context]
+                });
                 if (moduleToReplace && moduleMap[moduleToReplace]) {
                     resolve.request = moduleMap[moduleToReplace];
                 }

@@ -23,10 +23,7 @@ import DEFAULT_OPERATIONS from './product.gql';
  */
 
 export default original => {
-
-
-    return function useProduct(props, ...restArgs){
-
+    return function useProduct(props, ...restArgs) {
         const { mapProduct } = props;
 
         const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
@@ -51,9 +48,7 @@ export default original => {
         }, [storeConfigData]);
 
         const pathname = window.location.pathname.split('/').pop();
-        const urlKey = productUrlSuffix
-            ? pathname.replace(productUrlSuffix, '')
-            : pathname;
+        const urlKey = productUrlSuffix ? pathname.replace(productUrlSuffix, '') : pathname;
 
         const { error, loading, data } = useQuery(getProductDetailQuery, {
             fetchPolicy: 'cache-and-network',
@@ -76,9 +71,7 @@ export default original => {
             // display OOS items, the items array will be empty.
 
             // Only return the product that we queried for.
-            const product = data.products.items.find(
-                item => item.url_key === urlKey
-            );
+            const product = data.products.items.find(item => item.url_key === urlKey);
 
             if (!product) {
                 return null;
@@ -97,5 +90,5 @@ export default original => {
             loading,
             product
         };
-    }
+    };
 };

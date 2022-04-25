@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Options from '@magento/venia-ui/lib/components/ProductOptions';
@@ -12,9 +12,8 @@ import Dialog from '@magento/venia-ui/lib/components/Dialog';
 import QuoteProductDetail from './quoteProductDetail';
 
 const QuoteProductForm = props => {
-   
     const { formatMessage } = useIntl();
-    
+
     const classes = useStyle(defaultClasses, props.classes);
 
     const dialogContent = (
@@ -24,17 +23,14 @@ const QuoteProductForm = props => {
                     root: classes.errorContainer
                 }}
             />
-            <QuoteProductDetail  />
+            <QuoteProductDetail />
             <Options
                 classes={{
                     root: classes.optionRoot
                 }}
             />
             <h3 className={classes.quantityLabel}>
-                <FormattedMessage
-                    id={'productForm.quantity'}
-                    defaultMessage={'Quantity'}
-                />
+                <FormattedMessage id={'productForm.quantity'} defaultMessage={'Quantity'} />
             </h3>
             <QuantityFields
                 classes={{

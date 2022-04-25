@@ -7,10 +7,9 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './buyLaterNotesPage.module.css';
 import SavedCartsTable from './savedCartsTable';
 import SavedCartsToolbar from './savedCartsToolbar';
-import { useBuyLaterNotesPage } from '../../talons/useBuyLaterNotesPage'
+import { useBuyLaterNotesPage } from '../../talons/useBuyLaterNotesPage';
 
 const BuyLaterNotesPage = props => {
-
     const talonProps = useBuyLaterNotesPage();
 
     const {
@@ -41,13 +40,15 @@ const BuyLaterNotesPage = props => {
     const savedCartsTable = useMemo(() => {
         if (carts.length > 0) {
             return carts.map(cart => {
-                return <SavedCartsTable
-                    key={cart.cart_id}
-                    cart={cart}
-                    handleIsLoading={handleIsLoading}
-                    getSavedCarts={getSavedCarts}
-                    showCopyUrl={showCopyUrl}
-                />;
+                return (
+                    <SavedCartsTable
+                        key={cart.cart_id}
+                        cart={cart}
+                        handleIsLoading={handleIsLoading}
+                        getSavedCarts={getSavedCarts}
+                        showCopyUrl={showCopyUrl}
+                    />
+                );
             });
         } else {
             return (
@@ -57,12 +58,12 @@ const BuyLaterNotesPage = props => {
                         defaultMessage={"You don't have any cart yet."}
                     />
                 </h3>
-            )
+            );
         }
     }, [carts]);
 
     if (isLoading) {
-        return fullPageLoadingIndicator
+        return fullPageLoadingIndicator;
     }
 
     return (
@@ -72,9 +73,7 @@ const BuyLaterNotesPage = props => {
             <div className={classes.content}>
                 <div className={classes.savedCartsTableSection}>
                     <h2 className={classes.blockHeading}>{BLOCK_TITLE}</h2>
-                    <div className={classes.savedCartTable}>
-                        {savedCartsTable}
-                    </div>
+                    <div className={classes.savedCartTable}>{savedCartsTable}</div>
                 </div>
                 <SavedCartsToolbar
                     currentPage={currentPage}

@@ -6,7 +6,6 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/ProductOptions/swatchList.module.css';
 
 const SwatchList = props => {
-    
     const { getItemKey, selectedValue = {}, items, onSelectionChange } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -16,15 +15,12 @@ const SwatchList = props => {
             items.map(item => {
                 const isSelected = item.label === selectedValue.label;
 
-                if(!item.status){ return null }
+                if (!item.status) {
+                    return null;
+                }
 
                 return (
-                    <Swatch
-                        key={getItemKey(item)}
-                        isSelected={isSelected}
-                        item={item}
-                        onClick={onSelectionChange}
-                    />
+                    <Swatch key={getItemKey(item)} isSelected={isSelected} item={item} onClick={onSelectionChange} />
                 );
             }),
         [getItemKey, selectedValue.label, items, onSelectionChange]

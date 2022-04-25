@@ -1,11 +1,11 @@
-.root{
+.root {
     margin-bottom: 20px;
 }
-.blockHeading{
+.blockHeading {
     font-weight: var(--venia-global-fontWeight-bold);
     margin-bottom: 20px;
 }
-.savedCartTable{
+.savedCartTable {
     display: grid;
     row-gap: 1rem;
 }
@@ -18,7 +18,7 @@
 
 .cell {
     border-left: 2px solid rgb(var(--venia-global-color-gray));
-    padding:1.5rem 1rem;
+    padding: 1.5rem 1rem;
     overflow: hidden;
 }
 
@@ -45,11 +45,11 @@
     composes: stackedCell;
 }
 
-.savedCartId{
+.savedCartId {
     width: 100%;
 }
 
-.cartDescrip{
+.cartDescrip {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -79,7 +79,6 @@
     composes: value;
 }
 
-
 .content {
     border-top: 2px solid rgb(var(--venia-global-color-gray));
     grid-column: 1 / -1;
@@ -88,15 +87,15 @@
 .content_collapsed {
     display: none;
 }
-.savedCartLink{
+.savedCartLink {
     display: grid;
 }
 .savedCartLinkRestore,
 .savedCartLinkCopyLink,
-.savedCartLinkView{
+.savedCartLinkView {
     margin-bottom: 5px;
 }
-.savedCartLinkDelete{
+.savedCartLinkDelete {
     color: rgb(var(--venia-global-color-error));
 }
 
@@ -130,12 +129,12 @@
         grid-row: 4;
         grid-column-end: span 2;
     }
-    .savedCartLink{
+    .savedCartLink {
         grid-auto-flow: column;
     }
     .savedCartLinkRestore,
     .savedCartLinkCopyLink,
-    .savedCartLinkView{
+    .savedCartLinkView {
         margin-right: 5px;
     }
 }

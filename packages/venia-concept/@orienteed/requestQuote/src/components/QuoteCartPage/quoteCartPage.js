@@ -1,9 +1,9 @@
-import React  from 'react';
+import React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import QuoteProductListing from './QuoteProductListing';
 import QuotePriceSummary from './QuotePriceSummary';
 import QuotePriceAdjustments from './QuotePriceAdjustments';
@@ -13,7 +13,6 @@ import { useQuoteCartPage } from '@orienteed/requestQuote/src/talons/useQuoteCar
 import { getConfigData, getQuoteId } from '@orienteed/requestQuote/src/store';
 
 const quoteCartPage = props => {
-
     const {
         loading,
         myQuote,
@@ -24,23 +23,22 @@ const quoteCartPage = props => {
     } = useQuoteCartPage({
         getConfigData,
         getQuoteId
-    })
+    });
 
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
-    
 
-    if(loading){
-        return <LoadingIndicator />
+    if (loading) {
+        return <LoadingIndicator />;
     }
 
-    let hasItems = false
-    if(Object.keys(myQuote).length && Object.keys(myQuote.items).length) {
-        hasItems = true
+    let hasItems = false;
+    if (Object.keys(myQuote).length && Object.keys(myQuote.items).length) {
+        hasItems = true;
     }
 
     const quoteProductListing = hasItems ? (
-        <QuoteProductListing 
+        <QuoteProductListing
             items={myQuote.items}
             setActiveEditItem={setActiveEditItem}
             setIsCartUpdating={setIsCartUpdating}
@@ -48,21 +46,13 @@ const quoteCartPage = props => {
         />
     ) : (
         <h3>
-            <FormattedMessage
-                id={'quoteCartPage.emptyCart'}
-                defaultMessage={'You have no items in your quote cart.'}
-            />
+            <FormattedMessage id={'quoteCartPage.emptyCart'} defaultMessage={'You have no items in your quote cart.'} />
         </h3>
     );
 
-    const quotePriceAdjustments = hasItems ? (
-        <QuotePriceAdjustments />
-    ) : null;
+    const quotePriceAdjustments = hasItems ? <QuotePriceAdjustments /> : null;
     const quotePriceSummary = hasItems ? (
-        <QuotePriceSummary 
-            handleSubmitQuoteBtn={handleSubmitQuoteBtn}
-            quote={myQuote}
-        />
+        <QuotePriceSummary handleSubmitQuoteBtn={handleSubmitQuoteBtn} quote={myQuote} />
     ) : null;
 
     return (
@@ -75,20 +65,17 @@ const quoteCartPage = props => {
             </StoreTitle>
             <div className={classes.heading_container}>
                 <h1 className={classes.heading}>
-                    <FormattedMessage
-                        id={'quoteCartPage.heading'}
-                        defaultMessage={'My Quote Cart'}
-                    />
+                    <FormattedMessage id={'quoteCartPage.heading'} defaultMessage={'My Quote Cart'} />
                 </h1>
             </div>
             <div className={classes.body}>
-                <div className={classes.addProductBySku_container}><AddProductBySku /></div>
+                <div className={classes.addProductBySku_container}>
+                    <AddProductBySku />
+                </div>
                 <div className={classes.items_container}>{quoteProductListing}</div>
-                
+
                 <div className={classes.summary_container}>
-                    <div className={classes.summary_contents}>
-                        {quotePriceSummary}
-                    </div>
+                    <div className={classes.summary_contents}>{quotePriceSummary}</div>
                 </div>
             </div>
         </div>

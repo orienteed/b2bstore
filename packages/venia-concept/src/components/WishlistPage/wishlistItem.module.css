@@ -32,7 +32,7 @@
     font-size: var(--venia-typography-detail-XL-fontSize);
 }
 
-.optionsContainer{
+.optionsContainer {
     min-height: 100px;
     display: grid;
     margin: 2% 0;
@@ -79,7 +79,7 @@
     padding: 0.125rem;
 }
 
-.lineMobile{
+.lineMobile {
     border: 1px solid rgb(var(--venia-global-color-gray-400));
     height: 2px;
     width: 100%;
@@ -100,11 +100,11 @@
         padding: 0 8%;
     }
 
-    .optionsContainer{
+    .optionsContainer {
         min-height: unset;
     }
 
-    .lineMobile{
+    .lineMobile {
         display: block;
     }
 }

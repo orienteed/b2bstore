@@ -36,9 +36,7 @@ export const useQuantity = props => {
 
     // "min: 0" lets a user delete the value and enter a new one, but "1" is
     // actually the minimum value we allow to be set through decrement button.
-    const isDecrementDisabled = useMemo(() => !quantity || quantity <= 1, [
-        quantity
-    ]);
+    const isDecrementDisabled = useMemo(() => !quantity || quantity <= 1, [quantity]);
 
     // Fire the onChange after some wait time. We calculate the current delay
     // as enough time for a user to spam inc/dec quantity but not enough time
@@ -76,8 +74,7 @@ export const useQuantity = props => {
             try {
                 // For some storefronts decimal values are allowed.
                 const nextVal = parseFloat(value);
-                if (value && isNaN(nextVal))
-                    throw new Error(`${value} is not a number.`);
+                if (value && isNaN(nextVal)) throw new Error(`${value} is not a number.`);
                 if (nextVal < min) return min;
                 else return nextVal;
             } catch (err) {

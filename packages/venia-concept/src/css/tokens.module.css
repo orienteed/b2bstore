@@ -99,24 +99,12 @@
 
     /* typography */
     /* heading */
-    --venia-global-typography-heading-XL-fontSize: var(
-        --venia-global-fontSize-600
-    );
-    --venia-global-typography-heading-L-fontSize: var(
-        --venia-global-fontSize-400
-    );
-    --venia-global-typography-heading-M-fontSize: var(
-        --venia-global-fontSize-300
-    );
-    --venia-global-typography-heading-S-fontSize: var(
-        --venia-global-fontSize-200
-    );
-    --venia-global-typography-heading-XS-fontSize: var(
-        --venia-global-fontSize-100
-    );
-    --venia-global-typography-heading-lineHeight: calc(
-        var(--venia-global-lineHeight-200) * 1em
-    );
+    --venia-global-typography-heading-XL-fontSize: var(--venia-global-fontSize-600);
+    --venia-global-typography-heading-L-fontSize: var(--venia-global-fontSize-400);
+    --venia-global-typography-heading-M-fontSize: var(--venia-global-fontSize-300);
+    --venia-global-typography-heading-S-fontSize: var(--venia-global-fontSize-200);
+    --venia-global-typography-heading-XS-fontSize: var(--venia-global-fontSize-100);
+    --venia-global-typography-heading-lineHeight: calc(var(--venia-global-lineHeight-200) * 1em);
 
     /* body */
     --venia-typography-body-XXXL-fontSize: var(--venia-global-fontSize-600);
@@ -126,16 +114,12 @@
     --venia-typography-body-M-fontSize: var(--venia-global-fontSize-200);
     --venia-typography-body-S-fontSize: var(--venia-global-fontSize-100);
     --venia-typography-body-XS-fontSize: var(--venia-global-fontSize-50);
-    --venia-typography-body-lineHeight: calc(
-        var(--venia-global-lineHeight-300) * 1em
-    );
+    --venia-typography-body-lineHeight: calc(var(--venia-global-lineHeight-300) * 1em);
 
     /* detail */
     --venia-typography-detail-XL-fontSize: var(--venia-global-fontSize-200);
     --venia-typography-detail-L-fontSize: var(--venia-global-fontSize-100);
     --venia-typography-detail-M-fontSize: var(--venia-global-fontSize-75);
     --venia-typography-detail-S-fontSize: var(--venia-global-fontSize-50);
-    --venia-typography-detail-lineHeight: calc(
-        var(--venia-global-lineHeight-200) * 1em
-    );
+    --venia-typography-detail-lineHeight: calc(var(--venia-global-lineHeight-200) * 1em);
 }

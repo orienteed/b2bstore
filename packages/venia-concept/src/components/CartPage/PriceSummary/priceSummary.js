@@ -30,14 +30,7 @@ const PriceSummary = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const talonProps = usePriceSummary();
 
-    const {
-        handleProceedToCheckout,
-        hasError,
-        hasItems,
-        isCheckout,
-        isLoading,
-        flatData
-    } = talonProps;
+    const { handleProceedToCheckout, hasError, hasItems, isCheckout, isLoading, flatData } = talonProps;
     const { formatMessage } = useIntl();
 
     if (hasError) {
@@ -46,9 +39,7 @@ const PriceSummary = props => {
                 <span className={classes.errorText}>
                     <FormattedMessage
                         id={'priceSummary.errorText'}
-                        defaultMessage={
-                            'Something went wrong. Please refresh and try again.'
-                        }
+                        defaultMessage={'Something went wrong. Please refresh and try again.'}
                     />
                 </span>
             </div>
@@ -61,9 +52,7 @@ const PriceSummary = props => {
 
     const isPriceUpdating = isUpdating || isLoading;
     const priceClass = isPriceUpdating ? classes.priceUpdating : classes.price;
-    const totalPriceClass = isPriceUpdating
-        ? classes.priceUpdating
-        : classes.totalPrice;
+    const totalPriceClass = isPriceUpdating ? classes.priceUpdating : classes.totalPrice;
 
     const totalPriceLabel = isCheckout
         ? formatMessage({
@@ -77,15 +66,8 @@ const PriceSummary = props => {
 
     const proceedToCheckoutButton = !isCheckout ? (
         <div className={classes.checkoutButton_container}>
-            <Button
-                disabled={isPriceUpdating}
-                priority={'high'}
-                onClick={handleProceedToCheckout}
-            >
-                <FormattedMessage
-                    id={'priceSummary.checkoutButton'}
-                    defaultMessage={'Proceed to Checkout'}
-                />
+            <Button disabled={isPriceUpdating} priority={'high'} onClick={handleProceedToCheckout}>
+                <FormattedMessage id={'priceSummary.checkoutButton'} defaultMessage={'Proceed to Checkout'} />
             </Button>
         </div>
     ) : null;
@@ -94,16 +76,10 @@ const PriceSummary = props => {
         <div className={classes.root}>
             <div className={classes.lineItems}>
                 <span className={classes.lineItemLabel}>
-                    <FormattedMessage
-                        id={'priceSummary.lineItemLabel'}
-                        defaultMessage={'Subtotal'}
-                    />
+                    <FormattedMessage id={'priceSummary.lineItemLabel'} defaultMessage={'Subtotal'} />
                 </span>
                 <span className={priceClass}>
-                    <Price
-                        value={subtotal.value}
-                        currencyCode={subtotal.currency}
-                    />
+                    <Price value={subtotal.value} currencyCode={subtotal.currency} />
                 </span>
                 <DiscountSummary
                     classes={{

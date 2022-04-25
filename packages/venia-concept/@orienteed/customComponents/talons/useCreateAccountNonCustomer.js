@@ -1,30 +1,39 @@
 import { useState, useCallback } from 'react';
 import { useMutation } from '@apollo/client';
-import { CREATE_ACCOUNT_NON_CUSTOMER } from '../query/customerAccount.gql.js'
+import { CREATE_ACCOUNT_NON_CUSTOMER } from '../query/customerAccount.gql.js';
 import { useIntl } from 'react-intl';
 
 export const useCreateAccountNonCustomer = props => {
-
     const { formatMessage } = useIntl();
 
-    const [isDisabledBtn, setIsDisabledBtn] = useState(false)
-    const [error, setError] = useState(false)
-    const [errorMsg, setErrorMsg] = useState(null)
-    const [successMsg, setSuccessMsg] = useState(null)
+    const [isDisabledBtn, setIsDisabledBtn] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [successMsg, setSuccessMsg] = useState(null);
     const formErrors = [];
 
-     // CREATE_ACCOUNT_NON_CUSTOMER Mutation
-     const [
-        nonCustomerSendMail
-    ] = useMutation(CREATE_ACCOUNT_NON_CUSTOMER);
+    // CREATE_ACCOUNT_NON_CUSTOMER Mutation
+    const [nonCustomerSendMail] = useMutation(CREATE_ACCOUNT_NON_CUSTOMER);
 
-    const handleSendEmail = useCallback(async (formValues) => {
+    const handleSendEmail = useCallback(async formValues => {
         try {
-            setIsDisabledBtn(true)
-            setErrorMsg(null)
-            setError(false)
-            setSuccessMsg(null)
-            const {email, name, nif, address1, address2, postalCode, population, province, country, contactName, phone}= formValues
+            setIsDisabledBtn(true);
+            setErrorMsg(null);
+            setError(false);
+            setSuccessMsg(null);
+            const {
+                email,
+                name,
+                nif,
+                address1,
+                address2,
+                postalCode,
+                population,
+                province,
+                country,
+                contactName,
+                phone
+            } = formValues;
             const variables = {
                 email: email,
                 name: name,
@@ -39,22 +48,25 @@ export const useCreateAccountNonCustomer = props => {
                 phone_number: phone
             };
 
-            const {data: {nonCustomerSendMail:{ error, message }}} = await nonCustomerSendMail({variables});
-            if(error){
-                setError(true)
-                setErrorMsg(message)
-            }else{
-                setSuccessMsg(message)
+            const {
+                data: {
+                    nonCustomerSendMail: { error, message }
+                }
+            } = await nonCustomerSendMail({ variables });
+            if (error) {
+                setError(true);
+                setErrorMsg(message);
+            } else {
+                setSuccessMsg(message);
             }
 
-            setIsDisabledBtn(false)
-        }catch{
-            setIsDisabledBtn(false)
+            setIsDisabledBtn(false);
+        } catch {
+            setIsDisabledBtn(false);
         }
+    }, []);
 
-    },[]);
-
-    if(error){
+    if (error) {
         formErrors.push(
             new Error(
                 formatMessage({

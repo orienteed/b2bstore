@@ -65,14 +65,7 @@ const Autocomplete = props => {
         valid,
         visible
     });
-    const {
-        displayResult,
-        filters,
-        messageType,
-        products,
-        resultCount,
-        value
-    } = talonProps;
+    const { displayResult, filters, messageType, products, resultCount, value } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
@@ -125,10 +118,7 @@ const Autocomplete = props => {
         );
 
     const messageTpl = MESSAGES.get(messageType);
-    const message =
-        typeof messageTpl === 'function'
-            ? messageTpl`${resultCount}`
-            : messageTpl;
+    const message = typeof messageTpl === 'function' ? messageTpl`${resultCount}` : messageTpl;
 
     return (
         <div className={rootClassName}>

@@ -35,13 +35,7 @@ export const PRODUCT_SEARCH = gql`
         $filters: ProductAttributeFilterInput!
         $sort: ProductAttributeSortInput
     ) {
-        products(
-            currentPage: $currentPage
-            pageSize: $pageSize
-            search: $inputText
-            filter: $filters
-            sort: $sort
-        ) {
+        products(currentPage: $currentPage, pageSize: $pageSize, search: $inputText, filter: $filters, sort: $sort) {
             items {
                 id
                 uid

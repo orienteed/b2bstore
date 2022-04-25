@@ -42,4 +42,3 @@ Options.propTypes = {
 };
 
 export default Options;
-

@@ -12,10 +12,10 @@
 .heading {
     line-height: 1.3em;
 }
-.actions{
+.actions {
     margin-top: 20px;
 }
-.continueShoppingBtn{
+.continueShoppingBtn {
     --stroke: var(--orienteed-primary-color-base2);
     align-items: center;
     cursor: pointer;

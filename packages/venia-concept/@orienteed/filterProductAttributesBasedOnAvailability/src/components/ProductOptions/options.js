@@ -16,18 +16,20 @@ const Options = props => {
 
     // Render a list of options passing in any pre-selected values.
     const optionsShowed = options.map(option => {
-        if(option.status){
-            return <Option
-                {...option}
-                classes={classes}
-                key={option.attribute_id}
-                onSelectionChange={handleSelectionChange}
-                selectedValue={selectedValueMap.get(option.label)}
-            />
+        if (option.status) {
+            return (
+                <Option
+                    {...option}
+                    classes={classes}
+                    key={option.attribute_id}
+                    onSelectionChange={handleSelectionChange}
+                    selectedValue={selectedValueMap.get(option.label)}
+                />
+            );
         }
     });
 
-    return optionsShowed
+    return optionsShowed;
 };
 
 Options.propTypes = {

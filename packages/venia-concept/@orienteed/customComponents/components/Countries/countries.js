@@ -9,7 +9,7 @@ const Countries = props => {
 
     const { formatMessage } = useIntl();
 
-    const initialValue = 'US'
+    const initialValue = 'US';
 
     const countries = [
         { value: 'AD', label: formatMessage({ id: 'country.AD', defaultMessage: 'Andorra' }) },
@@ -26,7 +26,7 @@ const Countries = props => {
         { value: 'BR', label: formatMessage({ id: 'country.BR', defaultMessage: 'Brasil' }) },
         { value: 'CA', label: formatMessage({ id: 'country.CA', defaultMessage: 'Canadá' }) },
         { value: 'CH', label: formatMessage({ id: 'country.CH', defaultMessage: 'Suíça' }) },
-        { value: 'CI', label: formatMessage({ id: 'country.CI', defaultMessage: 'Cote D\'Ivoire' }) },
+        { value: 'CI', label: formatMessage({ id: 'country.CI', defaultMessage: "Cote D'Ivoire" }) },
         { value: 'CL', label: formatMessage({ id: 'country.CL', defaultMessage: 'Chile' }) },
         { value: 'CN', label: formatMessage({ id: 'country.CN', defaultMessage: 'China' }) },
         { value: 'CO', label: formatMessage({ id: 'country.CO', defaultMessage: 'Colombia' }) },
@@ -122,21 +122,30 @@ const Countries = props => {
         { value: 'VU', label: formatMessage({ id: 'country.VU', defaultMessage: 'Vanuatu' }) },
         { value: 'WS', label: formatMessage({ id: 'country.WS', defaultMessage: 'Samoa' }) },
         { value: 'ZA', label: formatMessage({ id: 'country.ZA', defaultMessage: 'África do Sul' }) }
-    ]
+    ];
 
     return (
         <span className={classes.root}>
             <span className={classes.input}>
-                <Select
-                    field="country"
-                    initialValue={initialValue}
-                    items={countries}
-                />
+                <Select field="country" initialValue={initialValue} items={countries} />
             </span>
-            <span className={classes.before}></span>
+            <span className={classes.before} />
             <span className={classes.after}>
                 <span className={classes.icon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className={classes.iconContent}><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className={classes.iconContent}
+                    >
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
                 </span>
             </span>
         </span>

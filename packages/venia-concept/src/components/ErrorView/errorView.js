@@ -20,24 +20,9 @@ const ErrorView = props => {
     }, [history]);
 
     const {
-        header = (
-            <FormattedMessage
-                id={'errorView.header'}
-                defaultMessage={DEFAULT_HEADER}
-            />
-        ),
-        message = (
-            <FormattedMessage
-                id={'errorView.message'}
-                defaultMessage={DEFAULT_MESSAGE}
-            />
-        ),
-        buttonPrompt = (
-            <FormattedMessage
-                id={'errorView.goHome'}
-                defaultMessage={DEFAULT_PROMPT}
-            />
-        ),
+        header = <FormattedMessage id={'errorView.header'} defaultMessage={DEFAULT_HEADER} />,
+        message = <FormattedMessage id={'errorView.message'} defaultMessage={DEFAULT_MESSAGE} />,
+        buttonPrompt = <FormattedMessage id={'errorView.goHome'} defaultMessage={DEFAULT_PROMPT} />,
         onClick = handleGoHome
     } = props;
 

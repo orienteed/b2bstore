@@ -4,8 +4,7 @@ import { oneOf, shape, string, bool } from 'prop-types';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './customButton.module.css';
 
-const getRootClassName = (priority, negative) =>
-    `root_${priority}Priority${negative ? 'Negative' : ''}`;
+const getRootClassName = (priority, negative) => `root_${priority}Priority${negative ? 'Negative' : ''}`;
 
 /**
  * A component for buttons.
@@ -18,25 +17,12 @@ const getRootClassName = (priority, negative) =>
  * @returns {React.Element} A React component that displays a single button.
  */
 const CustomButton = props => {
-    const {
-        children,
-        classes: propClasses,
-        priority,
-        type,
-        negative,
-        disabled,
-        ...restProps
-    } = props;
+    const { children, classes: propClasses, priority, type, negative, disabled, ...restProps } = props;
     const classes = useStyle(defaultClasses, propClasses);
     const rootClassName = classes[getRootClassName(priority, negative)];
 
     return (
-        <button
-            className={rootClassName}
-            type={type}
-            disabled={disabled}
-            {...restProps}
-        >
+        <button className={rootClassName} type={type} disabled={disabled} {...restProps}>
             <span className={classes.content}>{children}</span>
         </button>
     );

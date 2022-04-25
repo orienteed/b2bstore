@@ -18,9 +18,7 @@ export const aboutLinks = new Map()
 //     .set('Order Status', null)
 //     .set('Returns', null);
 
-export const DEFAULT_LINKS = new Map()
-    .set('account', accountLinks)
-    .set('about', aboutLinks);
+export const DEFAULT_LINKS = new Map().set('account', accountLinks).set('about', aboutLinks);
 // .set('help', helpLinks);
 
 //CUSTOM DATA

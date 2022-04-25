@@ -34,9 +34,7 @@ const ProductItem = props => {
     let totalPriceTag = (
         <span className={classes.indexFixed}>
             <Price
-                currencyCode={
-                    variant.product.price.regularPrice.amount.currency
-                }
+                currencyCode={variant.product.price.regularPrice.amount.currency}
                 value={variant.product.price.minimalPrice.amount.value}
             />
         </span>
@@ -49,13 +47,8 @@ const ProductItem = props => {
             (totalPriceTag = (
                 <span className={classes.indexFixed}>
                     <Price
-                        currencyCode={
-                            variant.product.price.regularPrice.amount.currency
-                        }
-                        value={
-                            variant.product.price.minimalPrice.amount.value *
-                            tempQuantity
-                        }
+                        currencyCode={variant.product.price.regularPrice.amount.currency}
+                        value={variant.product.price.minimalPrice.amount.value * tempQuantity}
                     />
                 </span>
             ))
@@ -79,18 +72,10 @@ const ProductItem = props => {
     }, [cartId, quantity, variant, addConfigurableProductToCart, setError]);
 
     const stockStatusText = (
-        <FormattedMessage
-            id={'productFullDetailB2B.stockStatus'}
-            defaultMessage={'Stock Status'}
-        />
+        <FormattedMessage id={'productFullDetailB2B.stockStatus'} defaultMessage={'Stock Status'} />
     );
 
-    const totalPriceText = (
-        <FormattedMessage
-            id={'productFullDetailB2B.totalPrice'}
-            defaultMessage={'Total Price'}
-        />
-    );
+    const totalPriceText = <FormattedMessage id={'productFullDetailB2B.totalPrice'} defaultMessage={'Total Price'} />;
 
     const imageIcon = widthSize => (
         <div className={classes.indexFixedImage}>
@@ -102,9 +87,7 @@ const ProductItem = props => {
         </div>
     );
 
-    const nameTag = (
-        <p>{product.name + ' ' + categoriesValuesName.join(' - ')}</p>
-    );
+    const nameTag = <p>{product.name + ' ' + categoriesValuesName.join(' - ')}</p>;
 
     const quantitySelector = (id = 1) => (
         <div className={classes.quantity}>
@@ -120,9 +103,7 @@ const ProductItem = props => {
     const priceTag = (
         <span className={classes.indexFixed}>
             <Price
-                currencyCode={
-                    variant.product.price.regularPrice.amount.currency
-                }
+                currencyCode={variant.product.price.regularPrice.amount.currency}
                 value={variant.product.price.minimalPrice.amount.value}
             />
         </span>
@@ -155,19 +136,14 @@ const ProductItem = props => {
     const categoriesKeyValue = () => {
         let tempCategoriesKeyValueList = [];
         categoriesName.map((categoryName, i) => {
-            return tempCategoriesKeyValueList.push([
-                categoryName,
-                categoriesValuesName[i]
-            ]);
+            return tempCategoriesKeyValueList.push([categoryName, categoriesValuesName[i]]);
         });
         return tempCategoriesKeyValueList;
     };
 
     const productItemDesktop = (
         <div className={classes.productItemErrorContainerDesktop}>
-            <div className={classes.errorMessage}>
-                {error != '' && <p>{errors.get('quantity')}</p>}
-            </div>
+            <div className={classes.errorMessage}>{error != '' && <p>{errors.get('quantity')}</p>}</div>
 
             <div className={classes.productItemContainerDesktop}>
                 {imageIcon(120)}
@@ -176,10 +152,7 @@ const ProductItem = props => {
                 <div className={classes.categoriesItemList}>
                     {categoriesValuesName.map((category, i) => {
                         return (
-                            <p
-                                key={`${variant.product.sku}-${category}-${i}`}
-                                className={classes.indexFixedCategory}
-                            >
+                            <p key={`${variant.product.sku}-${category}-${i}`} className={classes.indexFixedCategory}>
                                 {category}
                             </p>
                         );
@@ -201,19 +174,13 @@ const ProductItem = props => {
             <div className={classes.productItemContainerMobileContent}>
                 {/* Header Part */}
                 <div className={classes.productItemHeaderMobile}>
-                    <div className={classes.productItemHeaderImageMobile}>
-                        {imageIcon(150)}
-                    </div>
+                    <div className={classes.productItemHeaderImageMobile}>{imageIcon(150)}</div>
                     <div className={classes.productItemHeaderTextMobile}>
                         <h2>{nameTag}</h2>
-                        <small className={classes.skuTextMobile}>
-                            {variant.product.sku}
-                        </small>
+                        <small className={classes.skuTextMobile}>{variant.product.sku}</small>
                         <div className={classes.stockStatusContainer}>
                             <div>{stockStatusText}:</div>
-                            <div className={classes.stockStatusCircle}>
-                                {stockStatus}
-                            </div>
+                            <div className={classes.stockStatusCircle}>{stockStatus}</div>
                         </div>
                         <h2>{priceTag}</h2>
                     </div>
@@ -223,17 +190,9 @@ const ProductItem = props => {
                 <div className={classes.productItemBodyInformation}>
                     {categoriesKeyValue().map(row => {
                         return (
-                            <div
-                                className={
-                                    classes.productItemBodyInformationRow
-                                }
-                            >
-                                <p className={classes.mobileCategoryName}>
-                                    {row[0]}{' '}
-                                </p>
-                                <p className={classes.mobileCategoryValue}>
-                                    {row[1]}
-                                </p>
+                            <div className={classes.productItemBodyInformationRow}>
+                                <p className={classes.mobileCategoryName}>{row[0]} </p>
+                                <p className={classes.mobileCategoryValue}>{row[1]}</p>
                             </div>
                         );
                     })}
@@ -247,11 +206,7 @@ const ProductItem = props => {
                         {quantitySelector(2)}
                         {addToCartButton}
                     </div>
-                    {error != '' && (
-                        <p style={{ color: '#f00' }}>
-                            {errors.get('quantity')}
-                        </p>
-                    )}
+                    {error != '' && <p style={{ color: '#f00' }}>{errors.get('quantity')}</p>}
                 </div>
             </div>
         </div>

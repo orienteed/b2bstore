@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { func } from 'prop-types';
 
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import {useStyle} from '@magento/venia-ui/lib/classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { Accordion, Section } from '@magento/venia-ui/lib/components/Accordion';
 import defaultClasses from './quotePriceAdjustments.module.css';
 
@@ -35,6 +35,4 @@ const QuotePriceAdjustments = props => {
 
 export default QuotePriceAdjustments;
 
-QuotePriceAdjustments.propTypes = {
-    
-};
+QuotePriceAdjustments.propTypes = {};

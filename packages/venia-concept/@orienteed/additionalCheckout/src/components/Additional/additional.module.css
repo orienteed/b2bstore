@@ -1,4 +1,4 @@
-.root{
+.root {
     border: 2px solid var(--orienteed-primary-color-base2);
     border-radius: 0.375rem;
     padding: 2rem;
@@ -16,20 +16,20 @@
 .additional_fields_container {
     grid-column: 1 / span 1;
 }
-.cardBody{
+.cardBody {
     display: grid;
     font-size: 1rem;
     row-gap: 0.5rem;
     padding-top: 1.125rem;
 }
-.cardFooter{
+.cardFooter {
     align-items: center;
     display: inline-flex;
     justify-content: flex-end;
     margin-top: 1rem;
     width: 100%;
 }
-.comment textarea{
+.comment textarea {
     border-radius: 0;
 }
 
@@ -55,8 +55,6 @@
 }
 
 @media (min-width: 960px) {
-    
-    
 }
 @media (max-width: 960px) {
     .editText {

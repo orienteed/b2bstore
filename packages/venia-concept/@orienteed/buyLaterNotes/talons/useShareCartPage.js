@@ -6,18 +6,14 @@ import { SHARE_CART } from '@orienteed/buyLaterNotes/query/buyLaterNotes.gql';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { GET_CART_DETAILS } from '@magento/peregrine/lib/talons/CreateAccount/createAccount.gql';
 
-export const useShareCartPage = async (props) => {
-
+export const useShareCartPage = async props => {
     const [isLoading, setIsLoading] = useState(true);
     const [shareCartUpadte, setShareCartUpadte] = useState(1);
     const { pathname } = useLocation();
-    const url = pathname.split('/')
+    const url = pathname.split('/');
     const history = useHistory();
 
-    const [
-        { cartId },
-        { getCartDetails }
-    ] = useCartContext();
+    const [{ cartId }, { getCartDetails }] = useCartContext();
 
     // Share Cart
     const [getShareCart] = useMutation(SHARE_CART);
@@ -25,41 +21,38 @@ export const useShareCartPage = async (props) => {
     const fetchCartDetails = useAwaitQuery(GET_CART_DETAILS);
 
     const handleShareCart = useCallback(async () => {
-        const token = url[5]
-        if(shareCartUpadte == 1){
-            const {data:{mpSaveCartShareCart}} = await getShareCart({
+        const token = url[5];
+        if (shareCartUpadte == 1) {
+            const {
+                data: { mpSaveCartShareCart }
+            } = await getShareCart({
                 fetchPolicy: 'no-cache',
-                variables: { 
+                variables: {
                     token: token,
-                    cartId: cartId 
-                },
-            })
+                    cartId: cartId
+                }
+            });
 
-            if(mpSaveCartShareCart){
+            if (mpSaveCartShareCart) {
                 await getCartDetails({
                     cartId,
                     fetchCartDetails
                 });
-                setIsLoading(false)
+                setIsLoading(false);
                 history.push('/cart');
             }
         }
-        
-
     }, [getCartDetails, cartId, fetchCartDetails, shareCartUpadte, url]);
 
-
-    useEffect(()=>{
-
-        if(!url[5]) {
-            setIsLoading(false)
+    useEffect(() => {
+        if (!url[5]) {
+            setIsLoading(false);
             history.push('/cart');
-        }else{
-            handleShareCart()
-            setShareCartUpadte(2)
+        } else {
+            handleShareCart();
+            setShareCartUpadte(2);
         }
-
-    }, [url])
+    }, [url]);
 
     return {
         isLoading

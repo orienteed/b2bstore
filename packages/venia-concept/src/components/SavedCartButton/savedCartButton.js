@@ -26,10 +26,7 @@ const savedCartButton = props => {
 
     const savedCartBtn = (
         <Button onClick={handleSaveCart} priority={'normal'}>
-            <FormattedMessage
-                id={'savedCartButton.saveCartBtn'}
-                defaultMessage={buttonTitle}
-            />
+            <FormattedMessage id={'savedCartButton.saveCartBtn'} defaultMessage={buttonTitle} />
         </Button>
     );
 

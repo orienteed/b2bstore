@@ -5,18 +5,13 @@ import Papa from 'papaparse';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
-import {
-    ADD_CONFIGURABLE_MUTATION,
-    GET_PARENT_SKU
-} from '../query/addProductByCsv.gql';
+import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU } from '../query/addProductByCsv.gql';
 
 export const useAddProductsByCSV = props => {
     const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen } = props;
     const [{ cartId }] = useCartContext();
 
-    const [addConfigurableProductToCart] = useMutation(
-        ADD_CONFIGURABLE_MUTATION
-    );
+    const [addConfigurableProductToCart] = useMutation(ADD_CONFIGURABLE_MUTATION);
     const getParentSku = useAwaitQuery(GET_PARENT_SKU);
 
     const handleCSVFile = () => {
@@ -84,8 +79,7 @@ export const useAddProductsByCSV = props => {
                         cartId,
                         quantity: parseInt(csvProducts[i][1], 10),
                         sku: csvProducts[i][0],
-                        parentSku:
-                            parentSkuResponse.data.products.items[0].orParentSku
+                        parentSku: parentSkuResponse.data.products.items[0].orParentSku
                     };
 
                     await addConfigurableProductToCart({
@@ -102,14 +96,7 @@ export const useAddProductsByCSV = props => {
                 setCsvSkuErrorList(tempSkuErrorList);
             }
         },
-        [
-            addConfigurableProductToCart,
-            cartId,
-            setIsCsvDialogOpen,
-            setCsvErrorType,
-            setCsvSkuErrorList,
-            getParentSku
-        ]
+        [addConfigurableProductToCart, cartId, setIsCsvDialogOpen, setCsvErrorType, setCsvSkuErrorList, getParentSku]
     );
 
     return {

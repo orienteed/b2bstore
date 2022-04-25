@@ -34,18 +34,14 @@ const ForgotPassword = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const INSTRUCTIONS = formatMessage({
         id: 'forgotPassword.instructions',
-        defaultMessage:
-            'Please enter the email address associated with this account.'
+        defaultMessage: 'Please enter the email address associated with this account.'
     });
     const children = hasCompleted ? (
         <FormSubmissionSuccessful email={forgotPasswordEmail} />
     ) : (
         <Fragment>
             <h2 className={classes.title}>
-                <FormattedMessage
-                    id={'forgotPassword.recoverPasswordText'}
-                    defaultMessage={'Recover Password'}
-                />
+                <FormattedMessage id={'forgotPassword.recoverPasswordText'} defaultMessage={'Recover Password'} />
             </h2>
             <p className={classes.instructions}>{INSTRUCTIONS}</p>
             <ForgotPasswordForm

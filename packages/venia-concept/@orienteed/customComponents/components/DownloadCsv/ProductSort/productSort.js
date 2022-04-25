@@ -82,18 +82,12 @@ const ProductSort = props => {
 
         const itemElements = Array.from(availableSortMethods, sortItem => {
             const { attribute, sortDirection } = sortItem;
-            const isActive =
-                currentSort.sortAttribute === attribute &&
-                currentSort.sortDirection === sortDirection;
+            const isActive = currentSort.sortAttribute === attribute && currentSort.sortDirection === sortDirection;
 
             const key = `${attribute}--${sortDirection}`;
             return (
                 <li key={key} className={classes.menuItem}>
-                    <SortItem
-                        sortItem={sortItem}
-                        active={isActive}
-                        onClick={handleItemClick}
-                    />
+                    <SortItem sortItem={sortItem} active={isActive} onClick={handleItemClick} />
                 </li>
             );
         });
@@ -118,12 +112,7 @@ const ProductSort = props => {
     };
 
     return (
-        <div
-            ref={elementRef}
-            className={classes.root}
-            aria-live="polite"
-            aria-busy="false"
-        >
+        <div ref={elementRef} className={classes.root} aria-live="polite" aria-busy="false">
             <Button
                 priority={'low'}
                 classes={{

@@ -3,11 +3,7 @@ import getToken from './getToken';
 import getUserId from './getUserId';
 import { v4 as uuidv4 } from 'uuid';
 
-const registerUserAndSaveData = async (
-    email,
-    password,
-    setMoodleTokenAndId
-) => {
+const registerUserAndSaveData = async (email, password, setMoodleTokenAndId) => {
     const params = {
         moodlewsrestformat: 'json',
         wstoken: 'af547e6e35fca251a48ff4bedb7f1298',

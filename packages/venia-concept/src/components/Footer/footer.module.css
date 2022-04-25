@@ -1,21 +1,21 @@
 /* CUSTOM STYLES */
-.infoContainer{
-    margin-bottom: 15px;  
+.infoContainer {
+    margin-bottom: 15px;
 }
-.info{
+.info {
     font-size: 11px;
 }
 
-.footerLogo{
+.footerLogo {
     margin-bottom: 20px;
     border-bottom: 2px solid #a1a8a8;
 }
 
-.linkGroup2{
+.linkGroup2 {
     align-content: start;
     display: grid;
     gap: 1em;
-    border-right: 2px solid #a1a8a8;  
+    border-right: 2px solid #a1a8a8;
 }
 
 /* DEFAULT STYLES */
@@ -44,8 +44,8 @@
         max-width: 960px;
     }
 
-    .linkGroup2{
-        border-right: unset;  
+    .linkGroup2 {
+        border-right: unset;
     }
 }
 

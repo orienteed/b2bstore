@@ -31,13 +31,10 @@ export const useCartPage = (props = {}) => {
     const [isCartUpdating, setIsCartUpdating] = useState(false);
     const [wishlistSuccessProps, setWishlistSuccessProps] = useState(null);
 
-    const [fetchCartDetails, { called, data, loading }] = useLazyQuery(
-        getCartDetailsQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first'
-        }
-    );
+    const [fetchCartDetails, { called, data, loading }] = useLazyQuery(getCartDetailsQuery, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+    });
 
     const hasItems = !!(data && data.cart.total_quantity);
     const shouldShowLoadingIndicator = called && loading && !hasItems;

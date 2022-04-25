@@ -1,19 +1,22 @@
-.quotesDatePrint{
+.quotesDatePrint {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-bottom: 20px;
 }
-.quotesPrintCol{
+.quotesPrintCol {
     text-align: right;
 }
 .quotesViewTableRow {
     display: grid;
-    grid-template-columns: minmax(20rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr);
+    grid-template-columns: minmax(20rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(
+            5rem,
+            1fr
+        ) minmax(5rem, 1fr);
 }
 
 .cell {
     border-bottom: 2px solid rgb(var(--venia-global-color-gray));
-    padding:0.6rem;
+    padding: 0.6rem;
     overflow: hidden;
 }
 
@@ -29,12 +32,12 @@
 .value {
     font-family: var(--venia-global-fontFamily-sansSerif);
 }
-.quotesPrintLink{
+.quotesPrintLink {
     margin-left: auto;
     display: flex;
     align-items: center;
 }
-.quotesPrintLinkText{
+.quotesPrintLinkText {
     margin-left: 5px;
 }
 .productName,
@@ -49,7 +52,7 @@
 .productSku,
 .productPrice,
 .productQuotePrice,
-.productQty{
+.productQty {
     text-align: center;
 }
 .productSubtotal {
@@ -71,21 +74,21 @@
 .productQuotePriceValue,
 .productQtyValue,
 .productDiscountValue,
-.productSubtotalValue{
+.productSubtotalValue {
     composes: value;
 }
-.quotesViewTableFooterRow{
+.quotesViewTableFooterRow {
     grid-template-columns: 6fr 1fr;
 }
 .tableQuoteTotal,
 .tableDiscount,
-.tableSubtotal{
+.tableSubtotal {
     text-align: right;
-    padding:0.6rem;
+    padding: 0.6rem;
     overflow: hidden;
 }
 .tableQuoteTotalLabel,
-.tableQuoteTotalValue{
+.tableQuoteTotalValue {
     composes: label;
 }
 @media (min-width: 960px) {
@@ -98,50 +101,49 @@
     .productQuotePriceMobileLabel,
     .productQtyMobileLabel,
     .productDiscountMobileLabel,
-    .productSubtotalMobileLabel{
+    .productSubtotalMobileLabel {
         display: none;
     }
-    
 }
 @media (max-width: 960px) {
-    .hideMobile{
+    .hideMobile {
         display: none;
     }
     .cell {
-        padding:0.6rem 0;
+        padding: 0.6rem 0;
         border-bottom: 0;
         display: grid;
         grid-template-columns: auto 1fr;
     }
-    .quotesViewTableRow.quotesViewTableHead{
+    .quotesViewTableRow.quotesViewTableHead {
         display: none;
     }
     .quotesViewTableRow {
         display: grid;
-        grid-template-columns:1fr;
+        grid-template-columns: 1fr;
         border-bottom: 2px solid rgb(var(--venia-global-color-gray));
         padding: 0.5rem 0;
     }
     .productSku,
     .productPrice,
     .productQuotePrice,
-    .productQty{
+    .productQty {
         text-align: left;
     }
     .productSubtotal {
         text-align: left;
     }
-    .quotesViewTableFooterRow{
-        grid-template-columns:auto;
+    .quotesViewTableFooterRow {
+        grid-template-columns: auto;
     }
     .tableQuoteTotal,
     .tableDiscount,
-    .tableSubtotal{
+    .tableSubtotal {
         text-align: left;
     }
     .tableDiscountDesk,
     .tableSubtotalDesk,
-    .tableQuoteTotalDesk{
+    .tableQuoteTotalDesk {
         display: none;
     }
     .tableSubtotalMobileLabel,
@@ -153,23 +155,23 @@
     .productQuotePriceMobileLabel,
     .productQtyMobileLabel,
     .productDiscountMobileLabel,
-    .productSubtotalMobileLabel{
+    .productSubtotalMobileLabel {
         composes: label;
         min-width: 125px;
         display: inline-block;
         padding-right: 10px;
     }
-    .quotesDatePrint{
+    .quotesDatePrint {
         grid-template-columns: auto;
         grid-auto-flow: row;
     }
-    .quotesPrintLink{
+    .quotesPrintLink {
         margin-left: 0;
         margin-top: 10px;
     }
     .tableQuoteTotal,
     .tableDiscount,
-    .tableSubtotal{
-        padding:0.6rem 0;
+    .tableSubtotal {
+        padding: 0.6rem 0;
     }
 }

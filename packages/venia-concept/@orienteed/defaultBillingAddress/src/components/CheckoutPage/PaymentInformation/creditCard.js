@@ -82,9 +82,7 @@ const CreditCard = props => {
         resetShouldTeardownDropin
     } = talonProps;
 
-    const creditCardComponentClassName = isLoading
-        ? classes.credit_card_root_hidden
-        : classes.credit_card_root;
+    const creditCardComponentClassName = isLoading ? classes.credit_card_root_hidden : classes.credit_card_root;
 
     const billingAddressFieldsClassName = isBillingAddressDefault
         ? classes.billing_address_fields_root_hidden
@@ -142,29 +140,26 @@ const CreditCard = props => {
               defaultMessage: 'Loading Payment'
           });
 
-    const loadingIndicator = isLoading ? (
-        <LoadingIndicator>{stepTitle}</LoadingIndicator>
-    ) : null;
+    const loadingIndicator = isLoading ? <LoadingIndicator>{stepTitle}</LoadingIndicator> : null;
 
     const isBillingAddressDefaultHtml = useMemo(() => {
-        if(initialValues.isBillingAddressDefault){
-            return <h2 className={classes.address_check}>
-                <FormattedMessage
-                    id={'checkoutPage.billingAddressDefault'}
-                    defaultMessage={'Your default billing address will be used for this order'}
-                />
-            </h2>
+        if (initialValues.isBillingAddressDefault) {
+            return (
+                <h2 className={classes.address_check}>
+                    <FormattedMessage
+                        id={'checkoutPage.billingAddressDefault'}
+                        defaultMessage={'Your default billing address will be used for this order'}
+                    />
+                </h2>
+            );
         }
-        return null
-    }, [initialValues])
+        return null;
+    }, [initialValues]);
 
     return (
         <div className={classes.root}>
             <div className={creditCardComponentClassName}>
-                <FormError
-                    classes={{ root: classes.formErrorContainer }}
-                    errors={Array.from(errors.values())}
-                />
+                <FormError classes={{ root: classes.formErrorContainer }} errors={Array.from(errors.values())} />
                 <div className={classes.dropin_root}>
                     <BrainTreeDropin
                         onError={onPaymentError}
@@ -242,11 +237,7 @@ const CreditCard = props => {
                         })}
                         optional={true}
                     >
-                        <TextInput
-                            id="street2"
-                            field="street2"
-                            initialValue={initialValues.street2}
-                        />
+                        <TextInput id="street2" field="street2" initialValue={initialValues.street2} />
                     </Field>
                     <Field
                         id="city"

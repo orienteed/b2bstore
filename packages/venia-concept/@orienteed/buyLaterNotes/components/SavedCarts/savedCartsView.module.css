@@ -3,50 +3,48 @@
     grid-column: 1 / -1;
     padding: 1.5rem;
 } */
-.savedCartName{
+.savedCartName {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-.savedCartDescription{
+.savedCartDescription {
 }
 
-.savedCartViewDate{
+.savedCartViewDate {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-.headerContainer{
+.headerContainer {
     padding-top: 1.5em;
     border-top: 1px solid rgb(var(--venia-global-color-gray-400));
     border-bottom: 1px solid rgb(var(--venia-global-color-gray-400));
 }
 
-.tableContent{
+.tableContent {
     padding: 1.5rem;
 }
 
-.header{
+.header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     text-align: center;
 }
 
-.headerDescription{
+.headerDescription {
     padding: 4rem;
     text-align: center;
     text-align: center;
 }
 
-.tilteDescription{
+.tilteDescription {
     margin-bottom: 1rem;
 }
 
-.savedCartViewActions{
-    
+.savedCartViewActions {
 }
-.restoreAction{
-    
+.restoreAction {
 }
 .savedCartViewTableRow {
     display: grid;
@@ -54,11 +52,11 @@
     margin: 20px 0px;
 }
 
-.savedCartLinkDelete{
+.savedCartLinkDelete {
     color: rgb(var(--venia-global-color-error));
 }
 
-.productPriceContainer{
+.productPriceContainer {
     border: 2px solid rgb(var(--venia-global-color-gray-400));
     padding: 1rem;
     border-radius: 0.375rem;
@@ -68,36 +66,36 @@
     top: -15%;
 }
 
-.footer{
+.footer {
     display: grid;
     align-items: center;
     text-align: center;
 }
 
-.actionContainer{
-     display: grid;
-     margin-top: 4rem;
-     grid-template-columns: 1fr 1fr 1fr;
-     font-weight: var(--venia-global-fontWeight-bold);
+.actionContainer {
+    display: grid;
+    margin-top: 4rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-weight: var(--venia-global-fontWeight-bold);
 }
-.actionContainer button{
+.actionContainer button {
     font-weight: var(--venia-global-fontWeight-bold);
 }
 
-.itemsTitle{
+.itemsTitle {
     display: block;
     font-size: 25px;
     margin-bottom: 1rem;
     font-weight: 600;
 }
 
-.productPriceContent{
+.productPriceContent {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
 }
 
-.productPriceTitle{
+.productPriceTitle {
     margin-bottom: 1rem;
     display: block;
 }
@@ -124,14 +122,14 @@
     height: 100%;
 }
 
-.productName{
+.productName {
     position: relative;
     top: 30%;
 }
 
 .productSku,
 .productPrice,
-.productQty{
+.productQty {
 }
 .productSubtotal {
 }
@@ -141,7 +139,6 @@
 .productPriceLabel,
 .productQtyLabel,
 .productSubtotalLabel {
-
 }
 
 .productNameValue,
@@ -149,15 +146,15 @@
 .productImageValue,
 .productPriceValue,
 .productQtyValue,
-.productSubtotalValue{
+.productSubtotalValue {
     font-weight: var(--venia-global-fontWeight-bold);
 }
 
-.productImageValue img{
+.productImageValue img {
     width: 40%;
 }
 
-.savedCartViewTableFooter{
+.savedCartViewTableFooter {
     border: 2px solid rgb(var(--venia-global-color-gray-400));
     width: fit-content;
     padding: 1rem;
@@ -166,14 +163,13 @@
     grid-template-columns: 1fr 1fr;
 }
 
-.productInfoContainer{
-
+.productInfoContainer {
 }
 
-.tableSubtotal{
+.tableSubtotal {
 }
 
-.tableSubtotalValue{
+.tableSubtotalValue {
     font-weight: var(--venia-global-fontWeight-bold);
 }
 
@@ -184,57 +180,55 @@
     .productPriceMobileLabel,
     .productQtyMobileLabel,
     .productSubtotalMobileLabel,
-    .productNameMobileLabel{
+    .productNameMobileLabel {
         display: none;
     }
-
-    
 }
 
 @media (max-width: 960px) {
-    .hideMobile{
+    .hideMobile {
         display: none;
     }
 
-    .savedCartViewTableFooter{
+    .savedCartViewTableFooter {
         margin: 0 auto;
     }
 
-    .tableSubtotalValue{
+    .tableSubtotalValue {
         margin-left: 10px;
     }
     .savedCartViewTableRow {
         grid-template-columns: 1fr;
     }
 
-    .productPriceContainer{
+    .productPriceContainer {
         margin-top: 80px;
     }
 
-    .productImageValue img{
+    .productImageValue img {
         margin-left: 30%;
     }
 
-    .productNameValue{
+    .productNameValue {
         display: block;
         text-align: center;
     }
-    
+
     .cell {
     }
-    .savedCartViewTableRow.savedCartViewTableHead{
+    .savedCartViewTableRow.savedCartViewTableHead {
     }
     .productSku,
     .productPrice,
-    .productQty{
+    .productQty {
     }
     .productSubtotal {
     }
-    .savedCartViewTableFooter{
+    .savedCartViewTableFooter {
     }
-    .tableSubtotal{
+    .tableSubtotal {
     }
-    .tableSubtotalDesk{
+    .tableSubtotalDesk {
         display: none;
     }
     .tableSubtotalMobileLabel,
@@ -243,16 +237,16 @@
     .productPriceMobileLabel,
     .productQtyMobileLabel,
     .productSubtotalMobileLabel,
-    .productNameMobileLabel{
+    .productNameMobileLabel {
     }
 }
 
 @media (max-width: 560px) {
-    .header{
+    .header {
         grid-template-columns: 1fr;
     }
 
-    .savedCartViewDate{
+    .savedCartViewDate {
         margin-top: 1rem;
     }
 }

@@ -25,15 +25,7 @@ const IMAGE_WIDTH = 60;
 const SuggestedProduct = props => {
     const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const {
-        orParentUrlKey,
-        url_key,
-        small_image,
-        name,
-        onNavigate,
-        price,
-        url_suffix
-    } = props;
+    const { orParentUrlKey, url_key, small_image, name, onNavigate, price, url_suffix } = props;
 
     const handleClick = useCallback(() => {
         if (typeof onNavigate === 'function') {
@@ -41,10 +33,7 @@ const SuggestedProduct = props => {
         }
     }, [onNavigate]);
 
-    const uri = useMemo(
-        () => resourceUrl(`/${orParentUrlKey}${url_suffix || ''}`),
-        [orParentUrlKey, url_suffix]
-    );
+    const uri = useMemo(() => resourceUrl(`/${orParentUrlKey}${url_suffix || ''}`), [orParentUrlKey, url_suffix]);
 
     const talonProps = useAddProduct({
         addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION,
@@ -65,34 +54,17 @@ const SuggestedProduct = props => {
                 />
             </Link>
             <span className={classes.name}>{name}</span>
-            {
-                suggested_Product.__typename==='SimpleProduct'?  
-                <Button
-                className={classes.addButton}
-                onClick={handleAddToCart}
-                priority="high"
-               
-                >
-                    <FormattedMessage
-                    id={'productFullDetail.cartAction'}
-                    defaultMessage={'Add to Cart'}
-                    />
+            {suggested_Product.__typename === 'SimpleProduct' ? (
+                <Button className={classes.addButton} onClick={handleAddToCart} priority="high">
+                    <FormattedMessage id={'productFullDetail.cartAction'} defaultMessage={'Add to Cart'} />
                 </Button>
-                :  null
-            }
+            ) : null}
 
-            {
-                suggested_Product.__typename==='SimpleProduct'?  
-                <Button
-                className={classes.addButtonMobile}
-                onClick={handleAddToCart}
-                priority="high"
-               
-                >
+            {suggested_Product.__typename === 'SimpleProduct' ? (
+                <Button className={classes.addButtonMobile} onClick={handleAddToCart} priority="high">
                     <Icon src={ShoppingCartIcon} />
                 </Button>
-                : null
-            }
+            ) : null}
 
             <span className={classes.price}>
                 <Price

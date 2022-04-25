@@ -1,11 +1,9 @@
 import { gql } from '@apollo/client';
 
 export const SEND_ORDER_INCIDENCES_EMAIL = gql`
-    mutation orderIncidencesEmail(
-        $input: OrderIncidencesEmailInput
-    ){
+    mutation orderIncidencesEmail($input: OrderIncidencesEmailInput) {
         orderIncidencesEmail(input: $input) {
-            message,
+            message
             status
         }
     }
