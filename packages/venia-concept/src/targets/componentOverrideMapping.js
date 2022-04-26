@@ -6,6 +6,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.js`]: './src/components/ProductListing/quantity.js',
     [`@magento/venia-ui/lib/components/CartPage/cartPage.js`]: './src/components/CartPage/cartPage.js',
+    [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.js`]: './src/components/CreateAccountPage/createAccountPage.js',
     [`@magento/venia-ui/lib/components/ErrorView/errorView.js`]: './src/components/ErrorView/errorView.js',
     [`@magento/venia-ui/lib/components/Footer/sampleData.js`]: './src/components/Footer/sampleData.js',
     [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
