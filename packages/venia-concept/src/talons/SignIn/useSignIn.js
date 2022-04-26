@@ -21,6 +21,7 @@ export const useSignIn = props => {
         createCartMutation,
         getCustomerQuery,
         getMoodleTokenQuery,
+        getMoodleIdQuery,
         setMoodleTokenAndIdMutation,
         mergeCartsMutation,
         signInMutation
@@ -38,17 +39,16 @@ export const useSignIn = props => {
         fetchPolicy: 'no-cache'
     });
 
-    const setMoodleToken = moodleToken =>
-        async function thunk(...args) {
-            const [dispatch] = args;
-            storage.setItem('moodle_token', moodleToken, 3600);
-            dispatch(actions.setToken(moodleToken));
-        };
+    const saveMoodleTokenAndId = (moodleToken, moodleId) => {
+        localStorage.setItem('LMS_INTEGRATION_moodle_token', moodleToken);
+        localStorage.setItem('LMS_INTEGRATION_moodle_id', moodleId);
+    };
 
     const [fetchCartId] = useMutation(createCartMutation);
     const [mergeCarts] = useMutation(mergeCartsMutation);
     const [setMoodleTokenAndId] = useMutation(setMoodleTokenAndIdMutation);
     const fetchMoodleToken = useAwaitQuery(getMoodleTokenQuery);
+    const fetchMoodleId = useAwaitQuery(getMoodleIdQuery);
     const fetchUserDetails = useAwaitQuery(getCustomerQuery);
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
@@ -71,9 +71,15 @@ export const useSignIn = props => {
 
                 // Moodle logic
                 const moodleTokenResponse = await fetchMoodleToken();
-                moodleTokenResponse.data.customer.moodle_token !== null
-                    ? {}
-                    : registerUserAndSaveData(email, password, setMoodleTokenAndId, setMoodleToken);
+                const moodleIdResponse = await fetchMoodleId();
+
+                moodleTokenResponse.data.customer.moodle_token !== null &&
+                moodleIdResponse.data.customer.moodle_id !== null
+                    ? saveMoodleTokenAndId(
+                          moodleTokenResponse.data.customer.moodle_token,
+                          moodleIdResponse.data.customer.moodle_id
+                      )
+                    : registerUserAndSaveData(email, password, setMoodleTokenAndId, saveMoodleTokenAndId);
 
                 // Clear all cart/customer data from cache and redux.
                 await clearCartDataFromCache(apolloClient);
