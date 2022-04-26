@@ -24,7 +24,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
     [`@magento/venia-ui/lib/components/SignInPage/signInPage.js`]: './src/components/SignInPage/signInPage.js',
     [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',
-    [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
     [`@orienteed/buyLaterNotes/components/SavedCarts/savedCartsTable.js`]: './src/components/SavedCarts/savedCartsTable.js',
 
     //TALONS
