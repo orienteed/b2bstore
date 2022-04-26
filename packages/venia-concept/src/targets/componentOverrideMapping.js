@@ -24,13 +24,14 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
     [`@magento/venia-ui/lib/components/SignInPage/signInPage.js`]: './src/components/SignInPage/signInPage.js',
     [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',
-    [`@orienteed/buyLaterNotes/components/SavedCarts/savedCartsTable.js`]: './src/components/SavedCarts/savedCartsTable.js',
+    [`@orienteed/buyLaterNotes/components/SavedCarts/savedCartsTable.js`]: './src/components/SavedCarts/savedCartsTable.js', // replace directly
 
     //TALONS
     [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
     [`@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity.js`]: './src/talons/ProductListing/useQuantity.js',
     [`@magento/peregrine/lib/talons/CartPage/useCartPage.js`]: './src/talons/CartPage/useCartPage.js',
     [`@magento/peregrine/lib/talons/CreateAccount/useCreateAccount.js`]: './src/talons/CreateAccount/useCreateAccount.js',
+    [`@magento/peregrine/lib/talons/Header/useAccountMenu.js`]: './src/talons/Header/useAccountMenu.js',
     [`@magento/peregrine/lib/talons/MiniCart/useMiniCart.js`]: './src/talons/MiniCart/useMiniCart.js',
     [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js`]: './src/talons/OrderHistoryPage/useOrderHistoryPage.js',
     [`@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow.js`]: './src/talons/OrderHistoryPage/useOrderRow.js',
@@ -80,8 +81,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.module.css`]: './src/components/WishlistPage/wishlistItem.module.css',
     [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
-    [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css',
-    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css'
-
-
+    [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css', // replace directly
+    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css' // replace directly
 };

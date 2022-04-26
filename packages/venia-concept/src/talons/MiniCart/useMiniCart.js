@@ -63,19 +63,19 @@ export const useMiniCart = props => {
 
     const totalQuantity = useMemo(() => {
         if (!miniCartLoading && miniCartData) {
-            return miniCartData.cart.total_quantity;
+            return miniCartData.cart?.total_quantity;
         }
     }, [miniCartData, miniCartLoading]);
 
     const subTotal = useMemo(() => {
         if (!miniCartLoading && miniCartData) {
-            return miniCartData.cart.prices.subtotal_excluding_tax;
+            return miniCartData.cart?.prices.subtotal_excluding_tax;
         }
     }, [miniCartData, miniCartLoading]);
 
     const productList = useMemo(() => {
         if (!miniCartLoading && miniCartData) {
-            return miniCartData.cart.items;
+            return miniCartData.cart?.items;
         }
     }, [miniCartData, miniCartLoading]);
 
