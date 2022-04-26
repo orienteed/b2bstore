@@ -10,7 +10,7 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { retrieveCartId } from '@magento/peregrine/lib/store/actions/cart';
 
-import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/SignIn/signIn.gql.js';
+import DEFAULT_OPERATIONS from './signIn.gql.js';
 import registerUserAndSaveData from '@orienteed/lms/services/registerUserAndSaveData';
 
 export const useSignIn = props => {
@@ -37,6 +37,13 @@ export const useSignIn = props => {
     const [signIn, { error: signInError }] = useMutation(signInMutation, {
         fetchPolicy: 'no-cache'
     });
+
+    const setMoodleToken = moodleToken =>
+        async function thunk(...args) {
+            const [dispatch] = args;
+            storage.setItem('moodle_token', moodleToken, 3600);
+            dispatch(actions.setToken(moodleToken));
+        };
 
     const [fetchCartId] = useMutation(createCartMutation);
     const [mergeCarts] = useMutation(mergeCartsMutation);
@@ -66,7 +73,7 @@ export const useSignIn = props => {
                 const moodleTokenResponse = await fetchMoodleToken();
                 moodleTokenResponse.data.customer.moodle_token !== null
                     ? {}
-                    : registerUserAndSaveData(email, password, setMoodleTokenAndId);
+                    : registerUserAndSaveData(email, password, setMoodleTokenAndId, setMoodleToken);
 
                 // Clear all cart/customer data from cache and redux.
                 await clearCartDataFromCache(apolloClient);
