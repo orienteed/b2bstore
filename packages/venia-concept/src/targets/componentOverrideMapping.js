@@ -1,6 +1,7 @@
 module.exports = componentOverrideMapping = {
     //JS
     [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
+    [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
     [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
     [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
@@ -11,6 +12,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Footer/sampleData.js`]: './src/components/Footer/sampleData.js',
     [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
     [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
+    [`@magento/venia-ui/lib/components/Header/header.js`]: './src/components/Header',
     [`@magento/venia-ui/lib/components/Logo/logo.js`]: './src/components/Logo/logo.js',
     [`@magento/venia-ui/lib/components/MiniCart/miniCart.js`]: './src/components/MiniCart/miniCart.js',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/collapsedImageGallery.js`]: './src/components/OrderHistoryPage/collapsedImageGallery.js',
@@ -22,6 +24,8 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
     [`@magento/venia-ui/lib/components/SignInPage/signInPage.js`]: './src/components/SignInPage/signInPage.js',
     [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
+    [`@orienteed/buyLaterNotes/components/SavedCarts/savedCartsTable.js`]: './src/components/SavedCarts/savedCartsTable.js',
 
     //TALONS
     [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
@@ -79,4 +83,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
     [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css',
     [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css'
+
+
 };
