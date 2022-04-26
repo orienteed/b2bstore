@@ -118,6 +118,26 @@
     width: 20px;
 }
 
+.descriptionAndEnrollContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.enrollButtonContainer {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+
+}
+.enrollButton {
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    width: 280px;
+}
+
+.checkIcon {
+    stroke: white !important;
+}
+
 /* Action icons to open or download files */
 .actionIcons {
     composes: courseContentIcon;

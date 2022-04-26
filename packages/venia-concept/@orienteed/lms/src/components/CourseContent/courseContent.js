@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation, useHistory, Link } from 'react-router-dom';
-import { ArrowLeft as BackIcon } from 'react-feather';
+import { ArrowLeft as BackIcon, Check as CheckIcon } from 'react-feather';
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
 
 import defaultClasses from './courseContent.module.css';
 
 import getCourseContent from '../../../services/getCourseContent';
 import getCourseDetails from '../../../services/getCourseDetails';
+import enrollUserInCourse from '../../../services/enrollUserInCourse';
 
-import noImageAvailable from '../CoursesCatalog/CourseItem/Icons/noImageAvailable.svg';
+import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
 import audioIcon from './Icons/audio.svg';
 import fileIcon from './Icons/file.svg';
 import imageIcon from './Icons/image.svg';
@@ -32,6 +34,8 @@ const CourseContent = props => {
     const [{ isSignedIn }] = useUserContext();
     const { search } = useLocation();
     const history = useHistory();
+    const talonProps = useCoursesCatalog();
+    const { userMoodleToken, userMoodleId } = talonProps;
 
     if (!isSignedIn) {
         history.push('/');
@@ -40,8 +44,7 @@ const CourseContent = props => {
     const courseId = new URLSearchParams(search).get('id');
     const [courseDetails, setCourseDetails] = useState();
     const [courseContent, setCourseContent] = useState();
-
-    console.log(courseContent);
+    const [enrolled, setEnrolled] = useState(false);
 
     useEffect(() => {
         getCourseDetails(courseId).then(reply => setCourseDetails(reply.courses[0]));
@@ -54,6 +57,10 @@ const CourseContent = props => {
 
     const handleDownload = url => {
         console.log(`Downloading ${url}`);
+    };
+
+    const handleEnrollInCourse = () => {
+        enrollUserInCourse(userMoodleId, courseId).then(reply => (reply ? setEnrolled(true) : null));
     };
 
     const breadcrumbs = courseDetails !== undefined && (
@@ -100,7 +107,7 @@ const CourseContent = props => {
 
     const showCourseModules = course => {
         return (
-            <div className={classes.courseSectionContainer}>
+            <div key={course.id} className={classes.courseSectionContainer}>
                 <p className={classes.sectionTitle}>{course.name}</p>
                 {course.modules.map(module => {
                     return (
@@ -122,30 +129,32 @@ const CourseContent = props => {
                                             />
                                         )}
                                     </div>
-                                    <div className={classes.courseContentContainerLeft}>
-                                        <img
-                                            src={viewIcon}
-                                            className={classes.actionIcons}
-                                            onClick={() =>
-                                                handleOpenPopUp(
-                                                    `${
-                                                        module.contents[0].fileurl
-                                                    }&token=af547e6e35fca251a48ff4bedb7f1298`
-                                                )
-                                            }
-                                        />
-                                        <img
-                                            src={downloadIcon}
-                                            className={classes.actionIcons}
-                                            onClick={() =>
-                                                handleDownload(
-                                                    `${
-                                                        module.contents[0].fileurl
-                                                    }&token=af547e6e35fca251a48ff4bedb7f1298`
-                                                )
-                                            }
-                                        />
-                                    </div>
+                                    {enrolled && (
+                                        <div className={classes.courseContentContainerLeft}>
+                                            <img
+                                                src={viewIcon}
+                                                className={classes.actionIcons}
+                                                onClick={() =>
+                                                    handleOpenPopUp(
+                                                        `${
+                                                            module.contents[0].fileurl
+                                                        }&token=af547e6e35fca251a48ff4bedb7f1298`
+                                                    )
+                                                }
+                                            />
+                                            <img
+                                                src={downloadIcon}
+                                                className={classes.actionIcons}
+                                                onClick={() =>
+                                                    handleDownload(
+                                                        `${
+                                                            module.contents[0].fileurl
+                                                        }&token=af547e6e35fca251a48ff4bedb7f1298`
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    )}
                                 </>
                             ) : (
                                 <div className={classes.courseContentContainerLeft}>
@@ -184,9 +193,27 @@ const CourseContent = props => {
                                 alt="Course logo not available"
                             />
                         )}
-                        <div>
-                            <p className={classes.courseTitle}>{courseDetails.fullname}</p>
-                            <p className={classes.summaryText}>{courseDetails.summary}</p>
+                        <div className={classes.descriptionAndEnrollContainer}>
+                            <div>
+                                <p className={classes.courseTitle}>{courseDetails.fullname}</p>
+                                <p className={classes.summaryText}>{courseDetails.summary}</p>
+                            </div>
+                            <div className={classes.enrollButtonContainer}>
+                                <Button
+                                    className={classes.enrollButton}
+                                    onClick={handleEnrollInCourse}
+                                    priority={'normal'}
+                                >
+                                    {enrolled ? (
+                                        <>
+                                            <Icon src={CheckIcon} size={20} classes={{icon: classes.checkIcon}} />
+                                            <FormattedMessage id={'lms.enrolled'} defaultMessage={'Enrolled'} />
+                                        </>
+                                    ) : (
+                                        <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
+                                    )}
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 )}
