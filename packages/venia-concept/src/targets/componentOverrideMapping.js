@@ -77,5 +77,9 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
     [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css',
-    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css'
+    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css',
+
+    [`@magento/venia-ui/lib/RootComponents/CMS/cms.js`]: './src/RootComponents/CMS/cms.js',
+    [`@magento/venia-ui/lib/components/Main/main.js`]: './src/components/Main/main.js',
+    [`@magento/peregrine/lib/talons/Cms/useCmsPage.js`]: './src/talons/Cms/useCmsPage.js',
 };
