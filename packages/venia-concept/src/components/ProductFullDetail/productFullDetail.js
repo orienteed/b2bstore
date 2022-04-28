@@ -55,6 +55,7 @@ const ProductFullDetail = props => {
         isAddConfigurableLoading,
         cartId
     } = talonProps;
+
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -212,35 +213,35 @@ const ProductFullDetail = props => {
             </p>
         </div>
     );
-    console.log(product);
 
     return isB2B ? (
         <ProductFullDetailB2B
-            breadcrumbs={breadcrumbs}
-            product={product}
-            errors={errors}
-            productDetails={productDetails}
-            priceRender={priceRender}
-            mediaGalleryEntries={mediaGalleryEntries}
             addConfigurableProductToCart={addConfigurableProductToCart}
+            availableOptions={options}
+            breadcrumbs={breadcrumbs}
             cartId={cartId}
+            errors={errors}
             isAddConfigurableLoading={isAddConfigurableLoading}
+            mediaGalleryEntries={mediaGalleryEntries}
+            priceRender={priceRender}
+            product={product}
+            productDetails={productDetails}
             wishlistButtonProps={wishlistButtonProps}
         />
     ) : (
         <ProductFullDetailB2C
+            availableOptions={options}
             breadcrumbs={breadcrumbs}
+            cartActionContent={cartActionContent}
             errors={errors}
             handleAddToCart={handleAddToCart}
-            productDetails={productDetails}
-            priceRender={priceRender}
-            mediaGalleryEntries={mediaGalleryEntries}
-            availableOptions={options}
-            hasOptionsOfTheSelection={hasOptionsOfTheSelection}
-            wishlistButtonProps={wishlistButtonProps}
             handleQuantityChange={handleQuantityChange}
+            hasOptionsOfTheSelection={hasOptionsOfTheSelection}
+            mediaGalleryEntries={mediaGalleryEntries}
+            priceRender={priceRender}
+            productDetails={productDetails}
             tempTotalPrice={tempTotalPrice}
-            cartActionContent={cartActionContent}
+            wishlistButtonProps={wishlistButtonProps}
         />
     );
 };

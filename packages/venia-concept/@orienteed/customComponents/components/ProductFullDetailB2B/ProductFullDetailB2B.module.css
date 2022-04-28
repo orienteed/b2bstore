@@ -10,7 +10,7 @@
         grid-template-areas:
             'images title'
             'images description'
-            'images .';
+            'images favorites';
         grid-template-columns: 1.5625fr 1fr;
         grid-template-rows: repeat(3, min-content);
         padding: 2.5rem 1rem;
@@ -87,6 +87,10 @@
     }
 }
 
+.hide {
+    display: none;
+}
+
 .description {
     composes: section;
     grid-area: description;
@@ -110,6 +114,12 @@
     composes: root from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
+}
+
+.favoritesButton {
+    grid-area: favorites;
+    display: flex;
+    justify-content: center;
 }
 
 /* Custom */

@@ -72,7 +72,7 @@
 }
 
 .subscribeButton {
-    composes: root_normalPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
 }
 
 .courseOverlay {
@@ -92,7 +92,7 @@
 }
 
 .subscribeButtonOverla {
-    composes: root_normalPriority from '@magento/venia-ui/lib/components/Button/button.module.css';
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
 }
 
 .courseOverlay .subscribeButtonOverlay {

@@ -69,6 +69,11 @@ export const useCreateAccount = props => {
         formAction: 'createAccount'
     });
 
+    const saveMoodleTokenAndId = (moodleToken, moodleId) => {
+        localStorage.setItem('LMS_INTEGRATION_moodle_token', moodleToken);
+        localStorage.setItem('LMS_INTEGRATION_moodle_id', moodleId);
+    };
+
     const handleCancel = useCallback(() => {
         onCancel();
     }, [onCancel]);
@@ -109,7 +114,7 @@ export const useCreateAccount = props => {
                 await setToken(token);
 
                 // Moodle logic
-                registerUserAndSaveData(formValues.customer.email, formValues.password, setMoodleTokenAndId);
+                registerUserAndSaveData(formValues.customer.email, formValues.password, setMoodleTokenAndId, saveMoodleTokenAndId);
 
                 // Clear all cart/customer data from cache and redux.
                 await apolloClient.clearCacheData(apolloClient, 'cart');

@@ -38,19 +38,40 @@
 
 /* Buttons */
 .switchViewButtonContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 10px;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .allCoursesButton {
     composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
-    width: minmax(280px, 350px);
+    width: 280px;
 }
 
 .inProgressButton {
     composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
-    width: minmax(280px, 350px);
+    width: 280px;
+}
+
+.emptyUserCoursesAdviceContainer {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.emptyUserCoursesAdviceText {
+    text-align: center;
+}
+
+.noCoursesImage {
+    width: 100px;
 }
 
 /* Catalog */

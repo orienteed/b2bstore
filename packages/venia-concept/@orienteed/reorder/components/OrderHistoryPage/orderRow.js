@@ -95,7 +95,7 @@ const OrderRow = props => {
             </div>
             <div className={classes.orderItemsContainer}>{collapsedImageGalleryElement}</div>
             <div className={[classes.orderNumberContainer, classes.orderReOrderContainer].join(' ')}>
-                {config.storeConfig.id == parseInt(order.store_id) && <ReOrderBtn orderNumber={orderNumber} />}
+                {config?.storeConfig?.id == parseInt(order.store_id) && <ReOrderBtn orderNumber={orderNumber} />}
                 <button
                     onClick={() => handleOrderIncidences(orderNumber)}
                     type="button"

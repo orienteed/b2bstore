@@ -17,15 +17,16 @@ const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const {
-        breadcrumbs,
-        product,
-        errors,
-        productDetails,
-        priceRender,
-        mediaGalleryEntries,
         addConfigurableProductToCart,
+        availableOptions,
+        breadcrumbs,
         cartId,
+        errors,
         isAddConfigurableLoading,
+        mediaGalleryEntries,
+        priceRender,
+        product,
+        productDetails,
         wishlistButtonProps
     } = props;
 
@@ -163,7 +164,7 @@ const ProductFullDetailB2B = props => {
     );
 
     return (
-        <Fragment>
+        <Fragment key={productDetails.sku}>
             {breadcrumbs}
             <Form className={classes.root}>
                 <section className={classes.title}>
@@ -186,6 +187,8 @@ const ProductFullDetailB2B = props => {
                         />
                     </h2>
                     <RichText content={productDetails.description} />
+                </section>
+                <section className={classes.favoritesButton}>
                     <Suspense fallback={null}>
                         <WishlistButton {...wishlistButtonProps} />
                     </Suspense>
@@ -201,6 +204,7 @@ const ProductFullDetailB2B = props => {
                         {productsTable}
                     </div>
                 </section>
+                <section className={classes.hide}>{availableOptions}</section>
             </Form>
         </Fragment>
     );
