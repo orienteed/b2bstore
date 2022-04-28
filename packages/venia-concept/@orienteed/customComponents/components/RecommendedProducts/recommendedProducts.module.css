@@ -1,0 +1,19 @@
+.mainWrapper {
+    /* margin-top: 10rem; */
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.headerText {
+    font-size: var(--venia-global-fontSize-700);
+    font-weight: var(--venia-global-fontWeight-bold);
+}
+.showBtn {
+    color: rgb(var(--venia-global-color-yellow-400));
+    font-weight: 500;
+    font-size: var(--venia-global-fontSize-200);
+    display: inline-flex;
+}

@@ -1,0 +1,47 @@
+.navWrap {
+    background-color: #f6f8fb;
+}
+.container {
+    max-width: var(--venia-global-maxWidth);
+    margin: 0 auto;
+    height: 82px;
+}
+.grid {
+    height: 100%;
+    display: grid;
+    margin: 0 82px;
+    grid-template-columns: 1.5fr 0.95fr 1.2fr 5fr 0.8fr 0.8fr 0.8fr;
+}
+.navItem {
+    align-self: center;
+    text-transform: uppercase;
+    color: rgb(12, 12, 12);
+    font-size: var(--venia-global-fontSize-75);
+    font-weight: var(--venia-global-fontWeight-semibold);
+    display: flex;
+    flex-direction: column;
+}
+.leftNavItem {
+    align-items: center;
+}
+.navLink {
+    display: inline-flex;
+    align-items: center;
+}
+.iconWraper {
+    position: relative;
+    height: 20px;
+}
+.textImg {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: -11px;
+    left: 8px;
+    min-width: 18px;
+    min-height: 18px;
+    background-color: #e8aa00;
+    color: #fff;
+    border-radius: 50%;
+    padding: 0 3px;
+}
