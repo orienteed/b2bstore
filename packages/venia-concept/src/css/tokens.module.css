@@ -41,6 +41,7 @@
     --venia-global-color-teal-dark: var(--venia-global-color-blue-600);
     --venia-global-color-teal-light: var(--venia-global-color-gray-100);
 
+    --venia-global-color-yellow-400: 232 170 0;
     /* color by semantics */
     --venia-global-color-background: var(--venia-global-color-gray-50);
     --venia-global-color-border: var(--venia-global-color-gray-300);
@@ -70,6 +71,8 @@
     --venia-global-fontSize-1000: 2.6rem;
     --venia-global-fontSize-1100: 3.1rem;
     --venia-global-fontSize-1200: 3.6rem;
+
+    --venia-global-fontSize-650: 1.75rem;
 
     /* font weight */
     --venia-global-fontWeight-normal: 400;
