@@ -6,6 +6,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import Gallery from '@magento/venia-ui/lib/components/Gallery';
 import Carousel from './Carousel/carousel';
 import defaultClasses from './products.module.css';
+import { useHistory } from 'react-router-dom';
 /**
  * Sort products based on the original order
  *
@@ -36,6 +37,8 @@ const restoreSortOrder = (urlKeys, products) => {
  * @returns {React.Element} A React component that displays a Products based on a number of products
  */
 const Products = props => {
+    console.log(props);
+    const { location } = useHistory();
     const classes = useStyle(defaultClasses, props.classes);
     const {
         appearance,
@@ -190,7 +193,11 @@ const Products = props => {
             style={dynamicStyles}
             className={[classes.root, ...cssClasses].join(' ')}
         >
-            <Gallery items={items} classes={{ items: classes.galleryItems }} />
+            <Gallery
+                homePage={location.pathname === '/' ? true : false}
+                items={items}
+                classes={{ items: classes.galleryItems }}
+            />
         </div>
     );
 };
