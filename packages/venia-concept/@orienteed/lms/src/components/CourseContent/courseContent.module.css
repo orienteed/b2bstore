@@ -127,7 +127,6 @@
     display: flex;
     justify-content: center;
     padding: 40px 0;
-
 }
 .enrollButton {
     composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
@@ -141,6 +140,12 @@
 /* Action icons to open or download files */
 .actionIcons {
     composes: courseContentIcon;
+    cursor: pointer;
+}
+
+.actionIconsDisabled {
+    composes: courseContentIcon;
+    cursor: not-allowed;
 }
 
 .actionIcons:hover {
