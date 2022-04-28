@@ -1,0 +1,84 @@
+.imgWrapper {
+    position: relative;
+}
+
+.image {
+    width: 245px;
+    height: 300px;
+}
+.discountWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    height: 32px;
+    left: 0%;
+    right: 82.72%;
+    top: 55px;
+    background: #999999;
+    border-radius: 0px;
+}
+
+.favWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    height: 32px;
+    right: 20px;
+    border-radius: 50%;
+    top: 55px;
+    background: rgb(var(--venia-global-color-yellow-400));
+}
+.stokeWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    width: 120px;
+    left: -6px;
+    right: 82.72%;
+    bottom: 55px;
+}
+.stokeWrapper span {
+    display: inline-flex;
+    font-weight: 400;
+    font-size: 14px;
+    align-items: center;
+}
+.stokeWrapper img {
+    margin-right: 3px;
+}
+.inStock {
+    color: #00893a;
+}
+.outStock {
+    color: #f52f2f;
+}
+
+.shareWrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    right: 20px;
+    bottom: 55px;
+}
+.shareWrapper img {
+    margin-left: 14px;
+}
+.productInfo {
+    color: rgb(var(--venia-global-color-gray-600));
+    font-weight: 400;
+    font-size: 14px;
+}
+.productName {
+    font-weight: 700;
+    font-size: 20px;
+    color: #0c0c0c;
+    margin-bottom: 0 !important;
+}

@@ -1,5 +1,5 @@
 .mainWrapper {
-    /* margin-top: 10rem; */
+    margin-top: 10rem;
 }
 
 .flex {
@@ -16,4 +16,12 @@
     font-weight: 500;
     font-size: var(--venia-global-fontSize-200);
     display: inline-flex;
+}
+
+.image {
+    margin: 0 !important;
+}
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }

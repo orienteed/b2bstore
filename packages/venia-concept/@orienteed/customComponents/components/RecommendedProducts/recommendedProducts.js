@@ -6,16 +6,23 @@ import ProductCard from './ProductCard';
 
 const recommendedProducts = props => {
     const classes = useStyle(defaultClasses, props.classes);
+    const { products } = props;
     return (
         <div className={classes.mainWrapper}>
             <div className={classes.flex}>
                 <span className={classes.headerText}>Recommended products</span>
                 <button className={classes.showBtn}>
                     Show all recommended products
-                    <img src={ArrowRight} />
+                    <img className={classes.image} src={ArrowRight} />
                 </button>
             </div>
-            <ProductCard/>
+            <div className={classes.grid}>
+                {products.map(item => (
+                    <div key={item.id}>
+                        <ProductCard item={item} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
