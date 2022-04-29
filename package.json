@@ -32,7 +32,7 @@
     "clean:dist": "yarn workspaces run clean",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "danger": "danger-ci",
-    "lint": "eslint '@(packages|venia-integration-tests|scripts)/**/{*.js,package.json}' --ignore-pattern node_modules --ignore-pattern storybook-dist",
+    "lint": "eslint '@(packages)/venia-concept/**/{*.js,package.json}' --ignore-pattern node_modules --ignore-pattern storybook-dist",
     "postbuild": "rimraf \"./packages/*/dist/{,**/}__*__\"",
     "prepare": "node scripts/monorepo-introduction.js",
     "prettier": "prettier --loglevel warn --write '@(packages|venia-integration-tests|scripts)/**/*.@(css|graphql|js)' '*.js'",

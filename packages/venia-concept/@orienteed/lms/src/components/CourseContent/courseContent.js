@@ -14,6 +14,7 @@ import defaultClasses from './courseContent.module.css';
 import getCourseContent from '../../../services/getCourseContent';
 import getCourseDetails from '../../../services/getCourseDetails';
 import enrollUserInCourse from '../../../services/enrollUserInCourse';
+import markAsDone from '../../../services/markAsDone';
 
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
 import audioIcon from './Icons/audio.svg';
@@ -26,10 +27,13 @@ import infoIcon from './Icons/info.svg';
 import notFoundIcon from './Icons/notFound.svg';
 import viewIcon from './Icons/view.svg';
 import downloadIcon from './Icons/download.svg';
+import checkNoFillIcon from './Icons/checkNoFill.svg';
+import checkFillIcon from './Icons/checkFill.svg';
 
 const DELIMITER = '/';
 
 const CourseContent = props => {
+    console.log(props)
     const classes = useStyle(defaultClasses, props.classes);
     const [{ isSignedIn }] = useUserContext();
     const { search } = useLocation();
@@ -41,7 +45,7 @@ const CourseContent = props => {
         history.push('/');
     }
 
-    const courseId = new URLSearchParams(search).get('id');
+    let courseId = new URLSearchParams(search).get('id');
     const [courseDetails, setCourseDetails] = useState();
     const [courseContent, setCourseContent] = useState();
     const [enrolled, setEnrolled] = useState(false);
@@ -51,16 +55,21 @@ const CourseContent = props => {
         getCourseContent(courseId).then(reply => setCourseContent(reply));
     }, [courseId]);
 
+    const handleEnrollInCourse = () => {
+        enrollUserInCourse(userMoodleId, courseId).then(reply => (reply ? setEnrolled(true) : null));
+    };
+
+    const handleMarkAsDone = courseModuleId => {
+        markAsDone(userMoodleId, courseModuleId).then(reply => console.log(reply));
+        courseId = new URLSearchParams(search).get('id');
+    };
+
     const handleOpenPopUp = url => {
         console.log(`Opening ${url}`);
     };
 
     const handleDownload = url => {
         console.log(`Downloading ${url}`);
-    };
-
-    const handleEnrollInCourse = () => {
-        enrollUserInCourse(userMoodleId, courseId).then(reply => (reply ? setEnrolled(true) : null));
     };
 
     const breadcrumbs = courseDetails !== undefined && (
@@ -79,7 +88,7 @@ const CourseContent = props => {
             <span className={classes.currentPage}>{courseDetails.fullname}</span>
         </div>
     );
-
+    console.log(courseContent);
     const selectIcon = contentFile => {
         switch (contentFile.type) {
             case 'file': {
@@ -101,6 +110,53 @@ const CourseContent = props => {
             }
             default: {
                 return fileIcon;
+            }
+        }
+    };
+
+    const markAsDoneButton = (id, completionData) => {
+        return completionData === 0 ? (
+            <img src={checkNoFillIcon} className={classes.actionIcons} onClick={() => handleMarkAsDone(id)} />
+        ) : (
+            <img src={checkFillIcon} className={classes.actionIconsDisabled} />
+        );
+    };
+
+    const actionContentButtons = (id, contentFile, completionData) => {
+        if (enrolled) {
+            switch (contentFile.type) {
+                case 'file':
+                    return (
+                        <div className={classes.courseContentContainerLeft}>
+                            <img
+                                src={viewIcon}
+                                className={classes.actionIcons}
+                                onClick={() =>
+                                    handleOpenPopUp(`${contentFile.fileurl}&token=af547e6e35fca251a48ff4bedb7f1298`)
+                                }
+                            />
+                            <img
+                                src={downloadIcon}
+                                className={classes.actionIcons}
+                                onClick={() =>
+                                    handleDownload(`${contentFile.fileurl}&token=af547e6e35fca251a48ff4bedb7f1298`)
+                                }
+                            />
+                            {markAsDoneButton(id, completionData.state)}
+                        </div>
+                    );
+                case 'url': {
+                    return (
+                        <div className={classes.courseContentContainerLeft}>
+                            <img
+                                src={viewIcon}
+                                className={classes.actionIcons}
+                                onClick={() => handleOpenPopUp(contentFile.fileurl)}
+                            />
+                            {markAsDoneButton(id, completionData.state)}
+                        </div>
+                    );
+                }
             }
         }
     };
@@ -129,32 +185,7 @@ const CourseContent = props => {
                                             />
                                         )}
                                     </div>
-                                    {enrolled && (
-                                        <div className={classes.courseContentContainerLeft}>
-                                            <img
-                                                src={viewIcon}
-                                                className={classes.actionIcons}
-                                                onClick={() =>
-                                                    handleOpenPopUp(
-                                                        `${
-                                                            module.contents[0].fileurl
-                                                        }&token=af547e6e35fca251a48ff4bedb7f1298`
-                                                    )
-                                                }
-                                            />
-                                            <img
-                                                src={downloadIcon}
-                                                className={classes.actionIcons}
-                                                onClick={() =>
-                                                    handleDownload(
-                                                        `${
-                                                            module.contents[0].fileurl
-                                                        }&token=af547e6e35fca251a48ff4bedb7f1298`
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    )}
+                                    {actionContentButtons(module.id, module.contents[0], module.completiondata)}
                                 </>
                             ) : (
                                 <div className={classes.courseContentContainerLeft}>
@@ -206,7 +237,7 @@ const CourseContent = props => {
                                 >
                                     {enrolled ? (
                                         <>
-                                            <Icon src={CheckIcon} size={20} classes={{icon: classes.checkIcon}} />
+                                            <Icon src={CheckIcon} size={20} classes={{ icon: classes.checkIcon }} />
                                             <FormattedMessage id={'lms.enrolled'} defaultMessage={'Enrolled'} />
                                         </>
                                     ) : (
