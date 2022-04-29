@@ -1,5 +1,5 @@
 .container{
-    /* margin: 0 82px; */
+    margin: auto;
     padding: 0 2rem;
     max-width: var(--venia-global-maxWidth);
     min-height: 40rem;  

@@ -5,6 +5,7 @@
     max-width: var(--venia-global-maxWidth);
     padding: 0 2rem;
     height: 82px;
+    margin: auto;
 }
 .grid {
     height: 100%;
