@@ -3,13 +3,12 @@
 }
 .container {
     max-width: var(--venia-global-maxWidth);
-    margin: 0 auto;
+    padding: 0 2rem;
     height: 82px;
 }
 .grid {
     height: 100%;
     display: grid;
-    margin: 0 82px;
     grid-template-columns: 1.5fr 0.95fr 1.2fr 5fr 0.8fr 0.8fr 0.8fr;
 }
 .navItem {
