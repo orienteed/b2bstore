@@ -51,7 +51,7 @@ export const useCmsPage = props => {
     const shouldShowLoadingIndicator = loading && !data;
 
     const cmsPage = data ? data.cmsPage : null;
-    console.log(cmsPage, 'cmsPagecmsPage');
+    console.log(cmsPage, 'cmsPagecmsPage',data);
     return {
         cmsPage,
         shouldShowLoadingIndicator

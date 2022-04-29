@@ -17,7 +17,7 @@ const CMSPage = props => {
     const { identifier } = props;
 
     const talonProps = useCmsPage({ identifier });
-    const { cmsPage, shouldShowLoadingIndicator, products } = talonProps;
+    const { cmsPage, shouldShowLoadingIndicator } = talonProps;
     const classes = useStyle(defaultClasses, props.classes);
 
     if (shouldShowLoadingIndicator) {

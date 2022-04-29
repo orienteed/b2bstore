@@ -37,7 +37,6 @@ const restoreSortOrder = (urlKeys, products) => {
  * @returns {React.Element} A React component that displays a Products based on a number of products
  */
 const Products = props => {
-    console.log(props);
     const { location } = useHistory();
     const classes = useStyle(defaultClasses, props.classes);
     const {
@@ -291,6 +290,8 @@ export const GET_PRODUCTS_BY_URL_KEY = gql`
                 id
                 uid
                 name
+                orParentUrlKey
+                url_suffix
                 price_range {
                     maximum_price {
                         regular_price {
