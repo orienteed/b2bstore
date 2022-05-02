@@ -1,25 +1,46 @@
-export const accountLinks = new Map()
-    .set('Account', null)
-    .set('Sign In', '/sign-in')
-    .set('Register', '/create-account')
-    .set('Order Status', null)
+import { ContactLink } from '@magento/venia-ui/lib/components/ContactPage';
+
+const accountLinks = new Map()
+    .set('How to buy', null)
+    .set('Payment methods', null)
+    .set('Order and pick up', null)
+    .set('Order with delivery', null)
+    .set('Shopping over the phone', null)
     .set('Returns', null);
 
-export const aboutLinks = new Map()
-    .set('About Us', null)
-    .set('Our Story', null)
-    .set('Email Signup', null)
-    .set('Give Back', null);
+const helpLinks = new Map()
+    .set('Help', null)
+    .set('Contact', {
+        path: '/contact-us',
+        Component: ContactLink
+    })
+    .set('Online Help', null)
+    .set('Our Commitments', null)
+    .set('Give feedback', null);
 
-// export const helpLinks = new Map()
-//     .set('Help', null)
-//     .set('Live Chat', null)
-//     .set('Contact Us', null)
-//     .set('Order Status', null)
-//     .set('Returns', null);
+const servicesLinks = new Map()
+    .set('Services', null)
+    .set('Transport', null)
+    .set('Design service', null)
+    .set('Paint an plaster mixing service', null)
+    .set('Dimensioning and assemly service', null)
+    .set('Return of used equipment', null)
+    .set('Additional services', null);
 
-export const DEFAULT_LINKS = new Map().set('account', accountLinks).set('about', aboutLinks);
-// .set('help', helpLinks);
+const aboutLinks = new Map()
+    .set('About us', null)
+    .set('Press Office', null)
+    .set('For suppliers', null)
+    .set('Regulations', null)
+    .set('Privacy Policy', null)
+    .set('Cookies', null)
+    .set('Personal Data Request', null);
+
+export const DEFAULT_LINKS = new Map()
+    .set('account', accountLinks)
+    .set('help', helpLinks)
+    .set('services', servicesLinks)
+    .set('about', aboutLinks);
 
 //CUSTOM DATA
 

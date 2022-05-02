@@ -7,6 +7,14 @@
     --orienteed-global-color-orange-op: 232, 171, 0;
     --orienteed-global-color-gray-op: 128, 128, 128;
     --orienteed-global-color-black-op: 40, 40, 43;
+    /* fonts */
+    --b2bStore-footer-title-font-size: 20px;
+    --b2bStore-footer-text-font-size: 14px;
+    --b2bStore-footer-color: #0c0c0c;
+    --b2bStore-font-family: 'Lato', sans-serif;
+    /* field input */
+    --b2bStore-fieldInput-border-color: #eaecee;
+    /*heigth */
 }
 
 /* alias tokens */
@@ -15,4 +23,6 @@
     --orienteed-primary-color-base1: var(--orienteed-global-color-orange);
     --orienteed-primary-color-base2: var(--orienteed-global-color-gray);
     --orienteed-primary-color-base3: var(--orienteed-global-color-black);
+    /* font */
+    --b2bStore-font-family-Lato: var(--b2bStore-font-family);
 }
