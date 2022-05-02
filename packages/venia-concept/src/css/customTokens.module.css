@@ -12,9 +12,13 @@
     --b2bStore-footer-text-font-size: 14px;
     --b2bStore-footer-color: #0c0c0c;
     --b2bStore-font-family: 'Lato', sans-serif;
+    --b2bStore-font-color: #676f71;
     /* field input */
     --b2bStore-fieldInput-border-color: #eaecee;
-    /*heigth */
+    /*border */
+    --b2bStore-border-radius: 30px;
+    /*background */
+    --b2bStore-background-color-hover: #ffc82f;
 }
 
 /* alias tokens */
@@ -25,4 +29,9 @@
     --orienteed-primary-color-base3: var(--orienteed-global-color-black);
     /* font */
     --b2bStore-font-family-Lato: var(--b2bStore-font-family);
+    /*border */
+    --b2bStore-border-radius-button: var(--b2bStore-border-radius);
+    --b2bStore-fieldInput-border-color-button: var(--b2bStore-fieldInput-border-color);
+    --b2bStore-font-normal-color: var(--b2bStore-font-color);
+    --b2bStore-background-color-hover-button: var(--b2bStore-background-color-hover);
 }

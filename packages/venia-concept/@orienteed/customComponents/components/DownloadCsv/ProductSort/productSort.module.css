@@ -36,19 +36,18 @@
 }
 
 .sortButton {
-    background-color: rgb(var(--venia-brand-color-1-700));
-    border-left: 2px solid rgb(var(--venia-brand-color-1-800));
+    background-color: var(--orienteed-global-color-orange);
+    border-left: 2px solid white;
     width: 50px;
     display: flex;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-
     align-items: center;
-    height: 40px;
+    height: 44px;
 }
 
 .sortButton:hover {
-    background-color: rgb(var(--venia-brand-color-1-800));
+    background-color: var(--b2bStore-background-color-hover-button);
 }
 
 .desktopText {
@@ -78,7 +77,7 @@
         border-bottom-right-radius: 10px;
         font-weight: var(--venia-global-fontWeight-normal);
         text-transform: none;
-        border-left: 2px solid rgb(var(--venia-brand-color-1-800));
+        border-left: 2px solid white;
     }
 
     .desktopText {

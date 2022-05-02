@@ -93,5 +93,13 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Newsletter/newsletter.js`]: './src/components/Newsletter/newsletter.js',
     [`@magento/venia-ui/lib/components/Field/field.module.css`]: './src/components/Field/field.module.css',
     [`@magento/venia-ui/lib/components/Field/message.module.css`]: './src/components/Field/message.module.css',
-    [`@magento/venia-ui/lib/components/TextInput/textInput.module.css`]: './src/components/TextInput/textInput.module.css'
+
+    // New overwrites2
+    [`@magento/venia-ui/lib/components/TextInput/textInput.module.css`]: './src/components/TextInput/textInput.module.css',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistPage.module.css`]: './src/components/WishlistPage/wishlistPage.module.css',
+    [`@magento/venia-ui/lib/components/Select/select.module.css`]: './src/components/Select/select.module.css',
+    [`@magento/venia-ui/lib/components/SavedPaymentsPage/savedPaymentsPage.module.css`]: './src/components/SavedPaymentsPage/savedPaymentsPage.module.css',
+    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.module.css`]: './src/components/CommunicationsPage/communicationsPage.module.css',
+    [`@magento/venia-ui/lib/components/TextArea/textArea.module.css`]: './src/components/TextArea/textArea.module.css',
+    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.js`]: './src/components/CommunicationsPage/communicationsPage.js'
 };

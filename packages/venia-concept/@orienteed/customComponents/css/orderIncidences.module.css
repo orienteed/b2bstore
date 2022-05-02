@@ -97,7 +97,7 @@
     height: 50px;
     width: 50px;
     display: block;
-    border: 2px solid rgb(var(--venia-brand-color-1-400));
+    border: 2px solid var(--orienteed-global-color-orange);
     border-radius: 25px;
     margin: 0 auto;
 }
@@ -110,7 +110,7 @@
     margin-left: 10px;
     font-size: 22px;
     font-weight: bold;
-    color: rgb(var(--venia-brand-color-1-400));
+    color: var(--orienteed-global-color-orange);
 }
 
 .submitIncidence {

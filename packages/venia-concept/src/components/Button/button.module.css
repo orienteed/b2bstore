@@ -18,6 +18,7 @@
     transition-duration: 256ms;
     transition-property: background-color, border-color, color;
     transition-timing-function: var(--venia-global-anim-standard);
+    border-radius: var(--b2bStore-border-radius-button);
 }
 
 .root:hover {
@@ -80,9 +81,9 @@
 /* NORMAL PRIORITY */
 .root_normalPriority {
     composes: root;
-    border: 2px solid var(--orienteed-primary-color-base2);
+    border: 2px solid var(--b2bStore-fieldInput-border-color-button);
     width: 100%;
-    color: var(--orienteed-primary-color-base2);
+    color: var(--b2bStore-font-normal-color);
 }
 
 .root_normalPriority:focus {
@@ -101,7 +102,7 @@
 /* LOW PRIORITY */
 .root_lowPriority {
     composes: root;
-    --stroke: var(--orienteed-primary-color-base2);
+    --stroke: var(--b2bStore-fieldInput-border-color-button);
 }
 .root_lowPriority:hover {
     --stroke: var(--orienteed-primary-color-base3);

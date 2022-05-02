@@ -140,8 +140,10 @@
 }
 
 .cancelButton {
-    composes: root_lowPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    composes: root_lowPriority from '../Button/button.module.css';
     height: 40px;
+    border-color: var(--b2bStore-fieldInput-border-color-button);
+    color: var(--b2bStore-font-normal-color);
 }
 
 /*

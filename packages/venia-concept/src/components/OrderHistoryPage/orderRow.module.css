@@ -7,7 +7,7 @@
 
 .cell {
     border-left: 2px solid rgb(var(--venia-global-color-gray));
-    padding: 1.5rem;
+    padding: 1rem;
     overflow: hidden;
 }
 

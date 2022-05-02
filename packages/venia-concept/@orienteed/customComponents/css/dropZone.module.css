@@ -9,7 +9,7 @@
 
 .dropContainer {
     margin: 0;
-    border: 4px dashed #4aa1f3;
+    border: 4px dashed var(--orienteed-global-color-orange);
     min-height: 160px;
 }
 
@@ -169,7 +169,8 @@
     color: white;
     text-transform: uppercase;
     outline: none;
-    background-color: #4aa1f3;
+    border-radius: var(--b2bStore-border-radius);
+    background-color: var(--orienteed-global-color-orange);
     font-weight: bold;
     padding: 8px 15px;
     margin-bottom: 5px;
