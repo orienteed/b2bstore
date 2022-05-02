@@ -1,0 +1,37 @@
+.courseContentContainerLeft,
+.courseContentContainerRight {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.courseContentContainer {
+    composes: courseContentContainerLeft;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.courseContentIcon {
+    width: 20px;
+}
+
+/* Action icons to open or download files */
+.actionIcons {
+    composes: courseContentIcon;
+    cursor: pointer;
+}
+
+.actionIconsDisabled {
+    composes: courseContentIcon;
+    cursor: not-allowed;
+}
+
+.actionIcons:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.2);
+}
+
+.actionIcons:active {
+    transform: translateY(-1px);
+}

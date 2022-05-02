@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: space-between;
 
+    border-radius: 15px;
     border: 1px solid rgb(var(--venia-global-color-border));
     padding: 10px;
     background-color: transparent;
@@ -35,7 +36,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     padding: 1px 0;
-    height: 62px;
+    height: 56px;
     line-height: normal;
 }
 
@@ -47,7 +48,7 @@
     width: fit-content;
     border-radius: 25px;
 
-    background-color: rgba(31, 57, 255, 0.8);
+    background-color: rgba(var(--orienteed-global-color-orange-op), 0.8);
     color: white;
     font-weight: bold;
 }
@@ -65,7 +66,8 @@
         margin-top: 5px;
     }
 
-    .courseOverlay {
+    .courseOverlay,
+    .courseOverlayInProgress {
         display: none;
         cursor: auto;
     }
@@ -82,6 +84,7 @@
     z-index: 1;
 
     background-color: transparent;
+    border-radius: 15px;
     height: 100%;
     width: 100%;
     cursor: pointer;
@@ -91,8 +94,14 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.subscribeButtonOverla {
+.subscribeButtonOverlay {
     composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    border: 5px solid white;
+    color: white;
+    font-size: 30px;
+    line-height: 1;
+    padding: 20px;
+    width: fit-content;
 }
 
 .courseOverlay .subscribeButtonOverlay {
@@ -101,13 +110,91 @@
 
 .courseOverlay:hover .subscribeButtonOverlay {
     visibility: visible;
+
     position: relative;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-
+    border: 5px solid white;
     color: white;
     font-size: 30px;
-    padding: 10px;
-    border: 5px solid white;
+    line-height: 1;
+    padding: 20px;
+    width: fit-content;
+}
+
+.inProgressIcon {
+    width: 50px;
+    fill: white;
+}
+
+.inProgressTabIcon {
+    visibility: hidden;
+}
+
+.courseOverlay:hover .inProgressTabIcon {
+    visibility: visible;
+    width: 50px;
+    fill: white;
+}
+
+.courseOverlayInProgress {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.subscribeButtonTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+/* Progress Bar */
+.progressBarContainer {
+    width: 100%;
+    padding: 5px 10px;
+    margin-top: -15px;
+}
+
+.progressBar {
+    background-color: white;
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid rgb(var(--venia-global-color-border));
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.progressBarFillContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.progressBarFill {
+    display: block;
+    height: 22px;
+    border-radius: 5px;
+    font-weight: 700;
+    background-color: var(--orienteed-global-color-orange);
+}
+
+.progressBarFillText {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    left: 50%;
+    font-weight: bold;
 }

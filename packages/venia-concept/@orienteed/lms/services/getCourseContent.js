@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const getCourseContent = async id => {
+const getCourseContent = async (id, token = 'af547e6e35fca251a48ff4bedb7f1298') => {
     const data = {
         moodlewsrestformat: 'json',
-        wstoken: 'af547e6e35fca251a48ff4bedb7f1298',
+        wstoken: token,
         wsfunction: 'core_course_get_contents',
         courseid: id
     };

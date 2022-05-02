@@ -36,6 +36,7 @@
     composes: text;
 }
 
+/* CourseContent */
 .container {
     display: grid;
     padding: 1rem;
@@ -134,7 +135,7 @@
 }
 
 .checkIcon {
-    stroke: white !important;
+    width: 16px;
 }
 
 /* Action icons to open or download files */
