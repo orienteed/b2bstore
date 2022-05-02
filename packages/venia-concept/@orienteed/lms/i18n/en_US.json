@@ -1,6 +1,18 @@
 {
-    "lms.watchCourse": "Watch course",
+    "lms.allCourses": "All courses",
+    "lms.allCoursesTitle": "List of our courses online",
     "lms.content": "Content",
-    "lms.notfound": "Content not available",
-    "lms.learning": "Learning"
+    "lms.emptyAllCoursesAdvice": "Oops... Looks like we don't have published any course",
+    "lms.emptyUserCoursesAdvice": "Oops... Looks like you haven't started any course",
+    "lms.enroll": "Enroll",
+    "lms.enrolled": "Enrolled",
+    "lms.general": "General",
+    "lms.inProgressCoursesTitle": "Your courses in progress",
+    "lms.learning": "Learning",
+    "lms.notFound": "Content not available",
+    "lms.progressCourses": "Progress courses",
+    "lms.resumeCourse": "Resume course",
+    "lms.startACourse": "Start a course",
+    "lms.startCoursesAdvice": "You can start a course from the 'All Courses' section",
+    "lms.watchCourse": "Watch course"
 }

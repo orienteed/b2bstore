@@ -1,1 +1,18 @@
-{}
+{
+    "lms.allCourses": "Todos los cursos",
+    "lms.allCoursesTitle": "Lista de nuestros cursos online",
+    "lms.content": "Contenido",
+    "lms.emptyAllCoursesAdvice": "Ups... parece que no hemos publicado ningún curso",
+    "lms.emptyUserCoursesAdvice": "Ups... parece que no has comenzado ningún curso",
+    "lms.enroll": "Inscribirse",
+    "lms.enrolled": "Inscrito",
+    "lms.general": "General",
+    "lms.inProgressCoursesTitle": "Tus cursos en progreso",
+    "lms.learning": "Formación",
+    "lms.notFound": "Contenido no disponible",
+    "lms.progressCourses": "Cursos en progreso",
+    "lms.resumeCourse": "Reanudar curso",
+    "lms.startACourse": "Empezar un curso",
+    "lms.startCoursesAdvice": "Puede comenzar un curso desde la sección 'Todos los cursos'",
+    "lms.watchCourse": "Ver curso"
+}
