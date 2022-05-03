@@ -8,7 +8,7 @@ import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
-import defaultClasses from './forgotPasswordForm.module.css';
+import defaultClasses from '@magento/venia-ui/lib/components/ForgotPassword/ForgotPasswordForm/forgotPasswordForm.module.css';
 
 const ForgotPasswordForm = props => {
     const classes = useStyle(defaultClasses, props.classes);

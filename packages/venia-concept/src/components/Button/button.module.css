@@ -92,7 +92,7 @@
 
 .root_normalPriorityNegative {
     composes: root_normalPriority;
-    --stroke: var(--venia-global-color-red-700);
+    --stroke: var(--b2bStore-fieldInput-border-color-button);
 }
 
 .root_normalPriorityNegative:hover {
