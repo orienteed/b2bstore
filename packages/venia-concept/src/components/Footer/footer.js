@@ -58,36 +58,36 @@ const Footer = props => {
                 <div className={classes.nullDiv} />
                 {linkGroups}
             </div>
-            <div className={classes.branding}>
-                <div className={classes.copyrightContainer}>
+            <main className={classes.branding}>
+                <section className={classes.copyrightContainer}>
                     <div className={classes.logos}>
                         <img src={copyrightLogo} alt="copyrightLogo" />
                     </div>
                     <div>
                         <p>2022 BSB Store</p>
                     </div>
-                </div>
+                </section>
 
                 <div className={classes.socialMediaB2bLogoContainer}>
-                    <div className={classes.socialMediaContainer}>
-                        <div className={classes.logos}>
+                    <ul className={classes.socialMediaContainer}>
+                        <li className={classes.logos}>
                             <img src={facebookLogo} alt="facebookLogo" />
-                        </div>
-                        <div className={classes.logos}>
+                        </li>
+                        <li className={classes.logos}>
                             <img src={instagramLogo} alt="instagramLogo" />
-                        </div>
-                        <div className={classes.logos}>
+                        </li>
+                        <li className={classes.logos}>
                             <img src={youtubeLogo} alt="youtubeLogo" />
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
 
-                    <div className={classes.b2bLogoContainer}>
+                    <section className={classes.b2bLogoContainer}>
                         <Link to={resourceUrl('/')}>
                             <img src={b2bLogo} alt="b2bLogo" />
                         </Link>
-                    </div>
+                    </section>
                 </div>
-            </div>
+            </main>
         </footer>
     );
 };
