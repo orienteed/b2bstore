@@ -16,7 +16,7 @@ export const DATE_FORMAT = {
 };
 
 const QuotesTable = props => {
-    const { quote, handleDeleteQuote, handleCancelQuote, handleDuplicateQuote, handleQuoteToCart } = props;
+    const { quote, handleCancelQuote, handleQuoteToCart } = props;
 
     const { created_at, entity_id, expired_at, quote_currency_code, status, subtotal } = quote;
 
@@ -28,13 +28,12 @@ const QuotesTable = props => {
 
     // Format Date
     const createdAt = new Date(created_at).toLocaleDateString(undefined, DATE_FORMAT);
-    const expiredAt = () => {
-        if (expired_at == undefined || expired_at == null || expired_at == '') {
-            return null;
-        }
-
-        return new Date(expired_at).toLocaleDateString(undefined, DATE_FORMAT);
-    };
+    let expiredAt;
+    if (expired_at == undefined || expired_at == null || expired_at == '') {
+        expiredAt = null;
+    } else {
+        expiredAt = new Date(expired_at).toLocaleDateString(undefined, DATE_FORMAT);
+    }
 
     const entityId = useMemo(() => {
         var length = 10;
@@ -58,31 +57,12 @@ const QuotesTable = props => {
                     <FormattedMessage id={'quotesTable.quotesAddtocartText'} defaultMessage={'Add To Cart'} />
                 </button>
             )}
-            {/* <button
-                className={classes.quotesLinkDuplicate}
-                type="button"
-                onClick={handleDuplicateQuote}
-            >
-                <FormattedMessage
-                    id={'quotesTable.quotesDuplicateText'}
-                    defaultMessage={'Duplicate'}
-                />
-            </button> */}
+
             {status !== 'cancel' && (
                 <button className={classes.quotesLinkCancel} type="button" onClick={handleCancelQuote}>
                     <FormattedMessage id={'quotesTable.quotesCancelText'} defaultMessage={'Cancel'} />
                 </button>
             )}
-            {/* <button
-                className={classes.quotesLinkDelete}
-                type="button"
-                onClick={handleDeleteQuote}
-            >
-                <FormattedMessage
-                    id={'quotesTable.quotesDeleteText'}
-                    defaultMessage={'Delete'}
-                />
-            </button> */}
         </div>
     );
 
@@ -119,7 +99,7 @@ const QuotesTable = props => {
                     <FormattedMessage id={'quotesTable.quotesStatusText'} defaultMessage={'Status'} />
                 </span>
                 <span className={classes.quotesStatusValue}>
-                    <FormattedMessage id={'quotesTable.quotesStatusValue'} defaultMessage={status} />
+                    <FormattedMessage id={`quotesTable.quotesStatusValue.${status}`} defaultMessage={status} />
                 </span>
             </div>
             <div className={classes.quotesAction}>{quotesTableAction}</div>
