@@ -41,10 +41,7 @@ const AddProductByCsv = props => {
                         icon: classes.loadFileIcon
                     }}
                 /> */}
-                <FormattedMessage
-                    id={'AddProductByCsv.orderUsingCSV'} // TODO_B2B - Translations
-                    defaultMessage={'CSV ORDER'}
-                />
+                <FormattedMessage id={'AddProductByCsv.orderUsingCSV'} defaultMessage={'CSV ORDER'} />
             </Button>
             <AddProductErrorPopup
                 isOpen={isCsvDialogOpen}
