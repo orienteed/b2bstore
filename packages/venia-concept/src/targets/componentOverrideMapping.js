@@ -101,5 +101,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/SavedPaymentsPage/savedPaymentsPage.module.css`]: './src/components/SavedPaymentsPage/savedPaymentsPage.module.css',
     [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.module.css`]: './src/components/CommunicationsPage/communicationsPage.module.css',
     [`@magento/venia-ui/lib/components/TextArea/textArea.module.css`]: './src/components/TextArea/textArea.module.css',
-    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.js`]: './src/components/CommunicationsPage/communicationsPage.js'
+    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.js`]: './src/components/CommunicationsPage/communicationsPage.js',
+    // New overwrites3
+    [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.module.css`]: './src/components/AddToCartDialog/addToCartDialog.module.css'
 };
