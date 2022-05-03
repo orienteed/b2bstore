@@ -1,16 +1,16 @@
 {
-    "About Us": "Sobre nosotros",
+    "footer.About Us": "Sobre nosotros",
     "Account": "Cuenta",
-    "Contact": "Contáctanos",
+    "footer.Contact": "Contáctanos",
     "Customer Service": "Servicio al Cliente",
     "Email Signup": "Inscribirse mediante correo electrónico",
     "Give Back": "Devolver",
-    "Help": "Ayuda",
+    "foote.Help": "Ayuda",
     "Live Chat": "Chat en directo",
     "Order Status": "Estado del pedido",
     "Our Story": "Nuestra historia",
     "Register": "Registrar",
-    "Returns": "Devoluciones",
+    "footer.Returns": "Devoluciones",
     "Sign In": "Iniciar sesión",
     "accountChip.chipText": "Hola, {name}",
     "accountInformationPage.accountInformation": "Información de la cuenta",
@@ -732,6 +732,6 @@
     "Privacy Policy": "Política de privacidad",
     "Cookies": "Cookies",
     "Personal Data Request": "Solicitud de datos personales",
-    "personalDataTreatment": "el tratamiento de datos personales.",
-    "accept": "Acepto"
+    "footer.personalDataTreatment": "el tratamiento de datos personales.",
+    "footer.accept": "Acepto"
 }

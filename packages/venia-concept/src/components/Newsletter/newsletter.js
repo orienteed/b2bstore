@@ -9,14 +9,12 @@ import { useToasts } from '@magento/peregrine';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import CustomLinkButton from '@orienteed/customComponents/components/CustomLinkButton';
 import Shimmer from '@magento/venia-ui/lib/components/Newsletter/newsletter.shimmer';
 import defaultClasses from '@magento/venia-ui/lib/components/Newsletter/newsletter.module.css';
-import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 import CustomCheckbox from '@orienteed/customComponents/components/CustomCheckbox';
 
 const Newsletter = props => {
@@ -65,7 +63,7 @@ const Newsletter = props => {
     ) : null;
 
     const personalDataTreatment = formatMessage({
-        id: 'personalDataTreatment',
+        id: 'footer.personalDataTreatment',
         defaultMessage: 'I accept the personal data treatment.'
     });
 
@@ -92,19 +90,12 @@ const Newsletter = props => {
 
                 <CustomLinkButton
                     data-cy="Newsletter-submitButton"
-                    // className={classes.subscribe_link}
                     type="submit"
                     disabled={isBusy}
                     onClick={clearErrors}
                 >
                     <FormattedMessage id={'newsletter.subscribeText'} defaultMessage={'Sign up for newsletter'} />
                 </CustomLinkButton>
-
-                {/* <div className={classes.buttonsContainer}>
-                    <Button priority="normal" type="submit" disabled={isBusy} onClick={clearErrors}>
-                        <FormattedMessage id={'newsletter.subscribeText'} defaultMessage={'Subscribe'} />
-                    </Button>
-                </div> */}
                 <div className={classes.checkbox}>
                     <CustomCheckbox field="data_treatment" label={personalDataTreatment} validate={isRequired} />
                 </div>

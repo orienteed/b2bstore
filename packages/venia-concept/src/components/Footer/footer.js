@@ -2,12 +2,10 @@ import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { shape, string } from 'prop-types';
-import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
-
 import Newsletter from '@magento/venia-ui/lib/components/Newsletter';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
-import { DEFAULT_LINKS, LOREM_IPSUM } from '@magento/venia-ui/lib/components/Footer/sampleData';
+import { DEFAULT_LINKS } from '@magento/venia-ui/lib/components/Footer/sampleData';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import copyrightLogo from './assets/copyright.svg';
 import facebookLogo from './assets/facebook.svg';
@@ -18,9 +16,6 @@ import b2bLogo from '../Logo/B2Blogo.svg';
 const Footer = props => {
     const { links } = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const talonProps = useFooter();
-
-    const { copyrightText } = talonProps;
 
     const linkGroups = Array.from(links, ([groupKey, linkProps]) => {
         const linkElements = Array.from(linkProps, ([text, pathInfo]) => {
@@ -34,11 +29,11 @@ const Footer = props => {
             const itemKey = `text: ${text} path:${path}`;
             const child = path ? (
                 <Link data-cy="Footer-link" className={classes.link} to={path}>
-                    <FormattedMessage id={text} defaultMessage={text} />
+                    <FormattedMessage id={`footer.${text}`} defaultMessage={text} />
                 </Link>
             ) : (
                 <span data-cy="Footer-label" className={classes.label}>
-                    <FormattedMessage id={text} defaultMessage={text} />
+                    <FormattedMessage id={`footer.${text}`} defaultMessage={text} />
                 </span>
             );
 

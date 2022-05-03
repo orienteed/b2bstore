@@ -28,9 +28,9 @@ const CustomCheckbox = props => {
         }
     }, [fieldApi, fieldState.value, fieldValue]);
 
-    const accept = <FormattedMessage id={'accept'} defaultMessage={`I accept `} />;
+    const accept = <FormattedMessage id={'footer.accept'} defaultMessage={`I accept `} />;
     const dataPolitics = (
-        <FormattedMessage id={'personalDataTreatment'} defaultMessage={`the personal data treatment.`} />
+        <FormattedMessage id={'footer.personalDataTreatment'} defaultMessage={`the personal data treatment.`} />
     );
 
     return (

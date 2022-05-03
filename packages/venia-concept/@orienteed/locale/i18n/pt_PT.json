@@ -1,16 +1,16 @@
 {
-    "About Us": "Sobre nós",
+    "footer.About Us": "Sobre nós",
     "Account": "Conta",
-    "Contact": "Contacte-nos",
+    "footer.Contact": "Contacte-nos",
     "Customer Service": "Atendimento ao Cliente",
     "Email Signup": "Entrar com Email",
     "Give Back": "Devolver",
-    "Help": "Ajdua",
+    "footer.Help": "Ajdua",
     "Live Chat": "Chat",
     "Order Status": "Estado da encomenda",
     "Our Story": "A nossa historia",
     "Register": "Registar",
-    "Returns": "Volta",
+    "footer.Returns": "Volta",
     "Sign In": "Entrar",
     "accountChip.chipText": "Olá, {name}",
     "accountInformationPage.accountInformation": "Informação de conta",
@@ -732,6 +732,6 @@
     "Privacy Policy": "Política de Privacidade",
     "Cookies": "Cookies",
     "Personal Data Request": "Solicitação de dados pessoais",
-    "personalDataTreatment": "o tratamento de dados pessoais.",
-    "accept": "Eu aceito"
+    "footer.personalDataTreatment": "o tratamento de dados pessoais.",
+    "footer.accept": "Eu aceito"
 }

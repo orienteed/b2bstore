@@ -1,16 +1,16 @@
 {
-    "About Us": "À propos de nous",
+    "footer.About Us": "À propos de nous",
     "Account": "Compte",
-    "Contact": "Nous contacter",
+    "footer.Contact": "Nous contacter",
     "Customer Service": "Service Clients",
     "Email Signup": "Inscription par courriel",
     "Give Back": "Redonner",
-    "Help": "Aidez-moi",
+    "footer.Help": "Aidez-moi",
     "Live Chat": "Chat en direct",
     "Order Status": "Statut de la commande",
     "Our Story": "Notre histoire",
     "Register": "S'inscrire",
-    "Returns": "Retour",
+    "footer.Returns": "Retour",
     "Sign In": "Se connecter",
     "accountChip.chipText": "Bonjour, {name}",
     "accountInformationPage.accountInformation": "Informations sur le compte",
@@ -731,6 +731,6 @@
     "Privacy Policy": "Politique de confidentialité",
     "Cookies": "Cookies",
     "Personal Data Request": "Demande de données personnelles",
-    "personalDataTreatment": "le traitement des données personnelles.",
-    "accept": "J'accepte"
+    "footer.personalDataTreatment": "le traitement des données personnelles.",
+    "footer.accept": "J'accepte"
 }
