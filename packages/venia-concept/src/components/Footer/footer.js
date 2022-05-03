@@ -68,7 +68,7 @@ const Footer = props => {
                     </div>
                 </section>
 
-                <div className={classes.socialMediaB2bLogoContainer}>
+                <section className={classes.socialMediaB2bLogoContainer}>
                     <ul className={classes.socialMediaContainer}>
                         <li className={classes.logos}>
                             <img src={facebookLogo} alt="facebookLogo" />
@@ -81,12 +81,12 @@ const Footer = props => {
                         </li>
                     </ul>
 
-                    <section className={classes.b2bLogoContainer}>
+                    <div className={classes.b2bLogoContainer}>
                         <Link to={resourceUrl('/')}>
                             <img src={b2bLogo} alt="b2bLogo" />
                         </Link>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </main>
         </footer>
     );
