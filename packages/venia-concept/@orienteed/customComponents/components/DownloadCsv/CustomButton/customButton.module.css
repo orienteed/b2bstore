@@ -3,7 +3,6 @@
     --stroke: var(--venia-brand-color-1-700);
     background: none;
     border-color: var(--orienteed-global-color-orange);
-    /* border-radius: 10rem; */
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-style: solid;
@@ -80,6 +79,11 @@
     background-color: var(--orienteed-global-color-orange);
     color: rgb(var(--venia-global-color-gray-50));
 }
+
+.root_highPriority:hover {
+    background-color: var(--b2bStore-background-color-hover-button);
+}
+
 .root_highPriorityNegative {
     composes: root_highPriority;
     --stroke: var(--venia-global-color-red-700);

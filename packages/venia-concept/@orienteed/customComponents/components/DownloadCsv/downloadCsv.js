@@ -25,7 +25,6 @@ const DownloadCsv = () => {
     // }, [handleFullCatalog]);
 
     // console.log('downloadCsv', data);
-    console.log('Provider', galleryItem);
     const sortProps1 = useSortCatalog();
 
     let flatData;
