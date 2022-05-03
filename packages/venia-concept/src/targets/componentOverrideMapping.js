@@ -1,21 +1,22 @@
 module.exports = componentOverrideMapping = {
     //JS
     [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
-    [`@magento/venia-ui/lib/RootComponents/Category/categoryContent.js`]: './src/RootComponents/Category/categoryContent.js',
     [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
     [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.js`]: './src/components/ProductListing/quantity.js',
     [`@magento/venia-ui/lib/components/CartPage/cartPage.js`]: './src/components/CartPage/cartPage.js',
+    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.js`]: './src/components/CommunicationsPage/communicationsPage.js',
     [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.js`]: './src/components/CreateAccountPage/createAccountPage.js',
     [`@magento/venia-ui/lib/components/ErrorView/errorView.js`]: './src/components/ErrorView/errorView.js',
+    [`@magento/venia-ui/lib/components/Footer/footer.js`]: './src/components/Footer/footer.js',
     [`@magento/venia-ui/lib/components/Footer/sampleData.js`]: './src/components/Footer/sampleData.js',
     [`@magento/venia-ui/lib/components/Gallery/gallery.js`]: './src/components/Gallery/gallery.js',
-
-    // [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
+    [`@magento/venia-ui/lib/components/Gallery/item.js`]: './src/components/Gallery/item.js',
     [`@magento/venia-ui/lib/components/Header/header.js`]: './src/components/Header',
     [`@magento/venia-ui/lib/components/Logo/logo.js`]: './src/components/Logo/logo.js',
     [`@magento/venia-ui/lib/components/MiniCart/miniCart.js`]: './src/components/MiniCart/miniCart.js',
+    [`@magento/venia-ui/lib/components/Newsletter/newsletter.js`]: './src/components/Newsletter/newsletter.js',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/collapsedImageGallery.js`]: './src/components/OrderHistoryPage/collapsedImageGallery.js',
     [`@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.js`]: './src/components/ProductFullDetail/productFullDetail.js',
     [`@magento/venia-ui/lib/components/ProductOptions/options.js`]: './src/components/ProductOptions/options.js',
@@ -25,7 +26,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/SignIn/signIn.js`]: './src/components/SignIn/signIn.js',
     [`@magento/venia-ui/lib/components/SignInPage/signInPage.js`]: './src/components/SignInPage/signInPage.js',
     [`@magento/venia-ui/lib/components/TextInput/textInput.js`]: './src/components/TextInput/textInput.js',
-
     // [`@orienteed/buyLaterNotes/components/SavedCarts/savedCartsTable.js`]: './src/components/SavedCarts/savedCartsTable.js', // replace directly,
 
     //TALONS
@@ -51,6 +51,7 @@ module.exports = componentOverrideMapping = {
     //CSS
     [`@magento/venia-ui/lib/RootComponents/Category/category.module.css`]: './src/RootComponents/Category/category.module.css',
     [`@magento/venia-ui/lib/components/AccountInformationPage/accountInformationPage.module.css`]: './src/components/AccountInformationPage/accountInformationPage.module.css',
+    [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.module.css`]: './src/components/AddToCartDialog/addToCartDialog.module.css',
     [`@magento/venia-ui/lib/components/AddressBookPage/addressBookPage.module.css`]: './src/components/AddressBookPage/addressBookPage.module.css',
     [`@magento/venia-ui/lib/components/AddressBookPage/addressCard.module.css`]: './src/components/AddressBookPage/addressCard.module.css',
     [`@magento/venia-ui/lib/components/Button/button.module.css`]: './src/components/Button/button.module.css',
@@ -63,7 +64,11 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CheckoutPage/ShippingInformation/shippingInformation.module.css`]: './src/components/CheckoutPage/ShippingInformation/shippingInformation.module.css',
     [`@magento/venia-ui/lib/components/CheckoutPage/ShippingMethod/completedView.module.css`]: './src/components/CheckoutPage/ShippingMethod/completedView.module.css',
     [`@magento/venia-ui/lib/components/CheckoutPage/checkoutPage.module.css`]: './src/components/CheckoutPage/checkoutPage.module.css',
+    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.module.css`]: './src/components/CommunicationsPage/communicationsPage.module.css',
     [`@magento/venia-ui/lib/components/Dialog/dialog.module.css`]: './src/components/Dialog/dialog.module.css',
+    [`@magento/venia-ui/lib/components/Field/field.module.css`]: './src/components/Field/field.module.css',
+    [`@magento/venia-ui/lib/components/Field/message.module.css`]: './src/components/Field/message.module.css',
+    [`@magento/venia-ui/lib/components/Footer/footer.module.css`]: './src/components/Footer/footer.module.css',
     [`@magento/venia-ui/lib/components/Gallery/addToCartButton.module.css`]: './src/components/Gallery/addToCartButton.module.css',
     [`@magento/venia-ui/lib/components/Gallery/item.module.css`]: './src/components/Gallery/item.module.css',
     [`@magento/venia-ui/lib/components/Header/accountTrigger.module.css`]: './src/components/Header/accountTrigger.module.css',
@@ -71,6 +76,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Header/header.module.css`]: './src/components/Header/header.module.css',
     [`@magento/venia-ui/lib/components/LinkButton/linkButton.module.css`]: './src/components/LinkButton/linkButton.module.css',
     [`@magento/venia-ui/lib/components/MiniCart/miniCart.module.css`]: './src/components/MiniCart/miniCart.module.css',
+    [`@magento/venia-ui/lib/components/Newsletter/newsletter.module.css`]: './src/components/Newsletter/newsletter.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/orderHistoryPage.module.css`]: './src/components/OrderHistoryPage/orderHistoryPage.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/orderProgressBar.module.css`]: './src/components/OrderHistoryPage/orderProgressBar.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/orderRow.module.css`]: './src/components/OrderHistoryPage/orderRow.module.css',
@@ -79,29 +85,15 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/ProductOptions/tile.module.css`]: './src/components/ProductOptions/tile.module.css',
     [`@magento/venia-ui/lib/components/ProductOptions/tileList.module.css`]: './src/components/ProductOptions/tileList.module.css',
     [`@magento/venia-ui/lib/components/RadioGroup/radio.module.css`]: './src/components/RadioGroup/radio.module.css',
+    [`@magento/venia-ui/lib/components/SavedPaymentsPage/savedPaymentsPage.module.css`]: './src/components/SavedPaymentsPage/savedPaymentsPage.module.css',
     [`@magento/venia-ui/lib/components/SearchPage/searchPage.module.css`]: './src/components/SearchPage/searchPage.module.css',
+    [`@magento/venia-ui/lib/components/Select/select.module.css`]: './src/components/Select/select.module.css',
+    [`@magento/venia-ui/lib/components/TextArea/textArea.module.css`]: './src/components/TextArea/textArea.module.css',
+    [`@magento/venia-ui/lib/components/TextInput/textInput.module.css`]: './src/components/TextInput/textInput.module.css',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.module.css`]: './src/components/WishlistPage/wishlistItem.module.css',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistPage.module.css`]: './src/components/WishlistPage/wishlistPage.module.css',
     [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
     [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css', // replace directly
-    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css', // replace directly
-
-    // New overwrites
-    [`@magento/venia-ui/lib/components/Footer/footer.module.css`]: './src/components/Footer/footer.module.css',
-    [`@magento/venia-ui/lib/components/Newsletter/newsletter.module.css`]: './src/components/Newsletter/newsletter.module.css',
-    [`@magento/venia-ui/lib/components/Footer/footer.js`]: './src/components/Footer/footer.js',
-    [`@magento/venia-ui/lib/components/Newsletter/newsletter.js`]: './src/components/Newsletter/newsletter.js',
-    [`@magento/venia-ui/lib/components/Field/field.module.css`]: './src/components/Field/field.module.css',
-    [`@magento/venia-ui/lib/components/Field/message.module.css`]: './src/components/Field/message.module.css',
-
-    // New overwrites2
-    [`@magento/venia-ui/lib/components/TextInput/textInput.module.css`]: './src/components/TextInput/textInput.module.css',
-    [`@magento/venia-ui/lib/components/WishlistPage/wishlistPage.module.css`]: './src/components/WishlistPage/wishlistPage.module.css',
-    [`@magento/venia-ui/lib/components/Select/select.module.css`]: './src/components/Select/select.module.css',
-    [`@magento/venia-ui/lib/components/SavedPaymentsPage/savedPaymentsPage.module.css`]: './src/components/SavedPaymentsPage/savedPaymentsPage.module.css',
-    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.module.css`]: './src/components/CommunicationsPage/communicationsPage.module.css',
-    [`@magento/venia-ui/lib/components/TextArea/textArea.module.css`]: './src/components/TextArea/textArea.module.css',
-    [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.js`]: './src/components/CommunicationsPage/communicationsPage.js',
-    // New overwrites3
-    [`@magento/venia-ui/lib/components/AddToCartDialog/addToCartDialog.module.css`]: './src/components/AddToCartDialog/addToCartDialog.module.css'
+    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css' // replace directly
 };
