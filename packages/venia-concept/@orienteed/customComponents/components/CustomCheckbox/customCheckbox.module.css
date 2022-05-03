@@ -60,11 +60,12 @@
 }
 .container {
     display: flex;
-    justify-content: space-between;
-    width: 260px;
     font-size: var(--b2bStore-footer-text-font-size);
-    color: var(--orienteed-primary-color-base1);
 }
-.dataPolitics {
+.dataPoliticsContainer {
     margin-top: 1.5px;
+    margin-left: 30px;
+}
+.dataPoliticsContainer .dataPolitics {
+    color: var(--orienteed-primary-color-base1);
 }

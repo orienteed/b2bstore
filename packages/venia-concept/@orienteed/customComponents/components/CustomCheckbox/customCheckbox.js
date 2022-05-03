@@ -36,15 +36,17 @@ const CustomCheckbox = props => {
     return (
         <Fragment>
             <div className={classes.container}>
-                <div>
+                <div className={classes.iconContainer}>
                     <label data-cy="Checkbox-label" aria-label={ariaLabel} className={classes.root} htmlFor={id}>
                         <InformedCheckbox {...rest} className={classes.input} field={field} id={id} />
                         <span className={classes.icon}>{icon}</span>
-                        <span className={classes.label}>{accept}</span>
                     </label>
                 </div>
-                <div className={classes.dataPolitics}>
-                    <Link to="/">{dataPolitics}</Link>
+                <div className={classes.dataPoliticsContainer}>
+                    <span className={classes.label}>{accept} </span>
+                    <Link to="/">
+                        <span className={classes.dataPolitics}>{dataPolitics}</span>
+                    </Link>
                 </div>
             </div>
             <Message fieldState={fieldState}>{message}</Message>
