@@ -15,12 +15,12 @@ module.exports = targets => {
             {
                 name: 'Courses',
                 pattern: '/learning',
-                path: '@orienteed/lms/src/components/CoursesCatalog'
+                path: '@orienteed/lms/src/components/LearningRoute'
             },
             {
                 name: 'Course',
                 pattern: '/course',
-                path: '@orienteed/lms/src/components/CourseContent'
+                path: '@orienteed/lms/src/components/LearningRoute'
             }
         );
         return routes;
