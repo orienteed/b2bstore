@@ -156,14 +156,7 @@
 
 @media (max-width: 960px) {
     .branding {
-        gap: 1rem;
-        grid-auto-flow: row;
-        grid-template-areas: 'c' 'b' 'a';
-        grid-template-columns: auto;
-        height: auto;
-        justify-items: center;
-        padding: 2.5rem 2rem 4rem;
-        text-align: center;
+        padding: 0px 22px 0px 22px;
     }
 }
 
@@ -194,5 +187,11 @@
 @media (max-width: 960px) {
     .logo {
         margin-top: 2.5rem;
+    }
+}
+@media (max-width: 414px) {
+    .branding {
+        padding: 0px 22px 0px 22px;
+        flex-direction: column;
     }
 }
