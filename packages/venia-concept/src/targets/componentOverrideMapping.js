@@ -103,6 +103,4 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.module.css`]: './src/components/CreateAccountPage/createAccountPage.module.css',
     //new overwrite
     [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js'
-    //new overwrite     packages/venia-ui/venia-static/favicon.ico
-    // [`@magento/venia-ui/venia-static/favicon.ico`]: './src/components/Assets/logo.ico'
 };
