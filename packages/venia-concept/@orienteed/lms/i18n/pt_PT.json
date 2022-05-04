@@ -1,7 +1,9 @@
 {
     "lms.allCourses": "Todos os cursos",
     "lms.allCoursesTitle": "Lista de nossos cursos online",
+    "lms.browserIncompatibility": "Este conteúdo não está disponível para este navegador.",
     "lms.content": "Contente",
+    "lms.download": "Baixar",
     "lms.emptyAllCoursesAdvice": "Opa... parece que não publicamos nenhum curso",
     "lms.emptyUserCoursesAdvice": "Opa... parece que você não começou nenhum curso",
     "lms.enroll": "Matricular",
@@ -10,6 +12,7 @@
     "lms.inProgressCoursesTitle": "Seus cursos em andamento",
     "lms.learning": "Aprendendo",
     "lms.notFound": "Conteúdo não disponível",
+    "lms.open": "Aberto",
     "lms.progressCourses": "Cursos de progresso",
     "lms.resumeCourse": "Currículo de currículo",
     "lms.startACourse": "Comece um curso",
