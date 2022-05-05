@@ -35,3 +35,15 @@
 .actionIcons:active {
     transform: translateY(-1px);
 }
+
+.popup {
+    width: 100%;
+    height: 500px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: white;
+}
+
+body {background-color:transparent;}
+iframe {background-color:transparent;}

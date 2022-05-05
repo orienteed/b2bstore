@@ -36,7 +36,10 @@ const Header = props => {
     const searchBarFallback = (
         <div className={classes.searchFallback} ref={searchRef}>
             <div className={classes.input}>
-                <div className={classes.loader} />
+                <div className={classes.loader}>
+                    <div className={classes.loaderBefore} />
+                    <div className={classes.loaderAfter} />
+                </div>
             </div>
         </div>
     );
@@ -68,6 +71,7 @@ const Header = props => {
                     <Link
                         to={resourceUrl('/')}
                         className={classes.logoContainer}
+                        data-cy="Header-logoContainer"
                     >
                         <Logo classes={{ logo: classes.logo }} />
                     </Link>

@@ -33,10 +33,10 @@ RUN yarn run build
 FROM node:14.18.1-alpine
 # working directory
 WORKDIR /usr/src/app
-# copy build from previous stage
-COPY --from=build /usr/src/app .
 # node:alpine comes with a configured user and group
 RUN chown -R node:node /usr/src/app
+# copy build from previous stage
+COPY --from=build /usr/src/app .
 USER node
 # command to run application
 CMD [ "yarn", "workspace", "@magento/venia-concept", "run", "watch"]

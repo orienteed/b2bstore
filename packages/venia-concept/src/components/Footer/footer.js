@@ -64,7 +64,7 @@ const Footer = props => {
                         <img src={copyrightLogo} alt="copyrightLogo" />
                     </div>
                     <div>
-                        <p>2022 BSB Store</p>
+                        <p>2022 B2B Store</p>
                     </div>
                 </section>
 

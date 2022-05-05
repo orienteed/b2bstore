@@ -1,12 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation, useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Button from '@magento/venia-ui/lib/components/Button';
 import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
 
 import defaultClasses from './courseContent.module.css';
@@ -18,15 +17,8 @@ import { useCourseContent } from '../../talons/useCourseContent';
 const DELIMITER = '/';
 
 const CourseContent = props => {
+    const { courseId } = props;
     const classes = useStyle(defaultClasses, props.classes);
-
-    const history = useHistory();
-    const { search } = useLocation();
-    const [{ isSignedIn }] = useUserContext();
-    const courseId = new URLSearchParams(search).get('id');
-    if (!isSignedIn) {
-        history.push('/');
-    }
 
     const { userMoodleId, userMoodleToken, userCoursesIdList } = useCoursesCatalog();
     const { courseDetails, courseContent, enrolled, handleEnrollInCourse } = useCourseContent({

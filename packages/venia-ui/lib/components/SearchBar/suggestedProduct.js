@@ -12,7 +12,15 @@ const IMAGE_WIDTH = 60;
 
 const SuggestedProduct = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { url_key, small_image, name, onNavigate, price, url_suffix } = props;
+    const {
+        url_key,
+        small_image,
+        name,
+        onNavigate,
+        price,
+        price_range,
+        url_suffix
+    } = props;
 
     const handleClick = useCallback(() => {
         if (typeof onNavigate === 'function') {
@@ -24,6 +32,16 @@ const SuggestedProduct = props => {
         url_key,
         url_suffix
     ]);
+
+    // fall back to deprecated field if price range is unavailable
+    const priceProps = {
+        currencyCode:
+            price_range?.maximum_price?.final_price?.currency ||
+            price.regularPrice.amount.currency,
+        value:
+            price_range?.maximum_price?.final_price?.value ||
+            price.regularPrice.amount.value
+    };
 
     return (
         <Link
@@ -37,13 +55,11 @@ const SuggestedProduct = props => {
                 classes={{ image: classes.thumbnail, root: classes.image }}
                 resource={small_image}
                 width={IMAGE_WIDTH}
+                data-cy="SuggestedProduct-image"
             />
             <span className={classes.name}>{name}</span>
             <span data-cy="SuggestedProduct-price" className={classes.price}>
-                <Price
-                    currencyCode={price.regularPrice.amount.currency}
-                    value={price.regularPrice.amount.value}
-                />
+                <Price {...priceProps} />
             </span>
         </Link>
     );
@@ -62,6 +78,14 @@ SuggestedProduct.propTypes = {
             })
         })
     }).isRequired,
+    price_range: shape({
+        maximum_price: shape({
+            final_price: shape({
+                currency: string,
+                value: number
+            })
+        })
+    }),
     classes: shape({
         root: string,
         image: string,

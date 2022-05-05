@@ -1,5 +1,6 @@
+/* TODO */
 .quantityRoot {
-    composes: root from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+    /* composes: root from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css'; */
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }
@@ -171,7 +172,9 @@
     margin: 10px 0px;
 }
 
-.productItemBodyInformation > .productItemBodyInformationRow + .productItemBodyInformationRow {
+.productItemBodyInformation
+    > .productItemBodyInformationRow
+    + .productItemBodyInformationRow {
     border-top: 1px solid rgb(var(--venia-global-color-border));
 }
 

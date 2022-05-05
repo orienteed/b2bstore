@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import ContentDialog from '../ContentDialog/contentDialog';
+
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
 import { useCourseModuleContent } from '../../talons/useCourseModuleContent';
@@ -26,19 +28,33 @@ const CourseModuleContent = props => {
     const { courseModule, isEnrolled } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
-    const { userMoodleId } = useCoursesCatalog();
-    const { isDone, setIsDone } = useCourseModuleContent({ completiondata: courseModule.completiondata });
+    const { userMoodleId, userMoodleToken } = useCoursesCatalog();
+    const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
+        completiondata: courseModule.completiondata
+    });
+
+    const handleOpenPopUp = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleClosePopUp = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleDownload = () => {
+        fetch(`${courseModule.contents[0].fileurl}&token=${userMoodleToken}`)
+            .then(response => response.blob())
+            .then(blob => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = courseModule.contents[0].filename;
+                link.click();
+            })
+            .catch(console.error);
+    };
 
     const handleMarkAsDone = () => {
         markAsDone(userMoodleId, courseModule.id).then(reply => (reply ? setIsDone(true) : null));
-    };
-
-    const handleOpenPopUp = url => {
-        console.log(`Opening ${url}`);
-    };
-
-    const handleDownload = url => {
-        console.log(`Downloading ${url}`);
     };
 
     const selectIcon = contentFile => {
@@ -82,20 +98,10 @@ const CourseModuleContent = props => {
                 case 'file':
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <button
-                                className={classes.actionIcons}
-                                onClick={() =>
-                                    handleOpenPopUp(`${contentFile.fileurl}&token=af547e6e35fca251a48ff4bedb7f1298`)
-                                }
-                            >
+                            <button className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
                                 <img src={viewIcon} alt="View" />
                             </button>
-                            <button
-                                className={classes.actionIcons}
-                                onClick={() =>
-                                    handleDownload(`${contentFile.fileurl}&token=af547e6e35fca251a48ff4bedb7f1298`)
-                                }
-                            >
+                            <button className={classes.actionIcons} onClick={() => handleDownload()}>
                                 <img src={downloadIcon} alt="Download" />
                             </button>
                             {markAsDoneButton()}
@@ -104,12 +110,9 @@ const CourseModuleContent = props => {
                 case 'url': {
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <button
-                                className={classes.actionIcons}
-                                onClick={() => handleOpenPopUp(contentFile.fileurl)}
-                            >
+                            <a className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
                                 <img src={viewIcon} alt="Visit" />
-                            </button>
+                            </a>
                             {markAsDoneButton()}
                         </div>
                     );
@@ -134,6 +137,14 @@ const CourseModuleContent = props => {
                         )}
                     </div>
                     {actionContentButtons(courseModule.contents[0])}
+                    <ContentDialog
+                    dialogName = {courseModule.name}
+                        url={`${courseModule.contents[0].fileurl}&token=${userMoodleToken}`}
+                        contentFile={courseModule.contents[0]}
+                        isModalOpen={isModalOpen}
+                        handleClosePopUp={handleClosePopUp}
+                        handleDownload={handleDownload}
+                    />
                 </>
             ) : (
                 <div className={classes.courseContentContainerLeft}>

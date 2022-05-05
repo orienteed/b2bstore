@@ -32,7 +32,7 @@ const CourseItem = props => {
     });
 
     const handleGoToCourse = () => {
-        history.push(`/course?id=${data.id}`);
+        history.push(`/course/${data.id}`);
     };
 
     const overlayEffect = isProgressTab ? (
