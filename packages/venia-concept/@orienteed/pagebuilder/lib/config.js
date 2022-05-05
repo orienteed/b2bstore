@@ -121,7 +121,7 @@ const contentTypesConfig = {
     // We refer here to the name that is used in the Magento backend
     Quote_Custom: {
         configAggregator: courseSliderConfigAggregator,
-        component: React.lazy(() => import('@orienteed/pagebuilder/lib/ContentTypes/CourseSlider')),
+        component: React.lazy(() => import('@orienteed/pagebuilder/lib/ContentTypes/CourseSlider'))
     }
 };
 
