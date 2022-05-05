@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import ContentDialog from '../ContentDialog/contentDialog';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
 import { useCourseModuleContent } from '../../talons/useCourseModuleContent';
 
 import defaultClasses from './courseModuleContent.module.css';
@@ -25,10 +24,8 @@ import videoIcon from './Icons/video.svg';
 import viewIcon from './Icons/view.svg';
 
 const CourseModuleContent = props => {
-    const { courseModule, isEnrolled } = props;
+    const { courseModule, isEnrolled, userMoodleId, userMoodleToken } = props;
     const classes = useStyle(defaultClasses, props.classes);
-
-    const { userMoodleId, userMoodleToken } = useCoursesCatalog();
     const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
         completiondata: courseModule.completiondata
     });
@@ -138,7 +135,7 @@ const CourseModuleContent = props => {
                     </div>
                     {actionContentButtons(courseModule.contents[0])}
                     <ContentDialog
-                    dialogName = {courseModule.name}
+                        dialogName={courseModule.name}
                         url={`${courseModule.contents[0].fileurl}&token=${userMoodleToken}`}
                         contentFile={courseModule.contents[0]}
                         isModalOpen={isModalOpen}

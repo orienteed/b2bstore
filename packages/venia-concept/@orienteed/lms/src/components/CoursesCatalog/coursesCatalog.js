@@ -7,25 +7,21 @@ import Button from '@magento/venia-ui/lib/components/Button';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 
 import CourseItem from '../CourseItem/courseItem';
-import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
 import defaultClasses from './coursesCatalog.module.css';
 import noCoursesImage from './Icons/noCourses.svg';
 
 const DELIMITER = '/';
 
 const CoursesCatalog = props => {
+    const { buttonSelected, setSelectedButton, courses, userCourses, userCoursesIdList } = props;
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
-
-    const talonProps = useCoursesCatalog();
-    const { buttonSelected, setSelectedButton, courses, userCourses, userCoursesIdList } = talonProps;
 
     const allCoursesTitle = formatMessage({ id: 'lms.allCoursesTitle', defaultMessage: 'List of our courses online' });
     const inProgressCoursesTitle = formatMessage({
         id: 'lms.inProgressCoursesTitle',
         defaultMessage: 'Your courses in progress'
     });
-    // const learningTitle = formatMessage({ id: 'lms.learning', defaultMessage: 'Learning' });
     const learningTitle = 'Learning';
 
     const handleGoToInProgress = () => {

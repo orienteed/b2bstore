@@ -6,21 +6,19 @@ import Button from '@magento/venia-ui/lib/components/Button';
 import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
+import { useCourseContent } from '../../talons/useCourseContent';
 
 import defaultClasses from './courseContent.module.css';
 
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
 import checkIcon from './Icons/check.svg';
-import { useCourseContent } from '../../talons/useCourseContent';
 
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const { courseId } = props;
+    const { courseId, userMoodleId, userMoodleToken, userCoursesIdList } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
-    const { userMoodleId, userMoodleToken, userCoursesIdList } = useCoursesCatalog();
     const { courseDetails, courseContent, enrolled, handleEnrollInCourse } = useCourseContent({
         userMoodleToken,
         userMoodleId,
@@ -47,7 +45,15 @@ const CourseContent = props => {
             <div key={course.id} className={classes.courseSectionContainer}>
                 <p className={classes.sectionTitle}>{course.name}</p>
                 {course.modules.map(module => {
-                    return <CourseModuleContent courseModule={module} isEnrolled={enrolled} key={module.id} />;
+                    return (
+                        <CourseModuleContent
+                            courseModule={module}
+                            isEnrolled={enrolled}
+                            userMoodleId={userMoodleId}
+                            userMoodleToken={userMoodleToken}
+                            key={module.id}
+                        />
+                    );
                 })}
             </div>
         );
