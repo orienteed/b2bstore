@@ -26,7 +26,7 @@ module.exports = targets => {
         return routes;
     });
 
-    // Override Talons
+    // Override useAccountMenuItems talon
     const peregrineTargets = targets.of('@magento/peregrine');
     const talonsTarget = peregrineTargets.talons;
     talonsTarget.tap(talonWrapperConfig => {
