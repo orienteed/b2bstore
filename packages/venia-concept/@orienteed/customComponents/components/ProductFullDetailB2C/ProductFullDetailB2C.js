@@ -6,9 +6,11 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
 import RichContent from '@magento/venia-ui/lib/components/RichContent';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
-import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity';
+import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
 
-const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
+const WishlistButton = React.lazy(() =>
+    import('@magento/venia-ui/lib/components/Wishlist/AddToListButton')
+);
 
 import defaultClasses from './ProductFullDetailB2C.module.css';
 import noImage from './icons/product-package-cancelled.svg';
@@ -37,15 +39,24 @@ const ProductFullDetailB2C = props => {
             {breadcrumbs}
             <Form className={classes.root} onSubmit={handleAddToCart}>
                 <section className={classes.title}>
-                    <h1 className={classes.productName}>{productDetails.name}</h1>
+                    <h1 className={classes.productName}>
+                        {productDetails.name}
+                    </h1>
                 </section>
-                <article className={classes.priceContainer}> {priceRender}</article>
+                <article className={classes.priceContainer}>
+                    {' '}
+                    {priceRender}
+                </article>
                 <section className={classes.imageCarousel}>
                     {hasOptionsOfTheSelection ? (
                         <Carousel images={mediaGalleryEntries} />
                     ) : (
                         <div className={classes.noImageContainer}>
-                            <img className={classes.noImage} src={noImage} alt="No image" />
+                            <img
+                                className={classes.noImage}
+                                src={noImage}
+                                alt="No image"
+                            />
                         </div>
                     )}
                 </section>
@@ -63,20 +74,27 @@ const ProductFullDetailB2C = props => {
                     }}
                     errors={errors.get('form') || []}
                 />
-                <section className={classes.options}>{availableOptions}</section>
+                <section className={classes.options}>
+                    {availableOptions}
+                </section>
                 <section className={classes.quantity}>
                     <span className={classes.quantityTitle}>
-                        <FormattedMessage id={'global.quantity'} defaultMessage={'Quantity'} />
+                        <FormattedMessage
+                            id={'global.quantity'}
+                            defaultMessage={'Quantity'}
+                        />
                     </span>
                     <article className={classes.quantityTotalPrice}>
-                        <QuantityFields
+                        <QuantityStepper
                             fieldName={'quantity'}
                             classes={{ root: classes.quantityRoot }}
                             min={1}
                             onChange={handleQuantityChange}
                             message={errors.get('quantity')}
                         />
-                        <article className={classes.totalPrice}>{tempTotalPrice}</article>
+                        <article className={classes.totalPrice}>
+                            {tempTotalPrice}
+                        </article>
                     </article>
                 </section>
                 <section className={classes.actions}>
@@ -96,7 +114,10 @@ const ProductFullDetailB2C = props => {
                 </section>
                 <section className={classes.details}>
                     <span className={classes.detailsTitle}>
-                        <FormattedMessage id={'global.sku'} defaultMessage={'SKU'} />
+                        <FormattedMessage
+                            id={'global.sku'}
+                            defaultMessage={'SKU'}
+                        />
                     </span>
                     <strong>{productDetails.sku}</strong>
                 </section>
