@@ -25,7 +25,14 @@ const ContentDialog = props => {
                 <img src={OpenIcon} className={classes.openTabIcon} alt="Open icon" />
                 {openMessage}
             </a>
-            <iframe title="Course content" allowFullScreen="1" className={classes.fileFrame} src={url} />
+            <iframe
+                title="Course content"
+                frameBorder="0"
+                allowFullScreen="1"
+                loading="lazy"
+                className={classes.fileFrame}
+                src={url}
+            />
         </div>
     );
 

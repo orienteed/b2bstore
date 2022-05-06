@@ -24,11 +24,10 @@ const LearningRoute = () => {
         userCoursesIdList
     } = talonProps;
 
-
     return (
         <Router>
             <Switch>
-                <Route exact path="/learning">
+                <Route path="/learning">
                     <CoursesCatalog
                         buttonSelected={buttonSelected}
                         setSelectedButton={setSelectedButton}
@@ -37,7 +36,7 @@ const LearningRoute = () => {
                         userCoursesIdList={userCoursesIdList}
                     />
                 </Route>
-                <Route exact path="/course/:courseId">
+                <Route path="/course/:courseId">
                     <CourseMiddleware
                         userMoodleId={userMoodleId}
                         userMoodleToken={userMoodleToken}
