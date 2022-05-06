@@ -73,6 +73,9 @@
     composes: lg_grid-cols-12 from global;
     composes: lg_min-height-header from global;
 }
+.toolbar {
+    grid-template-columns: repeat(13, minmax(0, 1fr)) !important;
+}
 
 .logo {
     height: var(--height);

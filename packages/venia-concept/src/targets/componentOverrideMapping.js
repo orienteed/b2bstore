@@ -112,5 +112,9 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/RootComponents/Category/category.module.css`]: './src/RootComponents/Category/category.module.css',
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
     [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css',
-    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css'
+    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css',
+
+    //new override
+    [`@magento/venia-ui/lib/components/Header/header.js`]: './src/components/Header/header.js',
+
 };
