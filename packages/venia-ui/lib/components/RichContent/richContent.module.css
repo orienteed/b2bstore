@@ -132,3 +132,29 @@
         font-size: 1rem;
     }
 }
+
+.bannerHome > a > div > div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.bannerHome p {
+    font-size: 50px !important;
+}
+.bannerHome {
+    width: 200px;
+}
+.tpdp {
+    width: 200px;
+}
+.root .bannerHome > a > div > div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.root .bannerHome p {
+    font-size: 50px !important;
+}
+.root .bannerHome {
+    width: 100%;
+}

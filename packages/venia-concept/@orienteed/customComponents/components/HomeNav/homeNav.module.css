@@ -45,3 +45,15 @@
     border-radius: 50%;
     padding: 0 3px;
 }
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .grid > div {
+        padding: 1rem;
+    }
+    .container {
+        height: 100%;
+    }
+}
