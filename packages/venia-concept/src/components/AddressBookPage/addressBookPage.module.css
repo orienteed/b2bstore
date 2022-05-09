@@ -5,7 +5,7 @@
 }
 
 .heading {
-    font-family: var(--venia-global-fontFamily-serif);
+    font-family: var(--b2bStore-font-family-Lato);
     font-weight: var(--venia-global-fontWeight-bold);
     line-height: 1.25em;
     margin-bottom: 2rem;

@@ -4,7 +4,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/App/contextProvider.js`]: './src/components/App/contextProvider.js',
     [`@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.js`]: './src/components/CartPage/PriceSummary/priceSummary.js',
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/productListing.js`]: './src/components/CartPage/ProductListing/productListing.js',
-    [`@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.js`]: './src/components/CartPage/ProductListing/quantity.js', // quantity is deprecated, there is a new component
     [`@magento/venia-ui/lib/components/CartPage/cartPage.js`]: './src/components/CartPage/cartPage.js',
     [`@magento/venia-ui/lib/components/CommunicationsPage/communicationsPage.js`]: './src/components/CommunicationsPage/communicationsPage.js',
     [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.js`]: './src/components/CreateAccountPage/createAccountPage.js',
@@ -30,7 +29,6 @@ module.exports = componentOverrideMapping = {
 
     //TALONS
     [`@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary.js`]: './src/talons/usePriceSummary.js',
-    [`@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity.js`]: './src/talons/ProductListing/useQuantity.js',
     [`@magento/peregrine/lib/talons/CartPage/useCartPage.js`]: './src/talons/CartPage/useCartPage.js',
     [`@magento/peregrine/lib/talons/CreateAccount/useCreateAccount.js`]: './src/talons/CreateAccount/useCreateAccount.js',
     [`@magento/peregrine/lib/talons/Header/useAccountMenu.js`]: './src/talons/Header/useAccountMenu.js',
@@ -102,5 +100,9 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CreateAccount/createAccount.module.css`]: './src/components/CreateAccount/createAccount.module.css',
     [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.module.css`]: './src/components/CreateAccountPage/createAccountPage.module.css',
     //new overwrite
-    [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js'
+    [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js',
+    //new overwrite
+    [`@magento/venia-ui/lib/components/ProductImageCarousel/carousel.module.css`]: './src/components/ProductImageCarousel/carousel.module.css',
+    [`@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.js`]: './src/components/QuantityStepper/quantityStepper.js',
+    [`@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper.js`]: './src/talons/QuantityStepper/useQuantityStepper.js'
 };
