@@ -104,5 +104,7 @@ module.exports = componentOverrideMapping = {
     //new overwrite
     [`@magento/venia-ui/lib/components/ProductImageCarousel/carousel.module.css`]: './src/components/ProductImageCarousel/carousel.module.css',
     [`@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.js`]: './src/components/QuantityStepper/quantityStepper.js',
-    [`@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper.js`]: './src/talons/QuantityStepper/useQuantityStepper.js'
+    [`@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper.js`]: './src/talons/QuantityStepper/useQuantityStepper.js',
+    //new overwrite
+    [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.module.css`]: './src/components/FilterSidebar/filterSidebar.module.css'
 };
