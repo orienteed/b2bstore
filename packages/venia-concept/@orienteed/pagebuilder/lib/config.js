@@ -46,7 +46,9 @@ const contentTypesConfig = {
     },
     image: {
         configAggregator: imageConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Image')),
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Image')
+        ),
         componentShimmer: ImageShimmer
     },
     heading: {
@@ -59,15 +61,21 @@ const contentTypesConfig = {
     },
     tabs: {
         configAggregator: tabsConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Tabs'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Tabs')
+        )
     },
     'tab-item': {
         configAggregator: tabItemConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/TabItem'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/TabItem')
+        )
     },
     buttons: {
         configAggregator: buttonsConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Buttons'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Buttons')
+        )
     },
     'button-item': {
         configAggregator: buttonItemConfigAggregator,
@@ -75,53 +83,75 @@ const contentTypesConfig = {
     },
     block: {
         configAggregator: blockConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Block'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Block')
+        )
     },
     dynamic_block: {
         configAggregator: dynamicBlockConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/DynamicBlock')),
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/DynamicBlock')
+        ),
         componentShimmer: DynamicBlockShimmer
     },
     products: {
         configAggregator: productsConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Products'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Products')
+        )
     },
     html: {
         configAggregator: htmlConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Html'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Html')
+        )
     },
     divider: {
         configAggregator: dividerConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Divider'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Divider')
+        )
     },
     video: {
         configAggregator: videoConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Video'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Video')
+        )
     },
     map: {
         configAggregator: mapConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Map'))
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Map')
+        )
     },
     banner: {
         configAggregator: bannerConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Banner')),
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Banner')
+        ),
         componentShimmer: BannerShimmer
     },
     slider: {
         configAggregator: sliderConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Slider')),
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Slider')
+        ),
         componentShimmer: SliderShimmer
     },
     // Slide is just a banner wrapped inside a slider
     slide: {
         configAggregator: bannerConfigAggregator,
-        component: React.lazy(() => import('@magento/pagebuilder/lib/ContentTypes/Banner')),
+        component: React.lazy(() =>
+            import('@magento/pagebuilder/lib/ContentTypes/Banner')
+        ),
         componentShimmer: BannerShimmer
     },
     // We refer here to the name that is used in the Magento backend
     Quote_Custom: {
         configAggregator: courseSliderConfigAggregator,
-        component: React.lazy(() => import('@orienteed/pagebuilder/lib/ContentTypes/CourseSlider'))
+        component: React.lazy(() =>
+            import('@orienteed/pagebuilder/lib/ContentTypes/CourseSlider')
+        )
     }
 };
 
