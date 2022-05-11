@@ -10,11 +10,21 @@ import OpenIcon from './Icons/open.svg';
 import defaultClasses from './contentDialog.module.css';
 
 const ContentDialog = props => {
-    const { dialogName, url, contentFile, isModalOpen, handleClosePopUp, handleDownload } = props;
+    const {
+        dialogName,
+        url,
+        contentFile,
+        isModalOpen,
+        handleClosePopUp,
+        handleDownload
+    } = props;
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
-    const openMessage = formatMessage({ id: 'lms.open', defaultMessage: 'Open' });
+    const openMessage = formatMessage({
+        id: 'lms.open',
+        defaultMessage: 'Open'
+    });
     const warningMessage = formatMessage({
         id: 'lms.browserIncompatibility',
         defaultMessage: 'This content is not available for this browser.'
@@ -22,10 +32,21 @@ const ContentDialog = props => {
     const iframeObject = (
         <div className={classes.frameContainer}>
             <a className={classes.openTabButton} href={url} target="_blank">
-                <img src={OpenIcon} className={classes.openTabIcon} alt="Open icon" />
+                <img
+                    src={OpenIcon}
+                    className={classes.openTabIcon}
+                    alt="Open icon"
+                />
                 {openMessage}
             </a>
-            <iframe title="Course content" allowFullScreen="1" className={classes.fileFrame} src={url} />
+            <iframe
+                title="Course content"
+                frameBorder="0"
+                allowFullScreen="1"
+                loading="lazy"
+                className={classes.fileFrame}
+                src={url}
+            />
         </div>
     );
 
@@ -52,7 +73,13 @@ const ContentDialog = props => {
                     case 'application':
                         return iframeObject;
                     case 'image':
-                        return <img src={url} className={classes.imageDialog} alt="Course content" />;
+                        return (
+                            <img
+                                src={url}
+                                className={classes.imageDialog}
+                                alt="Course content"
+                            />
+                        );
                     default:
                         return iframeObject;
                 }
