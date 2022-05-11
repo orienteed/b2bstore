@@ -89,9 +89,11 @@
 
 .productSkuContainer:hover {
     color: var(--orienteed-primary-color-base1);
+    font-weight: bold;
 }
 .copiedText {
     color: var(--orienteed-primary-color-base1);
+    font-weight: bold;
 }
 
 @media (max-width: 1250px) {
