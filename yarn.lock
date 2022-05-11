@@ -3351,10 +3351,6 @@
   version "0.0.0"
   uid ""
 
-  "@orienteed/pagebuilder@link:./packages/venia-concept/@orienteed/pagebuilder":
-  version "0.0.0"
-  uid ""
-
 "@orienteed/payWithBankTransfer@link:./packages/venia-concept/@orienteed/payWithBankTransfer":
   version "0.0.0"
   uid ""
