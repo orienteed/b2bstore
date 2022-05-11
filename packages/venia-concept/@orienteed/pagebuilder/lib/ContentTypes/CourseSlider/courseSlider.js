@@ -22,7 +22,10 @@ const CourseSlider = () => {
         defaultMessage: 'Learn our products'
     });
 
-    const showAllCoursesText = formatMessage({ id: 'courseSlider.showAllCourses', defaultMessage: 'Show all courses' });
+    const showAllCoursesText = formatMessage({
+        id: 'courseSlider.showAllCourses',
+        defaultMessage: 'Show all courses'
+    });
 
     // TODO_B2B: Customize no courses message
     const emptyCoursesMessage = 'There are no courses available';
@@ -40,9 +43,18 @@ const CourseSlider = () => {
         <section className={classes.courseSliderContainer}>
             <header className={classes.courseSliderHeaderContainer}>
                 <h1 className={classes.headerTitle}>{learnOurProductsText}</h1>
-                <Link className={classes.courseSliderHeaderLinkContainer} to="/learning">
-                    <span className={classes.linkText}>{showAllCoursesText}</span>
-                    <img className={classes.linkIcon} src={ArrowRightIcon} alt="Arrow right icon" />
+                <Link
+                    className={classes.courseSliderHeaderLinkContainer}
+                    to="/learning"
+                >
+                    <span className={classes.linkText}>
+                        {showAllCoursesText}
+                    </span>
+                    <img
+                        className={classes.linkIcon}
+                        src={ArrowRightIcon}
+                        alt="Arrow right icon"
+                    />
                 </Link>
             </header>
             <main>

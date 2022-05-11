@@ -19,6 +19,7 @@ const LearningRoute = () => {
         return <Redirect to={'/'} />;
     }
 
+    // TODO_B2B: Look how to do it correctly
     const talonProps = useLearningRoute();
     const {
         userMoodleId,
