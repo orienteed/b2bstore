@@ -177,8 +177,8 @@
     flex-direction: row;
     align-items: center;
     margin-bottom: 10px;
-    height: 45px;
     gap: 10px;
+    padding-left: 9px;
 }
 
 .selectedFilter {

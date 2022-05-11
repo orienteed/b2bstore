@@ -11,6 +11,7 @@ import defaultClasses from './ProductItem.module.css';
 import CustomButton from '../CustomButtom/CustomButton';
 import inStock from '../assets/inStock.svg';
 import outOfStock from '../assets/outOfStock.svg';
+import copyToClipboard from '../assets/copyToClipboard.png';
 import useCopy from 'use-copy';
 
 const ProductItem = props => {
@@ -177,12 +178,19 @@ const ProductItem = props => {
                             />
                         </div>
                     ) : (
-                        <a
-                            className={classes.productSkuContainer}
-                            onClick={copyText}
-                        >
-                            {lastDigitsOfSku}
-                        </a>
+                        <div className={classes.productSkuContainer}>
+                            <a
+                                className={classes.productSkuContainer}
+                                onClick={copyText}
+                            >
+                                ...{lastDigitsOfSku}
+                            </a>
+                            <img
+                                src={copyToClipboard}
+                                alt="copyToClipboard"
+                                onClick={copyText}
+                            />
+                        </div>
                     )}
                 </p>
                 <div className={classes.categoriesItemList}>
