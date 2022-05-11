@@ -6,22 +6,30 @@ import Button from '@magento/venia-ui/lib/components/Button';
 import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useCoursesCatalog } from '../../talons/useCoursesCatalog';
+import { useCourseContent } from '../../talons/useCourseContent';
 
 import defaultClasses from './courseContent.module.css';
 
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
 import checkIcon from './Icons/check.svg';
-import { useCourseContent } from '../../talons/useCourseContent';
 
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const { courseId } = props;
+    const {
+        courseId,
+        userMoodleId,
+        userMoodleToken,
+        userCoursesIdList
+    } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
-    const { userMoodleId, userMoodleToken, userCoursesIdList } = useCoursesCatalog();
-    const { courseDetails, courseContent, enrolled, handleEnrollInCourse } = useCourseContent({
+    const {
+        courseDetails,
+        courseContent,
+        enrolled,
+        handleEnrollInCourse
+    } = useCourseContent({
         userMoodleToken,
         userMoodleId,
         userCoursesIdList,
@@ -35,10 +43,15 @@ const CourseContent = props => {
             </Link>
             <span className={classes.divider}>{DELIMITER}</span>
             <Link className={classes.link} to="/learning">
-                <FormattedMessage id={'lms.learning'} defaultMessage={'Learning'} />
+                <FormattedMessage
+                    id={'lms.learning'}
+                    defaultMessage={'Learning'}
+                />
             </Link>
             <span className={classes.divider}>{DELIMITER}</span>
-            <span className={classes.currentPage}>{courseDetails.fullname}</span>
+            <span className={classes.currentPage}>
+                {courseDetails.fullname}
+            </span>
         </nav>
     );
 
@@ -47,7 +60,15 @@ const CourseContent = props => {
             <div key={course.id} className={classes.courseSectionContainer}>
                 <p className={classes.sectionTitle}>{course.name}</p>
                 {course.modules.map(module => {
-                    return <CourseModuleContent courseModule={module} isEnrolled={enrolled} key={module.id} />;
+                    return (
+                        <CourseModuleContent
+                            courseModule={module}
+                            isEnrolled={enrolled}
+                            userMoodleId={userMoodleId}
+                            userMoodleToken={userMoodleToken}
+                            key={module.id}
+                        />
+                    );
                 })}
             </div>
         );
@@ -62,7 +83,9 @@ const CourseContent = props => {
                         {courseDetails.overviewfiles.length !== 0 ? (
                             <img
                                 className={classes.courseImage}
-                                src={`${courseDetails.overviewfiles[0].fileurl}?token=af547e6e35fca251a48ff4bedb7f1298`}
+                                src={`${
+                                    courseDetails.overviewfiles[0].fileurl
+                                }?token=af547e6e35fca251a48ff4bedb7f1298`}
                                 alt="Course logo"
                             />
                         ) : (
@@ -74,8 +97,12 @@ const CourseContent = props => {
                         )}
                         <div className={classes.descriptionAndEnrollContainer}>
                             <div>
-                                <p className={classes.courseTitle}>{courseDetails.fullname}</p>
-                                <p className={classes.summaryText}>{courseDetails.summary}</p>
+                                <p className={classes.courseTitle}>
+                                    {courseDetails.fullname}
+                                </p>
+                                <p className={classes.summaryText}>
+                                    {courseDetails.summary}
+                                </p>
                             </div>
                             <div className={classes.enrollButtonContainer}>
                                 <Button
@@ -85,11 +112,21 @@ const CourseContent = props => {
                                 >
                                     {enrolled ? (
                                         <>
-                                            <img src={checkIcon} className={classes.checkIcon} alt="Enrolled Icon" />
-                                            <FormattedMessage id={'lms.enrolled'} defaultMessage={'Enrolled'} />
+                                            <img
+                                                src={checkIcon}
+                                                className={classes.checkIcon}
+                                                alt="Enrolled Icon"
+                                            />
+                                            <FormattedMessage
+                                                id={'lms.enrolled'}
+                                                defaultMessage={'Enrolled'}
+                                            />
                                         </>
                                     ) : (
-                                        <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
+                                        <FormattedMessage
+                                            id={'lms.enroll'}
+                                            defaultMessage={'Enroll'}
+                                        />
                                     )}
                                 </Button>
                             </div>
@@ -99,11 +136,17 @@ const CourseContent = props => {
                 {courseContent !== undefined && (
                     <>
                         <span className={classes.contentTitle}>
-                            <FormattedMessage id={'lms.content'} defaultMessage={'Content'} />
+                            <FormattedMessage
+                                id={'lms.content'}
+                                defaultMessage={'Content'}
+                            />
                         </span>
                         <div className={classes.bodyCourseContainer}>
                             {courseContent.map(course => {
-                                return course.modules.length !== 0 && showCourseModules(course);
+                                return (
+                                    course.modules.length !== 0 &&
+                                    showCourseModules(course)
+                                );
                             })}
                         </div>
                     </>
