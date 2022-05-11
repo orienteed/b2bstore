@@ -46,7 +46,8 @@
         "@orienteed/megaMenuIsRequiredLogin": "link:./@orienteed/megaMenuIsRequiredLogin",
         "@orienteed/payWithBankTransfer": "link:./@orienteed/payWithBankTransfer",
         "@orienteed/reorder": "link:./@orienteed/reorder",
-        "@orienteed/requestQuote": "link:./@orienteed/requestQuote"
+        "@orienteed/requestQuote": "link:./@orienteed/requestQuote",
+        "use-copy": "0.0.2"
     },
     "devDependencies": {
         "@adobe/apollo-link-mutation-queue": "~1.0.2",

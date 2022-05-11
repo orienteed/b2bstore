@@ -106,5 +106,6 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.js`]: './src/components/QuantityStepper/quantityStepper.js',
     [`@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper.js`]: './src/talons/QuantityStepper/useQuantityStepper.js',
     //new overwrite
-    [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.module.css`]: './src/components/FilterSidebar/filterSidebar.module.css'
+    [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.module.css`]: './src/components/FilterSidebar/filterSidebar.module.css',
+    [`@magento/venia-ui/lib/components/Field/fieldIcons.module.css`]: './src/components/Field/fieldIcons.module.css'
 };

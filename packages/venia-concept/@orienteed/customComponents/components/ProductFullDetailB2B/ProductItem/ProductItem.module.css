@@ -83,6 +83,17 @@
     width: clamp(90px, 10vw, 120px);
 }
 
+.productSkuContainer {
+    cursor: pointer;
+}
+
+.productSkuContainer:hover {
+    color: var(--orienteed-primary-color-base1);
+}
+.copiedText {
+    color: var(--orienteed-primary-color-base1);
+}
+
 @media (max-width: 1250px) {
     .indexMobileSku {
         display: none;

@@ -11,13 +11,21 @@ import Icon from '@magento/venia-ui/lib/components/Icon';
 
 const CategoryFilter = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { availableCategoryItems, selectedFilter, setSelectedFilter } = props;
+    const {
+        availableCategoryItems,
+        selectedFilter,
+        setSelectedFilter,
+        filterName
+    } = props;
     const { elementRef, expanded, setExpanded } = useDropdown();
 
     // click event for menu items
     const handleItemClick = useCallback(
         categoryItem => {
-            let tempSelectedFilters = introduceOrRemoveItemFromFilter(selectedFilter, categoryItem);
+            let tempSelectedFilters = introduceOrRemoveItemFromFilter(
+                selectedFilter,
+                categoryItem
+            );
             setSelectedFilter([...tempSelectedFilters]);
             setExpanded(false);
         },
@@ -46,7 +54,11 @@ const CategoryFilter = props => {
 
             return (
                 <li key={key} className={classes.menuItem}>
-                    <SortItem sortItem={item} active={isActive} onClick={handleItemClick} />
+                    <SortItem
+                        sortItem={item}
+                        active={isActive}
+                        onClick={handleItemClick}
+                    />
                 </li>
             );
         });
@@ -56,7 +68,13 @@ const CategoryFilter = props => {
                 <ul>{itemElements}</ul>
             </div>
         );
-    }, [availableCategoryItems, classes.menu, classes.menuItem, expanded, handleItemClick]);
+    }, [
+        availableCategoryItems,
+        classes.menu,
+        classes.menuItem,
+        expanded,
+        handleItemClick
+    ]);
 
     // expand or collapse on click
     const handleSortClick = () => {
@@ -64,7 +82,12 @@ const CategoryFilter = props => {
     };
 
     return (
-        <div ref={elementRef} className={classes.root} aria-live="polite" aria-busy="false">
+        <div
+            ref={elementRef}
+            className={classes.root}
+            aria-live="polite"
+            aria-busy="false"
+        >
             <Button
                 priority={'low'}
                 classes={{
@@ -73,11 +96,18 @@ const CategoryFilter = props => {
                 onClick={handleSortClick}
             >
                 <span className={classes.mobileText}>
-                    <FormattedMessage id={'categoryFilter.categoryMobileB2B'} defaultMessage={'Select'} />
+                    <FormattedMessage
+                        id={'categoryFilter.categoryMobileB2B'}
+                        defaultMessage={'Select'}
+                    />
                 </span>
                 <span className={classes.desktopText}>
                     <span className={classes.sortText}>
-                        <FormattedMessage id={'categoryFilter.categoryDesktopB2B'} defaultMessage={'Select...'} />
+                        {filterName}
+                        {/* <FormattedMessage
+                            id={'categoryFilter.categoryDesktopB2B'}
+                            defaultMessage={'Select...'}
+                        /> */}
                     </span>
                     <Icon
                         src={ArrowDown}

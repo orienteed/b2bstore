@@ -162,6 +162,15 @@
     }
 }
 
+@media (min-width: 1024px) {
+    .imageCarouselItem {
+        width: 100%;
+    }
+    .filterNameSelector p {
+        display: none;
+    }
+}
+
 /* Selected filter list */
 .selectedFilterContainer {
     display: flex;
@@ -201,7 +210,7 @@
 /* Product table */
 .productItemContainer {
     display: grid;
-    grid-template-columns: 1.5fr 2fr 2fr auto 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1.5fr 2.3fr 2fr auto 2fr 1fr 1fr 1.5fr;
     grid-gap: 0 clamp(20px, 1.5vw, 30px);
     justify-content: space-between;
     align-items: center;

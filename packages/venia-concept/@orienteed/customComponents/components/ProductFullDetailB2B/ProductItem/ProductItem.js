@@ -9,6 +9,9 @@ import Image from '@magento/venia-ui/lib/components/Image';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import defaultClasses from './ProductItem.module.css';
 import CustomButton from '../CustomButtom/CustomButton';
+import inStock from '../assets/inStock.svg';
+import outOfStock from '../assets/outOfStock.svg';
+import useCopy from 'use-copy';
 
 const ProductItem = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -23,6 +26,16 @@ const ProductItem = props => {
         errors,
         isAddConfigurableLoading
     } = props;
+
+    const [copied, copy, setCopied] = useCopy(variant.product.sku);
+
+    const copyText = () => {
+        copy();
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    };
 
     const [quantity, setQuantity] = useState(1);
 
@@ -104,9 +117,13 @@ const ProductItem = props => {
 
     const stockStatus =
         variant.product.stock_status === 'IN_STOCK' ? (
-            <div className={classes.inStock} />
+            <div className={classes.inStockContainer}>
+                <img src={inStock} alt="inStock" />
+            </div>
         ) : (
-            <div className={classes.outStock} />
+            <div className={classes.outStockContainer}>
+                <img src={outOfStock} alt="outOfStock" />
+            </div>
         );
 
     const addToCartButton = (
@@ -136,6 +153,10 @@ const ProductItem = props => {
         });
         return tempCategoriesKeyValueList;
     };
+    // str.substring(str.length - n)
+    const lastDigitsOfSku = variant.product.sku.substring(
+        variant.product.sku.length - 7
+    );
 
     const productItemDesktop = (
         <div className={classes.productItemErrorContainerDesktop}>
@@ -146,7 +167,24 @@ const ProductItem = props => {
             <div className={classes.productItemContainerDesktop}>
                 {imageIcon(120)}
                 <div className={classes.indexMobileName}>{nameTag}</div>
-                <p className={classes.indexMobileSku}>{variant.product.sku}</p>
+                <p className={classes.indexMobileSku}>
+                    {' '}
+                    {copied ? (
+                        <div className={classes.copiedText}>
+                            <FormattedMessage
+                                id={'productFullDetailB2B.copiedText'}
+                                defaultMessage={'Copied'}
+                            />
+                        </div>
+                    ) : (
+                        <a
+                            className={classes.productSkuContainer}
+                            onClick={copyText}
+                        >
+                            {lastDigitsOfSku}
+                        </a>
+                    )}
+                </p>
                 <div className={classes.categoriesItemList}>
                     {categoriesValuesName.map((category, i) => {
                         return (
