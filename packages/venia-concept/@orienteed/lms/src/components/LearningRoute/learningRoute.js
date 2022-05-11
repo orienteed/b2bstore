@@ -33,7 +33,7 @@ const LearningRoute = () => {
     return (
         <Router>
             <Switch>
-                <Route path="/learning">
+                <Route path="/:lang*/learning">
                     <CoursesCatalog
                         buttonSelected={buttonSelected}
                         setSelectedButton={setSelectedButton}
@@ -42,7 +42,7 @@ const LearningRoute = () => {
                         userCoursesIdList={userCoursesIdList}
                     />
                 </Route>
-                <Route path="/course/:courseId">
+                <Route path="/:lang*/course/:courseId">
                     <CourseMiddleware
                         userMoodleId={userMoodleId}
                         userMoodleToken={userMoodleToken}
