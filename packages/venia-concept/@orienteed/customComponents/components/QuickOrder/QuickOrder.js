@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './QuickOrder.module.css';
-import { Download, PlusCircle, ArrowDown, ShoppingBag } from 'react-feather';
+import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
 import Dialog from '../../../../src/components/Dialog/dialog';
 import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/useAddProductsByCSV';
 import SearchBar from '../../../../src/components/SearchBar';
@@ -12,7 +12,9 @@ import { CSVLink } from 'react-csv';
 import Quantity from '../../../../src/components/ProductListing/quantity';
 import { useHistory } from 'react-router-dom';
 import { useToasts } from '@magento/peregrine';
-let iniArray = [{}, {}, {}];
+import shop1 from './Icons/shop1.svg';
+
+let iniArray = [{ name: '' }];
 
 const AddQuickOrder = props => {
     const [, { addToast }] = useToasts();
@@ -57,7 +59,7 @@ const AddQuickOrder = props => {
             ...newProducts[index],
             quantity: 1
         };
-        setProducts(newProducts);
+        setProducts([...newProducts, iniArray[0]]);
     };
     const handleChangeText = (e, key) => {
         let newProducts = [...products];
@@ -115,11 +117,15 @@ const AddQuickOrder = props => {
     const addProduct = () => {
         setProducts([...products, {}]);
     };
+    const removeProduct = key => {
+        let newProducts = JSON.parse(JSON.stringify(products)).filter((ele, index) => index !== key);
+        setProducts([...newProducts]);
+    };
     return (
         <>
             <div className={classes.btnOrderContainer}>
-                <Button className={`${classes.orderIcon} ${classes.gridBtn}`} onClick={onOrderClick}>
-                    <Icon src={ShoppingBag} alt="quick-order" />
+                <Button priority="high" className={`${classes.orderIcon} ${classes.gridBtn}`} onClick={onOrderClick}>
+                    <img src={shop1} />
                 </Button>
             </div>
             <div className={classes.quickOrderDialog}>
@@ -190,10 +196,19 @@ const AddQuickOrder = props => {
                                                         <span className={classes.spanUnAailable}>Unavailable</span>
                                                     )}
                                                 </div>
-                                                {key === products.length - 1 && (
+                                                {key === products.length - 1 ? (
                                                     <div>
                                                         <Button className={classes.downloadBtn} onClick={addProduct}>
                                                             <Icon src={PlusCircle} alt="download-icon" />
+                                                        </Button>
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        <Button
+                                                            onClick={() => removeProduct(key)}
+                                                            className={`${classes.downloadBtn} ${classes.removeIcon}`}
+                                                        >
+                                                            <Icon src={XCircle} />
                                                         </Button>
                                                     </div>
                                                 )}
@@ -205,9 +220,11 @@ const AddQuickOrder = props => {
                                 <div className={classes.uploadContainer}>
                                     <h5 className={classes.uploadHeader}>Upload your order</h5>
                                     <p>Here you can upload own file XLS, XLSX or CSV and products to cart.</p>
-                                    <Button onClick={handleCSVFile} className={classes.orderbtn}>
-                                        Upload your file
-                                    </Button>
+                                    <div>
+                                        <Button type="button" priority="high" onClick={handleCSVFile}>
+                                            Upload your file
+                                        </Button>
+                                    </div>
                                     <CSVLink data={csvData}>
                                         <Button className={classes.downloadBtn}>
                                             <Icon src={Download} alt="download-icon" />
@@ -218,16 +235,22 @@ const AddQuickOrder = props => {
                             </div>
                         </div>
                         <div className={classes.btnContainer}>
-                            <Button onClick={addToCartClick} className={classes.orderbtn}>
-                                Add to cart
-                                <Icon src={ArrowDown} alt="arrowDown-icon" />
-                            </Button>
-                            <Button onClick={addQuoteClick} className={classes.quoteBtn}>
-                                Get Quote
-                            </Button>
-                            <Button onClick={createOrderClick} className={classes.createOrderBtn}>
-                                Create Order
-                            </Button>
+                            <div>
+                                <Button type="button" priority="high" onClick={addToCartClick}>
+                                    Add to cart
+                                    <Icon className={classes.addCartIcon} src={ArrowDown} alt="arrowDown-icon" />
+                                </Button>
+                            </div>
+                            <div>
+                                <Button type="button" priority="high" onClick={addQuoteClick}>
+                                    Get Quote
+                                </Button>
+                            </div>
+                            <div>
+                                <Button type="button" priority="high" onClick={createOrderClick}>
+                                    Create Order
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </Dialog>

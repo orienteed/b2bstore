@@ -92,6 +92,7 @@
     /* Its contents are centered horizontally and vertically. */
     display: flex;
     justify-content: center !important;
+    align-items: center;
 }
 .btnContainer {
     text-align: right;
