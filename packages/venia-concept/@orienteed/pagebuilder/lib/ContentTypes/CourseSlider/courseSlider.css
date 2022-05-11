@@ -1,0 +1,57 @@
+a {
+    text-decoration: none !important;
+}
+
+p,
+img {
+    margin: 0 !important;
+    line-height: normal !important;
+}
+
+.courseSliderContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 1rem 0;
+}
+
+/* Header */
+.courseSliderHeaderContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.courseSliderHeaderLinkContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.headerTitle {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 130%;
+}
+
+.linkText {
+    color: var(--orienteed-global-color-orange);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    margin: 4px;
+    text-align: right;
+}
+
+.linkIcon {
+    width: 16px;
+    margin: 4px !important;
+}
+
+/* Body */
+.courseSliderBodyContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+}

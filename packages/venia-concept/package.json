@@ -44,6 +44,7 @@
         "@orienteed/lms": "link:./@orienteed/lms",
         "@orienteed/locale": "link:./@orienteed/locale",
         "@orienteed/megaMenuIsRequiredLogin": "link:./@orienteed/megaMenuIsRequiredLogin",
+        "@orienteed/pagebuilder": "link:./@orienteed/pagebuilder",
         "@orienteed/payWithBankTransfer": "link:./@orienteed/payWithBankTransfer",
         "@orienteed/reorder": "link:./@orienteed/reorder",
         "@orienteed/requestQuote": "link:./@orienteed/requestQuote",
