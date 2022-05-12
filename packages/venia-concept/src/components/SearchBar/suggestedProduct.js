@@ -37,7 +37,7 @@ const SuggestedProduct = props => {
         orParentUrlKey,
         url_suffix
     ]);
-
+console.log(uri,'uri');
     const talonProps = useAddProduct({
         addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION,
         addSimpleProductToCartMutation: ADD_SIMPLE_MUTATION,
@@ -68,25 +68,43 @@ const SuggestedProduct = props => {
                     </span>
                 </div>
             ) : (
-                <Link className={classes.root} to={uri} onClick={handleClick} data-cy="SuggestedProduct-root">
-                    <Image
-                        alt={name}
-                        classes={{
-                            image: classes.thumbnail,
-                            root: classes.image
-                        }}
-                        resource={small_image}
-                        width={IMAGE_WIDTH}
-                        data-cy="SuggestedProduct-image"
-                    />
+                <div className={classes.root}>
+                    <Link to={uri} onClick={handleClick}>
+                        <Image
+                            alt={name}
+                            classes={{ image: classes.thumbnail, root: classes.image }}
+                            resource={small_image}
+                            width={IMAGE_WIDTH}
+                        />
+                    </Link>
                     <span className={classes.name}>{name}</span>
-                    <span data-cy="SuggestedProduct-price" className={classes.price}>
+                    {suggested_Product.__typename === 'SimpleProduct' ? (
+                        <Button className={classes.addButton} onClick={handleAddToCart} priority="high">
+                            <FormattedMessage id={'productFullDetail.cartAction'} defaultMessage={'Add to Cart'} />
+                        </Button>
+                    ) : null}
+
+                    {suggested_Product.__typename === 'SimpleProduct' ? (
+                        <Button className={classes.addButtonMobile} onClick={handleAddToCart} priority="high">
+                            <Icon src={ShoppingCartIcon} />
+                        </Button>
+                    ) : null}
+
+                    <span className={classes.price}>
                         <Price
-                            currencyCode={price.regularPrice.amount.currency}
-                            value={price.regularPrice.amount.value}
+                            currencyCode={
+                                price.minimalPrice.amount.currency != null
+                                    ? price.minimalPrice.amount.currency
+                                    : price.regularPrice.amount.currency
+                            }
+                            value={
+                                price.minimalPrice.amount.value != null
+                                    ? price.minimalPrice.amount.value
+                                    : price.regularPrice.amount.value
+                            }
                         />
                     </span>
-                </Link>
+                </div>
             )}
         </>
     );

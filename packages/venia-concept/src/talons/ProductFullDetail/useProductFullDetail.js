@@ -291,8 +291,7 @@ export const useProductFullDetail = props => {
 
         optionSelections.forEach((value, key) => {
             const values = attributeIdToValuesMap.get(key);
-
-            const selectedValue = values.find(item => item.value_index === value);
+            const selectedValue = values ? values.find(item => item.value_index === value) : null;
 
             if (selectedValue) {
                 selectedOptions.push(selectedValue.uid);

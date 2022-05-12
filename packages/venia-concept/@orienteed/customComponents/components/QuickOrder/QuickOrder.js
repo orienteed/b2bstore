@@ -69,7 +69,6 @@ const AddQuickOrder = props => {
         setProducts(newProducts);
     };
     const onChangeQty = (value, index) => {
-        console.log(value, 'valuevalue');
         let newProducts = [...products];
         newProducts[index] = {
             ...newProducts[index],
@@ -123,6 +122,17 @@ const AddQuickOrder = props => {
         let newProducts = JSON.parse(JSON.stringify(products)).filter((ele, index) => index !== key);
         setProducts([...newProducts]);
     };
+    const quantitySelector = (item, id) => (
+        <div className={classes.inputQtyQuick}>
+            <QuantityFields
+                fieldName={`${item.sku}-${id}`}
+                min={1}
+                quickOrder={true}
+                hideButtons
+                onChange={e => onChangeQty(e, id)}
+            />
+        </div>
+    );
     return (
         <>
             <div className={classes.btnOrderContainer}>
@@ -172,7 +182,8 @@ const AddQuickOrder = props => {
                                                         value={item.name}
                                                     />
                                                 </div>
-                                                <div className={classes.inputQtyQuick}>
+                                                {quantitySelector(item, key)}
+                                                {/* <div className={classes.inputQtyQuick}>
                                                     <QuantityFields
                                                         initialValue={item.quantity}
                                                         fieldName={'quantity' + item.id}
@@ -182,7 +193,7 @@ const AddQuickOrder = props => {
                                                         onChange={e => onChangeQty(e, key)}
                                                         hideButtons={true}
                                                     />
-                                                </div>
+                                                </div> */}
                                                 <div className={classes.priceWrapper}>
                                                     {item.price ? (
                                                         <span className={classes.priceText}>

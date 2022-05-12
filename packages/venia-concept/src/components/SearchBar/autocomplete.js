@@ -25,9 +25,10 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
             # eslint-disable-next-line @graphql-eslint/require-id-when-available
             items {
                 __typename
+                orParentSku
+                orParentUrlKey
                 id
                 uid
-                orParentSku
                 name
                 sku
                 small_image {
@@ -42,8 +43,18 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                             currency
                         }
                     }
+                    minimalPrice {
+                        amount {
+                            currency
+                            value
+                        }
+                    }
                 }
             }
+            page_info {
+                total_pages
+            }
+            total_count
         }
     }
 `;
