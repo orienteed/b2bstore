@@ -46,7 +46,7 @@
 }
 
 .actionsContainer {
-    justify-content: flex-end;
+    justify-content: center;
     column-gap: 0.5rem;
     display: grid;
     grid-template-columns: auto auto;
@@ -65,6 +65,7 @@
 .price {
     font-size: var(--venia-typography-detail-XL-fontSize);
     min-height: 1rem;
+    text-align: center;
 }
 
 .unavailableContainer {
