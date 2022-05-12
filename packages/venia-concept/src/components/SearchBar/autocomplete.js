@@ -4,14 +4,14 @@ import { bool, func, shape, string } from 'prop-types';
 import { useAutocomplete } from '@magento/peregrine/lib/talons/SearchBar';
 import { useIntl } from 'react-intl';
 
-import defaultClasses from './autocomplete.module.css';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/autocomplete.module.css';
 import Suggestions from '@magento/venia-ui/lib/components/SearchBar/suggestions';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
 const GET_AUTOCOMPLETE_RESULTS = gql`
     query getAutocompleteResults($inputText: String!) {
         # Limit results to first three.
-        products(search: $inputText, currentPage: 1, pageSize: 20) {
+        products(search: $inputText, currentPage: 1) {
             aggregations {
                 label
                 count
@@ -20,13 +20,14 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                     label
                     value
                 }
+                position
             }
-
+            # eslint-disable-next-line @graphql-eslint/require-id-when-available
             items {
-                orParentSku
-                orParentUrlKey
+                __typename
                 id
                 uid
+                orParentSku
                 name
                 sku
                 small_image {
@@ -41,32 +42,30 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                             currency
                         }
                     }
-                    minimalPrice {
-                        amount {
-                            currency
-                            value
-                        }
-                    }
                 }
             }
-            page_info {
-                total_pages
-            }
-            total_count
         }
     }
 `;
+
 const Autocomplete = props => {
-    const { setVisible, valid, visible } = props;
+    const { setVisible, valid, visible, quickOrder, handleSearchClick, value } = props;
     const talonProps = useAutocomplete({
         queries: {
             getAutocompleteResults: GET_AUTOCOMPLETE_RESULTS
         },
+        inputText: value,
         valid,
         visible
     });
-    const { displayResult, filters, messageType, products, resultCount, value } = talonProps;
-
+    const {
+        displayResult,
+        filters,
+        messageType,
+        products,
+        resultCount
+        // value
+    } = talonProps;
     const classes = useStyle(defaultClasses, props.classes);
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
 
@@ -121,8 +120,10 @@ const Autocomplete = props => {
     const message = typeof messageTpl === 'function' ? messageTpl`${resultCount}` : messageTpl;
 
     return (
-        <div className={rootClassName}>
-            <div className={classes.message}>{message}</div>
+        <div data-cy="Autocomplete-root" className={`${rootClassName} ${quickOrder && defaultClasses.quickOrder}`}>
+            <div data-cy="Autocomplete-message" className={classes.message}>
+                {message}
+            </div>
             <div className={classes.suggestions}>
                 <Suggestions
                     displayResult={displayResult}
@@ -131,6 +132,8 @@ const Autocomplete = props => {
                     searchValue={value}
                     setVisible={setVisible}
                     visible={visible}
+                    handleSearchClick={handleSearchClick}
+                    quickOrder={quickOrder}
                 />
             </div>
         </div>

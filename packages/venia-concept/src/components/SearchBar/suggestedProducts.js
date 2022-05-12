@@ -7,13 +7,18 @@ import SuggestedProduct from '@magento/venia-ui/lib/components/SearchBar/suggest
 import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/suggestedProducts.module.css';
 
 const SuggestedProducts = props => {
-    const { limit, onNavigate, products } = props;
+    const { limit, onNavigate, products, quickOrder } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
-    const items = products.slice(0, limit).map(product => {
+const items = products.slice(0, limit).map(product => {
         return (
             <li key={product.id} className={classes.item}>
-                <SuggestedProduct {...mapProduct(product)} onNavigate={onNavigate} skuParent={product.sku} />
+                <SuggestedProduct
+                    {...mapProduct(product)}
+                    onNavigate={onNavigate}
+                    skuParent={product.sku}
+                    quickOrder={quickOrder}
+                />
             </li>
         );
     });

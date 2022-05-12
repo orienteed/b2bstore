@@ -9,7 +9,7 @@ import SuggestedProducts from './suggestedProducts';
 import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/suggestions.module.css';
 
 const Suggestions = props => {
-    const { displayResult, filters, products, searchValue, setVisible, visible } = props;
+    const { displayResult, filters, products, searchValue, setVisible, visible, handleSearchClick, quickOrder } = props;
     const { items } = products;
 
     const talonProps = useSuggestions({
@@ -27,16 +27,27 @@ const Suggestions = props => {
     }
 
     const classes = useStyle(defaultClasses, props.classes);
-
     return (
         <Fragment>
-            <SuggestedCategories categories={categories} onNavigate={onNavigate} value={searchValue} />
+            <SuggestedCategories
+                categories={categories}
+                onNavigate={onNavigate}
+                value={searchValue}
+                quickOrder={quickOrder}
+            />
             <h2 className={classes.heading}>
                 <span>
                     <FormattedMessage id={'searchBar.heading'} defaultMessage={'Product Suggestions'} />
                 </span>
             </h2>
-            <SuggestedProducts onNavigate={onNavigate} products={items} />
+            <SuggestedProducts
+                onNavigate={e => {
+                    handleSearchClick(e);
+                    setVisible(false);
+                }}
+                products={quickOrder ? items.filter(({ __typename }) => __typename !== 'ConfigurableProduct') : items}
+                quickOrder={quickOrder}
+            />
         </Fragment>
     );
 };

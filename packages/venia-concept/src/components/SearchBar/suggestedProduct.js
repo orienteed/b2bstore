@@ -25,15 +25,18 @@ const IMAGE_WIDTH = 60;
 const SuggestedProduct = props => {
     const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const { orParentUrlKey, url_key, small_image, name, onNavigate, price, url_suffix } = props;
+    const { orParentUrlKey, url_key, small_image, name, onNavigate, price, url_suffix, quickOrder } = props;
 
     const handleClick = useCallback(() => {
         if (typeof onNavigate === 'function') {
-            onNavigate();
+            onNavigate(props);
         }
     }, [onNavigate]);
 
-    const uri = useMemo(() => resourceUrl(`/${orParentUrlKey}${url_suffix || ''}`), [orParentUrlKey, url_suffix]);
+    const uri = useMemo(() => resourceUrl(`/${orParentUrlKey || url_key}${url_suffix || ''}`), [
+        orParentUrlKey,
+        url_suffix
+    ]);
 
     const talonProps = useAddProduct({
         addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION,
@@ -42,45 +45,50 @@ const SuggestedProduct = props => {
     });
 
     const { handleAddToCart } = talonProps;
-
     return (
-        <div className={classes.root}>
-            <Link to={uri} onClick={handleClick}>
-                <Image
-                    alt={name}
-                    classes={{ image: classes.thumbnail, root: classes.image }}
-                    resource={small_image}
-                    width={IMAGE_WIDTH}
-                />
-            </Link>
-            <span className={classes.name}>{name}</span>
-            {suggested_Product.__typename === 'SimpleProduct' ? (
-                <Button className={classes.addButton} onClick={handleAddToCart} priority="high">
-                    <FormattedMessage id={'productFullDetail.cartAction'} defaultMessage={'Add to Cart'} />
-                </Button>
-            ) : null}
-
-            {suggested_Product.__typename === 'SimpleProduct' ? (
-                <Button className={classes.addButtonMobile} onClick={handleAddToCart} priority="high">
-                    <Icon src={ShoppingCartIcon} />
-                </Button>
-            ) : null}
-
-            <span className={classes.price}>
-                <Price
-                    currencyCode={
-                        price.minimalPrice.amount.currency != null
-                            ? price.minimalPrice.amount.currency
-                            : price.regularPrice.amount.currency
-                    }
-                    value={
-                        price.minimalPrice.amount.value != null
-                            ? price.minimalPrice.amount.value
-                            : price.regularPrice.amount.value
-                    }
-                />
-            </span>
-        </div>
+        <>
+            {quickOrder ? (
+                <div className={classes.root} onClick={handleClick} data-cy="SuggestedProduct-root">
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.thumbnail,
+                            root: classes.image
+                        }}
+                        resource={small_image}
+                        width={IMAGE_WIDTH}
+                        data-cy="SuggestedProduct-image"
+                    />
+                    <span className={classes.name}>{name}</span>
+                    <span data-cy="SuggestedProduct-price" className={classes.price}>
+                        <Price
+                            currencyCode={price.regularPrice.amount.currency}
+                            value={price.regularPrice.amount.value}
+                        />
+                    </span>
+                </div>
+            ) : (
+                <Link className={classes.root} to={uri} onClick={handleClick} data-cy="SuggestedProduct-root">
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.thumbnail,
+                            root: classes.image
+                        }}
+                        resource={small_image}
+                        width={IMAGE_WIDTH}
+                        data-cy="SuggestedProduct-image"
+                    />
+                    <span className={classes.name}>{name}</span>
+                    <span data-cy="SuggestedProduct-price" className={classes.price}>
+                        <Price
+                            currencyCode={price.regularPrice.amount.currency}
+                            value={price.regularPrice.amount.value}
+                        />
+                    </span>
+                </Link>
+            )}
+        </>
     );
 };
 
