@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment, Suspense, useState } from 'react';
 import { shape, string } from 'prop-types';
 import { Link, Route } from 'react-router-dom';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -22,6 +22,8 @@ import NavigationTrigger from '@magento/venia-ui/lib/components/Header/navTrigge
 
 const SearchBar = React.lazy(() => import('@magento/venia-ui/lib/components/SearchBar'));
 
+import QuickOrder from '@magento/venia-concept/@orienteed/customComponents/components/QuickOrder';
+
 const Header = props => {
     const {
         handleSearchTriggerClick,
@@ -35,6 +37,7 @@ const Header = props => {
     const [{ isSignedIn: isUserSignedIn }, {}] = useUserContext();
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isSearchOpen ? classes.open : classes.closed;
+    const [searchText, setSearchText] = useState('');
 
     const searchBarFallback = (
         <div className={classes.searchFallback} ref={searchRef}>
@@ -46,7 +49,13 @@ const Header = props => {
     const searchBar = isSearchOpen ? (
         <Suspense fallback={searchBarFallback}>
             <Route>
-                <SearchBar isOpen={isSearchOpen} ref={searchRef} />
+                <SearchBar
+                    setSearchText={setSearchText}
+                    searchText={searchText}
+                    isOpen={isSearchOpen}
+                    ref={searchRef}
+                    handleSearchClick={e => setSearchText(e.name)}
+                />
             </Route>
         </Suspense>
     ) : null;
@@ -60,7 +69,7 @@ const Header = props => {
                 </div>
             </div>
             <header className={rootClass} data-cy="Header-root">
-                <div className={classes.toolbar}>
+                <div className={`${classes.toolbar} ${isUserSignedIn && classes.Authtoolbar}`}>
                     <div className={classes.primaryActions}>
                         <NavigationTrigger />
                     </div>
@@ -74,6 +83,7 @@ const Header = props => {
                         <AccountTrigger />
                         <CartTrigger />
                     </div>
+                    {isUserSignedIn && <QuickOrder />}
                 </div>
                 {searchBar}
                 <PageLoadingIndicator absolute />
