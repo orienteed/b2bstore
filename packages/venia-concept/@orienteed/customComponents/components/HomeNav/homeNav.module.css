@@ -46,7 +46,7 @@
     padding: 0 3px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .grid {
         grid-template-columns: 1fr;
     }
@@ -55,5 +55,8 @@
     }
     .container {
         height: 100%;
+    }
+    .leftNavItem {
+        display: none;
     }
 }

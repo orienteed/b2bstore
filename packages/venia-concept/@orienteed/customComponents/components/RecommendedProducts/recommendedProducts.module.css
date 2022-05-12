@@ -26,3 +26,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+@media (max-width: 650px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .headerText {
+        font-size: var(--venia-global-fontSize-200);
+        font-weight: var(--venia-global-fontWeight-semibold);
+    }
+    .showBtn {
+        font-weight: 400;
+        font-size: var(--venia-global-fontSize-100);
+        width: auto;
+    }
+}
