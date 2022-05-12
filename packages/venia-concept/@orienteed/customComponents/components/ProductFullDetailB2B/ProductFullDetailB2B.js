@@ -10,13 +10,25 @@ import CurrentFilter from '@magento/venia-ui/lib/components/FilterModal/CurrentF
 import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
-
+import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
+import { useCmsBlock } from '@magento/venia-concept/src/talons/useCmsBlocks.js';
 const WishlistButton = React.lazy(() =>
     import('@magento/venia-ui/lib/components/Wishlist/AddToListButton')
 );
 
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
+    const { cmsBlocks } = useCmsBlock({
+        cmsBlockIdentifiers: ['warranties-block', 'recommended-product-block']
+    });
+
+    const warrantiesBlock = cmsBlocks.find(
+        item => item.identifier === 'warranties-block'
+    )?.content;
+
+    const recommendedProductBlock = cmsBlocks.find(
+        item => item.identifier === 'recommended-product-block'
+    )?.content;
     const { formatMessage } = useIntl();
     const {
         addConfigurableProductToCart,
@@ -231,10 +243,9 @@ const ProductFullDetailB2B = props => {
                         <WishlistButton {...wishlistButtonProps} />
                     </Suspense>
                 </section>
+
                 <section className={classes.b2cContent}>
-                    {/* <h2 className={classes.b2cContentTitle}>
-                        <FormattedMessage id={'productFullDetailB2B.titleTable'} defaultMessage={'Products table'} />
-                    </h2> */}
+                    <CmsBlock content={warrantiesBlock} />
                     <div className={classes.productsContainer}>
                         {selectedFilterList}
                         {filterOptions}
@@ -244,6 +255,7 @@ const ProductFullDetailB2B = props => {
                 </section>
                 <section className={classes.hide}>{availableOptions}</section>
             </Form>
+            <CmsBlock content={recommendedProductBlock} />
         </Fragment>
     );
 };
