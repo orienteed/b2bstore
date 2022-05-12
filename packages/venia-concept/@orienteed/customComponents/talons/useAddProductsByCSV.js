@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useMutation } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 import Papa from 'papaparse';
 
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
@@ -8,16 +8,19 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU } from '../query/addProductByCsv.gql';
 
 export const useAddProductsByCSV = props => {
-    const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen } = props;
+    const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen, quickOrder, setProducts, success } = props;
     const [{ cartId }] = useCartContext();
 
     const [addConfigurableProductToCart] = useMutation(ADD_CONFIGURABLE_MUTATION);
     const getParentSku = useAwaitQuery(GET_PARENT_SKU);
+    const getproduct = useAwaitQuery(GET_PRODUCTS_BY_SKU);
 
     const handleCSVFile = () => {
-        setCsvErrorType('');
-        setCsvSkuErrorList([]);
-        setIsCsvDialogOpen(false);
+        if (!quickOrder) {
+            setCsvErrorType('');
+            setCsvSkuErrorList([]);
+            setIsCsvDialogOpen(false);
+        }
 
         const input = document.createElement('input');
         input.type = 'file';
@@ -39,7 +42,23 @@ export const useAddProductsByCSV = props => {
             Papa.parse(file, {
                 complete: function(result) {
                     const dataValidated = formatData(result.data);
-                    handleAddProductsToCart(dataValidated);
+                    if (quickOrder) {
+                        setProducts([]);
+                        dataValidated.map(async item => {
+                            const data = await getproduct({
+                                variables: { sku: item[0] }
+                            });
+                            setProducts(prev => [
+                                ...prev,
+                                {
+                                    ...data?.data?.products?.items[0],
+                                    quantity: item[1]
+                                }
+                            ]);
+                        });
+                    } else {
+                        handleAddProductsToCart(dataValidated);
+                    }
                 }
             });
         }
@@ -81,10 +100,12 @@ export const useAddProductsByCSV = props => {
                         sku: csvProducts[i][0],
                         parentSku: parentSkuResponse.data.products.items[0].orParentSku
                     };
-
                     await addConfigurableProductToCart({
                         variables
                     });
+                    if (quickOrder) {
+                        success();
+                    }
                 } catch {
                     tempSkuErrorList.push(csvProducts[i][0]);
                     setCsvErrorType('loading');
@@ -93,6 +114,7 @@ export const useAddProductsByCSV = props => {
             }
             if (tempSkuErrorList.length > 0) {
                 setCsvErrorType('sku');
+
                 setCsvSkuErrorList(tempSkuErrorList);
             }
         },
@@ -104,3 +126,26 @@ export const useAddProductsByCSV = props => {
         handleAddProductsToCart
     };
 };
+export const GET_PRODUCTS_BY_SKU = gql`
+    query getproduct($sku: String!) {
+        # Limit results to first three.
+        products(search: $sku) {
+            # eslint-disable-next-line @graphql-eslint/require-id-when-available
+            items {
+                id
+                uid
+                name
+                sku
+                price {
+                    regularPrice {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                }
+            }
+            total_count
+        }
+    }
+`;
