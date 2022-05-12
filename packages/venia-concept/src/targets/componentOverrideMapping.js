@@ -102,5 +102,13 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CreateAccount/createAccount.module.css`]: './src/components/CreateAccount/createAccount.module.css',
     [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.module.css`]: './src/components/CreateAccountPage/createAccountPage.module.css',
     //new overwrite
-    [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js'
+    [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js',
+
+    //new overwrite for quick order form
+    [`@magento/venia-ui/lib/components/Dialog/dialog.js`]: './src/components/Dialog/dialog.js',
+    [`@magento/venia-ui/lib/components/SearchBar/searchBar.js`]: './src/components/SearchBar/searchBar.js',
+    [`@magento/venia-ui/lib/components/SearchBar/suggestions.js`]: './src/components/SearchBar/suggestions.js',
+    [`@magento/venia-ui/lib/components/SearchBar/searchField.js`]: './src/components/SearchBar/searchField.js',
+    [`@magento/peregrine/lib/talons/SearchBar/useAutocomplete.js`]: './src/talons/SearchBar/useAutocomplete.js',
+
 };
