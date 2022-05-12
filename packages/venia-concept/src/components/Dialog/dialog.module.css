@@ -187,4 +187,67 @@
         /* On mobile the confirm button should be first (on top). */
         order: -1;
     }
+    .DialogQuick .dialog {
+        max-height: 100%;
+        max-width: none;
+    }
+}
+
+.DialogQuick .root {
+    padding: 50px 0;
+}
+.DialogQuick .form {
+    /* The form fills the entire aside. */
+    height: 100%;
+    width: 100%;
+
+    /* Its contents are centered horizontally and vertically. */
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+}
+
+.DialogQuick .dialog {
+    background-color: #e6effb;
+    border-radius: 5px;
+    width: 100%;
+    /* It sets maximum sizes so its body can handle overflow. */
+    height: 100%;
+    max-height: 90vh;
+    min-height: 584px;
+    max-width: 1280px;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    pointer-events: auto;
+    z-index: 4;
+    padding: 25px;
+}
+
+.DialogQuick .header {
+    height: 3.5rem;
+    padding: 0 0.75rem 0 1rem;
+
+    /* The Header is itself a grid container for its children. */
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    column-gap: 1rem;
+    align-items: center;
+}
+
+.DialogQuick .headerText {
+    color: #0c0c0c;
+    text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--venia-global-fontSize-650);
+    font-weight: var(--venia-global-fontWeight-bold);
+    font-family: var(--venia-global-fontFamily-Basier-Circle);
+}
+
+.DialogQuick .headerButton {
+    /* Horizontally align the close button to the right. */
+    justify-self: right;
 }
