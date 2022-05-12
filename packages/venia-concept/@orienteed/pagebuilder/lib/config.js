@@ -15,7 +15,7 @@ import tabsConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/Tabs/con
 import tabItemConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/TabItem/configAggregator';
 import blockConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/Block/configAggregator';
 import dynamicBlockConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/DynamicBlock/configAggregator';
-import productsConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/Products/configAggregator';
+import productsConfigAggregator from '@orienteed/pagebuilder/lib/ContentTypes/Products/configAggregator';
 import buttonsConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/Buttons/configAggregator';
 import buttonItemConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/ButtonItem/configAggregator';
 import htmlConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/Html/configAggregator';
@@ -97,7 +97,7 @@ const contentTypesConfig = {
     products: {
         configAggregator: productsConfigAggregator,
         component: React.lazy(() =>
-            import('@magento/pagebuilder/lib/ContentTypes/Products')
+            import('@orienteed/pagebuilder/lib/ContentTypes/Products')
         )
     },
     html: {
