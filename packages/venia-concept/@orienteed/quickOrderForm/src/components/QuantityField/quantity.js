@@ -2,22 +2,26 @@ import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
+import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
 import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import TextInput from '../../TextInput';
-import { Message } from '../../Field';
-import defaultClasses from './quantity.module.css';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import { Message } from '@magento/venia-ui/lib/components/Field';
+import defaultClasses from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
 
 export const QuantityFields = props => {
-    const { initialValue, itemId, label, min, onChange, message } = props;
+    const { initialValue, itemId, label, min, onChange, message, fieldName, hideButtons } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
+    const iconClasses = { root: classes.icon };
 
     const talonProps = useQuantity({
         initialValue,
         min,
-        onChange
+        onChange,
+        fieldName
     });
 
     const {
@@ -30,17 +34,13 @@ export const QuantityFields = props => {
     return (
         <Fragment>
             <div className={classes.root}>
-                <label className={classes.label} htmlFor={itemId}>
-                    {label}
-                </label>
                 <TextInput
                     aria-label={formatMessage({
                         id: 'quantity.input',
                         defaultMessage: 'Item Quantity'
                     })}
-                    data-cy="QuantityFields-input"
                     classes={{ input: classes.input }}
-                    field="quantity"
+                    field={fieldName}
                     id={itemId}
                     inputMode="numeric"
                     mask={maskInput}
@@ -72,14 +72,16 @@ Quantity.propTypes = {
     label: string,
     min: number,
     onChange: func,
-    message: string
+    message: string,
+    fieldName: string
 };
 
 Quantity.defaultProps = {
     label: 'Quantity',
     min: 0,
     initialValue: 1,
-    onChange: () => {}
+    onChange: () => {},
+    fieldName: 'quantity'
 };
 
 QuantityFields.defaultProps = {
