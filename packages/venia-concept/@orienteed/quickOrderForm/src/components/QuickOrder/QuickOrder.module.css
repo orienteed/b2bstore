@@ -152,12 +152,12 @@
 .inputQtyQuick > div {
     background: #ffffff;
     display: block !important;
-    border: 1px solid #eaecee;
+    border: 2px solid var(--b2bStore-fieldInput-border-color);
     box-sizing: border-box;
     border-radius: 8px;
 }
 .inputQtyQuick > div:focus {
-    border: 1px solid rgb(var(--venia-global-color-gray-600));
+    border: 2px solid var(--b2bStore-fieldInput-border-color);
 }
 
 .inputQtyQuick > div:focus {
@@ -165,4 +165,8 @@
 }
 .searchBar > div {
     /* padding: 0; */
+}
+
+.inputQtyQuick > form > div {
+    display: block;
 }

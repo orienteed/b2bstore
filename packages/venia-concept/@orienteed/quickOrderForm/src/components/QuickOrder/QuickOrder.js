@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { CSVLink } from 'react-csv';
 import { useHistory } from 'react-router-dom';
 import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
 
-import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity';
+import QuantityFields from '../QuantityField/quantity';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
-import Dialog from '../Dialog/dialog';
+import Dialog from '../Dialog';
 import SearchBar from '../SearchBar';
 
 import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
@@ -26,15 +26,25 @@ const AddQuickOrder = props => {
     const [csvData, setCsvData] = useState([]);
     const classes = mergeClasses(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
+    const warningMsg = formatMessage({
+        id: 'quickOrder.something went wrong, try again later',
+        defaultMessage: 'something went wrong, try again later'
+    });
     const success = () => {
-        displayMessage('success', 'Added to cart successfully');
+        displayMessage(
+            'success',
+            formatMessage({
+                id: 'quickOrder.Added to cart successfully',
+                defaultMessage: 'Added to cart successfully'
+            })
+        );
         setIsOpen(false);
         setProducts(JSON.parse(JSON.stringify(iniArray)));
     };
     const { handleAddProductsToCart, handleCSVFile } = useAddProductsByCSV({
         quickOrder: true,
-        setCsvErrorType: () => displayMessage('warning', 'something went wrong, try again later'),
-        setCsvSkuErrorList: () => displayMessage('warning', 'something went wrong with SKU, try again later'),
+        setCsvErrorType: () => displayMessage('warning', warningMsg),
+        setCsvSkuErrorList: () => displayMessage('warning', warningMsg),
         setIsCsvDialogOpen: () => {},
         setProducts,
         success
@@ -95,7 +105,7 @@ const AddQuickOrder = props => {
         handleAddProductsToCart(dataValidated);
     };
     const addQuoteClick = () => {
-        displayMessage('warning', 'something went wrong, try again later');
+        displayMessage('warning', warningMsg);
         //TODO => we are still wating to migrate this feature from the template to b2bstore
     };
     const downloadCsv = () => {
@@ -157,14 +167,20 @@ const AddQuickOrder = props => {
                             <div>
                                 <div className={classes.labalWrapper}>
                                     <div>
-                                        <span>Item #</span>
+                                        <span>
+                                            <FormattedMessage id="quickOder.Item#" defaultMessage="Item #" />
+                                        </span>
                                     </div>
                                     <div>
-                                        <span>Qty</span>
+                                        <span>
+                                            <FormattedMessage id="quickOder.Qty" defaultMessage="Qty" />
+                                        </span>
                                     </div>
 
                                     <div>
-                                        <span>Price</span>
+                                        <span>
+                                            <FormattedMessage id="quickOder.Orice" defaultMessage="Orice" />
+                                        </span>
                                     </div>
                                 </div>
                                 <div className={classes.m_1}>
@@ -186,17 +202,6 @@ const AddQuickOrder = props => {
                                                     />
                                                 </div>
                                                 {quantitySelector(item, key)}
-                                                {/* <div className={classes.inputQtyQuick}>
-                                                    <QuantityFields
-                                                        initialValue={item.quantity}
-                                                        fieldName={'quantity' + item.id}
-                                                        min={0}
-                                                        quickOrder={true}
-                                                        itemId={item.id}
-                                                        onChange={e => onChangeQty(e, key)}
-                                                        hideButtons={true}
-                                                    />
-                                                </div> */}
                                                 <div className={classes.priceWrapper}>
                                                     {item.price ? (
                                                         <span className={classes.priceText}>
@@ -209,7 +214,13 @@ const AddQuickOrder = props => {
                                                             ).toFixed(2)}
                                                         </span>
                                                     ) : (
-                                                        <span className={classes.spanUnAailable}>Unavailable</span>
+                                                        <span className={classes.spanUnAailable}>
+                                                            {' '}
+                                                            <FormattedMessage
+                                                                id={'quotePriceSummary.Unavailable'}
+                                                                defaultMessage={'Unavailable'}
+                                                            />
+                                                        </span>
                                                     )}
                                                 </div>
                                                 {key === products.length - 1 ? (
@@ -234,17 +245,33 @@ const AddQuickOrder = props => {
                             </div>
                             <div>
                                 <div className={classes.uploadContainer}>
-                                    <h5 className={classes.uploadHeader}>Upload your order</h5>
-                                    <p>Here you can upload own file XLS, XLSX or CSV and products to cart.</p>
+                                    <h5 className={classes.uploadHeader}>
+                                        <FormattedMessage
+                                            id="quickOder.UploadYourOrder"
+                                            defaultMessage=" Upload your order"
+                                        />
+                                    </h5>
+                                    <p>
+                                        <FormattedMessage
+                                            id="quickOder.HereYouCanUploadOwnFile"
+                                            defaultMessage="Here you can upload own file XLS, XLSX or CSV and products to cart."
+                                        />
+                                    </p>
                                     <div>
                                         <Button type="button" priority="high" onClick={handleCSVFile}>
-                                            Upload your file
+                                            <FormattedMessage
+                                                id="quickOder.UploadYourFile"
+                                                defaultMessage="Upload your file"
+                                            />
                                         </Button>
                                     </div>
                                     <CSVLink data={csvData}>
                                         <Button className={classes.downloadBtn}>
                                             <Icon src={Download} alt="download-icon" />
-                                            Download your sample file
+                                            <FormattedMessage
+                                                id="quickOder.DownloadYourYampleFile"
+                                                defaultMessage="Download your sample file"
+                                            />
                                         </Button>
                                     </CSVLink>
                                 </div>
@@ -253,18 +280,18 @@ const AddQuickOrder = props => {
                         <div className={classes.btnContainer}>
                             <div>
                                 <Button type="button" priority="high" onClick={addToCartClick}>
-                                    Add to cart
+                                    <FormattedMessage id="quickOder.AddToCart" defaultMessage="Add to cart" />
                                     <Icon className={classes.addCartIcon} src={ArrowDown} alt="arrowDown-icon" />
                                 </Button>
                             </div>
                             <div>
                                 <Button type="button" priority="high" onClick={addQuoteClick}>
-                                    Get Quote
+                                    <FormattedMessage id="quickOder.GetQuote" defaultMessage="Get Quote" />
                                 </Button>
                             </div>
                             <div>
                                 <Button type="button" priority="high" onClick={createOrderClick}>
-                                    Create Order
+                                    <FormattedMessage id="quickOder.CreateOrder" defaultMessage="Create Order" />
                                 </Button>
                             </div>
                         </div>
