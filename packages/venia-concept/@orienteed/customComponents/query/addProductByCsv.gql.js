@@ -28,6 +28,7 @@ export const GET_PARENT_SKU = gql`
         products(search: $sku, filter: { sku: { eq: $sku } }) {
             items {
                 orParentSku
+                uid
             }
         }
     }
