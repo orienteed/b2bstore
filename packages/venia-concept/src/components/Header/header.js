@@ -22,6 +22,7 @@ import NavigationTrigger from '@magento/venia-ui/lib/components/Header/navTrigge
 
 const SearchBar = React.lazy(() => import('@magento/venia-ui/lib/components/SearchBar'));
 
+import QuickOrder from '@orienteed/quickOrderForm/src/components/QuickOrder';
 const Header = props => {
     const {
         handleSearchTriggerClick,
@@ -60,7 +61,7 @@ const Header = props => {
                 </div>
             </div>
             <header className={rootClass} data-cy="Header-root">
-                <div className={classes.toolbar}>
+                <div className={`${classes.toolbar} ${isUserSignedIn && classes.Authtoolbar}`}>
                     <div className={classes.primaryActions}>
                         <NavigationTrigger />
                     </div>
@@ -74,6 +75,7 @@ const Header = props => {
                         <AccountTrigger />
                         <CartTrigger />
                     </div>
+                    {isUserSignedIn && <QuickOrder />}
                 </div>
                 {searchBar}
                 <PageLoadingIndicator absolute />
