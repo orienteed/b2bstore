@@ -11,7 +11,9 @@ import ProductSort from './ProductSort/productSort';
 
 import { useSortCatalog } from '../../talons/DownloadCsv/useSortCatalog';
 
-const DownloadCsv = () => {
+import CsvIcon from './Icon/csv.svg';
+const DownloadCsv = props => {
+    const { showIcon } = props;
     const { galleryItem, currentCatalog } = useDownloadCsvContext();
     const [data, setData] = useState();
     // const talonProps = useDownloadCsv();
@@ -156,6 +158,7 @@ const DownloadCsv = () => {
             <CSVLink data={flatNewGalleryItemMinimalPrice}>
                 <CustomButton priority={'high'}>
                     <FormattedMessage id={'download'} defaultMessage={'download'} />
+                    {showIcon && <img className={defaultClasses.icon} src={CsvIcon} alt="CsvIcon" />}
                 </CustomButton>
             </CSVLink>
         );
