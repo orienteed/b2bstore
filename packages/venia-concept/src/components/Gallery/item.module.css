@@ -12,6 +12,7 @@
 
 .imageContainer {
     grid-area: main;
+    position: relative;
 }
 
 .image {
@@ -78,4 +79,34 @@
     padding: 0.75rem;
     width: 100%;
     font-size: var(--venia-global-fontSize-100);
+}
+
+.discount {
+    position: absolute;
+    background-color: #ff7e27;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    left: 0%;
+    height: 32px;
+    right: 82.72%;
+}
+.discount span {
+    font-style: normal;
+    font-weight: 600;
+    color: #fff;
+}
+.shareIcon {
+    position: absolute;
+    left: 90%;
+    bottom: 10%;
+}
+.configrableLabel {
+    font-weight: 400;
+    font-size: 14px;
+}
+.configrableValue {
+    font-weight: 600;
+    font-size: 14px;
 }

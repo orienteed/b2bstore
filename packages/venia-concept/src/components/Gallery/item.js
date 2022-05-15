@@ -19,6 +19,8 @@ import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartB
 // eslint-disable-next-line no-unused-vars
 import Rating from '@magento/venia-ui/lib/components/Rating';
 
+import { useHistory } from 'react-router-dom';
+import ShareIcon from './Icons/share.svg';
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -29,17 +31,16 @@ const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY,
 
 const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
-
     const { storeConfig } = props;
-
+    const { configurable_options } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
     const classes = useStyle(defaultClasses, props.classes);
 
+    const { location } = useHistory();
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
-
     // eslint-disable-next-line no-unused-vars
     const { orParentUrlKey, name, price, price_range, small_image, url_key, url_suffix, rating_summary } = item;
 
@@ -95,6 +96,12 @@ const GalleryItem = props => {
     //     <Rating rating={rating_summary} />
     // ) : null;
 
+    const configurableOptions = configurable_options.map((ele, key) => (
+        <React.Fragment key={key + 'configurable_options'}>
+            <span className={classes.configrableLabel}>{ele.label}:{' '}</span>
+            <span className={classes.configrableValue}>{ele.values[0].default_label}</span><br/>
+        </React.Fragment>
+    ));
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
@@ -110,12 +117,19 @@ const GalleryItem = props => {
                     resource={smallImageURL}
                     widths={IMAGE_WIDTHS}
                 />
+                <div className={classes.discount}>
+                    <span>30%</span>
+                </div>
+                <div className={classes.shareIcon}>
+                    <img src={ShareIcon} alt="share icon" />
+                </div>
                 {ratingAverage}
             </Link>
             <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
+                {configurableOptions}
                 <div className={classes.productPrice}>{priceRender}</div>
                 {/* <Price
                     value={price_range.maximum_price.regular_price.value}
