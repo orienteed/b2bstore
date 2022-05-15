@@ -9,7 +9,6 @@
 .title {
     font-size: 1.5rem;
     font-weight: 400;
-    padding: 0 0.5rem;
 }
 
 .pagination {
@@ -24,10 +23,10 @@
 .categoryTitle {
     color: rgb(var(--venia-global-color-text));
     padding-bottom: 1rem;
-    font-size: 1.375rem;
-    font-weight: 300;
+    font-size: 36px;
+    font-weight: 700;
     line-height: 1.375rem;
-    text-align: center;
+    margin-top: 16px;
 }
 
 .heading {
@@ -63,7 +62,17 @@
 .downloadCsvMobile {
     margin-bottom: 2rem;
 }
-
+.downloadCsvDesktop {
+    margin-left: 0.5rem;
+}
+.downloadCsvDesktop main article a button {
+    padding: 0.2rem 0.5rem !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+.downloadCsvDesktop section div button {
+    width: 40px;
+}
 @media screen and (max-width: 1024px) {
     .downloadCsvDesktop {
         display: none;
@@ -102,7 +111,6 @@
         display: flex;
         align-self: flex-start;
         width: var(--category-sidebar-width);
-        padding-top: 4rem;
     }
 
     .categoryContent {
@@ -112,4 +120,16 @@
         margin-bottom: 2rem;
         display: none;
     }
+}
+
+.showDesBtn {
+    font-weight: 400;
+    font-size: 16px;
+    cursor: pointer;
+    color: #1071ff;
+}
+.descriptionText {
+    font-weight: 400;
+    font-size: 16px;
+    max-width: 1250px;
 }
