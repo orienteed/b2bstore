@@ -160,6 +160,9 @@
         text-align: center;
         grid-template-columns: 1fr;
     }
+    .labalWrapper {
+        grid-template-columns: 35% 17% 26% 15% 1% 1%;
+    }
 }
 
 .removeIcon svg {

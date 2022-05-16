@@ -54,6 +54,7 @@
 
 @media only screen and (max-width: 680px) {
     .root {
-        grid-template-columns: 40px 1fr 40px 1fr;
+        grid-template-columns: 0.3fr 2fr 0.2fr;
+        gap: 0.3rem;
     }
 }

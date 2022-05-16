@@ -61,3 +61,10 @@
 .suggestions:empty {
     display: none;
 }
+@media (max-width: 650px) {
+    .root_visible {
+        width: max-content;
+        max-width: 250px;
+        padding: 0.4rem;
+    }
+}
