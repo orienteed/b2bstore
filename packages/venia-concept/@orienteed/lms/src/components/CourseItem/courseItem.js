@@ -7,7 +7,6 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from './courseItem.module.css';
 import noImageAvailable from './Icons/noImageAvailable.svg';
-import inProgressIcon from './Icons/inProgress.svg';
 
 const CourseItem = props => {
     const { data, isProgressCourse, isProgressTab } = props;
@@ -35,37 +34,14 @@ const CourseItem = props => {
         history.push(`/course/${data.id}`);
     };
 
-    const overlayEffect = isProgressTab ? (
-        <div className={classes.courseOverlay}>
-            <div className={classes.subscribeButtonTextContainer}>
-                <img className={classes.inProgressTabIcon} src={inProgressIcon} alt="In Progress" />
-                <Button className={classes.subscribeButtonOverlay} onClick={handleGoToCourse}>
-                    {resumeCourseText}
-                </Button>
-            </div>
-        </div>
-    ) : (
-        <div className={isProgressCourse ? classes.courseOverlayInProgress : classes.courseOverlay}>
-            {isProgressCourse ? (
-                <div className={classes.subscribeButtonTextContainer}>
-                    <img className={classes.inProgressIcon} src={inProgressIcon} alt="In Progress" />
-                    <Button className={classes.subscribeButtonOverlay} onClick={handleGoToCourse}>
-                        {resumeCourseText}
-                    </Button>
-                </div>
-            ) : (
-                <Button className={classes.subscribeButtonOverlay} onClick={handleGoToCourse}>
-                    {startCourseText}
-                </Button>
-            )}
-        </div>
-    );
-
+    // TODO_B2B: Add translation for 'In Progress'
     const categoryTag =
         data.categoryname !== '' ? (
-            <span className={classes.categoryTag}>{data.categoryname}</span>
+            <span className={classes.categoryTag}>
+                {isProgressCourse ? `${data.categoryname} | In progress` : data.categoryname}
+            </span>
         ) : (
-            <span className={classes.categoryTag}>{generalTag}</span>
+            <span className={classes.categoryTag}>{isProgressCourse ? `${generalTag} | In progress` : generalTag}</span>
         );
 
     const courseLogo =
@@ -93,18 +69,17 @@ const CourseItem = props => {
 
     return (
         <div key={data.id} className={classes.courseContainer}>
-            {overlayEffect}
-            {isProgressTab ? null : categoryTag}
             {courseLogo}
-            {isProgressTab ? progressBar : null}
-            <p className={classes.courseTitle}>{data.fullname}</p>
-            <div className={classes.courseDescriptionContainer}>
+            <div className={classes.courseBody}>
+                <h1 className={classes.courseTitle}>{data.fullname}</h1>
+                {isProgressTab ? null : categoryTag}
+                {isProgressTab ? progressBar : null}
                 <p className={classes.courseDescription}>{data.summary}</p>
-            </div>
-            <div className={classes.subscribeButtonContainer}>
-                <Button className={classes.subscribeButton} onClick={handleGoToCourse}>
-                    {isProgressCourse || isProgressTab ? resumeCourseText : startCourseText}
-                </Button>
+                <div className={classes.actionButtonContainer}>
+                    <Button className={classes.actionButton} onClick={handleGoToCourse}>
+                        {isProgressCourse || isProgressTab ? resumeCourseText : startCourseText}
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-.courseImage {
+/* .courseImage {
     height: 250px;
     object-fit: contain;
     padding: 10px;
@@ -161,6 +161,66 @@
     justify-content: center;
     align-content: center;
 }
+*/
+
+.courseContainer {
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    border: 1px solid rgb(var(--venia-global-color-border));
+}
+
+.courseBody {
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    line-height: 24px;
+}
+
+.courseImage {
+    height: 170px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+}
+
+.courseTitle {
+    font-size: 20px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.categoryTag {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--orienteed-global-color-orange)
+}
+
+.courseDescription {
+    font-size: 16px;
+    font-weight: 400;
+
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    /* height: 72px; */
+}
+
+.actionButtonContainer {
+    padding: 0 50px;
+}
+
+.actionButton {
+    composes: root_highPriorityInv from '@magento/venia-concept/src/components/Button/button.module.css';
+}
 
 /* Progress Bar */
 .progressBarContainer {
@@ -194,7 +254,6 @@
 
 .progressBarFillText {
     position: absolute;
-    transform: translate(-50%, 50%);
-    left: 50%;
+    transform: translate(0%, 50%);
     font-weight: bold;
 }
