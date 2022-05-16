@@ -27,10 +27,6 @@ const FilterSidebar = React.lazy(() => import('@magento/venia-ui/lib/components/
 
 import DownloadCsv from '@orienteed/customComponents/components/DownloadCsv';
 
-const mockDescription = `Silla con brazos apilable para uso interior.Silla con brazos apilable 
-    para uso interior. Polipropileno reforzado con fibra de vidr io. Inyección 
-    por gas. Asientoes lizantes. Muy fácil de lavar y desinfectar. Producto de 
-    uso público y doméstico.`;
 const CategoryContent = props => {
     const { categoryId, data, isLoading, pageControl, sortProps, pageSize } = props;
     const [currentSort] = sortProps;
@@ -142,23 +138,7 @@ const CategoryContent = props => {
                                     {categoryTitle}
                                 </div>
                             </h1>
-                            {/* {categoryDescriptionElement} */}
-                            <p className={classes.descriptionText}>
-                                {mockDescription.length > 200
-                                    ? showMore
-                                        ? mockDescription
-                                        : mockDescription.slice(0, 200)
-                                    : mockDescription}
-                            </p>
-                            {!showMore ? (
-                                <a className={classes.showDesBtn} onClick={changeShowMore}>
-                                    Show more
-                                </a>
-                            ) : (
-                                <a className={classes.showDesBtn} onClick={changeShowMore}>
-                                    Show less
-                                </a>
-                            )}
+                            {categoryDescriptionElement}
                         </div>
                         <div className={classes.heading}>
                             <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>

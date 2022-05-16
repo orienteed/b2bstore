@@ -21,6 +21,9 @@ import Rating from '@magento/venia-ui/lib/components/Rating';
 
 import { useHistory } from 'react-router-dom';
 import ShareIcon from './Icons/share.svg';
+import InStockIcon from './Icons/inStoke.svg';
+import OutStockIcon from './Icons/outStoke.svg';
+import ToolTipIcon from './Icons/tooltip.svg';
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -32,7 +35,7 @@ const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY,
 const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
     const { storeConfig } = props;
-    const { configurable_options } = props.item;
+    const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -57,7 +60,7 @@ const GalleryItem = props => {
             amount: { value: regularPriceValue }
         }
     } = price;
-
+    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
             <div className={classes.price}>
@@ -98,10 +101,32 @@ const GalleryItem = props => {
 
     const configurableOptions = configurable_options.map((ele, key) => (
         <React.Fragment key={key + 'configurable_options'}>
-            <span className={classes.configrableLabel}>{ele.label}:{' '}</span>
-            <span className={classes.configrableValue}>{ele.values[0].default_label}</span><br/>
+            <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
+            <button className={classes.tooltip}>
+                <img className={classes.configrableValue} src={ToolTipIcon} alt="configurable_options" />
+                <span className={classes.tooltiptext}>{ele.values[0].default_label}</span>
+            </button>
+            <br />
+            {console.log(ele.values.join(','))}
         </React.Fragment>
     ));
+    const StokeStatus = ({ status }) => {
+        return (
+            <>
+                {status === 'IN_STOCK' ? (
+                    <span className={classes.inStock}>
+                        <img src={InStockIcon} alt="in stock" />
+                        In stock
+                    </span>
+                ) : (
+                    <span className={classes.outStock}>
+                        <img src={OutStockIcon} alt="out stock" />
+                        Out of stock
+                    </span>
+                )}
+            </>
+        );
+    };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
@@ -118,10 +143,13 @@ const GalleryItem = props => {
                     widths={IMAGE_WIDTHS}
                 />
                 <div className={classes.discount}>
-                    <span>30%</span>
+                    <span>{discount}%</span>
                 </div>
                 <div className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
+                </div>
+                <div className={classes.stockIcon}>
+                    <StokeStatus status={stock_status} />
                 </div>
                 {ratingAverage}
             </Link>
