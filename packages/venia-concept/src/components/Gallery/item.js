@@ -147,9 +147,11 @@ const GalleryItem = props => {
                     resource={smallImageURL}
                     widths={IMAGE_WIDTHS}
                 />
-                <div className={classes.discount}>
-                    <span>{discount}%</span>
-                </div>
+                {discount && (
+                    <div className={classes.discount}>
+                        <span>{discount}%</span>
+                    </div>
+                )}
                 <div className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
                 </div>
