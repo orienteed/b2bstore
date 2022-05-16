@@ -6,18 +6,23 @@
     border-radius: 30px;
     grid-column: 18;
     color: #fff;
+    outline: none;
 }
+
 .orderIcon img {
     width: 28px;
     height: 28px;
 }
+
 .orderIcon > span {
     display: flex;
     justify-content: flex-start;
 }
+
 .orderIcon svg {
     stroke: #fff;
 }
+
 .flex {
     display: flex;
     gap: 1.5rem;
@@ -28,14 +33,17 @@
     grid-template-columns: 35% 17% 21% 15% 1%;
     gap: 16px;
 }
+
 .m_1 {
     margin-top: 1rem;
 }
+
 .gridWrapper {
     display: grid;
     grid-template-columns: 68.3% 31.7%;
     gap: 16px;
 }
+
 .uploadContainer {
     background-color: #fff;
     border-radius: 8px;
@@ -47,6 +55,7 @@
     height: 256px;
     margin-top: 2.5rem;
 }
+
 .uploadHeader {
     font-weight: var(--venia-global-fontWeight-bold);
     font-size: var(--venia-global-fontSize-300);
@@ -57,22 +66,27 @@
     text-align: center;
     margin: 0.5rem 0px;
 }
+
 .noMargin {
     margin: 0;
 }
+
 .icon {
     margin-left: 0.6rem;
 }
+
 .downloadBtn {
     color: rgb(var(--venia-global-color-blue-200));
     font-size: var(--venia-global-fontSize-100);
 }
+
 .addBtn {
     align-content: center;
     display: flex;
     color: rgb(var(--venia-global-color-blue-200));
     font-size: var(--venia-global-fontSize-100);
 }
+
 .container {
     margin: 8px 0;
 }
@@ -90,6 +104,7 @@
     color: rgb(var(--venia-global-color-gray-550));
     font-family: var(--venia-global-fontFamily-Basier-Square);
 }
+
 .priceText {
     align-items: center;
     text-align: center;
@@ -97,20 +112,24 @@
     color: rgb(var(--venia-global-color-blue-200));
     font-family: var(--venia-global-fontFamily-Basier-Square);
 }
+
 .searchBar {
     padding: 0 !important;
     margin-left: -1rem;
 }
+
 .sqs-search-ui-button-wrapper .search-input {
     padding: 0 !important;
     margin-left: -1rem;
 }
+
 .price {
     display: flex;
     align-items: center;
     padding: 12px 16px;
     height: 48px;
 }
+
 .btnContainer {
     margin-top: 4.5rem;
     display: grid;
@@ -121,6 +140,7 @@
 .btnOrderContainer {
     display: grid;
 }
+
 .gridBtn {
     grid-column: 16;
 }
@@ -134,6 +154,7 @@
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
+
 @media (max-width: 600px) {
     .btnContainer {
         text-align: center;
@@ -144,6 +165,7 @@
 .removeIcon svg {
     stroke: #df6868;
 }
+
 .addCartIcon svg {
     stroke: #fff;
 }
@@ -155,6 +177,7 @@
     box-sizing: border-box;
     border-radius: 8px;
 }
+
 .inputQtyQuick > div:focus {
     border: 2px solid var(--b2bStore-fieldInput-border-color);
 }
@@ -162,6 +185,7 @@
 .inputQtyQuick > div:focus {
     box-shadow: none;
 }
+
 .searchBar > div {
     /* padding: 0; */
 }
