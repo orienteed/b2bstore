@@ -161,7 +161,29 @@
         grid-template-columns: 1fr;
     }
     .labalWrapper {
-        grid-template-columns: 35% 17% 26% 15% 1% 1%;
+        grid-template-columns: 35% 35% 26% 15% 1% 1%;
+        margin-bottom: 1.5rem;
+        row-gap: 0;
+    }
+
+    .searchBar + .inputQtyQuick {
+        grid-column-start: 1;
+    }
+    .searchBar {
+        grid-column: 1 /4;
+    }
+    .searchBar > div {
+        justify-content: start;
+        display: block;
+    }
+    .priceWrapper {
+        padding: 0;
+    }
+    .addbtn {
+        margin-top: 0.5rem;
+    }
+    .mobileHidden{
+        display: none;
     }
 }
 

@@ -169,17 +169,17 @@ const AddQuickOrder = props => {
                                 <div className={classes.labalWrapper}>
                                     <div>
                                         <span>
-                                            <FormattedMessage id="quickOder.Item#" defaultMessage="Item" />
+                                            <FormattedMessage id="quickOder.Item#" defaultMessage="Items" />
                                         </span>
                                     </div>
                                     <div>
-                                        <span>
+                                        <span className={classes.mobileHidden}>
                                             <FormattedMessage id="quickOder.Qty" defaultMessage="Qty" />
                                         </span>
                                     </div>
 
                                     <div>
-                                        <span>
+                                        <span className={classes.mobileHidden}>
                                             <FormattedMessage id="quickOder.Price" defaultMessage="Price" />
                                         </span>
                                     </div>
@@ -225,13 +225,13 @@ const AddQuickOrder = props => {
                                                     )}
                                                 </div>
                                                 {key === products.length - 1 ? (
-                                                    <div>
+                                                    <div className={classes.addbtn}>
                                                         <Button className={classes.downloadBtn} onClick={addProduct}>
                                                             <Icon src={PlusCircle} alt="download-icon" />
                                                         </Button>
                                                     </div>
                                                 ) : (
-                                                    <div>
+                                                    <div className={classes.addbtn}>
                                                         <Button
                                                             onClick={() => removeProduct(key)}
                                                             className={`${classes.downloadBtn} ${classes.removeIcon}`}

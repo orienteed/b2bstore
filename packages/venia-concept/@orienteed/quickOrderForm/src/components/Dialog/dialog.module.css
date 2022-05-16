@@ -120,6 +120,7 @@
     /* The Body is itself a grid container for its children. */
     display: grid;
     grid-template-rows: 1fr auto;
+    overflow-x: hidden;
 }
 
 .contents {
