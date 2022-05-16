@@ -92,89 +92,52 @@
     height: 32px;
     right: 82.72%;
 }
+
 .discount span {
     font-style: normal;
     font-weight: 600;
     color: #fff;
 }
+
 .shareIcon {
     position: absolute;
     left: 90%;
     bottom: 10%;
 }
-.configrableLabel {
-    font-weight: 400;
-    font-size: 14px;
-}
-.configrableValue {
-    display: initial;
-}
+
+
+
 .stockIcon {
     position: absolute;
     bottom: 10%;
 }
+
 .inStock {
     display: flex;
     color: #00893a;
     font-weight: 400;
     font-size: 14px;
 }
+
 .inStock img {
     margin-right: 8px;
 }
+
 .outStock img {
     margin-right: 8px;
 }
+
 .outStock {
     color: #f52f2f;
     font-weight: 400;
     font-size: 14px;
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
+.list li::before {
+    content: '\2022';
     color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-
-    /* Position the tooltip text */
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-
-    /* Fade in tooltip */
-    opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-/* Tooltip arrow */
-.tooltip .tooltiptext::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:focus .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
 }

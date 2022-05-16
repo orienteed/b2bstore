@@ -18,12 +18,12 @@ import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/Add
 import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartButton';
 // eslint-disable-next-line no-unused-vars
 import Rating from '@magento/venia-ui/lib/components/Rating';
+import ToolTip from '@orienteed/customComponents/components/ToolTip';
 
 import { useHistory } from 'react-router-dom';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
-import ToolTipIcon from './Icons/tooltip.svg';
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -99,17 +99,22 @@ const GalleryItem = props => {
     //     <Rating rating={rating_summary} />
     // ) : null;
 
-    const configurableOptions = configurable_options.map((ele, key) => (
-        <React.Fragment key={key + 'configurable_options'}>
-            <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
-            <button className={classes.tooltip}>
-                <img className={classes.configrableValue} src={ToolTipIcon} alt="configurable_options" />
-                <span className={classes.tooltiptext}>{ele.values[0].default_label}</span>
-            </button>
-            <br />
-            {console.log(ele.values.join(','))}
-        </React.Fragment>
-    ));
+    const configurableOptions = configurable_options.map((ele, key) => {
+        const values = ele.values.map(({ default_label }) => default_label);
+        return (
+            <React.Fragment key={key + 'configurable_options'}>
+                <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
+                <ToolTip>
+                    <ul className={classes.list}>
+                        {values.map(val => (
+                            <li key={val}>{val}</li>
+                        ))}
+                    </ul>
+                </ToolTip>
+                <br />
+            </React.Fragment>
+        );
+    });
     const StokeStatus = ({ status }) => {
         return (
             <>
