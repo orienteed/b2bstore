@@ -2,20 +2,18 @@ import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
-import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
+
 import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Icon from '@magento/venia-ui/lib/components/Icon';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Message } from '@magento/venia-ui/lib/components/Field';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
 
 export const QuantityFields = props => {
-    const { initialValue, itemId, label, min, onChange, message, fieldName, hideButtons } = props;
+    const { initialValue, itemId, min, onChange, message, fieldName } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
-    const iconClasses = { root: classes.icon };
 
     const talonProps = useQuantity({
         initialValue,
@@ -24,10 +22,7 @@ export const QuantityFields = props => {
         fieldName
     });
 
-    const {
-        handleBlur,
-        maskInput
-    } = talonProps;
+    const { handleBlur, maskInput } = talonProps;
 
     const errorMessage = message ? <Message>{message}</Message> : null;
 

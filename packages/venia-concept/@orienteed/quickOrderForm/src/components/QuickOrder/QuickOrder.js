@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { CSVLink } from 'react-csv';
 import { useHistory } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
 
-import QuantityFields from '../QuantityField/quantity';
-import { mergeClasses } from '@magento/venia-ui/lib/classify';
-import Button from '@magento/venia-ui/lib/components/Button';
 import Dialog from '../Dialog';
 import SearchBar from '../SearchBar';
-
-import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
+import QuantityFields from '../QuantityField/quantity';
 import Icon from '@magento/venia-ui/lib/components/Icon';
+import Button from '@magento/venia-ui/lib/components/Button';
+import { mergeClasses } from '@magento/venia-ui/lib/classify';
+
 import { useToasts } from '@magento/peregrine';
+import { useAddProductsByCSV } from '../../talons/useAddProductsByCSV';
+
 import defaultClasses from './QuickOrder.module.css';
 import fastCart from './Icons/fastCart.svg';
 
@@ -168,7 +169,7 @@ const AddQuickOrder = props => {
                                 <div className={classes.labalWrapper}>
                                     <div>
                                         <span>
-                                            <FormattedMessage id="quickOder.Item#" defaultMessage="Item #" />
+                                            <FormattedMessage id="quickOder.Item#" defaultMessage="Item" />
                                         </span>
                                     </div>
                                     <div>
@@ -179,7 +180,7 @@ const AddQuickOrder = props => {
 
                                     <div>
                                         <span>
-                                            <FormattedMessage id="quickOder.Orice" defaultMessage="Orice" />
+                                            <FormattedMessage id="quickOder.Price" defaultMessage="Price" />
                                         </span>
                                     </div>
                                 </div>

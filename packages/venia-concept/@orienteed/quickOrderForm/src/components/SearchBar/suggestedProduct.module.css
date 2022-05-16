@@ -2,7 +2,7 @@
     align-items: center;
     display: grid;
     gap: 1rem;
-    grid-template-columns: 60px 1fr 1fr 1fr;
+    grid-template-columns: 60px 1fr 1fr;
 }
 
 .image {

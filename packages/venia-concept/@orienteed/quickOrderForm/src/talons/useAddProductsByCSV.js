@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
-import { useMutation, gql } from '@apollo/client';
+
+import { useMutation } from '@apollo/client';
+
 import Papa from 'papaparse';
 
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
-import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU } from '../../../customComponents/query/addProductByCsv.gql';
+import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU, GET_PRODUCTS_BY_SKU } from '../graphql/addProductByCsv.gql';
 
 export const useAddProductsByCSV = props => {
     const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen, setProducts, success } = props;
@@ -106,7 +108,15 @@ export const useAddProductsByCSV = props => {
                 setCsvSkuErrorList(tempSkuErrorList);
             }
         },
-        [addConfigurableProductToCart, cartId, setIsCsvDialogOpen, setCsvErrorType, setCsvSkuErrorList, getParentSku]
+        [
+            addConfigurableProductToCart,
+            cartId,
+            setIsCsvDialogOpen,
+            setCsvErrorType,
+            setCsvSkuErrorList,
+            getParentSku,
+            success
+        ]
     );
 
     return {
@@ -114,26 +124,3 @@ export const useAddProductsByCSV = props => {
         handleAddProductsToCart
     };
 };
-export const GET_PRODUCTS_BY_SKU = gql`
-    query getproduct($sku: String!) {
-        # Limit results to first three.
-        products(search: $sku) {
-            # eslint-disable-next-line @graphql-eslint/require-id-when-available
-            items {
-                id
-                uid
-                name
-                sku
-                price {
-                    regularPrice {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-            }
-            total_count
-        }
-    }
-`;

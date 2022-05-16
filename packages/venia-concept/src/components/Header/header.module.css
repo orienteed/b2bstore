@@ -182,22 +182,3 @@
         box-shadow: 0 var(--dot-size) 0 0;
     }
 }
-
-@media (max-width: 600px) {
-    .Authtoolbar {
-        grid-template-columns: 0.5fr 0.9fr 0.5fr 0.2fr !important;
-        gap: 0 !important;
-    }
-}
-@media (min-width: 600px) {
-    .Authtoolbar {
-        grid-template-columns: repeat(13, minmax(0, 1fr)) !important;
-        gap: 0 !important;
-    }
-}
-@media (min-width: 600px)and (max-width:1024px) {
-    .Authtoolbar {
-        grid-template-columns:1fr 15fr 5fr 1fr !important;
-        gap: 0 !important;
-    }
-}

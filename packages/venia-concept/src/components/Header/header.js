@@ -1,28 +1,28 @@
 import React, { Fragment, Suspense } from 'react';
 import { shape, string } from 'prop-types';
 import { Link, Route } from 'react-router-dom';
-import { useUserContext } from '@magento/peregrine/lib/context/user';
 
+import AccountTrigger from '@magento/venia-ui/lib/components/Header/accountTrigger';
+import CartTrigger from '@magento/venia-ui/lib/components/Header/cartTrigger';
+import CurrencySwitcher from '@magento/venia-ui/lib/components/Header/currencySwitcher';
+import Logo from '@magento/venia-ui/lib/components/Logo';
+import MegaMenu from '@magento/venia-ui/lib/components/MegaMenu';
+import NavigationTrigger from '@magento/venia-ui/lib/components/Header/navTrigger';
+import OnlineIndicator from '@magento/venia-ui/lib/components/Header/onlineIndicator';
+import PageLoadingIndicator from '@magento/venia-ui/lib/components/PageLoadingIndicator';
+import QuickOrder from '@orienteed/quickOrderForm/src/components/QuickOrder';
+import SearchTrigger from '@magento/venia-ui/lib/components/Header/searchTrigger';
+import StoreSwitcher from '@magento/venia-ui/lib/components/Header/storeSwitcher';
+
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { useHeader } from '@magento/peregrine/lib/talons/Header/useHeader';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
 import defaultClasses from '@magento/venia-ui/lib/components/Header/header.module.css';
-import Logo from '@magento/venia-ui/lib/components/Logo';
-import AccountTrigger from '@magento/venia-ui/lib/components/Header/accountTrigger';
-import CartTrigger from '@magento/venia-ui/lib/components/Header/cartTrigger';
-import NavTrigger from '@magento/venia-ui/lib/components/Header/navTrigger';
-import SearchTrigger from '@magento/venia-ui/lib/components/Header/searchTrigger';
-import OnlineIndicator from '@magento/venia-ui/lib/components/Header/onlineIndicator';
-import { useHeader } from '@magento/peregrine/lib/talons/Header/useHeader';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import StoreSwitcher from '@magento/venia-ui/lib/components/Header/storeSwitcher';
-import MegaMenu from '@magento/venia-ui/lib/components/MegaMenu';
-import PageLoadingIndicator from '@magento/venia-ui/lib/components/PageLoadingIndicator';
-import CurrencySwitcher from '@magento/venia-ui/lib/components/Header/currencySwitcher';
-import NavigationTrigger from '@magento/venia-ui/lib/components/Header/navTrigger';
 
 const SearchBar = React.lazy(() => import('@magento/venia-ui/lib/components/SearchBar'));
 
-import QuickOrder from '@orienteed/quickOrderForm/src/components/QuickOrder';
 const Header = props => {
     const {
         handleSearchTriggerClick,
@@ -61,7 +61,7 @@ const Header = props => {
                 </div>
             </div>
             <header className={rootClass} data-cy="Header-root">
-                <div className={`${classes.toolbar} ${isUserSignedIn && classes.Authtoolbar}`}>
+                <div className={classes.toolbar}>
                     <div className={classes.primaryActions}>
                         <NavigationTrigger />
                     </div>
@@ -74,8 +74,8 @@ const Header = props => {
                         <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
                         <AccountTrigger />
                         <CartTrigger />
+                        {isUserSignedIn && <QuickOrder />}
                     </div>
-                    {isUserSignedIn && <QuickOrder />}
                 </div>
                 {searchBar}
                 <PageLoadingIndicator absolute />

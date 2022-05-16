@@ -4,7 +4,7 @@ import { arrayOf, bool, func, shape, string } from 'prop-types';
 import { useSuggestions } from '@magento/peregrine/lib/talons/SearchBar';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import SuggestedCategories from '@magento/venia-ui/lib/components/SearchBar/suggestedCategories';
+// import SuggestedCategories from '@magento/venia-ui/lib/components/SearchBar/suggestedCategories';
 import SuggestedProducts from './suggestedProducts';
 import defaultClasses from './suggestions.module.css';
 
@@ -29,7 +29,7 @@ const Suggestions = props => {
     const classes = useStyle(defaultClasses, props.classes);
     return (
         <Fragment>
-            <SuggestedCategories categories={categories} onNavigate={onNavigate} value={searchValue} />
+            {/* <SuggestedCategories categories={categories} onNavigate={onNavigate} value={searchValue} /> */}
             <h2 className={classes.heading}>
                 <span>
                     <FormattedMessage id={'searchBar.heading'} defaultMessage={'Product Suggestions'} />
