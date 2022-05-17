@@ -8,6 +8,10 @@ import defaultClasses from '@magento/venia-ui/lib/components/Gallery/gallery.mod
 import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
 import { useDownloadCsvContext } from '@orienteed/customComponents/components/DownloadCsvProvider/downloadCsvProvider';
 
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import { useHistory } from 'react-router-dom';
+import { ArrowRight} from 'react-feather';
+
 /**
  * Renders a Gallery of items. If items is an array of nulls Gallery will render
  * a placeholder item for each.
@@ -21,10 +25,24 @@ const Gallery = props => {
     const { storeConfig } = talonProps;
     const { setGalleryItem } = useDownloadCsvContext();
 
+    const { location } = useHistory();
+    const isHomePage = location.pathname === '/';
     useEffect(() => {
         setGalleryItem(items);
     }, [items]);
 
+    const recommendedProducts = (
+        <>
+            <div className={classes.recommendedWrapper}>
+                <span>Recommended products</span>
+                <span>
+                    <a className={classes.recommendedLink}>
+                        Shaw all recommended products <Icon src={ArrowRight} />
+                    </a>
+                </span>
+            </div>
+        </>
+    );
     const galleryItems = useMemo(
         () =>
             items.map((item, index) => {
@@ -38,6 +56,7 @@ const Gallery = props => {
 
     return (
         <div data-cy="Gallery-root" className={classes.root} aria-live="polite" aria-busy="false">
+            {isHomePage && recommendedProducts}
             <div className={classes.items}>{galleryItems}</div>
         </div>
     );

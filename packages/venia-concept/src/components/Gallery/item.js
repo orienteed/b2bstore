@@ -19,6 +19,10 @@ import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartB
 // eslint-disable-next-line no-unused-vars
 import Rating from '@magento/venia-ui/lib/components/Rating';
 
+import { useHistory } from 'react-router-dom';
+import ShareIcon from './Icons/share.svg';
+import InStockIcon from './Icons/inStoke.svg';
+import OutStockIcon from './Icons/outStoke.svg';
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -32,10 +36,14 @@ const GalleryItem = props => {
 
     const { storeConfig } = props;
 
+    const { configurable_options, stock_status } = props.item;
+
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
     const classes = useStyle(defaultClasses, props.classes);
 
+    const { location } = useHistory();
+    const isHomePage = location.pathname === '/';
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
@@ -56,7 +64,7 @@ const GalleryItem = props => {
             amount: { value: regularPriceValue }
         }
     } = price;
-
+    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
             <div className={classes.price}>
@@ -67,6 +75,7 @@ const GalleryItem = props => {
                 <div className={classes.oldPrice}>
                     <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
                 </div>
+                &nbsp;
                 <div className={classes.price}>
                     <Price value={minimalPriceValue} currencyCode={minimalPriceCurrency} />
                 </div>
@@ -95,6 +104,23 @@ const GalleryItem = props => {
     //     <Rating rating={rating_summary} />
     // ) : null;
 
+    const StokeStatus = ({ status }) => {
+        return (
+            <>
+                {status === 'IN_STOCK' ? (
+                    <span className={classes.inStock}>
+                        <img src={InStockIcon} alt="in stock" />
+                        In stock
+                    </span>
+                ) : (
+                    <span className={classes.outStock}>
+                        <img src={OutStockIcon} alt="out stock" />
+                        Out of stock
+                    </span>
+                )}
+            </>
+        );
+    };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
@@ -110,13 +136,27 @@ const GalleryItem = props => {
                     resource={smallImageURL}
                     widths={IMAGE_WIDTHS}
                 />
-                {ratingAverage}
+                {discount ? (
+                    <div className={classes.discount}>
+                        <span>{discount}%</span>
+                    </div>
+                ) : null}
+                <div className={classes.shareIcon}>
+                    <img src={ShareIcon} alt="share icon" />
+                </div>
+                <div className={classes.stockIcon}>
+                    <StokeStatus status={stock_status} />
+                </div>
+                {ratingAverage && ratingAverage}
             </Link>
             <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                <div className={classes.productPrice}>{priceRender}</div>
+                <div className={classes.productPrice}>
+                    <span>your price &nbsp;</span>
+                    {priceRender}
+                </div>
                 {/* <Price
                     value={price_range.maximum_price.regular_price.value}
                     currencyCode={
@@ -125,10 +165,10 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            <div className={classes.actionsContainer}>
+            <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {' '}
                 {addButton}
-                {wishlistButton}
+                {!isHomePage && wishlistButton}
             </div>
         </div>
     );

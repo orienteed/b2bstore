@@ -14,6 +14,10 @@
     grid-area: main;
 }
 
+.imageContainer img {
+    margin: 0 !important;
+}
+
 .image {
     display: block;
     height: 100%;
@@ -34,7 +38,6 @@
 .oldPrice {
     font-size: 0.875rem;
     line-height: 1rem;
-    margin: 0.5rem 0;
     min-height: 1rem;
     text-decoration: line-through;
     color: '#666666';
@@ -78,4 +81,79 @@
     padding: 0.75rem;
     width: 100%;
     font-size: var(--venia-global-fontSize-100);
+}
+
+.discount {
+    position: absolute;
+    background-color: #ff7e27;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    left: 0%;
+    height: 32px;
+    right: 82.72%;
+}
+
+.discount span {
+    font-style: normal;
+    font-weight: 600;
+    color: #fff;
+}
+
+.shareIcon {
+    position: absolute;
+    left: 90%;
+    bottom: 10%;
+}
+
+.stockIcon {
+    position: absolute;
+    bottom: 10%;
+}
+
+.inStock {
+    display: flex;
+    color: #00893a;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.inStock img {
+    margin-right: 8px !important;
+    margin-top: 0 !important;
+}
+
+.outStock img {
+    margin-right: 8px;
+}
+
+.outStock {
+    display: flex;
+    color: #f52f2f;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.list li::before {
+    content: '\2022';
+    color: #fff;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.homeActionContainer {
+    grid-template-columns: auto;
+}
+
+.homeActionContainer button {
+    padding: 12px 86px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.productPrice{
+    display: flex;
 }
