@@ -18,7 +18,7 @@
 
 .recommendedWrapper {
     display: grid;
-    grid-template-columns: 1 1.2fr;
+    grid-template-columns: 4fr 1.2fr;
 }
 
 .recommendedWrapper > span {
