@@ -103,6 +103,8 @@
     position: absolute;
     left: 90%;
     bottom: 10%;
+    cursor: pointer;
+    opacity: 3;
 }
 
 .stockIcon {

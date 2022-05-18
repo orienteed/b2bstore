@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Info } from 'react-feather';
 import { string, number, shape } from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -20,10 +20,11 @@ import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartB
 import Rating from '@magento/venia-ui/lib/components/Rating';
 import ToolTip from '@orienteed/customComponents/components/ToolTip';
 
-import { useHistory } from 'react-router-dom';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
+import { useToasts } from '@magento/peregrine';
+
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -40,7 +41,8 @@ const GalleryItem = props => {
 
     const classes = useStyle(defaultClasses, props.classes);
 
-    const { location } = useHistory();
+    const [, { addToast }] = useToasts();
+    const { formatMessage } = useIntl();
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
@@ -111,7 +113,6 @@ const GalleryItem = props => {
                         ))}
                     </ul>
                 </ToolTip>
-                {/* <br /> */}
             </div>
         );
     });
@@ -132,34 +133,47 @@ const GalleryItem = props => {
             </>
         );
     };
+
+    const shareClick = () => {
+        navigator.clipboard.writeText(window.location.href);
+        addToast({
+            type: 'success',
+            message: formatMessage({
+                id: 'quickOrder.copiedUrl',
+                defaultMessage: 'The product URL was copied to the clipboard'
+            })
+        });
+    };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
-            <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
-                <Image
-                    alt={name}
-                    classes={{
-                        image: classes.image,
-                        loaded: classes.imageLoaded,
-                        notLoaded: classes.imageNotLoaded,
-                        root: classes.imageContainer
-                    }}
-                    height={IMAGE_HEIGHT}
-                    resource={smallImageURL}
-                    widths={IMAGE_WIDTHS}
-                />
+            <div className={classes.images}>
+                <Link onClick={handleLinkClick} to={productLink}>
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.image,
+                            loaded: classes.imageLoaded,
+                            notLoaded: classes.imageNotLoaded,
+                            root: classes.imageContainer
+                        }}
+                        height={IMAGE_HEIGHT}
+                        resource={smallImageURL}
+                        widths={IMAGE_WIDTHS}
+                    />
+                </Link>
                 {discount ? (
                     <div className={classes.discount}>
                         <span>{discount}%</span>
                     </div>
                 ) : null}
-                <div className={classes.shareIcon}>
+                <div onClick={shareClick} className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
                 </div>
                 <div className={classes.stockIcon}>
                     <StokeStatus status={stock_status} />
                 </div>
                 {ratingAverage}
-            </Link>
+            </div>
             <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
                 <span>{name}</span>
             </Link>
