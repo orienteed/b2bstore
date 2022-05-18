@@ -10,7 +10,7 @@ import { useDownloadCsvContext } from '@orienteed/customComponents/components/Do
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { useHistory } from 'react-router-dom';
-import { ArrowRight} from 'react-feather';
+import { ArrowRight } from 'react-feather';
 
 /**
  * Renders a Gallery of items. If items is an array of nulls Gallery will render
@@ -35,11 +35,6 @@ const Gallery = props => {
         <>
             <div className={classes.recommendedWrapper}>
                 <span>Recommended products</span>
-                <span>
-                    <a className={classes.recommendedLink}>
-                        Shaw all recommended products <Icon src={ArrowRight} />
-                    </a>
-                </span>
             </div>
         </>
     );
