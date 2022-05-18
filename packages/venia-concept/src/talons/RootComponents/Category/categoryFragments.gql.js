@@ -16,7 +16,32 @@ export const ProductsFragment = gql`
             id
             uid
             ... on ConfigurableProduct {
+                configurable_options {
+                    attribute_code
+                    attribute_id
+                    uid
+                    label
+                    values {
+                        default_label
+                        label
+                        store_label
+                        use_default_value
+                        value_index
+
+                        uid
+                        swatch_data {
+                            ... on ImageSwatchData {
+                                thumbnail
+                            }
+                            value
+                        }
+                    }
+                }
                 variants {
+                    attributes {
+                        code
+                        value_index
+                    }
                     product {
                         uid
                         name

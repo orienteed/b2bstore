@@ -79,3 +79,8 @@
     width: 100%;
     font-size: var(--venia-global-fontSize-100);
 }
+
+.productsWrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}

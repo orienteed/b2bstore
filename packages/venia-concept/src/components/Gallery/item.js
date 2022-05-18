@@ -19,6 +19,9 @@ import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartB
 // eslint-disable-next-line no-unused-vars
 import Rating from '@magento/venia-ui/lib/components/Rating';
 
+import QuantityField from './QuantityField/quantity';
+import Select from './SelectField/select';
+
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -31,7 +34,6 @@ const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
 
     const { storeConfig } = props;
-
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -94,7 +96,27 @@ const GalleryItem = props => {
     // const ratingAverage = rating_summary ? (
     //     <Rating rating={rating_summary} />
     // ) : null;
-
+    const onChangeQty = () => {};
+    const getProductsInstance = () => {
+        const instanceItem = { ...item };
+        const { variants } = instanceItem;
+        let productsItem = [];
+        [...variants[0]].map(variant => {
+            let val = '';
+            variant.attributes.map((attribute, i) => {
+                val += instanceItem.configurable_options[i].values.find(
+                    value => value.value_index == attribute.value_index
+                ).label;
+                productsItem.push({
+                    sku: variant.product.sku,
+                    value: `${variant.product.sku}+ ${val}`,
+                    name: variant.product.name
+                });
+                console.log(productsItem, 'valvalval', variant);
+            });
+        });
+    };
+    // console.log(getProductsInstance());
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
@@ -125,8 +147,16 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
+            {/* <div className={classes.productsWrapper}>
+                <QuantityField fieldName={`${item.sku}-${'id'}`} min={1} onChange={e => onChangeQty()} />
+                <Select
+                    field={'reference'}
+                    items={[...item.variants.map((vari)=>vari.value='ddd')]}
+                    // initialValue={comboItemsRefs[productSelected].value}
+                    onChange={onChangeQty}
+                />
+            </div> */}
             <div className={classes.actionsContainer}>
-                {' '}
                 {addButton}
                 {wishlistButton}
             </div>
