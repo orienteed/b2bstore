@@ -75,6 +75,13 @@
 
 .summaryText {
     padding-top: 10px;
+    max-height: 245px;
+
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Course body */
@@ -128,7 +135,8 @@
 .enrollButtonContainer {
     display: flex;
     justify-content: center;
-    padding: 40px 0;
+    padding: 35px 0;
+    gap: 10px;
 }
 .enrollButton {
     composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';

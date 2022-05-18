@@ -12,6 +12,8 @@ const CourseItem = props => {
     const { data, isProgressCourse, isProgressTab } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
+    isProgressTab && console.log(data);
+
     const history = useHistory();
     const { formatMessage } = useIntl();
 
@@ -55,17 +57,22 @@ const CourseItem = props => {
             <img className={classes.courseImage} src={noImageAvailable} alt="Course logo not available" />
         );
 
-    const progressBar = (
-        <div className={classes.progressBarContainer}>
-            <div className={classes.progressBar}>
-                <span className={classes.progressBarFill} style={{ width: `${data.progress?.toFixed(2)}%` }}>
-                    <div className={classes.progressBarFillContainer}>
-                        <span className={classes.progressBarFillText}>{`${data.progress?.toFixed(2)} %`}</span>
+    const progressBar = () => {
+        const progressNumber = data.progress !== null ? data.progress.toFixed(2) : (0).toFixed(2);
+        const progressText = `${progressNumber} %`;
+
+        return (
+            <div className={classes.progressBarContainer}>
+                <div className={classes.progressBar}>
+                    <div className={classes.progressBarFill} style={{ width: `${progressNumber}%` }}>
+                        <div className={classes.progressBarFillContainer}>
+                            <span className={classes.progressBarFillText}>{progressText}</span>
+                        </div>
                     </div>
-                </span>
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <div key={data.id} className={classes.courseContainer}>
@@ -73,7 +80,7 @@ const CourseItem = props => {
             <div className={classes.courseBody}>
                 <h1 className={classes.courseTitle}>{data.fullname}</h1>
                 {isProgressTab ? null : categoryTag}
-                {isProgressTab ? progressBar : null}
+                {isProgressTab ? progressBar() : null}
                 <p className={classes.courseDescription}>{data.summary}</p>
                 <div className={classes.actionButtonContainer}>
                     <Button className={classes.actionButton} onClick={handleGoToCourse}>

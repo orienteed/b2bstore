@@ -19,12 +19,14 @@ const CourseContent = props => {
     const { courseId, userMoodleId, userMoodleToken, userCoursesIdList } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
-    const { courseDetails, courseContent, enrolled, handleEnrollInCourse } = useCourseContent({
-        userMoodleToken,
-        userMoodleId,
-        userCoursesIdList,
-        courseId
-    });
+    const { courseDetails, courseContent, enrolled, handleEnrollInCourse, handleUnenrollFromCourse } = useCourseContent(
+        {
+            userMoodleToken,
+            userMoodleId,
+            userCoursesIdList,
+            courseId
+        }
+    );
 
     const breadcrumbs = courseDetails !== undefined && (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
@@ -98,6 +100,16 @@ const CourseContent = props => {
                                         <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
                                     )}
                                 </Button>
+                                {enrolled && (
+                                    <Button
+                                        className={classes.enrollButton}
+                                        onClick={handleUnenrollFromCourse}
+                                        priority={'normal'}
+                                    >
+                                        <FormattedMessage id={'lms.unenroll'} defaultMessage={'Unenroll'} />{' '}
+                                        {/* TODO_B2B: Translations */}
+                                    </Button>
+                                )}
                             </div>
                         </div>
                     </div>
