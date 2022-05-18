@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
+
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 
 import getCourses from '../../services/getCourses';
@@ -19,7 +20,6 @@ export const useLearningRoute = () => {
     const userMoodleToken = localStorage.getItem('LMS_INTEGRATION_moodle_token');
     const userMoodleId = localStorage.getItem('LMS_INTEGRATION_moodle_id');
     userMoodleToken !== null && userMoodleId !== null ? null : getAndSaveMoodleTokenAndId();
-
 
     const [courses, setCourses] = useState();
     const [userCourses, setUserCourses] = useState();

@@ -1,19 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useParams } from 'react-router-dom';
 
 import { useLearningRoute } from '../../talons/useLearningRoute';
-import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 import CourseContent from '../CourseContent';
 import CoursesCatalog from '../CoursesCatalog';
 
 const LearningRoute = () => {
-    const [{ isSignedIn }] = useUserContext();
-    if (!isSignedIn) {
-        return <Redirect to={'/'} />;
-    }
-
-    // TODO_B2B: Look how to do it correctly
     const talonProps = useLearningRoute();
     const {
         userMoodleId,

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import getCourseContent from '../../services/getCourseContent';
 import getCourseDetails from '../../services/getCourseDetails';
 import enrollUserInCourse from '../../services/enrollUserInCourse';
+import unenrollUserFromCourse from '../../services/unenrollUserFromCourse';
 
 export const useCourseContent = props => {
     const { userMoodleToken, userMoodleId, userCoursesIdList, courseId } = props;
@@ -31,5 +32,9 @@ export const useCourseContent = props => {
         enrollUserInCourse(userMoodleId, courseId).then(reply => (reply ? setEnrolled(true) : null));
     };
 
-    return { courseDetails, courseContent, enrolled, handleEnrollInCourse };
+    const handleUnenrollFromCourse = () => {
+        unenrollUserFromCourse(userMoodleId, courseId).then(reply => (reply ? setEnrolled(false) : null));
+    };
+
+    return { courseDetails, courseContent, enrolled, handleEnrollInCourse, handleUnenrollFromCourse };
 };

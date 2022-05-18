@@ -26,6 +26,7 @@ import viewIcon from './Icons/view.svg';
 const CourseModuleContent = props => {
     const { courseModule, isEnrolled, userMoodleId, userMoodleToken } = props;
     const classes = useStyle(defaultClasses, props.classes);
+
     const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
         completiondata: courseModule.completiondata
     });
