@@ -67,14 +67,14 @@ const GalleryItem = props => {
                 <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
             </div>
         ) : (
-            <>
+            <div className={classes.priceWrapper}>
                 <div className={classes.oldPrice}>
                     <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
                 </div>
-                <div className={classes.price}>
+                <div className={`${classes.price} ${classes.newPrice}`}>
                     <Price value={minimalPriceValue} currencyCode={minimalPriceCurrency} />
                 </div>
-            </>
+            </div>
         );
 
     const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
@@ -102,7 +102,7 @@ const GalleryItem = props => {
     const configurableOptions = configurable_options.map((ele, key) => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
-            <React.Fragment key={key + 'configurable_options'}>
+            <div key={key + 'configurable_options'}>
                 <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
                 <ToolTip>
                     <ul className={classes.list}>
@@ -111,8 +111,8 @@ const GalleryItem = props => {
                         ))}
                     </ul>
                 </ToolTip>
-                <br />
-            </React.Fragment>
+                {/* <br /> */}
+            </div>
         );
     });
     const StokeStatus = ({ status }) => {
