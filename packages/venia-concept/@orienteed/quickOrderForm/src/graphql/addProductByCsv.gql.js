@@ -33,3 +33,27 @@ export const GET_PARENT_SKU = gql`
         }
     }
 `;
+
+export const GET_PRODUCTS_BY_SKU = gql`
+    query getproduct($sku: String!) {
+        # Limit results to first three.
+        products(search: $sku) {
+            # eslint-disable-next-line @graphql-eslint/require-id-when-available
+            items {
+                id
+                uid
+                name
+                sku
+                price {
+                    regularPrice {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                }
+            }
+            total_count
+        }
+    }
+`;

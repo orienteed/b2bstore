@@ -46,6 +46,7 @@
       "@orienteed/megaMenuIsRequiredLogin": "link:./@orienteed/megaMenuIsRequiredLogin",
       "@orienteed/pagebuilder": "link:./@orienteed/pagebuilder",
       "@orienteed/payWithBankTransfer": "link:./@orienteed/payWithBankTransfer",
+      "@orienteed/quickOrderForm": "link:./@orienteed/quickOrderForm",
       "@orienteed/reorder": "link:./@orienteed/reorder",
       "@orienteed/requestQuote": "link:./@orienteed/requestQuote"
     },

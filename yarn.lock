@@ -3349,6 +3349,10 @@
   version "0.0.0"
   uid ""
 
+"@orienteed/quickOrderForm@link:./packages/venia-concept/@orienteed/quickOrderForm":
+  version "0.0.0"
+  uid ""
+
 "@orienteed/reorder@link:./packages/venia-concept/@orienteed/reorder":
   version "0.0.0"
   uid ""
