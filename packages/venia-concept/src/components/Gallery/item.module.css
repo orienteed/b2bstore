@@ -82,5 +82,18 @@
 
 .productsWrapper {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    gap: .5rem;
+    grid-template-columns: 1fr 3.5fr;
+}
+
+.productsWrapper > div > form > div {
+    display: block !important;
+}
+
+.qtyField {
+    width: 75px;
+}
+
+.productsSelect {
+    width: 250px;
 }

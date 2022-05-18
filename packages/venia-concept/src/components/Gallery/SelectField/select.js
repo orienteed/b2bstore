@@ -12,13 +12,12 @@ const arrow = <Icon src={ChevronDownIcon} size={24} />;
 
 const Select = props => {
     const { before, classes: propClasses, field, items, message, ...rest } = props;
-    const fieldState = useFieldState(field);
     const classes = useStyle(defaultClasses, propClasses);
-    const inputClass = fieldState.error ? classes.input_error : classes.input;
+    const inputClass = classes.input;
 
-    const options = items.map(({ disabled = null, hidden = null, label, value, key = 'value' }) => (
-        <InformedOption key={key} disabled={disabled} hidden={hidden} value={'value'}>
-          xxxxx
+    const options = items.map(item => (
+        <InformedOption key={item.value + item.sku} value={JSON.stringify(item)}>
+            {item.value != null ? item.value : ''}
         </InformedOption>
     ));
 
@@ -29,7 +28,6 @@ const Select = props => {
                     {options}
                 </InformedSelect>
             </FieldIcons>
-            <Message fieldState={fieldState}>{message}</Message>
         </Fragment>
     );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Info } from 'react-feather';
 import { string, number, shape } from 'prop-types';
@@ -37,6 +37,9 @@ const GalleryItem = props => {
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
     const classes = useStyle(defaultClasses, props.classes);
+
+    const [quantity, setQuantity] = useState(1);
+    const [selectedVeriant, setSelectedVeriant] = useState();
 
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
@@ -78,7 +81,11 @@ const GalleryItem = props => {
     const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
 
     const addButton = isSupportedProductType ? (
-        <AddToCartbutton item={item} urlSuffix={productUrlSuffix} />
+        <AddToCartbutton
+            item={selectedVeriant ? selectedVeriant.product : item}
+            urlSuffix={productUrlSuffix}
+            quantity={quantity}
+        />
     ) : (
         <div className={classes.unavailableContainer}>
             <Info />
@@ -96,27 +103,39 @@ const GalleryItem = props => {
     // const ratingAverage = rating_summary ? (
     //     <Rating rating={rating_summary} />
     // ) : null;
-    const onChangeQty = () => {};
-    const getProductsInstance = () => {
-        const instanceItem = { ...item };
-        const { variants } = instanceItem;
-        let productsItem = [];
-        [...variants[0]].map(variant => {
-            let val = '';
-            variant.attributes.map((attribute, i) => {
-                val += instanceItem.configurable_options[i].values.find(
-                    value => value.value_index == attribute.value_index
-                ).label;
-                productsItem.push({
-                    sku: variant.product.sku,
-                    value: `${variant.product.sku}+ ${val}`,
-                    name: variant.product.name
-                });
-                console.log(productsItem, 'valvalval', variant);
-            });
+    const onChangeQty = value => setQuantity(value);
+
+    const getCategoriesValuesNameByVariant = variant => {
+        return variant.attributes.map((attribute, i) => {
+            return item.configurable_options[i].values.find(value => value.value_index == attribute.value_index).label;
         });
     };
-    // console.log(getProductsInstance());
+    const handleAddVeriantToCart = async variant => {
+        const variables = {
+            cartId,
+            quantity: quantity,
+            sku: selectedVeriant.product.sku,
+            parentSku: item.sku
+        };
+        try {
+            // await addConfigurableProductToCart({
+            //     variables
+            // });
+        } catch {
+            console.log('Error');
+        }
+    };
+
+    const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
+    const getProductsInstance = () => {
+        const instanceItem = { ...item };
+        var variants = [...instanceItem.variants];
+        return variants.map((variant, key) => ({
+            ...variant,
+            categoriesValuesName: getCategoriesValuesNameByVariant(variant),
+            value: item.name + ' ' + getCategoriesValuesNameByVariant(variant).join(' - ')
+        }));
+    };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
@@ -147,15 +166,19 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            {/* <div className={classes.productsWrapper}>
-                <QuantityField fieldName={`${item.sku}-${'id'}`} min={1} onChange={e => onChangeQty()} />
-                <Select
-                    field={'reference'}
-                    items={[...item.variants.map((vari)=>vari.value='ddd')]}
-                    // initialValue={comboItemsRefs[productSelected].value}
-                    onChange={onChangeQty}
-                />
-            </div> */}
+            <div className={classes.productsWrapper}>
+                <div className={classes.qtyField}>
+                    <QuantityField fieldName={`${item.sku}-${'id'}`} min={1} onChange={e => onChangeQty(e)} />
+                </div>
+                <div className={classes.productsSelect}>
+                    <Select
+                        field={'reference'}
+                        items={getProductsInstance()}
+                        initialValue={getProductsInstance()[0].value}
+                        onChange={onChangeVariant}
+                    />
+                </div>
+            </div>
             <div className={classes.actionsContainer}>
                 {addButton}
                 {wishlistButton}

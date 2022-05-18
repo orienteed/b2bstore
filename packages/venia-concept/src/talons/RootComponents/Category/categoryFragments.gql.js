@@ -43,6 +43,7 @@ export const ProductsFragment = gql`
                         value_index
                     }
                     product {
+                        stock_status
                         uid
                         name
                         sku
