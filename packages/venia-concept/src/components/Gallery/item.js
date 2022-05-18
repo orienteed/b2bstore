@@ -135,7 +135,7 @@ const GalleryItem = props => {
     };
 
     const shareClick = () => {
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(window.origin + productLink);
         addToast({
             type: 'success',
             message: formatMessage({
