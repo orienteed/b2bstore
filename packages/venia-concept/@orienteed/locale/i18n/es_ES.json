@@ -66,7 +66,7 @@
     "categoryContent.filter": "Filtro",
     "categoryContent.itemsSortedBy": "Artículos ordenados por ",
     "categoryContent.resultCount": "{count} Resultados",
-    "categoryLeaf.allLabel": "Todo/a {nombre}",
+    "categoryLeaf.allLabel": "Todo/a {name}",
     "categoryList.noResults": "No se han encontrado subcategorías.",
     "checkoutPage.accountSuccessfullyCreated": "Cuenta creada con éxito.",
     "checkoutPage.additionalText": "Recibirás también un email con los detalles y te informaremos cuando tu pedido haya salido de nuestras instalaciones.",
