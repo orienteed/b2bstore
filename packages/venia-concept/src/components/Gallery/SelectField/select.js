@@ -14,10 +14,9 @@ const Select = props => {
     const { before, classes: propClasses, field, items, message, ...rest } = props;
     const classes = useStyle(defaultClasses, propClasses);
     const inputClass = classes.input;
-
     const options = items.map(item => (
-        <InformedOption key={item.value + item.sku} value={JSON.stringify(item)}>
-            {item.value != null ? item.value : ''}
+        <InformedOption key={item.value + item?.product?.sku} value={JSON.stringify(item)}>
+            {item.label || (item.value != null ? item.value : '')}
         </InformedOption>
     ));
 

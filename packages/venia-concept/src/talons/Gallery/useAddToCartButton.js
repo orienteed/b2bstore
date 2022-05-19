@@ -26,7 +26,6 @@ export const useAddToCartButton = props => {
     const { item, urlSuffix, quantity } = props;
 
     const [isLoading, setIsLoading] = useState(false);
-    console.log(quantity, '    console.log(');
 
     const isInStock = item.stock_status === 'IN_STOCK';
 

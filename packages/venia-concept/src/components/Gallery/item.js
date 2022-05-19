@@ -117,10 +117,15 @@ const GalleryItem = props => {
     const getProductsInstance = () => {
         const instanceItem = { ...item };
         var variants = [...instanceItem.variants];
+
         return variants.map((variant, key) => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
-            value: variant.product.sku + ' ' + getCategoriesValuesNameByVariant(variant).join(' - ')
+            value:
+                '....' +
+                variant.product.sku.slice(variants[0].product.sku.length - 6) +
+                ' ' +
+                getCategoriesValuesNameByVariant(variant).join(' - ')
         }));
     };
 
@@ -161,8 +166,7 @@ const GalleryItem = props => {
                 <div className={classes.productsSelect}>
                     <Select
                         field={'reference'}
-                        items={getProductsInstance()}
-                        initialValue={getProductsInstance()[0].value}
+                        items={[{ value: 'Item' }, ...getProductsInstance()]}
                         onChange={onChangeVariant}
                     />
                 </div>
