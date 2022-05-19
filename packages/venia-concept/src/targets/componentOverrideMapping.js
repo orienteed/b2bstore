@@ -102,5 +102,9 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CreateAccount/createAccount.module.css`]: './src/components/CreateAccount/createAccount.module.css',
     [`@magento/venia-ui/lib/components/CreateAccountPage/createAccountPage.module.css`]: './src/components/CreateAccountPage/createAccountPage.module.css',
     //new overwrite
-    [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js'
+    [`@magento/peregrine/lib/talons/Newsletter/useNewsletter.js`]: './src/talons/Newsletter/useNewsletter.js',
+
+    //new overwrite
+    [`@magento/venia-ui/lib/components/Gallery/gallery.module.css`]: './src/components/Gallery/gallery.module.css', // replace directly
+
 };

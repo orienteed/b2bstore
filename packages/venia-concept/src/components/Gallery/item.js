@@ -25,6 +25,8 @@ import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
 import { useToasts } from '@magento/peregrine';
 
+import { useHistory } from 'react-router-dom';
+
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -43,6 +45,8 @@ const GalleryItem = props => {
 
     const [, { addToast }] = useToasts();
     const { formatMessage } = useIntl();
+    const { location } = useHistory();
+    const isHomePage = location.pathname === '/';
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
@@ -101,7 +105,7 @@ const GalleryItem = props => {
     //     <Rating rating={rating_summary} />
     // ) : null;
 
-    const configurableOptions = configurable_options.map((ele, key) => {
+    const configurableOptions = configurable_options?.map((ele, key) => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
             <div key={key + 'configurable_options'}>
@@ -178,8 +182,11 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                {configurableOptions}
-                <div className={classes.productPrice}>{priceRender}</div>
+                {!isHomePage && configurableOptions}
+                <div className={classes.productPrice}>
+                    <span>your price &nbsp;</span>
+                    {priceRender}
+                </div>
                 {/* <Price
                     value={price_range.maximum_price.regular_price.value}
                     currencyCode={
@@ -188,10 +195,10 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            <div className={classes.actionsContainer}>
+            <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {' '}
                 {addButton}
-                {wishlistButton}
+                {!isHomePage && wishlistButton}
             </div>
         </div>
     );
