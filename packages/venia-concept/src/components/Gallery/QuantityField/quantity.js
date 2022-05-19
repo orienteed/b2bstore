@@ -44,7 +44,6 @@ export const QuantityFields = props => {
                     pattern="[0-9]*"
                 />
             </div>
-            {errorMessage}
         </Fragment>
     );
 };

@@ -20,24 +20,18 @@ import operations from '@magento/peregrine/lib/talons/Gallery/addToCart.gql';
  * }
  *
  */
-const UNSUPPORTED_PRODUCT_TYPES = [
-    'VirtualProduct',
-    'BundleProduct',
-    'GroupedProduct',
-    'DownloadableProduct'
-];
+const UNSUPPORTED_PRODUCT_TYPES = ['VirtualProduct', 'BundleProduct', 'GroupedProduct', 'DownloadableProduct'];
 
 export const useAddToCartButton = props => {
-    const { item, urlSuffix } = props;
+    const { item, urlSuffix, quantity } = props;
 
     const [isLoading, setIsLoading] = useState(false);
+    console.log(quantity, '    console.log(');
 
     const isInStock = item.stock_status === 'IN_STOCK';
 
     const productType = item.__typename;
-    const isUnsupportedProductType = UNSUPPORTED_PRODUCT_TYPES.includes(
-        productType
-    );
+    const isUnsupportedProductType = UNSUPPORTED_PRODUCT_TYPES.includes(productType);
     const isDisabled = isLoading || !isInStock || isUnsupportedProductType;
 
     const history = useHistory();
@@ -55,7 +49,7 @@ export const useAddToCartButton = props => {
                     variables: {
                         cartId,
                         cartItem: {
-                            quantity: 1,
+                            quantity: quantity || 1,
                             entered_options: [
                                 {
                                     uid: item.uid,
@@ -76,17 +70,7 @@ export const useAddToCartButton = props => {
         } catch (error) {
             console.error(error);
         }
-    }, [
-        addToCart,
-        cartId,
-        history,
-        item.sku,
-        item.url_key,
-        productType,
-        item.uid,
-        item.name,
-        urlSuffix
-    ]);
+    }, [addToCart, cartId, history, item.sku, item.url_key, productType, item.uid, item.name, urlSuffix]);
 
     return {
         handleAddToCart,

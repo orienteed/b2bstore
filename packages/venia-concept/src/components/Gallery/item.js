@@ -103,6 +103,7 @@ const GalleryItem = props => {
     // const ratingAverage = rating_summary ? (
     //     <Rating rating={rating_summary} />
     // ) : null;
+
     const onChangeQty = value => setQuantity(value);
 
     const getCategoriesValuesNameByVariant = variant => {
@@ -110,32 +111,19 @@ const GalleryItem = props => {
             return item.configurable_options[i].values.find(value => value.value_index == attribute.value_index).label;
         });
     };
-    const handleAddVeriantToCart = async variant => {
-        const variables = {
-            cartId,
-            quantity: quantity,
-            sku: selectedVeriant.product.sku,
-            parentSku: item.sku
-        };
-        try {
-            // await addConfigurableProductToCart({
-            //     variables
-            // });
-        } catch {
-            console.log('Error');
-        }
-    };
 
     const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
+
     const getProductsInstance = () => {
         const instanceItem = { ...item };
         var variants = [...instanceItem.variants];
         return variants.map((variant, key) => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
-            value: item.name + ' ' + getCategoriesValuesNameByVariant(variant).join(' - ')
+            value: variant.product.sku + ' ' + getCategoriesValuesNameByVariant(variant).join(' - ')
         }));
     };
+
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
@@ -168,7 +156,7 @@ const GalleryItem = props => {
 
             <div className={classes.productsWrapper}>
                 <div className={classes.qtyField}>
-                    <QuantityField fieldName={`${item.sku}-${'id'}`} min={1} onChange={e => onChangeQty(e)} />
+                    <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
                 </div>
                 <div className={classes.productsSelect}>
                     <Select
