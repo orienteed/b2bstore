@@ -75,7 +75,7 @@ const CourseItem = props => {
     };
 
     return (
-        <div key={data.id} className={classes.courseContainer}>
+        <article key={data.id} className={classes.courseContainer}>
             {courseLogo}
             <div className={classes.courseBody}>
                 <h1 className={classes.courseTitle}>{data.fullname}</h1>
@@ -88,7 +88,7 @@ const CourseItem = props => {
                     </Button>
                 </div>
             </div>
-        </div>
+        </article>
     );
 };
 

@@ -1,5 +1,5 @@
 import React, { Fragment, useState, Suspense } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
@@ -15,7 +15,7 @@ const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components
 
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
+
     const {
         addConfigurableProductToCart,
         availableOptions,
@@ -40,7 +40,7 @@ const ProductFullDetailB2B = props => {
     };
 
     const getCategoriesValuesIdByVariant = variant => {
-        return variant.attributes.map((attribute, i) => {
+        return variant.attributes.map(attribute => {
             return attribute.value_index;
         });
     };

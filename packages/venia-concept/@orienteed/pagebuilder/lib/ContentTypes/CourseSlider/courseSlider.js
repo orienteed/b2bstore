@@ -45,7 +45,7 @@ const CourseSlider = () => {
                     <img className={classes.linkIcon} src={ArrowRightIcon} alt="Arrow right icon" />
                 </Link>
             </header>
-            <main>
+            <aside>
                 {courseData === undefined ? (
                     <LoadingIndicator />
                 ) : courseData.length !== 0 ? (
@@ -64,7 +64,7 @@ const CourseSlider = () => {
                 ) : (
                     emptyCoursesMessage
                 )}
-            </main>
+            </aside>
         </section>
     );
 };

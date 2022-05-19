@@ -130,9 +130,15 @@ const CourseModuleContent = props => {
                             alt="file type icon"
                         />
                         <p className={classes.moduleTitle}>{courseModule.name}</p>
-                        {courseModule.hasOwnProperty('description') && (
-                            <img src={infoIcon} className={classes.courseContentIcon} alt={courseModule.description} />
-                        )}
+                        {/* {courseModule.hasOwnProperty('description') && (
+                            <span title={courseModule.description}>
+                                <img
+                                    src={infoIcon}
+                                    className={classes.courseContentIcon}
+                                    alt={courseModule.description}
+                                />
+                            </span>
+                        )} */}
                     </div>
                     {actionContentButtons(courseModule.contents[0])}
                     <ContentDialog

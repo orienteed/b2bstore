@@ -24,6 +24,7 @@ export const useLearningRoute = () => {
     const [courses, setCourses] = useState();
     const [userCourses, setUserCourses] = useState();
     const [userCoursesIdList, setUserCoursesIdList] = useState([]);
+    const [userCoursesIdListQty, setUserCoursesIdListQty] = useState(0);
     const [buttonSelected, setSelectedButton] = useState('all');
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export const useLearningRoute = () => {
 
     useEffect(() => {
         getUserCourses(userMoodleToken, userMoodleId).then(userCoursesData => setUserCourses(userCoursesData));
-    }, [userMoodleToken, userMoodleId]);
+    }, [userMoodleToken, userMoodleId, userCoursesIdListQty]);
 
     useEffect(() => {
         if (userCourses) {
@@ -43,6 +44,14 @@ export const useLearningRoute = () => {
         }
     }, [userCourses]);
 
+    useEffect(() => {
+        if (userCoursesIdList.length > userCoursesIdListQty) {
+            setUserCoursesIdListQty(userCoursesIdList.length);
+        } else if (userCoursesIdList.length < userCoursesIdListQty) {
+            setUserCoursesIdListQty(userCoursesIdList.length);
+        }
+    }, [userCoursesIdList.length, userCoursesIdListQty]);
+
     return {
         userMoodleId,
         userMoodleToken,
@@ -50,6 +59,7 @@ export const useLearningRoute = () => {
         setSelectedButton,
         courses,
         userCourses,
-        userCoursesIdList
+        userCoursesIdList,
+        setUserCoursesIdList
     };
 };

@@ -16,15 +16,16 @@ import checkIcon from './Icons/check.svg';
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const { courseId, userMoodleId, userMoodleToken, userCoursesIdList } = props;
+    const { courseId, userMoodleId, userMoodleToken, userCoursesIdList, setUserCoursesIdList } = props;
     const classes = useStyle(defaultClasses, props.classes);
-
     const { courseDetails, courseContent, enrolled, handleEnrollInCourse, handleUnenrollFromCourse } = useCourseContent(
         {
-            userMoodleToken,
-            userMoodleId,
+            courseId,
+            setUserCoursesIdList,
             userCoursesIdList,
-            courseId
+            userMoodleId,
+            userMoodleToken,
+            isEnrolled: userCoursesIdList.length !== 0 ? userCoursesIdList.includes(parseInt(courseId)) : false
         }
     );
 
