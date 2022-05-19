@@ -12,7 +12,7 @@ import { Message } from '@magento/venia-ui/lib/components/Field';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
 
 export const QuantityFields = props => {
-    const { initialValue, itemId, label, min, onChange, message, fieldName } = props;
+    const { initialValue, itemId, label, min, onChange, message, fieldName = 'quantity' } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
     const iconClasses = { root: classes.icon };
