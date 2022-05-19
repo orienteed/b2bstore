@@ -171,3 +171,7 @@
 .productPrice{
     display: flex;
 }
+
+.configurableWrapper{
+    position: relative;
+}

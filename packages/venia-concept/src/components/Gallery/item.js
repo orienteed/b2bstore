@@ -108,7 +108,7 @@ const GalleryItem = props => {
     const configurableOptions = configurable_options?.map((ele, key) => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
-            <div key={key + 'configurable_options'}>
+            <div className={classes.configurableWrapper} key={key + 'configurable_options'}>
                 <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
                 <ToolTip>
                     <ul className={classes.list}>

@@ -9,7 +9,7 @@
 }
 
 .tooltip {
-    position: relative;
+    /* position: relative; */
     display: inline-block;
 }
 
@@ -46,4 +46,14 @@
 .tooltip:focus .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+@media (max-width: 450px) {
+    .tooltip .tooltiptext {
+        margin: 0 1rem;
+        font-size: 12px;
+        width: auto;
+        left: 0;
+        right: 0;
+    }
 }
