@@ -11,3 +11,7 @@
 .sortContainer {
     display: flex;
 }
+
+.icon{
+    width: 20px;
+}

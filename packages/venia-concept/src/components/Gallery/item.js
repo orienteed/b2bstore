@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Info } from 'react-feather';
 import { string, number, shape } from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,12 @@ import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/Add
 import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartButton';
 // eslint-disable-next-line no-unused-vars
 import Rating from '@magento/venia-ui/lib/components/Rating';
+import ToolTip from '@orienteed/customComponents/components/ToolTip';
+
+import ShareIcon from './Icons/share.svg';
+import InStockIcon from './Icons/inStoke.svg';
+import OutStockIcon from './Icons/outStoke.svg';
+import { useToasts } from '@magento/peregrine';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -29,17 +35,17 @@ const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY,
 
 const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
-
     const { storeConfig } = props;
-
+    const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
     const classes = useStyle(defaultClasses, props.classes);
 
+    const [, { addToast }] = useToasts();
+    const { formatMessage } = useIntl();
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
-
     // eslint-disable-next-line no-unused-vars
     const { orParentUrlKey, name, price, price_range, small_image, url_key, url_suffix, rating_summary } = item;
 
@@ -56,21 +62,21 @@ const GalleryItem = props => {
             amount: { value: regularPriceValue }
         }
     } = price;
-
+    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
             <div className={classes.price}>
                 <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
             </div>
         ) : (
-            <>
+            <div className={classes.priceWrapper}>
                 <div className={classes.oldPrice}>
                     <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
                 </div>
-                <div className={classes.price}>
+                <div className={`${classes.price} ${classes.newPrice}`}>
                     <Price value={minimalPriceValue} currencyCode={minimalPriceCurrency} />
                 </div>
-            </>
+            </div>
         );
 
     const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
@@ -95,27 +101,84 @@ const GalleryItem = props => {
     //     <Rating rating={rating_summary} />
     // ) : null;
 
+    const configurableOptions = configurable_options.map((ele, key) => {
+        const values = ele.values.map(({ default_label }) => default_label);
+        return (
+            <div key={key + 'configurable_options'}>
+                <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
+                <ToolTip>
+                    <ul className={classes.list}>
+                        {values.map(val => (
+                            <li key={val}>{val}</li>
+                        ))}
+                    </ul>
+                </ToolTip>
+            </div>
+        );
+    });
+    const StokeStatus = ({ status }) => {
+        return (
+            <>
+                {status === 'IN_STOCK' ? (
+                    <span className={classes.inStock}>
+                        <img src={InStockIcon} alt="in stock" />
+                        In stock
+                    </span>
+                ) : (
+                    <span className={classes.outStock}>
+                        <img src={OutStockIcon} alt="out stock" />
+                        Out of stock
+                    </span>
+                )}
+            </>
+        );
+    };
+
+    const shareClick = () => {
+        navigator.clipboard.writeText(window.origin + productLink);
+        addToast({
+            type: 'success',
+            message: formatMessage({
+                id: 'quickOrder.copiedUrl',
+                defaultMessage: 'The product URL was copied to the clipboard'
+            })
+        });
+    };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
-            <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
-                <Image
-                    alt={name}
-                    classes={{
-                        image: classes.image,
-                        loaded: classes.imageLoaded,
-                        notLoaded: classes.imageNotLoaded,
-                        root: classes.imageContainer
-                    }}
-                    height={IMAGE_HEIGHT}
-                    resource={smallImageURL}
-                    widths={IMAGE_WIDTHS}
-                />
+            <div className={classes.images}>
+                <Link onClick={handleLinkClick} to={productLink}>
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.image,
+                            loaded: classes.imageLoaded,
+                            notLoaded: classes.imageNotLoaded,
+                            root: classes.imageContainer
+                        }}
+                        height={IMAGE_HEIGHT}
+                        resource={smallImageURL}
+                        widths={IMAGE_WIDTHS}
+                    />
+                </Link>
+                {discount ? (
+                    <div className={classes.discount}>
+                        <span>{discount}%</span>
+                    </div>
+                ) : null}
+                <div onClick={shareClick} className={classes.shareIcon}>
+                    <img src={ShareIcon} alt="share icon" />
+                </div>
+                <div className={classes.stockIcon}>
+                    <StokeStatus status={stock_status} />
+                </div>
                 {ratingAverage}
-            </Link>
+            </div>
             <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
+                {configurableOptions}
                 <div className={classes.productPrice}>{priceRender}</div>
                 {/* <Price
                     value={price_range.maximum_price.regular_price.value}

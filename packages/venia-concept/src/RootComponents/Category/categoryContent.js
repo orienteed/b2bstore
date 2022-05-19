@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useMemo, useRef } from 'react';
+import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { array, number, shape, string } from 'prop-types';
 
@@ -30,7 +30,7 @@ import DownloadCsv from '@orienteed/customComponents/components/DownloadCsv';
 const CategoryContent = props => {
     const { categoryId, data, isLoading, pageControl, sortProps, pageSize } = props;
     const [currentSort] = sortProps;
-
+    const [showMore, setShowMore] = useState(false);
     const talonProps = useCategoryContent({
         categoryId,
         data,
@@ -46,7 +46,6 @@ const CategoryContent = props => {
         totalCount,
         totalPagesFromData
     } = talonProps;
-
     const sidebarRef = useRef(null);
     const classes = useStyle(defaultClasses, props.classes);
     const shouldRenderSidebarContent = useIsInViewport({
@@ -101,6 +100,7 @@ const CategoryContent = props => {
 
     const categoryDescriptionElement = categoryDescription ? <RichContent html={categoryDescription} /> : null;
 
+    const changeShowMore = () => setShowMore(!showMore);
     const content = useMemo(() => {
         if (!totalPagesFromData && !isLoading) {
             return <NoProductsFound categoryId={categoryId} />;
@@ -125,14 +125,6 @@ const CategoryContent = props => {
             <Breadcrumbs categoryId={categoryId} />
             <StoreTitle>{categoryName}</StoreTitle>
             <article className={classes.root} data-cy="CategoryContent-root">
-                <div className={classes.categoryHeader}>
-                    <h1 className={classes.title}>
-                        <div className={classes.categoryTitle} data-cy="CategoryContent-categoryTitle">
-                            {categoryTitle}
-                        </div>
-                    </h1>
-                    {categoryDescriptionElement}
-                </div>
                 <div className={classes.contentWrapper}>
                     <div ref={sidebarRef} className={classes.sidebar}>
                         <Suspense fallback={<FilterSidebarShimmer />}>
@@ -140,16 +132,24 @@ const CategoryContent = props => {
                         </Suspense>
                     </div>
                     <div className={classes.categoryContent}>
+                        <div className={classes.categoryHeader}>
+                            <h1 className={classes.title}>
+                                <div className={classes.categoryTitle} data-cy="CategoryContent-categoryTitle">
+                                    {categoryTitle}
+                                </div>
+                            </h1>
+                            {categoryDescriptionElement}
+                        </div>
                         <div className={classes.heading}>
                             <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>
                                 {categoryResultsHeading}
                             </div>
                             <div className={classes.headerButtons}>
-                                <article className={classes.downloadCsvDesktop}>
-                                    <DownloadCsv />
-                                </article>
                                 {maybeFilterButtons}
                                 {maybeSortButton}
+                                <article className={classes.downloadCsvDesktop}>
+                                    <DownloadCsv showIcon />
+                                </article>
                             </div>
                             <section>
                                 <article className={classes.downloadCsvMobile}>
