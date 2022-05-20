@@ -11,6 +11,7 @@ export const useCourseContent = props => {
     const [courseDetails, setCourseDetails] = useState();
     const [courseContent, setCourseContent] = useState();
     const [enrolled, setEnrolled] = useState(isEnrolled);
+    const [courseNotFound, setCourseNotFound] = useState(false);
 
     useEffect(() => {
         getCourseDetails(courseId).then(reply => setCourseDetails(reply.courses[0]));
@@ -18,8 +19,12 @@ export const useCourseContent = props => {
 
     useEffect(() => {
         enrolled
-            ? getCourseContent(courseId, userMoodleToken).then(reply => setCourseContent([...reply]))
-            : getCourseContent(courseId).then(reply => setCourseContent([...reply]));
+            ? getCourseContent(courseId, userMoodleToken).then(reply =>
+                  Array.isArray(reply) ? setCourseContent([...reply]) : setCourseNotFound(true)
+              )
+            : getCourseContent(courseId).then(reply =>
+                  Array.isArray(reply) ? setCourseContent([...reply]) : setCourseNotFound(true)
+              );
     }, [courseId, userMoodleToken, enrolled]);
 
     const handleEnrollInCourse = () => {
@@ -35,5 +40,5 @@ export const useCourseContent = props => {
         setUserCoursesIdList(userCoursesIdListUpdate);
     };
 
-    return { courseDetails, courseContent, enrolled, handleEnrollInCourse, handleUnenrollFromCourse };
+    return { courseDetails, courseContent, enrolled, handleEnrollInCourse, handleUnenrollFromCourse, courseNotFound };
 };

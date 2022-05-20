@@ -16,9 +16,6 @@ const CourseItem = props => {
     const { data, isProgressCourse, isProgressTab } = props;
     const [{ isSignedIn }] = useUserContext();
     const classes = useStyle(defaultClasses, props.classes);
-
-    isProgressTab && console.log(data);
-
     const history = useHistory();
     const { formatMessage } = useIntl();
 
@@ -43,9 +40,9 @@ const CourseItem = props => {
         defaultMessage: 'General'
     });
 
-    const handleGoToCourse = () => {
+    const handleGoToCourse = useCallback(() => {
         history.push(`/course/${data.id}`);
-    };
+    }, [history, data.id]);
 
     const handleGoToSignIn = useCallback(() => {
         history.push('/sign-in');

@@ -166,3 +166,26 @@
 .actionIcons:active {
     transform: translateY(-1px);
 }
+
+/* No exist course advice */
+.noCoursesImage {
+    width: 100px;
+}
+
+.noExistCourseAdviceContainer {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.noExistCourseAdviceText {
+    text-align: center;
+}
+
+.goLearningButton {
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    width: 280px;
+}
