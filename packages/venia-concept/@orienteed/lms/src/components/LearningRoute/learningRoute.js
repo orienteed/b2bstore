@@ -44,7 +44,7 @@ const LearningRoute = () => {
             </Switch>
         </Router>
     ) : (
-        <Redirect to={'/'} />
+        <Redirect to={'/sign-in'} />
     );
 };
 
