@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import Button from '@magento/venia-ui/lib/components/Button';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+
 import defaultClasses from './courseItem.module.css';
+
 import noImageAvailable from './Icons/noImageAvailable.svg';
+import lockIcon from './Icons/lock.svg';
 
 const CourseItem = props => {
     const { data, isProgressCourse, isProgressTab } = props;
+    const [{ isSignedIn }] = useUserContext();
     const classes = useStyle(defaultClasses, props.classes);
 
     isProgressTab && console.log(data);
@@ -27,6 +32,12 @@ const CourseItem = props => {
         defaultMessage: 'Resume Course'
     });
 
+    // TODO_B2B: Add translation for 'Sign In First'
+    const signInFirstText = formatMessage({
+        id: 'lms.signInFirst',
+        defaultMessage: 'Sign In first'
+    });
+
     const generalTag = formatMessage({
         id: 'lms.general',
         defaultMessage: 'General'
@@ -35,6 +46,10 @@ const CourseItem = props => {
     const handleGoToCourse = () => {
         history.push(`/course/${data.id}`);
     };
+
+    const handleGoToSignIn = useCallback(() => {
+        history.push('/sign-in');
+    }, [history]);
 
     // TODO_B2B: Add translation for 'In Progress'
     const categoryTag =
@@ -83,8 +98,19 @@ const CourseItem = props => {
                 {isProgressTab ? progressBar() : null}
                 <p className={classes.courseDescription}>{data.summary}</p>
                 <div className={classes.actionButtonContainer}>
-                    <Button className={classes.actionButton} onClick={handleGoToCourse}>
-                        {isProgressCourse || isProgressTab ? resumeCourseText : startCourseText}
+                    <Button className={classes.actionButton} onClick={isSignedIn ? handleGoToCourse : handleGoToSignIn}>
+                        {isSignedIn ? (
+                            isProgressCourse || isProgressTab ? (
+                                resumeCourseText
+                            ) : (
+                                startCourseText
+                            )
+                        ) : (
+                            <>
+                                <img src={lockIcon} className={classes.iconStyle} alt="Lock icon" />
+                                {signInFirstText}
+                            </>
+                        )}
                     </Button>
                 </div>
             </div>

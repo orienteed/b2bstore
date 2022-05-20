@@ -59,6 +59,10 @@
     composes: root_highPriorityInv from '@magento/venia-concept/src/components/Button/button.module.css';
 }
 
+.iconStyle {
+    width: 16px;
+}
+
 /* Progress Bar */
 .progressBarContainer {
     width: 100%;

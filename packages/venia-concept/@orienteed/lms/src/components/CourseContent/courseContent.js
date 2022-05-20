@@ -12,6 +12,7 @@ import defaultClasses from './courseContent.module.css';
 
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
 import checkIcon from './Icons/check.svg';
+import cancelIcon from './Icons/cancel.svg';
 
 const DELIMITER = '/';
 
@@ -89,28 +90,23 @@ const CourseContent = props => {
                             <div className={classes.enrollButtonContainer}>
                                 <Button
                                     className={classes.enrollButton}
-                                    onClick={handleEnrollInCourse}
+                                    onClick={enrolled ? handleUnenrollFromCourse : handleEnrollInCourse}
                                     priority={'normal'}
                                 >
+                                    {/* TODO_B2B: Translations */}
                                     {enrolled ? (
                                         <>
-                                            <img src={checkIcon} className={classes.checkIcon} alt="Enrolled Icon" />
-                                            <FormattedMessage id={'lms.enrolled'} defaultMessage={'Enrolled'} />
+                                            <img src={cancelIcon} className={classes.checkIcon} alt="Unenrolled Icon" />
+                                            <FormattedMessage id={'lms.unenroll'} defaultMessage={'Unenroll'} />
+                                            {/* <FormattedMessage id={'lms.enrolled'} defaultMessage={'Enrolled'} /> */}
                                         </>
                                     ) : (
-                                        <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
+                                        <>
+                                            <img src={checkIcon} className={classes.checkIcon} alt="Enrolled Icon" />
+                                            <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
+                                        </>
                                     )}
                                 </Button>
-                                {enrolled && (
-                                    <Button
-                                        className={classes.enrollButton}
-                                        onClick={handleUnenrollFromCourse}
-                                        priority={'normal'}
-                                    >
-                                        <FormattedMessage id={'lms.unenroll'} defaultMessage={'Unenroll'} />{' '}
-                                        {/* TODO_B2B: Translations */}
-                                    </Button>
-                                )}
                             </div>
                         </div>
                     </div>

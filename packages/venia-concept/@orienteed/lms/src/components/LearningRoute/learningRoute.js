@@ -1,12 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch, useParams } from 'react-router-dom';
 
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useLearningRoute } from '../../talons/useLearningRoute';
 
 import CourseContent from '../CourseContent';
 import CoursesCatalog from '../CoursesCatalog';
 
 const LearningRoute = () => {
+    const [{ isSignedIn }] = useUserContext();
     const talonProps = useLearningRoute();
     const {
         userMoodleId,
@@ -19,7 +21,7 @@ const LearningRoute = () => {
         setUserCoursesIdList
     } = talonProps;
 
-    return (
+    return isSignedIn ? (
         <Router>
             <Switch>
                 <Route path="/:lang*/learning">
@@ -41,6 +43,8 @@ const LearningRoute = () => {
                 </Route>
             </Switch>
         </Router>
+    ) : (
+        <Redirect to={'/'} />
     );
 };
 
