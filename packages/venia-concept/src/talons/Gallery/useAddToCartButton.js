@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import operations from '@magento/peregrine/lib/talons/Gallery/addToCart.gql';
-
+import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU } from '@orienteed/customComponents/query/addProductByCsv.gql';
 /**
  * @param {String} props.item.uid - uid of item
  * @param {String} props.item.name - name of item
@@ -28,7 +28,6 @@ export const useAddToCartButton = props => {
     const [isLoading, setIsLoading] = useState(false);
 
     const isInStock = item.stock_status === 'IN_STOCK';
-
     const productType = item.__typename;
     const isUnsupportedProductType = UNSUPPORTED_PRODUCT_TYPES.includes(productType);
     const isDisabled = isLoading || !isInStock || isUnsupportedProductType;
@@ -39,26 +38,37 @@ export const useAddToCartButton = props => {
 
     const [addToCart] = useMutation(operations.ADD_ITEM);
 
+    const [addConfigurableProductToCart] = useMutation(ADD_CONFIGURABLE_MUTATION);
+
     const handleAddToCart = useCallback(async () => {
         try {
             if (productType === 'SimpleProduct') {
                 setIsLoading(true);
 
-                await addToCart({
+                await addConfigurableProductToCart({
                     variables: {
                         cartId,
-                        cartItem: {
-                            quantity: quantity || 1,
-                            entered_options: [
-                                {
-                                    uid: item.uid,
-                                    value: item.name
-                                }
-                            ],
-                            sku: item.sku
-                        }
+                        quantity: quantity || 1,
+                        sku: item.sku,
+                        parentSku: item.parentSku
                     }
                 });
+
+                // await addToCart({  NOTE : USE addConfigurableProductToCart method
+                //     variables: {
+                //         cartId,
+                //         cartItem: {
+                //             quantity: quantity || 1,
+                //             entered_options: [
+                //                 {
+                //                     uid: item.uid,
+                //                     value: item.name
+                //                 }
+                //             ],
+                //             sku: item.sku
+                //         }
+                //     }
+                // });
 
                 setIsLoading(false);
             } else if (productType === 'ConfigurableProduct') {

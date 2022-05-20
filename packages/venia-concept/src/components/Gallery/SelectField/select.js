@@ -23,7 +23,7 @@ const Select = props => {
     return (
         <Fragment>
             <FieldIcons after={arrow} before={before}>
-                <InformedSelect defaultValue='Itttttt' {...rest} className={inputClass} field={field}>
+                <InformedSelect {...rest} className={inputClass} field={field}>
                     {options}
                 </InformedSelect>
             </FieldIcons>

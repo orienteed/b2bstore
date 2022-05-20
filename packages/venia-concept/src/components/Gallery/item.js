@@ -82,7 +82,7 @@ const GalleryItem = props => {
 
     const addButton = isSupportedProductType ? (
         <AddToCartbutton
-            item={selectedVeriant ? selectedVeriant.product : item}
+            item={selectedVeriant ? { ...selectedVeriant.product, parentSku: selectedVeriant.parentSku } : item}
             urlSuffix={productUrlSuffix}
             quantity={quantity}
         />
@@ -121,6 +121,7 @@ const GalleryItem = props => {
         return variants.map((variant, key) => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
+            parentSku: item.sku,
             value:
                 '....' +
                 variant.product.sku.slice(variants[0].product.sku.length - 6) +
