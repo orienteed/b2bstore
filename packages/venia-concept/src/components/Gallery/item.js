@@ -44,6 +44,7 @@ const GalleryItem = props => {
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
+    console.log('PROPSitem', props);
     const classes = useStyle(defaultClasses, props.classes);
 
     const [, { addToast }] = useToasts();
@@ -61,9 +62,9 @@ const GalleryItem = props => {
 
     const { url: smallImageURL } = small_image;
 
-    const productLink = resourceUrl(
-        `/${item.__typename === 'ConfigurableProduct' ? url_key : orParentUrlKey}${productUrlSuffix || ''}`
-    );
+    const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
+
+    const simpleProductLink = `/simple-product?sku=${item.sku}`;
     const {
         minimalPrice: {
             amount: { currency: minimalPriceCurrency, value: minimalPriceValue }
@@ -187,7 +188,10 @@ const GalleryItem = props => {
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <div className={classes.images}>
-                <Link onClick={handleLinkClick} to={productLink}>
+                <Link
+                    onClick={handleLinkClick}
+                    to={item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink}
+                >
                     <Image
                         alt={name}
                         classes={{
@@ -214,7 +218,12 @@ const GalleryItem = props => {
                 </div>
                 {ratingAverage}
             </div>
-            <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
+            <Link
+                onClick={handleLinkClick}
+                to={item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink}
+                className={classes.name}
+                data-cy="GalleryItem-name"
+            >
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>

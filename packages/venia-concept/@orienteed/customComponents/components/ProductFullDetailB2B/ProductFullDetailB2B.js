@@ -6,7 +6,6 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import RichText from '@magento/venia-ui/lib/components/RichText';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import CurrentFilter from '@magento/venia-ui/lib/components/FilterModal/CurrentFilters/currentFilter';
-
 import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';

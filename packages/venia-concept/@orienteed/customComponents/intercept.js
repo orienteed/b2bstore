@@ -25,6 +25,11 @@ module.exports = targets => {
                 name: 'OrderIncidences',
                 pattern: '/order-incidences',
                 path: '@orienteed/customComponents/components/OrderIncidences'
+            },
+            {
+                name: 'SimpleProduct',
+                pattern: '/simple-product',
+                path: '@orienteed/customComponents/components/SimpleProduct'
             }
         );
         return routes;
