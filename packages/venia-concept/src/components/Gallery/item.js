@@ -19,7 +19,7 @@ import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartB
 // eslint-disable-next-line no-unused-vars
 import Rating from '@magento/venia-ui/lib/components/Rating';
 
-import QuantityField from './QuantityField/quantity';
+import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
 import Select from './SelectField/select';
 
 // The placeholder image is 4:5, so we should make sure to size our product
@@ -165,7 +165,8 @@ const GalleryItem = props => {
                 </div>
                 <div className={classes.productsSelect}>
                     <Select
-                        field={'reference'}
+                        initialValue={'Item'}
+                        field={`veriants ${item.sku}`}
                         items={[{ value: 'Item' }, ...getProductsInstance()]}
                         onChange={onChangeVariant}
                     />
