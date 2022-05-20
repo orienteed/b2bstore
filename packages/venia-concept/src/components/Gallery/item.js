@@ -22,6 +22,8 @@ import Rating from '@magento/venia-ui/lib/components/Rating';
 import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
 import Select from './SelectField/select';
 
+import { useHistory } from 'react-router-dom';
+
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -38,6 +40,7 @@ const GalleryItem = props => {
 
     const classes = useStyle(defaultClasses, props.classes);
 
+    const { location } = useHistory();
     const [quantity, setQuantity] = useState(1);
     const [selectedVeriant, setSelectedVeriant] = useState();
 
@@ -160,19 +163,22 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            <div className={classes.productsWrapper}>
-                <div className={classes.qtyField}>
-                    <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
+            {location.search && (
+                <div className={classes.productsWrapper}>
+                    <div className={classes.qtyField}>
+                        <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
+                    </div>
+                    <div className={classes.productsSelect}>
+                        <Select
+                            initialValue={'Item'}
+                            field={`veriants ${item.sku}`}
+                            items={[{ value: 'Item' }, ...getProductsInstance()]}
+                            onChange={onChangeVariant}
+                        />
+                    </div>
                 </div>
-                <div className={classes.productsSelect}>
-                    <Select
-                        initialValue={'Item'}
-                        field={`veriants ${item.sku}`}
-                        items={[{ value: 'Item' }, ...getProductsInstance()]}
-                        onChange={onChangeVariant}
-                    />
-                </div>
-            </div>
+            )}
+            
             <div className={classes.actionsContainer}>
                 {addButton}
                 {wishlistButton}
