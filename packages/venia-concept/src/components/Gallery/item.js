@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Info } from 'react-feather';
 import { string, number, shape } from 'prop-types';
@@ -25,6 +25,9 @@ import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
 import { useToasts } from '@magento/peregrine';
 
+import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
+import Select from './SelectField/select';
+
 import { useHistory } from 'react-router-dom';
 
 // The placeholder image is 4:5, so we should make sure to size our product
@@ -47,6 +50,9 @@ const GalleryItem = props => {
     const { formatMessage } = useIntl();
     const { location } = useHistory();
     const isHomePage = location.pathname === '/';
+    const [quantity, setQuantity] = useState(1);
+    const [selectedVeriant, setSelectedVeriant] = useState();
+
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
@@ -86,7 +92,11 @@ const GalleryItem = props => {
     const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
 
     const addButton = isSupportedProductType ? (
-        <AddToCartbutton item={item} urlSuffix={productUrlSuffix} />
+        <AddToCartbutton
+            item={selectedVeriant ? { ...selectedVeriant.product, parentSku: selectedVeriant.parentSku } : item}
+            urlSuffix={productUrlSuffix}
+            quantity={quantity}
+        />
     ) : (
         <div className={classes.unavailableContainer}>
             <Info />
@@ -148,6 +158,32 @@ const GalleryItem = props => {
             })
         });
     };
+    const onChangeQty = value => setQuantity(value);
+
+    const getCategoriesValuesNameByVariant = variant => {
+        return variant.attributes.map((attribute, i) => {
+            return item.configurable_options[i].values.find(value => value.value_index == attribute.value_index).label;
+        });
+    };
+
+    const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
+
+    const getProductsInstance = () => {
+        const instanceItem = { ...item };
+        var variants = [...instanceItem.variants];
+
+        return variants.map((variant, key) => ({
+            ...variant,
+            categoriesValuesName: getCategoriesValuesNameByVariant(variant),
+            parentSku: item.sku,
+            value:
+                '....' +
+                variant.product.sku.slice(variants[0].product.sku.length - 6) +
+                ' ' +
+                getCategoriesValuesNameByVariant(variant).join(' - ')
+        }));
+    };
+
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <div className={classes.images}>
@@ -195,8 +231,23 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
+            {location.search && (
+                <div className={classes.productsWrapper}>
+                    <div className={classes.qtyField}>
+                        <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
+                    </div>
+                    <div className={classes.productsSelect}>
+                        <Select
+                            initialValue={'Item'}
+                            field={`veriants ${item.sku}`}
+                            items={[{ value: 'Item' }, ...getProductsInstance()]}
+                            onChange={onChangeVariant}
+                        />
+                    </div>
+                </div>
+            )}
+
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
-                {' '}
                 {addButton}
                 {!isHomePage && wishlistButton}
             </div>

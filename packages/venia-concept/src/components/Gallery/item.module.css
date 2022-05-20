@@ -175,3 +175,20 @@
 .configurableWrapper{
     position: relative;
 }
+.productsWrapper {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: 1fr 3.5fr;
+}
+
+.productsWrapper > div > form > div {
+    display: block !important;
+}
+
+.qtyField {
+    width: 75px;
+}
+
+.productsSelect {
+    width: 180px;
+}
