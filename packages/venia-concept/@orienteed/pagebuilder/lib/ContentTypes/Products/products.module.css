@@ -1,5 +1,4 @@
 .root {
-    margin-bottom: 50px;
 }
 .root a {
     text-decoration: none;
@@ -28,12 +27,12 @@
 
 .galleryItems {
     composes: items from '~@magento/venia-ui/lib/components/Gallery/gallery.module.css';
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
 @media (max-width: 640px) {
     .galleryItems {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .centerModeSmall {

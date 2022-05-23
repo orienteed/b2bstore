@@ -18,9 +18,7 @@ const restoreSortOrder = (urlKeys, products) => {
     products.forEach(product => {
         productsByOriginalOrder.set(product.url_key, product);
     });
-    return urlKeys
-        .map(urlKey => productsByOriginalOrder.get(urlKey))
-        .filter(Boolean);
+    return urlKeys.map(urlKey => productsByOriginalOrder.get(urlKey)).filter(Boolean);
 };
 
 /**
@@ -101,9 +99,7 @@ const Products = props => {
     });
 
     const { loading, error, data } = useQuery(GET_PRODUCTS_BY_URL_KEY, {
-        variables: { url_keys: urlKeys, pageSize: urlKeys.length },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
+        variables: { url_keys: urlKeys, pageSize: urlKeys.length }
     });
 
     if (loading) return null;
@@ -116,11 +112,8 @@ const Products = props => {
 
     if (appearance === 'carousel') {
         //Settings conditions was made due to react-slick issues
-        const carouselCenterMode =
-            carouselMode === 'continuous' && items.length > slidesToShow;
-        const carouselSmallCenterMode =
-            carouselMode === 'continuous' &&
-            items.length > slidesToShowSmallCenterMode;
+        const carouselCenterMode = carouselMode === 'continuous' && items.length > slidesToShow;
+        const carouselSmallCenterMode = carouselMode === 'continuous' && items.length > slidesToShowSmallCenterMode;
         const carouselSettings = {
             slidesToShow,
             slidesToScroll: slidesToShow,
@@ -134,17 +127,12 @@ const Products = props => {
                 {
                     breakpoint: 640,
                     settings: {
-                        slidesToShow: carouselSmallCenterMode
-                            ? slidesToShowSmallCenterMode
-                            : slidesToShowSmall,
-                        slidesToScroll: carouselSmallCenterMode
-                            ? slidesToShowSmallCenterMode
-                            : slidesToShowSmall,
+                        slidesToShow: carouselSmallCenterMode ? slidesToShowSmallCenterMode : slidesToShowSmall,
+                        slidesToScroll: carouselSmallCenterMode ? slidesToShowSmallCenterMode : slidesToShowSmall,
                         centerMode: carouselSmallCenterMode,
                         ...(carouselSmallCenterMode && { centerPadding }),
                         ...{
-                            infinite:
-                                items.length > slidesToShowSmall && infinite
+                            infinite: items.length > slidesToShowSmall && infinite
                         }
                     }
                 },
@@ -168,19 +156,12 @@ const Products = props => {
         };
 
         const centerModeClass = carouselCenterMode ? classes.centerMode : null;
-        const centerModeSmallClass = carouselSmallCenterMode
-            ? classes.centerModeSmall
-            : null;
+        const centerModeSmallClass = carouselSmallCenterMode ? classes.centerModeSmall : null;
 
         return (
             <div
                 style={dynamicStyles}
-                className={[
-                    classes.carousel,
-                    ...cssClasses,
-                    centerModeClass,
-                    centerModeSmallClass
-                ].join(' ')}
+                className={[classes.carousel, ...cssClasses, centerModeClass, centerModeSmallClass].join(' ')}
             >
                 <Carousel settings={carouselSettings} items={items} />
             </div>
@@ -188,10 +169,7 @@ const Products = props => {
     }
 
     return (
-        <div
-            style={dynamicStyles}
-            className={[classes.root, ...cssClasses].join(' ')}
-        >
+        <div style={dynamicStyles} className={[classes.root, ...cssClasses].join(' ')}>
             <Gallery items={items} classes={{ items: classes.galleryItems }} />
         </div>
     );
@@ -288,11 +266,21 @@ export const GET_PRODUCTS_BY_URL_KEY = gql`
                 name
                 price_range {
                     maximum_price {
-                        final_price {
+                        regular_price {
                             currency
                             value
                         }
-                        regular_price {
+                    }
+                }
+                price {
+                    regularPrice {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                    minimalPrice {
+                        amount {
                             currency
                             value
                         }

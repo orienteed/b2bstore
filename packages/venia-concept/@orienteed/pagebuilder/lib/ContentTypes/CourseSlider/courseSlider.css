@@ -1,11 +1,17 @@
-a {
-    text-decoration: none !important;
+.courseSliderContainer a {
+    text-decoration: none;
 }
 
-p,
-img {
-    margin: 0 !important;
-    line-height: normal !important;
+.courseSliderContainer p,
+.courseSliderContainer img {
+    margin: 0;
+    line-height: normal;
+}
+
+.courseSliderContainer h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
 }
 
 .courseSliderContainer {
@@ -46,7 +52,7 @@ img {
 
 .linkIcon {
     width: 16px;
-    margin: 4px !important;
+    margin: 4px;
 }
 
 /* Body */
