@@ -261,6 +261,7 @@ export const GET_PRODUCTS_BY_URL_KEY = gql`
     query getProductsByUrlKey($url_keys: [String], $pageSize: Int!) {
         products(filter: { url_key: { in: $url_keys } }, pageSize: $pageSize) {
             items {
+                url_suffix
                 id
                 uid
                 name

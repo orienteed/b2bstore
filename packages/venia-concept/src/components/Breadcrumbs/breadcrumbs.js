@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { string } from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
@@ -11,6 +11,8 @@ import defaultClasses from '@magento/venia-ui/lib/components/Breadcrumbs/breadcr
 
 import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'react-feather';
 import Icon from '@magento/venia-ui/lib/components/Icon';
+import gql from 'graphql-tag';
+import { useLazyQuery } from '@apollo/client';
 
 const DELIMITER = '/';
 /**
@@ -29,9 +31,28 @@ const Breadcrumbs = props => {
     const { currentCategory, currentCategoryPath, hasError, isLoading, normalizedData, handleClick } = talonProps;
 
     const history = useHistory();
-    const names = url_keys?.items.map(ele => ele.name);
-    const index = names?.indexOf(currentProduct);
+    let urlKeysHistory = history.location?.state?.urlKeys;
+    let currentUrlKeys = urlKeysHistory ? urlKeysHistory : url_keys;
 
+    const [getFilters, { data: filterData }] = useLazyQuery(GET_CATEGORY, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+    });
+
+    useEffect(() => {
+        if (!urlKeysHistory) {
+            getFilters({
+                variables: {
+                    categoryIdFilter: {
+                        eq: categoryId
+                    }
+                }
+            });
+            currentUrlKeys = filterData?.products;
+        }
+    }, [urlKeysHistory, getFilters]);
+    const names = currentUrlKeys?.items?.map(ele => ele?.name);
+    const index = names?.indexOf(currentProduct);
     // For all links generate a fragment like "/ Text"
     const links = useMemo(() => {
         return normalizedData.map(({ text, path }) => {
@@ -50,12 +71,32 @@ const Breadcrumbs = props => {
         return <Shimmer />;
     }
     const moveToOtherProcuct = type => {
-        if (type === 'prev') {
-            let prevProduct = url_keys.items[index - 1];
-            history.push(`/${prevProduct.url_key}${prevProduct.url_suffix}`);
-        } else if (type === 'next') {
-            let nextProduct = url_keys.items[index + 1];
-            history.push(`/${nextProduct.url_key}${nextProduct.url_suffix}`);
+        if (type === 'next' && index === currentUrlKeys?.items.length-1) {
+            let product = currentUrlKeys?.items[0];
+            history.push({
+                pathname: `/${product.url_key}${product.url_suffix}`,
+                state: { urlKeys: currentUrlKeys }
+            });
+        } else if (type === 'prev' && index === 0) {
+            let product = currentUrlKeys?.items[currentUrlKeys?.items.length - 1];
+            history.push({
+                pathname: `/${product.url_key}${product.url_suffix}`,
+                state: { urlKeys: currentUrlKeys }
+            });
+        } else if (index < currentUrlKeys?.items.length) {
+            if (type === 'prev') {
+                let prevProduct = currentUrlKeys?.items[index - 1];
+                history.push({
+                    pathname: `/${prevProduct.url_key}${prevProduct.url_suffix}`,
+                    state: { urlKeys: currentUrlKeys }
+                });
+            } else if (type === 'next') {
+                let nextProduct = currentUrlKeys?.items[index + 1];
+                history.push({
+                    pathname: `/${nextProduct.url_key}${nextProduct.url_suffix}`,
+                    state: { urlKeys: currentUrlKeys }
+                });
+            }
         }
     };
     // Don't display anything but the empty, static height div when there's an error.
@@ -113,3 +154,18 @@ Breadcrumbs.propTypes = {
     categoryId: string.isRequired,
     currentProduct: string
 };
+
+export const GET_CATEGORY = gql`
+    query getProductFiltersByCategory($categoryIdFilter: FilterEqualTypeInput!) {
+        products(filter: { category_uid: $categoryIdFilter }, pageSize: 50) {
+            items {
+                id
+                uid
+                __typename
+                name
+                url_key
+                url_suffix
+            }
+        }
+    }
+`;

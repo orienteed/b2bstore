@@ -44,7 +44,20 @@ const Gallery = props => {
                 if (item === null) {
                     return <GalleryItemShimmer key={index} />;
                 }
-                return <GalleryItem key={item.id} item={item} storeConfig={storeConfig} />;
+                return (
+                    <GalleryItem
+                        urlKeys={{
+                            items: items.map(ele => ({
+                                url_key: ele.url_key,
+                                url_suffix: ele.url_suffix,
+                                name: ele.name
+                            }))
+                        }}
+                        key={item.id}
+                        item={item}
+                        storeConfig={storeConfig}
+                    />
+                );
             }),
         [items, storeConfig]
     );
