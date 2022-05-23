@@ -20,7 +20,9 @@ import PageLoadingIndicator from '@magento/venia-ui/lib/components/PageLoadingIn
 import CurrencySwitcher from '@magento/venia-ui/lib/components/Header/currencySwitcher';
 import NavigationTrigger from '@magento/venia-ui/lib/components/Header/navTrigger';
 
-const SearchBar = React.lazy(() => import('@magento/venia-ui/lib/components/SearchBar'));
+const SearchBar = React.lazy(() =>
+    import('@magento/venia-ui/lib/components/SearchBar')
+);
 
 const Header = props => {
     const {
@@ -64,13 +66,22 @@ const Header = props => {
                     <div className={classes.primaryActions}>
                         <NavigationTrigger />
                     </div>
-                    <OnlineIndicator hasBeenOffline={hasBeenOffline} isOnline={isOnline} />
-                    <Link to={resourceUrl('/')} className={classes.logoContainer}>
+                    <OnlineIndicator
+                        hasBeenOffline={hasBeenOffline}
+                        isOnline={isOnline}
+                    />
+                    <Link
+                        to={resourceUrl('/')}
+                        className={classes.logoContainer}
+                    >
                         <Logo classes={{ logo: classes.logo }} />
                     </Link>
                     {isUserSignedIn && <MegaMenu />}
                     <div className={classes.secondaryActions}>
-                        <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
+                        <SearchTrigger
+                            onClick={handleSearchTriggerClick}
+                            ref={searchTriggerRef}
+                        />
                         <AccountTrigger />
                         <CartTrigger />
                     </div>

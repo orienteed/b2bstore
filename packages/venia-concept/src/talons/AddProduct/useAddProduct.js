@@ -89,10 +89,14 @@ const getBreadcrumbCategoryId = categories => {
     }
     const breadcrumbSet = new Set();
     categories.forEach(({ breadcrumbs }) => {
-        (breadcrumbs || []).forEach(({ category_id }) => breadcrumbSet.add(category_id));
+        (breadcrumbs || []).forEach(({ category_id }) =>
+            breadcrumbSet.add(category_id)
+        );
     });
 
-    const leafCategory = categories.find(category => !breadcrumbSet.has(category.id));
+    const leafCategory = categories.find(
+        category => !breadcrumbSet.has(category.id)
+    );
 
     return leafCategory.id || categories[0].id;
 };
@@ -144,26 +148,37 @@ const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 //  * }}
 //  */
 export const useAddProduct = props => {
-    const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, suggested_Product } = props;
+    const {
+        addConfigurableProductToCartMutation,
+        addSimpleProductToCartMutation,
+        suggested_Product
+    } = props;
 
     const productType = suggested_Product.__typename;
 
-    const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(productType);
+    const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(
+        productType
+    );
 
     const [{ cartId }] = useCartContext();
 
     const [
         addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
+        {
+            error: errorAddingConfigurableProduct,
+            loading: isAddConfigurableLoading
+        }
     ] = useMutation(addConfigurableProductToCartMutation);
 
-    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
-        addSimpleProductToCartMutation
-    );
+    const [
+        addSimpleProductToCart,
+        { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }
+    ] = useMutation(addSimpleProductToCartMutation);
 
-    const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(suggested_Product.categories), [
-        suggested_Product.categories
-    ]);
+    const breadcrumbCategoryId = useMemo(
+        () => getBreadcrumbCategoryId(suggested_Product.categories),
+        [suggested_Product.categories]
+    );
 
     // const derivedOptionSelections = useMemo(
     //     () => deriveOptionSelectionsFromProduct(suggested_Product),
