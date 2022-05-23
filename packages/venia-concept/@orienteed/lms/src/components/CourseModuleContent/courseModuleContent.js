@@ -82,10 +82,10 @@ const CourseModuleContent = props => {
 
     const markAsDoneButton = () => {
         return isDone ? (
-            <img src={checkFillIcon} className={classes.actionIconsDisabled} alt="Done" />
+            <img title='Done' src={checkFillIcon} className={classes.actionIconsDisabled} alt="Done" />
         ) : (
             <button className={classes.actionIcons} onClick={() => handleMarkAsDone()}>
-                <img src={checkNoFillIcon} alt="Mark as done" />
+                <img title='Mark as done' src={checkNoFillIcon} alt="Mark as done" />
             </button>
         );
     };
@@ -96,10 +96,10 @@ const CourseModuleContent = props => {
                 case 'file':
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <button className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
+                            <button title="View" className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
                                 <img src={viewIcon} alt="View" />
                             </button>
-                            <button className={classes.actionIcons} onClick={() => handleDownload()}>
+                            <button title="Download" className={classes.actionIcons} onClick={() => handleDownload()}>
                                 <img src={downloadIcon} alt="Download" />
                             </button>
                             {markAsDoneButton()}
@@ -108,7 +108,7 @@ const CourseModuleContent = props => {
                 case 'url': {
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <a className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
+                            <a title="Visit" className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
                                 <img src={viewIcon} alt="Visit" />
                             </a>
                             {markAsDoneButton()}

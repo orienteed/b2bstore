@@ -37,6 +37,8 @@ const CourseContent = props => {
     });
     const history = useHistory();
 
+    const learningTitle = 'Learning';
+
     const breadcrumbs = (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
             <BrowserRouter forceRefresh={true}>
@@ -46,7 +48,7 @@ const CourseContent = props => {
             </BrowserRouter>
             <span className={classes.divider}>{DELIMITER}</span>
             <Link className={classes.link} to="/learning">
-                <FormattedMessage id={'lms.learning'} defaultMessage={'Learning'} />
+                {learningTitle}
             </Link>
             {courseNotFound ? null : (
                 <>

@@ -14,16 +14,28 @@ export const useCourseContent = props => {
     const [courseNotFound, setCourseNotFound] = useState(false);
 
     useEffect(() => {
+        setEnrolled(isEnrolled);
+    }, [isEnrolled]);
+
+    useEffect(() => {
         getCourseDetails(courseId).then(reply => setCourseDetails(reply.courses[0]));
     }, [courseId]);
 
     useEffect(() => {
         enrolled
             ? getCourseContent(courseId, userMoodleToken).then(reply =>
-                  Array.isArray(reply) ? setCourseContent([...reply]) : setCourseNotFound(true)
+                  Array.isArray(reply)
+                      ? setCourseContent([...reply])
+                      : reply.hasOwnProperty('errorcode') &&
+                        reply.errorcode === 'invalidrecord' &&
+                        setCourseNotFound(true)
               )
             : getCourseContent(courseId).then(reply =>
-                  Array.isArray(reply) ? setCourseContent([...reply]) : setCourseNotFound(true)
+                  Array.isArray(reply)
+                      ? setCourseContent([...reply])
+                      : reply.hasOwnProperty('errorcode') &&
+                        reply.errorcode === 'invalidrecord' &&
+                        setCourseNotFound(true)
               );
     }, [courseId, userMoodleToken, enrolled]);
 
