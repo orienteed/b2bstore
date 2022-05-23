@@ -107,5 +107,9 @@ module.exports = componentOverrideMapping = {
     [`@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper.js`]: './src/talons/QuantityStepper/useQuantityStepper.js',
     //new overwrite
     [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.module.css`]: './src/components/FilterSidebar/filterSidebar.module.css',
-    [`@magento/venia-ui/lib/components/Field/fieldIcons.module.css`]: './src/components/Field/fieldIcons.module.css'
+    [`@magento/venia-ui/lib/components/Field/fieldIcons.module.css`]: './src/components/Field/fieldIcons.module.css',
+    //New overwrite
+    [`@magento/venia-ui/lib/components/LegacyMiniCart/section.module.css`]: './src/components/LegacyMiniCart/section.module.css',
+    [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.module.css`]: './src/components/CartPage/ProductListing/product.module.css',
+    [`@magento/venia-ui/lib/components/Gallery/gallery.module.css`]: './src/components/Gallery/gallery.module.css'
 };
