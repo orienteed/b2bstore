@@ -39,7 +39,6 @@
 /* CourseContent */
 .container {
     display: grid;
-    /* TODO_B2B: Review padding sizes */
     padding: 0rem 1rem 2rem 1rem;
     row-gap: 2rem;
 }

@@ -29,7 +29,6 @@ const CourseItem = props => {
         defaultMessage: 'Resume Course'
     });
 
-    // TODO_B2B: Add translation for 'Sign In First'
     const signInFirstText = formatMessage({
         id: 'lms.signInFirst',
         defaultMessage: 'Sign In first'
@@ -40,6 +39,11 @@ const CourseItem = props => {
         defaultMessage: 'General'
     });
 
+    const inProgressTag = formatMessage({
+        id: 'lms.inProgress',
+        defaultMessage: 'In progress'
+    });
+
     const handleGoToCourse = useCallback(() => {
         history.push(`/course/${data.id}`);
     }, [history, data.id]);
@@ -48,14 +52,15 @@ const CourseItem = props => {
         history.push('/sign-in');
     }, [history]);
 
-    // TODO_B2B: Add translation for 'In Progress'
     const categoryTag =
         data.categoryname !== '' ? (
             <span className={classes.categoryTag}>
-                {isProgressCourse ? `${data.categoryname} | In progress` : data.categoryname}
+                {isProgressCourse ? `${data.categoryname} | ${inProgressTag}` : data.categoryname}
             </span>
         ) : (
-            <span className={classes.categoryTag}>{isProgressCourse ? `${generalTag} | In progress` : generalTag}</span>
+            <span className={classes.categoryTag}>
+                {isProgressCourse ? `${generalTag} | ${inProgressTag}` : generalTag}
+            </span>
         );
 
     const courseLogo =

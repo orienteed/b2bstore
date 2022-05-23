@@ -81,7 +81,6 @@ const ContentDialog = props => {
             onCancel={handleClosePopUp}
             onConfirm={handleDownload}
         >
-            {/* TODO_B2B: Toogle with autoplay feature */}
             {embededObject()}
         </Dialog>
     );

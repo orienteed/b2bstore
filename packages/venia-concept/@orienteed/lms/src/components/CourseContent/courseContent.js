@@ -141,7 +141,6 @@ const CourseContent = props => {
                                             onClick={enrolled ? handleUnenrollFromCourse : handleEnrollInCourse}
                                             priority={'normal'}
                                         >
-                                            {/* TODO_B2B: Translations */}
                                             {enrolled ? (
                                                 <>
                                                     <img

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import ContentDialog from '../ContentDialog/contentDialog';
 
@@ -30,6 +30,14 @@ const CourseModuleContent = props => {
     const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
         completiondata: courseModule.completiondata
     });
+
+    const { formatMessage } = useIntl();
+
+    const markAsDoneText = formatMessage({ id: 'lms.markAsDone', defaultMessage: 'Mark as done' });
+    const doneText = formatMessage({ id: 'lms.done', defaultMessage: 'Done' });
+    const viewText = formatMessage({ id: 'lms.view', defaultMessage: 'View' });
+    const downloadText = formatMessage({ id: 'lms.download', defaultMessage: 'Download' });
+    const visitText = formatMessage({ id: 'lms.visit', defaultMessage: 'Visit' });
 
     const handleOpenPopUp = () => {
         setIsModalOpen(true);
@@ -82,10 +90,10 @@ const CourseModuleContent = props => {
 
     const markAsDoneButton = () => {
         return isDone ? (
-            <img title='Done' src={checkFillIcon} className={classes.actionIconsDisabled} alt="Done" />
+            <img title={doneText} src={checkFillIcon} className={classes.actionIconsDisabled} alt="Done" />
         ) : (
             <button className={classes.actionIcons} onClick={() => handleMarkAsDone()}>
-                <img title='Mark as done' src={checkNoFillIcon} alt="Mark as done" />
+                <img title={markAsDoneText} src={checkNoFillIcon} alt="Mark as done" />
             </button>
         );
     };
@@ -96,10 +104,10 @@ const CourseModuleContent = props => {
                 case 'file':
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <button title="View" className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
+                            <button title={viewText} className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
                                 <img src={viewIcon} alt="View" />
                             </button>
-                            <button title="Download" className={classes.actionIcons} onClick={() => handleDownload()}>
+                            <button title={downloadText} className={classes.actionIcons} onClick={() => handleDownload()}>
                                 <img src={downloadIcon} alt="Download" />
                             </button>
                             {markAsDoneButton()}
@@ -108,7 +116,7 @@ const CourseModuleContent = props => {
                 case 'url': {
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <a title="Visit" className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
+                            <a title={visitText} className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
                                 <img src={viewIcon} alt="Visit" />
                             </a>
                             {markAsDoneButton()}
