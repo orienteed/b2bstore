@@ -108,5 +108,10 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Gallery/gallery.module.css`]: './src/components/Gallery/gallery.module.css', // replace directly
 
     [`@magento/peregrine/lib/talons/Gallery/useAddToCartButton.js`]: './src/talons/Gallery/useAddToCartButton.js',
-    [`@magento/venia-ui/lib/components/Gallery/addToCartButton.js`]: './src/components/Gallery/addToCartButton.js'
+    [`@magento/venia-ui/lib/components/Gallery/addToCartButton.js`]: './src/components/Gallery/addToCartButton.js',
+
+    //new overwrite
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.js`]: './src/components/Breadcrumbs/breadcrumbs.js',
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.module.css`]: './src/components/Breadcrumbs/breadcrumbs.module.css',
+
 };
