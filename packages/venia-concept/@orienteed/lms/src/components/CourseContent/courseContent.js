@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link, useHistory } from 'react-router-dom';
+import { BrowserRouter, Link, useHistory } from 'react-router-dom';
 
 import Button from '@magento/venia-ui/lib/components/Button';
 import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
@@ -39,9 +39,11 @@ const CourseContent = props => {
 
     const breadcrumbs = (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
-            <Link className={classes.link} to="/">
-                <FormattedMessage id={'global.home'} defaultMessage={'Home'} />
-            </Link>
+            <BrowserRouter forceRefresh={true}>
+                <Link className={classes.link} to="/">
+                    <FormattedMessage id={'global.home'} defaultMessage={'Home'} />
+                </Link>
+            </BrowserRouter>
             <span className={classes.divider}>{DELIMITER}</span>
             <Link className={classes.link} to="/learning">
                 <FormattedMessage id={'lms.learning'} defaultMessage={'Learning'} />

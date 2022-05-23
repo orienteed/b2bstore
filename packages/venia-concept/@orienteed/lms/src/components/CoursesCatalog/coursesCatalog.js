@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -34,9 +34,11 @@ const CoursesCatalog = props => {
 
     const breadcrumbs = (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
-            <Link className={classes.link} to="/">
-                <FormattedMessage id={'global.home'} defaultMessage={'Home'} />
-            </Link>
+            <BrowserRouter forceRefresh={true}>
+                <Link className={classes.link} to="/">
+                    <FormattedMessage id={'global.home'} defaultMessage={'Home'} />
+                </Link>
+            </BrowserRouter>
             <span className={classes.divider}>{DELIMITER}</span>
             <span className={classes.currentPage}>{learningTitle}</span>
         </nav>
