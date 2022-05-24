@@ -17,7 +17,7 @@ const QuantityStepper = props => {
         min,
         onChange,
         message,
-        fieldName
+        fieldName = 'quantity'
     } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
