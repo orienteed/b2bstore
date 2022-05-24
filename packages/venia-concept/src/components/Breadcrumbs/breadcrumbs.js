@@ -86,6 +86,7 @@ const Breadcrumbs = props => {
         } else if (index < currentUrlKeys?.items.length) {
             if (type === 'prev') {
                 let prevProduct = currentUrlKeys?.items[index - 1];
+                console.log(prevProduct,'prevprevprev');
                 history.push({
                     pathname: `/${prevProduct.url_key}${prevProduct.url_suffix}`,
                     state: { urlKeys: currentUrlKeys }

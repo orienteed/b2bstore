@@ -138,7 +138,7 @@ const getBreadcrumbCategoryId = categories => {
 
     // Until we can get the single canonical breadcrumb path to a product we
     // will just return the first category id of the potential leaf categories.
-    const leafCategory = categories.find(category => !breadcrumbSet.has(category.uid));
+    const leafCategory = categories?.find(category => !breadcrumbSet.has(category.uid));
 
     // If we couldn't find a leaf category then just use the first category
     // in the list for this product.
@@ -292,7 +292,7 @@ export const useProductFullDetail = props => {
         optionSelections.forEach((value, key) => {
             const values = attributeIdToValuesMap.get(key);
 
-            const selectedValue = values.find(item => item.value_index === value);
+            const selectedValue = values?.find(item => item.value_index === value);
 
             if (selectedValue) {
                 selectedOptions.push(selectedValue.uid);
