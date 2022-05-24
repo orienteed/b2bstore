@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const getCourseDetails = async id => {
+const unenrollUserFromCourse = async (userId, courseId) => {
     const params = {
         moodlewsrestformat: 'json',
         wstoken: 'af547e6e35fca251a48ff4bedb7f1298',
-        wsfunction: 'core_course_get_courses_by_field',
-        field: 'id',
-        value: id
+        wsfunction: 'enrol_manual_unenrol_users',
+        'enrolments[0][roleid]': 5,
+        'enrolments[0][userid]': userId,
+        'enrolments[0][courseid]': courseId
     };
 
     return await axios
@@ -14,9 +15,9 @@ const getCourseDetails = async id => {
             params: params
         })
         .then(coursesResponse => {
-            return coursesResponse.data;
+            return coursesResponse.data === null;
         })
         .catch(error => console.error(error));
 };
 
-export default getCourseDetails;
+export default unenrollUserFromCourse;

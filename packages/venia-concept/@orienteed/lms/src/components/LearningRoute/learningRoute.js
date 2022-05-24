@@ -1,25 +1,14 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    useParams,
-    Redirect
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch, useParams } from 'react-router-dom';
 
-import { useLearningRoute } from '../../talons/useLearningRoute';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useLearningRoute } from '../../talons/useLearningRoute';
 
 import CourseContent from '../CourseContent';
 import CoursesCatalog from '../CoursesCatalog';
 
 const LearningRoute = () => {
     const [{ isSignedIn }] = useUserContext();
-    if (!isSignedIn) {
-        return <Redirect to={'/'} />;
-    }
-
-    // TODO_B2B: Look how to do it correctly
     const talonProps = useLearningRoute();
     const {
         userMoodleId,
@@ -28,10 +17,11 @@ const LearningRoute = () => {
         setSelectedButton,
         courses,
         userCourses,
-        userCoursesIdList
+        userCoursesIdList,
+        setUserCoursesIdList
     } = talonProps;
 
-    return (
+    return isSignedIn ? (
         <Router>
             <Switch>
                 <Route path="/:lang*/learning">
@@ -48,15 +38,18 @@ const LearningRoute = () => {
                         userMoodleId={userMoodleId}
                         userMoodleToken={userMoodleToken}
                         userCoursesIdList={userCoursesIdList}
+                        setUserCoursesIdList={setUserCoursesIdList}
                     />
                 </Route>
             </Switch>
         </Router>
+    ) : (
+        <Redirect to={'/sign-in'} />
     );
 };
 
 const CourseMiddleware = props => {
-    const { userMoodleId, userMoodleToken, userCoursesIdList } = props;
+    const { userMoodleId, userMoodleToken, userCoursesIdList, setUserCoursesIdList } = props;
     const { courseId } = useParams();
     return (
         <CourseContent
@@ -64,6 +57,7 @@ const CourseMiddleware = props => {
             userMoodleId={userMoodleId}
             userMoodleToken={userMoodleToken}
             userCoursesIdList={userCoursesIdList}
+            setUserCoursesIdList={setUserCoursesIdList}
         />
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import ContentDialog from '../ContentDialog/contentDialog';
 
@@ -26,14 +26,18 @@ import viewIcon from './Icons/view.svg';
 const CourseModuleContent = props => {
     const { courseModule, isEnrolled, userMoodleId, userMoodleToken } = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const {
-        isDone,
-        setIsDone,
-        isModalOpen,
-        setIsModalOpen
-    } = useCourseModuleContent({
+
+    const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
         completiondata: courseModule.completiondata
     });
+
+    const { formatMessage } = useIntl();
+
+    const markAsDoneText = formatMessage({ id: 'lms.markAsDone', defaultMessage: 'Mark as done' });
+    const doneText = formatMessage({ id: 'lms.done', defaultMessage: 'Done' });
+    const viewText = formatMessage({ id: 'lms.view', defaultMessage: 'View' });
+    const downloadText = formatMessage({ id: 'lms.download', defaultMessage: 'Download' });
+    const visitText = formatMessage({ id: 'lms.visit', defaultMessage: 'Visit' });
 
     const handleOpenPopUp = () => {
         setIsModalOpen(true);
@@ -56,9 +60,7 @@ const CourseModuleContent = props => {
     };
 
     const handleMarkAsDone = () => {
-        markAsDone(userMoodleId, courseModule.id).then(reply =>
-            reply ? setIsDone(true) : null
-        );
+        markAsDone(userMoodleId, courseModule.id).then(reply => (reply ? setIsDone(true) : null));
     };
 
     const selectIcon = contentFile => {
@@ -88,17 +90,10 @@ const CourseModuleContent = props => {
 
     const markAsDoneButton = () => {
         return isDone ? (
-            <img
-                src={checkFillIcon}
-                className={classes.actionIconsDisabled}
-                alt="Done"
-            />
+            <img title={doneText} src={checkFillIcon} className={classes.actionIconsDisabled} alt="Done" />
         ) : (
-            <button
-                className={classes.actionIcons}
-                onClick={() => handleMarkAsDone()}
-            >
-                <img src={checkNoFillIcon} alt="Mark as done" />
+            <button className={classes.actionIcons} onClick={() => handleMarkAsDone()}>
+                <img title={markAsDoneText} src={checkNoFillIcon} alt="Mark as done" />
             </button>
         );
     };
@@ -109,16 +104,10 @@ const CourseModuleContent = props => {
                 case 'file':
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <button
-                                className={classes.actionIcons}
-                                onClick={() => handleOpenPopUp()}
-                            >
+                            <button title={viewText} className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
                                 <img src={viewIcon} alt="View" />
                             </button>
-                            <button
-                                className={classes.actionIcons}
-                                onClick={() => handleDownload()}
-                            >
+                            <button title={downloadText} className={classes.actionIcons} onClick={() => handleDownload()}>
                                 <img src={downloadIcon} alt="Download" />
                             </button>
                             {markAsDoneButton()}
@@ -127,11 +116,7 @@ const CourseModuleContent = props => {
                 case 'url': {
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <a
-                                className={classes.actionIcons}
-                                href={contentFile.fileurl}
-                                target="_blank"
-                            >
+                            <a title={visitText} className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
                                 <img src={viewIcon} alt="Visit" />
                             </a>
                             {markAsDoneButton()}
@@ -152,23 +137,21 @@ const CourseModuleContent = props => {
                             className={classes.courseContentIcon}
                             alt="file type icon"
                         />
-                        <p className={classes.moduleTitle}>
-                            {courseModule.name}
-                        </p>
-                        {courseModule.hasOwnProperty('description') && (
-                            <img
-                                src={infoIcon}
-                                className={classes.courseContentIcon}
-                                alt={courseModule.description}
-                            />
-                        )}
+                        <p className={classes.moduleTitle}>{courseModule.name}</p>
+                        {/* {courseModule.hasOwnProperty('description') && (
+                            <span title={courseModule.description}>
+                                <img
+                                    src={infoIcon}
+                                    className={classes.courseContentIcon}
+                                    alt={courseModule.description}
+                                />
+                            </span>
+                        )} */}
                     </div>
                     {actionContentButtons(courseModule.contents[0])}
                     <ContentDialog
                         dialogName={courseModule.name}
-                        url={`${
-                            courseModule.contents[0].fileurl
-                        }&token=${userMoodleToken}`}
+                        url={`${courseModule.contents[0].fileurl}&token=${userMoodleToken}`}
                         contentFile={courseModule.contents[0]}
                         isModalOpen={isModalOpen}
                         handleClosePopUp={handleClosePopUp}
@@ -179,10 +162,7 @@ const CourseModuleContent = props => {
                 <div className={classes.courseContentContainerLeft}>
                     <img src={notFoundIcon} width="30" alt="not found icon" />
                     <span>
-                        <FormattedMessage
-                            id={'lms.notFound'}
-                            defaultMessage={'Content not available'}
-                        />
+                        <FormattedMessage id={'lms.notFound'} defaultMessage={'Content not available'} />
                     </span>
                 </div>
             )}

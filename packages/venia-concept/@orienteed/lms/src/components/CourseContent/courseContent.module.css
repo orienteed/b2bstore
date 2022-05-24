@@ -7,9 +7,7 @@
     padding-left: var(--whitespace-start);
     padding-top: var(--whitespace-start);
     padding-bottom: var(--whitespace-end); /* Allow space for focus ring */
-    margin-bottom: calc(
-        -1 * var(--whitespace-end)
-    ); /* Prevent focus ring space affecting the rest of the UI */
+    margin-bottom: calc(-1 * var(--whitespace-end)); /* Prevent focus ring space affecting the rest of the UI */
     font-size: 0.875rem;
 
     /* Permanent height to prevent pop-in. */
@@ -41,8 +39,7 @@
 /* CourseContent */
 .container {
     display: grid;
-    /* TODO_B2B: Review padding sizes */
-    padding: 1rem 1rem 2rem 1rem;
+    padding: 0rem 1rem 2rem 1rem;
     row-gap: 2rem;
 }
 
@@ -77,6 +74,13 @@
 
 .summaryText {
     padding-top: 10px;
+    max-height: 245px;
+
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Course body */
@@ -130,7 +134,8 @@
 .enrollButtonContainer {
     display: flex;
     justify-content: center;
-    padding: 40px 0;
+    padding: 35px 0;
+    gap: 10px;
 }
 .enrollButton {
     composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
@@ -159,4 +164,27 @@
 
 .actionIcons:active {
     transform: translateY(-1px);
+}
+
+/* No exist course advice */
+.noCoursesImage {
+    width: 100px;
+}
+
+.noExistCourseAdviceContainer {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.noExistCourseAdviceText {
+    text-align: center;
+}
+
+.goLearningButton {
+    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    width: 280px;
 }
