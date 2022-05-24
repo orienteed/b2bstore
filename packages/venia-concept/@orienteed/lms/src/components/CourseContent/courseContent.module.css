@@ -60,9 +60,11 @@
 
 .courseImage {
     object-fit: contain;
-    padding: clamp(5px, 7vw, 150px);
+    padding: clamp(5px, 1vw, 150px);
     padding-top: 0px;
     padding-bottom: 0px;
+    margin: auto;
+    max-height: 400px;
 }
 
 .courseTitle {
