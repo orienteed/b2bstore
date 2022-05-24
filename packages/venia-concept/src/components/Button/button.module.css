@@ -6,19 +6,26 @@
     border-style: solid;
     border-width: 2px;
     color: rgb(var(--stroke));
-    font-size: var(--venia-global-fontSize-100);
-    font-weight: var(--venia-global-fontWeight-bold);
-    line-height: 1.25rem;
     max-width: 100%;
     min-width: 10rem;
     min-height: 2.5rem;
     outline: none;
     padding: calc(0.5rem + 1px) 1.5rem calc(0.5rem - 1px);
-    text-transform: uppercase;
     transition-duration: 256ms;
     transition-property: background-color, border-color, color;
     transition-timing-function: var(--venia-global-anim-standard);
     border-radius: var(--b2bStore-border-radius-button);
+
+    /* Figma rules */
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: none;
+    /* Original rules */
+    /* font-size: var(--venia-global-fontSize-100); */
+    /* font-weight: var(--venia-global-fontWeight-bold); */
+    /* line-height: 1.25rem; */
+    /* text-transform: uppercase; */
 }
 
 .root:hover {
@@ -75,6 +82,28 @@
 }
 
 .root_highPriorityNegative:hover {
+    --stroke: var(--venia-global-color-red-800);
+}
+
+/* HIGH PRIORITY REVERSE*/
+.root_highPriorityInv {
+    composes: root;
+    /* background-color: rgb(var(--stroke)); */
+    color: var(--orienteed-primary-color-base1);
+    border: 2px solid var(--orienteed-primary-color-base1);
+    width: 100%;
+}
+
+.root_highPriorityInv:focus {
+    box-shadow: -6px 6px rgba(var(--orienteed-global-color-orange-op), 0.3);
+}
+
+.root_highPriorityNegativeInv {
+    composes: root_highPriority;
+    --stroke: var(--venia-global-color-red-700);
+}
+
+.root_highPriorityNegativeInv:hover {
     --stroke: var(--venia-global-color-red-800);
 }
 
