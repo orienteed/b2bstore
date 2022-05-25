@@ -144,7 +144,7 @@ const AddQuickOrder = props => {
         <div className={classes.inputQtyQuick}>
             <QuantityStepper
                 min={1}
-                value={quantity}
+                value={item.quantity}
                 onChange={e => onChangeQty(e, id)}
             />
         </div>
