@@ -195,6 +195,9 @@
     stroke: #fff;
 }
 
+.inputQtyQuick  {
+   padding-bottom: 1rem;
+}
 .inputQtyQuick > div {
     background: #ffffff;
     display: block !important;
