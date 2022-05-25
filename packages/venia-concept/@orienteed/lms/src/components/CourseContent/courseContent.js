@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { BrowserRouter, Link, useHistory } from 'react-router-dom';
 
@@ -11,8 +11,6 @@ import { useCourseContent } from '../../talons/useCourseContent';
 import defaultClasses from './courseContent.module.css';
 
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
-import checkIcon from './Icons/check.svg';
-import cancelIcon from './Icons/cancel.svg';
 import noCoursesImage from '../CoursesCatalog/Icons/noCourses.svg';
 
 const DELIMITER = '/';
@@ -39,6 +37,30 @@ const CourseContent = props => {
 
     const learningTitle = 'Learning';
 
+    const [sections, setSections] = useState([]);
+    const [sectionSelected, setSectionSelected] = useState('');
+    const [modules, setModules] = useState([]);
+    const [moduleSelected, setModuleSelected] = useState();
+
+    useEffect(() => {
+        if (courseContent !== undefined && courseDetails !== undefined) {
+            // TODO_B2B: Translations
+            const sectionList = ['Descripción'];
+            const moduleList = [courseDetails.summary];
+            courseContent.forEach(course => {
+                if (course.modules.length !== 0) {
+                    sectionList.push(course.name);
+                    moduleList.push(course);
+                }
+            });
+
+            setSections(sectionList);
+            setSectionSelected(sectionList[0]);
+            setModules(moduleList);
+            setModuleSelected(moduleList[0]);
+        }
+    }, [courseContent, courseDetails]);
+
     const breadcrumbs = (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
             <BrowserRouter forceRefresh={true}>
@@ -58,25 +80,6 @@ const CourseContent = props => {
             )}
         </nav>
     );
-
-    const showCourseModules = course => {
-        return (
-            <div key={course.id} className={classes.courseSectionContainer}>
-                <p className={classes.sectionTitle}>{course.name}</p>
-                {course.modules.map(module => {
-                    return (
-                        <CourseModuleContent
-                            courseModule={module}
-                            isEnrolled={enrolled}
-                            userMoodleId={userMoodleId}
-                            userMoodleToken={userMoodleToken}
-                            key={module.id}
-                        />
-                    );
-                })}
-            </div>
-        );
-    };
 
     const handleGoToLearning = () => {
         history.push('/learning');
@@ -142,23 +145,9 @@ const CourseContent = props => {
                                             priority={'normal'}
                                         >
                                             {enrolled ? (
-                                                <>
-                                                    <img
-                                                        src={cancelIcon}
-                                                        className={classes.checkIcon}
-                                                        alt="Unenrolled Icon"
-                                                    />
-                                                    <FormattedMessage id={'lms.unenroll'} defaultMessage={'Unenroll'} />
-                                                </>
+                                                <FormattedMessage id={'lms.unenroll'} defaultMessage={'Unenroll'} />
                                             ) : (
-                                                <>
-                                                    <img
-                                                        src={checkIcon}
-                                                        className={classes.checkIcon}
-                                                        alt="Enrolled Icon"
-                                                    />
-                                                    <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
-                                                </>
+                                                <FormattedMessage id={'lms.enroll'} defaultMessage={'Enroll'} />
                                             )}
                                         </Button>
                                     </div>
@@ -166,16 +155,58 @@ const CourseContent = props => {
                             </div>
                         )}
                         {courseContent !== undefined && (
-                            <>
-                                <span className={classes.contentTitle}>
-                                    <FormattedMessage id={'lms.content'} defaultMessage={'Content'} />
-                                </span>
-                                <div className={classes.bodyCourseContainer}>
-                                    {courseContent.map(course => {
-                                        return course.modules.length !== 0 && showCourseModules(course);
+                            <div className={classes.bodyCourseContainer}>
+                                <div className={classes.courseSectionTabs}>
+                                    {sections.map(section => {
+                                        return (
+                                            <button
+                                                key={section}
+                                                className={
+                                                    sectionSelected === section
+                                                        ? classes.sectionTabActive
+                                                        : classes.sectionTab
+                                                }
+                                                onClick={() => {
+                                                    setModuleSelected(modules[sections.indexOf(section)]);
+                                                    setSectionSelected(section);
+                                                }}
+                                            >
+                                                {section}
+                                            </button>
+                                        );
                                     })}
                                 </div>
-                            </>
+
+                                {sectionSelected !== 'Descripción' ? (
+                                    moduleSelected !== undefined && (
+                                        <div className={classes.courseSectionModuleActive}>
+                                            <h1 className={classes.sectionTitle}>{sectionSelected}</h1>
+                                            <ol key={moduleSelected.id} className={classes.courseSectionContainer}>
+                                                {moduleSelected.modules.map((module, i) => {
+                                                    return (
+                                                        <CourseModuleContent
+                                                            courseModule={module}
+                                                            isEnrolled={enrolled}
+                                                            userMoodleId={userMoodleId}
+                                                            userMoodleToken={userMoodleToken}
+                                                            key={module.id}
+                                                            white={i % 2 === 0}
+                                                        />
+                                                    );
+                                                })}
+                                            </ol>
+                                        </div>
+                                    )
+                                ) : (
+                                    <div className={classes.courseSectionModuleActive}>
+                                        {/* TODO_B2B: Translations */}
+                                        <h1 className={classes.sectionTitle}>Características y objetivos del curso</h1>
+                                        <div className={classes.courseSectionContainer}>
+                                            <span className={classes.moduleSummary}>{moduleSelected}</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         )}
                     </div>
                 </>

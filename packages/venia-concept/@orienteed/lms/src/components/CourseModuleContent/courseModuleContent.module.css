@@ -2,18 +2,33 @@
 .courseContentContainerRight {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    align-items: flex-end;
+    gap: 20px;
+    align-items: center;
 }
 
 .courseContentContainer {
     composes: courseContentContainerLeft;
     justify-content: space-between;
     align-items: center;
+    height: 59px;
+    padding: 16px;
+}
+
+.courseContentContainerOdd {
+    composes: courseContentContainerLeft;
+    justify-content: space-between;
+    align-items: center;
+    height: 59px;
+    background-color: #f6f8fb;
+    padding: 16px;
+}
+
+.courseContentIconContainer {
+    min-width: 24px;
 }
 
 .courseContentIcon {
-    width: 20px;
+    /* width: 20px; */
 }
 
 /* Action icons to open or download files */
@@ -45,5 +60,9 @@
     background-color: white;
 }
 
-body {background-color:transparent;}
-iframe {background-color:transparent;}
+body {
+    background-color: transparent;
+}
+iframe {
+    background-color: transparent;
+}

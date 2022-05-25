@@ -54,17 +54,20 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--orienteed-primary-color-base2);
+    padding-bottom: clamp(20px, 4vw, 50px);
 }
 
 .courseImage {
     object-fit: contain;
-    padding: clamp(5px, 1vw, 150px);
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-right: clamp(5px, 1vw, 150px);
     margin: auto;
     max-height: 400px;
+}
+
+@media (max-width: 601px) {
+    .courseImage {
+        padding-right: 0px;
+    }
 }
 
 .courseTitle {
@@ -87,28 +90,8 @@
 
 /* Course body */
 .bodyCourseContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.contentTitle {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.sectionTitle {
-    font-weight: bold;
-    padding-bottom: 2px;
-    margin-bottom: 5px;
-    border-bottom: 1px solid var(--orienteed-primary-color-base2);
-}
-
-.courseSectionContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    /* margin-bottom: 10px; */
 }
 
 .courseContentContainerLeft,
@@ -136,7 +119,7 @@
 .enrollButtonContainer {
     display: flex;
     justify-content: center;
-    padding: 35px 0;
+    padding: 35px 0 0 0;
     gap: 10px;
 }
 .enrollButton {
@@ -189,4 +172,52 @@
 .goLearningButton {
     composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     width: 280px;
+}
+
+/* Tabs */
+.courseSectionTabs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sectionTab {
+    background-color: #f6f8fb;
+    border-radius: 8px 8px 0px 0px;
+    color: #0c0c0c;
+    font-weight: 400;
+    padding: 12px 16px;
+}
+
+.sectionTabActive {
+    composes: sectionTab;
+    background-color: var(--orienteed-primary-color-base1);
+    color: white;
+    font-weight: 700;
+}
+
+/* Module */
+.courseSectionModuleActive {
+    padding: 30px; /* 24px 32px 30px 24px; */
+    border-radius: 0px 8px 8px 8px;
+    background-color: #e6effb;
+}
+
+.courseSectionContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 8px;
+    padding: 25px; /* 25px 46px 25px 48px; */
+}
+
+.sectionTitle {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 17px;
+}
+
+.moduleSummary {
+    font-size: 18px;
 }
