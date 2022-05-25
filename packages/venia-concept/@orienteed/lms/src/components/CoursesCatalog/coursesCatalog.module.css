@@ -53,7 +53,7 @@
 }
 
 .inProgressButton {
-    composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+    composes: root_highPriorityInv from '@magento/venia-concept/src/components/Button/button.module.css';
     width: 280px;
 }
 

@@ -29,6 +29,12 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    height: fit-content;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    margin-bottom: auto;
+    max-height: 48px;
 }
 
 .categoryTag {
@@ -47,7 +53,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    /* height: 72px; */
+    height: fit-content;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    margin-bottom: auto;
+    max-height: 72px;
 }
 
 .actionButtonContainer {
