@@ -8,7 +8,7 @@ import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListi
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Message } from '@magento/venia-ui/lib/components/Field';
-import defaultClasses from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+import defaultClasses from '@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.module.css';
 
 export const QuantityFields = props => {
     const { initialValue, itemId, min, onChange, message, fieldName } = props;

@@ -127,7 +127,7 @@ const GalleryItem = props => {
     const addButton = isSupportedProductType ? (
         <AddToCartbutton
             item={
-                selectedVeriant
+                selectedVeriant?.product
                     ? {
                           ...selectedVeriant.product,
                           parentSku: selectedVeriant.parentSku
@@ -300,10 +300,11 @@ const GalleryItem = props => {
             {location.search && (
                 <div className={classes.productsWrapper}>
                     <div className={classes.qtyField}>
-                        {/* <QuantityStepper
+                        <QuantityStepper
                             value={quantity}
                             onChange={e => onChangeQty(e)}
-                        /> */}
+                            min={1}
+                        />
                     </div>
                     <div className={classes.productsSelect}>
                         <Select

@@ -6,7 +6,7 @@ import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
 
 import Dialog from '../Dialog';
 import SearchBar from '../SearchBar';
-import QuantityFields from '../QuantityField/quantity';
+import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
@@ -140,17 +140,15 @@ const AddQuickOrder = props => {
         );
         setProducts([...newProducts]);
     };
-    // const quantitySelector = (item, id) => (
-    //     <div className={classes.inputQtyQuick}>
-    //         <QuantityFields
-    //             fieldName={`${item.sku}-${id}`}
-    //             min={1}
-    //             quickOrder={true}
-    //             hideButtons
-    //             onChange={e => onChangeQty(e, id)}
-    //         />
-    //     </div>
-    // );
+    const quantitySelector = (item, id) => (
+        <div className={classes.inputQtyQuick}>
+            <QuantityStepper
+                min={1}
+                value={quantity}
+                onChange={e => onChangeQty(e, id)}
+            />
+        </div>
+    );
     return (
         <>
             <div className={classes.btnOrderContainer}>
@@ -240,7 +238,7 @@ const AddQuickOrder = props => {
                                                         value={item.name}
                                                     />
                                                 </div>
-                                                {/* {quantitySelector(item, key)} */}
+                                                {quantitySelector(item, key)}
                                                 <div
                                                     className={
                                                         classes.priceWrapper
