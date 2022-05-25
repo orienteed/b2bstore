@@ -8,7 +8,7 @@ import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantitySteppe
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Message } from '@magento/venia-ui/lib/components/Field';
-import defaultClasses from '@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.module.css';
+import defaultClasses from './quantity.module.css';
 
 export const QuantityStepper = props => {
     const {
@@ -16,79 +16,38 @@ export const QuantityStepper = props => {
         itemId,
         min,
         onChange,
+        value,
         message,
         fieldName = 'quantity'
     } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
 
-    const talonProps = useQuantityStepper({
-        initialValue,
-        min,
-        onChange,
-        fieldName
-    });
-
-    const { handleBlur, maskInput } = talonProps;
-
     const errorMessage = message ? <Message>{message}</Message> : null;
-
+    const handleKeyDown = e => {
+        if (e.key === ' ') {
+            e.preventDefault();
+        }
+    };
+    const handleChange = e => onChange(e.target.value);
     return (
         <Fragment>
             <div className={classes.root}>
-                <label className={classes.label} htmlFor={itemId}>
-                    {label}
-                </label>
-
-                <TextInput
-                    aria-label={formatMessage({
-                        id: 'quantity.input',
-                        defaultMessage: 'Item Quantity'
-                    })}
+                <input
+                    field={fieldName}
+                    onKeyDown={handleKeyDown}
                     data-cy="QuantityStepper-input"
-                    classes={{ input: classes.input }}
-                    field="quantity"
+                    className={classes.input}
                     id={itemId}
-                    inputMode="numeric"
-                    mask={maskInput}
+                    value={value}
                     min={min}
-                    onBlur={handleBlur}
-                    pattern="[0-9]*"
+                    onChange={handleChange}
+                    // pattern="[0-9]*"
                 />
             </div>
             {errorMessage}
         </Fragment>
     );
-};
-
-const Quantity = props => {
-    return (
-        <Form
-            initialValues={{
-                quantity: props.initialValue
-            }}
-        >
-            <QuantityStepper {...props} />
-        </Form>
-    );
-};
-
-Quantity.propTypes = {
-    initialValue: number,
-    itemId: string,
-    label: string,
-    min: number,
-    onChange: func,
-    message: string,
-    fieldName: string
-};
-
-Quantity.defaultProps = {
-    label: 'Quantity',
-    min: 0,
-    initialValue: 1,
-    onChange: () => {},
-    fieldName: 'quantity'
 };
 
 QuantityStepper.defaultProps = {
