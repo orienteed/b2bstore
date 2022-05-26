@@ -168,21 +168,21 @@ const GalleryItem = props => {
 
     const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
 
-    // const getProductsInstance = () => {
-    //     const instanceItem = { ...item };
-    //     var variants = [...instanceItem.variants];
+    const getProductsInstance = () => {
+        const instanceItem = { ...item };
+        var variants = [...instanceItem.variants];
 
-    //     return variants.map((variant, key) => ({
-    //         ...variant,
-    //         categoriesValuesName: getCategoriesValuesNameByVariant(variant),
-    //         parentSku: item.sku,
-    //         value:
-    //             '....' +
-    //             variant.product.sku.slice(variants[0].product.sku.length - 6) +
-    //             ' ' +
-    //             getCategoriesValuesNameByVariant(variant).join(' - ')
-    //     }));
-    // };
+        return variants.map((variant, key) => ({
+            ...variant,
+            categoriesValuesName: getCategoriesValuesNameByVariant(variant),
+            parentSku: item.sku,
+            value:
+                '....' +
+                variant.product.sku.slice(variants[0].product.sku.length - 6) +
+                ' ' +
+                getCategoriesValuesNameByVariant(variant).join(' - ')
+        }));
+    };
 
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
@@ -231,12 +231,10 @@ const GalleryItem = props => {
                     <span>your price &nbsp;</span>
                     {priceRender}
                 </div>
-                {/* <Price
+                <Price
                     value={price_range.maximum_price.regular_price.value}
-                    currencyCode={
-                        price_range.maximum_price.regular_price.currency
-                    }
-                /> */}
+                    currencyCode={price_range.maximum_price.regular_price.currency}
+                />
             </div>
 
             {location.search && (
@@ -245,12 +243,12 @@ const GalleryItem = props => {
                         <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
                     </div>
                     <div className={classes.productsSelect}>
-                        {/* <Select
+                        <Select
                             initialValue={'Item'}
                             field={`veriants ${item.sku}`}
                             items={[{ value: 'Item' }, ...getProductsInstance()]}
                             onChange={onChangeVariant}
-                        /> */}
+                        />
                     </div>
                 </div>
             )}
