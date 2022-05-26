@@ -216,7 +216,7 @@ export const useProductFullDetail = props => {
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
     const operations = mergeOperations(defaultOperations, props.operations);
-    console.log('OPERATIONS', operations);
+
     const productType = product.__typename;
 
     const isSupportedProductType = isSupported(productType);
@@ -224,7 +224,7 @@ export const useProductFullDetail = props => {
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
     const { formatMessage } = useIntl();
-    console.log('defaultOP', defaultOperations);
+
     const { data: storeConfigData } = useQuery(operations.getWishlistConfigQuery, {
         fetchPolicy: 'cache-and-network'
     });

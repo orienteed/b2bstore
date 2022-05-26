@@ -53,6 +53,7 @@ export const GET_SIMPLE_PRODUCT = gql`
                 }
             }
             aggregations {
+                label
                 options {
                     count
                     label

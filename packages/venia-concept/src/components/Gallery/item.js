@@ -44,7 +44,6 @@ const GalleryItem = props => {
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
-    console.log('PROPSitem', props);
     const classes = useStyle(defaultClasses, props.classes);
 
     const [, { addToast }] = useToasts();
@@ -169,21 +168,21 @@ const GalleryItem = props => {
 
     const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
 
-    const getProductsInstance = () => {
-        const instanceItem = { ...item };
-        var variants = [...instanceItem.variants];
+    // const getProductsInstance = () => {
+    //     const instanceItem = { ...item };
+    //     var variants = [...instanceItem.variants];
 
-        return variants.map((variant, key) => ({
-            ...variant,
-            categoriesValuesName: getCategoriesValuesNameByVariant(variant),
-            parentSku: item.sku,
-            value:
-                '....' +
-                variant.product.sku.slice(variants[0].product.sku.length - 6) +
-                ' ' +
-                getCategoriesValuesNameByVariant(variant).join(' - ')
-        }));
-    };
+    //     return variants.map((variant, key) => ({
+    //         ...variant,
+    //         categoriesValuesName: getCategoriesValuesNameByVariant(variant),
+    //         parentSku: item.sku,
+    //         value:
+    //             '....' +
+    //             variant.product.sku.slice(variants[0].product.sku.length - 6) +
+    //             ' ' +
+    //             getCategoriesValuesNameByVariant(variant).join(' - ')
+    //     }));
+    // };
 
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
@@ -246,12 +245,12 @@ const GalleryItem = props => {
                         <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
                     </div>
                     <div className={classes.productsSelect}>
-                        <Select
+                        {/* <Select
                             initialValue={'Item'}
                             field={`veriants ${item.sku}`}
                             items={[{ value: 'Item' }, ...getProductsInstance()]}
                             onChange={onChangeVariant}
-                        />
+                        /> */}
                     </div>
                 </div>
             )}
