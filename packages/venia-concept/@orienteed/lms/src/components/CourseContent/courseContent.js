@@ -16,7 +16,7 @@ import noCoursesImage from '../CoursesCatalog/Icons/noCourses.svg';
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const { courseId, userMoodleId, userMoodleToken, userCoursesIdList, setUserCoursesIdList } = props;
+    const { courseId, userMoodleId, userMoodleToken, userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty } = props;
     const classes = useStyle(defaultClasses, props.classes);
     const {
         courseDetails,
@@ -189,6 +189,7 @@ const CourseContent = props => {
                                                             isEnrolled={enrolled}
                                                             userMoodleId={userMoodleId}
                                                             userMoodleToken={userMoodleToken}
+                                                            setMarkAsDoneListQty={setMarkAsDoneListQty}
                                                             key={module.id}
                                                             white={i % 2 === 0}
                                                         />

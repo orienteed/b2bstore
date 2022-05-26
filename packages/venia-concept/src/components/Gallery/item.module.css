@@ -163,7 +163,8 @@
 }
 
 .homeActionContainer button {
-    padding: 12px 86px;
+    width: 100%;
+    padding: 12px 0px;
     font-weight: 500;
     font-size: 16px;
 }
@@ -175,6 +176,7 @@
 .configurableWrapper{
     position: relative;
 }
+
 .productsWrapper {
     display: grid;
     gap: .5rem;

@@ -23,7 +23,7 @@ import videoIcon from './Icons/video.svg';
 import viewIcon from './Icons/view.svg';
 
 const CourseModuleContent = props => {
-    const { courseModule, isEnrolled, userMoodleId, userMoodleToken, white } = props;
+    const { courseModule, isEnrolled, userMoodleId, userMoodleToken, setMarkAsDoneListQty, white } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
     const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
@@ -59,7 +59,9 @@ const CourseModuleContent = props => {
     };
 
     const handleMarkAsDone = () => {
-        markAsDone(userMoodleId, courseModule.id).then(reply => (reply ? setIsDone(true) : null));
+        markAsDone(userMoodleId, courseModule.id).then(reply =>
+            reply ? setIsDone(true) && setMarkAsDoneListQty(list => [...list, true]) : null
+        );
     };
 
     const selectIcon = contentFile => {
@@ -152,7 +154,9 @@ const CourseModuleContent = props => {
                         </div>
                         <p className={classes.moduleTitle}>{courseModule.name}</p>
                     </div>
-                    {actionContentButtons(courseModule.contents[0])}
+                    <div className={classes.courseContentContainerRight}>
+                        {actionContentButtons(courseModule.contents[0])}
+                    </div>
                     <ContentDialog
                         dialogName={courseModule.name}
                         url={`${courseModule.contents[0].fileurl}&token=${userMoodleToken}`}

@@ -100,10 +100,6 @@ const Products = props => {
         return productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
     });
 
-    const { loading, error, data } = useQuery(GET_PRODUCTS_BY_URL_KEY, {
-        variables: { url_keys: urlKeys, pageSize: urlKeys.length }
-    });
-
     if (loading) return null;
 
     if (error || data.products.items.length === 0) {
