@@ -40,7 +40,7 @@ const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY,
 
 const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
-    const { storeConfig } = props;
+    const { storeConfig, filterState } = props;
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
@@ -171,8 +171,26 @@ const GalleryItem = props => {
 
     const getProductsInstance = () => {
         const instanceItem = { ...item };
-        var variants = [...instanceItem.variants];
+        var variants = [...instanceItem?.variants];
 
+        const filterKeys = filterState && [...filterState?.keys()];
+        const filterValues = filterState && [...filterState?.values()];
+        let newVariants = [];
+        if (filterKeys && filterValues) {
+            variants?.map(element => {
+                element?.attributes?.map(att => {
+                    if (filterKeys.includes(att.code)) {
+                        filterValues.map(filValue => {
+                            for (let valueObject of filValue) {
+                                valueObject.value == att.value_index && newVariants.push(element);
+                            }
+                        });
+                    }
+                });
+            });
+            variants = newVariants;
+        }
+        
         return variants.map((variant, key) => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
@@ -240,7 +258,7 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            {location.search && (
+            {location.search &&item?.variants&& (
                 <div className={classes.productsWrapper}>
                     <div className={classes.qtyField}>
                         <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
