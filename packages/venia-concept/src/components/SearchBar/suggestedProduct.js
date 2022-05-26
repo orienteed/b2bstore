@@ -25,7 +25,7 @@ const IMAGE_WIDTH = 60;
 const SuggestedProduct = props => {
     const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const { orParentUrlKey, url_key, small_image, name, onNavigate, price, url_suffix } = props;
+    const {  url_key, small_image, name, onNavigate, price, url_suffix } = props;
 
     const handleClick = useCallback(() => {
         if (typeof onNavigate === 'function') {
@@ -33,7 +33,10 @@ const SuggestedProduct = props => {
         }
     }, [onNavigate]);
 
-    const uri = useMemo(() => resourceUrl(`/${orParentUrlKey}${url_suffix || ''}`), [orParentUrlKey, url_suffix]);
+
+    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [url_key, url_suffix]);
+
+    const simpleProductLink = `/simple-product?sku=${suggested_Product.sku}`;
 
     const talonProps = useAddProduct({
         addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION,
@@ -45,7 +48,7 @@ const SuggestedProduct = props => {
 
     return (
         <div className={classes.root}>
-            <Link to={uri} onClick={handleClick}>
+            <Link to={suggested_Product.__typename === 'SimpleProduct' ? simpleProductLink : uri} onClick={handleClick}>
                 <Image
                     alt={name}
                     classes={{ image: classes.thumbnail, root: classes.image }}

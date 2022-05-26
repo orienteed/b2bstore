@@ -51,7 +51,6 @@ const GalleryItem = props => {
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
-    console.log('PROPSitem', props);
     const classes = useStyle(defaultClasses, props.classes);
 
     const [, { addToast }] = useToasts();
@@ -77,7 +76,7 @@ const GalleryItem = props => {
     } = item;
 
     const { url: smallImageURL } = small_image;
-
+  
     const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
 
     const simpleProductLink = `/simple-product?sku=${item.sku}`;
