@@ -2,6 +2,7 @@
 :global(:root) {
     /* color */
     --orienteed-global-color-orange: #e8ab00;
+    --orienteed-global-color-orange-hover: #dc8b10;
     --orienteed-global-color-gray: #808080;
     --orienteed-global-color-black: #28282b;
     --orienteed-global-color-orange-op: 232, 171, 0;
@@ -25,6 +26,7 @@
 :global(:root) {
     /* colors */
     --orienteed-primary-color-base1: var(--orienteed-global-color-orange);
+    --orienteed-primary-color-base1-hover: var(--orienteed-global-color-orange-hover);
     --orienteed-primary-color-base2: var(--orienteed-global-color-gray);
     --orienteed-primary-color-base3: var(--orienteed-global-color-black);
     /* font */
