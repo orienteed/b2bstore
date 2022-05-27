@@ -18,7 +18,8 @@ const LearningRoute = () => {
         courses,
         userCourses,
         userCoursesIdList,
-        setUserCoursesIdList
+        setUserCoursesIdList,
+        setMarkAsDoneListQty
     } = talonProps;
 
     return isSignedIn ? (
@@ -39,6 +40,7 @@ const LearningRoute = () => {
                         userMoodleToken={userMoodleToken}
                         userCoursesIdList={userCoursesIdList}
                         setUserCoursesIdList={setUserCoursesIdList}
+                        setMarkAsDoneListQty={setMarkAsDoneListQty}
                     />
                 </Route>
             </Switch>
@@ -49,7 +51,7 @@ const LearningRoute = () => {
 };
 
 const CourseMiddleware = props => {
-    const { userMoodleId, userMoodleToken, userCoursesIdList, setUserCoursesIdList } = props;
+    const { userMoodleId, userMoodleToken, userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty } = props;
     const { courseId } = useParams();
     return (
         <CourseContent
@@ -58,6 +60,7 @@ const CourseMiddleware = props => {
             userMoodleToken={userMoodleToken}
             userCoursesIdList={userCoursesIdList}
             setUserCoursesIdList={setUserCoursesIdList}
+            setMarkAsDoneListQty={setMarkAsDoneListQty}
         />
     );
 };

@@ -2,18 +2,55 @@
 .courseContentContainerRight {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    align-items: flex-end;
-}
-
-.courseContentContainer {
-    composes: courseContentContainerLeft;
-    justify-content: space-between;
+    gap: 20px;
     align-items: center;
 }
 
+.courseContentContainer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: space-between;
+    align-items: center;
+    height: 59px;
+    padding: 16px;
+}
+
+.courseContentContainerOdd {
+    composes: courseContentContainer;
+    background-color: #f6f8fb;
+}
+
+@media (max-width: 601px) {
+    .courseContentContainerLeft,
+    .courseContentContainerRight {
+        gap: 10px;
+    }
+
+    .courseContentContainer {
+        padding: 10px;
+    }
+
+    .courseContentContainerOdd {
+        padding: 10px;
+    }
+}
+
+.courseContentIconContainer {
+    min-width: 24px;
+}
+
 .courseContentIcon {
-    width: 20px;
+    /* width: 20px; */
+}
+
+.moduleTitle {
+    width: 100%;
+    margin-right: 10px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Action icons to open or download files */
@@ -45,5 +82,9 @@
     background-color: white;
 }
 
-body {background-color:transparent;}
-iframe {background-color:transparent;}
+body {
+    background-color: transparent;
+}
+iframe {
+    background-color: transparent;
+}

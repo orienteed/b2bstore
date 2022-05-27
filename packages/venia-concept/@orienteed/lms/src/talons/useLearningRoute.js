@@ -28,6 +28,7 @@ export const useLearningRoute = () => {
     const [userCourses, setUserCourses] = useState();
     const [userCoursesIdList, setUserCoursesIdList] = useState([]);
     const [userCoursesIdListQty, setUserCoursesIdListQty] = useState(0);
+    const [markAsDoneListQty, setMarkAsDoneListQty] = useState([]);
     const [buttonSelected, setSelectedButton] = useState('all');
 
     useEffect(() => {
@@ -40,7 +41,7 @@ export const useLearningRoute = () => {
         if (isSignedIn) {
             getUserCourses(userMoodleToken, userMoodleId).then(userCoursesData => setUserCourses(userCoursesData));
         }
-    }, [userMoodleToken, userMoodleId, userCoursesIdListQty, isSignedIn]);
+    }, [userMoodleToken, userMoodleId, userCoursesIdListQty, markAsDoneListQty, isSignedIn]);
 
     useEffect(() => {
         if (isSignedIn) {
@@ -71,6 +72,7 @@ export const useLearningRoute = () => {
         courses,
         userCourses,
         userCoursesIdList,
-        setUserCoursesIdList
+        setUserCoursesIdList,
+        setMarkAsDoneListQty
     };
 };

@@ -16,7 +16,6 @@ import checkNoFillIcon from './Icons/checkNoFill.svg';
 import downloadIcon from './Icons/download.svg';
 import fileIcon from './Icons/file.svg';
 import imageIcon from './Icons/image.svg';
-import infoIcon from './Icons/info.svg';
 import notFoundIcon from './Icons/notFound.svg';
 import pdfIcon from './Icons/pdf.svg';
 import urlIcon from './Icons/url.svg';
@@ -24,7 +23,7 @@ import videoIcon from './Icons/video.svg';
 import viewIcon from './Icons/view.svg';
 
 const CourseModuleContent = props => {
-    const { courseModule, isEnrolled, userMoodleId, userMoodleToken } = props;
+    const { courseModule, isEnrolled, userMoodleId, userMoodleToken, setMarkAsDoneListQty, white } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
     const { isDone, setIsDone, isModalOpen, setIsModalOpen } = useCourseModuleContent({
@@ -60,7 +59,9 @@ const CourseModuleContent = props => {
     };
 
     const handleMarkAsDone = () => {
-        markAsDone(userMoodleId, courseModule.id).then(reply => (reply ? setIsDone(true) : null));
+        markAsDone(userMoodleId, courseModule.id).then(reply =>
+            reply ? setIsDone(true) && setMarkAsDoneListQty(list => [...list, true]) : null
+        );
     };
 
     const selectIcon = contentFile => {
@@ -107,7 +108,11 @@ const CourseModuleContent = props => {
                             <button title={viewText} className={classes.actionIcons} onClick={() => handleOpenPopUp()}>
                                 <img src={viewIcon} alt="View" />
                             </button>
-                            <button title={downloadText} className={classes.actionIcons} onClick={() => handleDownload()}>
+                            <button
+                                title={downloadText}
+                                className={classes.actionIcons}
+                                onClick={() => handleDownload()}
+                            >
                                 <img src={downloadIcon} alt="Download" />
                             </button>
                             {markAsDoneButton()}
@@ -116,7 +121,12 @@ const CourseModuleContent = props => {
                 case 'url': {
                     return (
                         <div className={classes.courseContentContainerLeft}>
-                            <a title={visitText} className={classes.actionIcons} href={contentFile.fileurl} target="_blank">
+                            <a
+                                title={visitText}
+                                className={classes.actionIcons}
+                                href={contentFile.fileurl}
+                                target="_blank"
+                            >
                                 <img src={viewIcon} alt="Visit" />
                             </a>
                             {markAsDoneButton()}
@@ -128,27 +138,25 @@ const CourseModuleContent = props => {
     };
 
     return (
-        <div className={classes.courseContentContainer} key={courseModule.id}>
+        <li
+            className={white ? classes.courseContentContainer : classes.courseContentContainerOdd}
+            key={courseModule.id}
+        >
             {courseModule.hasOwnProperty('contents') ? (
                 <>
                     <div className={classes.courseContentContainerLeft}>
-                        <img
-                            src={selectIcon(courseModule.contents[0])}
-                            className={classes.courseContentIcon}
-                            alt="file type icon"
-                        />
+                        <div className={classes.courseContentIconContainer}>
+                            <img
+                                src={selectIcon(courseModule.contents[0])}
+                                className={classes.courseContentIcon}
+                                alt="file type icon"
+                            />
+                        </div>
                         <p className={classes.moduleTitle}>{courseModule.name}</p>
-                        {/* {courseModule.hasOwnProperty('description') && (
-                            <span title={courseModule.description}>
-                                <img
-                                    src={infoIcon}
-                                    className={classes.courseContentIcon}
-                                    alt={courseModule.description}
-                                />
-                            </span>
-                        )} */}
                     </div>
-                    {actionContentButtons(courseModule.contents[0])}
+                    <div className={classes.courseContentContainerRight}>
+                        {actionContentButtons(courseModule.contents[0])}
+                    </div>
                     <ContentDialog
                         dialogName={courseModule.name}
                         url={`${courseModule.contents[0].fileurl}&token=${userMoodleToken}`}
@@ -166,7 +174,7 @@ const CourseModuleContent = props => {
                     </span>
                 </div>
             )}
-        </div>
+        </li>
     );
 };
 
