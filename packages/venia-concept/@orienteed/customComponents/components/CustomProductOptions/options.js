@@ -6,7 +6,7 @@ const Options = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
     const { simpleProductAggregationFiltered } = props;
-    console.log('hello', simpleProductAggregationFiltered);
+
     return (
         <main className={classes.optionsContainer}>
             <header className={classes.labelContainer}>

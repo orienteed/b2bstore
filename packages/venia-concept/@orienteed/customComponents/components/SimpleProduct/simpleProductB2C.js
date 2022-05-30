@@ -1,17 +1,15 @@
 import React, { Fragment, Suspense } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
 import RichContent from '@magento/venia-ui/lib/components/RichContent';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import { QuantityFields } from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity';
-
 import defaultClasses from './simpleProductB2C.module.css';
 import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
-import Button from '@magento/venia-ui/lib/components/Button';
 import Options from '../CustomProductOptions/options';
+import CustomButton from './SimpleProductB2CButton/CustomButton';
 
 const SimpleProductB2C = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -69,12 +67,11 @@ const SimpleProductB2C = props => {
                     </article>
                 </section>
                 <section className={classes.actions}>
-                    <Button priority="high" type="submit">
+                    <CustomButton priority="high" type="submit">
                         {cartCallToActionText}
-                    </Button>
+                    </CustomButton>
                     <section className={classes.favoritesButton}>
-                        {wishlistButton}{' '}
-                        <FormattedMessage id={'wishlistButton.addText'} defaultMessage={'Add to Favorites'} />
+                        <Suspense fallback={null}>{wishlistButton}</Suspense>
                     </section>
                 </section>
                 <section className={classes.description}>

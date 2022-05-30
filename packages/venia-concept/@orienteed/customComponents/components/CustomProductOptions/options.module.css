@@ -9,10 +9,7 @@
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.5;
-
-    /* margin-bottom: 1.5rem; */
     display: block;
-    /* padding: 1.75rem 0; */
 }
 .optionContainer {
     padding: 1.75rem 0;
@@ -20,6 +17,7 @@
 }
 .tilesContainer {
     display: flex;
+    flex-wrap: wrap;
 }
 .optionContainer p {
     border: 1px solid rgb(var(--venia-global-color-text));

@@ -201,6 +201,7 @@ header .productName {
 
 /* Product table */
 .productItemContainer {
+    height: 80px;
     margin-top: 30px;
     display: grid;
     grid-template-columns: 1.5fr 2fr 2fr auto 2fr 1fr 1fr 1.5fr;

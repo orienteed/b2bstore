@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-
+import { useIntl } from 'react-intl';
 import defaultOperations from '@magento/peregrine/lib/talons/Gallery/gallery.gql';
 
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 export const useSimpleProduct = (props = {}) => {
+    const { formatMessage } = useIntl();
     const { search } = useLocation();
     const sku = new URLSearchParams(search).get('sku');
 
@@ -25,20 +26,31 @@ export const useSimpleProduct = (props = {}) => {
         fetchPolicy: 'cache-and-network'
     });
 
-    const storeConfig = storeConfigData ? storeConfigData.storeConfig : null;
+    const wishlistItemOptions = useMemo(() => {
+        const options = {
+            quantity: 1,
+            sku: loading || !data ? 'No sku' : data.products.items[0].sku || 'No sku'
+        };
 
-    const wishlistButtonProps =
-        storeConfig && storeConfig.magento_wishlist_general_is_enabled === '1'
-            ? {
-                  item: {
-                      sku: loading ? null : data.products.items[0].sku,
-                      quantity: 1
-                  },
-                  storeConfig
-              }
-            : null;
+        return options;
+    }, [data, loading]);
 
-    const productType = loading ? null : data.products.items[0].__typename;
+    const wishlistButtonProps = {
+        buttonText: isSelected =>
+            isSelected
+                ? formatMessage({
+                      id: 'wishlistButton.addedText',
+                      defaultMessage: 'Added to Favorites'
+                  })
+                : formatMessage({
+                      id: 'wishlistButton.addText',
+                      defaultMessage: 'Add to Favorites'
+                  }),
+        item: wishlistItemOptions,
+        storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
+    };
+
+    const productType = loading || !data ? 'Simple product' : data.products.items[0].__typename || 'Simple product';
 
     const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(productType);
 
@@ -52,7 +64,7 @@ export const useSimpleProduct = (props = {}) => {
         async formValues => {
             const { quantity } = formValues;
             const payload = {
-                item: loading ? null : data.products.items[0],
+                item: loading || !data ? [] : data.products.items[0],
                 productType,
                 quantity: 1
             };
@@ -60,10 +72,10 @@ export const useSimpleProduct = (props = {}) => {
             if (isSupportedProductType) {
                 const variables = {
                     cartId,
-                    parentSku: payload.item.orParentSku,
+                    parentSku: payload.item.length < 1 ? 'No sku' : payload.item.orParentSku,
                     product: payload.item,
                     quantity: payload.quantity,
-                    sku: payload.item.sku
+                    sku: payload.item.length < 1 ? 'No sku' : payload.item.sku
                 };
 
                 if (productType === 'SimpleProduct') {
@@ -94,7 +106,7 @@ export const useSimpleProduct = (props = {}) => {
         handleAddToCart,
         cartId,
         loading,
-        fetchedData: data,
+        fetchedData: !data ? null : data,
         error
     };
 };

@@ -14,59 +14,53 @@ import SimpleProductB2C from './simpleProductB2C';
 const SimpleProduct = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const [quantity, setQuantity] = useState(1);
-
-    const B2B = false;
+    const B2B = true;
 
     const talonProps = useSimpleProduct({
         addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION
     });
     const { wishlistButtonProps, errorMessage, cartId, handleAddToCart, fetchedData, loading, error } = talonProps;
 
-    const simpleProductData = loading ? null : fetchedData.products.items[0];
-    const simpleProductAggregation = loading ? null : fetchedData.products.aggregations;
-
-    const simpleProductAggregationFiltered = loading
-        ? null
-        : simpleProductAggregation.filter(product => {
-              return (
-                  product.label !== 'Category' && product.label !== 'Price' && product.label !== 'Material estructura'
-              );
-          });
-
     if (loading) {
         return <FullPageLoadingIndicator />;
     }
-    if (error) {
+    if (error || !fetchedData) {
         return <ErrorView />;
     }
+
+    const simpleProductData = fetchedData.products.items[0];
+    const simpleProductAggregation = fetchedData.products.aggregations;
+    const simpleProductAggregationFiltered = simpleProductAggregation.filter(
+        product => product.label !== 'Category' && product.label !== 'Price' && product.label !== 'Material estructura'
+    );
 
     const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
 
     const priceRender =
         simpleProductData.price.regularPrice.amount.value === simpleProductData.price.minimalPrice.amount.value ? (
-            <div>
-                <p className={classes.productPrice}>
+            <section>
+                <article className={classes.productPrice}>
                     <Price
                         currencyCode={simpleProductData.price.regularPrice.amount.currency}
                         value={simpleProductData.price.regularPrice.amount.value}
                     />
-                </p>
-            </div>
+                </article>
+            </section>
         ) : (
-            <div>
-                <p className={classes.productOldPrice}>
+            <section>
+                <article className={classes.productOldPrice}>
                     <Price
                         currencyCode={simpleProductData.price.regularPrice.amount.currency}
                         value={simpleProductData.price.regularPrice.amount.value}
                     />
-                </p>
-                <p className={classes.productPrice}>
+                </article>
+                <article className={classes.productPrice}>
                     <Price
                         currencyCode={simpleProductData.price.minimalPrice.amount.currency}
                         value={simpleProductData.price.minimalPrice.amount.value}
                     />
-                </p>
-            </div>
+                </article>
+            </section>
         );
 
     const errors = new Map();
@@ -120,60 +114,54 @@ const SimpleProduct = props => {
 
     const tempTotalPrice =
         simpleProductData.price.regularPrice.amount.value === simpleProductData.price.minimalPrice.amount.value ? (
-            <div>
-                <p className={classes.productPrice}>
+            <section>
+                <article className={classes.productPrice}>
                     <Price
                         currencyCode={simpleProductData.price.regularPrice.amount.currency}
                         value={simpleProductData.price.regularPrice.amount.value * quantity}
                     />
-                </p>
-            </div>
+                </article>
+            </section>
         ) : (
-            <div>
-                <p className={classes.productOldPrice}>
+            <section>
+                <article className={classes.productOldPrice}>
                     <Price
                         currencyCode={simpleProductData.price.regularPrice.amount.currency}
                         value={simpleProductData.price.regularPrice.amount.value * quantity}
                     />
-                </p>
-                <p className={classes.productPrice}>
+                </article>
+                <article className={classes.productPrice}>
                     <Price
                         currencyCode={simpleProductData.price.minimalPrice.amount.currency}
                         value={simpleProductData.price.minimalPrice.amount.value * quantity}
                     />
-                </p>
-            </div>
+                </article>
+            </section>
         );
 
     const indexTable = (
-        <div className={classes.productItemContainer}>
-            <p key="imageIndex" className={classes.indexFixed} />
-
-            <p key="skuIndex" className={classes.indexMobileSku}>
+        <ul className={classes.productItemContainer}>
+            <li key="imageIndex" className={classes.indexFixed} />
+            <li key="skuIndex" className={classes.indexMobileSku}>
                 SKU
-            </p>
-            <div className={classes.categoriesItemList}>
-                {simpleProductAggregation.map(category => {
-                    if (category.label !== 'Category' && category.label !== 'Price') {
-                        return (
-                            <p key={category.label} className={classes.indexFixedCategory}>
-                                {category.label}
-                            </p>
-                        );
-                    }
-                })}
-            </div>
-
-            <p key="quantityIndex" className={classes.indexFixed}>
+            </li>
+            <li className={classes.categoriesItemList}>
+                {simpleProductAggregationFiltered.map(category => (
+                    <p key={category.label} className={classes.indexFixedCategory}>
+                        {category.label}
+                    </p>
+                ))}
+            </li>
+            <li key="quantityIndex" className={classes.indexFixed}>
                 <FormattedMessage id={'productFullDetailB2B.indexQuantity'} defaultMessage={'Quantity'} />
-            </p>
-            <p className={classes.titles} key="priceIndex">
+            </li>
+            <li className={classes.titles} key="priceIndex">
                 <FormattedMessage id={'productFullDetailB2B.indexUnitPrice'} defaultMessage={'Price / Unit'} />
-            </p>
-            <p className={classes.titles} key="totalPriceIndex">
+            </li>
+            <li className={classes.titles} key="totalPriceIndex">
                 <FormattedMessage id={'productFullDetailB2B.totalPrice'} defaultMessage={'Total Price'} />
-            </p>
-        </div>
+            </li>
+        </ul>
     );
 
     return B2B ? (
@@ -185,7 +173,7 @@ const SimpleProduct = props => {
             cartId={cartId}
             handleAddToCart={handleAddToCart}
             simpleProductData={simpleProductData}
-            simpleProductAggregation={simpleProductAggregation}
+            simpleProductAggregation={simpleProductAggregationFiltered}
             tempTotalPrice={tempTotalPrice}
         />
     ) : (

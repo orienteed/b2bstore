@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import ItemsTable from './itemsTable';
 import RichText from '@magento/venia-ui/lib/components/RichText';
@@ -21,6 +21,7 @@ const SimpleProductB2B = props => {
         simpleProductAggregation,
         tempTotalPrice
     } = props;
+
     return (
         <main>
             <Breadcrumbs categoryId={simpleProductData.categories[0].uid} currentProduct={simpleProductData.name} />
@@ -47,8 +48,8 @@ const SimpleProductB2B = props => {
                     <RichText content={simpleProductData.description.html} />
                 </section>
                 <section className={classes.favoritesButton}>
-                    {wishlistButton}{' '}
-                    <FormattedMessage id={'wishlistButton.addText'} defaultMessage={'Add to Favorites'} />
+                    {' '}
+                    <Suspense fallback={null}>{wishlistButton}</Suspense>
                 </section>
             </Form>
 
