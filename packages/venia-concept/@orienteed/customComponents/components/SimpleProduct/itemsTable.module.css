@@ -80,6 +80,9 @@
 .indexFixedCategory {
     text-align: center;
     width: clamp(90px, 10vw, 120px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .productSkuContainer {

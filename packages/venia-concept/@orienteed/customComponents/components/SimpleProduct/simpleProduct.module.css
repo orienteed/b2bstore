@@ -201,6 +201,7 @@ header .productName {
 
 /* Product table */
 .productItemContainer {
+    margin-top: 30px;
     display: grid;
     grid-template-columns: 1.5fr 2fr 2fr auto 2fr 1fr 1fr 1.5fr;
     grid-gap: 0 clamp(20px, 1.5vw, 30px);
@@ -208,6 +209,7 @@ header .productName {
     align-items: center;
     justify-items: center;
     align-content: center;
+    background-color: #f6f8fb;
 }
 .titles {
     text-align: center;
@@ -300,4 +302,10 @@ header .productName {
         grid-template-columns: repeat(1, 1fr);
         gap: 10px;
     }
+}
+
+.productOldPrice {
+    display: block;
+    text-decoration: line-through;
+    color: '#666666';
 }

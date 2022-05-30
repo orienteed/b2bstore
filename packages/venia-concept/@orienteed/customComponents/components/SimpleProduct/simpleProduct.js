@@ -1,22 +1,21 @@
-import React from 'react';
-import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
-import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
+import React, { useState } from 'react';
 import defaultClasses from './simpleProduct.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { Form } from 'informed';
 import Price from '@magento/venia-ui/lib/components/Price';
 import { FormattedMessage } from 'react-intl';
-import RichText from '@magento/venia-ui/lib/components/RichText';
 import { useSimpleProduct } from '../../talons/SimpleProduct/useSimpleProduct';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
 import { ADD_CONFIGURABLE_MUTATION } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
-
-import ItemsTable from './itemsTable';
 import ErrorView from '../../../../src/components/ErrorView/errorView';
+import SimpleProductB2B from './simpleProductB2B';
+import SimpleProductB2C from './simpleProductB2C';
 
 const SimpleProduct = props => {
     const classes = useStyle(defaultClasses, props.classes);
+    const [quantity, setQuantity] = useState(1);
+
+    const B2B = false;
 
     const talonProps = useSimpleProduct({
         addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION
@@ -25,6 +24,14 @@ const SimpleProduct = props => {
 
     const simpleProductData = loading ? null : fetchedData.products.items[0];
     const simpleProductAggregation = loading ? null : fetchedData.products.aggregations;
+
+    const simpleProductAggregationFiltered = loading
+        ? null
+        : simpleProductAggregation.filter(product => {
+              return (
+                  product.label !== 'Category' && product.label !== 'Price' && product.label !== 'Material estructura'
+              );
+          });
 
     if (loading) {
         return <FullPageLoadingIndicator />;
@@ -107,6 +114,36 @@ const SimpleProduct = props => {
             ]);
         }
     }
+    const handleQuantityChange = tempQuantity => {
+        setQuantity(tempQuantity);
+    };
+
+    const tempTotalPrice =
+        simpleProductData.price.regularPrice.amount.value === simpleProductData.price.minimalPrice.amount.value ? (
+            <div>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={simpleProductData.price.regularPrice.amount.currency}
+                        value={simpleProductData.price.regularPrice.amount.value * quantity}
+                    />
+                </p>
+            </div>
+        ) : (
+            <div>
+                <p className={classes.productOldPrice}>
+                    <Price
+                        currencyCode={simpleProductData.price.regularPrice.amount.currency}
+                        value={simpleProductData.price.regularPrice.amount.value * quantity}
+                    />
+                </p>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={simpleProductData.price.minimalPrice.amount.currency}
+                        value={simpleProductData.price.minimalPrice.amount.value * quantity}
+                    />
+                </p>
+            </div>
+        );
 
     const indexTable = (
         <div className={classes.productItemContainer}>
@@ -139,48 +176,28 @@ const SimpleProduct = props => {
         </div>
     );
 
-    return (
-        <main>
-            <Breadcrumbs categoryId={simpleProductData.categories[0].uid} currentProduct={simpleProductData.name} />
-            <Form className={classes.root}>
-                <section className={classes.imageCarouselContainer}>
-                    <div className={classes.imageCarousel}>
-                        <Carousel images={simpleProductData.media_gallery_entries} />
-                    </div>
-                </section>
-                <section className={classes.title}>
-                    <h1 className={classes.productName}>{simpleProductData.name}</h1>
-                    <h2 className={classes.fromPrice}>
-                        <FormattedMessage id={'productFullDetailB2B.fromPrice'} defaultMessage={'From '} />
-                        {priceRender}
-                    </h2>
-                </section>
-                <section className={classes.description}>
-                    <h2 className={classes.descriptionTitle}>
-                        <FormattedMessage
-                            id={'productFullDetail.productDescription'}
-                            defaultMessage={'Product Description'}
-                        />
-                    </h2>
-                    <RichText content={simpleProductData.description.html} />
-                </section>
-                <section className={classes.favoritesButton}>
-                    {wishlistButton}{' '}
-                    <FormattedMessage id={'wishlistButton.addText'} defaultMessage={'Add to Favorites'} />
-                </section>
-            </Form>
-
-            <div className={classes.productsTableContainer}>
-                {indexTable}
-                <ItemsTable
-                    cartId={cartId}
-                    errors={errors}
-                    handleAddToCart={handleAddToCart}
-                    product={simpleProductData}
-                    aggregations={simpleProductAggregation}
-                />
-            </div>
-        </main>
+    return B2B ? (
+        <SimpleProductB2B
+            indexTable={indexTable}
+            errors={errors}
+            priceRender={priceRender}
+            wishlistButton={wishlistButton}
+            cartId={cartId}
+            handleAddToCart={handleAddToCart}
+            simpleProductData={simpleProductData}
+            simpleProductAggregation={simpleProductAggregation}
+            tempTotalPrice={tempTotalPrice}
+        />
+    ) : (
+        <SimpleProductB2C
+            simpleProductData={simpleProductData}
+            handleAddToCart={handleAddToCart}
+            priceRender={priceRender}
+            errors={errors}
+            tempTotalPrice={tempTotalPrice}
+            wishlistButton={wishlistButton}
+            simpleProductAggregationFiltered={simpleProductAggregationFiltered}
+        />
     );
 };
 

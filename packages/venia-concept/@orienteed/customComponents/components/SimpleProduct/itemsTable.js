@@ -16,7 +16,16 @@ import copyToClipboard from './assets/copyToClipboard.png';
 
 const ItemsTable = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { product, variant, addConfigurableProductToCart, cartId, errors, handleAddToCart, aggregations } = props;
+    const {
+        product,
+        variant,
+        addConfigurableProductToCart,
+        cartId,
+        errors,
+        handleAddToCart,
+        aggregations,
+        tempTotalPrice
+    } = props;
 
     // const [copied, copy, setCopied] = useCopy(product.sku);
 
@@ -141,12 +150,7 @@ const ItemsTable = props => {
                 quantity
                 {/* {quantitySelector(1)} */}
                 {priceTag}
-                <span className={classes.indexFixed}>
-                    <Price
-                        currencyCode={product.price.regularPrice.amount.currency}
-                        value={product.price.minimalPrice.amount.value * quantity}
-                    />
-                </span>
+                <span className={classes.indexFixed}>{tempTotalPrice}</span>
                 <div className={classes.stockAddContainer}>
                     {stockStatus}
                     {addToCartButton}
@@ -197,12 +201,7 @@ const ItemsTable = props => {
                         <div> {totalPriceText}:</div>
                         <div className={classes.totalWrapper}>
                             {' '}
-                            <span className={classes.indexFixed}>
-                                <Price
-                                    currencyCode={product.price.regularPrice.amount.currency}
-                                    value={product.price.minimalPrice.amount.value * quantity}
-                                />
-                            </span>
+                            <span className={classes.indexFixed}>{tempTotalPrice}</span>
                         </div>
                     </article>
                     <div className={classes.productItemBodyOperations}>
