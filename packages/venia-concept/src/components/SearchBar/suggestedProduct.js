@@ -25,7 +25,7 @@ const IMAGE_WIDTH = 60;
 const SuggestedProduct = props => {
     const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const {  url_key, small_image, name, onNavigate, price, url_suffix } = props;
+    const { url_key, small_image, name, onNavigate, price, url_suffix } = props;
 
     const handleClick = useCallback(() => {
         if (typeof onNavigate === 'function') {
@@ -33,8 +33,10 @@ const SuggestedProduct = props => {
         }
     }, [onNavigate]);
 
-
-    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [url_key, url_suffix]);
+    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [
+        url_key,
+        url_suffix
+    ]);
 
     const simpleProductLink = `/simple-product?sku=${suggested_Product.sku}`;
 
@@ -48,7 +50,14 @@ const SuggestedProduct = props => {
 
     return (
         <div className={classes.root}>
-            <Link to={suggested_Product.__typename === 'SimpleProduct' ? simpleProductLink : uri} onClick={handleClick}>
+            <Link
+                to={
+                    suggested_Product.__typename === 'SimpleProduct'
+                        ? simpleProductLink
+                        : uri
+                }
+                onClick={handleClick}
+            >
                 <Image
                     alt={name}
                     classes={{ image: classes.thumbnail, root: classes.image }}
@@ -58,13 +67,24 @@ const SuggestedProduct = props => {
             </Link>
             <span className={classes.name}>{name}</span>
             {suggested_Product.__typename === 'SimpleProduct' ? (
-                <Button className={classes.addButton} onClick={handleAddToCart} priority="high">
-                    <FormattedMessage id={'productFullDetail.cartAction'} defaultMessage={'Add to Cart'} />
+                <Button
+                    className={classes.addButton}
+                    onClick={handleAddToCart}
+                    priority="high"
+                >
+                    <FormattedMessage
+                        id={'productFullDetail.cartAction'}
+                        defaultMessage={'Add to Cart'}
+                    />
                 </Button>
             ) : null}
 
             {suggested_Product.__typename === 'SimpleProduct' ? (
-                <Button className={classes.addButtonMobile} onClick={handleAddToCart} priority="high">
+                <Button
+                    className={classes.addButtonMobile}
+                    onClick={handleAddToCart}
+                    priority="high"
+                >
                     <Icon src={ShoppingCartIcon} />
                 </Button>
             ) : null}

@@ -25,6 +25,7 @@
 
 .menuItem {
     border-bottom: 1px solid rgb(var(--venia-global-color-gray-dark));
+    width: 200px;
 }
 
 .menuItem:last-child {

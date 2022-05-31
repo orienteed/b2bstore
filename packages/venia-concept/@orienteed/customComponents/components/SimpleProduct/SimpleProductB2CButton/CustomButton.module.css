@@ -24,7 +24,7 @@
 }
 
 .root:focus {
-    box-shadow: -6px 6px rgb(var(--venia-brand-color-1-100));
+    box-shadow: -6px 6px rgba(var(--orienteed-global-color-orange-op), 0.3);
 }
 
 .root:active {

@@ -1,6 +1,11 @@
 .root {
     padding: 1rem 0;
 }
+.quantityRoot {
+    composes: root from '@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.module.css';
+    grid-template-columns: auto 4rem auto;
+    justify-content: start;
+}
 
 @media (min-width: 1024px) {
     .root {
@@ -111,7 +116,7 @@ header .productName {
 }
 
 .quantityRoot {
-    composes: root from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css';
+    /* composes: root from '@magento/venia-ui/lib/components/CartPage/ProductListing/quantity.module.css'; */
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }
@@ -204,7 +209,7 @@ header .productName {
     height: 80px;
     margin-top: 30px;
     display: grid;
-    grid-template-columns: 1.5fr 2fr 2fr auto 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1.5fr 2fr 1fr 2fr 2fr 1fr 1.1fr 1.5fr;
     grid-gap: 0 clamp(20px, 1.5vw, 30px);
     justify-content: space-between;
     align-items: center;

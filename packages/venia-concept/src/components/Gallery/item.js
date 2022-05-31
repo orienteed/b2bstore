@@ -76,7 +76,7 @@ const GalleryItem = props => {
     } = item;
 
     const { url: smallImageURL } = small_image;
-  
+
     const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
 
     const simpleProductLink = `/simple-product?sku=${item.sku}`;
@@ -212,21 +212,21 @@ const GalleryItem = props => {
 
     const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
 
-    const getProductsInstance = () => {
-        const instanceItem = { ...item };
-        var variants = [...instanceItem.variants];
+    // const getProductsInstance = () => {
+    //     const instanceItem = { ...item };
+    //     var variants = [...instanceItem.variants];
 
-        return variants.map((variant, key) => ({
-            ...variant,
-            categoriesValuesName: getCategoriesValuesNameByVariant(variant),
-            parentSku: item.sku,
-            value:
-                '....' +
-                variant.product.sku.slice(variants[0].product.sku.length - 6) +
-                ' ' +
-                getCategoriesValuesNameByVariant(variant).join(' - ')
-        }));
-    };
+    //     return variants.map((variant, key) => ({
+    //         ...variant,
+    //         categoriesValuesName: getCategoriesValuesNameByVariant(variant),
+    //         parentSku: item.sku,
+    //         value:
+    //             '....' +
+    //             variant.product.sku.slice(variants[0].product.sku.length - 6) +
+    //             ' ' +
+    //             getCategoriesValuesNameByVariant(variant).join(' - ')
+    //     }));
+    // };
 
     return (
         <div
@@ -306,7 +306,7 @@ const GalleryItem = props => {
                         />
                     </div>
                     <div className={classes.productsSelect}>
-                        <Select
+                        {/* <Select
                             initialValue={'Item'}
                             field={`veriants ${item.sku}`}
                             items={[
@@ -314,7 +314,7 @@ const GalleryItem = props => {
                                 ...getProductsInstance()
                             ]}
                             onChange={onChangeVariant}
-                        />
+                        /> */}
                     </div>
                 </div>
             )}

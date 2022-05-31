@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
-
 import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Price from '@magento/venia-ui/lib/components/Price';
@@ -145,7 +144,7 @@ const ProductItem = props => {
     );
 
     const categoriesKeyValue = () => {
-        let tempCategoriesKeyValueList = [];
+        const tempCategoriesKeyValueList = [];
         categoriesName.map((categoryName, i) => {
             return tempCategoriesKeyValueList.push([
                 categoryName,

@@ -1,8 +1,8 @@
-/* .quantityRoot {
+.quantityRoot {
     composes: root from '@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
-} */
+}
 
 /* Add to cart button */
 .buttonAddToCart {
@@ -16,7 +16,7 @@
 /* Product table */
 .productItemContainerDesktop {
     display: grid;
-    grid-template-columns: 1.5fr 2fr 2fr auto 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1.5fr 2fr 2fr 2fr 2fr 1fr 1.1fr 1.5fr;
     grid-gap: auto clamp(5px, 1.5vw, 30px);
     justify-content: space-between;
     align-items: center;
@@ -100,7 +100,7 @@
     margin-left: 5px;
 }
 
-.productSkuContainer a:hover {
+.productSkuContainer p:hover {
     color: var(--orienteed-primary-color-base1);
     font-weight: bold;
 }
@@ -198,7 +198,9 @@
     margin: 10px 0px;
 }
 
-.productItemBodyInformation > .productItemBodyInformationRow + .productItemBodyInformationRow {
+.productItemBodyInformation
+    > .productItemBodyInformationRow
+    + .productItemBodyInformationRow {
     border-top: 1px solid rgb(var(--venia-global-color-border));
 }
 

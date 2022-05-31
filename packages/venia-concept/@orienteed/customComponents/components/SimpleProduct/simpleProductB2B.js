@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
-import ItemsTable from './itemsTable';
+import ItemsTable from './ItemsTable';
 import RichText from '@magento/venia-ui/lib/components/RichText';
 import { Form } from 'informed';
 import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
@@ -19,22 +19,33 @@ const SimpleProductB2B = props => {
         handleAddToCart,
         simpleProductData,
         simpleProductAggregation,
-        tempTotalPrice
+        tempTotalPrice,
+        handleQuantityChange
     } = props;
 
     return (
         <main>
-            <Breadcrumbs categoryId={simpleProductData.categories[0].uid} currentProduct={simpleProductData.name} />
+            <Breadcrumbs
+                categoryId={simpleProductData.categories[0].uid}
+                currentProduct={simpleProductData.name}
+            />
             <Form className={classes.root}>
                 <section className={classes.imageCarouselContainer}>
                     <div className={classes.imageCarousel}>
-                        <Carousel images={simpleProductData.media_gallery_entries} />
+                        <Carousel
+                            images={simpleProductData.media_gallery_entries}
+                        />
                     </div>
                 </section>
                 <section className={classes.title}>
-                    <h1 className={classes.productName}>{simpleProductData.name}</h1>
+                    <h1 className={classes.productName}>
+                        {simpleProductData.name}
+                    </h1>
                     <h2 className={classes.fromPrice}>
-                        <FormattedMessage id={'productFullDetailB2B.fromPrice'} defaultMessage={'From '} />
+                        <FormattedMessage
+                            id={'productFullDetailB2B.fromPrice'}
+                            defaultMessage={'From '}
+                        />
                         {priceRender}
                     </h2>
                 </section>
@@ -59,9 +70,10 @@ const SimpleProductB2B = props => {
                     cartId={cartId}
                     errors={errors}
                     handleAddToCart={handleAddToCart}
-                    product={simpleProductData}
+                    simpleProductData={simpleProductData}
                     aggregations={simpleProductAggregation}
                     tempTotalPrice={tempTotalPrice}
+                    handleQuantityChange={handleQuantityChange}
                 />
             </div>
         </main>
