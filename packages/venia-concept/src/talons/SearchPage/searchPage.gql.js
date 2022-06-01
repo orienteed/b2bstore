@@ -35,7 +35,13 @@ export const PRODUCT_SEARCH = gql`
         $filters: ProductAttributeFilterInput!
         $sort: ProductAttributeSortInput
     ) {
-        products(currentPage: $currentPage, pageSize: $pageSize, search: $inputText, filter: $filters, sort: $sort) {
+        products(
+            currentPage: $currentPage
+            pageSize: $pageSize
+            search: $inputText
+            filter: $filters
+            sort: $sort
+        ) {
             items {
                 id
                 uid
@@ -75,6 +81,60 @@ export const PRODUCT_SEARCH = gql`
                 stock_status
                 __typename
                 url_key
+                ... on ConfigurableProduct {
+                    configurable_options {
+                        attribute_code
+                        attribute_id
+                        uid
+                        label
+                        values {
+                            default_label
+                            label
+                            store_label
+                            use_default_value
+                            value_index
+                            uid
+                            swatch_data {
+                                ... on ImageSwatchData {
+                                    thumbnail
+                                }
+                                value
+                            }
+                        }
+                    }
+                    variants {
+                        attributes {
+                            code
+                            value_index
+                        }
+                        product {
+                            stock_status
+                            uid
+                            name
+                            sku
+                            description {
+                                html
+                            }
+                            categories {
+                                name
+                            }
+                            price {
+                                regularPrice {
+                                    amount {
+                                        currency
+                                        value
+                                    }
+                                }
+                                minimalPrice {
+                                    amount {
+                                        currency
+                                        value
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             page_info {
                 total_pages
