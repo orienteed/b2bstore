@@ -15,7 +15,6 @@
     margin-bottom: 10px;
 }
 
-
 .recommendedWrapper {
     display: grid;
     grid-template-columns: 4fr 1.2fr;
@@ -41,9 +40,15 @@
     margin-left: 0.5rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .items {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .items {
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .recommendedWrapper {
