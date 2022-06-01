@@ -115,5 +115,8 @@ module.exports = componentOverrideMapping = {
 
     //New overwrite
     [`@magento/peregrine/lib/talons/Gallery/useAddToCartButton.js`]: './src/talons/Gallery/useAddToCartButton.js',
-    [`@magento/venia-ui/lib/components/Gallery/addToCartButton.js`]: './src/components/Gallery/addToCartButton.js'
+    [`@magento/venia-ui/lib/components/Gallery/addToCartButton.js`]: './src/components/Gallery/addToCartButton.js',
+
+    //New
+    [`@magento/venia-ui/lib/components/Header/cartTrigger.js`]: './src/components/Header/cartTrigger.js'
 };
