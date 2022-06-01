@@ -82,10 +82,17 @@ export const useSavedCartsTable = props => {
                 cartId,
                 fetchCartDetails
             });
+            location.reload();
             await getSavedCarts();
             await handleIsLoading(false);
         },
-        [getCartDetails, cartId, restoreSaveCart, handleIsLoading, getSavedCarts]
+        [
+            getCartDetails,
+            cartId,
+            restoreSaveCart,
+            handleIsLoading,
+            getSavedCarts
+        ]
     );
 
     return {
