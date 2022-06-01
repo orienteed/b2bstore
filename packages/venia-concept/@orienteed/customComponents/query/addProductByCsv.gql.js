@@ -3,11 +3,21 @@ import { CartTriggerFragment } from '@magento/venia-ui/lib/components/Header/car
 import { MiniCartFragment } from '@magento/venia-ui/lib/components/MiniCart/miniCart.gql';
 
 export const ADD_CONFIGURABLE_MUTATION = gql`
-    mutation addConfigurableProductToCart($cartId: String!, $quantity: Float!, $sku: String!, $parentSku: String!) {
+    mutation addConfigurableProductToCart(
+        $cartId: String!
+        $quantity: Float!
+        $sku: String!
+        $parentSku: String!
+    ) {
         addConfigurableProductsToCart(
             input: {
                 cart_id: $cartId
-                cart_items: [{ data: { quantity: $quantity, sku: $sku }, parent_sku: $parentSku }]
+                cart_items: [
+                    {
+                        data: { quantity: $quantity, sku: $sku }
+                        parent_sku: $parentSku
+                    }
+                ]
             }
         ) @connection(key: "addConfigurableProductsToCart") {
             cart {
@@ -28,6 +38,7 @@ export const GET_PARENT_SKU = gql`
         products(search: $sku, filter: { sku: { eq: $sku } }) {
             items {
                 orParentSku
+                uid
             }
         }
     }
