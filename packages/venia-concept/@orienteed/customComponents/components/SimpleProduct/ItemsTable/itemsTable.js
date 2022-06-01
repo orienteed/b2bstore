@@ -22,7 +22,6 @@ const ItemsTable = props => {
         handleAddToCart,
         aggregations,
         tempTotalPrice,
-
         handleQuantityChange
     } = props;
 
