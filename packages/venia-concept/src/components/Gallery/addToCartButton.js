@@ -9,11 +9,11 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Gallery/addToCartButton.module.css';
 
 const AddToCartButton = props => {
-    const { item, urlSuffix, quantity } = props;
+    const { item, urlSuffix } = props;
     const talonProps = useAddToCartButton({
         item,
         urlSuffix,
-        quantity
+        quantity: props.quantity
     });
     const { handleAddToCart, isDisabled, isInStock } = talonProps;
     const { formatMessage } = useIntl();

@@ -25,7 +25,7 @@ import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
 import { useToasts } from '@magento/peregrine';
 
-import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
+import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Select from './SelectField/select';
 
 import { useHistory } from 'react-router-dom';
@@ -190,7 +190,7 @@ const GalleryItem = props => {
             });
             variants = newVariants;
         }
-        
+
         return variants.map((variant, key) => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
@@ -258,10 +258,10 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            {location.search &&item?.variants&& (
+            {location.search && item?.variants && (
                 <div className={classes.productsWrapper}>
                     <div className={classes.qtyField}>
-                        <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
+                        <QuantityStepper value={quantity} onChange={e => onChangeQty(e)} min={1} />
                     </div>
                     <div className={classes.productsSelect}>
                         <Select
