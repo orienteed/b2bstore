@@ -176,7 +176,7 @@ const GalleryItem = props => {
         const filterKeys = filterState && [...filterState?.keys()];
         const filterValues = filterState && [...filterState?.values()];
         let newVariants = [];
-        if (filterKeys && filterValues) {
+        if (filterKeys && filterValues?.length) {
             variants?.map(element => {
                 element?.attributes?.map(att => {
                     if (filterKeys.includes(att.code)) {
