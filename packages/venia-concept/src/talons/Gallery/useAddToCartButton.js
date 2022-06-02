@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import operations from '@magento/peregrine/lib/talons/Gallery/addToCart.gql';
 import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU } from '@orienteed/customComponents/query/addProductByCsv.gql';
+import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+
 /**
  * @param {String} props.item.uid - uid of item
  * @param {String} props.item.name - name of item
@@ -27,6 +29,8 @@ export const useAddToCartButton = props => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const getParentSku = useAwaitQuery(GET_PARENT_SKU);
+
     const isInStock = item.stock_status === 'IN_STOCK';
     const productType = item.__typename;
     const isUnsupportedProductType = UNSUPPORTED_PRODUCT_TYPES.includes(productType);
@@ -44,13 +48,18 @@ export const useAddToCartButton = props => {
         try {
             if (productType === 'SimpleProduct') {
                 setIsLoading(true);
+                const parentSkuResponse = await getParentSku({
+                    variables: { sku: item.sku }
+                });
 
+                const parentSku = parentSkuResponse.data.products.items[0].orParentSku;
+                console.log('error');
                 await addConfigurableProductToCart({
                     variables: {
                         cartId,
                         quantity: quantity || 1,
                         sku: item.sku,
-                        parentSku: item.parentSku
+                        parentSku: item.parentSku || parentSku
                     }
                 });
 
