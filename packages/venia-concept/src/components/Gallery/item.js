@@ -246,7 +246,7 @@ const GalleryItem = props => {
                 /> */}
             </div>
 
-            {location.search && (
+            {location.search && item?.variants &&  (
                 <div className={classes.productsWrapper}>
                     <div className={classes.qtyField}>
                         <QuantityField value={quantity} onChange={e => onChangeQty(e)} />

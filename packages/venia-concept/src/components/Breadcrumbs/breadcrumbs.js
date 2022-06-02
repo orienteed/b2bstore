@@ -70,31 +70,35 @@ const Breadcrumbs = props => {
     if (isLoading) {
         return <Shimmer />;
     }
+    const productLink = product => resourceUrl(`/${product.url_key}${product.url_suffix || ''}`);
+
     const moveToOtherProcuct = type => {
-        if (type === 'next' && index === currentUrlKeys?.items.length-1) {
-            let product = currentUrlKeys?.items[0];
+        let configrableProducts = currentUrlKeys?.items.filter(
+            ({ __typename }) => __typename === 'ConfigurableProduct'
+        );
+        if (type === 'next' && index === configrableProducts?.length - 1) {
+            let product = configrableProducts[0];
             history.push({
-                pathname: `/${product.url_key}${product.url_suffix}`,
+                pathname: productLink(product),
                 state: { urlKeys: currentUrlKeys }
             });
         } else if (type === 'prev' && index === 0) {
-            let product = currentUrlKeys?.items[currentUrlKeys?.items.length - 1];
+            let product = configrableProducts[configrableProducts?.length - 1];
             history.push({
-                pathname: `/${product.url_key}${product.url_suffix}`,
+                pathname: productLink(product),
                 state: { urlKeys: currentUrlKeys }
             });
-        } else if (index < currentUrlKeys?.items.length) {
+        } else if (index < configrableProducts?.length) {
             if (type === 'prev') {
-                let prevProduct = currentUrlKeys?.items[index - 1];
-                console.log(prevProduct,'prevprevprev');
+                let prevProduct = configrableProducts[index - 1];
                 history.push({
-                    pathname: `/${prevProduct.url_key}${prevProduct.url_suffix}`,
+                    pathname: productLink(prevProduct),
                     state: { urlKeys: currentUrlKeys }
                 });
             } else if (type === 'next') {
-                let nextProduct = currentUrlKeys?.items[index + 1];
+                let nextProduct = configrableProducts[index + 1];
                 history.push({
-                    pathname: `/${nextProduct.url_key}${nextProduct.url_suffix}`,
+                    pathname: productLink(nextProduct),
                     state: { urlKeys: currentUrlKeys }
                 });
             }
@@ -135,7 +139,7 @@ const Breadcrumbs = props => {
                 {currentCategoryLink}
                 {currentProductNode}
             </div>
-            {url_keys && (
+            {(url_keys || urlKeysHistory) && (
                 <div className={classes.rightNav}>
                     <button onClick={() => moveToOtherProcuct('prev')}>
                         <Icon src={ChevronLeftIcon} />
