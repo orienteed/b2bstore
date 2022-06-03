@@ -119,7 +119,7 @@ const contentTypesConfig = {
         componentShimmer: BannerShimmer
     },
     // We refer here to the name that is used in the Magento backend
-    Quote_Custom: {
+    pagebuilder_lms: {
         configAggregator: courseSliderConfigAggregator,
         component: React.lazy(() => import('@orienteed/pagebuilder/lib/ContentTypes/CourseSlider'))
     }
