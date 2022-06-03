@@ -87,7 +87,6 @@ export const PRODUCT_SEARCH = gql`
                             store_label
                             use_default_value
                             value_index
-
                             uid
                             swatch_data {
                                 ... on ImageSwatchData {

@@ -112,5 +112,9 @@ module.exports = componentOverrideMapping = {
 
     //New overwrite
     [`@magento/venia-ui/lib/components/LegacyMiniCart/section.module.css`]: './src/components/LegacyMiniCart/section.module.css',
-    [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.module.css`]: './src/components/CartPage/ProductListing/product.module.css'
+    [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.module.css`]: './src/components/CartPage/ProductListing/product.module.css',
+    //new overwrite
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.js`]: './src/components/Breadcrumbs/breadcrumbs.js',
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.module.css`]: './src/components/Breadcrumbs/breadcrumbs.module.css',
+
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, Suspense } from 'react';
+import React, { Fragment, useState, Suspense, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -11,6 +11,10 @@ import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
+
+import gql from 'graphql-tag';
+import { useLazyQuery } from '@apollo/client';
+import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -37,7 +41,22 @@ const ProductFullDetailB2B = props => {
                 .label;
         });
     };
-
+    const [getFilters, { data: filterData }] = useLazyQuery(GET_CATEGORY, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+    });
+    useEffect(() => {
+        if (product.categories) {
+            const categoryId = product.categories[0].uid;
+            getFilters({
+                variables: {
+                    categoryIdFilter: {
+                        eq: categoryId
+                    }
+                }
+            });
+        }
+    }, [product, getFilters]);
     const getCategoriesValuesIdByVariant = variant => {
         return variant.attributes.map(attribute => {
             return attribute.value_index;
@@ -164,7 +183,12 @@ const ProductFullDetailB2B = props => {
 
     return (
         <Fragment key={productDetails.sku}>
-            {breadcrumbs}
+            <Breadcrumbs
+                categoryId={product.categories[0].uid}
+                currentProduct={product.name}
+                url_keys={filterData?.products}
+            />
+            {/* {breadcrumbs} */}
             <Form className={classes.root}>
                 <section className={classes.title}>
                     <h1 className={classes.productName}>{productDetails.name}</h1>
@@ -210,3 +234,18 @@ const ProductFullDetailB2B = props => {
 };
 
 export default ProductFullDetailB2B;
+
+export const GET_CATEGORY = gql`
+    query getProductFiltersByCategory($categoryIdFilter: FilterEqualTypeInput!) {
+        products(filter: { category_uid: $categoryIdFilter },pageSize:50) {
+            items {
+                id
+                uid
+                __typename
+                name
+                url_key
+                url_suffix
+            }
+        }
+    }
+`;

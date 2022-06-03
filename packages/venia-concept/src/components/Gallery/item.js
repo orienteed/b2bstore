@@ -189,7 +189,10 @@ const GalleryItem = props => {
             <div className={classes.images}>
                 <Link
                     onClick={handleLinkClick}
-                    to={item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink}
+                    to={{
+                        pathname: item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink,
+                        state: { prevPath: location.pathname, urlKeys: props.urlKeys }
+                    }}
                 >
                     <Image
                         alt={name}
@@ -219,7 +222,10 @@ const GalleryItem = props => {
             </div>
             <Link
                 onClick={handleLinkClick}
-                to={item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink}
+                to={{
+                    pathname: item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink,
+                    state: { prevPath: location.pathname, urlKeys: props.urlKeys }
+                }}
                 className={classes.name}
                 data-cy="GalleryItem-name"
             >
