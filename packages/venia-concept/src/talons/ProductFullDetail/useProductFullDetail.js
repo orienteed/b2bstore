@@ -24,7 +24,10 @@ const deriveOptionCodesFromProduct = product => {
 
     // Initialize optionCodes based on the options of the product.
     const initialOptionCodes = new Map();
-    for (const { attribute_id, attribute_code } of product.configurable_options) {
+    for (const {
+        attribute_id,
+        attribute_code
+    } of product.configurable_options) {
         initialOptionCodes.set(attribute_id, attribute_code);
     }
 
@@ -55,12 +58,18 @@ const getIsMissingOptions = (product, optionSelections) => {
     // option selections than the product has options.
     const { configurable_options } = product;
     const numProductOptions = configurable_options.length;
-    const numProductSelections = Array.from(optionSelections.values()).filter(value => !!value).length;
+    const numProductSelections = Array.from(optionSelections.values()).filter(
+        value => !!value
+    ).length;
 
     return numProductSelections < numProductOptions;
 };
 
-const getHasOptionsOfTheSelection = (product, optionCodes, optionSelections) => {
+const getHasOptionsOfTheSelection = (
+    product,
+    optionCodes,
+    optionSelections
+) => {
     const { variants } = product;
     const item = findMatchingVariant({
         optionCodes,
@@ -78,7 +87,9 @@ const getHasOptionsOfTheSelection = (product, optionCodes, optionSelections) => 
 const getIsOutOfStock = (product, optionCodes, optionSelections) => {
     const { stock_status, variants } = product;
     const isConfigurable = isProductConfigurable(product);
-    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
+    const optionsSelected =
+        Array.from(optionSelections.values()).filter(value => !!value).length >
+        0;
 
     if (isConfigurable && optionsSelected) {
         const item = findMatchingVariant({
@@ -101,7 +112,9 @@ const getMediaGalleryEntries = (product, optionCodes, optionSelections) => {
     const isConfigurable = isProductConfigurable(product);
 
     // Selections are initialized to "code => undefined". Once we select a value, like color, the selections change. This filters out unselected options.
-    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
+    const optionsSelected =
+        Array.from(optionSelections.values()).filter(value => !!value).length >
+        0;
 
     if (!isConfigurable || !optionsSelected) {
         value = media_gallery_entries;
@@ -116,7 +129,9 @@ const getMediaGalleryEntries = (product, optionCodes, optionSelections) => {
             variants
         });
 
-        value = item ? [...item.product.media_gallery_entries, ...media_gallery_entries] : media_gallery_entries;
+        value = item
+            ? [...item.product.media_gallery_entries, ...media_gallery_entries]
+            : media_gallery_entries;
     }
 
     return value;
@@ -133,12 +148,16 @@ const getBreadcrumbCategoryId = categories => {
     const breadcrumbSet = new Set();
     categories.forEach(({ breadcrumbs }) => {
         // breadcrumbs can be `null`...
-        (breadcrumbs || []).forEach(({ category_id }) => breadcrumbSet.add(category_id));
+        (breadcrumbs || []).forEach(({ category_id }) =>
+            breadcrumbSet.add(category_id)
+        );
     });
 
     // Until we can get the single canonical breadcrumb path to a product we
     // will just return the first category id of the potential leaf categories.
-    const leafCategory = categories.find(category => !breadcrumbSet.has(category.uid));
+    const leafCategory = categories?.find(
+        category => !breadcrumbSet.has(category.uid)
+    );
 
     // If we couldn't find a leaf category then just use the first category
     // in the list for this product.
@@ -151,7 +170,9 @@ const getConfigPriceRegular = (product, optionCodes, optionSelections) => {
     const { variants } = product;
     const isConfigurable = isProductConfigurable(product);
 
-    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
+    const optionsSelected =
+        Array.from(optionSelections.values()).filter(value => !!value).length >
+        0;
 
     if (!isConfigurable || !optionsSelected) {
         value = product.price.regularPrice.amount;
@@ -162,7 +183,9 @@ const getConfigPriceRegular = (product, optionCodes, optionSelections) => {
             variants
         });
 
-        value = item ? item.product.price.regularPrice.amount : product.price.regularPrice.amount;
+        value = item
+            ? item.product.price.regularPrice.amount
+            : product.price.regularPrice.amount;
     }
 
     return value;
@@ -174,7 +197,9 @@ const getConfigPriceMinimal = (product, optionCodes, optionSelections) => {
     const { variants } = product;
     const isConfigurable = isProductConfigurable(product);
 
-    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
+    const optionsSelected =
+        Array.from(optionSelections.values()).filter(value => !!value).length >
+        0;
 
     if (!isConfigurable || !optionsSelected) {
         value = product.price.minimalPrice.amount;
@@ -185,7 +210,9 @@ const getConfigPriceMinimal = (product, optionCodes, optionSelections) => {
             variants
         });
 
-        value = item ? item.product.price.minimalPrice.amount : product.price.minimalPrice.amount;
+        value = item
+            ? item.product.price.minimalPrice.amount
+            : product.price.minimalPrice.amount;
     }
 
     return value;
@@ -211,9 +238,15 @@ const getConfigPriceMinimal = (product, optionCodes, optionSelections) => {
  * }}
  */
 export const useProductFullDetail = props => {
-    const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, product } = props;
+    const {
+        addConfigurableProductToCartMutation,
+        addSimpleProductToCartMutation,
+        product
+    } = props;
 
-    const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
+    const hasDeprecatedOperationProp = !!(
+        addConfigurableProductToCartMutation || addSimpleProductToCartMutation
+    );
 
     const operations = mergeOperations(defaultOperations, props.operations);
 
@@ -225,50 +258,77 @@ export const useProductFullDetail = props => {
     const [{ isSignedIn }] = useUserContext();
     const { formatMessage } = useIntl();
 
-    const { data: storeConfigData } = useQuery(operations.getWishlistConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+    const { data: storeConfigData } = useQuery(
+        operations.getWishlistConfigQuery,
+        {
+            fetchPolicy: 'cache-and-network'
+        }
+    );
 
     const [
         addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
-    ] = useMutation(addConfigurableProductToCartMutation || operations.addConfigurableProductToCartMutation);
-
-    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
-        addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
+        {
+            error: errorAddingConfigurableProduct,
+            loading: isAddConfigurableLoading
+        }
+    ] = useMutation(
+        addConfigurableProductToCartMutation ||
+            operations.addConfigurableProductToCartMutation
     );
 
-    const [addProductToCart, { error: errorAddingProductToCart, loading: isAddProductLoading }] = useMutation(
-        operations.addProductToCartMutation
+    const [
+        addSimpleProductToCart,
+        { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }
+    ] = useMutation(
+        addSimpleProductToCartMutation ||
+            operations.addSimpleProductToCartMutation
     );
 
-    const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
+    const [
+        addProductToCart,
+        { error: errorAddingProductToCart, loading: isAddProductLoading }
+    ] = useMutation(operations.addProductToCartMutation);
 
-    const derivedOptionSelections = useMemo(() => deriveOptionSelectionsFromProduct(product), [product]);
+    const breadcrumbCategoryId = useMemo(
+        () => getBreadcrumbCategoryId(product.categories),
+        [product.categories]
+    );
 
-    const [optionSelections, setOptionSelections] = useState(derivedOptionSelections);
+    const derivedOptionSelections = useMemo(
+        () => deriveOptionSelectionsFromProduct(product),
+        [product]
+    );
 
-    const derivedOptionCodes = useMemo(() => deriveOptionCodesFromProduct(product), [product]);
+    const [optionSelections, setOptionSelections] = useState(
+        derivedOptionSelections
+    );
+
+    const derivedOptionCodes = useMemo(
+        () => deriveOptionCodesFromProduct(product),
+        [product]
+    );
     const [optionCodes] = useState(derivedOptionCodes);
 
-    const isMissingOptions = useMemo(() => getIsMissingOptions(product, optionSelections), [product, optionSelections]);
+    const isMissingOptions = useMemo(
+        () => getIsMissingOptions(product, optionSelections),
+        [product, optionSelections]
+    );
 
     const hasOptionsOfTheSelection = useMemo(
-        () => getHasOptionsOfTheSelection(product, optionCodes, optionSelections),
+        () =>
+            getHasOptionsOfTheSelection(product, optionCodes, optionSelections),
         [product, optionCodes, optionSelections]
     );
 
-    const isOutOfStock = useMemo(() => getIsOutOfStock(product, optionCodes, optionSelections), [
-        product,
-        optionCodes,
-        optionSelections
-    ]);
+    const isOutOfStock = useMemo(
+        () => getIsOutOfStock(product, optionCodes, optionSelections),
+        [product, optionCodes, optionSelections]
+    );
 
-    const mediaGalleryEntries = useMemo(() => getMediaGalleryEntries(product, optionCodes, optionSelections), [
-        product,
-        optionCodes,
-        optionSelections
-    ]);
+    const mediaGalleryEntries = useMemo(
+        () => getMediaGalleryEntries(product, optionCodes, optionSelections),
+        [product, optionCodes, optionSelections]
+    );
 
     // The map of ids to values (and their uids)
     // For example:
@@ -292,7 +352,9 @@ export const useProductFullDetail = props => {
         optionSelections.forEach((value, key) => {
             const values = attributeIdToValuesMap.get(key);
 
-            const selectedValue = values.find(item => item.value_index === value);
+            const selectedValue = values?.find(
+                item => item.value_index === value
+            );
 
             if (selectedValue) {
                 selectedOptions.push(selectedValue.uid);
@@ -444,17 +506,15 @@ export const useProductFullDetail = props => {
         [optionSelections]
     );
 
-    const productPriceRegular = useMemo(() => getConfigPriceRegular(product, optionCodes, optionSelections), [
-        product,
-        optionCodes,
-        optionSelections
-    ]);
+    const productPriceRegular = useMemo(
+        () => getConfigPriceRegular(product, optionCodes, optionSelections),
+        [product, optionCodes, optionSelections]
+    );
 
-    const productPriceMinimal = useMemo(() => getConfigPriceMinimal(product, optionCodes, optionSelections), [
-        product,
-        optionCodes,
-        optionSelections
-    ]);
+    const productPriceMinimal = useMemo(
+        () => getConfigPriceMinimal(product, optionCodes, optionSelections),
+        [product, optionCodes, optionSelections]
+    );
 
     // Normalization object for product details we need for rendering.
     const productDetails = {
@@ -472,8 +532,17 @@ export const useProductFullDetail = props => {
     };
 
     const derivedErrorMessage = useMemo(
-        () => deriveErrorMessage([errorAddingSimpleProduct, errorAddingConfigurableProduct, errorAddingProductToCart]),
-        [errorAddingConfigurableProduct, errorAddingProductToCart, errorAddingSimpleProduct]
+        () =>
+            deriveErrorMessage([
+                errorAddingSimpleProduct,
+                errorAddingConfigurableProduct,
+                errorAddingProductToCart
+            ]),
+        [
+            errorAddingConfigurableProduct,
+            errorAddingProductToCart,
+            errorAddingSimpleProduct
+        ]
     );
 
     const wishlistItemOptions = useMemo(() => {
@@ -520,7 +589,9 @@ export const useProductFullDetail = props => {
         isSupportedProductType,
         mediaGalleryEntries,
         shouldShowWishlistButton:
-            isSignedIn && storeConfigData && !!storeConfigData.storeConfig.magento_wishlist_general_is_enabled,
+            isSignedIn &&
+            storeConfigData &&
+            !!storeConfigData.storeConfig.magento_wishlist_general_is_enabled,
         productDetails,
         wishlistButtonProps,
         wishlistItemOptions,

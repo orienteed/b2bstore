@@ -126,7 +126,7 @@ const GalleryItem = props => {
     const addButton = isSupportedProductType ? (
         <AddToCartbutton
             item={
-                selectedVeriant?.product
+                selectedVeriant
                     ? {
                           ...selectedVeriant.product,
                           parentSku: selectedVeriant.parentSku
@@ -238,11 +238,16 @@ const GalleryItem = props => {
             <div className={classes.images}>
                 <Link
                     onClick={handleLinkClick}
-                    to={
-                        item.__typename === 'ConfigurableProduct'
-                            ? productLink
-                            : simpleProductLink
-                    }
+                    to={{
+                        pathname:
+                            item.__typename === 'ConfigurableProduct'
+                                ? productLink
+                                : simpleProductLink,
+                        state: {
+                            prevPath: location.pathname,
+                            urlKeys: props.urlKeys
+                        }
+                    }}
                 >
                     <Image
                         alt={name}
@@ -272,11 +277,16 @@ const GalleryItem = props => {
             </div>
             <Link
                 onClick={handleLinkClick}
-                to={
-                    item.__typename === 'ConfigurableProduct'
-                        ? productLink
-                        : simpleProductLink
-                }
+                to={{
+                    pathname:
+                        item.__typename === 'ConfigurableProduct'
+                            ? productLink
+                            : simpleProductLink,
+                    state: {
+                        prevPath: location.pathname,
+                        urlKeys: props.urlKeys
+                    }
+                }}
                 className={classes.name}
                 data-cy="GalleryItem-name"
             >
@@ -288,12 +298,12 @@ const GalleryItem = props => {
                     <span>your price &nbsp;</span>
                     {priceRender}
                 </div>
-                {/* <Price
+                <Price
                     value={price_range.maximum_price.regular_price.value}
                     currencyCode={
                         price_range.maximum_price.regular_price.currency
                     }
-                /> */}
+                />
             </div>
 
             {location.search && item?.variants && (
@@ -302,7 +312,6 @@ const GalleryItem = props => {
                         <QuantityStepper
                             value={quantity}
                             onChange={e => onChangeQty(e)}
-                            min={1}
                         />
                     </div>
                     <div className={classes.productsSelect}>

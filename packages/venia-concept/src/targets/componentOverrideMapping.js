@@ -118,5 +118,10 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/Gallery/addToCartButton.js`]: './src/components/Gallery/addToCartButton.js',
 
     //New
-    [`@magento/venia-ui/lib/components/Header/cartTrigger.js`]: './src/components/Header/cartTrigger.js'
+    [`@magento/venia-ui/lib/components/Header/cartTrigger.js`]: './src/components/Header/cartTrigger.js',
+
+    //New
+    //new overwrite
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.js`]: './src/components/Breadcrumbs/breadcrumbs.js',
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.module.css`]: './src/components/Breadcrumbs/breadcrumbs.module.css'
 };

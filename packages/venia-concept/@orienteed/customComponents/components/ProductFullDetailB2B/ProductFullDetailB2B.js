@@ -1,4 +1,4 @@
-import React, { Fragment, useState, Suspense } from 'react';
+import React, { Fragment, useState, Suspense, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -6,15 +6,19 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import RichText from '@magento/venia-ui/lib/components/RichText';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import CurrentFilter from '@magento/venia-ui/lib/components/FilterModal/CurrentFilters/currentFilter';
-
 import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
 import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
 import { useCmsBlock } from '@magento/venia-concept/src/talons/useCmsBlocks.js';
+
 const WishlistButton = React.lazy(() =>
     import('@magento/venia-ui/lib/components/Wishlist/AddToListButton')
 );
+
+import gql from 'graphql-tag';
+import { useLazyQuery } from '@apollo/client';
+import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -30,6 +34,7 @@ const ProductFullDetailB2B = props => {
         item => item.identifier === 'recommended-product-block'
     )?.content;
     const { formatMessage } = useIntl();
+
     const {
         addConfigurableProductToCart,
         availableOptions,
@@ -53,9 +58,24 @@ const ProductFullDetailB2B = props => {
             ).label;
         });
     };
-
+    const [getFilters, { data: filterData }] = useLazyQuery(GET_CATEGORY, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+    });
+    useEffect(() => {
+        if (product.categories) {
+            const categoryId = product.categories[0].uid;
+            getFilters({
+                variables: {
+                    categoryIdFilter: {
+                        eq: categoryId
+                    }
+                }
+            });
+        }
+    }, [product, getFilters]);
     const getCategoriesValuesIdByVariant = variant => {
-        return variant.attributes.map((attribute, i) => {
+        return variant.attributes.map(attribute => {
             return attribute.value_index;
         });
     };
@@ -94,10 +114,10 @@ const ProductFullDetailB2B = props => {
 
     const selectedFilterList = (
         <div className={classes.selectedFilterContainer}>
-            {/* <FormattedMessage
+            <FormattedMessage
                 id={'productFullDetailB2B.selectFiltersTitle'}
                 defaultMessage={'Filters:'}
-            /> */}
+            />
             <div className={classes.selectedFilter}>
                 {selectedFilter.map(filter => (
                     <CurrentFilter
@@ -112,12 +132,10 @@ const ProductFullDetailB2B = props => {
     const filterOptions = (
         <div className={classes.filterNameSelectorContainer}>
             {fillFilters().map(filter => {
-                const categoryName = filter.shift();
                 return (
                     <div className={classes.filterNameSelector}>
-                        <p>{categoryName}</p>
+                        <p>{filter.shift()}</p>
                         <CategoryFilter
-                            filterName={categoryName}
                             availableCategoryItems={filter}
                             selectedFilter={selectedFilter}
                             setSelectedFilter={setSelectedFilter}
@@ -165,7 +183,12 @@ const ProductFullDetailB2B = props => {
                     defaultMessage={'Total Price'}
                 />
             </p>
-            <p key="stockIndex" />
+            <p key="stockIndex">
+                <FormattedMessage
+                    id={'productFullDetailB2B.stockStatus'}
+                    defaultMessage={'Stock Status'}
+                />
+            </p>
         </div>
     );
 
@@ -210,7 +233,12 @@ const ProductFullDetailB2B = props => {
 
     return (
         <Fragment key={productDetails.sku}>
-            {breadcrumbs}
+            <Breadcrumbs
+                categoryId={product.categories[0].uid}
+                currentProduct={product.name}
+                url_keys={filterData?.products}
+            />
+            {/* {breadcrumbs} */}
             <Form className={classes.root}>
                 <section className={classes.title}>
                     <h1 className={classes.productName}>
@@ -243,9 +271,13 @@ const ProductFullDetailB2B = props => {
                         <WishlistButton {...wishlistButtonProps} />
                     </Suspense>
                 </section>
-
                 <section className={classes.b2cContent}>
-                    <CmsBlock content={warrantiesBlock} />
+                    <h2 className={classes.b2cContentTitle}>
+                        <FormattedMessage
+                            id={'productFullDetailB2B.titleTable'}
+                            defaultMessage={'Products table'}
+                        />
+                    </h2>
                     <div className={classes.productsContainer}>
                         {selectedFilterList}
                         {filterOptions}
@@ -255,9 +287,25 @@ const ProductFullDetailB2B = props => {
                 </section>
                 <section className={classes.hide}>{availableOptions}</section>
             </Form>
-            <CmsBlock content={recommendedProductBlock} />
         </Fragment>
     );
 };
 
 export default ProductFullDetailB2B;
+
+export const GET_CATEGORY = gql`
+    query getProductFiltersByCategory(
+        $categoryIdFilter: FilterEqualTypeInput!
+    ) {
+        products(filter: { category_uid: $categoryIdFilter }, pageSize: 50) {
+            items {
+                id
+                uid
+                __typename
+                name
+                url_key
+                url_suffix
+            }
+        }
+    }
+`;

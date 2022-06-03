@@ -46,6 +46,15 @@ const Gallery = props => {
                 }
                 return (
                     <GalleryItem
+                        urlKeys={{
+                            items: items.map(ele => ({
+                                url_key: ele.url_key,
+                                url_suffix: ele.url_suffix,
+                                name: ele.name,
+                                __typename: ele.__typename,
+                                sku: ele.sku
+                            }))
+                        }}
                         key={item.id}
                         item={item}
                         storeConfig={storeConfig}
