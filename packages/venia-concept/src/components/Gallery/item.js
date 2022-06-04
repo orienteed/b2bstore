@@ -172,26 +172,29 @@ const GalleryItem = props => {
     const getProductsInstance = () => {
         const instanceItem = { ...item };
         var variants = [...instanceItem?.variants];
-
         const filterKeys = filterState && [...filterState?.keys()];
         const filterValues = filterState && [...filterState?.values()];
+        let filterValuesArray = filterValues?.map(filValue => {
+            let valueArr = [];
+            for (let valueObject of filValue) {
+                valueArr.push(valueObject.value);
+            }
+            return valueArr;
+        });
         let newVariants = [];
         if (filterKeys && filterValues?.length) {
             variants?.map(element => {
-                element?.attributes?.map(att => {
-                    if (filterKeys.includes(att.code)) {
-                        filterValues.map(filValue => {
-                            for (let valueObject of filValue) {
-                                valueObject.value == att.value_index && newVariants.push(element);
-                            }
-                        });
-                    }
-                });
+                let valueAttributes = element?.attributes?.map(({ value_index }) => value_index);
+                let filter = filterValuesArray?.map(valArray =>
+                    valArray.map(value => valueAttributes?.includes(parseInt(value)))
+                );
+                if (filter.map(filArray => filArray?.includes(true)).every(ele => ele === true))
+                    newVariants.push(element);
             });
             variants = newVariants;
         }
 
-        return variants.map((variant, key) => ({
+        return variants.map(variant => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
             parentSku: item.sku,
