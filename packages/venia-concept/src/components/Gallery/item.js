@@ -23,6 +23,7 @@ import ToolTip from '@orienteed/customComponents/components/ToolTip';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
+import StarIcon from './Icons/star.svg';
 import { useToasts } from '@magento/peregrine';
 
 import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
@@ -75,7 +76,7 @@ const GalleryItem = props => {
     const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
-            <div className={classes.price}>
+            <div className={`${classes.price} ${classes.regularPrice}`}>
                 <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
             </div>
         ) : (
@@ -119,7 +120,7 @@ const GalleryItem = props => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
             <div className={classes.configurableWrapper} key={key + 'configurable_options'}>
-                <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
+                <span className={classes.configrableLabel}>{ele.label} </span>{' '}
                 <ToolTip>
                     <ul className={classes.list}>
                         {values.map(val => (
@@ -215,6 +216,9 @@ const GalleryItem = props => {
                 <div onClick={shareClick} className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
                 </div>
+                <div className={classes.favIcon}>
+                    <img src={StarIcon} alt="star icon" />
+                </div>
                 <div className={classes.stockIcon}>
                     <StokeStatus status={stock_status} />
                 </div>
@@ -232,15 +236,15 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                {!isHomePage && configurableOptions}
+                <div className={classes.configurableOptions}>{!isHomePage && configurableOptions}</div>
                 <div className={classes.productPrice}>
                     <span>your price &nbsp;</span>
                     {priceRender}
                 </div>
-                <Price
+                {/* <Price
                     value={price_range.maximum_price.regular_price.value}
                     currencyCode={price_range.maximum_price.regular_price.currency}
-                />
+                /> */}
             </div>
 
             {location.search && item?.variants && (
