@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useMemo } from 'react';
+import React, { Fragment, Suspense, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { shape, string } from 'prop-types';
 
@@ -47,6 +47,8 @@ const SearchPage = props => {
 
     const { formatMessage } = useIntl();
     const [currentSort] = sortProps;
+    const [filterState, setfilterState] = useState();
+
     const content = useMemo(() => {
         if (!data && loading) {
             return (
@@ -91,7 +93,10 @@ const SearchPage = props => {
             return (
                 <Fragment>
                     <section className={classes.gallery}>
-                        <Gallery items={data.products.items} />
+                        <Gallery
+                            items={data.products.items}
+                            filterState={filterState}
+                        />
                     </section>
                     <section className={classes.pagination}>
                         <Pagination pageControl={pageControl} />
@@ -132,7 +137,7 @@ const SearchPage = props => {
     ) : null;
 
     const maybeSidebar = shouldShowFilterButtons ? (
-        <FilterSidebar filters={filters} />
+        <FilterSidebar setfilterState={setfilterState} filters={filters} />
     ) : shouldShowFilterShimmer ? (
         <FilterSidebarShimmer />
     ) : null;

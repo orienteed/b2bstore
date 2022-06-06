@@ -47,7 +47,7 @@ const GalleryItem = props => {
         wishlistButtonProps,
         isSupportedProductType
     } = useGalleryItem(props);
-    const { storeConfig } = props;
+    const { storeConfig, filterState } = props;
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
@@ -96,7 +96,7 @@ const GalleryItem = props => {
     );
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
-            <div className={classes.price}>
+            <div className={`${classes.price} ${classes.regularPrice}`}>
                 <Price
                     value={price.regularPrice.amount.value}
                     currencyCode={price.regularPrice.amount.currency}
@@ -214,9 +214,38 @@ const GalleryItem = props => {
 
     const getProductsInstance = () => {
         const instanceItem = { ...item };
-        var variants = [...instanceItem.variants];
+        var variants = [...instanceItem?.variants];
+        const filterKeys = filterState && [...filterState?.keys()];
+        const filterValues = filterState && [...filterState?.values()];
+        const filterValuesArray = filterValues?.map(filValue => {
+            const valueArr = [];
+            for (const valueObject of filValue) {
+                valueArr.push(valueObject.value);
+            }
+            return valueArr;
+        });
+        const newVariants = [];
+        if (filterKeys && filterValues?.length) {
+            variants?.map(element => {
+                const valueAttributes = element?.attributes?.map(
+                    ({ value_index }) => value_index
+                );
+                const filter = filterValuesArray?.map(valArray =>
+                    valArray.map(value =>
+                        valueAttributes?.includes(parseInt(value))
+                    )
+                );
+                if (
+                    filter
+                        .map(filArray => filArray?.includes(true))
+                        .every(ele => ele === true)
+                )
+                    newVariants.push(element);
+            });
+            variants = newVariants;
+        }
 
-        return variants.map((variant, key) => ({
+        return variants.map(variant => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
             parentSku: item.sku,
@@ -295,15 +324,13 @@ const GalleryItem = props => {
             <div data-cy="GalleryItem-price" className={classes.price}>
                 {!isHomePage && configurableOptions}
                 <div className={classes.productPrice}>
-                    <span>your price &nbsp;</span>
+                    <span>Your price: &nbsp;</span>
                     {priceRender}
                 </div>
-                <Price
+                {/* <Price
                     value={price_range.maximum_price.regular_price.value}
-                    currencyCode={
-                        price_range.maximum_price.regular_price.currency
-                    }
-                />
+                    currencyCode={price_range.maximum_price.regular_price.currency}
+                /> */}
             </div>
 
             {location.search && item?.variants && (
@@ -312,6 +339,7 @@ const GalleryItem = props => {
                         <QuantityStepper
                             value={quantity}
                             onChange={e => onChangeQty(e)}
+                            min={1}
                         />
                     </div>
                     <div className={classes.productsSelect}>

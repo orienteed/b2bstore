@@ -19,7 +19,7 @@ import { ArrowRight } from 'react-feather';
  * @params {Array} props.items an array of items to render
  */
 const Gallery = props => {
-    const { items } = props;
+    const { items, filterState } = props;
     const classes = useStyle(defaultClasses, props.classes);
     const talonProps = useGallery();
     const { storeConfig } = talonProps;

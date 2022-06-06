@@ -11,26 +11,44 @@ import FilterModalOpenButton, {
     FilterModalOpenButtonShimmer
 } from '@magento/venia-ui/lib/components/FilterModalOpenButton';
 import { FilterSidebarShimmer } from '@magento/venia-ui/lib/components/FilterSidebar';
-import Gallery, { GalleryShimmer } from '@magento/venia-ui/lib/components/Gallery';
+import Gallery, {
+    GalleryShimmer
+} from '@magento/venia-ui/lib/components/Gallery';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
-import ProductSort, { ProductSortShimmer } from '@magento/venia-ui/lib/components/ProductSort';
+import ProductSort, {
+    ProductSortShimmer
+} from '@magento/venia-ui/lib/components/ProductSort';
 import RichContent from '@magento/venia-ui/lib/components/RichContent';
 import Shimmer from '@magento/venia-ui/lib/components/Shimmer';
-import SortedByContainer, { SortedByContainerShimmer } from '@magento/venia-ui/lib/components/SortedByContainer';
+import SortedByContainer, {
+    SortedByContainerShimmer
+} from '@magento/venia-ui/lib/components/SortedByContainer';
 
 import defaultClasses from '@magento/venia-ui/lib/RootComponents/Category/category.module.css';
 import NoProductsFound from '@magento/venia-ui/lib/RootComponents/Category/NoProductsFound';
 
-const FilterModal = React.lazy(() => import('@magento/venia-ui/lib/components/FilterModal'));
-const FilterSidebar = React.lazy(() => import('@magento/venia-ui/lib/components/FilterSidebar'));
+const FilterModal = React.lazy(() =>
+    import('@magento/venia-ui/lib/components/FilterModal')
+);
+const FilterSidebar = React.lazy(() =>
+    import('@magento/venia-ui/lib/components/FilterSidebar')
+);
 
 import DownloadCsv from '@orienteed/customComponents/components/DownloadCsv';
 
 const CategoryContent = props => {
-    const { categoryId, data, isLoading, pageControl, sortProps, pageSize } = props;
+    const {
+        categoryId,
+        data,
+        isLoading,
+        pageControl,
+        sortProps,
+        pageSize
+    } = props;
     const [currentSort] = sortProps;
     const [showMore, setShowMore] = useState(false);
+    const [filterState, setfilterState] = useState();
     const talonProps = useCategoryContent({
         categoryId,
         data,
@@ -65,16 +83,21 @@ const CategoryContent = props => {
         <FilterModalOpenButtonShimmer />
     ) : null;
 
-    const filtersModal = shouldShowFilterButtons ? <FilterModal filters={filters} /> : null;
+    const filtersModal = shouldShowFilterButtons ? (
+        <FilterModal filters={filters} />
+    ) : null;
 
     const sidebar = shouldShowFilterButtons ? (
-        <FilterSidebar filters={filters} />
+        <FilterSidebar setfilterState={setfilterState} filters={filters} />
     ) : shouldShowFilterShimmer ? (
         <FilterSidebarShimmer />
     ) : null;
 
     const maybeSortButton = shouldShowSortButtons ? (
-        <ProductSort sortProps={sortProps} availableSortMethods={availableSortMethods} />
+        <ProductSort
+            sortProps={sortProps}
+            availableSortMethods={availableSortMethods}
+        />
     ) : shouldShowSortShimmer ? (
         <ProductSortShimmer />
     ) : null;
@@ -98,7 +121,9 @@ const CategoryContent = props => {
             <Shimmer width={5} />
         ) : null;
 
-    const categoryDescriptionElement = categoryDescription ? <RichContent html={categoryDescription} /> : null;
+    const categoryDescriptionElement = categoryDescription ? (
+        <RichContent html={categoryDescription} />
+    ) : null;
 
     const changeShowMore = () => setShowMore(!showMore);
     const content = useMemo(() => {
@@ -106,9 +131,15 @@ const CategoryContent = props => {
             return <NoProductsFound categoryId={categoryId} />;
         }
 
-        const gallery = totalPagesFromData ? <Gallery items={items} /> : <GalleryShimmer items={items} />;
+        const gallery = totalPagesFromData ? (
+            <Gallery filterState={filterState} items={items} />
+        ) : (
+            <GalleryShimmer items={items} />
+        );
 
-        const pagination = totalPagesFromData ? <Pagination pageControl={pageControl} /> : null;
+        const pagination = totalPagesFromData ? (
+            <Pagination pageControl={pageControl} />
+        ) : null;
 
         return (
             <Fragment>
@@ -116,7 +147,15 @@ const CategoryContent = props => {
                 <div className={classes.pagination}>{pagination}</div>
             </Fragment>
         );
-    }, [categoryId, classes.gallery, classes.pagination, isLoading, items, pageControl, totalPagesFromData]);
+    }, [
+        categoryId,
+        classes.gallery,
+        classes.pagination,
+        isLoading,
+        items,
+        pageControl,
+        totalPagesFromData
+    ]);
 
     const categoryTitle = categoryName ? categoryName : <Shimmer width={5} />;
 
@@ -134,14 +173,20 @@ const CategoryContent = props => {
                     <div className={classes.categoryContent}>
                         <div className={classes.categoryHeader}>
                             <h1 className={classes.title}>
-                                <div className={classes.categoryTitle} data-cy="CategoryContent-categoryTitle">
+                                <div
+                                    className={classes.categoryTitle}
+                                    data-cy="CategoryContent-categoryTitle"
+                                >
                                     {categoryTitle}
                                 </div>
                             </h1>
                             {categoryDescriptionElement}
                         </div>
                         <div className={classes.heading}>
-                            <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>
+                            <div
+                                data-cy="CategoryContent-categoryInfo"
+                                className={classes.categoryInfo}
+                            >
                                 {categoryResultsHeading}
                             </div>
                             <div className={classes.headerButtons}>

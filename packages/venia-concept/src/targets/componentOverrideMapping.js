@@ -123,5 +123,9 @@ module.exports = componentOverrideMapping = {
     //New
     //new overwrite
     [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.js`]: './src/components/Breadcrumbs/breadcrumbs.js',
-    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.module.css`]: './src/components/Breadcrumbs/breadcrumbs.module.css'
+    [`@magento/venia-ui/lib/components/Breadcrumbs/breadcrumbs.module.css`]: './src/components/Breadcrumbs/breadcrumbs.module.css',
+
+    //New
+    [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.js`]: './src/components/FilterSidebar/filterSidebar.js',
+    [`@magento/venia-ui/lib/components/SearchPage/searchPage.js`]: './src/components/SearchPage/searchPage.js'
 };
