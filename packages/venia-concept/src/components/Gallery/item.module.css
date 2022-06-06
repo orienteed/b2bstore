@@ -70,6 +70,11 @@
     min-height: 2rem;
 }
 
+.regularPrice {
+    display: flex;
+    align-items: center;
+}
+
 .unavailableContainer {
     align-items: center;
     background-color: rgb(var(--venia-global-color-gray));
