@@ -121,6 +121,7 @@
         display: flex;
         align-self: flex-start;
         width: var(--category-sidebar-width);
+        min-width: var(--category-sidebar-width);
     }
 
     .categoryContent {
