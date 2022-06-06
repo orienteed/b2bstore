@@ -31,6 +31,7 @@ const CategoryContent = props => {
     const { categoryId, data, isLoading, pageControl, sortProps, pageSize } = props;
     const [currentSort] = sortProps;
     const [showMore, setShowMore] = useState(false);
+    const [filterState, setfilterState] = useState();
     const talonProps = useCategoryContent({
         categoryId,
         data,
@@ -68,7 +69,7 @@ const CategoryContent = props => {
     const filtersModal = shouldShowFilterButtons ? <FilterModal filters={filters} /> : null;
 
     const sidebar = shouldShowFilterButtons ? (
-        <FilterSidebar filters={filters} />
+        <FilterSidebar setfilterState={setfilterState} filters={filters} />
     ) : shouldShowFilterShimmer ? (
         <FilterSidebarShimmer />
     ) : null;
@@ -106,7 +107,11 @@ const CategoryContent = props => {
             return <NoProductsFound categoryId={categoryId} />;
         }
 
-        const gallery = totalPagesFromData ? <Gallery items={items} /> : <GalleryShimmer items={items} />;
+        const gallery = totalPagesFromData ? (
+            <Gallery filterState={filterState} items={items} />
+        ) : (
+            <GalleryShimmer items={items} />
+        );
 
         const pagination = totalPagesFromData ? <Pagination pageControl={pageControl} /> : null;
 

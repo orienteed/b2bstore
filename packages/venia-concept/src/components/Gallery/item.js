@@ -25,7 +25,7 @@ import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
 import { useToasts } from '@magento/peregrine';
 
-import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
+import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Select from './SelectField/select';
 
 import { useHistory } from 'react-router-dom';
@@ -40,7 +40,7 @@ const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY,
 
 const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
-    const { storeConfig } = props;
+    const { storeConfig, filterState } = props;
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
@@ -170,9 +170,30 @@ const GalleryItem = props => {
 
     const getProductsInstance = () => {
         const instanceItem = { ...item };
-        var variants = [...instanceItem.variants];
+        var variants = [...instanceItem?.variants];
+        const filterKeys = filterState && [...filterState?.keys()];
+        const filterValues = filterState && [...filterState?.values()];
+        let filterValuesArray = filterValues?.map(filValue => {
+            let valueArr = [];
+            for (let valueObject of filValue) {
+                valueArr.push(valueObject.value);
+            }
+            return valueArr;
+        });
+        let newVariants = [];
+        if (filterKeys && filterValues?.length) {
+            variants?.map(element => {
+                let valueAttributes = element?.attributes?.map(({ value_index }) => value_index);
+                let filter = filterValuesArray?.map(valArray =>
+                    valArray.map(value => valueAttributes?.includes(parseInt(value)))
+                );
+                if (filter.map(filArray => filArray?.includes(true)).every(ele => ele === true))
+                    newVariants.push(element);
+            });
+            variants = newVariants;
+        }
 
-        return variants.map((variant, key) => ({
+        return variants.map(variant => ({
             ...variant,
             categoriesValuesName: getCategoriesValuesNameByVariant(variant),
             parentSku: item.sku,
@@ -246,7 +267,7 @@ const GalleryItem = props => {
             {location.search && item?.variants && (
                 <div className={classes.productsWrapper}>
                     <div className={classes.qtyField}>
-                        <QuantityField value={quantity} onChange={e => onChangeQty(e)} />
+                        <QuantityStepper value={quantity} onChange={e => onChangeQty(e)} min={1} />
                     </div>
                     <div className={classes.productsSelect}>
                         <Select
