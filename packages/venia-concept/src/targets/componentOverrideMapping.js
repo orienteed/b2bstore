@@ -127,5 +127,9 @@ module.exports = componentOverrideMapping = {
 
     //New
     [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.js`]: './src/components/FilterSidebar/filterSidebar.js',
-    [`@magento/venia-ui/lib/components/SearchPage/searchPage.js`]: './src/components/SearchPage/searchPage.js'
+    [`@magento/venia-ui/lib/components/SearchPage/searchPage.js`]: './src/components/SearchPage/searchPage.js',
+    
+    //new overwrite
+    [`@magento/venia-ui/lib/components/Wishlist/AddToListButton`]: './src/components/Wishlist/AddToListButton',
+    [`@magento/venia-ui/lib/components/Wishlist/AddToListButton/addToListButton.module.css`]: './src/components/Wishlist/AddToListButton/addToListButton.module.css',
 };
