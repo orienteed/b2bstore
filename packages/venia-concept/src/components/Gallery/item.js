@@ -23,6 +23,7 @@ import ToolTip from '@orienteed/customComponents/components/ToolTip';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
+// import StarIcon from './Icons/star.svg';
 import { useToasts } from '@magento/peregrine';
 
 import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
@@ -119,7 +120,7 @@ const GalleryItem = props => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
             <div className={classes.configurableWrapper} key={key + 'configurable_options'}>
-                <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
+                <span className={classes.configrableLabel}>{ele.label} </span>{' '}
                 <ToolTip>
                     <ul className={classes.list}>
                         {values.map(val => (
@@ -233,6 +234,9 @@ const GalleryItem = props => {
                         <span>{discount}%</span>
                     </div>
                 ) : null}
+                <div className={classes.favIcon}>
+                    {wishlistButton}
+                </div>
                 <div onClick={shareClick} className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
                 </div>
@@ -253,7 +257,7 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                {!isHomePage && configurableOptions}
+                <div className={classes.configurableOptions}>{!isHomePage && configurableOptions}</div>
                 <div className={classes.productPrice}>
                     <span>Your price: &nbsp;</span>
                     {priceRender}
@@ -282,7 +286,7 @@ const GalleryItem = props => {
 
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {addButton}
-                {!isHomePage && wishlistButton}
+                {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
     );

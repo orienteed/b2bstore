@@ -1,0 +1,12 @@
+.root {
+    column-gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    min-width: 3rem;
+}
+
+.root_selected img{
+    --fill: #E8AA00;
+    --stroke: #E8AA00;
+    text-decoration: none;
+}

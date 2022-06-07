@@ -47,7 +47,6 @@ const FilterSidebar = props => {
             Array.from(filterItems, ([group, items], iteration) => {
                 const blockState = filterState.get(group);
                 const groupName = filterNames.get(group);
-
                 return (
                     <FilterBlock
                         key={group}

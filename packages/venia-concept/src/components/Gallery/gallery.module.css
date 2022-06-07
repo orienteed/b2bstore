@@ -10,11 +10,10 @@
 .items {
     display: grid;
     grid-area: items;
-    grid-gap: 1rem;
+    grid-gap: 45px;
     grid-template-columns: repeat(3, 1fr);
     margin-bottom: 10px;
 }
-
 
 .recommendedWrapper {
     display: grid;
@@ -58,5 +57,11 @@
     .recommendedLink {
         font-weight: 400;
         font-size: 14px;
+    }
+}
+
+@media (max-width: 450px) {
+    .items {
+        grid-template-columns: repeat(1, 1fr);
     }
 }

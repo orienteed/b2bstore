@@ -146,17 +146,17 @@ const CategoryContent = props => {
                             {categoryDescriptionElement}
                         </div>
                         <div className={classes.heading}>
-                            <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>
-                                {categoryResultsHeading}
-                            </div>
                             <div className={classes.headerButtons}>
+                                <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>
+                                    {categoryResultsHeading}
+                                </div>
                                 {maybeFilterButtons}
                                 {maybeSortButton}
                                 <article className={classes.downloadCsvDesktop}>
                                     <DownloadCsv showIcon />
                                 </article>
                             </div>
-                            <section>
+                            <section className={classes.actionsBtnsMobile}>
                                 <article className={classes.downloadCsvMobile}>
                                     <DownloadCsv />
                                 </article>
