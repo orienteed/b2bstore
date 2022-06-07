@@ -30,6 +30,11 @@ module.exports = targets => {
                 name: 'SimpleProduct',
                 pattern: '/simple-product',
                 path: '@orienteed/customComponents/components/SimpleProduct'
+            },
+            {
+                name: 'compare product',
+                pattern: '/product_compare',
+                path: '@orienteed/customComponents/components/comparePage/src/components'
             }
         );
         return routes;
