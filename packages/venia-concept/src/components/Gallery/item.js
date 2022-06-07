@@ -23,7 +23,7 @@ import ToolTip from '@orienteed/customComponents/components/ToolTip';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
-import StarIcon from './Icons/star.svg';
+// import StarIcon from './Icons/star.svg';
 import { useToasts } from '@magento/peregrine';
 
 import QuantityField from '@orienteed/customComponents/components/QuantityField/quantity';
@@ -213,11 +213,11 @@ const GalleryItem = props => {
                         <span>{discount}%</span>
                     </div>
                 ) : null}
+                <div className={classes.favIcon}>
+                    {wishlistButton}
+                </div>
                 <div onClick={shareClick} className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
-                </div>
-                <div className={classes.favIcon}>
-                    <img src={StarIcon} alt="star icon" />
                 </div>
                 <div className={classes.stockIcon}>
                     <StokeStatus status={stock_status} />
@@ -265,7 +265,7 @@ const GalleryItem = props => {
 
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {addButton}
-                {!isHomePage && wishlistButton}
+                {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
     );
