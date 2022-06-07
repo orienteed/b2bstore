@@ -66,12 +66,7 @@ const Gallery = props => {
     );
 
     return (
-        <div
-            data-cy="Gallery-root"
-            className={classes.root}
-            aria-live="polite"
-            aria-busy="false"
-        >
+        <div data-cy="Gallery-root" className={classes.root} aria-live="polite" aria-busy="false">
             {isHomePage && recommendedProducts}
             <div className={classes.items}>{galleryItems}</div>
         </div>
