@@ -28,7 +28,10 @@ import { useToasts } from '@magento/peregrine';
 import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Select from './SelectField/select';
 
+import CompareIcon from './Icons/compare.svg';
+
 import { useHistory } from 'react-router-dom';
+import Button from '@magento/venia-ui/lib/components/Button';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -205,6 +208,9 @@ const GalleryItem = props => {
         }));
     };
 
+    const addToCompare = () => {
+        
+    };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <div className={classes.images}>
@@ -282,6 +288,9 @@ const GalleryItem = props => {
 
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {addButton}
+                <button onClick={addToCompare}>
+                    <img className={classes.compareIcon} src={CompareIcon} alt="compare icon" />
+                </button>
                 {!isHomePage && wishlistButton}
             </div>
         </div>

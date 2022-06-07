@@ -52,7 +52,7 @@
 .actionsContainer {
     column-gap: 1rem;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     padding-left: 0.5rem;
 }
 
@@ -203,4 +203,8 @@
 .productPrice > span {
     display: flex;
     align-items: center;
+}
+
+.compareIcon{
+    width: 20px;
 }
