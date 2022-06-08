@@ -33,7 +33,7 @@ module.exports = targets => {
             },
             {
                 name: 'compare product',
-                pattern: '/product_compare',
+                pattern: '/compare_products',
                 path: '@orienteed/customComponents/components/comparePage/src/components'
             }
         );

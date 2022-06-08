@@ -1,0 +1,11 @@
+.root {
+    display: grid;
+    padding: 2rem 3rem;
+    row-gap: 2rem;
+}
+
+.heading {
+    justify-self: center;
+    font-family: var(--venia-global-fontFamily-serif);
+    font-weight: var(--venia-global-fontWeight-bold);
+}

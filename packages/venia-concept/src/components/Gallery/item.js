@@ -23,15 +23,16 @@ import ToolTip from '@orienteed/customComponents/components/ToolTip';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
+// import StarIcon from './Icons/star.svg';
 import { useToasts } from '@magento/peregrine';
 
 import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Select from './SelectField/select';
 
-import CompareIcon from './Icons/compare.svg';
-
 import { useHistory } from 'react-router-dom';
-import Button from '@magento/venia-ui/lib/components/Button';
+
+import CompareIcon from './Icons/compare.svg';
+import useCompareProduct from '@orienteed/customComponents/components/comparePage/src/talons/useCompareProduct';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -56,6 +57,8 @@ const GalleryItem = props => {
     const [quantity, setQuantity] = useState(1);
     const [selectedVeriant, setSelectedVeriant] = useState();
 
+    const compareProps = useCompareProduct();
+    const { addProductsToCompare } = compareProps;
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
@@ -122,7 +125,7 @@ const GalleryItem = props => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
             <div className={classes.configurableWrapper} key={key + 'configurable_options'}>
-                <span className={classes.configrableLabel}>{ele.label}: </span>{' '}
+                <span className={classes.configrableLabel}>{ele.label} </span>{' '}
                 <ToolTip>
                     <ul className={classes.list}>
                         {values.map(val => (
@@ -209,7 +212,7 @@ const GalleryItem = props => {
     };
 
     const addToCompare = () => {
-        
+        addProductsToCompare(item);
     };
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
@@ -239,6 +242,7 @@ const GalleryItem = props => {
                         <span>{discount}%</span>
                     </div>
                 ) : null}
+                <div className={classes.favIcon}>{wishlistButton}</div>
                 <div onClick={shareClick} className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
                 </div>
@@ -259,7 +263,7 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                {!isHomePage && configurableOptions}
+                <div className={classes.configurableOptions}>{!isHomePage && configurableOptions}</div>
                 <div className={classes.productPrice}>
                     <span>Your price: &nbsp;</span>
                     {priceRender}
@@ -288,10 +292,10 @@ const GalleryItem = props => {
 
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {addButton}
-                <button onClick={addToCompare}>
-                    <img className={classes.compareIcon} src={CompareIcon} alt="compare icon" />
+                <button className={classes.compareIcon} onClick={addToCompare}>
+                    <img src={CompareIcon} alt="compare icon" />
                 </button>
-                {!isHomePage && wishlistButton}
+                {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
     );
