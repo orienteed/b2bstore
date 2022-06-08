@@ -1,16 +1,22 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
 
 const useCompareProduct = () => {
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const getCompareProducts = () => JSON.parse(localStorage.getItem('compare_products'));
+    const getCompareProducts = () => {
+        setIsLoading(true);
+        const products = JSON.parse(localStorage.getItem('compare_products')) || [];
+        setIsLoading(false);
+        return products;
+    };
 
     const addProductsToCompare = product => {
         const { sku } = product;
-        let products = getCompareProducts() || [];
+        let products = getCompareProducts();
         let isAdded = checkProduct(sku);
         if (!isAdded) {
             localStorage.setItem('compare_products', JSON.stringify([...products, product]));
@@ -34,7 +40,8 @@ const useCompareProduct = () => {
     return {
         productsItems,
         addProductsToCompare,
-        getCompareProducts
+        getCompareProducts,
+        isLoading
     };
 };
 
