@@ -182,3 +182,7 @@
         box-shadow: 0 var(--dot-size) 0 0;
     }
 }
+
+.compareLink{
+    width: 28px;
+}
