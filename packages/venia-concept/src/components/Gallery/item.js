@@ -205,7 +205,6 @@ const GalleryItem = props => {
                 getCategoriesValuesNameByVariant(variant).join(' - ')
         }));
     };
-
     return (
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <div className={classes.images}>
