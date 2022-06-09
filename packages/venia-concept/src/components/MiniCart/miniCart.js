@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Lock as LockIcon, AlertCircle as AlertCircleIcon } from 'react-feather';
+import {
+    Lock as LockIcon,
+    AlertCircle as AlertCircleIcon
+} from 'react-feather';
 import { bool, shape, string } from 'prop-types';
 
 import { useScrollLock, Price, useToasts } from '@magento/peregrine';
@@ -52,13 +55,16 @@ const MiniCart = React.forwardRef((props, ref) => {
         setCsvSkuErrorList,
         isCsvDialogOpen,
         setIsCsvDialogOpen,
-        handleCancelCsvDialog
+        handleCancelCsvDialog,
+        storeUrlSuffix
     } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isOpen ? classes.root_open : classes.root;
     const contentsClass = isOpen ? classes.contents_open : classes.contents;
-    const quantityClassName = loading ? classes.quantity_loading : classes.quantity;
+    const quantityClassName = loading
+        ? classes.quantity_loading
+        : classes.quantity;
     const priceClassName = loading ? classes.price_loading : classes.price;
 
     const isCartEmpty = !(productList && productList.length);
@@ -83,13 +89,23 @@ const MiniCart = React.forwardRef((props, ref) => {
                 <StockStatusMessage cartItems={productList} />
             </div>
             <span className={quantityClassName}>
-                <FormattedMessage id={'miniCart.totalQuantity'} defaultMessage={'Items'} values={{ totalQuantity }} />
+                <FormattedMessage
+                    id={'miniCart.totalQuantity'}
+                    defaultMessage={'Items'}
+                    values={{ totalQuantity }}
+                />
             </span>
             <span className={priceClassName}>
                 <span>
-                    <FormattedMessage id={'miniCart.subtotal'} defaultMessage={'Subtotal: '} />
+                    <FormattedMessage
+                        id={'miniCart.subtotal'}
+                        defaultMessage={'Subtotal: '}
+                    />
                 </span>
-                <Price currencyCode={subTotal.currency} value={subTotal.value} />
+                <Price
+                    currencyCode={subTotal.currency}
+                    value={subTotal.value}
+                />
             </span>
         </Fragment>
     ) : null;
@@ -97,7 +113,10 @@ const MiniCart = React.forwardRef((props, ref) => {
     const contents = isCartEmpty ? (
         <div className={classes.emptyCart}>
             <div className={classes.emptyMessage}>
-                <FormattedMessage id={'miniCart.emptyMessage'} defaultMessage={'There are no items in your cart.'} />
+                <FormattedMessage
+                    id={'miniCart.emptyMessage'}
+                    defaultMessage={'There are no items in your cart.'}
+                />
             </div>
             <AddProductByCsv
                 csvErrorType={csvErrorType}
@@ -119,6 +138,7 @@ const MiniCart = React.forwardRef((props, ref) => {
                     handleRemoveItem={handleRemoveItem}
                     closeMiniCart={closeMiniCart}
                     configurableThumbnailSource={configurableThumbnailSource}
+                    storeUrlSuffix={storeUrlSuffix}
                 />
             </div>
             <div className={classes.footer}>
@@ -135,7 +155,10 @@ const MiniCart = React.forwardRef((props, ref) => {
                             icon: classes.checkoutIcon
                         }}
                     />
-                    <FormattedMessage id={'miniCart.checkout'} defaultMessage={'CHECKOUT'} />
+                    <FormattedMessage
+                        id={'miniCart.checkout'}
+                        defaultMessage={'CHECKOUT'}
+                    />
                 </Button>
                 <AddProductByCsv
                     csvErrorType={csvErrorType}
@@ -152,7 +175,10 @@ const MiniCart = React.forwardRef((props, ref) => {
                     className={classes.editCartButton}
                     disabled={loading || isCartEmpty}
                 >
-                    <FormattedMessage id={'miniCart.editCartButton'} defaultMessage={'Edit Shopping Bag'} />
+                    <FormattedMessage
+                        id={'miniCart.editCartButton'}
+                        defaultMessage={'Edit Shopping Bag'}
+                    />
                 </Button>
             </div>
         </Fragment>
