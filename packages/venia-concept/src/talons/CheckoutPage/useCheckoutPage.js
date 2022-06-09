@@ -16,6 +16,8 @@ import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CheckoutPage/check
 import CheckoutError from '@magento/peregrine/lib/talons/CheckoutPage/CheckoutError';
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
 
+import ReactGA from 'react-ga';
+
 
 export const CHECKOUT_STEP = {
     SHIPPING_ADDRESS: 1,
@@ -179,7 +181,11 @@ export const useCheckoutPage = (props = {}) => {
     }, [placeOrderError]);
 
     const handleReviewOrder = useCallback(() => {
-        ga('send', `Checkout page- Review order clicked`);
+        ReactGA.event({
+            category: 'Checkout page',
+            action: 'Review order clicked',
+            label: `Checkout page- Review order clicked`,
+          })
         setReviewOrderButtonClicked(true);
     }, []);
 
@@ -240,7 +246,11 @@ export const useCheckoutPage = (props = {}) => {
         });
         setPlaceOrderButtonClicked(true);
         setIsPlacingOrder(true);
-        ga('send', `Checkout page- Place order clicked`,);
+            ReactGA.event({
+                category: 'Checkout page',
+                action: 'Place order clicked',
+                label: `Checkout page- Place order clicked`,
+            })
     }, [cartId, getOrderDetails]);
 
     // Go back to checkout if shopper logs in

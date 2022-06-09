@@ -115,5 +115,8 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/CartPage/ProductListing/product.module.css`]: './src/components/CartPage/ProductListing/product.module.css',
 
     //new overwrite
-    [`@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage.js`]: './src/talons/CheckoutPage/useCheckoutPage.js'
+    [`@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage.js`]: './src/talons/CheckoutPage/useCheckoutPage.js',
+
+    [`@magento/venia-ui/lib/components/App/app.js`]: './src/components/App/app.js',
+
 };

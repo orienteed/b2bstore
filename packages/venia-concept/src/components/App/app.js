@@ -1,4 +1,4 @@
-import React, { useCallback, Suspense } from 'react';
+import React, { useCallback, Suspense, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { array, func, shape, string } from 'prop-types';
 
@@ -12,6 +12,10 @@ import Mask from '@magento/venia-ui/lib/components/Mask';
 import Routes from '@magento/venia-ui/lib/components/Routes';
 import ToastContainer from '@magento/venia-ui/lib/components/ToastContainer';
 import Icon from '@magento/venia-ui/lib/components/Icon';
+
+import { useHistory } from 'react-router-dom';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-158777378-4');
 
 import { AlertCircle as AlertCircleIcon, CloudOff as CloudOffIcon, Wifi as WifiIcon } from 'react-feather';
 
@@ -27,6 +31,11 @@ const App = props => {
 
     const [, { addToast }] = useToasts();
 
+    const { location } = useHistory();
+    const { pathname } = location;
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    }, [pathname]);
     const ERROR_MESSAGE = formatMessage({
         id: 'app.errorUnexpected',
         defaultMessage: 'Sorry! An unexpected error occurred.'

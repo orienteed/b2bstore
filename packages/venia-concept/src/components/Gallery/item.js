@@ -40,7 +40,7 @@ const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY,
 
 const GalleryItem = props => {
     const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
-    const { storeConfig, categoryTitle } = props;
+    const { storeConfig } = props;
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
@@ -187,10 +187,7 @@ const GalleryItem = props => {
         <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
             <div className={classes.images}>
                 <Link
-                    onClick={() => {
-                        handleLinkClick && handleLinkClick();
-                        ga('send', `Item page clicked on ${name}`);
-                    }}
+                    onClick={handleLinkClick}
                     to={item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink}
                 >
                     <Image
@@ -220,10 +217,7 @@ const GalleryItem = props => {
                 {ratingAverage}
             </div>
             <Link
-                onClick={() => {
-                    handleLinkClick && handleLinkClick();
-                    ga('send', `Item page clicked on ${name}`);
-                }}
+                onClick={handleLinkClick}
                 to={item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink}
                 className={classes.name}
                 data-cy="GalleryItem-name"
