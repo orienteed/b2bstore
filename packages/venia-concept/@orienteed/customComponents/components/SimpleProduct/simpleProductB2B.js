@@ -7,8 +7,17 @@ import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './simpleProduct.module.css';
+import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
+import { useCmsBlock } from '@magento/venia-concept/src/talons/useCmsBlocks.js';
 
 const SimpleProductB2B = props => {
+    const { cmsBlocks } = useCmsBlock({
+        cmsBlockIdentifiers: ['warranties-block']
+    });
+    // , 'recommended-product-block'
+    const warrantiesBlock = cmsBlocks.find(
+        item => item.identifier === 'warranties-block'
+    )?.content;
     const classes = useStyle(defaultClasses, props.classes);
     const {
         indexTable,
@@ -41,13 +50,18 @@ const SimpleProductB2B = props => {
                     <h1 className={classes.productName}>
                         {simpleProductData.name}
                     </h1>
-                    <h2 className={classes.fromPrice}>
-                        <FormattedMessage
-                            id={'productFullDetailB2B.fromPrice'}
-                            defaultMessage={'From '}
-                        />
-                        {priceRender}
-                    </h2>
+                    <article className={classes.innerPrice}>
+                        <h2 className={classes.fromPrice}>
+                            <FormattedMessage
+                                id={'productFullDetailB2B.fromPrice'}
+                                defaultMessage={'From '}
+                            />
+                        </h2>
+
+                        <span className={classes.priceNumber}>
+                            {priceRender}
+                        </span>
+                    </article>
                 </section>
                 <section className={classes.description}>
                     <h2 className={classes.descriptionTitle}>
@@ -63,6 +77,10 @@ const SimpleProductB2B = props => {
                     <Suspense fallback={null}>{wishlistButton}</Suspense>
                 </section>
             </Form>
+
+            <section>
+                <CmsBlock content={warrantiesBlock} />
+            </section>
 
             <div className={classes.productsTableContainer}>
                 {indexTable}

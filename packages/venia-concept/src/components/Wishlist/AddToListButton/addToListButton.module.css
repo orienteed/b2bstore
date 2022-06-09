@@ -1,12 +1,17 @@
 .root {
-    column-gap: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    min-width: 3rem;
+    composes: gap-x-2xs from global;
+    composes: inline-flex from global;
+    composes: items-center from global;
+    min-height: 3rem;
+    composes: min-w-[3rem] from global;
 }
 
-.root_selected img{
-    --fill: #E8AA00;
-    --stroke: #E8AA00;
-    text-decoration: none;
+.root_selected {
+    composes: root;
+
+    --selectedColor: var(--orienteed-primary-color-base1);
+    --fill: var(--selectedColor);
+    --stroke: var(--selectedColor);
+
+    composes: no-underline from global;
 }

@@ -23,16 +23,16 @@ import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { cmsBlocks } = useCmsBlock({
-        cmsBlockIdentifiers: ['warranties-block', 'recommended-product-block']
+        cmsBlockIdentifiers: ['warranties-block']
     });
-
+    // , 'recommended-product-block'
     const warrantiesBlock = cmsBlocks.find(
         item => item.identifier === 'warranties-block'
     )?.content;
 
-    const recommendedProductBlock = cmsBlocks.find(
-        item => item.identifier === 'recommended-product-block'
-    )?.content;
+    // const recommendedProductBlock = cmsBlocks.find(
+    //     item => item.identifier === 'recommended-product-block'
+    // )?.content;
     const { formatMessage } = useIntl();
 
     const {
@@ -244,19 +244,25 @@ const ProductFullDetailB2B = props => {
                     <h1 className={classes.productName}>
                         {productDetails.name}
                     </h1>
-                    <h2 className={classes.fromPrice}>
-                        <FormattedMessage
-                            id={'productFullDetailB2B.fromPrice'}
-                            defaultMessage={'From '}
-                        />
-                        {priceRender}
-                    </h2>
+                    <article className={classes.innerPrice}>
+                        <h2 className={classes.fromPrice}>
+                            <FormattedMessage
+                                id={'productFullDetailB2B.fromPrice'}
+                                defaultMessage={'From '}
+                            />
+                        </h2>
+
+                        <span className={classes.priceNumber}>
+                            {priceRender}
+                        </span>
+                    </article>
                 </section>
                 <section className={classes.imageCarouselContainer}>
                     <div className={classes.imageCarousel}>
                         <Carousel images={mediaGalleryEntries} />
                     </div>
                 </section>
+
                 <section className={classes.description}>
                     <h2 className={classes.descriptionTitle}>
                         <FormattedMessage
@@ -271,13 +277,18 @@ const ProductFullDetailB2B = props => {
                         <WishlistButton {...wishlistButtonProps} />
                     </Suspense>
                 </section>
+
                 <section className={classes.b2cContent}>
+                    <section>
+                        <CmsBlock content={warrantiesBlock} />
+                    </section>
                     <h2 className={classes.b2cContentTitle}>
                         <FormattedMessage
                             id={'productFullDetailB2B.titleTable'}
                             defaultMessage={'Products table'}
                         />
                     </h2>
+
                     <div className={classes.productsContainer}>
                         {selectedFilterList}
                         {filterOptions}

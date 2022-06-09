@@ -13,7 +13,7 @@
             'images favorites';
         grid-template-columns: 1.5625fr 1fr;
         grid-template-rows: repeat(3, min-content);
-        padding: 2.5rem 1rem;
+        padding: 2.5rem 3rem;
     }
 }
 
@@ -29,36 +29,38 @@
     align-items: center;
     display: flex;
     font-size: 1rem;
-    font-weight: 600;
+    /* font-weight: 600; */
     line-height: 1.5;
     margin-bottom: 1.5rem;
 }
 
 .title {
     align-items: center;
-    display: grid;
+    /* display: grid; */
     grid-area: title;
     grid-gap: 1rem;
     grid-template-columns: 1fr max-content;
     line-height: 1.5;
-    padding: 1rem 1.5rem;
+    /* padding: 1rem 1.5rem; */
 }
 
 @media (min-width: 1024px) {
     .title {
-        padding: 1.5rem;
+        /* padding: 1.5rem; */
+        margin-top: 120px;
     }
 }
 
 .productName {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 @media (min-width: 1024px) {
     .productName {
         font-size: 1.3125rem;
-        font-weight: 400;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -71,14 +73,14 @@
 }
 
 .imageCarousel {
-    max-width: 640px;
-    margin: 0 auto;
+    /* max-width: 640px;
+    margin: 0 auto; */
 }
 
 @media (min-width: 1024px) {
     .imageCarousel {
-        max-width: 50%;
-        margin: 0 auto;
+        /* max-width: 50%;
+        margin: 0 auto; */
     }
 
     .imageCarouselContainer {
@@ -101,8 +103,8 @@
         align-self: stretch;
         border-top-width: 1px;
         margin: 0;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        /* padding-left: 1.5rem;
+        padding-right: 1.5rem; */
     }
 }
 
@@ -119,7 +121,7 @@
 .favoritesButton {
     grid-area: favorites;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 /* Custom */
@@ -144,14 +146,23 @@
 }
 
 .b2cContentTitle {
+    margin-top: 60px;
     composes: sectionTitle;
 }
 
 /* Original PDP */
 .fromPrice {
-    text-align: center;
+    /* text-align: center; */
 }
 
+.innerPrice {
+    display: flex;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.innerPrice .priceNumber {
+    margin-left: 10px;
+}
 .imageCarouselItem {
     width: 50%;
 }
@@ -159,6 +170,9 @@
 @media (max-width: 1024px) {
     .imageCarouselItem {
         width: 100%;
+    }
+    .favoritesButton {
+        justify-content: center;
     }
 }
 
