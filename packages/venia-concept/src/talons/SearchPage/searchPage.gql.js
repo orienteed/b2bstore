@@ -39,6 +39,9 @@ export const PRODUCT_SEARCH = gql`
             items {
                 id
                 uid
+                description {
+                    html
+                }
                 name
                 small_image {
                     url
