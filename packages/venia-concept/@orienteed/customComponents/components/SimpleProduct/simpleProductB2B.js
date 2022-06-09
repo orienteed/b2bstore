@@ -12,12 +12,17 @@ import { useCmsBlock } from '@magento/venia-concept/src/talons/useCmsBlocks.js';
 
 const SimpleProductB2B = props => {
     const { cmsBlocks } = useCmsBlock({
-        cmsBlockIdentifiers: ['warranties-block']
+        cmsBlockIdentifiers: ['warranties-block', 'recommended-product-block']
     });
-    // , 'recommended-product-block'
+
     const warrantiesBlock = cmsBlocks.find(
         item => item.identifier === 'warranties-block'
     )?.content;
+
+    const recommendedProductBlock = cmsBlocks.find(
+        item => item.identifier === 'recommended-product-block'
+    )?.content;
+
     const classes = useStyle(defaultClasses, props.classes);
     const {
         indexTable,
@@ -94,6 +99,9 @@ const SimpleProductB2B = props => {
                     handleQuantityChange={handleQuantityChange}
                 />
             </div>
+            <section>
+                <CmsBlock content={recommendedProductBlock} />
+            </section>
         </main>
     );
 };

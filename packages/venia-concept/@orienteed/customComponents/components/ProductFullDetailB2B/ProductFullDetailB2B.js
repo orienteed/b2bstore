@@ -23,22 +23,20 @@ import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { cmsBlocks } = useCmsBlock({
-        cmsBlockIdentifiers: ['warranties-block']
+        cmsBlockIdentifiers: ['warranties-block', 'recommended-product-block']
     });
-    // , 'recommended-product-block'
+
     const warrantiesBlock = cmsBlocks.find(
         item => item.identifier === 'warranties-block'
     )?.content;
 
-    // const recommendedProductBlock = cmsBlocks.find(
-    //     item => item.identifier === 'recommended-product-block'
-    // )?.content;
-    const { formatMessage } = useIntl();
+    const recommendedProductBlock = cmsBlocks.find(
+        item => item.identifier === 'recommended-product-block'
+    )?.content;
 
     const {
         addConfigurableProductToCart,
         availableOptions,
-        breadcrumbs,
         cartId,
         errors,
         isAddConfigurableLoading,
@@ -298,6 +296,9 @@ const ProductFullDetailB2B = props => {
                 </section>
                 <section className={classes.hide}>{availableOptions}</section>
             </Form>
+            <section>
+                <CmsBlock content={recommendedProductBlock} />
+            </section>
         </Fragment>
     );
 };
