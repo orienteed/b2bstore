@@ -190,9 +190,9 @@
     font-size: 18px;
 }
 
-/* .configurableOptions {
+.configurableOptions {
     height: 75px;
-} */
+}
 .configurableWrapper {
     height: 24px;
     position: relative;
