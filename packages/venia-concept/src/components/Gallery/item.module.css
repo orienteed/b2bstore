@@ -52,7 +52,7 @@
 .actionsContainer {
     column-gap: 1rem;
     display: grid;
-    grid-template-columns: auto 20px;
+    grid-template-columns: auto 20px !important;
     padding-left: 0.5rem;
 }
 
