@@ -121,7 +121,12 @@
 .favoritesButton {
     grid-area: favorites;
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
+    margin-top: 1rem;
+}
+.favoritesButton button {
+    display: flex;
+    gap: 1rem;
 }
 
 /* Custom */
