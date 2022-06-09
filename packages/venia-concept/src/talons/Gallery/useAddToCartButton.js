@@ -110,7 +110,8 @@ export const useAddToCartButton = props => {
         productType,
         item.uid,
         item.name,
-        urlSuffix
+        urlSuffix,
+        quantity
     ]);
 
     return {
