@@ -184,5 +184,42 @@
 }
 
 .compareLink {
-    width: 22px;
+    margin-right: 0.4rem;
+    width: 18px;
+}
+
+@media (max-width: 650px) {
+    .secondaryActions > button {
+        width: 1rem;
+    }
+
+    .secondaryActions > button > span > svg {
+        width: 18px;
+    }
+
+    .cartTrigger button {
+        min-width: 0;
+        margin: 0 0.4rem;
+    }
+
+    .cartTrigger button span {
+        left: 0.4rem;
+        line-height: 1.05rem;
+        min-width: 1.15rem;
+        font-size: 0.5125rem;
+    }
+
+    .cartTrigger button span svg {
+        width: 18px;
+    }
+
+    .compareLink {
+        margin-right: 0.4rem;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1220px) {
+    .secondaryActions {
+        column-gap: 0.5rem !important;
+    }
 }

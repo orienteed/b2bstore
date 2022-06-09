@@ -182,7 +182,7 @@
     .addbtn {
         margin-top: 0.5rem;
     }
-    .mobileHidden{
+    .mobileHidden {
         display: none;
     }
 }
@@ -217,4 +217,10 @@
 
 .inputQtyQuick > form > div {
     display: block;
+}
+
+@media (max-width: 650px) {
+    .orderIcon img {
+        width: 18px;
+    }
 }

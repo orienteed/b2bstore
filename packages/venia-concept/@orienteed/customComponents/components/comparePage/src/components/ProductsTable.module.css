@@ -1,6 +1,5 @@
 .tableWrapper {
-    margin-left: 2rem;
-    max-width: 75vw;
+    max-width: 90vw;
     clear: both;
     overflow-x: auto !important;
     position: relative;

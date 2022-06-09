@@ -75,7 +75,9 @@ const Header = props => {
                     <div className={classes.secondaryActions}>
                         <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
                         <AccountTrigger />
-                        <CartTrigger />
+                        <div className={classes.cartTrigger}>
+                            <CartTrigger />
+                        </div>
                         <Link className={classes.compareLink} to="/compare_products">
                             <img src={CompareIcon} alt=" compare Icon" />
                         </Link>
