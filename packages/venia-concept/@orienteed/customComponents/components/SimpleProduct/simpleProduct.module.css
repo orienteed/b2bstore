@@ -9,6 +9,7 @@
 
 @media (min-width: 1024px) {
     .root {
+        border-bottom: 1px solid #e5e5e5;
         align-items: start;
         display: grid;
         grid-auto-flow: row;
@@ -18,7 +19,7 @@
             'images favorites';
         grid-template-columns: 1.5625fr 1fr;
         grid-template-rows: repeat(3, min-content);
-        padding: 2.5rem 1rem;
+        padding: 2.5rem 3rem;
     }
 }
 
@@ -34,24 +35,35 @@
     align-items: center;
     display: flex;
     font-size: 1rem;
-    font-weight: 600;
     line-height: 1.5;
     margin-bottom: 1.5rem;
 }
 
 .title {
+    margin-top: 90px;
     align-items: center;
-    display: grid;
+    /* display: grid; */
     grid-area: title;
     grid-gap: 1rem;
     grid-template-columns: 1fr max-content;
     line-height: 1.5;
-    padding: 1rem 1.5rem;
+    /* padding: 1rem 1.5rem; */
 }
 
-@media (min-width: 1024px) {
+.innerPrice {
+    display: flex;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.innerPrice .priceNumber {
+    margin-left: 10px;
+}
+@media (max-width: 1024px) {
     .title {
         padding: 1.5rem;
+    }
+    .favoritesButton {
+        justify-content: center;
     }
 }
 
@@ -63,7 +75,8 @@ header .productName {
 @media (min-width: 1024px) {
     .productName {
         font-size: 1.3125rem;
-        font-weight: 400;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -82,13 +95,13 @@ header .productName {
 
 @media (min-width: 1024px) {
     .imageCarousel {
-        max-width: 50%;
+        /* max-width: 50%; */
         margin: 0 auto;
     }
 
     .imageCarouselContainer {
         margin: 0;
-        padding: 1.5rem 0;
+        /* padding: 1.5rem 0; */
     }
 }
 
@@ -106,8 +119,8 @@ header .productName {
         align-self: stretch;
         border-top-width: 1px;
         margin: 0;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        /* padding-left: 1.5rem;
+        padding-right: 1.5rem; */
     }
 }
 
@@ -124,7 +137,6 @@ header .productName {
 .favoritesButton {
     grid-area: favorites;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
@@ -155,7 +167,8 @@ header .productName {
 
 /* Original PDP */
 .fromPrice {
-    text-align: center;
+    /* text-align: center; */
+    display: flex;
 }
 
 .imageCarouselItem {
@@ -207,7 +220,7 @@ header .productName {
 /* Product table */
 .productItemContainer {
     height: 80px;
-    margin-top: 30px;
+    margin-top: 60px;
     display: grid;
     grid-template-columns: 1.5fr 2fr 1fr 2fr 2fr 1fr 1.1fr 1.5fr;
     grid-gap: 0 clamp(20px, 1.5vw, 30px);
@@ -270,6 +283,7 @@ header .productName {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+        margin: 30px;
     }
 }
 

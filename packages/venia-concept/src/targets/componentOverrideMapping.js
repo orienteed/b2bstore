@@ -128,8 +128,18 @@ module.exports = componentOverrideMapping = {
     //New
     [`@magento/venia-ui/lib/components/FilterSidebar/filterSidebar.js`]: './src/components/FilterSidebar/filterSidebar.js',
     [`@magento/venia-ui/lib/components/SearchPage/searchPage.js`]: './src/components/SearchPage/searchPage.js',
-    
+
     //new overwrite
     [`@magento/venia-ui/lib/components/Wishlist/AddToListButton`]: './src/components/Wishlist/AddToListButton',
+
+    //new
+    [`@magento/venia-ui/lib/components/ProductImageCarousel/carousel.js`]: './src/components/ProductImageCarousel/carousel.js',
+
+    //new
+    [`@magento/venia-ui/lib/components/Wishlist/AddToListButton/addToListButton.ce.js`]: './src/components/Wishlist/AddToListButton/addToListButton.ce.js',
+    [`@magento/venia-ui/lib/components/Wishlist/AddToListButton/addToListButton.ee.js`]: './src/components/Wishlist/AddToListButton/addToListButton.ee.js',
     [`@magento/venia-ui/lib/components/Wishlist/AddToListButton/addToListButton.module.css`]: './src/components/Wishlist/AddToListButton/addToListButton.module.css',
+    [`@magento/venia-ui/lib/components/RichText/richText.module.css`]: './src/components/RichText/richText.module.css',
+    [`@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel.js`]: './src/talons/ProductImageCarousel/useProductImageCarousel.js',
+    [`@magento/peregrine/lib/hooks/useCarousel.js`]: './src/hooks/useCarousel.js'
 };

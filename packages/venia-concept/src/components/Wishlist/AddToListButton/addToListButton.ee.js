@@ -1,16 +1,16 @@
 import React, { Fragment, useRef } from 'react';
 import { element, func, shape, string } from 'prop-types';
-import { Heart } from 'react-feather';
+import { Star } from 'react-feather';
 import { useAddToListButton } from '@magento/peregrine/lib/talons/Wishlist/AddToListButton/useAddToListButton';
 import { useButton } from 'react-aria';
 
-import { useStyle } from '../../../classify';
-import Icon from '../../Icon';
-import WishlistDialog from '../WishlistDialog';
-import defaultClasses from './addToListButton.module.css';
-import { useCommonToasts } from './useCommonToasts';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import WishlistDialog from '@magento/venia-ui/lib/components/WishlistDialog';
+import defaultClasses from '@magento/venia-ui/lib/components/Wishlist/AddToListButton/addToListButton.module.css';
+import { useCommonToasts } from '@magento/venia-ui/lib/components/Wishlist/AddToListButton/useCommonToasts';
 
-const HeartIcon = <Icon size={20} src={Heart} />;
+const StarIcon = <Icon size={20} src={Star} />;
 
 const AddToListButton = props => {
     const buttonRef = useRef();
@@ -53,7 +53,7 @@ const AddToListButton = props => {
 export default AddToListButton;
 
 AddToListButton.defaultProps = {
-    icon: HeartIcon
+    icon: StarIcon
 };
 
 AddToListButton.propTypes = {

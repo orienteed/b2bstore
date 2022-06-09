@@ -3,18 +3,18 @@ import { arrayOf, bool, number, shape, string } from 'prop-types';
 import { useIntl } from 'react-intl';
 import {
     ChevronLeft as ChevronLeftIcon,
-    ChevronRight as ChevronRightIcon
+    ChevronRight as ChevronRightIcon,
+    ChevronUp as ChevronUpIcon,
+    ChevronDown as ChevronDownIcon
 } from 'react-feather';
-
 import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
-
-import { useStyle } from '../../classify';
-import AriaButton from '../AriaButton';
-import Icon from '../Icon';
-import Image from '../Image';
-import defaultClasses from './carousel.module.css';
-import Thumbnail from './thumbnail';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import AriaButton from '@magento/venia-ui/lib/components/AriaButton';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import Image from '@magento/venia-ui/lib/components/Image';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductImageCarousel/carousel.module.css';
+import Thumbnail from '@magento/venia-ui/lib/components/ProductImageCarousel/thumbnail';
 
 const IMAGE_WIDTH = 640;
 
@@ -29,10 +29,11 @@ const IMAGE_WIDTH = 640;
  *
  * @param {props} props
  *
- * @returns {React.Element} React carousel component that displays a product image
+ * @returns {React.Element}
  */
 const ProductImageCarousel = props => {
     const { images } = props;
+
     const { formatMessage } = useIntl();
     const talonProps = useProductImageCarousel({
         images,
@@ -46,13 +47,16 @@ const ProductImageCarousel = props => {
         handleNext,
         handlePrevious,
         handleThumbnailClick,
-        sortedImages
+        sortedImages,
+        initialIndex,
+        lastIndex
     } = talonProps;
 
-    // create thumbnail image component for every images in sorted order
-    const thumbnails = useMemo(
-        () =>
-            sortedImages.map((item, index) => (
+    const classes = useStyle(defaultClasses, props.classes);
+
+    const thumbnails = useMemo(() => {
+        return sortedImages.map((item, index) => {
+            return index >= initialIndex && index <= lastIndex ? (
                 <Thumbnail
                     key={item.uid}
                     item={item}
@@ -60,11 +64,15 @@ const ProductImageCarousel = props => {
                     isActive={activeItemIndex === index}
                     onClickHandler={handleThumbnailClick}
                 />
-            )),
-        [activeItemIndex, handleThumbnailClick, sortedImages]
-    );
-
-    const classes = useStyle(defaultClasses, props.classes);
+            ) : null;
+        });
+    }, [
+        activeItemIndex,
+        handleThumbnailClick,
+        sortedImages,
+        initialIndex,
+        lastIndex
+    ]);
 
     let image;
     if (currentImage.file) {
@@ -107,7 +115,7 @@ const ProductImageCarousel = props => {
         <div className={classes.root}>
             <div className={classes.carouselContainer}>
                 <AriaButton
-                    className={classes.previousButtonDesktop}
+                    className={classes.previousButton}
                     onPress={handlePrevious}
                     aria-label={previousButton}
                     type="button"
@@ -118,6 +126,7 @@ const ProductImageCarousel = props => {
                         size={40}
                     />
                 </AriaButton>
+
                 {image}
                 <AriaButton
                     className={classes.nextButton}
@@ -132,7 +141,34 @@ const ProductImageCarousel = props => {
                     />
                 </AriaButton>
             </div>
-            <div className={classes.thumbnailList}>{thumbnails}</div>
+
+            <div className={classes.thumbnailList}>
+                <AriaButton
+                    className={classes.previousButtonDesktop}
+                    onPress={handlePrevious}
+                    aria-label={previousButton}
+                    type="button"
+                >
+                    <Icon
+                        classes={chevronClasses}
+                        src={ChevronUpIcon}
+                        size={40}
+                    />
+                </AriaButton>
+                {thumbnails}
+                <AriaButton
+                    className={classes.nextButtonDesktop}
+                    onPress={handleNext}
+                    aria-label={nextButton}
+                    type="button"
+                >
+                    <Icon
+                        classes={chevronClasses}
+                        src={ChevronDownIcon}
+                        size={40}
+                    />
+                </AriaButton>
+            </div>
         </div>
     );
 };

@@ -1,5 +1,5 @@
 .root {
-    composes: lg_gap-sm from global;
+    /* composes: lg_gap-sm from global; */
     composes: grid from global;
     composes: grid-cols-auto from global;
     composes: grid-rows-auto from global;
@@ -8,11 +8,20 @@
         'thumbs';
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1022px) {
     .root {
         grid-template-areas: 'thumbs main';
         /* These values are mirrored in JS for image sizes. Keep them in sync. */
         grid-template-columns: 17fr 80fr;
+    }
+}
+@media (max-width: 1022px) {
+    .previousButtonDesktop,
+    .nextButtonDesktop {
+        display: none;
+    }
+    .thumbnailList {
+        max-width: 100% !important;
     }
 }
 
@@ -46,7 +55,6 @@
 .nextButton {
     composes: flex from global;
     composes: outline-none from global;
-    /* composes: z-foreground from global; */
     z-index: 1;
     composes: lg_hidden from global;
 }
@@ -80,6 +88,7 @@
 }
 
 .thumbnailList {
+    max-width: 50%;
     composes: content-stretch from global;
     composes: gap-xs from global;
     composes: grid from global;
@@ -87,7 +96,6 @@
     composes: grid-flow-col from global;
     composes: justify-center from global;
     composes: mt-xs from global;
-    /* composes: z-foreground from global; */
     composes: lg_content-start from global;
     composes: lg_gap-sm from global;
     composes: lg_grid-cols-[1fr] from global;
