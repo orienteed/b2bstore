@@ -132,4 +132,8 @@ module.exports = componentOverrideMapping = {
     //new overwrite
     [`@magento/venia-ui/lib/components/Wishlist/AddToListButton`]: './src/components/Wishlist/AddToListButton',
     [`@magento/venia-ui/lib/components/Wishlist/AddToListButton/addToListButton.module.css`]: './src/components/Wishlist/AddToListButton/addToListButton.module.css',
+
+    //new overwrite
+    [`@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage.js`]: './src/talons/CheckoutPage/useCheckoutPage.js',
+    [`@magento/venia-ui/lib/components/App/app.js`]: './src/components/App/app.js',
 };
