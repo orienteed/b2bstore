@@ -18,17 +18,28 @@ import reOrderBtnClasses from '@orienteed/reorder/components/ReOrderBtn/reOrderB
 const OrderRow = props => {
     const { order, config } = props;
     const { formatMessage } = useIntl();
-    const { invoices, items, number: orderNumber, order_date: orderDate, shipments, status, total } = order;
+    const {
+        invoices,
+        items,
+        number: orderNumber,
+        order_date: orderDate,
+        shipments,
+        status,
+        total
+    } = order;
     const { grand_total: grandTotal } = total;
     const { currency, value: orderTotal } = grandTotal;
 
     // Convert date to ISO-8601 format so Safari can also parse it
     const isoFormattedDate = orderDate.replace(' ', 'T');
-    const formattedDate = new Date(isoFormattedDate).toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
+    const formattedDate = new Date(isoFormattedDate).toLocaleDateString(
+        undefined,
+        {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        }
+    );
 
     const hasInvoice = !!invoices.length;
     const hasShipment = !!shipments.length;
@@ -56,7 +67,13 @@ const OrderRow = props => {
     }
 
     const talonProps = useOrderRow({ items });
-    const { loading, isOpen, handleContentToggle, handleOrderIncidences, imagesData } = talonProps;
+    const {
+        loading,
+        isOpen,
+        handleContentToggle,
+        handleOrderIncidences,
+        imagesData
+    } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes, reOrderBtnClasses);
 
@@ -66,36 +83,60 @@ const OrderRow = props => {
 
     const contentToggleIcon = <Icon src={contentToggleIconSrc} size={24} />;
 
-    const collapsedImageGalleryElement = isOpen ? null : <CollapsedImageGallery items={imagesData} />;
+    const collapsedImageGalleryElement = isOpen ? null : (
+        <CollapsedImageGallery items={imagesData} />
+    );
 
-    const orderDetails = loading ? null : <OrderDetails orderData={order} imagesData={imagesData} />;
+    const orderDetails = loading ? null : (
+        <OrderDetails orderData={order} imagesData={imagesData} />
+    );
 
     const orderTotalPrice =
-        currency && orderTotal !== null ? <Price currencyCode={currency} value={orderTotal} /> : '-';
+        currency && orderTotal !== null ? (
+            <Price currencyCode={currency} value={orderTotal} />
+        ) : (
+            '-'
+        );
 
     return (
         <li className={[classes.root, classes.reOrderRow].join(' ')}>
             <div className={classes.orderNumberContainer}>
                 <span className={classes.orderNumberLabel}>
-                    <FormattedMessage id={'orderRow.orderNumberText'} defaultMessage={'Order #'} />
+                    <FormattedMessage
+                        id={'orderRow.orderNumberText'}
+                        defaultMessage={'Order #'}
+                    />
                 </span>
                 <span className={classes.orderNumber}>{orderNumber}</span>
             </div>
             <div className={classes.orderDateContainer}>
                 <span className={classes.orderDateLabel}>
-                    <FormattedMessage id={'orderRow.orderDateText'} defaultMessage={'Order Date'} />
+                    <FormattedMessage
+                        id={'orderRow.orderDateText'}
+                        defaultMessage={'Order Date'}
+                    />
                 </span>
                 <span className={classes.orderDate}>{formattedDate}</span>
             </div>
             <div className={classes.orderTotalContainer}>
                 <span className={classes.orderTotalLabel}>
-                    <FormattedMessage id={'orderRow.orderTotalText'} defaultMessage={'Order Total'} />
+                    <FormattedMessage
+                        id={'orderRow.orderTotalText'}
+                        defaultMessage={'Order Total'}
+                    />
                 </span>
                 <div className={classes.orderTotal}>{orderTotalPrice}</div>
             </div>
-            <div className={classes.orderItemsContainer}>{collapsedImageGalleryElement}</div>
-            <div className={[classes.orderNumberContainer, classes.orderReOrderContainer].join(' ')}>
-                {config?.storeConfig?.id == parseInt(order.store_id) && <ReOrderBtn orderNumber={orderNumber} />}
+            <div className={classes.orderItemsContainer}>
+                {collapsedImageGalleryElement}
+            </div>
+            <div
+                className={[
+                    classes.orderNumberContainer,
+                    classes.orderReOrderContainer
+                ].join(' ')}
+            >
+                <ReOrderBtn orderNumber={orderNumber} />
                 <button
                     onClick={() => handleOrderIncidences(orderNumber)}
                     type="button"
@@ -106,11 +147,22 @@ const OrderRow = props => {
                 </button>
             </div>
 
-            <div className={[classes.orderStatusContainer, classes.orderReStatusContainer].join(' ')}>
-                <span className={classes.orderStatusBadge}>{derivedStatus}</span>
+            <div
+                className={[
+                    classes.orderStatusContainer,
+                    classes.orderReStatusContainer
+                ].join(' ')}
+            >
+                <span className={classes.orderStatusBadge}>
+                    {derivedStatus}
+                </span>
                 <OrderProgressBar status={derivedStatus} />
             </div>
-            <button className={classes.contentToggleContainer} onClick={handleContentToggle} type="button">
+            <button
+                className={classes.contentToggleContainer}
+                onClick={handleContentToggle}
+                type="button"
+            >
                 {contentToggleIcon}
             </button>
             <div className={contentClass}>{orderDetails}</div>
