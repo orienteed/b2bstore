@@ -1,5 +1,5 @@
-
 .tableWrapper {
+    margin-left: 2rem;
     max-width: 75vw;
     clear: both;
     overflow-x: auto !important;
@@ -33,7 +33,6 @@
     width: 180px;
     border-right: 1px solid #cccccc;
 }
-
 
 .productRow {
     border-bottom: 1px solid #cccccc;
