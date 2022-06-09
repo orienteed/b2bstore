@@ -52,7 +52,7 @@ export const useAddToCartButton = props => {
                 });
 
                 const parentSku = parentSkuResponse.data.products.items[0].orParentSku;
-                console.log('error');
+                
                 await addConfigurableProductToCart({
                     variables: {
                         cartId,
@@ -87,7 +87,7 @@ export const useAddToCartButton = props => {
         } catch (error) {
             console.error(error);
         }
-    }, [addToCart, cartId, history, item.sku, item.url_key, productType, item.uid, item.name, urlSuffix]);
+    }, [addToCart, cartId, history, item.sku, item.url_key, productType, item.uid, item.name, urlSuffix, quantity]);
 
     return {
         handleAddToCart,
