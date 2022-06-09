@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
-import { arrayOf, shape, string, oneOf } from 'prop-types';
+import { arrayOf, shape, string } from 'prop-types';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import SortItem from '@magento/venia-ui/lib/components/ProductSort/sortItem';
@@ -22,7 +22,7 @@ const CategoryFilter = props => {
     // click event for menu items
     const handleItemClick = useCallback(
         categoryItem => {
-            let tempSelectedFilters = introduceOrRemoveItemFromFilter(
+            const tempSelectedFilters = introduceOrRemoveItemFromFilter(
                 selectedFilter,
                 categoryItem
             );
@@ -41,7 +41,6 @@ const CategoryFilter = props => {
     };
 
     const sortElements = useMemo(() => {
-        // should be not render item in collapsed mode.
         if (!expanded) {
             return null;
         }
@@ -104,10 +103,10 @@ const CategoryFilter = props => {
                 <span className={classes.desktopText}>
                     <span className={classes.sortText}>
                         {filterName}
-                        {/* <FormattedMessage
+                        <FormattedMessage
                             id={'categoryFilter.categoryDesktopB2B'}
                             defaultMessage={'Select...'}
-                        /> */}
+                        />
                     </span>
                     <Icon
                         src={ArrowDown}
