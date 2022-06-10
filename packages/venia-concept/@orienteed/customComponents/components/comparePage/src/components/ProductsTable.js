@@ -1,9 +1,9 @@
 import React from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import ProductsList from './ProductCard';
+import ProductsCard from './ProductCard';
 import RichText from '@magento/venia-ui/lib/components/RichText';
 import defaultClasses from './ProductsTable.module.css';
-const ProductsTable = ({ productsItems }) => {
+const ProductsTable = ({ productsItems, deleteProduct }) => {
     const classes = useStyle(defaultClasses);
     return (
         <div className={classes.tableWrapper}>
@@ -29,7 +29,7 @@ const ProductsTable = ({ productsItems }) => {
                                 key={item.sku + 'tbody1'}
                                 className={`${classes.cell} ${classes.info} ${classes.product}`}
                             >
-                                <ProductsList key={item.id} item={item} />
+                                <ProductsCard deleteProduct={deleteProduct} key={item.id} item={item} />
                             </td>
                         ))}
                     </tr>
@@ -49,7 +49,7 @@ const ProductsTable = ({ productsItems }) => {
                         <th className={`${classes.cell} ${classes.label} `}>
                             <span>Description</span>
                         </th>
-                        {productsItems.map(({ description,sku }) => (
+                        {productsItems.map(({ description, sku }) => (
                             <td key={sku + 'tbody3'} className={`${classes.cell} ${classes.info} ${classes.product}`}>
                                 <span>
                                     {' '}

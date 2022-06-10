@@ -8,7 +8,7 @@ import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator'
 import ProductsTable from './ProductsTable';
 const CompareProducts = () => {
     const talonProps = useCompareProduct();
-    const { productsItems, isLoading } = talonProps;
+    const { productsItems, deleteProduct, isLoading } = talonProps;
     const classes = useStyle(defaultClasses);
 
     const productsElements = useMemo(() => {
@@ -18,7 +18,7 @@ const CompareProducts = () => {
             if (productsItems.length === 0) {
                 return;
             }
-            return <ProductsTable productsItems={productsItems} />;
+            return <ProductsTable deleteProduct={deleteProduct} productsItems={productsItems} />;
         }
     }, [productsItems]);
     return (

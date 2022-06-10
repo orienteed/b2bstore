@@ -10,7 +10,7 @@ import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/Add
 
 import defaultClasses from './ProductCard.module.css';
 
-const ProductCard = ({ item }) => {
+const ProductCard = ({ item, deleteProduct }) => {
     const { name, price } = item;
     const { minimalPrice } = price;
     const classes = useStyle(defaultClasses);
@@ -26,7 +26,7 @@ const ProductCard = ({ item }) => {
                 </span>{' '}
                 <button
                     className={classes.deleteItem}
-                    // onClick={handleRemoveProductFromWishlist}
+                    onClick={()=>deleteProduct(item.sku)}
                     data-cy="wishlistItem-deleteItem"
                 >
                     <Icon size={16} src={Trash2} />
