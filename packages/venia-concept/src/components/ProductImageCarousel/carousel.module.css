@@ -83,7 +83,7 @@
 /* TODO @TW: cannot compose */
 .nextButton:focus > .chevron,
 .previousButton:focus > .chevron {
-    box-shadow: 0 0 4px 2px rgb(var(--venia-global-color-teal));
+    box-shadow: 0 0 4px 2px var(--orienteed-primary-color-base1);
     border-radius: 0.5rem;
 }
 
