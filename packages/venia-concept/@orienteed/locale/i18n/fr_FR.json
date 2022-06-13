@@ -17,7 +17,7 @@
     "accountMenu.accountInfoLink": "Information sur le compte",
     "accountMenu.addressBookLink": "Carnet d'adresses",
     "accountMenu.communicationsLink": "Les communications",
-    "accountMenu.favoritesListsLink": "Listes de favoris",
+    "accountMenu.favoritesListsLink": "favoris",
     "accountMenu.orderHistoryLink": "Historique des commandes",
     "accountMenu.savedPaymentsLink": "Paiements enregistrés",
     "accountMenu.signOutButtonText": "Déconnexion",
@@ -716,7 +716,7 @@
     "wishlist.galleryButton.successMessageGeneral": "L'article a ajouté avec succès à votre liste de favoris.",
     "wishlist.galleryButton.successMessageNamed": "Élément avec succès ajouté à la liste '{wishListName}'.",
     "wishlist.itemCountClosed": "Vous avez {compter} des éléments dans cette liste",
-    "wishlist.itemCountOpen": "Affichage {CurrentCount} des éléments {count} dans cette liste",
+    "wishlist.itemCountOpen": "Favoris ({currentCount} produits)",
     "wishlist.loadMore": "Charger plus",
     "wishlist.name": "Liste de souhaits",
     "wishlistButton.addError": "Quelque chose s'est mal passé en ajoutant le produit à votre liste de souhaits.",
@@ -742,5 +742,6 @@
     "wishlistPage.fetchErrorMessage": "Un problème est survenu. Veuillez actualiser et réessayer.",
     "wishlistPage.headingText": "Listes de favoris",
     "wishlistPage.wishlistDisabledMessage": "La liste de souhaits n'est pas disponible actuellement.",
-    "productFullDetailB2B.copiedText": "Copié"
+    "productFullDetailB2B.copiedText": "Copié",
+    "wishlist.removeAll": "Enlever tout"
 }
