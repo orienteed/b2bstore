@@ -62,9 +62,6 @@
     .title {
         padding: 1.5rem;
     }
-    .favoritesButton {
-        justify-content: center;
-    }
 }
 
 header .productName {
@@ -136,7 +133,9 @@ header .productName {
 
 .favoritesButton {
     grid-area: favorites;
+    padding: 1.5rem;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
