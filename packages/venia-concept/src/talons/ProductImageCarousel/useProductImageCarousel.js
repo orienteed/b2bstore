@@ -26,7 +26,6 @@ export const useProductImageCarousel = props => {
 
     const handleThumbnailClick = useCallback(
         index => {
-            console.log('index', index);
             setActiveItemIndex(index);
         },
         [setActiveItemIndex]

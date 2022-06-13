@@ -42,6 +42,9 @@ export const useCarousel = (images = [], startIndex = 0) => {
         if (activeItemIndex > 3) {
             setInitialIndex(prev => prev + 1);
             setLastIndex(prev => prev + 1);
+        } else if (initialIndex > 0) {
+            setInitialIndex(prev => prev - 1);
+            setLastIndex(prev => prev - 1);
         } else if (lastIndex >= images.length - 1) {
             setInitialIndex(0);
             setLastIndex(3);
