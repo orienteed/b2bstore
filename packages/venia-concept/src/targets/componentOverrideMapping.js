@@ -146,8 +146,11 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/RichText/richText.module.css`]: './src/components/RichText/richText.module.css',
     [`@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel.js`]: './src/talons/ProductImageCarousel/useProductImageCarousel.js',
     [`@magento/peregrine/lib/hooks/useCarousel.js`]: './src/hooks/useCarousel.js',
-    
+
     //new overwrite
-    [`@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage.js`]: './src/talons/CheckoutPage/useCheckoutPage.js',
-    [`@magento/venia-ui/lib/components/App/app.js`]: './src/components/App/app.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistPage.js`]: './src/components/WishlistPage/wishlistPage.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlist.js`]: './src/components/WishlistPage/wishlist.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistItems.js`]: './src/components/WishlistPage/wishlistItems.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlist.module.css`]: './src/components/WishlistPage/wishlist.module.css'
 };
