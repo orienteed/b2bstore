@@ -115,6 +115,12 @@
     bottom: 10%;
     cursor: pointer;
     opacity: 3;
+    width: 25px;
+    height: 25px;
+}
+
+.shareIcon img {
+    margin: 0 !important;
 }
 
 .favIcon {
@@ -123,11 +129,26 @@
     bottom: 10%;
     cursor: pointer;
     opacity: 3;
+    width: 25px;
+    height: 25px;
 }
 
 .stockIcon {
     position: absolute;
-    bottom: 10%;
+    bottom: 11.7%;
+    width: 90px;
+    height: 25px;
+}
+
+.stockIcon span {
+    height: 25px;
+    align-items: end;
+}
+
+.stockIcon span img {
+    margin: 0 8px 0 0 !important;
+    width: 14px;
+    height: 14px;
 }
 
 .inStock {

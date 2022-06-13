@@ -257,7 +257,9 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                <div className={classes.configurableOptions}>{!isHomePage && configurableOptions}</div>
+                 { configurableOptions && (
+                    <div className={classes.configurableOptions}>{!isHomePage && configurableOptions}</div>
+                  )}
                 <div className={classes.productPrice}>
                     <span>Your price: &nbsp;</span>
                     {priceRender}
