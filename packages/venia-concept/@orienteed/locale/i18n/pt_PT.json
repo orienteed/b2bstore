@@ -716,7 +716,7 @@
     "wishlist.galleryButton.successMessageGeneral": "Artigo adicionado aos favoritos com sucesso",
     "wishlist.galleryButton.successMessageNamed": "Artigo adicionado à \"{wishlistName}\" com sucesso",
     "wishlist.itemCountClosed": "Voce tem {count} artigos nesta lista",
-    "wishlist.itemCountOpen": "A mostrar {currentCount} de {count} artigos nesta lista",
+    "wishlist.itemCountOpen": "Favoritos ({currentCount} produtos)",
     "wishlist.loadMore": "Carregar mais",
     "wishlist.name": "Lista de desejos",
     "wishlistButton.addError": "Algo correu mal ao adicionar o artigo a sua lista de desejos",
@@ -742,5 +742,6 @@
     "wishlistPage.fetchErrorMessage": "Algo correu mal. Por favor atualize a pagina e tente de novo",
     "wishlistPage.headingText": "{count, plural, one {Favorites List} outro {Favorites Lists}}",
     "wishlistPage.wishlistDisabledMessage": "A lista de desejos não esta disponivel de momento",
-    "productFullDetailB2B.copiedText": "Copiada"
+    "productFullDetailB2B.copiedText": "Copiada",
+    "wishlist.removeAll": "Deletar tudo"
 }
