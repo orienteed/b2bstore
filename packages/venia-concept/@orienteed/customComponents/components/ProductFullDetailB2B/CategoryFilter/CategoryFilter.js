@@ -75,6 +75,16 @@ const CategoryFilter = props => {
         handleItemClick
     ]);
 
+    const getSelectedText = () => {
+        let selected = [];
+        const availableCategoryIds = availableCategoryItems.map(({ id }) => id);
+        selectedFilter?.map(ele => {
+            availableCategoryIds.includes(ele.id) ? selected.push(ele) : null;
+        });
+        return selected?.length > 0
+            ? selected.map(({ text }) => text).join(', ')
+            : null;
+    };
     // expand or collapse on click
     const handleSortClick = () => {
         setExpanded(!expanded);
@@ -97,7 +107,7 @@ const CategoryFilter = props => {
                 <span className={classes.mobileText}>
                     <FormattedMessage
                         id={'categoryFilter.categoryMobileB2B'}
-                        defaultMessage={'Select'}
+                        defaultMessage={getSelectedText() || 'Select'}
                     />
                 </span>
                 <span className={classes.desktopText}>
@@ -105,7 +115,7 @@ const CategoryFilter = props => {
                         {filterName}
                         <FormattedMessage
                             id={'categoryFilter.categoryDesktopB2B'}
-                            defaultMessage={'Select...'}
+                            defaultMessage={getSelectedText() || 'Select...'}
                         />
                     </span>
                     <Icon
