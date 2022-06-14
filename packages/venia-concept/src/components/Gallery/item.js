@@ -37,10 +37,17 @@ const IMAGE_WIDTH = 300;
 const IMAGE_HEIGHT = 375;
 
 // Gallery switches from two columns to three at 640px.
-const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY, 840);
+const IMAGE_WIDTHS = new Map()
+    .set(640, IMAGE_WIDTH)
+    .set(UNCONSTRAINED_SIZE_KEY, 840);
 
 const GalleryItem = props => {
-    const { handleLinkClick, item, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
+    const {
+        handleLinkClick,
+        item,
+        wishlistButtonProps,
+        isSupportedProductType
+    } = useGalleryItem(props);
     const { storeConfig, filterState } = props;
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
@@ -58,7 +65,16 @@ const GalleryItem = props => {
         return <GalleryItemShimmer classes={classes} />;
     }
     // eslint-disable-next-line no-unused-vars
-    const { orParentUrlKey, name, price, price_range, small_image, url_key, url_suffix, rating_summary } = item;
+    const {
+        orParentUrlKey,
+        name,
+        price,
+        price_range,
+        small_image,
+        url_key,
+        url_suffix,
+        rating_summary
+    } = item;
 
     const { url: smallImageURL } = small_image;
 
@@ -73,28 +89,51 @@ const GalleryItem = props => {
             amount: { value: regularPriceValue }
         }
     } = price;
-    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
+    const discount = Math.round(
+        100 -
+            (price.minimalPrice?.amount.value /
+                price.regularPrice?.amount.value) *
+                100
+    );
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
             <div className={`${classes.price} ${classes.regularPrice}`}>
-                <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
+                <Price
+                    value={price.regularPrice.amount.value}
+                    currencyCode={price.regularPrice.amount.currency}
+                />
             </div>
         ) : (
             <div className={classes.priceWrapper}>
                 <div className={classes.oldPrice}>
-                    <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
+                    <Price
+                        value={price.regularPrice.amount.value}
+                        currencyCode={price.regularPrice.amount.currency}
+                    />
                 </div>
                 <div className={`${classes.price} ${classes.newPrice}`}>
-                    <Price value={minimalPriceValue} currencyCode={minimalPriceCurrency} />
+                    <Price
+                        value={minimalPriceValue}
+                        currencyCode={minimalPriceCurrency}
+                    />
                 </div>
             </div>
         );
 
-    const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
+    const wishlistButton = wishlistButtonProps ? (
+        <WishlistGalleryButton {...wishlistButtonProps} />
+    ) : null;
 
     const addButton = isSupportedProductType ? (
         <AddToCartbutton
-            item={selectedVeriant ? { ...selectedVeriant.product, parentSku: selectedVeriant.parentSku } : item}
+            item={
+                selectedVeriant
+                    ? {
+                          ...selectedVeriant.product,
+                          parentSku: selectedVeriant.parentSku
+                      }
+                    : item
+            }
             urlSuffix={productUrlSuffix}
             quantity={quantity}
         />
@@ -119,7 +158,10 @@ const GalleryItem = props => {
     const configurableOptions = configurable_options?.map((ele, key) => {
         const values = ele.values.map(({ default_label }) => default_label);
         return (
-            <div className={classes.configurableWrapper} key={key + 'configurable_options'}>
+            <div
+                className={classes.configurableWrapper}
+                key={key + 'configurable_options'}
+            >
                 <span className={classes.configrableLabel}>{ele.label} </span>{' '}
                 <ToolTip>
                     <ul className={classes.list}>
@@ -163,7 +205,9 @@ const GalleryItem = props => {
 
     const getCategoriesValuesNameByVariant = variant => {
         return variant.attributes.map((attribute, i) => {
-            return item.configurable_options[i].values.find(value => value.value_index == attribute.value_index).label;
+            return item.configurable_options[i].values.find(
+                value => value.value_index == attribute.value_index
+            ).label;
         });
     };
 
@@ -174,21 +218,29 @@ const GalleryItem = props => {
         var variants = [...instanceItem?.variants];
         const filterKeys = filterState && [...filterState?.keys()];
         const filterValues = filterState && [...filterState?.values()];
-        let filterValuesArray = filterValues?.map(filValue => {
-            let valueArr = [];
-            for (let valueObject of filValue) {
+        const filterValuesArray = filterValues?.map(filValue => {
+            const valueArr = [];
+            for (const valueObject of filValue) {
                 valueArr.push(valueObject.value);
             }
             return valueArr;
         });
-        let newVariants = [];
+        const newVariants = [];
         if (filterKeys && filterValues?.length) {
             variants?.map(element => {
-                let valueAttributes = element?.attributes?.map(({ value_index }) => value_index);
-                let filter = filterValuesArray?.map(valArray =>
-                    valArray.map(value => valueAttributes?.includes(parseInt(value)))
+                const valueAttributes = element?.attributes?.map(
+                    ({ value_index }) => value_index
                 );
-                if (filter.map(filArray => filArray?.includes(true)).every(ele => ele === true))
+                const filter = filterValuesArray?.map(valArray =>
+                    valArray.map(value =>
+                        valueAttributes?.includes(parseInt(value))
+                    )
+                );
+                if (
+                    filter
+                        .map(filArray => filArray?.includes(true))
+                        .every(ele => ele === true)
+                )
                     newVariants.push(element);
             });
             variants = newVariants;
@@ -207,36 +259,59 @@ const GalleryItem = props => {
     };
 
     return (
-        <div data-cy="GalleryItem-root" className={classes.root} aria-live="polite" aria-busy="false">
+        <div
+            data-cy="GalleryItem-root"
+            className={classes.root}
+            aria-live="polite"
+            aria-busy="false"
+        >
             <div className={classes.images}>
-                <Link
-                    onClick={handleLinkClick}
-                    to={{
-                        pathname: item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink,
-                        state: { prevPath: location.pathname, urlKeys: props.urlKeys }
-                    }}
-                >
-                    <Image
-                        alt={name}
-                        classes={{
-                            image: classes.image,
-                            loaded: classes.imageLoaded,
-                            notLoaded: classes.imageNotLoaded,
-                            root: classes.imageContainer
+                {item.__typename === 'ConfigurableProduct' ? (
+                    <Link
+                        onClick={handleLinkClick}
+                        to={{
+                            pathname: productLink,
+                            state: {
+                                prevPath: location.pathname,
+                                urlKeys: props.urlKeys
+                            }
                         }}
-                        height={IMAGE_HEIGHT}
-                        resource={smallImageURL}
-                        widths={IMAGE_WIDTHS}
-                    />
-                </Link>
+                    >
+                        <Image
+                            alt={name}
+                            classes={{
+                                image: classes.image,
+                                loaded: classes.imageLoaded,
+                                notLoaded: classes.imageNotLoaded,
+                                root: classes.imageContainer
+                            }}
+                            height={IMAGE_HEIGHT}
+                            resource={smallImageURL}
+                            widths={IMAGE_WIDTHS}
+                        />
+                    </Link>
+                ) : (
+                    <Link onClick={handleLinkClick} to={simpleProductLink}>
+                        <Image
+                            alt={name}
+                            classes={{
+                                image: classes.image,
+                                loaded: classes.imageLoaded,
+                                notLoaded: classes.imageNotLoaded,
+                                root: classes.imageContainer
+                            }}
+                            height={IMAGE_HEIGHT}
+                            resource={smallImageURL}
+                            widths={IMAGE_WIDTHS}
+                        />
+                    </Link>
+                )}
                 {discount ? (
                     <div className={classes.discount}>
                         <span>{discount}%</span>
                     </div>
                 ) : null}
-                <div className={classes.favIcon}>
-                    {wishlistButton}
-                </div>
+                <div className={classes.favIcon}>{wishlistButton}</div>
                 <div onClick={shareClick} className={classes.shareIcon}>
                     <img src={ShareIcon} alt="share icon" />
                 </div>
@@ -248,8 +323,14 @@ const GalleryItem = props => {
             <Link
                 onClick={handleLinkClick}
                 to={{
-                    pathname: item.__typename === 'ConfigurableProduct' ? productLink : simpleProductLink,
-                    state: { prevPath: location.pathname, urlKeys: props.urlKeys }
+                    pathname:
+                        item.__typename === 'ConfigurableProduct'
+                            ? productLink
+                            : simpleProductLink,
+                    state: {
+                        prevPath: location.pathname,
+                        urlKeys: props.urlKeys
+                    }
                 }}
                 className={classes.name}
                 data-cy="GalleryItem-name"
@@ -257,9 +338,11 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                 { configurableOptions && (
-                    <div className={classes.configurableOptions}>{!isHomePage && configurableOptions}</div>
-                  )}
+                {configurableOptions && (
+                    <div className={classes.configurableOptions}>
+                        {!isHomePage && configurableOptions}
+                    </div>
+                )}
                 <div className={classes.productPrice}>
                     <span>Your price: &nbsp;</span>
                     {priceRender}
@@ -273,20 +356,30 @@ const GalleryItem = props => {
             {location.search && item?.variants && (
                 <div className={classes.productsWrapper}>
                     <div className={classes.qtyField}>
-                        <QuantityStepper value={quantity} onChange={e => onChangeQty(e)} min={1} />
+                        <QuantityStepper
+                            value={quantity}
+                            onChange={e => onChangeQty(e)}
+                            min={1}
+                        />
                     </div>
                     <div className={classes.productsSelect}>
                         <Select
                             initialValue={'Item'}
                             field={`veriants ${item.sku}`}
-                            items={[{ value: 'Item' }, ...getProductsInstance()]}
+                            items={[
+                                { value: 'Item' },
+                                ...getProductsInstance()
+                            ]}
                             onChange={onChangeVariant}
                         />
                     </div>
                 </div>
             )}
 
-            <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
+            <div
+                className={`${classes.actionsContainer} ${isHomePage &&
+                    classes.homeActionContainer}`}
+            >
                 {addButton}
                 {/* {!isHomePage && wishlistButton} */}
             </div>
