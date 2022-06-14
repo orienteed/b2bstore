@@ -264,6 +264,7 @@ export const GET_PRODUCTS_BY_URL_KEY = gql`
                 id
                 uid
                 name
+                url_suffix
                 price_range {
                     maximum_price {
                         regular_price {
