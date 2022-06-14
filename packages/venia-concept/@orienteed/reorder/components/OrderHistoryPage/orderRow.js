@@ -14,6 +14,7 @@ import defaultClasses from '@magento/venia-ui/lib/components/OrderHistoryPage/or
 
 import ReOrderBtn from '@orienteed/reorder/components/ReOrderBtn';
 import reOrderBtnClasses from '@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css';
+import Image from '@magento/venia-ui/lib/components/Image';
 
 const OrderRow = props => {
     const { order, config } = props;
@@ -74,7 +75,7 @@ const OrderRow = props => {
         handleOrderIncidences,
         imagesData
     } = talonProps;
-
+    const image = imagesData[Object.keys(imagesData)[0]];
     const classes = useStyle(defaultClasses, props.classes, reOrderBtnClasses);
 
     const contentClass = isOpen ? classes.content : classes.content_collapsed;
@@ -100,11 +101,14 @@ const OrderRow = props => {
 
     return (
         <li className={[classes.root, classes.reOrderRow].join(' ')}>
+            <div className={classes.imageWrapper}>
+                <img src={image?.thumbnail?.url} />
+            </div>
             <div className={classes.orderNumberContainer}>
                 <span className={classes.orderNumberLabel}>
                     <FormattedMessage
                         id={'orderRow.orderNumberText'}
-                        defaultMessage={'Order #'}
+                        defaultMessage={'Order'}
                     />
                 </span>
                 <span className={classes.orderNumber}>{orderNumber}</span>
@@ -127,9 +131,9 @@ const OrderRow = props => {
                 </span>
                 <div className={classes.orderTotal}>{orderTotalPrice}</div>
             </div>
-            <div className={classes.orderItemsContainer}>
+            {/* <div className={classes.orderItemsContainer}>
                 {collapsedImageGalleryElement}
-            </div>
+            </div> */}
             <div
                 className={[
                     classes.orderNumberContainer,
@@ -137,14 +141,14 @@ const OrderRow = props => {
                 ].join(' ')}
             >
                 <ReOrderBtn orderNumber={orderNumber} />
-                <button
+                {/* <button
                     onClick={() => handleOrderIncidences(orderNumber)}
                     type="button"
                     id={'orderIncidence' + orderNumber}
                     className={classes.orderInsurancesButton}
                 >
                     Order Incidences
-                </button>
+                </button> */}
             </div>
 
             <div
