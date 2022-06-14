@@ -1,5 +1,5 @@
 import React, { Fragment, useState, Suspense, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
@@ -112,10 +112,6 @@ const ProductFullDetailB2B = props => {
 
     const selectedFilterList = (
         <div className={classes.selectedFilterContainer}>
-            <FormattedMessage
-                id={'productFullDetailB2B.selectFiltersTitle'}
-                defaultMessage={'Filters:'}
-            />
             <div className={classes.selectedFilter}>
                 {selectedFilter.map(filter => (
                     <CurrentFilter
@@ -130,10 +126,11 @@ const ProductFullDetailB2B = props => {
     const filterOptions = (
         <div className={classes.filterNameSelectorContainer}>
             {fillFilters().map(filter => {
+                const filterName = filter.shift();
                 return (
                     <div className={classes.filterNameSelector}>
-                        <p>{filter.shift()}</p>
                         <CategoryFilter
+                            filterName={filterName}
                             availableCategoryItems={filter}
                             selectedFilter={selectedFilter}
                             setSelectedFilter={setSelectedFilter}
@@ -179,12 +176,6 @@ const ProductFullDetailB2B = props => {
                 <FormattedMessage
                     id={'productFullDetailB2B.totalPrice'}
                     defaultMessage={'Total Price'}
-                />
-            </p>
-            <p key="stockIndex">
-                <FormattedMessage
-                    id={'productFullDetailB2B.stockStatus'}
-                    defaultMessage={'Stock Status'}
                 />
             </p>
         </div>
@@ -280,12 +271,6 @@ const ProductFullDetailB2B = props => {
                     <section>
                         <CmsBlock content={warrantiesBlock} />
                     </section>
-                    <h2 className={classes.b2cContentTitle}>
-                        <FormattedMessage
-                            id={'productFullDetailB2B.titleTable'}
-                            defaultMessage={'Products table'}
-                        />
-                    </h2>
 
                     <div className={classes.productsContainer}>
                         {selectedFilterList}

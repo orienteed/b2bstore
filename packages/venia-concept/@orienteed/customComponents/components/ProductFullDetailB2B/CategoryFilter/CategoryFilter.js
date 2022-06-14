@@ -72,7 +72,8 @@ const CategoryFilter = props => {
         classes.menu,
         classes.menuItem,
         expanded,
-        handleItemClick
+        handleItemClick,
+        selectedFilter
     ]);
 
     // expand or collapse on click
@@ -101,13 +102,7 @@ const CategoryFilter = props => {
                     />
                 </span>
                 <span className={classes.desktopText}>
-                    <span className={classes.sortText}>
-                        {filterName}
-                        <FormattedMessage
-                            id={'categoryFilter.categoryDesktopB2B'}
-                            defaultMessage={'Select...'}
-                        />
-                    </span>
+                    <span className={classes.sortText}>{filterName}</span>
                     <Icon
                         src={ArrowDown}
                         classes={{
