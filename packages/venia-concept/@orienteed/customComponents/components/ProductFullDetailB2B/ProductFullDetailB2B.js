@@ -48,7 +48,7 @@ const ProductFullDetailB2B = props => {
     } = props;
 
     const [selectedFilter, setSelectedFilter] = useState([]);
-
+    const [selectedFilterCategory, setSelectedFilterCategory] = useState([]);
     const getCategoriesValuesNameByVariant = variant => {
         return variant.attributes.map((attribute, i) => {
             return product.configurable_options[i].values.find(
@@ -98,11 +98,15 @@ const ProductFullDetailB2B = props => {
         filters.map((filter, i) => {
             filter.unshift(categoriesName[i]);
         });
-
         return filters;
     };
 
-    const handleRemoveItem = tempItemInfo => {
+    const handleRemoveItem = (tempItemInfo, index) => {
+        let newSelectedFilter = [...selectedFilterCategory];
+        newSelectedFilter[index] = newSelectedFilter[index].filter(
+            ({ id }) => id !== tempItemInfo.item.value
+        );
+        setSelectedFilterCategory(newSelectedFilter);
         let tempFilterList = selectedFilter;
         tempFilterList = tempFilterList.filter(
             filter => filter.id != tempItemInfo.item.value
@@ -113,19 +117,33 @@ const ProductFullDetailB2B = props => {
     const selectedFilterList = (
         <div className={classes.selectedFilterContainer}>
             <div className={classes.selectedFilter}>
-                {selectedFilter.map(filter => (
-                    <CurrentFilter
-                        item={{ title: filter.text, value: filter.id }}
-                        removeItem={handleRemoveItem}
-                    />
+                {selectedFilterCategory?.map((filterCat, index) => (
+                    <>
+                        {filterCat?.map(fil => (
+                            <CurrentFilter
+                                item={{ title: fil.text, value: fil.id }}
+                                removeItem={tempItemInfo =>
+                                    handleRemoveItem(tempItemInfo, index)
+                                }
+                            />
+                        ))}
+                    </>
                 ))}
             </div>
         </div>
     );
 
+    const selectFilterClick = (filterList, index,filter) => {
+        let newSelected = [...selectedFilterCategory];
+        newSelected[index] = newSelected[index] || [];
+        const keys = filter.map(filter => filter.id);
+        newSelected[index] = [...filterList.filter(({id})=>keys.includes(id))];
+        setSelectedFilterCategory(newSelected);
+        setSelectedFilter(filterList);
+    };
     const filterOptions = (
         <div className={classes.filterNameSelectorContainer}>
-            {fillFilters().map(filter => {
+            {fillFilters().map((filter, index) => {
                 const filterName = filter.shift();
                 return (
                     <div className={classes.filterNameSelector}>
@@ -133,7 +151,7 @@ const ProductFullDetailB2B = props => {
                             filterName={filterName}
                             availableCategoryItems={filter}
                             selectedFilter={selectedFilter}
-                            setSelectedFilter={setSelectedFilter}
+                            setSelectedFilter={e => selectFilterClick(e, index,filter)}
                         />
                     </div>
                 );
@@ -189,17 +207,21 @@ const ProductFullDetailB2B = props => {
                 );
                 const categoriesName = getCategoriesName();
                 const categoriesIds = getCategoriesValuesIdByVariant(variant);
-                const selectedFilterIds = selectedFilter.map(
-                    filter => filter.id
-                );
-
+                let isContained;
+                if (selectedFilterCategory.length) {
+                    isContained = selectedFilterCategory?.map(filterArr =>
+                        categoriesIds?.some(id =>
+                            filterArr.length
+                                ? filterArr?.map(ele => ele.id).includes(id)
+                                : id
+                        )
+                    );
+                }
                 // Show all if there isnt any categorie selected
                 // Show only the products that agree with all the filters option
                 if (
-                    selectedFilterIds.length === 0 ||
-                    categoriesIds.filter(value =>
-                        selectedFilterIds.includes(value)
-                    ).length === selectedFilterIds.length // !== 0
+                    selectedFilterCategory.length === 0 ||
+                    isContained.every(e => e === true)
                 ) {
                     return (
                         <ProductItem
@@ -227,7 +249,6 @@ const ProductFullDetailB2B = props => {
                 currentProduct={product.name}
                 url_keys={filterData?.products}
             />
-            {/* {breadcrumbs} */}
             <Form className={classes.root}>
                 <section className={classes.title}>
                     <h1 className={classes.productName}>
