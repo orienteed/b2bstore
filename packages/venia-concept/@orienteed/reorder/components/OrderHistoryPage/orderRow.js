@@ -16,6 +16,7 @@ import ReOrderBtn from '@orienteed/reorder/components/ReOrderBtn';
 import reOrderBtnClasses from '@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
 
+import IncidencesIcon from './Icons/incidences.svg';
 const OrderRow = props => {
     const { order, config } = props;
     const { formatMessage } = useIntl();
@@ -76,6 +77,7 @@ const OrderRow = props => {
         imagesData
     } = talonProps;
     const image = imagesData[Object.keys(imagesData)[0]];
+    // console.log(image,'imageimageimage');
     const classes = useStyle(defaultClasses, props.classes, reOrderBtnClasses);
 
     const contentClass = isOpen ? classes.content : classes.content_collapsed;
@@ -102,9 +104,20 @@ const OrderRow = props => {
     return (
         <li className={[classes.root, classes.reOrderRow].join(' ')}>
             <div className={classes.imageWrapper}>
-                <img src={image?.thumbnail?.url} />
+                <Image
+                    alt={'product_name'}
+                    src={image?.thumbnail?.url}
+                    width={75}
+                />
+
+                {/* <img src={image?.thumbnail?.url} /> */}
             </div>
-            <div className={classes.orderNumberContainer}>
+            <div
+                className={[
+                    classes.orderNumberContainer,
+                    classes.sideBorder
+                ].join(' ')}
+            >
                 <span className={classes.orderNumberLabel}>
                     <FormattedMessage
                         id={'orderRow.orderNumberText'}
@@ -113,7 +126,12 @@ const OrderRow = props => {
                 </span>
                 <span className={classes.orderNumber}>{orderNumber}</span>
             </div>
-            <div className={classes.orderDateContainer}>
+            <div
+                className={[
+                    classes.orderNumberContainer,
+                    classes.sideBorder
+                ].join(' ')}
+            >
                 <span className={classes.orderDateLabel}>
                     <FormattedMessage
                         id={'orderRow.orderDateText'}
@@ -122,7 +140,7 @@ const OrderRow = props => {
                 </span>
                 <span className={classes.orderDate}>{formattedDate}</span>
             </div>
-            <div className={classes.orderTotalContainer}>
+            <div className={classes.orderNumberContainer}>
                 <span className={classes.orderTotalLabel}>
                     <FormattedMessage
                         id={'orderRow.orderTotalText'}
@@ -131,9 +149,7 @@ const OrderRow = props => {
                 </span>
                 <div className={classes.orderTotal}>{orderTotalPrice}</div>
             </div>
-            {/* <div className={classes.orderItemsContainer}>
-                {collapsedImageGalleryElement}
-            </div> */}
+
             <div
                 className={[
                     classes.orderNumberContainer,
@@ -141,14 +157,6 @@ const OrderRow = props => {
                 ].join(' ')}
             >
                 <ReOrderBtn orderNumber={orderNumber} />
-                {/* <button
-                    onClick={() => handleOrderIncidences(orderNumber)}
-                    type="button"
-                    id={'orderIncidence' + orderNumber}
-                    className={classes.orderInsurancesButton}
-                >
-                    Order Incidences
-                </button> */}
             </div>
 
             <div
@@ -161,6 +169,15 @@ const OrderRow = props => {
                     {derivedStatus}
                 </span>
                 <OrderProgressBar status={derivedStatus} />
+                <button
+                    onClick={() => handleOrderIncidences(orderNumber)}
+                    type="button"
+                    id={'orderIncidence' + orderNumber}
+                    className={classes.orderInsurancesButton}
+                >
+                    <img src={IncidencesIcon} alt="IncidencesIcon" /> Order
+                    Incidences
+                </button>
             </div>
             <button
                 className={classes.contentToggleContainer}
