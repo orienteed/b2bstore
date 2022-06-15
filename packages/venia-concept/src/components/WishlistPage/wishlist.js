@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ChevronDown, ChevronUp, Trash, Printer } from 'react-feather';
 import { useWishlist } from '@magento/peregrine/lib/talons/WishlistPage/useWishlist';
@@ -13,6 +13,9 @@ import defaultClasses from '@magento/venia-ui/lib/components/WishlistPage/wishli
 import ActionMenu from '@magento/venia-ui/lib/components/WishlistPage/actionMenu';
 
 import ShareIcon from './assets/shareWithBorder.svg';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import defaultOperations from '@magento/peregrine/lib/talons/WishlistPage/wishlistItem.gql';
+import { useMutation } from '@apollo/client';
 
 /**
  * A single wishlist container.
@@ -25,7 +28,16 @@ const Wishlist = props => {
     const { data, shouldRenderVisibilityToggle, isCollapsed } = props;
     const { formatMessage } = useIntl();
     const { id, items_count: itemsCount, name, visibility } = data;
+    const operations = mergeOperations(defaultOperations, props.operations);
+    const { removeProductsFromWishlistMutation } = operations;
+    const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
 
+    const [
+        removeProductFromWishlistError,
+        setRemoveProductFromWishlistError
+    ] = useState(null);
+
+    const wishlistId = id;
     const talonProps = useWishlist({ id, itemsCount, isCollapsed });
     const {
         handleContentToggle,
@@ -40,6 +52,54 @@ const Wishlist = props => {
     const contentClass = isOpen ? classes.content : classes.content_hidden;
     const contentToggleIconSrc = isOpen ? ChevronUp : ChevronDown;
     const contentToggleIcon = <Icon src={contentToggleIconSrc} size={24} />;
+
+    const idsOfItems = items.map(item => item.id);
+
+    const [removeProductsFromWishlist] = useMutation(
+        removeProductsFromWishlistMutation,
+        {
+            update: cache => {
+                cache.modify({
+                    id: 'ROOT_QUERY',
+                    fields: {
+                        customerWishlistProducts: cachedProducts => {
+                            return cachedProducts.slice(0, 0);
+                        }
+                    }
+                });
+
+                cache.modify({
+                    id: `CustomerWishlist:${wishlistId}`,
+                    fields: {
+                        items_v2: (cachedItems, { Remove }) => {
+                            for (let i = 0; i < cachedItems.items.length; i++) {
+                                return Remove;
+                            }
+                            return cachedItems;
+                        }
+                    }
+                });
+            },
+            variables: {
+                wishlistId: wishlistId,
+                wishlistItemsId: idsOfItems
+            }
+        }
+    );
+
+    const handleRemoveAllProductsFromWishlist = useCallback(async () => {
+        try {
+            setIsRemovalInProgress(true);
+            await removeProductsFromWishlist();
+        } catch (e) {
+            setIsRemovalInProgress(false);
+            console.error(e);
+            setRemoveProductFromWishlistError(e);
+            if (process.env.NODE_ENV !== 'production') {
+                console.error(e);
+            }
+        }
+    }, [removeProductsFromWishlist, setRemoveProductFromWishlistError]);
 
     const itemsCountMessage =
         itemsCount && isOpen
@@ -178,9 +238,10 @@ const Wishlist = props => {
                 <div className={classes.itemsCountContainer}>
                     {itemsCountMessage}
                 </div>
-                {/* <button
+                <button
                     className={classes.deleteItem}
                     data-cy="wishlistItem-deleteItem"
+                    onClick={handleRemoveAllProductsFromWishlist}
                 >
                     <Icon size={16} src={Trash} />
                     <span>
@@ -189,10 +250,10 @@ const Wishlist = props => {
                             defaultMessage={'Remove all'}
                         />
                     </span>
-                </button> */}
+                </button>
                 {/* {buttonsContainer} */}
             </div>
-            {/* {printAddAllToCartShareSection} */}
+            {printAddAllToCartShareSection}
             <div className={contentClass}>{contentMessageElement}</div>
         </div>
     );

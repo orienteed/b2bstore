@@ -135,10 +135,11 @@ export const useWishlistItem = props => {
                 cache.modify({
                     id: 'ROOT_QUERY',
                     fields: {
-                        customerWishlistProducts: cachedProducts =>
-                            cachedProducts.filter(
+                        customerWishlistProducts: cachedProducts => {
+                            return cachedProducts.filter(
                                 productSku => productSku !== sku
-                            )
+                            );
+                        }
                     }
                 });
 
@@ -151,7 +152,6 @@ export const useWishlistItem = props => {
                                     return Remove;
                                 }
                             }
-
                             return cachedItems;
                         }
                     }
