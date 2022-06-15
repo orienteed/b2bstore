@@ -48,7 +48,7 @@ const GalleryItem = props => {
         wishlistButtonProps,
         isSupportedProductType
     } = useGalleryItem(props);
-    const { storeConfig, filterState } = props;
+    const { storeConfig, filterState, pageBuilder } = props;
     const { configurable_options, stock_status } = props.item;
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
@@ -73,6 +73,7 @@ const GalleryItem = props => {
         small_image,
         url_key,
         url_suffix,
+        custom_attributes,
         rating_summary
     } = item;
 
@@ -257,6 +258,22 @@ const GalleryItem = props => {
                 getCategoriesValuesNameByVariant(variant).join(' - ')
         }));
     };
+    const customAttributes = () =>
+        custom_attributes
+            ?.slice(0, 3)
+            .map(({ attribute_metadata, selected_attribute_options }) => {
+                let labelValue =
+                    selected_attribute_options.attribute_option[0].label;
+                labelValue.length > 15
+                    ? (labelValue = labelValue.slice(0, 15) + '...')
+                    : labelValue;
+                return (
+                    <div className={classes.customAttributes}>
+                        <span>{attribute_metadata.label}:</span>
+                        <span>{labelValue}</span>
+                    </div>
+                );
+            });
 
     return (
         <div
@@ -338,9 +355,10 @@ const GalleryItem = props => {
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                {configurableOptions && (
+                {!pageBuilder && (
                     <div className={classes.configurableOptions}>
                         {!isHomePage && configurableOptions}
+                        {custom_attributes?.length > 0 && customAttributes()}
                     </div>
                 )}
                 <div className={classes.productPrice}>
@@ -352,30 +370,32 @@ const GalleryItem = props => {
                     currencyCode={price_range.maximum_price.regular_price.currency}
                 /> */}
             </div>
-
-            {location.search && item?.variants && (
+            {!pageBuilder && (
                 <div className={classes.productsWrapper}>
-                    <div className={classes.qtyField}>
-                        <QuantityStepper
-                            value={quantity}
-                            onChange={e => onChangeQty(e)}
-                            min={1}
-                        />
-                    </div>
-                    <div className={classes.productsSelect}>
-                        <Select
-                            initialValue={'Item'}
-                            field={`veriants ${item.sku}`}
-                            items={[
-                                { value: 'Item' },
-                                ...getProductsInstance()
-                            ]}
-                            onChange={onChangeVariant}
-                        />
-                    </div>
+                    {location.search && item?.variants && (
+                        <>
+                            <div className={classes.qtyField}>
+                                <QuantityStepper
+                                    value={quantity}
+                                    onChange={e => onChangeQty(e)}
+                                    min={1}
+                                />
+                            </div>
+                            <div className={classes.productsSelect}>
+                                <Select
+                                    initialValue={'Item'}
+                                    field={`veriants ${item.sku}`}
+                                    items={[
+                                        { value: 'Item' },
+                                        ...getProductsInstance()
+                                    ]}
+                                    onChange={onChangeVariant}
+                                />
+                            </div>
+                        </>
+                    )}
                 </div>
             )}
-
             <div
                 className={`${classes.actionsContainer} ${isHomePage &&
                     classes.homeActionContainer}`}

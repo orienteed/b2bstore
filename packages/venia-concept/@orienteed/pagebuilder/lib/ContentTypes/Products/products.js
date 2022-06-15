@@ -170,7 +170,7 @@ const Products = props => {
 
     return (
         <div style={dynamicStyles} className={[classes.root, ...cssClasses].join(' ')}>
-            <Gallery items={items} classes={{ items: classes.galleryItems }} />
+            <Gallery pageBuilder items={items} classes={{ items: classes.galleryItems }} />
         </div>
     );
 };
