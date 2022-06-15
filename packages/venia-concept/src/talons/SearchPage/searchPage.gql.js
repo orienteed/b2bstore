@@ -135,7 +135,19 @@ export const PRODUCT_SEARCH = gql`
                         }
                     }
                 }
+
+                custom_attributes {
+                    attribute_metadata {
+                        label
+                    }
+                    selected_attribute_options {
+                        attribute_option {
+                            label
+                        }
+                    }
+                }
             }
+
             page_info {
                 total_pages
             }
