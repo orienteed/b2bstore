@@ -743,5 +743,7 @@
     "wishlistPage.headingText": "Listes de favoris",
     "wishlistPage.wishlistDisabledMessage": "La liste de souhaits n'est pas disponible actuellement.",
     "productFullDetailB2B.copiedText": "Copié",
-    "wishlist.removeAll": "Enlever tout"
+    "wishlist.removeAll": "Enlever tout",
+    "wishlist.printPage": "Imprimer la page",
+    "wishlistItem.addAllToCart": "Tout ajouter au panier"
 }

@@ -743,5 +743,7 @@
     "wishlistPage.headingText": "{count, plural, one {Favorites List} outro {Favorites Lists}}",
     "wishlistPage.wishlistDisabledMessage": "A lista de desejos não esta disponivel de momento",
     "productFullDetailB2B.copiedText": "Copiada",
-    "wishlist.removeAll": "Deletar tudo"
+    "wishlist.removeAll": "Deletar tudo",
+    "wishlist.printPage": "Imprimir página",
+    "wishlistItem.addAllToCart": "Adicionar tudo ao carrinho"
 }

@@ -97,3 +97,32 @@
 .deleteItem span {
     margin-left: 5px;
 }
+.printAddAllToCartShareContainer span {
+    margin-left: 5px;
+}
+
+.printAddAllToCartShareContainer {
+    margin-top: 56px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addAllToCartShareContainer {
+    display: flex;
+    align-items: center;
+}
+
+.addAllToCartShareContainer .shareIcon {
+    margin-left: 33px;
+    width: 58px;
+}
+.printAllContainer {
+    display: flex;
+    align-items: center;
+}
+
+.addAllToCart {
+    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
+}
+.shareIcon {
+}

@@ -6,6 +6,7 @@ export const WishlistItemFragment = gql`
         # eslint-disable-next-line @graphql-eslint/require-id-when-available
         product {
             uid
+            orParentSku
             image {
                 label
                 url
@@ -75,8 +76,17 @@ export const WishlistItemFragment = gql`
                     }
                 }
             }
+            ... on SimpleProduct {
+                custom_attributes {
+                    selected_attribute_options {
+                        attribute_option {
+                            label
+                        }
+                    }
+                }
+            }
         }
-        # TODO: Use configurable_product_option_uid for ConfigurableWishlistItem when available in 2.4.5
+
         ... on ConfigurableWishlistItem {
             configurable_options {
                 id

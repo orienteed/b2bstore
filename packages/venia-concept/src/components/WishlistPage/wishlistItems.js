@@ -1,6 +1,5 @@
 import React, { Fragment, useMemo } from 'react';
 import { useWishlistItems } from '@magento/peregrine/lib/talons/WishlistPage/useWishlistItems';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/WishlistPage/wishlistItems.module.css';
 import WishlistItem from '@magento/venia-ui/lib/components/WishlistPage/wishlistItem';

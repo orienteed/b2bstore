@@ -5,9 +5,9 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 
 export const useAddProduct = props => {
-    const { addConfigurableProductToCartMutation, suggested_Product } = props;
+    const { addConfigurableProductToCartMutation, productToAdd } = props;
 
-    const productType = suggested_Product.__typename;
+    const productType = productToAdd.__typename;
 
     const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(
         productType
@@ -23,7 +23,7 @@ export const useAddProduct = props => {
         async formValues => {
             const { quantity } = formValues;
             const payload = {
-                item: suggested_Product,
+                item: productToAdd,
                 productType,
                 quantity: 1
             };
@@ -55,7 +55,7 @@ export const useAddProduct = props => {
             addConfigurableProductToCart,
             cartId,
             isSupportedProductType,
-            suggested_Product,
+            productToAdd,
             productType
         ]
     );

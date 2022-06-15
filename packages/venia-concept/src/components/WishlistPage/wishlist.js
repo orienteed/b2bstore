@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ChevronDown, ChevronUp, Trash } from 'react-feather';
+import { ChevronDown, ChevronUp, Trash, Printer } from 'react-feather';
 import { useWishlist } from '@magento/peregrine/lib/talons/WishlistPage/useWishlist';
 import { bool, shape, string, int } from 'prop-types';
 
@@ -11,6 +11,8 @@ import WishlistItems from '@magento/venia-ui/lib/components/WishlistPage/wishlis
 import Button from '@magento/venia-ui/lib/components/Button';
 import defaultClasses from '@magento/venia-ui/lib/components/WishlistPage/wishlist.module.css';
 import ActionMenu from '@magento/venia-ui/lib/components/WishlistPage/actionMenu';
+
+import ShareIcon from './assets/shareWithBorder.svg';
 
 /**
  * A single wishlist container.
@@ -143,6 +145,33 @@ const Wishlist = props => {
         </div>
     ) : null;
 
+    const printAddAllToCartShareSection = (
+        <section className={classes.printAddAllToCartShareContainer}>
+            <button className={classes.printAllContainer}>
+                <Icon size={16} src={Printer} />
+                <span>
+                    <FormattedMessage
+                        id={'wishlist.printPage'}
+                        defaultMessage={'Print page'}
+                    />
+                </span>
+            </button>
+
+            <article className={classes.addAllToCartShareContainer}>
+                <button className={classes.addAllToCart}>
+                    {formatMessage({
+                        id: 'wishlistItem.addAllToCart',
+                        defaultMessage: 'Add all to Cart'
+                    })}
+                </button>
+
+                <div className={classes.shareIcon}>
+                    <img src={ShareIcon} alt="share icon" />
+                </div>
+            </article>
+        </section>
+    );
+
     return (
         <div className={classes.root} data-cy="Wishlist-root">
             <div className={classes.header}>
@@ -163,6 +192,7 @@ const Wishlist = props => {
                 </button>
                 {/* {buttonsContainer} */}
             </div>
+            {printAddAllToCartShareSection}
             <div className={contentClass}>{contentMessageElement}</div>
         </div>
     );

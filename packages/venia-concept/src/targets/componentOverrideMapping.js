@@ -152,5 +152,7 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/WishlistPage/wishlist.js`]: './src/components/WishlistPage/wishlist.js',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItems.js`]: './src/components/WishlistPage/wishlistItems.js',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
-    [`@magento/venia-ui/lib/components/WishlistPage/wishlist.module.css`]: './src/components/WishlistPage/wishlist.module.css'
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlist.module.css`]: './src/components/WishlistPage/wishlist.module.css',
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlistItems.module.css`]: './src/components/WishlistPage/wishlistItems.module.css',
+    [`@magento/peregrine/lib/talons/WishlistPage/useWishlistItem.js`]: './src/talons/WishlistPage/useWishlistItem.js'
 };
