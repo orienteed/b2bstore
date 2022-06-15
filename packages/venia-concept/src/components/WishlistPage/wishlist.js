@@ -178,7 +178,7 @@ const Wishlist = props => {
                 <div className={classes.itemsCountContainer}>
                     {itemsCountMessage}
                 </div>
-                <button
+                {/* <button
                     className={classes.deleteItem}
                     data-cy="wishlistItem-deleteItem"
                 >
@@ -189,10 +189,10 @@ const Wishlist = props => {
                             defaultMessage={'Remove all'}
                         />
                     </span>
-                </button>
+                </button> */}
                 {/* {buttonsContainer} */}
             </div>
-            {printAddAllToCartShareSection}
+            {/* {printAddAllToCartShareSection} */}
             <div className={contentClass}>{contentMessageElement}</div>
         </div>
     );
