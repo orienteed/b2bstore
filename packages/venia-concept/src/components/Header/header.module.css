@@ -182,3 +182,15 @@
         box-shadow: 0 var(--dot-size) 0 0;
     }
 }
+.secondaryActions {
+    /* column-gap: 3px !important; */
+}
+@media (max-width: 1150px) and (min-width: 950px) {
+    .secondaryActions {
+        column-gap: 0 !important;
+    }
+
+    .toolbar > nav div {
+        padding-left: 0;
+    }
+}

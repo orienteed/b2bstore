@@ -38,7 +38,7 @@
 
 .link {
     composes: trigger;
-    display: none;
+    display: none !important;
 }
 
 /*
@@ -50,6 +50,6 @@
     }
 
     .link {
-        display: flex;
+        display: flex !important;
     }
 }
