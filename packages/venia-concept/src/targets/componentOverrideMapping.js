@@ -159,4 +159,10 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/orderDetails.module.css`]: './src/components/OrderHistoryPage/OrderDetails/orderDetails.module.css',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingInformation.js`]: './src/components/OrderHistoryPage/OrderDetails/shippingInformation.js',
     [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingInformation.module.css`]: './src/components/OrderHistoryPage/OrderDetails/shippingInformation.module.css',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingMethod.js`]: './src/components/OrderHistoryPage/OrderDetails/shippingMethod.js',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingMethod.module.css`]: './src/components/OrderHistoryPage/OrderDetails/shippingMethod.module.css',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/billingInformation.js`]: './src/components/OrderHistoryPage/OrderDetails/billingInformation.js',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/billingInformation.module.css`]: './src/components/OrderHistoryPage/OrderDetails/billingInformation.module.css',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/paymentMethod.js`]: './src/components/OrderHistoryPage/OrderDetails/paymentMethod.js',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/paymentMethod.module.css`]: './src/components/OrderHistoryPage/OrderDetails/paymentMethod.module.css',
 };

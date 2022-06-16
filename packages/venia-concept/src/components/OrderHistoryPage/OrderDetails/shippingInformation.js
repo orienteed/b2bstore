@@ -5,12 +5,11 @@ import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from '@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingInformation.module.css';
-
+import AddIcon from './Icons/add.svg';
+import { Link } from 'react-router-dom';
 const ShippingInformation = props => {
     const { data, classes: propsClasses, address } = props;
-    const { addresses } = address;
     const classes = useStyle(defaultClasses, propsClasses);
-    console.log(props, 'ShippingInformationShippingInformation');
     let shippingContentElement;
 
     if (data) {
@@ -25,7 +24,6 @@ const ShippingInformation = props => {
         } = data;
 
         const additionalAddressString = `${city}, ${region} ${postcode} ${country_code}`;
-        const fullName = `${firstname} ${lastname}`;
         const streetRows = street.map((row, index) => {
             return (
                 <span className={classes.streetRow} key={index}>
@@ -36,11 +34,23 @@ const ShippingInformation = props => {
 
         shippingContentElement = (
             <Fragment>
-                <span className={classes.name}>{fullName}</span>
-                {streetRows}
-                <div className={classes.additionalAddress}>
-                    {additionalAddressString}
-                </div>
+                <span className={classes.choosetext}>
+                    <FormattedMessage
+                        id="orderDetails.chooseShippingInformation"
+                        defaultMessage="Choose from saved addresses"
+                    />
+                </span>
+                <select className={classes.addressOptions}>
+                    {address?.addresses.map(ele => {
+                        let rowText =
+                            ele.street.join(' ') +
+                            ', ' +
+                            ele.city +
+                            ', ' +
+                            ele.country_code;
+                        return <option>{rowText}</option>;
+                    })}
+                </select>
             </Fragment>
         );
     } else {
@@ -65,6 +75,15 @@ const ShippingInformation = props => {
                 />
             </div>
             {shippingContentElement}
+            <Link to ='/address-book'>
+                <span className={classes.addAddress}>
+                    <img src={AddIcon} alt="add address" />
+                    <FormattedMessage
+                        id="orderDetails.addShippingInformation"
+                        defaultMessage="Add new shipping address"
+                    />
+                </span>
+            </Link>
         </div>
     );
 };

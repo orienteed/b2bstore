@@ -134,6 +134,6 @@ export const useOrderHistoryPage = (props = {}) => {
         pageInfo,
         searchText,
         storeConfigData,
-        address: customerAddressesData.customer
+        address: customerAddressesData?.customer
     };
 };
