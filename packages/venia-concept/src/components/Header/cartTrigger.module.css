@@ -46,7 +46,7 @@
  */
 @media (max-width: 960px) {
     .triggerContainer {
-        /* display: none; */
+        display: none;
     }
 
     .link {
