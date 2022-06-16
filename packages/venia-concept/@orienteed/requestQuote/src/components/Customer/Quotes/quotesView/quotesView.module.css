@@ -9,7 +9,7 @@
 .quotesViewTableRow {
     display: grid;
     grid-template-columns:
-        minmax(10rem, 1fr) minmax(15rem, 1fr) minmax(5rem, 1fr)
+        minmax(25rem, 1fr) minmax(5rem, 1fr)
         minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr) minmax(5rem, 1fr);
 }
 
@@ -53,8 +53,11 @@
 .productQty {
     text-align: center;
 }
-
-.productSkuTitle {
+.productDiscount {
+    text-align: right;
+}
+.productSkuTitle,
+.productSku {
     text-align: center;
 }
 .productSubtotal {

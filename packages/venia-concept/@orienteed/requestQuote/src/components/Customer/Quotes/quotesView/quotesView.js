@@ -44,14 +44,14 @@ const QuotesView = props => {
                 classes.quotesViewTableHead
             ].join(' ')}
         >
-            <div className={classes.productName}>
+            {/* <div className={classes.productName}>
                 <span className={classes.productNameLabel}>
                     <FormattedMessage
                         id={'quotesView.productNameText'}
                         defaultMessage={'Product Name'}
                     />
                 </span>
-            </div>
+            </div> */}
             <div className={classes.productSku}>
                 <article className={classes.productSkuTitle}>
                     <span className={classes.productSkuLabel}>

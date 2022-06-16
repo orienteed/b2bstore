@@ -23,15 +23,18 @@ const quotesViewTableRow = props => {
 
     const quotesViewTableRow = (
         <li className={classes.quotesViewTableRow}>
-            <div className={classes.productName}>
+            {/* <div className={classes.productName}>
                 <span className={classes.productNameMobileLabel}>
                     <FormattedMessage id={'quotesView.productNameText'} defaultMessage={'Product Name'} />
                 </span>
                 <span className={classes.productNameValue}>{name}</span>
-            </div>
+            </div> */}
             <div className={classes.productSku}>
                 <span className={classes.productSkuMobileLabel}>
-                    <FormattedMessage id={'quotesView.productSkuText'} defaultMessage={'SKU'} />
+                    <FormattedMessage
+                        id={'quotesView.productSkuText'}
+                        defaultMessage={'SKU'}
+                    />
                 </span>
                 <span className={classes.productSkuValue}>
                     {sku}
@@ -45,7 +48,10 @@ const quotesViewTableRow = props => {
             </div>
             <div className={classes.productPrice}>
                 <span className={classes.productPriceMobileLabel}>
-                    <FormattedMessage id={'quotesView.productPriceText'} defaultMessage={'Price'} />
+                    <FormattedMessage
+                        id={'quotesView.productPriceText'}
+                        defaultMessage={'Price'}
+                    />
                 </span>
                 <span className={classes.productPriceValue}>
                     <Price currencyCode={price.currency} value={price.value} />
@@ -53,30 +59,51 @@ const quotesViewTableRow = props => {
             </div>
             <div className={classes.productQuotePrice}>
                 <span className={classes.productQuotePriceMobileLabel}>
-                    <FormattedMessage id={'quotesView.productQuotePriceText'} defaultMessage={'Quote Price'} />
+                    <FormattedMessage
+                        id={'quotesView.productQuotePriceText'}
+                        defaultMessage={'Quote Price'}
+                    />
                 </span>
                 <span className={classes.productQuotePriceValue}>
-                    <Price currencyCode={total_item_discount.currency} value={request_price} />
+                    <Price
+                        currencyCode={total_item_discount.currency}
+                        value={request_price}
+                    />
                 </span>
             </div>
             <div className={classes.productQty}>
                 <span className={classes.productQtyMobileLabel}>
-                    <FormattedMessage id={'quotesView.productQtyText'} defaultMessage={'Qty'} />
+                    <FormattedMessage
+                        id={'quotesView.productQtyText'}
+                        defaultMessage={'Qty'}
+                    />
                 </span>
                 <span className={classes.productQtyValue}>{qty}</span>
             </div>
             <div className={classes.productDiscount}>
                 <span className={classes.productDiscountMobileLabel}>
-                    <FormattedMessage id={'quotesView.productDiscountText'} defaultMessage={'Discount'} />
+                    <FormattedMessage
+                        id={'quotesView.productDiscountText'}
+                        defaultMessage={'Discount'}
+                    />
                 </span>
-                <span className={classes.productDiscountValue} dangerouslySetInnerHTML={{ __html: discount }} />
+                <span
+                    className={classes.productDiscountValue}
+                    dangerouslySetInnerHTML={{ __html: discount }}
+                />
             </div>
             <div className={classes.productSubtotal}>
                 <span className={classes.productSubtotalMobileLabel}>
-                    <FormattedMessage id={'quotesView.productSubtotalText'} defaultMessage={'Subtotal'} />
+                    <FormattedMessage
+                        id={'quotesView.productSubtotalText'}
+                        defaultMessage={'Subtotal'}
+                    />
                 </span>
                 <span className={classes.productSubtotalValue}>
-                    <Price currencyCode={row_total.currency} value={row_total.value} />
+                    <Price
+                        currencyCode={row_total.currency}
+                        value={row_total.value}
+                    />
                 </span>
             </div>
         </li>
