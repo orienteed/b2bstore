@@ -30,14 +30,14 @@ const AddQuickOrder = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const warningMsg = formatMessage({
-        id: 'quickOrder.something went wrong, try again later',
+        id: 'quickOrder.somethingWentWrongTryAgainLater',
         defaultMessage: 'something went wrong, try again later'
     });
     const success = () => {
         displayMessage(
             'success',
             formatMessage({
-                id: 'quickOrder.Added to cart successfully',
+                id: 'quickOrder.AddedToCartSuccessfully',
                 defaultMessage: 'Added to cart successfully'
             })
         );
@@ -162,7 +162,11 @@ const AddQuickOrder = props => {
             </div>
             <div className={classes.quickOrderDialog}>
                 <Dialog
-                    title="Quick Order Form"
+                    title=
+                  {  <FormattedMessage
+                    id="quickOrder.quickOrderForm"
+                    defaultMessage="Quick Order Form"
+                />}
                     shouldHideCancelButton={true}
                     isOpen={isOpen}
                     shouldShowButtons={false}
@@ -176,7 +180,7 @@ const AddQuickOrder = props => {
                                     <div>
                                         <span>
                                             <FormattedMessage
-                                                id="quickOder.Item#"
+                                                id="quickOrder.Items"
                                                 defaultMessage="Items"
                                             />
                                         </span>
@@ -184,7 +188,7 @@ const AddQuickOrder = props => {
                                     <div>
                                         <span className={classes.mobileHidden}>
                                             <FormattedMessage
-                                                id="quickOder.Qty"
+                                                id="quickOrder.Qty"
                                                 defaultMessage="Qty"
                                             />
                                         </span>
@@ -193,7 +197,7 @@ const AddQuickOrder = props => {
                                     <div>
                                         <span className={classes.mobileHidden}>
                                             <FormattedMessage
-                                                id="quickOder.Price"
+                                                id="quickOrder.Price"
                                                 defaultMessage="Price"
                                             />
                                         </span>
@@ -275,7 +279,7 @@ const AddQuickOrder = props => {
                                                             {' '}
                                                             <FormattedMessage
                                                                 id={
-                                                                    'quotePriceSummary.Unavailable'
+                                                                    'quickOrder.Unavailable'
                                                                 }
                                                                 defaultMessage={
                                                                     'Unavailable'
@@ -334,13 +338,13 @@ const AddQuickOrder = props => {
                                 <div className={classes.uploadContainer}>
                                     <h5 className={classes.uploadHeader}>
                                         <FormattedMessage
-                                            id="quickOder.UploadYourOrder"
-                                            defaultMessage=" Upload your order"
+                                            id="quickOrder.UploadYourOrder"
+                                            defaultMessage="Upload your order"
                                         />
                                     </h5>
                                     <p>
                                         <FormattedMessage
-                                            id="quickOder.HereYouCanUploadOwnFile"
+                                            id="quickOrder.HereYouCanUploadOwnFile"
                                             defaultMessage="Here you can upload own file XLS, XLSX or CSV and products to cart."
                                         />
                                     </p>
@@ -351,7 +355,7 @@ const AddQuickOrder = props => {
                                             onClick={handleCSVFile}
                                         >
                                             <FormattedMessage
-                                                id="quickOder.UploadYourFile"
+                                                id="quickOrder.UploadYourFile"
                                                 defaultMessage="Upload your file"
                                             />
                                         </Button>
@@ -363,7 +367,7 @@ const AddQuickOrder = props => {
                                                 alt="download-icon"
                                             />
                                             <FormattedMessage
-                                                id="quickOder.DownloadYourYampleFile"
+                                                id="quickOrder.DownloadYourSampleFile"
                                                 defaultMessage="Download your sample file"
                                             />
                                         </Button>
@@ -379,7 +383,7 @@ const AddQuickOrder = props => {
                                     onClick={addToCartClick}
                                 >
                                     <FormattedMessage
-                                        id="quickOder.AddToCart"
+                                        id="quickOrder.AddToCart"
                                         defaultMessage="Add to cart"
                                     />
                                     <Icon
@@ -396,7 +400,7 @@ const AddQuickOrder = props => {
                                     onClick={addQuoteClick}
                                 >
                                     <FormattedMessage
-                                        id="quickOder.GetQuote"
+                                        id="quickOrder.GetQuote"
                                         defaultMessage="Get Quote"
                                     />
                                 </Button>
@@ -408,7 +412,7 @@ const AddQuickOrder = props => {
                                     onClick={createOrderClick}
                                 >
                                     <FormattedMessage
-                                        id="quickOder.CreateOrder"
+                                        id="quickOrder.CreateOrder"
                                         defaultMessage="Create Order"
                                     />
                                 </Button>

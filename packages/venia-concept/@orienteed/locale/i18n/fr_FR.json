@@ -745,5 +745,22 @@
     "productFullDetailB2B.copiedText": "Copié",
     "wishlist.removeAll": "Enlever tout",
     "wishlist.printPage": "Imprimer la page",
-    "wishlistItem.addAllToCart": "Tout ajouter au panier"
+    "wishlistItem.addAllToCart": "Tout ajouter au panier",
+    "quickOrder.somethingWentWrongTryAgainLater": "quelque chose s'est mal passé, réessayez plus tard",
+    "quickOrder.AddedToCartSuccessfully": "Ajouté au panier avec succès",
+    "quickOrder.Qty": "Quantité",
+    "quickOrder.Price": "Prix",
+    "quickOrder.SearchProduct": "Entrez le SKU ou le nom du produit",
+    "quickOrder.Unavailable": "Indisponible",
+    "quickOrder.UploadYourOrder": "Téléchargez votre commande",
+    "quickOrder.HereYouCanUploadOwnFile": "Ici vous pouvez télécharger votre propre fichier XLS, XLSX ou CSV et les produits au panier.",
+    "quickOrder.UploadYourFile": "Téléchargez votre fichier",
+    "quickOrder.DownloadYourSampleFile": "Téléchargez votre fichier d'échantillons",
+    "quickOrder.AddToCart": "Ajouter au panier",
+    "quickOrder.GetQuote": "Obtenir un devis",
+    "quickOrder.CreateOrder": "Créer une commande",
+    "quickOrder.quickOrderForm": "Formulaire de commande rapide",
+    "quickOrder.Items":"Articles"
+
+
 }
