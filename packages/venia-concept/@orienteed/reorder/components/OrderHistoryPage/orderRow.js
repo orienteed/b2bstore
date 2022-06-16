@@ -18,7 +18,7 @@ import Image from '@magento/venia-ui/lib/components/Image';
 
 import IncidencesIcon from './Icons/incidences.svg';
 const OrderRow = props => {
-    const { order, config } = props;
+    const { order, config, address } = props;
     const { formatMessage } = useIntl();
     const {
         invoices,
@@ -91,7 +91,11 @@ const OrderRow = props => {
     );
 
     const orderDetails = loading ? null : (
-        <OrderDetails orderData={order} imagesData={imagesData} />
+        <OrderDetails
+            address={address}
+            orderData={order}
+            imagesData={imagesData}
+        />
     );
 
     const orderTotalPrice =

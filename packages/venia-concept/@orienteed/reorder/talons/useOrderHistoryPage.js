@@ -7,14 +7,23 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
-
+import shippingOprations from '@magento/peregrine/lib/talons/AddressBookPage/addressBookPage.gql';
 import DEFAULT_OPERATIONS from './orderHistoryPage.gql';
 
 const PAGE_SIZE = 10;
 
 export const useOrderHistoryPage = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCustomerOrdersQuery, getStoreConfigData } = operations;
+    const operations = mergeOperations(
+        DEFAULT_OPERATIONS,
+        props.operations,
+        shippingOprations
+    );
+
+    const {
+        getCustomerOrdersQuery,
+        getStoreConfigData,
+        getCustomerAddressesQuery
+    } = operations;
 
     const [
         ,
@@ -28,7 +37,11 @@ export const useOrderHistoryPage = (props = {}) => {
     const [pageSize, setPageSize] = useState(PAGE_SIZE);
     const [searchText, setSearchText] = useState('');
 
-    const { data: orderData, error: getOrderError, loading: orderLoading } = useQuery(getCustomerOrdersQuery, {
+    const {
+        data: orderData,
+        error: getOrderError,
+        loading: orderLoading
+    } = useQuery(getCustomerOrdersQuery, {
         fetchPolicy: 'cache-and-network',
         variables: {
             filter: {
@@ -45,8 +58,17 @@ export const useOrderHistoryPage = (props = {}) => {
         nextFetchPolicy: 'cache-first'
     });
 
+    const { data: customerAddressesData, loading } = useQuery(
+        getCustomerAddressesQuery,
+        {
+            fetchPolicy: 'cache-and-network',
+            skip: !isSignedIn
+        }
+    );
+    console.log(customerAddressesData, 'customerAddressesData');
+
     const orders = orderData ? orderData.customer.orders.items : [];
-console.log(orderData,'orderData');
+    console.log(orderData, 'orderData');
     const isLoadingWithoutData = !orderData && orderLoading;
     const isBackgroundLoading = !!orderData && orderLoading;
 
@@ -63,7 +85,10 @@ console.log(orderData,'orderData');
         return null;
     }, [orderData, pageSize]);
 
-    const derivedErrorMessage = useMemo(() => deriveErrorMessage([getOrderError]), [getOrderError]);
+    const derivedErrorMessage = useMemo(
+        () => deriveErrorMessage([getOrderError]),
+        [getOrderError]
+    );
 
     const handleReset = useCallback(() => {
         setSearchText('');
@@ -108,6 +133,7 @@ console.log(orderData,'orderData');
         orders,
         pageInfo,
         searchText,
-        storeConfigData
+        storeConfigData,
+        address: customerAddressesData.customer
     };
 };

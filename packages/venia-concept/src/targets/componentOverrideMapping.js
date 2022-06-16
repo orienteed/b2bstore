@@ -152,5 +152,11 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/WishlistPage/wishlist.js`]: './src/components/WishlistPage/wishlist.js',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItems.js`]: './src/components/WishlistPage/wishlistItems.js',
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistItem.js`]: './src/components/WishlistPage/wishlistItem.js',
-    [`@magento/venia-ui/lib/components/WishlistPage/wishlist.module.css`]: './src/components/WishlistPage/wishlist.module.css'
+    [`@magento/venia-ui/lib/components/WishlistPage/wishlist.module.css`]: './src/components/WishlistPage/wishlist.module.css',
+
+    //new overwrite
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/orderDetails.js`]: './src/components/OrderHistoryPage/OrderDetails/orderDetails.js',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/orderDetails.module.css`]: './src/components/OrderHistoryPage/OrderDetails/orderDetails.module.css',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingInformation.js`]: './src/components/OrderHistoryPage/OrderDetails/shippingInformation.js',
+    [`@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails/shippingInformation.module.css`]: './src/components/OrderHistoryPage/OrderDetails/shippingInformation.module.css',
 };
