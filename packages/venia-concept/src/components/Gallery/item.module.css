@@ -224,6 +224,7 @@
     display: flex;
     gap: 1rem;
     margin-bottom: 10px;
+    height: 41px;
 }
 
 .productsWrapper > div > form > div {
@@ -257,4 +258,8 @@
 .actionsContainer button {
     display: flex;
     justify-content: center;
+}
+
+.customAttributes {
+    margin-bottom: 0.5rem;
 }
