@@ -38,12 +38,14 @@ const quotesViewTableRow = props => {
                 </span>
                 <span className={classes.productSkuValue}>
                     {sku}
-                    <ProductOptions
-                        options={configurable_options}
-                        classes={{
-                            options: classes.options
-                        }}
-                    />
+                    <article className={classes.productOptions}>
+                        <ProductOptions
+                            options={configurable_options}
+                            classes={{
+                                options: classes.options
+                            }}
+                        />
+                    </article>
                 </span>
             </div>
             <div className={classes.productPrice}>
