@@ -745,5 +745,6 @@
     "productFullDetailB2B.copiedText": "Copiada",
     "wishlist.removeAll": "Deletar tudo",
     "wishlist.printPage": "Imprimir página",
-    "wishlistItem.addAllToCart": "Adicionar tudo ao carrinho"
+    "wishlistItem.addAllToCart": "Adicionar tudo ao carrinho",
+    "wishlist.copiedUrl": "O URL da página foi copiado no porta-papeles."
 }

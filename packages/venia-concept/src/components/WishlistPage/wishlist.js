@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useState, useCallback, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ChevronDown, ChevronUp, Trash, Printer } from 'react-feather';
+import { ChevronDown, ChevronUp, Printer } from 'react-feather';
 import { useWishlist } from '@magento/peregrine/lib/talons/WishlistPage/useWishlist';
 import { bool, shape, string, int } from 'prop-types';
 
@@ -16,7 +16,9 @@ import ShareIcon from './assets/shareWithBorder.svg';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import defaultOperations from '@magento/peregrine/lib/talons/WishlistPage/wishlistItem.gql';
 import { useMutation } from '@apollo/client';
-
+import { useToasts } from '@magento/peregrine';
+import orangeThrashCan from './assets/orangeThrashCan.svg';
+import { useReactToPrint } from 'react-to-print';
 /**
  * A single wishlist container.
  *
@@ -31,6 +33,12 @@ const Wishlist = props => {
     const operations = mergeOperations(defaultOperations, props.operations);
     const { removeProductsFromWishlistMutation } = operations;
     const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
+    const [, { addToast }] = useToasts();
+
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current
+    });
 
     const [
         removeProductFromWishlistError,
@@ -101,6 +109,17 @@ const Wishlist = props => {
         }
     }, [removeProductsFromWishlist, setRemoveProductFromWishlistError]);
 
+    const handleShareClick = () => {
+        navigator.clipboard.writeText(window.location.href);
+        addToast({
+            type: 'success',
+            message: formatMessage({
+                id: 'wishlist.copiedUrl',
+                defaultMessage: 'The page URL was copied to the clipboard'
+            })
+        });
+    };
+
     const itemsCountMessage =
         itemsCount && isOpen
             ? formatMessage(
@@ -138,7 +157,7 @@ const Wishlist = props => {
 
     const contentMessageElement = itemsCount ? (
         <Fragment>
-            <WishlistItems items={items} wishlistId={id} />
+            <WishlistItems items={items} wishlistId={id} ref={componentRef} />
             {loadMoreButton}
         </Fragment>
     ) : (
@@ -207,7 +226,7 @@ const Wishlist = props => {
 
     const printAddAllToCartShareSection = (
         <section className={classes.printAddAllToCartShareContainer}>
-            <button className={classes.printAllContainer}>
+            <button onClick={handlePrint} className={classes.printAllContainer}>
                 <Icon size={16} src={Printer} />
                 <span>
                     <FormattedMessage
@@ -218,16 +237,12 @@ const Wishlist = props => {
             </button>
 
             <article className={classes.addAllToCartShareContainer}>
-                <button className={classes.addAllToCart}>
-                    {formatMessage({
-                        id: 'wishlistItem.addAllToCart',
-                        defaultMessage: 'Add all to Cart'
-                    })}
-                </button>
-
-                <div className={classes.shareIcon}>
+                <button
+                    onClick={handleShareClick}
+                    className={classes.shareIcon}
+                >
                     <img src={ShareIcon} alt="share icon" />
-                </div>
+                </button>
             </article>
         </section>
     );
@@ -243,7 +258,8 @@ const Wishlist = props => {
                     data-cy="wishlistItem-deleteItem"
                     onClick={handleRemoveAllProductsFromWishlist}
                 >
-                    <Icon size={16} src={Trash} />
+                    <img src={orangeThrashCan} alt="orangeThrashCan" />
+
                     <span>
                         <FormattedMessage
                             id={'wishlist.removeAll'}
