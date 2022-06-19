@@ -39,38 +39,45 @@ const OrderDetails = props => {
     const hasTotals = total.grand_total && total.grand_total.currency;
 
     return (
-        <div className={classes.root}>
-            <div className={classes.shippingInformationContainer}>
-                <ConditionalWrapper condition={shipping_address}>
-                    <ShippingInformation address={address} data={shipping_address} />
-                </ConditionalWrapper>
+        <>
+            <div className={classes.root}>
+                <div className={classes.shippingInformationContainer}>
+                    <ConditionalWrapper condition={shipping_address}>
+                        <ShippingInformation
+                            address={address}
+                            data={shipping_address}
+                        />
+                    </ConditionalWrapper>
+                </div>
+                <div className={classes.shippingMethodContainer}>
+                    <ConditionalWrapper condition={shipping_method}>
+                        <ShippingMethod data={shippingMethodData} />
+                    </ConditionalWrapper>
+                </div>
+                <div className={classes.billingInformationContainer}>
+                    <ConditionalWrapper condition={billing_address}>
+                        <BillingInformation data={billing_address} />
+                    </ConditionalWrapper>
+                </div>
+                <div className={classes.paymentMethodContainer}>
+                    <ConditionalWrapper
+                        condition={payment_methods && payment_methods.length}
+                    >
+                        <PaymentMethod data={payment_methods} />
+                    </ConditionalWrapper>
+                </div>
             </div>
-            <div className={classes.shippingMethodContainer}>
-                <ConditionalWrapper condition={shipping_method}>
-                    <ShippingMethod data={shippingMethodData} />
-                </ConditionalWrapper>
-            </div>
-            <div className={classes.billingInformationContainer}>
-                <ConditionalWrapper condition={billing_address}>
-                    <BillingInformation data={billing_address} />
-                </ConditionalWrapper>
-            </div>
-            <div className={classes.paymentMethodContainer}>
-                <ConditionalWrapper
-                    condition={payment_methods && payment_methods.length}
-                >
-                    <PaymentMethod data={payment_methods} />
-                </ConditionalWrapper>
-            </div>
-            <div className={classes.itemsContainer}>
-                <ConditionalWrapper condition={items && items.length}>
-                    <Items data={{ imagesData, items }} />
-                </ConditionalWrapper>
-            </div>
-            <div className={classes.orderTotalContainer}>
-                <ConditionalWrapper condition={hasTotals}>
-                    <OrderTotal data={total} />
-                </ConditionalWrapper>
+            <div className={classes.itemsWrapper}>
+                <div className={classes.itemsContainer}>
+                    <ConditionalWrapper condition={items && items.length}>
+                        <Items data={{ imagesData, items }} />
+                    </ConditionalWrapper>
+                </div>
+                <div className={classes.orderTotalContainer}>
+                    <ConditionalWrapper condition={hasTotals}>
+                        <OrderTotal data={total} items={items} />
+                    </ConditionalWrapper>
+                </div>
             </div>
             <Button
                 className={classes.printButton}
@@ -87,7 +94,7 @@ const OrderDetails = props => {
                     />
                 </span>
             </Button>
-        </div>
+        </>
     );
 };
 

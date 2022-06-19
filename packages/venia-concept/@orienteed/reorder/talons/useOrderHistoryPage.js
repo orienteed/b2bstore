@@ -68,7 +68,6 @@ export const useOrderHistoryPage = (props = {}) => {
     console.log(customerAddressesData, 'customerAddressesData');
 
     const orders = orderData ? orderData.customer.orders.items : [];
-    console.log(orderData, 'orderData');
     const isLoadingWithoutData = !orderData && orderLoading;
     const isBackgroundLoading = !!orderData && orderLoading;
 

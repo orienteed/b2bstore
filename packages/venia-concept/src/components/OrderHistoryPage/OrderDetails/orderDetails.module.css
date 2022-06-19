@@ -3,7 +3,7 @@
     composes: grid from global;
 
     composes: lg_gap-md from global;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .shippingInformationContainer {
@@ -26,14 +26,7 @@
     grid-column: 4 / span 1;
 }
 
-.itemsContainer {
-    grid-row: 2 / span 4;
-    grid-column: 1 / span 2;
-}
-
 .orderTotalContainer {
-    grid-row: 2 / span 2;
-    grid-column: 3 / span 2;
     composes: m-0 from global;
     composes: max-w-none from global;
     composes: min-w-none from global;
@@ -41,6 +34,8 @@
     composes: lg_m-auto from global;
     composes: lg_max-w-[25rem] from global;
     composes: lg_min-w-[22rem] from global;
+    width: 100%;
+
 }
 
 .printButton {
@@ -86,18 +81,14 @@
         grid-column: 1 / span 1;
     }
 
-    .itemsContainer {
-        grid-row: 5 / span 1;
-        grid-column: 1 / span 1;
-    }
-
-    .orderTotalContainer {
-        grid-row: 6 / span 1;
-        grid-column: 1 / span 1;
-    }
-
     .printButton {
         grid-row: 7 / span 1;
         grid-column: 1 / span 1;
     }
+}
+
+.itemsWrapper {
+    margin-top: 21px;
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
 }

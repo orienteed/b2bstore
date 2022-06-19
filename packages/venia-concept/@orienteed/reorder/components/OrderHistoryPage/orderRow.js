@@ -108,13 +108,13 @@ const OrderRow = props => {
     return (
         <li className={[classes.root, classes.reOrderRow].join(' ')}>
             <div className={classes.imageWrapper}>
-                <Image
+                {/* <Image
                     alt={'product_name'}
                     src={image?.thumbnail?.url}
                     width={75}
-                />
+                /> */}
 
-                {/* <img src={image?.thumbnail?.url} /> */}
+                <img src={image?.thumbnail?.url} />
             </div>
             <div
                 className={[
