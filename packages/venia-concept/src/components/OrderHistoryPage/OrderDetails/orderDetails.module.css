@@ -35,7 +35,6 @@
     composes: lg_max-w-[25rem] from global;
     composes: lg_min-w-[22rem] from global;
     width: 100%;
-
 }
 
 .printButton {
@@ -91,4 +90,10 @@
     margin-top: 21px;
     display: grid;
     grid-template-columns: 1.8fr 1fr;
+}
+
+@media (max-width: 800px) {
+    .itemsWrapper {
+        grid-template-columns: auto;
+    }
 }
