@@ -15,6 +15,9 @@ export const ProductsFragment = gql`
         items {
             id
             uid
+            description {
+                html
+            }
             ... on ConfigurableProduct {
                 configurable_options {
                     attribute_code

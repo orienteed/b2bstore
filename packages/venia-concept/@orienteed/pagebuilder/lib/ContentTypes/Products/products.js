@@ -263,6 +263,9 @@ export const GET_PRODUCTS_BY_URL_KEY = gql`
             items {
                 id
                 uid
+                description {
+                    html
+                }
                 name
                 url_suffix
                 price_range {
