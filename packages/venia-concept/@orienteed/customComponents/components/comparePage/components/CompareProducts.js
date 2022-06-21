@@ -18,20 +18,46 @@ const CompareProducts = () => {
             if (productsItems.length === 0) {
                 return;
             }
-            return <ProductsTable deleteProduct={deleteProduct} productsItems={productsItems} />;
+            return (
+                <ProductsTable
+                    deleteProduct={deleteProduct}
+                    productsItems={productsItems}
+                />
+            );
         }
     }, [productsItems]);
     return (
         <div className={classes.root} data-cy="CompareProducts-root">
-            <h1 className={classes.heading} data-cy="CompareProductsPage-heading">
-                <FormattedMessage id={'compareProductsPage.headingText'} defaultMessage="Compare Products" />
+            <h1
+                className={classes.heading}
+                data-cy="CompareProductsPage-heading"
+            >
+                <FormattedMessage
+                    id={'compareProducts.CompareProducts'}
+                    defaultMessage="Compare Products"
+                />
             </h1>
-            <div className={classes.productsWrapper} data-cy="compare-products-root">
+            <div
+                className={classes.productsWrapper}
+                data-cy="compare-products-root"
+            >
                 <div className={classes.header}>
-                    <h2 className={classes.name} data-cy="compare-products-name">
-                        <FormattedMessage id={'compareProductsPage.headingText'} defaultMessage="Compare Products" />
+                    <h2
+                        className={classes.name}
+                        data-cy="compare-products-name"
+                    >
+                        <FormattedMessage
+                            id={'compareProducts.CompareProducts'}
+                            defaultMessage="Compare Products"
+                        />
                     </h2>
-                    <div className={classes.name}>{productsItems.length} items in this list</div>
+                    <div className={classes.name}>
+                        {productsItems.length}{' '}
+                        <FormattedMessage
+                            id={'compareProducts.itemsList'}
+                            defaultMessage="items in this list"
+                        />
+                    </div>
                 </div>
                 <div> {productsElements} </div>
             </div>

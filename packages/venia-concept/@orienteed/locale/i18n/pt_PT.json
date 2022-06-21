@@ -771,5 +771,11 @@
     "wishlistPage.disabledMessage": "Desculpa, esta funcionalidade foi desativada",
     "wishlistPage.fetchErrorMessage": "Algo correu mal. Por favor atualize a pagina e tente de novo",
     "wishlistPage.headingText": "{count, plural, one {Favorites List} outro {Favorites Lists}}",
-    "wishlistPage.wishlistDisabledMessage": "A lista de desejos não esta disponivel de momento"
+    "wishlistPage.wishlistDisabledMessage": "A lista de desejos não esta disponivel de momento",
+    
+    "compareProducts.CompareProducts": "Compare Products",
+    "compareProducts.itemsList": "artigos desta lista",
+    "compareProducts.product": "Produto",
+    "compareProducts.SKU": "SKU",
+    "compareProducts.Description": "Descrição"
 }
