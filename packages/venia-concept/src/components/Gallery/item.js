@@ -28,6 +28,10 @@ import { useToasts } from '@magento/peregrine';
 
 import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Select from './SelectField/select';
+import Button from '@magento/venia-ui/lib/components/Button';
+
+import CompareIcon from './Icons/compare.svg';
+import useCompareProduct from '@orienteed/customComponents/components/comparePage/talons/useCompareProduct';
 
 import { useHistory } from 'react-router-dom';
 
@@ -61,6 +65,8 @@ const GalleryItem = props => {
     const [quantity, setQuantity] = useState(1);
     const [selectedVeriant, setSelectedVeriant] = useState();
 
+    const compareProps = useCompareProduct();
+    const { addProductsToCompare } = compareProps;
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
@@ -275,6 +281,9 @@ const GalleryItem = props => {
                 );
             });
 
+            const addToCompare = () => {
+                addProductsToCompare(item);
+            };
     return (
         <div
             data-cy="GalleryItem-root"
@@ -401,6 +410,9 @@ const GalleryItem = props => {
                     classes.homeActionContainer}`}
             >
                 {addButton}
+                <button className={classes.compareIcon} onClick={addToCompare}>
+                    <img src={CompareIcon} alt="compare icon" />
+                </button>
                 {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
