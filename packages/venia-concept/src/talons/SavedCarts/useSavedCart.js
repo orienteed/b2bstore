@@ -24,7 +24,7 @@ export const useSavedCart = props => {
 
     const history = useHistory();
 
-    const [getMpSaveCart] = useMutation(SAVE_CART);
+    const [getOrienteedSaveCart] = useMutation(SAVE_CART);
 
     // Popup Open
     const handleSaveCart = useCallback(() => {
@@ -42,7 +42,7 @@ export const useSavedCart = props => {
     useEffect(() => {
         if (data != undefined) {
             const {
-                mpSaveCartConfigs: { enabled, button_title }
+                orienteedSaveCartConfigs: { enabled, button_title }
             } = data;
             if (enabled) {
                 setButtonTitle(button_title);
@@ -55,21 +55,21 @@ export const useSavedCart = props => {
     const handleSubmitDialog = useCallback(
         async params => {
             try {
-                const { mpsavecart_description, mpsavecart_name } = params;
+                const { orienteedsavecart_description, orienteedsavecart_name } = params;
                 setIsSaveCartLoading(true);
                 setErrorMessage(null);
                 const {
-                    data: { o_mpSaveCart }
-                } = await getMpSaveCart({
+                    data: { o_orienteedSaveCart }
+                } = await getOrienteedSaveCart({
                     fetchPolicy: 'no-cache',
                     variables: {
                         cartId: cartId,
-                        cartName: mpsavecart_name,
-                        description: mpsavecart_description
+                        cartName: orienteedsavecart_name,
+                        description: orienteedsavecart_description
                     }
                 });
 
-                if (o_mpSaveCart) {
+                if (o_orienteedSaveCart) {
                     await clearCartDataFromCache(apolloClient);
                     await createCart({
                         fetchCartId
@@ -80,7 +80,7 @@ export const useSavedCart = props => {
                         fetchCartDetails
                     });
                     setIsSaveCartLoading(false);
-                    history.push('/mpsavecart');
+                    history.push('/orienteedsavecart');
                 }
             } catch (e) {
                 let error = e.toString();
@@ -89,7 +89,7 @@ export const useSavedCart = props => {
                 setIsSaveCartLoading(false);
             }
         },
-        [getMpSaveCart, getCartDetails, cartId, fetchCartDetails, fetchCartId, createCart]
+        [getOrienteedSaveCart, getCartDetails, cartId, fetchCartDetails, fetchCartId, createCart]
     );
 
     return {

@@ -17,29 +17,29 @@ const savedCartPopup = props => {
 
     const cartNameLabel = (
         <>
-            <FormattedMessage id={'mpsavecart.cartName'} defaultMessage={'Cart Name'} />
+            <FormattedMessage id={'orienteedsavecart.cartName'} defaultMessage={'Cart Name'} />
             <span className={classes.cartNameUniqueLabel}>
-                <FormattedMessage id={'mpsavecart.mpsavecart'} defaultMessage={'( Must be unique )'} />
+                <FormattedMessage id={'orienteedsavecart.orienteedsavecart'} defaultMessage={'( Must be unique )'} />
             </span>
         </>
     );
 
     const cartDescriptionLabel = formatMessage({
-        id: 'mpsavecart.cartDescription',
+        id: 'orienteedsavecart.cartDescription',
         defaultMessage: 'Description'
     });
 
     const saveCartPopuptitle = formatMessage({
-        id: 'saveCartPopuptitle.title',
+        id: 'orienteedsavecart.title',
         defaultMessage: 'Save Cart'
     });
 
     const containerClass = isError ? classes.saveCartname_error : classes.saveCartname;
 
     const nameTextInput = !isError ? (
-        <TextInput field="mpsavecart_name" validate={isRequired} />
+        <TextInput field="orienteedsavecart_name" validate={isRequired} />
     ) : (
-        <TextInput field="mpsavecart_name" validate={isRequired} message={errorMessage} />
+        <TextInput field="orienteedsavecart_name" validate={isRequired} message={errorMessage} />
     );
 
     return (
@@ -54,13 +54,13 @@ const savedCartPopup = props => {
         >
             <div className={classes.root}>
                 <div className={containerClass}>
-                    <Field id="mpsavecart-name" label={cartNameLabel}>
+                    <Field id="orienteedsavecart-name" label={cartNameLabel}>
                         {nameTextInput}
                     </Field>
                 </div>
                 <div className={classes.saveCartDescription}>
-                    <Field id="mpsavecart-description" label={cartDescriptionLabel}>
-                        <TextArea field="mpsavecart_description" validate={isRequired} />
+                    <Field id="orienteedsavecart-description" label={cartDescriptionLabel}>
+                        <TextArea field="orienteedsavecart_description" validate={isRequired} />
                     </Field>
                     <div className={classes.saveCartDescriptionNote}>
                         <FormattedMessage

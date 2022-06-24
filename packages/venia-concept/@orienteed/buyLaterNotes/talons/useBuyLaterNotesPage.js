@@ -32,7 +32,7 @@ export const useBuyLaterNotesPage = props => {
     useMemo(() => {
         if (data != undefined) {
             const {
-                mpSaveCartConfigs: { enabled, allow_share }
+                orienteedSaveCartConfigs: { enabled, allow_share }
             } = data;
             setShowCopyUrl(allow_share);
             if (!enabled) {
@@ -54,7 +54,7 @@ export const useBuyLaterNotesPage = props => {
     useMemo(() => {
         if (savedCartData != undefined) {
             const {
-                mpSaveCartGetCarts: { total_count, items }
+                orienteedSaveCartGetCarts: { total_count, items }
             } = savedCartData;
             setCarts(items);
             setTotalPage(Math.ceil(total_count / pageSize));

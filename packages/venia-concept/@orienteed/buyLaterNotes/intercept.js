@@ -9,12 +9,12 @@ module.exports = targets => {
         routes.push(
             {
                 name: 'BuyLaterNotes',
-                pattern: '/mpsavecart',
+                pattern: '/orienteedsavecart',
                 path: '@orienteed/buyLaterNotes/components/SavedCarts'
             },
             {
                 name: 'BuyLaterNotes',
-                pattern: '/mpsavecart/cart/share/id/:token',
+                pattern: '/orienteedsavecart/cart/share/id/:token',
                 path: '@orienteed/buyLaterNotes/components/ShareCart'
             }
         );

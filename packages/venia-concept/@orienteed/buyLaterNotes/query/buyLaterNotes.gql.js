@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_CONFIG_DETAILS = gql`
     query getConfigDetails {
-        mpSaveCartConfigs {
+        orienteedSaveCartConfigs {
             enabled
             button_title
             allow_share
@@ -13,7 +13,7 @@ export const GET_CONFIG_DETAILS = gql`
 
 export const GET_SAVED_CARTS = gql`
     query getSaveCarts($pageSize: Int, $currentPage: Int) {
-        mpSaveCartGetCarts(currentPage: $currentPage, pageSize: $pageSize) {
+        orienteedSaveCartGetCarts(currentPage: $currentPage, pageSize: $pageSize) {
             total_count
             page_info {
                 current_page
@@ -47,13 +47,13 @@ export const GET_SAVED_CARTS = gql`
 
 export const DELETE_SAVE_CART = gql`
     mutation deleteSaveCart($token: String!) {
-        mpSaveCartDeleteCart(token: $token)
+        orienteedSaveCartDeleteCart(token: $token)
     }
 `;
 
 export const RESTORE_SAVE_CART = gql`
     mutation restoreSaveCart($cartId: String!, $token: String!) {
-        mpSaveCartRestoreCart(cart_id: $cartId, token: $token)
+        orienteedSaveCartRestoreCart(cart_id: $cartId, token: $token)
     }
 `;
 
@@ -69,6 +69,6 @@ export const CART_DETAILS_QUERY = gql`
 
 export const SHARE_CART = gql`
     mutation getShareCart($cartId: String!, $token: String!) {
-        mpSaveCartShareCart(cart_id: $cartId, token: $token)
+        orienteedSaveCartShareCart(cart_id: $cartId, token: $token)
     }
 `;

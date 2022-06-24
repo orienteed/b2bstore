@@ -17,7 +17,7 @@ export default original => {
         useEffect(() => {
             if (data != undefined) {
                 const {
-                    mpSaveCartConfigs: { enabled }
+                    orienteedSaveCartConfigs: { enabled }
                 } = data;
                 setIsEnable(enabled);
             }
@@ -27,7 +27,7 @@ export default original => {
             let BUY_LATER_MENU = {
                 name: 'Buy Later Notes',
                 id: 'accountMenu.buyLaterNotes',
-                url: '/mpsavecart'
+                url: '/orienteedsavecart'
             };
 
             defaultReturnData.menuItems.push(BUY_LATER_MENU);
