@@ -199,6 +199,20 @@
 .compareLink {
     margin-right: 0.4rem;
     width: 18px;
+    position: relative;
+
+}
+.productsCount{
+    position: absolute;
+    bottom: 25%;
+    left: 65%;
+    border-radius: 100px;
+    font-weight: 600;
+    box-sizing: border-box;
+    padding: 0 0.35rem;
+    background-color: var(--orienteed-primary-color-base1);
+    border-radius: 100px;
+    color: rgb(var(--venia-global-color-background));
 }
 
 @media (max-width: 650px) {

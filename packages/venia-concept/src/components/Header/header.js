@@ -21,6 +21,7 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
 import defaultClasses from '@magento/venia-ui/lib/components/Header/header.module.css';
 
+import useCompareProduct from '@orienteed/customComponents/components/comparePage/talons/useCompareProduct';
 import CompareIcon from './icons/compare.svg';
 
 const SearchBar = React.lazy(() =>
@@ -36,6 +37,8 @@ const Header = props => {
         searchRef,
         searchTriggerRef
     } = useHeader();
+
+    const { productsCount } = useCompareProduct();
 
     const [{ isSignedIn: isUserSignedIn }, {}] = useUserContext();
     const classes = useStyle(defaultClasses, props.classes);
@@ -87,12 +90,17 @@ const Header = props => {
                         />
                         <AccountTrigger />
                         <CartTrigger />
-                        <Link
-                            className={classes.compareLink}
-                            to="/compare_products"
-                        >
-                            <img src={CompareIcon} alt=" compare Icon" />
-                        </Link>
+                        {isUserSignedIn && (
+                            <Link
+                                className={classes.compareLink}
+                                to="/compare_products"
+                            >
+                                <span className={classes.productsCount}>
+                                    {productsCount}
+                                </span>
+                                <img src={CompareIcon} alt=" compare Icon" />
+                            </Link>
+                        )}
                         {isUserSignedIn && <QuickOrder />}
                     </div>
                 </div>
