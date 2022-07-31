@@ -20,9 +20,9 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                         <th className={classes.cell} scope="row">
                             <span> </span>
                         </th>
-                        {productsItems.map(item => (
+                        {productsItems?.map(item => (
                             <td
-                                key={item.sku + 'thead'}
+                                key={item.product.sku + 'thead'}
                                 className={classes.cell}
                             />
                         ))}
@@ -30,10 +30,7 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <th
-                            scope="row"
-                            className={`${classes.cell} ${classes.label}`}
-                        >
+                        <th scope="row" className={classes.cell}>
                             <span>
                                 <FormattedMessage
                                     id={'compareProducts.product'}
@@ -41,12 +38,10 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                                 />
                             </span>
                         </th>
-                        {productsItems.map(item => (
+                        {productsItems?.map(item => (
                             <td
-                                key={item.sku + 'tbody1'}
-                                className={`${classes.cell} ${classes.info} ${
-                                    classes.product
-                                }`}
+                                key={item.product.sku + 'tbody1'}
+                                className={classes.cell}
                             >
                                 <ProductsCard
                                     deleteProduct={deleteProduct}
@@ -59,10 +54,67 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                 </tbody>
                 <tbody>
                     <tr>
-                        <th
-                            scope="row"
-                            className={`${classes.cell} ${classes.label} `}
-                        >
+                        <th className={classes.cell}>
+                            <span>Fashion Material</span>
+                        </th>
+                        {productsItems?.map(product => (
+                            <td
+                                key={product.sku + 'tbody3'}
+                                className={classes.cell}
+                            >
+                                <span>
+                                    {
+                                        product.attributes.find(
+                                            ({ code }) =>
+                                                code === 'fashion_material'
+                                        ).value
+                                    }
+                                </span>
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        <th className={classes.cell}>
+                            <span>Fashion Style</span>
+                        </th>
+                        {productsItems?.map(product => (
+                            <td
+                                key={product.sku + 'tbody3'}
+                                className={classes.cell}
+                            >
+                                <span>
+                                    {
+                                        product.attributes.find(
+                                            ({ code }) =>
+                                                code === 'fashion_style'
+                                        ).value
+                                    }
+                                </span>
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        <th className={classes.cell}>
+                            <span>Fashion Color</span>
+                        </th>
+                        {productsItems?.map(product => (
+                            <td
+                                key={product.sku + 'tbody3'}
+                                className={classes.cell}
+                            >
+                                <span>
+                                    {
+                                        product.attributes.find(
+                                            ({ code }) =>
+                                                code === 'fashion_color'
+                                        ).value
+                                    }
+                                </span>
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        <th scope="row" className={classes.cell}>
                             <span>
                                 <FormattedMessage
                                     id={'compareProducts.SKU'}
@@ -70,19 +122,18 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                                 />
                             </span>
                         </th>
-                        {productsItems.map(({ sku }) => (
+                        {productsItems?.map(({ product }) => (
                             <td
-                                key={sku + 'tbody2'}
-                                className={`${classes.cell} ${classes.info} ${
-                                    classes.product
-                                }`}
+                                key={product.sku + 'tbody2'}
+                                className={classes.cell}
                             >
-                                <span>{sku}</span>
+                                <span>{product.sku}</span>
                             </td>
                         ))}
                     </tr>
+
                     <tr>
-                        <th className={`${classes.cell} ${classes.label} `}>
+                        <th className={classes.cell}>
                             <span>
                                 <FormattedMessage
                                     id={'compareProducts.Description'}
@@ -90,16 +141,34 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                                 />
                             </span>
                         </th>
-                        {productsItems.map(({ description, sku }) => (
+                        {productsItems?.map(({ product }) => (
                             <td
-                                key={sku + 'tbody3'}
-                                className={`${classes.cell} ${classes.info} ${
-                                    classes.product
-                                }`}
+                                key={product.sku + 'tbody3'}
+                                className={classes.cell}
+                            >
+                                <span className={classes.description}>
+                                    <RichText
+                                        content={product.description?.html}
+                                    />
+                                </span>
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        <th className={classes.cell}>
+                            <span>Has Video</span>
+                        </th>
+                        {productsItems?.map(product => (
+                            <td
+                                key={product.sku + 'tbody3'}
+                                className={classes.cell}
                             >
                                 <span>
-                                    {' '}
-                                    <RichText content={description.html} />
+                                    {
+                                        product.attributes.find(
+                                            ({ code }) => code === 'has_video'
+                                        ).value
+                                    }
                                 </span>
                             </td>
                         ))}

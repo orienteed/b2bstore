@@ -1,6 +1,6 @@
 .root {
     align-content: start;
-    display: grid;
+    /* display: grid; */
     row-gap: 0.5rem;
 }
 
@@ -57,6 +57,8 @@
 .actionWrap {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
+
 }
 
 .moreActions {
@@ -78,9 +80,9 @@
     }
 }
 
-
 .actionsContainer{
-    display: grid;
-    grid-template-columns: 2fr .2fr;
-    gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.2rem;
 }

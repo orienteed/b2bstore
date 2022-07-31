@@ -29,7 +29,7 @@
     border-bottom: 1px solid #cccccc;
     border-top: 0;
     padding: 15px;
-    width: 180px;
+    width: 204px;
     border-right: 1px solid #cccccc;
 }
 
@@ -39,4 +39,8 @@
     border-right: 1px solid #cccccc;
     padding: 15px;
     width: 180px;
+}
+
+.description div ul {
+    padding-inline-start: 40px;
 }

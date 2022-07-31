@@ -11,33 +11,50 @@ import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/Add
 import defaultClasses from './ProductCard.module.css';
 
 const ProductCard = ({ item, deleteProduct }) => {
-    const { name, price } = item;
-    const { minimalPrice } = price;
+    const { name, price_range } = item.product;
+    const { minimum_price } = price_range;
     const classes = useStyle(defaultClasses);
-    const imageProps = { alt: name, src: item.small_image.url, width: 400 };
+    const imageProps = {
+        alt: name,
+        src: item.product.small_image.url,
+        width: 400
+    };
 
-    const addToCart = <AddToCartbutton item={item} urlSuffix={item.url_suffix} />;
+    const addToCart = (
+        <AddToCartbutton
+            item={item.product}
+            urlSuffix={item.product.url_suffix}
+        />
+    );
     return (
         <div className={classes.root} data-cy="compareProducts-root">
             <Image {...imageProps} />
             <div className={classes.actionWrap}>
-                <span className={classes.name} data-cy="compareProducts-productName">
+                <span
+                    className={classes.name}
+                    data-cy="compareProducts-productName"
+                >
                     {name}
                 </span>{' '}
                 <button
                     className={classes.deleteItem}
-                    onClick={()=>deleteProduct(item.sku)}
+                    onClick={() => deleteProduct(item)}
                     data-cy="compareProducts-deleteItem"
                 >
                     <Icon size={16} src={Trash2} />
                 </button>
             </div>
-            <div className={classes.priceContainer} data-cy="compareProducts-priceContainer">
-                As low as <Price currencyCode={minimalPrice.amount.currency} value={minimalPrice.amount.value} />
+            <div
+                className={classes.priceContainer}
+                data-cy="compareProducts-priceContainer"
+            >
+                As low as <Price currencyCode={minimum_price?.regular_price.currency} value={minimum_price?.regular_price.value} />
             </div>
             <div className={classes.actionsContainer}>
                 {addToCart}
-                <WishlistGalleryButton item={{ sku: item.sku, quantity: 1 }} />
+                <WishlistGalleryButton
+                    item={{ sku: item.product.sku, quantity: 1 }}
+                />
             </div>
         </div>
     );
