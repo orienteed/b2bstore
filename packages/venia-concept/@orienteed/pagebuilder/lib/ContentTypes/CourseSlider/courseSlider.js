@@ -49,31 +49,31 @@ const CourseSlider = ({ bannerType, categoryId }) => {
                         courseResponse = courseResponse.sort(() => {
                             return Math.random() - 0.5;
                         });
-                        setCourseData(courseResponse.slice(0, 4));
+                        setCourseData(courseResponse?.slice(0, 4));
                     });
                     break;
                 } else {
                     getCourses().then(courseResponse => {
-                        courseResponse = courseResponse.sort(() => {
+                        courseResponse = courseResponse?.sort(() => {
                             return Math.random() - 0.5;
                         });
-                        setCourseData(courseResponse.slice(0, 4));
+                        setCourseData(courseResponse?.slice(0, 4));
                     });
                     break;
                 }
             case 'latest':
                 getCourses().then(courseResponse => {
                     setCourseData(
-                        courseResponse.slice(courseResponse.length - 4)
+                        courseResponse?.slice(courseResponse.length - 4)
                     );
                 });
                 break;
             default:
                 getCourses().then(courseResponse => {
-                    courseResponse = courseResponse.sort(() => {
+                    courseResponse = courseResponse?.sort(() => {
                         return Math.random() - 0.5;
                     });
-                    setCourseData(courseResponse.slice(0, 4));
+                    setCourseData(courseResponse?.slice(0, 4));
                 });
                 break;
         }
