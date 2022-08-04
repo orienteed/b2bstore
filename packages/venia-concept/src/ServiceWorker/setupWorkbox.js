@@ -1,4 +1,4 @@
-import { skipWaiting, clientsClaim } from 'workbox-core';
+import {  clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 
 export default function() {
@@ -16,7 +16,7 @@ export default function() {
      * it is advised to remove this line and let the
      * browser handle delete and update of the service worker.
      */
-    skipWaiting();
+     self.skipWaiting() 
 
     /**
      * This will claim/control all clients once the service worker is
