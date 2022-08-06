@@ -10,7 +10,9 @@ module.exports = targets => {
             {
                 name: 'BuyLaterNotes',
                 pattern: '/orienteedsavecart',
-                path: '@orienteed/buyLaterNotes/components/SavedCarts'
+                path: '@orienteed/buyLaterNotes/components/SavedCarts',
+                authed: true,
+                redirectTo: "/sign-in"
             },
             {
                 name: 'BuyLaterNotes',

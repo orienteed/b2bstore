@@ -13,7 +13,7 @@ export const GET_CONFIG_DETAILS = gql`
 
 export const GET_SAVED_CARTS = gql`
     query getSaveCarts($pageSize: Int, $currentPage: Int) {
-        orienteedSaveCartGetCarts(currentPage: $currentPage, pageSize: $pageSize) {
+        orienteedSaveCartGetCustomerCarts(currentPage: $currentPage, pageSize: $pageSize) {
             total_count
             page_info {
                 current_page
@@ -47,13 +47,13 @@ export const GET_SAVED_CARTS = gql`
 
 export const DELETE_SAVE_CART = gql`
     mutation deleteSaveCart($token: String!) {
-        orienteedSaveCartDeleteCart(token: $token)
+        orienteedDeleteSaveCart(token: $token)
     }
 `;
 
 export const RESTORE_SAVE_CART = gql`
     mutation restoreSaveCart($cartId: String!, $token: String!) {
-        orienteedSaveCartRestoreCart(cart_id: $cartId, token: $token)
+        orienteedRestoreSaveCart(cart_id: $cartId, token: $token)
     }
 `;
 
@@ -69,6 +69,6 @@ export const CART_DETAILS_QUERY = gql`
 
 export const SHARE_CART = gql`
     mutation getShareCart($cartId: String!, $token: String!) {
-        orienteedSaveCartShareCart(cart_id: $cartId, token: $token)
+        orienteedShareSaveCart(cart_id: $cartId, token: $token)
     }
 `;

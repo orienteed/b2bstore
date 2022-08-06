@@ -24,7 +24,7 @@ export const useShareCartPage = async props => {
         const token = url[5];
         if (shareCartUpadte == 1) {
             const {
-                data: { orienteedSaveCartShareCart }
+                data: { orienteedShareSaveCart }
             } = await getShareCart({
                 fetchPolicy: 'no-cache',
                 variables: {
@@ -33,7 +33,7 @@ export const useShareCartPage = async props => {
                 }
             });
 
-            if (orienteedSaveCartShareCart) {
+            if (orienteedShareSaveCart) {
                 await getCartDetails({
                     cartId,
                     fetchCartDetails

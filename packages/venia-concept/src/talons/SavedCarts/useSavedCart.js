@@ -59,7 +59,7 @@ export const useSavedCart = props => {
                 setIsSaveCartLoading(true);
                 setErrorMessage(null);
                 const {
-                    data: { o_orienteedSaveCart }
+                    data: { orienteedSaveCart }
                 } = await getOrienteedSaveCart({
                     fetchPolicy: 'no-cache',
                     variables: {
@@ -69,7 +69,7 @@ export const useSavedCart = props => {
                     }
                 });
 
-                if (o_orienteedSaveCart) {
+                if (orienteedSaveCart) {
                     await clearCartDataFromCache(apolloClient);
                     await createCart({
                         fetchCartId

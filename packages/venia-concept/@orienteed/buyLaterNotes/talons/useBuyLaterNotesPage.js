@@ -54,7 +54,7 @@ export const useBuyLaterNotesPage = props => {
     useMemo(() => {
         if (savedCartData != undefined) {
             const {
-                orienteedSaveCartGetCarts: { total_count, items }
+                orienteedSaveCartGetCustomerCarts: { total_count, items }
             } = savedCartData;
             setCarts(items);
             setTotalPage(Math.ceil(total_count / pageSize));

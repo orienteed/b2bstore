@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const SAVE_CART = gql`
     mutation getOrienteedSaveCart($cartId: String!, $cartName: String!, $description: String) {
-        o_orienteedSaveCart(cart_id: $cartId, cart_name: $cartName, description: $description)
+        orienteedSaveCart(cart_id: $cartId, cart_name: $cartName, description: $description)
     }
 `;
 
