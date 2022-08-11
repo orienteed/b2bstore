@@ -16,6 +16,7 @@ describe('Checkout test', () => {
     // Wait for the button to activate
     cy.wait(6000)
     cy.contains('Add to Cart').click()
+    cy.scrollTo(0, 0)
     cy.wait(6000)
 
   })
@@ -23,6 +24,7 @@ describe('Checkout test', () => {
   it('Check the cart and proceed to checkout', () => {
     //Wait for the item to be added
     cy.get('.showcart').click()
+    cy.wait(3000)
     cy.get('#top-cart-btn-checkout').click()
   })
   
