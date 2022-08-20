@@ -10,24 +10,26 @@ module.exports = targets => {
 
     // Routes
     targets.of('@magento/venia-ui').routes.tap(routes => {
-        routes.push(
-            {
-                name: 'My Quotes',
-                pattern: '/mprequestforquote/customer/quotes',
-                path: '@orienteed/requestQuote/src/components/Customer/Quotes'
-            },
-            {
-                name: 'My Quote Cart',
-                pattern: '/mprequestforquote/quoteCart',
-                path: '@orienteed/requestQuote/src/components/QuoteCartPage'
-            },
-            {
-                name: 'Thank you',
-                pattern: '/mprequestforquote/quoteCart/success/:id',
-                path: '@orienteed/requestQuote/src/components/QuoteCartPage/QuoteSuccess'
-            }
-        );
-        return routes;
+        if (process.env.B2BSTORE_VERSION === 'PREMIUM') {
+            routes.push(
+                {
+                    name: 'My Quotes',
+                    pattern: '/mprequestforquote/customer/quotes',
+                    path: '@orienteed/requestQuote/src/components/Customer/Quotes'
+                },
+                {
+                    name: 'My Quote Cart',
+                    pattern: '/mprequestforquote/quoteCart',
+                    path: '@orienteed/requestQuote/src/components/QuoteCartPage'
+                },
+                {
+                    name: 'Thank you',
+                    pattern: '/mprequestforquote/quoteCart/success/:id',
+                    path: '@orienteed/requestQuote/src/components/QuoteCartPage/QuoteSuccess'
+                }
+            );
+            return routes;
+        }
     });
 
     // Override Talons
