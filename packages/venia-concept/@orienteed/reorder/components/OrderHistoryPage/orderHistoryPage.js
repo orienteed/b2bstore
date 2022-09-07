@@ -62,11 +62,15 @@ const OrderHistoryPage = props => {
     });
     const classes = useStyle(defaultClasses, props.classes);
 
+    const copyOrderRows = [...orders];
+
+    const sortedOrdersRow = copyOrderRows.sort((a, b) => Number(b.number) - Number(a.number));
+
     const orderRows = useMemo(() => {
-        return orders.map(order => {
+        return sortedOrdersRow.map(order => {
             return <OrderRow address={address} key={order.id} order={order} config={storeConfigData} />;
         });
-    }, [orders]);
+    }, [sortedOrdersRow]);
 
     const pageContents = useMemo(() => {
         if (isLoadingWithoutData) {
