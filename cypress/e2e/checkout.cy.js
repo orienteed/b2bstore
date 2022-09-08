@@ -1,18 +1,38 @@
 describe('Checkout test', () => {
   it('Visits the b2bStore web page', () => {
-    cy.visit('https://b2b-admin.orienteed.lan')
+    cy.visit('https://b2bstore.orienteed.lan/')
+  })
+
+  it('Log in', () => {
+
+    // Login info
+    cy.contains('div', 'Email address').find('input').first()
+    .type('test@orienteed.com')  
+    .should('have.value', 'test@orienteed.com')
+
+    cy.wait(3000)
+
+    cy.contains('div', 'Password').find('input').first()
+    .type('12345678A_')
+
+    cy.wait(3000)
+
+    // Login button
+    cy.get('.button-root_highPriority-3v-').click()
+
+    cy.wait(6000)
+
   })
 
   it('Searches by typing a product name and pressing ENTER', () => {
-    cy.get('#search')
-    .type('ROD')
-    .should('have.value', 'ROD')
-    .type('{enter}')
+    cy.get('.searchTrigger-label-1X3').click()
+    cy.get('input[name="search_query"]').type('TOWN').type('{enter}')
+    cy.wait(6000)
+    
   })
 
   it('Go into the PDP and add the product to the cart', () => {
-    cy.get('#product-item-info_2452 > .photo > .product-image-container > .product-image-wrapper > .product-image-photo')
-    .invoke('show').click()
+    cy.get(':nth-child(1) > .item-name-3AC > span').click()
     // Wait for the button to activate
     cy.wait(6000)
     cy.contains('Add to Cart').click()
@@ -21,13 +41,6 @@ describe('Checkout test', () => {
 
   })
 
-  it('Check the cart and proceed to checkout', () => {
-    //Wait for the item to be added
-    cy.get('.showcart').click()
-    cy.wait(3000)
-    cy.get('#top-cart-btn-checkout').click()
-  })
-  
 
 })
 

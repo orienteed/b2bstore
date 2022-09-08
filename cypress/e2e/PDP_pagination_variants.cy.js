@@ -1,4 +1,4 @@
-describe('Registration test', () => {
+describe('Pagination variants in PDP test', () => {
   it('Visits the b2bStore web page', () => {
     cy.visit('https://b2bstore.orienteed.lan/')
   })

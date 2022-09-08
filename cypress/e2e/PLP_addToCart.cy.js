@@ -1,6 +1,6 @@
-describe('Registration test', () => {
+describe('PLP Add to cart test', () => {
   it('Visits the b2bStore web page', () => {
-    cy.visit('https://b2bstore.orienteed.lan/')
+    cy.visit('https://b2b-admin.orienteed.lan')
   })
 
   it('Click on Create new user and register', () => {
