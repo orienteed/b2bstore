@@ -64,7 +64,9 @@ const OrderHistoryPage = props => {
 
     const copyOrderRows = [...orders];
 
-    const sortedOrdersRow = copyOrderRows.sort((a, b) => Number(b.number) - Number(a.number));
+    const sortedOrdersRow = copyOrderRows.sort(
+        (a, b) => Number(Date.parse(b.order_date)) - Number(Date.parse(a.order_date))
+    );
 
     const orderRows = useMemo(() => {
         return sortedOrdersRow.map(order => {
