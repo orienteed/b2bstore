@@ -29,6 +29,7 @@ import sliderConfigAggregator from '@magento/pagebuilder/lib/ContentTypes/Slider
 import { SliderShimmer } from '@magento/pagebuilder/lib/ContentTypes/Slider';
 import { DynamicBlockShimmer } from '@magento/pagebuilder/lib/ContentTypes/DynamicBlock';
 import courseSliderConfigAggregator from '@orienteed/pagebuilder/lib/ContentTypes/CourseSlider/configAggregator';
+import adsbannerConfigAggregator from '@orienteed/pagebuilder/lib/ContentTypes/Adsbanner/configAggregator';
 
 /* istanbul ignore next */
 const contentTypesConfig = {
@@ -122,6 +123,11 @@ const contentTypesConfig = {
     pagebuilder_lms: {
         configAggregator: courseSliderConfigAggregator,
         component: React.lazy(() => import('@orienteed/pagebuilder/lib/ContentTypes/CourseSlider'))
+    },
+
+    pagebuilder_adsbanner: {
+        configAggregator: adsbannerConfigAggregator,
+        component: React.lazy(() => import('@orienteed/pagebuilder/lib/ContentTypes/Adsbanner'))
     }
 };
 
