@@ -87,11 +87,6 @@ export const useAccountMenuItems = props => {
             url: '/address-book'
         },
         {
-            name: 'Buy Later Notes',
-            id: 'accountMenu.buyLaterNotes',
-            url: '/mpsavecart'
-        },
-        {
             name: 'Order History',
             id: 'accountMenu.orderHistoryLink',
             url: '/order-history'
