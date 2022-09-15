@@ -209,4 +209,7 @@ module.exports = componentOverrideMapping = {
     //New OverWrite
     [`@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/paymentMethods.js`]: './src/components/CheckoutPage/PaymentInformation/paymentMethods.js',
 
+    //NEW OVERWRITE 14/09
+    [`@magento/pagebuilder/lib/ContentTypes/Banner/banner.js`]: '@orienteed/pagebuilder/lib/ContentTypes/Banner/banner.js',
+    [`@magento/pagebuilder/lib/ContentTypes/Banner/banner.module.css`]: '@orienteed/pagebuilder/lib/ContentTypes/Banner/banner.module.css'
 };
