@@ -1,21 +1,27 @@
 describe('PDP Add to favorites test', () => {
   it('Visits the b2bStore web page', () => {
-    cy.visit('https://b2b-admin.orienteed.lan')
+    cy.visit('https://b2bstore.orienteed.lan/')
+    cy.wait(3000)
   })
 
   it('Log in', () => {
-    cy.get('.panel > .header > .link > a').click()
 
     // Login info
-    cy.get('#email')
+    cy.contains('div', 'Email address').find('input').first()
     .type('test@orienteed.com')  
     .should('have.value', 'test@orienteed.com')
 
-    cy.get('.login-container > .block-customer-login > .block-content > #login-form > .fieldset > .password > .control > #pass')
+    cy.wait(3000)
+
+    cy.contains('div', 'Password').find('input').first()
     .type('12345678A_')
 
+    cy.wait(3000)
+
     // Login button
-    cy.get('.login-container > .block-customer-login > .block-content > #login-form > .fieldset > .actions-toolbar > div.primary > #send2').click()
+    cy.get('.button-root_highPriority-3v-').click()
+
+    cy.wait(6000)
 
   })
 

@@ -1,32 +1,33 @@
 describe('Registration test', () => {
   it('Visits the b2bStore web page', () => {
     cy.visit('https://b2bstore.orienteed.lan/')
+    cy.wait(3000)
   })
 
   it('Click on Create new user and register', () => {
-    cy.get('.panel > .header > .link > a').click()
-    cy.get('.login-container > .block-new-customer > .block-content > .actions-toolbar > div.primary > .action').click()
+    cy.get('.signIn-buttonsContainer-jtP > .button-root_normalPriority-1bS').click()
 
     // Registration form
-    cy.get('#firstname')
-    .type('Miguel')
-    .should('have.value', 'Miguel')
+    // Company name
+    cy.get('input[name="customer.firstname"]')
+    .type('Orienteed')
+    .should('have.value', 'Orienteed')
+    cy.wait(2000)
 
-    cy.get('#lastname')
-    .type('Perez')
-    .should('have.value', 'Perez')
-
-    cy.get('#email_address')
+    // Email
+    cy.get('input[name="customer.email"]')
     .type('test@orienteed.com')
     .should('have.value', 'test@orienteed.com')
+    cy.wait(2000)
 
-    cy.get('#password')
+    // Password
+    cy.get('input[name="password"]')
     .type('12345678A_')
+    cy.wait(2000)
 
-    cy.get('#password-confirmation')
-    .type('12345678A_')
-
-    cy.get('#form-validate > .actions-toolbar > div.primary > .action').click()
+    // Create account
+    cy.get('.createAccount-submitButton-1yp').click()
+    cy.wait(3000)
     
   })
 

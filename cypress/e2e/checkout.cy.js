@@ -1,6 +1,7 @@
 describe('Checkout test', () => {
   it('Visits the b2bStore web page', () => {
     cy.visit('https://b2bstore.orienteed.lan/')
+    cy.wait(3000)
   })
 
   it('Log in', () => {
