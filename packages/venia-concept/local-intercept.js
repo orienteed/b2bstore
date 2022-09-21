@@ -46,8 +46,8 @@ module.exports = targets => {
         talonWrapperConfig.Header.useAccountTrigger.wrapWith(require.resolve('./src/talons/useAccountTrigger'));
         talonWrapperConfig.ForgotPassword.useForgotPassword.wrapWith(require.resolve('./src/talons/useForgotPassword'));
         //talonWrapperConfig.SignIn.useSignIn.wrapWith(require.resolve('./src/talons/useSignIn'))
-        // talonWrapperConfig.RootComponents.Product.useProduct.wrapWith(require.resolve('./src/talons/RootComponents/Product/useProduct'))
-        // talonWrapperConfig.RootComponents.Category.useCategory.wrapWith(require.resolve('./src/talons/RootComponents/Category/useCategory'))
+        //talonWrapperConfig.RootComponents.Product.useProduct.wrapWith(require.resolve('./src/talons/RootComponents/Product/useProduct'))
+        //talonWrapperConfig.RootComponents.Category.useCategory.wrapWith(require.resolve('./src/talons/RootComponents/Category/useCategory'))
     });
 
     // const { Targetables } = require('@magento/pwa-buildpack');
@@ -163,6 +163,7 @@ module.exports = targets => {
     /**********************************************
      * Buildpack envVarDefinitions *
      ***********************************************/
+
     const buildpackTargets = targets.of('@magento/pwa-buildpack');
 
     buildpackTargets.envVarDefinitions.tap(defs => {
@@ -198,6 +199,12 @@ module.exports = targets => {
             {
                 name: 'B2BStore variables',
                 variables: [
+                    {
+                        name: 'B2BSTORE_VERSION',
+                        type: 'str',
+                        desc: 'Specfiy b2bstore version PREMIUM or BASIC',
+                        default: 'BASIC'
+                    },
                     {
                         name: 'IS_B2B',
                         type: 'bool',

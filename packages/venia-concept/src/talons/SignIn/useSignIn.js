@@ -13,6 +13,7 @@ import { retrieveCartId } from '@magento/peregrine/lib/store/actions/cart';
 import DEFAULT_OPERATIONS from './signIn.gql.js';
 import registerUserAndSaveData from '@orienteed/lms/services/registerUserAndSaveData';
 import getTokenAndSave from '@orienteed/lms/services/getTokenAndSave.js';
+import doCsrLogin from '@orienteed/csr/services/auth/login.js';
 
 export const useSignIn = props => {
     const { getCartDetailsQuery, setDefaultUsername, showCreateAccount, showForgotPassword } = props;
@@ -78,6 +79,9 @@ export const useSignIn = props => {
                     registerUserAndSaveData(email, password, setMoodleTokenAndId);
                 }
 
+                // CSR logic
+                doCsrLogin();
+
                 // Clear all cart/customer data from cache and redux.
                 await clearCartDataFromCache(apolloClient);
                 await clearCustomerDataFromCache(apolloClient);
@@ -133,6 +137,8 @@ export const useSignIn = props => {
 
     const handleCreateAccount = useCallback(() => {
         history.push('/create-account');
+        showCreateAccount();
+        
     }, [history]);
 
     const handleForgotPassword = useCallback(() => {
