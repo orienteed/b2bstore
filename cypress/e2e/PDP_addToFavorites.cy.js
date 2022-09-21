@@ -26,10 +26,12 @@ describe('PDP Add to favorites test', () => {
   })
 
   it('Go into the first product in the carousel', () => {
-    cy.get(':nth-child(1) > .product-item-info > .product-item-photo > .product-image-container > .product-image-wrapper > .product-image-photo').click()
+    cy.contains('ADD TO CART').click()
   })
 
-
+  it('Add to favorites', () => {
+    cy.get('.ProductFullDetailB2B-favoritesButton-3aH > .addToListButton-root-1zf').click()
+  })
 
 })
 
