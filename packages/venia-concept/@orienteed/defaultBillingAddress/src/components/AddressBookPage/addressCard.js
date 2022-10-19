@@ -155,7 +155,7 @@ const AddressCard = props => {
                 </span>
             </div>
             <div className={classes.actionContainer}>
-                {editButtonElement}
+                {/* {editButtonElement} */}
                 {deleteButtonElement}
                 {maybeConfirmingDeleteOverlay}
             </div>
