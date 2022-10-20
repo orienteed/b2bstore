@@ -93,6 +93,12 @@ const CustomerOrdersFragment = gql`
                     value
                 }
             }
+            mp_delivery_information {
+                mp_delivery_date
+                mp_delivery_time
+                mp_delivery_comment
+                mp_house_security_code
+            }
         }
         page_info {
             current_page

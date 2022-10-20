@@ -73,7 +73,7 @@ const OrderRow = props => {
 
     const collapsedImageGalleryElement = isOpen ? null : <CollapsedImageGallery items={imagesData} />;
 
-    const orderDetails = loading ? null : <OrderDetails address={address} orderData={order} imagesData={imagesData} />;
+    const orderDetails = loading ? null : <OrderDetails address={address} orderData={order} imagesData={imagesData} config={config} />;
 
     const orderTotalPrice =
         currency && orderTotal !== null ? <Price currencyCode={currency} value={orderTotal} /> : '-';
