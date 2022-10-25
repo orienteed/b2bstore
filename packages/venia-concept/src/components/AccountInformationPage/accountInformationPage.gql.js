@@ -70,19 +70,6 @@ export const ADD_NEW_CUSTOMER_ADDRESS = gql`
     }
 `;
 
-export const UPDATE_CUSTOMER_ADDRESS = gql`
-    mutation UpdateCustomerAddressInAddressBook(
-        $addressId: Int!
-        $updated_address: CustomerAddressInput!
-    ) {
-        updateCustomerAddress(id: $addressId, input: $updated_address) {
-            id
-            ...CustomerAddressBookAddressFragment
-        }
-    }
-    ${CustomerAddressBookAddressFragment}
-`;
-
 export const DELETE_CUSTOMER_ADDRESS = gql`
     mutation DeleteCustomerAddressFromAddressBook($addressId: Int!) {
         deleteCustomerAddress(id: $addressId)
@@ -95,7 +82,6 @@ export default {
         changeCustomerPasswordMutation: CHANGE_CUSTOMER_PASSWORD,
         createCustomerAddressMutation: ADD_NEW_CUSTOMER_ADDRESS,
         deleteCustomerAddressMutation: DELETE_CUSTOMER_ADDRESS,
-        updateCustomerAddressMutation: UPDATE_CUSTOMER_ADDRESS
     },
     queries: {
         getCustomerInformationQuery: GET_CUSTOMER_INFORMATION,

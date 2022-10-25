@@ -93,17 +93,7 @@ const AddressCard = props => {
             </LinkButton>
         ) : null;
 
-    const editButtonElement = (
-        <LinkButton classes={{ root: classes.editButton }} onClick={onEdit}>
-            <Icon classes={{ icon: null }} size={16} src={EditIcon} />
-            <span className={classes.actionLabel}>
-                <FormattedMessage
-                    id="addressBookPage.editAddress"
-                    defaultMessage="Edit"
-                />
-            </span>
-        </LinkButton>
-    );
+   
 
     const maybeConfirmingDeleteOverlay = isConfirmingDelete ? (
         <div className={classes.confirmDeleteContainer}>
@@ -155,7 +145,6 @@ const AddressCard = props => {
                 </span>
             </div>
             <div className={classes.actionContainer}>
-                {/* {editButtonElement} */}
                 {deleteButtonElement}
                 {maybeConfirmingDeleteOverlay}
             </div>

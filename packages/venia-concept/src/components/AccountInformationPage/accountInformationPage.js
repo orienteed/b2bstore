@@ -100,7 +100,6 @@ const AccountInformationPage = props => {
             .map(addressEntry => {
                 const countryName = countryDisplayNameMap.get(addressEntry.country_code);
 
-                const boundEdit = () => handleEditAddress(addressEntry);
                 const boundDelete = () => handleDeleteAddress(addressEntry.id);
                 const isConfirmingDelete = confirmDeleteAddressId === addressEntry.id;
                 if (addressEntry.default_billing === true)
@@ -114,7 +113,6 @@ const AccountInformationPage = props => {
                             onCancelDelete={handleCancelDeleteAddress}
                             onConfirmDelete={handleConfirmDeleteAddress}
                             onDelete={boundDelete}
-                            onEdit={boundEdit}
                         />
                     );
             });
@@ -231,7 +229,6 @@ const AccountInformationPage = props => {
                         formErrors={formErrorsCustomerAddress}
                         formProps={formProps}
                         isBusy={isDialogBusy}
-                        isEditMode={isDialogEditMode}
                         isOpen={isDialogOpen}
                         onCancel={handleCancelDialog}
                         onConfirm={handleConfirmDialog}

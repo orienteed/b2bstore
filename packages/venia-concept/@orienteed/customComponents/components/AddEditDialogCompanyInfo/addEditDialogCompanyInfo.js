@@ -16,32 +16,16 @@ import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import defaultClasses from './addEditDialogCompanyInfo.module.css';
 
 const AddEditDialogCompanyInfo = props => {
-    const {
-        formErrors,
-        formProps,
-        isBusy,
-        isEditMode,
-        isOpen,
-        onCancel,
-        onConfirm
-    } = props;
+    const { formErrors, formProps, isBusy, isOpen, onCancel, onConfirm } = props;
 
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, props.classes);
 
-    let formatTitleArgs;
-    if (isEditMode) {
-        formatTitleArgs = {
-            id: 'addressBookPage.editDialogTitle',
-            defaultMessage: 'Edit Address'
-        };
-    } else {
-        formatTitleArgs = {
-            id: 'addressBookPage.addDialogTitle',
-            defaultMessage: 'New Address'
-        };
-    }
+    let formatTitleArgs = {
+        id: 'addressBookPage.addDialogTitle',
+        defaultMessage: 'New Address'
+    };
     const title = formatMessage(formatTitleArgs);
 
     const firstNameLabel = formatMessage({
@@ -84,18 +68,11 @@ const AddEditDialogCompanyInfo = props => {
             shouldDisableAllButtons={isBusy}
             title={title}
         >
-            <FormError
-                classes={{ root: classes.errorContainer }}
-                errors={Array.from(formErrors.values())}
-            />
+            <FormError classes={{ root: classes.errorContainer }} errors={Array.from(formErrors.values())} />
             <div className={classes.root} data-cy="AddEditDialog-root">
                 <div className={classes.firstname}>
                     <Field id="firstname" label={firstNameLabel}>
-                        <TextInput
-                            field="firstname"
-                            validate={isRequired}
-                            data-cy="firstname"
-                        />
+                        <TextInput field="firstname" validate={isRequired} data-cy="firstname" />
                     </Field>
                 </div>
                 {/* <div className={classes.lastname}>
@@ -108,19 +85,11 @@ const AddEditDialogCompanyInfo = props => {
                     </Field>
                 </div> */}
                 <div className={classes.country}>
-                    <Country
-                        field={'country_code'}
-                        validate={isRequired}
-                        data-cy="country"
-                    />
+                    <Country field={'country_code'} validate={isRequired} data-cy="country" />
                 </div>
                 <div className={classes.street1}>
                     <Field id="street1" label={street1Label}>
-                        <TextInput
-                            field="street[0]"
-                            validate={isRequired}
-                            data-cy="street[0]"
-                        />
+                        <TextInput field="street[0]" validate={isRequired} data-cy="street[0]" />
                     </Field>
                 </div>
                 <div className={classes.street2}>
@@ -130,11 +99,7 @@ const AddEditDialogCompanyInfo = props => {
                 </div>
                 <div className={classes.city}>
                     <Field id="city" label={cityLabel}>
-                        <TextInput
-                            field="city"
-                            validate={isRequired}
-                            data-cy="city"
-                        />
+                        <TextInput field="city" validate={isRequired} data-cy="city" />
                     </Field>
                 </div>
                 <div className={classes.region}>
@@ -152,11 +117,7 @@ const AddEditDialogCompanyInfo = props => {
                 </div>
                 <div className={classes.telephone}>
                     <Field id="telephone" label={telephoneLabel}>
-                        <TextInput
-                            field="telephone"
-                            validate={isRequired}
-                            data-cy="telephone"
-                        />
+                        <TextInput field="telephone" validate={isRequired} data-cy="telephone" />
                     </Field>
                 </div>
                 {/* <div className={classes.default_address_check}>
@@ -190,7 +151,6 @@ AddEditDialogCompanyInfo.propTypes = {
         telephone: string
     }),
     formErrors: object,
-    isEditMode: bool,
     isOpen: bool,
     onCancel: func,
     onConfirm: func

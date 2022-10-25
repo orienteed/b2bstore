@@ -17,8 +17,7 @@ export const useAccountInformationPage = props => {
             setCustomerInformationMutation,
             changeCustomerPasswordMutation,
             createCustomerAddressMutation,
-            deleteCustomerAddressMutation,
-            updateCustomerAddressMutation
+            deleteCustomerAddressMutation
         },
         queries: { getCustomerInformationQuery, getCustomerAddressesQuery }
     } = props;
@@ -115,10 +114,6 @@ export const useAccountInformationPage = props => {
         createCustomerAddress,
         { error: createCustomerAddressError, loading: isCreatingCustomerAddress }
     ] = useMutation(createCustomerAddressMutation);
-    const [
-        updateCustomerAddress,
-        { error: updateCustomerAddressError, loading: isUpdatingCustomerAddress }
-    ] = useMutation(updateCustomerAddressMutation);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDialogEditMode, setIsDialogEditMode] = useState(false);
@@ -162,14 +157,7 @@ export const useAccountInformationPage = props => {
     const handleCancelDeleteAddress = useCallback(() => {
         setConfirmDeleteAddressId(null);
     }, []);
-    const handleEditAddress = useCallback(address => {
-        // Hide all previous errors when we open the dialog.
-        setDisplayError(false);
 
-        setIsDialogEditMode(true);
-        setFormAddress(address);
-        setIsDialogOpen(true);
-    }, []);
     const handleCancelDialog = useCallback(() => {
         setIsDialogOpen(false);
     }, []);
@@ -242,72 +230,41 @@ export const useAccountInformationPage = props => {
     );
     const handleConfirmDialog = useCallback(
         async formValues => {
-            if (isDialogEditMode) {
-                try {
-                    await updateCustomerAddress({
-                        variables: {
-                            addressId: formAddress.id,
-                            updated_address: {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e),
-                                default_billing: true
-                            }
-                        },
-                        refetchQueries: [{ query: getCustomerAddressesQuery }],
-                        awaitRefetchQueries: true
-                    });
+            try {
+                await createCustomerAddress({
+                    variables: {
+                        address: {
+                            ...formValues,
+                            // Sends value as empty if none are provided
+                            // Cleans up the street array when values are null or undefined
+                            street: formValues.street.filter(e => e),
+                            default_billing: true
+                        }
+                    },
+                    refetchQueries: [{ query: getCustomerAddressesQuery }],
+                    awaitRefetchQueries: true
+                });
 
-                    setIsDialogOpen(false);
-                } catch {
-                    // Make sure any errors from the mutations are displayed.
-                    setDisplayError(true);
+                setIsDialogOpen(false);
+            } catch {
+                // Make sure any errors from the mutations are displayed.
+                setDisplayError(true);
 
-                    // we have an onError link that logs errors, and FormError
-                    // already renders this error, so just return to avoid
-                    // triggering the success callback
-                    return;
-                }
-            } else {
-                try {
-                    await createCustomerAddress({
-                        variables: {
-                            address: {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e),
-                                default_billing: true
-                            }
-                        },
-                        refetchQueries: [{ query: getCustomerAddressesQuery }],
-                        awaitRefetchQueries: true
-                    });
-
-                    setIsDialogOpen(false);
-                } catch {
-                    // Make sure any errors from the mutations are displayed.
-                    setDisplayError(true);
-
-                    // we have an onError link that logs errors, and FormError
-                    // already renders this error, so just return to avoid
-                    // triggering the success callback
-                    return;
-                }
+                // we have an onError link that logs errors, and FormError
+                // already renders this error, so just return to avoid
+                // triggering the success callback
+                return;
             }
+            // }
         },
-        [createCustomerAddress, formAddress, getCustomerAddressesQuery, isDialogEditMode, updateCustomerAddress]
+        [createCustomerAddress, formAddress, getCustomerAddressesQuery, isDialogEditMode]
     );
 
     const formErrorsCustomerAddress = useMemo(() => {
         if (displayError) {
-            return new Map([
-                ['createCustomerAddressMutation', createCustomerAddressError],
-                ['updateCustomerAddressMutation', updateCustomerAddressError]
-            ]);
+            return new Map([['createCustomerAddressMutation', createCustomerAddressError]]);
         } else return new Map();
-    }, [createCustomerAddressError, displayError, updateCustomerAddressError]);
+    }, [createCustomerAddressError, displayError]);
 
     // use data from backend until Intl.DisplayNames is widely supported
     const countryDisplayNameMap = useMemo(() => {
@@ -323,7 +280,7 @@ export const useAccountInformationPage = props => {
         return countryMap;
     }, [customerAddressesData]);
 
-    const isDialogBusy = isCreatingCustomerAddress || isUpdatingCustomerAddress;
+    const isDialogBusy = isCreatingCustomerAddress;
     const isLoadingWithoutData = !customerAddressesData && loading;
 
     const formProps = {
@@ -355,7 +312,6 @@ export const useAccountInformationPage = props => {
         handleConfirmDeleteAddress,
         handleConfirmDialog,
         handleDeleteAddress,
-        handleEditAddress,
         isDeletingCustomerAddress,
         isDialogBusy,
         isDialogEditMode,
