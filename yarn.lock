@@ -3327,6 +3327,10 @@
   version "0.0.0"
   uid ""
 
+"@orienteed/companyAccount@link:./packages/venia-concept/@orienteed/companyAccount":
+  version "0.0.0"
+  uid ""
+
 "@orienteed/csr@link:./packages/venia-concept/@orienteed/csr":
   version "0.0.0"
   uid ""

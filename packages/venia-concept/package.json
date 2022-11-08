@@ -51,6 +51,7 @@
         "@orienteed/requestQuote": "link:./@orienteed/requestQuote",
         "@orienteed/csr": "link:./@orienteed/csr",
         "@orienteed/deliveryDate": "link:./@orienteed/deliveryDate",
+        "@orienteed/companyAccount": "link:./@orienteed/companyAccount",
         "use-copy": "0.0.2"
     },
     "devDependencies": {

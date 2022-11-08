@@ -24,6 +24,8 @@ import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 
 const EditModal = React.lazy(() => import('@magento/venia-ui/lib/components/AccountInformationPage/editModal'));
 
+import { useCompanyAccount } from '@orienteed/CompanyAccounts/talons/useCompanyAccounts';
+
 const AccountInformationPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
@@ -48,6 +50,7 @@ const AccountInformationPage = props => {
         afterSubmit
     });
 
+    const { companyInfo, updateComponyInfo } = useCompanyAccount({});
     const {
         handleCancel,
         formErrorsCustomerAddress,
@@ -305,6 +308,7 @@ const AccountInformationPage = props => {
                     </div>
                 </div>
             )}
+            <button onClick={updateComponyInfo}>sasas</button>
         </div>
     );
 };
