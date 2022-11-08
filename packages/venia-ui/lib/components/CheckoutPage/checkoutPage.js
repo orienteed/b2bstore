@@ -41,7 +41,6 @@ const CheckoutPage = props => {
     const talonProps = useCheckoutPage();
     const { noProduct } = useNoReorderProductContext();
 
-    console.log('noProduct', noProduct);
     const {
         /**
          * Enum, one of:

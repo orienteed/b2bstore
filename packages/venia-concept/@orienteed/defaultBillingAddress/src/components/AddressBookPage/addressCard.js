@@ -34,7 +34,7 @@ const AddressCard = props => {
         street,
         telephone
     } = address;
-
+    console.log('addressCardOrienteed');
     const classes = useStyle(defaultClasses, propClasses);
     const confirmDeleteButtonClasses = {
         root_normalPriorityNegative: classes.confirmDeleteButton
@@ -55,22 +55,13 @@ const AddressCard = props => {
         default_shipping || default_billing ? (
             <span className={classes.defaultBadge}>
                 {default_shipping && !default_billing && (
-                    <FormattedMessage
-                        id={'addressCard.defaultShippingText'}
-                        defaultMessage={'Default'}
-                    />
+                    <FormattedMessage id={'addressCard.defaultShippingText'} defaultMessage={'Default'} />
                 )}
                 {!default_shipping && default_billing && (
-                    <FormattedMessage
-                        id={'addressCard.defaultBillingText'}
-                        defaultMessage={'Default'}
-                    />
+                    <FormattedMessage id={'addressCard.defaultBillingText'} defaultMessage={'Default'} />
                 )}
                 {default_shipping && default_billing && (
-                    <FormattedMessage
-                        id={'addressCard.defaultBothText'}
-                        defaultMessage={'Default'}
-                    />
+                    <FormattedMessage id={'addressCard.defaultBothText'} defaultMessage={'Default'} />
                 )}
             </span>
         ) : null;
@@ -79,16 +70,10 @@ const AddressCard = props => {
 
     const deleteButtonElement =
         !default_shipping && !default_billing ? (
-            <LinkButton
-                classes={{ root: classes.deleteButton }}
-                onClick={onDelete}
-            >
+            <LinkButton classes={{ root: classes.deleteButton }} onClick={onDelete}>
                 <Icon classes={{ icon: null }} size={16} src={TrashIcon} />
                 <span className={classes.actionLabel}>
-                    <FormattedMessage
-                        id="addressBookPage.deleteAddress"
-                        defaultMessage="Delete"
-                    />
+                    <FormattedMessage id="addressBookPage.deleteAddress" defaultMessage="Delete" />
                 </span>
             </LinkButton>
         ) : null;
@@ -97,10 +82,7 @@ const AddressCard = props => {
         <LinkButton classes={{ root: classes.editButton }} onClick={onEdit}>
             <Icon classes={{ icon: null }} size={16} src={EditIcon} />
             <span className={classes.actionLabel}>
-                <FormattedMessage
-                    id="addressBookPage.editAddress"
-                    defaultMessage="Edit"
-                />
+                <FormattedMessage id="addressBookPage.editAddress" defaultMessage="Edit" />
             </span>
         </LinkButton>
     );
@@ -115,10 +97,7 @@ const AddressCard = props => {
                 negative={true}
                 onClick={onConfirmDelete}
             >
-                <FormattedMessage
-                    id={'global.deleteButton'}
-                    defaultMessage={'Delete'}
-                />
+                <FormattedMessage id={'global.deleteButton'} defaultMessage={'Delete'} />
             </Button>
             <Button
                 classes={cancelDeleteButtonClasses}
@@ -127,10 +106,7 @@ const AddressCard = props => {
                 type="button"
                 onClick={onCancelDelete}
             >
-                <FormattedMessage
-                    id={'global.cancelButton'}
-                    defaultMessage={'Cancel'}
-                />
+                <FormattedMessage id={'global.cancelButton'} defaultMessage={'Cancel'} />
             </Button>
         </div>
     ) : null;
@@ -141,17 +117,10 @@ const AddressCard = props => {
                 {defaultBadge}
                 <span className={classes.name}>{firstname}</span>
                 {streetRows}
-                <span className={classes.additionalAddress}>
-                    {additionalAddressString}
-                </span>
-                <span className={classes.country}>
-                    {countryName || country_code}
-                </span>
+                <span className={classes.additionalAddress}>{additionalAddressString}</span>
+                <span className={classes.country}>{countryName || country_code}</span>
                 <span className={classes.telephone}>
-                    <FormattedMessage
-                        id="addressBookPage.telephone"
-                        values={{ telephone }}
-                    />
+                    <FormattedMessage id="addressBookPage.telephone" values={{ telephone }} />
                 </span>
             </div>
             <div className={classes.actionContainer}>

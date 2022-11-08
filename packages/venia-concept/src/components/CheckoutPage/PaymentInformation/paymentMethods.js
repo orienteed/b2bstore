@@ -20,7 +20,7 @@ const PaymentMethods = props => {
         setCurrentSelectedPaymentMethod,
         paymentMethodMutationData
     } = props;
-    // console.log(props, 'props', paymentMethodMutationData);
+
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, propClasses);
@@ -36,12 +36,12 @@ const PaymentMethods = props => {
     if (isLoading) {
         return null;
     }
-    
     const paymentMethods =
         process.env.B2BSTORE_VERSION === 'BASIC'
             ? availablePaymentMethods?.filter(({ code }) => code !== 'creditsystem')
             : availablePaymentMethods;
     const radios = paymentMethods
+
         .map(({ code, title }) => {
             // If we don't have an implementation for a method type, ignore it.
             if (!Object.keys(payments).includes(code)) {

@@ -191,9 +191,5 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
     [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css', // replace directly
-    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css', // replace directly
-
-    //8/11/22
-    [`@magento/venia-ui/lib/components/CheckoutPage/BillingAddress/billingAddress.js`]: './src/components/CheckoutPage/BillingAddress/billingAddress.js',
-    [`@magento/peregrine/lib/talons/CheckoutPage/BillingAddress/useBillingAddress.js`]: './src/talons/CheckoutPage/BillingAddress/useBillingAddress.js'
+    [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css' // replace directly
 };

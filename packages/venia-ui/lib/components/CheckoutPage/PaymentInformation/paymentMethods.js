@@ -46,6 +46,7 @@ const PaymentMethods = props => {
             const id = `paymentMethod--${code}`;
             const isSelected = currentSelectedPaymentMethod === code;
             const PaymentMethodComponent = payments[code];
+            console.log('paymentMethodsVeniaLib', PaymentMethodComponent);
             const renderedComponent = isSelected ? (
                 <PaymentMethodComponent
                     onPaymentSuccess={onPaymentSuccess}

@@ -26,7 +26,6 @@ export const GET_PAYMENT_NONCE = gql`
         }
     }
 `;
-/* eslint-enable graphql/template-strings */
 
 export const GET_BILLING_ADDRESS = gql`
     query getBillingAddress($cartId: String!) {
@@ -42,6 +41,8 @@ export const GET_BILLING_ADDRESS = gql`
                 city
                 region {
                     code
+                    label
+                    region_id
                 }
                 postcode
                 phoneNumber: telephone
@@ -64,9 +65,33 @@ export const GET_SHIPPING_ADDRESS = gql`
                 city
                 region {
                     code
+                    label
+                    region_id
                 }
                 postcode
                 phoneNumber: telephone
+            }
+        }
+    }
+`;
+
+export const SET_CC_DETAILS_ON_CART = gql`
+    mutation setSelectedPaymentMethod($cartId: String!, $paymentNonce: String!) {
+        setPaymentMethodOnCart(
+            input: {
+                cart_id: $cartId
+                payment_method: {
+                    code: "braintree"
+                    braintree: { payment_method_nonce: $paymentNonce, is_active_payment_token_enabler: false }
+                }
+            }
+        ) @connection(key: "setPaymentMethodOnCart") {
+            cart {
+                id
+                selected_payment_method {
+                    code
+                    title
+                }
             }
         }
     }
@@ -115,6 +140,8 @@ export const SET_BILLING_ADDRESS = gql`
                     city
                     region {
                         code
+                        label
+                        region_id
                     }
                     postcode
                     telephone
@@ -126,28 +153,6 @@ export const SET_BILLING_ADDRESS = gql`
     }
     ${PriceSummaryFragment}
     ${AvailablePaymentMethodsFragment}
-`;
-
-export const SET_CC_DETAILS_ON_CART = gql`
-    mutation setSelectedPaymentMethod($cartId: String!, $paymentNonce: String!) {
-        setPaymentMethodOnCart(
-            input: {
-                cart_id: $cartId
-                payment_method: {
-                    code: "braintree"
-                    braintree: { payment_method_nonce: $paymentNonce, is_active_payment_token_enabler: false }
-                }
-            }
-        ) @connection(key: "setPaymentMethodOnCart") {
-            cart {
-                id
-                selected_payment_method {
-                    code
-                    title
-                }
-            }
-        }
-    }
 `;
 
 export const SET_DEFAULT_BILLING_ADDRESS = gql`
