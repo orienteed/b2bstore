@@ -1,30 +1,6 @@
 import { gql } from '@apollo/client';
+import { CompanyOutput, UsersOutput, OrdersOutput } from './companyFregment.gql';
 
-const CompanyOutput = gql`
-    fragment CompanyOutput on CompanyOutput {
-        administrator_id
-        city
-        company_id
-        country_id
-        created_at
-        customer_group_id
-        email
-        legal_name
-        name
-        postcode
-        region
-        region_id
-        reseller_id
-        sales_representative_id
-        status
-        street
-        updated_at
-        telephone
-        vat_id
-        __typename
-        
-    }
-`;
 const COMPANY_DATA = gql`
     query mpCompanyAccounts {
         mpCompanyAccounts {
@@ -92,6 +68,33 @@ const UPDATE_COMPONY_INFO = gql`
     ${CompanyOutput}
 `;
 
+const CREATE_USER = gql`
+    mutation createMpCompanyUser($input: UsersInput!, $password: String!) {
+        createMpCompanyUser(input: $input, password: $password) {
+            ...UsersOutput
+        }
+    }
+    ${UsersOutput}
+`;
+
+const UPDATE_USER = gql`
+    mutation saveMpCompanyUser($entity_id: Int!, $input: UsersInput, $password: String!) {
+        saveMpCompanyUser(entity_id: $entity_id, input: $input, password: $password) {
+            ...UsersOutput
+        }
+    }
+    ${UsersOutput}
+`;
+
+const DELETE_USER = gql`
+    mutation deleteMpCompanyUser($entity_id: Int!, $password: String!) {
+        deleteMpCompanyUser(entity_id: $entity_id, password: $password) {
+            ...UsersOutput
+        }
+    }
+    ${UsersOutput}
+`;
+
 const GET_LOCALE = gql`
     query getLocale {
         storeConfig {
@@ -101,9 +104,32 @@ const GET_LOCALE = gql`
     }
 `;
 
+const COMPANY_ORDERS = gql`
+    query mpCompanyAccountsOrders {
+        mpCompanyAccountsOrders {
+            ...OrdersOutput
+        }
+    }
+    ${OrdersOutput}
+`;
+
+const COMPANY_USERS = gql`
+    query mpCompanyAccountsUsers {
+        mpCompanyAccountsUsers {
+            ...UsersOutput
+        }
+    }
+    ${UsersOutput}
+`;
+
 export default {
     registerCompany: REGISTER_COMPANY,
     updateCompayInfo: UPDATE_COMPONY_INFO,
     companyData: COMPANY_DATA,
-    GET_LOCALE
+    createUser: CREATE_USER,
+    updateUser: UPDATE_USER,
+    deleteUser: DELETE_USER,
+    getCompanyOrders:COMPANY_ORDERS,
+    getCompanyUsers:COMPANY_USERS,
+    getLocale: GET_LOCALE
 };

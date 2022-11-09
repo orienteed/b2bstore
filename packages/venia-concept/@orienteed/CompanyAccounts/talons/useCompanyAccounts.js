@@ -2,13 +2,13 @@ import { useCallback, useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
-import DEFAULT_OPERATIONS from '../graphql/company';
+import DEFAULT_OPERATIONS from '../graphql/company.gql';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 export const useCompanyAccount = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const [companyDataSt, setCompanyDataSt] = useState();
-    const { registerCompany, companyData, GET_LOCALE, updateCompayInfo } = operations;
+    const { registerCompany, companyData, getCompanyUsers, updateCompayInfo } = operations;
 
     const [{ cartId }] = useCartContext();
 
@@ -16,7 +16,11 @@ export const useCompanyAccount = props => {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
     });
-    console.log(companyInfo, 'companyInfo');
+    const { data: companyUsers } = useQuery(getCompanyUsers, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+    });
+    console.log(companyInfo, 'companyInfo', companyUsers);
     const [setRegisterCompany, { loading, data: setCompanyData }] = useMutation(registerCompany);
 
     const [setUpdateCompayInfo, { data: CompanyDataUpdated }] = useMutation(updateCompayInfo);
@@ -31,7 +35,7 @@ export const useCompanyAccount = props => {
     const updateComponyInfo = useCallback(async () => {
         await setUpdateCompayInfo({
             variables: {
-                ...companyDataSt,
+                ...companyDataSt
             }
         });
     }, [companyDataSt]);
