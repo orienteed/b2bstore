@@ -32,7 +32,7 @@ export const useCompanyAccount = props => {
         }
     }, [companyInfo]);
 
-    const updateComponyInfo = useCallback(async () => {
+    const updateCompanyInfo = useCallback(async () => {
         await setUpdateCompayInfo({
             variables: {
                 ...companyDataSt
@@ -58,6 +58,6 @@ export const useCompanyAccount = props => {
     return {
         createCompanyAccount,
         companyInfo,
-        updateComponyInfo
+        updateCompanyInfo
     };
 };

@@ -4,8 +4,6 @@ module.exports = targets => {
     builtins.specialFeatures.tap(features => {
         features[targets.name] = {
             esModules: true,
-            cssModules: true,
-            i18n: true,
             graphqlQueries: true
         };
     });

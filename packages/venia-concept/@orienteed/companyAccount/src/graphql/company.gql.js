@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { CompanyOutput, UsersOutput, OrdersOutput } from './companyFregment.gql';
+import { CompanyOutput, UsersOutput, OrdersOutput } from './companyFragment.gql';
 
 const COMPANY_DATA = gql`
     query mpCompanyAccounts {
