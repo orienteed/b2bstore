@@ -24,7 +24,9 @@ import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 
 const EditModal = React.lazy(() => import('@magento/venia-ui/lib/components/AccountInformationPage/editModal'));
 
-import { useCompanyAccount } from '@orienteed/CompanyAccounts/talons/useCompanyAccounts';
+// import { useCompanyAccount } from '@orienteed/companyAccounts/src/talons/useCompanyAccounts';
+
+import CompanyInfo from '@orienteed/companyAccounts/src/components/CompanyInfo/companyInfo';
 
 const AccountInformationPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -266,7 +268,7 @@ const AccountInformationPage = props => {
             </StoreTitle>
 
             {errorMessage ? errorMessage : pageContent}
-
+<CompanyInfo/>
             {initialValuesSubscribeToNewsletter && (
                 <div className={classes.container}>
                     <div className={classes.rootSubscribeToNewsletter}>
