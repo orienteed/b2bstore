@@ -5,6 +5,7 @@ module.exports = targets => {
         features[targets.name] = {
             esModules: true,
             cssModules: true,
+            i18n: true,
             graphqlQueries: true
         };
     });
