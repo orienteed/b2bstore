@@ -18,8 +18,6 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
         " Company info, Información de la compañía, Informação da companhia, Information d'entreprise"
     );
 
-    const infoCompany = <FormattedMessage id={'companyInfo'} defaultMessage={'Company Info'} />;
-
     const productTitle = <FormattedMessage id={'productTitle'} defaultMessage={'Products'} />;
     const descriptionTitle = <FormattedMessage id={'descriptionTitle'} defaultMessage={'Description'} />;
     const pricesTitle = <FormattedMessage id={'pricesTitle'} defaultMessage={'Prices'} />;
@@ -100,8 +98,8 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
 
                 {cartItem && (
                     <div className={defaultClasses.cartItemContainer}>
-                        {cartItem.map(item => {
-                            return <ItemCard key={item.id} item={item} tooglePrice={tooglePrice} />;
+                        {cartItem.map((item, index) => {
+                            return <ItemCard key={item.id + index} item={item} tooglePrice={tooglePrice} />;
                         })}
                     </div>
                 )}

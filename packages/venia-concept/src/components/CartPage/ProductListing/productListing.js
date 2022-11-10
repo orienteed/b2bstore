@@ -47,10 +47,10 @@ const ProductListing = props => {
     }
 
     if (items.length) {
-        const productComponents = items.map(product => (
+        const productComponents = items.map((product, index) => (
             <Product
                 item={product}
-                key={product.id}
+                key={product.id + index}
                 setActiveEditItem={setActiveEditItem}
                 setIsCartUpdating={setIsCartUpdating}
                 onAddToWishlistSuccess={onAddToWishlistSuccess}
