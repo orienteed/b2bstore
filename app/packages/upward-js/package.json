@@ -15,7 +15,6 @@
   },
   "scripts": {
     "clean": " ",
-    "test": "jest",
     "test:spec": "upward-spec ./test_spec.sh"
   },
   "repository": "github:magento/pwa-studio",

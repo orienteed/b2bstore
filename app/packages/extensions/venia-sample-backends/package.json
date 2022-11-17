@@ -7,8 +7,7 @@
   "description": "Provides demo backends and backend validation utils for PWA Studio.",
   "main": "./intercept.js",
   "scripts": {
-    "clean": " ",
-    "test": "jest"
+    "clean": " "
   },
   "repository": "github:magento/pwa-studio",
   "license": "(OSL-3.0 OR AFL-3.0)",
