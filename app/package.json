@@ -3,15 +3,9 @@
   "version": "12.7.0-beta.2",
   "private": true,
   "workspaces": [
-    "packages/babel-preset-peregrine",
-    "packages/create-pwa",
     "packages/extensions/*",
     "packages/pagebuilder",
     "packages/peregrine",
-    "packages/pwa-buildpack",
-    "packages/pwa-theme-venia",
-    "packages/upward-js",
-    "packages/upward-spec",
     "packages/venia-concept",
     "packages/venia-ui"
   ],
