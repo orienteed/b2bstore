@@ -121,21 +121,6 @@ const EditForm = props => {
                 </div>
                 {maybeNewPasswordField}
 
-                <div className={classes.taxvat}>
-                    <Field
-                        label={formatMessage({
-                            id: 'global.taxVatId',
-                            defaultMessage: 'Tax/Vat Id'
-                        })}
-                    >
-                        <TextInput
-                            autocomplete="off"
-                            field="taxvat"
-                            data-cy="taxvat"
-                            validate={isRequired}
-                        />
-                    </Field>
-                </div>
             </div>
             {maybeChangePasswordButton}
         </Fragment>

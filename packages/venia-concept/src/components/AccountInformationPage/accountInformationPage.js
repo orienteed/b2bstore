@@ -24,10 +24,6 @@ import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 
 const EditModal = React.lazy(() => import('@magento/venia-ui/lib/components/AccountInformationPage/editModal'));
 
-import { useCompanyAccount } from '@orienteed/companyAccount/src/talons/useCompanyAccount';
-
-import CompanyInfo from '@orienteed/companyAccount/src/components/CompanyInfo/companyInfo';
-
 const AccountInformationPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
@@ -52,7 +48,6 @@ const AccountInformationPage = props => {
         afterSubmit
     });
 
-    const { companyInfo, updateCompanyInfo } = useCompanyAccount({});
     const {
         handleCancel,
         formErrorsCustomerAddress,
@@ -175,12 +170,7 @@ const AccountInformationPage = props => {
                                 </article>
                                 <article className={classes.nameValue}>{customerName}</article>
                             </section>
-                            <section className={classes.titleContainer}>
-                                <article className={classes.title}>
-                                    <FormattedMessage id={'global.taxVatId'} defaultMessage={'Tax/Vat Id'} />
-                                </article>
-                                <article className={classes.nameValue}>{customerTaxVatId}</article>
-                            </section>
+                            
                             <section className={classes.titleContainer}>
                                 <span className={classes.title}>
                                     <FormattedMessage id={'global.email'} defaultMessage={'Email'} />
@@ -268,7 +258,7 @@ const AccountInformationPage = props => {
             </StoreTitle>
 
             {errorMessage ? errorMessage : pageContent}
-            <CompanyInfo />
+
             {initialValuesSubscribeToNewsletter && (
                 <div className={classes.container}>
                     <div className={classes.rootSubscribeToNewsletter}>
@@ -310,7 +300,6 @@ const AccountInformationPage = props => {
                     </div>
                 </div>
             )}
-            <button onClick={updateCompanyInfo}>sasas</button>
         </div>
     );
 };
