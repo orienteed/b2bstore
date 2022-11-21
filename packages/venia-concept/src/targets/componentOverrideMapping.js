@@ -196,6 +196,5 @@ module.exports = componentOverrideMapping = {
     [`@magento/venia-ui/lib/components/WishlistPage/wishlistPage.module.css`]: './src/components/WishlistPage/wishlistPage.module.css',
     [`@magento/venia-ui/lib/index.module.css`]: './src/css/index.module.css',
     [`@magento/venia-ui/lib/tokens.module.css`]: './src/css/tokens.module.css',
-    [`@orienteed/customComponents/css/forms.module.css`]: './src/css/forms.module.css', // replace directly
     [`@orienteed/reorder/components/ReOrderBtn/reOrderBtn.module.css`]: './src/components/ReOrderBtn/reOrderBtn.module.css' // replace directly
 };

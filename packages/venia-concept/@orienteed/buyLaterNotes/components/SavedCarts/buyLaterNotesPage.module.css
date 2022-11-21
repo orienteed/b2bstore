@@ -5,7 +5,7 @@
 }
 
 .heading {
-    font-family: var(--b2bStore-font-family-Lato);
+    font-family: var(--b2bStore-font-family);
     font-weight: var(--venia-global-fontWeight-bold);
     justify-self: center;
     text-transform: capitalize;

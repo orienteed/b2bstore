@@ -74,7 +74,7 @@
     font-size: 18px;
     font-weight: bold;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--orienteed-primary-color-base2);
+    border-bottom: 1px solid var( --b2bstore-global-color-gray);
 }
 
 .summaryText {
@@ -192,7 +192,7 @@
 
 .sectionTabActive {
     composes: sectionTab;
-    background-color: var(--orienteed-primary-color-base1);
+    background-color: var( --b2bstore-global-color-orange);
     color: white;
     font-weight: 700;
 }

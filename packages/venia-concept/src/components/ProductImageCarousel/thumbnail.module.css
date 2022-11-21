@@ -40,7 +40,7 @@
     .rootSelected {
         composes: root;
 
-        box-shadow: 0 0 10px 0 var(--orienteed-primary-color-base1);
+        box-shadow: 0 0 10px 0 var( --b2bstore-global-color-orange);
     }
 
     .image {

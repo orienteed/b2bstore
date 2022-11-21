@@ -2,7 +2,7 @@
     align-items: center;
     background: #ffffff;
     border-radius: 8px;
-    border: 3px dashed var(--orienteed-global-color-orange);
+    border: 3px dashed var( --b2bstore-global-color-orange);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -14,7 +14,7 @@
 .dropzoneContainerFull {
     background: #ffffff;
     border-radius: 8px;
-    border: 3px dashed var(--orienteed-global-color-orange);
+    border: 3px dashed var( --b2bstore-global-color-orange);
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100px;
@@ -23,7 +23,7 @@
 }
 
 .dropzonePlaceholder {
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
     font-size: 18px;
     font-weight: 500;
     line-height: 16px;

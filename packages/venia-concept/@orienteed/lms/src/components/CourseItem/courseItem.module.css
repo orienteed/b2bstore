@@ -34,7 +34,7 @@
 .categoryTag {
     font-size: 14px;
     font-weight: 400;
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
     margin-top: auto;
 }
 
@@ -87,7 +87,7 @@
     height: 24px;
     border-radius: 5px;
     font-weight: 700;
-    background-color: var(--orienteed-global-color-orange);
+    background-color: var( --b2bstore-global-color-orange);
 }
 
 .progressBarFillText {

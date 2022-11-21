@@ -8,7 +8,7 @@
 .root_selected {
     composes: root;
 
-    --selectedColor: var(--orienteed-primary-color-base1);
+    --selectedColor: var( --b2bstore-global-color-orange);
     --fill: var(--selectedColor);
     --stroke: var(--selectedColor);
 

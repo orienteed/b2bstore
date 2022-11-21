@@ -30,7 +30,7 @@
 }
 
 .icon svg {
-    stroke: var(--orienteed-primary-color-base1);
+    stroke: var( --b2bstore-global-color-orange);
 }
 
 .label {
@@ -50,12 +50,12 @@
 }
 
 .input:checked:enabled + .icon {
-    --stroke: var(--orienteed-primary-color-base1);
+    --stroke: var( --b2bstore-global-color-orange);
 }
 
 .input:active:enabled,
 .input:focus:enabled {
-    box-shadow: -3px 3px rgba(var(--orienteed-global-color-gray-op), 0.5);
+    box-shadow: -3px 3px rgba(var( --b2bstore-global-color-gray-alpha), 0.5);
     outline: none;
 }
 .container {
@@ -67,5 +67,5 @@
     margin-left: 30px;
 }
 .dataPoliticsContainer .dataPolitics {
-    color: var(--orienteed-primary-color-base1);
+    color: var( --b2bstore-global-color-orange);
 }

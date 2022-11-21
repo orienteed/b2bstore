@@ -97,7 +97,7 @@
 
 /***** Dropzone *****/
 .acceptedFiles {
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
     font-size: 14px;
     font-weight: 500;
     line-height: 16px;

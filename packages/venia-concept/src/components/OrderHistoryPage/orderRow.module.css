@@ -46,7 +46,7 @@
     padding: 0;
 }
 .contentToggleContainer span svg {
-    stroke: var(--orienteed-global-color-orange);
+    stroke: var( --b2bstore-global-color-orange);
 }
 
 .orderNumberLabel,
@@ -83,7 +83,7 @@
 .orderInsurancesButton {
     composes: root_normalPriority from '@magento/venia-concept/src/components/Button/button.module.css';
     border: 0;
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
     font-weight: 500;
     font-size: 16px;
     gap: 0.3rem;

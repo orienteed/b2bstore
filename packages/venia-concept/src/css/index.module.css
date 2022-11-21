@@ -30,11 +30,11 @@
 :global(select),
 :global(textarea) {
     color: rgb(var(--venia-global-color-text));
-    font-family: var(--b2bStore-font-family-Lato);
+    font-family: var(--b2bStore-font-family);
 }
 
 :global(*) {
-    font-family: var(--b2bStore-font-family-Lato);
+    font-family: var(--b2bStore-font-family);
 }
 :global(body) {
     background-color: rgb(var(--venia-global-color-gray-50));

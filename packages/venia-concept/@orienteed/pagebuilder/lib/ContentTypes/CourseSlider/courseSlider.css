@@ -42,7 +42,7 @@
 }
 
 .linkText {
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
     font-size: 16px;
     font-weight: 500;
     line-height: 16px;

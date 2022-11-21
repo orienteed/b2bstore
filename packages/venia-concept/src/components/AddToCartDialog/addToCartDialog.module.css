@@ -29,7 +29,7 @@
 }
 
 .name {
-    font-family: var(--b2bStore-font-family-Lato);
+    font-family: var(--b2bStore-font-family);
     font-size: var(--venia-typography-body-XXXL-fontSize);
     font-weight: var(--venia-global-fontWeight-bold);
 }

@@ -47,7 +47,7 @@
     justify-content: flex-end;
 }
 .customerCreditButton {
-    --stroke: var(--orienteed-primary-color-base2);
+    --stroke: var( --b2bstore-global-color-gray);
     border-color: rgb(var(--stroke));
     border-radius: 10rem;
     border-style: solid;
@@ -68,7 +68,7 @@
     color: rgb(var(--venia-global-color-gray-50));
 }
 .customerCreditButton:hover {
-    --stroke: var(--orienteed-primary-color-base1);
+    --stroke: var( --b2bstore-global-color-orange);
 }
 
 .customerCreditButton:focus {
@@ -76,10 +76,10 @@
 }
 .customerCreditButton:active {
     transition-duration: 128ms;
-    --stroke: var(--orienteed-primary-color-base1);
+    --stroke: var( --b2bstore-global-color-orange);
 }
 .customerCreditButton:disabled,
 .customerCreditButton:hover:disabled {
     pointer-events: none;
-    --stroke: var(--orienteed-primary-color-base2);
+    --stroke: var( --b2bstore-global-color-gray);
 }

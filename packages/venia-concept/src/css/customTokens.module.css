@@ -1,13 +1,13 @@
 /* global tokens */
 :global(:root) {
     /* color */
-    --orienteed-global-color-orange: #e8ab00;
-    --orienteed-global-color-orange-hover: #dc8b10;
-    --orienteed-global-color-gray: #808080;
-    --orienteed-global-color-black: #28282b;
-    --orienteed-global-color-orange-op: 232, 171, 0;
-    --orienteed-global-color-gray-op: 128, 128, 128;
-    --orienteed-global-color-black-op: 40, 40, 43;
+    --b2bstore-global-color-orange: #e8ab00;
+    --b2bstore-global-color-orange-hover: #dc8b10;
+    --b2bstore-global-color-gray: #808080;
+    --b2bstore-global-color-black: #28282b;
+    --b2bstore-global-color-orange-alpha: 232, 171, 0;
+    --b2bstore-global-color-gray-alpha: 128, 128, 128;
+    --b2bstore-global-color-black-alpha: 40, 40, 43;
     /* fonts */
     --b2bStore-footer-title-font-size: 20px;
     --b2bStore-footer-text-font-size: 14px;
@@ -25,15 +25,15 @@
 /* alias tokens */
 :global(:root) {
     /* colors */
-    --orienteed-primary-color-base1: var(--orienteed-global-color-orange);
-    --orienteed-primary-color-base1-hover: var(--orienteed-global-color-orange-hover);
-    --orienteed-primary-color-base2: var(--orienteed-global-color-gray);
-    --orienteed-primary-color-base3: var(--orienteed-global-color-black);
+    --b2bstore-global-color-orange: var( --b2bstore-global-color-orange);
+    --b2bstore-global-color-orange-hover: var( --b2bstore-global-color-orange-hover);
+    --b2bstore-global-color-gray: var( --b2bstore-global-color-gray);
+    --b2bstore-global-color-black: var( --b2bstore-global-color-black);
     /* font */
-    --b2bStore-font-family-Lato: var(--b2bStore-font-family);
+    --b2bStore-font-family: var(--b2bStore-font-family);
     /*border */
-    --b2bStore-border-radius-button: var(--b2bStore-border-radius);
-    --b2bStore-fieldInput-border-color-button: var(--b2bStore-fieldInput-border-color);
-    --b2bStore-font-normal-color: var(--b2bStore-font-color);
-    --b2bStore-background-color-hover-button: var(--b2bStore-background-color-hover);
+    --b2bStore-border-radius: var(--b2bStore-border-radius);
+    --b2bStore-fieldInput-border-color: var(--b2bStore-fieldInput-border-color);
+    --b2bStore-font-color: var(--b2bStore-font-color);
+    --b2bStore-background-color-hover: var(--b2bStore-background-color-hover);
 }

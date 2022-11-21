@@ -37,7 +37,7 @@
 }
 
 .sortButton {
-    background-color: var(--orienteed-global-color-orange);
+    background-color: var( --b2bstore-global-color-orange);
     border-left: 2px solid white;
     width: 50px;
     display: flex;
@@ -48,7 +48,7 @@
 }
 
 .sortButton:hover {
-    background-color: var(--b2bStore-background-color-hover-button);
+    background-color: var(--b2bStore-background-color-hover);
 }
 
 .desktopText {

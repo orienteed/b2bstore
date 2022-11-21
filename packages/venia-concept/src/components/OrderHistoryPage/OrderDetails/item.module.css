@@ -61,7 +61,7 @@
     font-weight: 500;
     font-size: 16px;
     gap: 0.4rem;
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
 }
 
 .nameProduct {
@@ -89,7 +89,7 @@
 }
 
 .grossPrice {
-    color: var(--orienteed-global-color-orange);
+    color: var( --b2bstore-global-color-orange);
     font-weight: 600 !important;
     font-size: 24px !important;
 }

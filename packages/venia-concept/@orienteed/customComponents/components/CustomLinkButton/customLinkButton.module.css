@@ -3,7 +3,7 @@
     font-weight: var(--venia-global-fontWeight-semibold);
     line-height: 1.25rem;
     max-width: 100%;
-    background-color: var(--orienteed-primary-color-base1);
+    background-color: var( --b2bstore-global-color-orange);
     color: white;
     text-decoration: none;
     height: 48px;
@@ -13,5 +13,5 @@
 }
 
 .root:hover {
-    color: var(--orienteed-primary-color-base3);
+    color: var( --b2bstore-global-color-black);
 }

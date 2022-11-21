@@ -108,7 +108,7 @@
 }
 
 .addToListButton {
-    --stroke: var(--orienteed-global-color-orange);
+    --stroke: var( --b2bstore-global-color-orange);
     align-content: center;
     column-gap: 1.125rem;
     display: inline-flex;

@@ -29,7 +29,7 @@
 
 .headerRow th {
     text-align: center;
-    border-bottom: 2px solid var(--orienteed-global-color-orange);
+    border-bottom: 2px solid var( --b2bstore-global-color-orange);
     padding-bottom: 4px;
 }
 

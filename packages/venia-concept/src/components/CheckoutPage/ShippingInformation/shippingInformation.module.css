@@ -30,7 +30,7 @@
 .editButton {
     padding: 1rem;
     margin: -1rem;
-    color: var(--orienteed-primary-color-base1);
+    color: var( --b2bstore-global-color-orange);
 }
 
 .editWrapper {
@@ -45,7 +45,7 @@
 }
 
 .editIcon {
-    stroke: var(--orienteed-primary-color-base1);
+    stroke: var( --b2bstore-global-color-orange);
 }
 
 .loading {

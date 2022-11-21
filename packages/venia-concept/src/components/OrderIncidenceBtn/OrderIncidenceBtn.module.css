@@ -8,7 +8,7 @@
 
 .OrderIncidenceBtn {
     color: rgb(var(--venia-global-color-text));
-    border-color: var(--orienteed-primary-color-base1);
+    border-color: var( --b2bstore-global-color-orange);
 }
 
 .addBtn {
@@ -25,7 +25,7 @@
     transition-property: background-color, border-color, color;
     transition-timing-function: var(--venia-global-anim-standard);
     color: rgb(var(--venia-global-color-text));
-    border-color: var(--orienteed-primary-color-base1);
+    border-color: var( --b2bstore-global-color-orange);
     margin: 15px 0;
 }
 .OrderIncidenceDiv {

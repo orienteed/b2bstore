@@ -42,15 +42,15 @@
 }
 
 .input:checked {
-    background-color: var(--orienteed-primary-color-base1);
+    background-color: var( --b2bstore-global-color-orange);
 }
 
 .input:checked + .icon svg {
-    stroke: var(--orienteed-primary-color-base1);
+    stroke: var( --b2bstore-global-color-orange);
 }
 
 .input:active,
 .input:focus {
-    box-shadow: -3px 3px rgba(var(--orienteed-global-color-orange-op), 0.5);
+    box-shadow: -3px 3px rgba(var( --b2bstore-global-color-orange-alpha), 0.5);
     outline: none;
 }

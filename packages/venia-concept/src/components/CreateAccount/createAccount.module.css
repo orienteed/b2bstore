@@ -31,8 +31,8 @@
 
 .cancelButton {
     composes: root_lowPriority from '../Button/button.module.css';
-    border-color: var(--b2bStore-fieldInput-border-color-button);
-    color: var(--b2bStore-font-normal-color);
+    border-color: var(--b2bStore-fieldInput-border-color);
+    color: var(--b2bStore-font-color);
 }
 
 .submitButton {
