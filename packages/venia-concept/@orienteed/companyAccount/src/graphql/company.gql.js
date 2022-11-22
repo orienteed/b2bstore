@@ -48,10 +48,14 @@ const UPDATE_COMPONY_INFO = gql`
         $street: String!
         $telephone: String!
         $postcode: String!
-        $region_id: Int!
+        $region_id: Int
+        $legal_name: String
+        $vat_id: String
+        $reseller_id: String
     ) {
         saveMpCompany(
             input: {
+                legal_name: $legal_name
                 city: $city
                 country_id: $country_id
                 email: $email
@@ -60,6 +64,8 @@ const UPDATE_COMPONY_INFO = gql`
                 street: $street
                 telephone: $telephone
                 region_id: $region_id
+                reseller_id: $reseller_id
+                vat_id: $vat_id
             }
         ) {
             ...CompanyOutput
@@ -88,11 +94,8 @@ const UPDATE_USER = gql`
 
 const DELETE_USER = gql`
     mutation deleteMpCompanyUser($entity_id: Int!, $password: String!) {
-        deleteMpCompanyUser(entity_id: $entity_id, password: $password) {
-            ...UsersOutput
-        }
+        deleteMpCompanyUser(entity_id: $entity_id, password: $password)
     }
-    ${UsersOutput}
 `;
 
 const GET_LOCALE = gql`
@@ -112,6 +115,52 @@ const COMPANY_ORDERS = gql`
     }
     ${OrdersOutput}
 `;
+const COMPANY_USERS_ROLES = gql`
+    query mpCompanyAccountsUserRoles {
+        mpCompanyAccountsUserRoles {
+            allow_all
+            company_id
+            created_at
+            name
+            order_amount
+            order_quantity
+            role_id
+            updated_at
+            user_rules {
+                created_at
+                permission
+                resource_id
+                role_id
+                rule_id
+                updated_at
+                __typename
+            }
+        }
+    }
+`;
+const CREATE_USER_ROLE = gql`
+    mutation createMpCompanyUserRole($input: UserRolesInput!, $password: String!) {
+        createMpCompanyUserRole(input: $input, password: $password) {
+            allow_all
+            company_id
+            created_at
+            name
+            order_amount
+            order_quantity
+            role_id
+            updated_at
+            user_rules {
+                created_at
+                permission
+                resource_id
+                role_id
+                rule_id
+                updated_at
+                __typename
+            }
+        }
+    }
+`;
 
 const COMPANY_USERS = gql`
     query mpCompanyAccountsUsers {
@@ -129,7 +178,9 @@ export default {
     createUser: CREATE_USER,
     updateUser: UPDATE_USER,
     deleteUser: DELETE_USER,
-    getCompanyOrders:COMPANY_ORDERS,
-    getCompanyUsers:COMPANY_USERS,
-    getLocale: GET_LOCALE
+    getCompanyOrders: COMPANY_ORDERS,
+    getCompanyUsers: COMPANY_USERS,
+    getLocale: GET_LOCALE,
+    createUserRole: CREATE_USER_ROLE,
+    getUserRules: COMPANY_USERS_ROLES
 };
