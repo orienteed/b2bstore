@@ -4,6 +4,10 @@ import { useMutation } from '@apollo/client';
 
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
 
+import { GET_CART_DETAILS_QUERY } from '@magento/venia-ui/lib/components/SignIn/signIn.gql.js';
+import { useSignIn } from '../SignIn/useSignIn';
+import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
+
 /**
  * Returns props necessary to render a ResetPassword form.
  *
@@ -19,23 +23,18 @@ export const useResetPassword = props => {
 
     const [hasCompleted, setHasCompleted] = useState(false);
     const location = useLocation();
-    const [
-        resetPassword,
-        { error: resetPasswordErrors, loading }
-    ] = useMutation(mutations.resetPasswordMutation);
+    const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(mutations.resetPasswordMutation);
 
-    const {
-        recaptchaLoading,
-        generateReCaptchaData,
-        recaptchaWidgetProps
-    } = useGoogleReCaptcha({
+    const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_FORGOT_PASSWORD',
         formAction: 'resetPassword'
     });
 
-    const searchParams = useMemo(() => new URLSearchParams(location.search), [
-        location
-    ]);
+    const { handleSubmit: handleSignIn } = useSignIn({
+        getCartDetailsQuery: GET_CART_DETAILS_QUERY
+    });
+
+    const searchParams = useMemo(() => new URLSearchParams(location.search), [location]);
     const token = searchParams.get('token');
 
     const handleSubmit = useCallback(
@@ -49,15 +48,18 @@ export const useResetPassword = props => {
                         ...reCaptchaData
                     });
 
+                    await handleSignIn({ email, password: newPassword });
+
+                    process.env.LMS_ENABLED === 'true' && modifyLmsCustomer('', '', email, newPassword);
+
                     setHasCompleted(true);
                 }
             } catch (err) {
                 // Error is logged by apollo link - no need to double log.
-
                 setHasCompleted(false);
             }
         },
-        [generateReCaptchaData, resetPassword, token]
+        [generateReCaptchaData, resetPassword, token, handleSignIn]
     );
 
     return {

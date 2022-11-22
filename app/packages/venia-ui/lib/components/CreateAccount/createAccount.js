@@ -6,11 +6,7 @@ import { useCreateAccount } from '@magento/peregrine/lib/talons/CreateAccount/us
 
 import { useStyle } from '../../classify';
 import combine from '../../util/combineValidators';
-import {
-    hasLengthAtLeast,
-    isRequired,
-    validatePassword
-} from '../../util/formValidators';
+import { hasLengthAtLeast, isRequired, validatePassword } from '../../util/formValidators';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Field from '../Field';
@@ -27,14 +23,7 @@ const CreateAccount = props => {
         onCancel: props.onCancel
     });
 
-    const {
-        errors,
-        handleCancel,
-        handleSubmit,
-        isDisabled,
-        initialValues,
-        recaptchaWidgetProps
-    } = talonProps;
+    const { errors, handleCancel, handleSubmit, isDisabled, initialValues, recaptchaWidgetProps } = talonProps;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -47,10 +36,7 @@ const CreateAccount = props => {
             priority="low"
             onClick={handleCancel}
         >
-            <FormattedMessage
-                id={'createAccount.cancelText'}
-                defaultMessage={'Cancel'}
-            />
+            <FormattedMessage id={'createAccount.cancelText'} defaultMessage={'Cancel'} />
         </Button>
     );
 
@@ -62,10 +48,7 @@ const CreateAccount = props => {
             priority="high"
             data-cy="CreateAccount-submitButton"
         >
-            <FormattedMessage
-                id={'createAccount.createAccountText'}
-                defaultMessage={'Create an Account'}
-            />
+            <FormattedMessage id={'createAccount.createAccountText'} defaultMessage={'Create an Account'} />
         </Button>
     );
 
@@ -76,18 +59,15 @@ const CreateAccount = props => {
             initialValues={initialValues}
             onSubmit={handleSubmit}
         >
-            <h2 data-cy="CreateAccount-title" className={classes.title}>
-                <FormattedMessage
-                    id={'createAccount.createAccountText'}
-                    defaultMessage={'Create an Account'}
-                />
-            </h2>
+            <span data-cy="CreateAccount-title" className={classes.title}>
+                <FormattedMessage id={'createAccount.createAccountText'} defaultMessage={'Create an Account'} />
+            </span>
             <FormError errors={Array.from(errors.values())} />
             <Field
                 id="firstName"
                 label={formatMessage({
-                    id: 'createAccount.firstNameText',
-                    defaultMessage: 'First Name'
+                    id: 'global.companyName',
+                    defaultMessage: 'Company Name'
                 })}
             >
                 <TextInput
@@ -101,24 +81,26 @@ const CreateAccount = props => {
                     data-cy="customer-firstname"
                 />
             </Field>
-            <Field
-                id="lastName"
-                label={formatMessage({
-                    id: 'createAccount.lastNameText',
-                    defaultMessage: 'Last Name'
-                })}
-            >
-                <TextInput
+            <article className={classes.last_name}>
+                <Field
                     id="lastName"
-                    field="customer.lastname"
-                    autoComplete="family-name"
-                    validate={isRequired}
-                    validateOnBlur
-                    mask={value => value && value.trim()}
-                    maskOnBlur={true}
-                    data-cy="customer-lastname"
-                />
-            </Field>
+                    label={formatMessage({
+                        id: 'createAccount.lastNameText',
+                        defaultMessage: 'Last Name'
+                    })}
+                >
+                    <TextInput
+                        id="lastName"
+                        field="customer.lastname"
+                        autoComplete="family-name"
+                        validate={isRequired}
+                        validateOnBlur
+                        mask={value => value && value.trim()}
+                        maskOnBlur={true}
+                        data-cy="customer-lastname"
+                    />
+                </Field>
+            </article>
             <Field
                 id="Email"
                 label={formatMessage({
@@ -146,11 +128,7 @@ const CreateAccount = props => {
                     id: 'createAccount.passwordText',
                     defaultMessage: 'Password'
                 })}
-                validate={combine([
-                    isRequired,
-                    [hasLengthAtLeast, 8],
-                    validatePassword
-                ])}
+                validate={combine([isRequired, [hasLengthAtLeast, 8], validatePassword])}
                 validateOnBlur
                 mask={value => value && value.trim()}
                 maskOnBlur={true}

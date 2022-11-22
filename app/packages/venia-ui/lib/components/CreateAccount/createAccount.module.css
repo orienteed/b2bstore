@@ -31,7 +31,7 @@
 }
 
 .cancelButton {
-    composes: root_lowPriority from '../Button/button.module.css';
+    composes: root_normalPriority from '../Button/button.module.css';
 }
 
 .submitButton {
@@ -42,6 +42,16 @@
     composes: lg_col-start-2 from global;
 }
 
-.subscribe {
+/* .subscribe {
     composes: -ml-1.5 from global;
+} */
+
+.last_name {
+    display: none;
+}
+
+.title {
+    composes: capitalize from global;
+    composes: pt-2xs from global;
+    composes: text-lg from global;
 }

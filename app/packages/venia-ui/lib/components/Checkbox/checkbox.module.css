@@ -36,9 +36,8 @@
 }
 
 .icon svg {
-    stroke: rgb(var(--stroke));
+    stroke: var(--b2bstore-global-color-orange);
 }
-
 .label {
     composes: cursor-pointer from global;
     composes: justify-self-start from global;
@@ -53,7 +52,7 @@
 }
 
 .input:checked:enabled + .icon {
-    --stroke: var(--venia-brand-color-1-700);
+    --stroke: var(--b2bstore-global-color-orange);
 }
 
 /* TODO @TW: cannot compose, needs "checked" variant enabled. Cannot combine variants. */
@@ -61,7 +60,7 @@
 .input:focus:enabled {
     /* composes: active_shadow-radioActive from global; */
     /* composes: focus_shadow-radioFocus from global; */
-    box-shadow: -3px 3px rgb(var(--venia-brand-color-1-100));
+    box-shadow: -3px 3px rgba(var( --b2bstore-global-color-gray-alpha), 0.5);
     outline: none;
 }
 

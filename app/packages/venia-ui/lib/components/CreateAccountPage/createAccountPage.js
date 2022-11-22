@@ -22,12 +22,9 @@ const CreateAccountPage = props => {
                     defaultMessage: 'Create an Account'
                 })}
             </StoreTitle>
-            <h1 className={classes.header}>
-                <FormattedMessage
-                    id="createAccountPage.header"
-                    defaultMessage="Create an Account"
-                />
-            </h1>
+            {/* <h1 className={classes.header}>
+                <FormattedMessage id="createAccountPage.header" defaultMessage="Create an Account" />
+            </h1> */}
             <div className={classes.contentContainer}>
                 <CreateAccount {...createAccountProps} />
             </div>
@@ -36,7 +33,7 @@ const CreateAccountPage = props => {
 };
 
 CreateAccountPage.defaultProps = {
-    signedInRedirectUrl: '/order-history',
+    signedInRedirectUrl: '/',
     signInPageUrl: '/sign-in'
 };
 

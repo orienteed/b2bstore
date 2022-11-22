@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-// import doCsrLogout from '@magento/peregrine/lib/RestApi/Lms/auth/logout';
+// import doCsrLogout from '@magento/peregrine/lib/RestApi/Csr/auth/logout';
 import doLmsLogout from '@magento/peregrine/lib/RestApi/Lms/auth/logout';
 
 /**

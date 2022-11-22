@@ -22,12 +22,12 @@ const ForgotPasswordPage = props => {
                     defaultMessage: 'Forgot Your Password?'
                 })}
             </StoreTitle>
-            <h1 className={classes.header}>
+            {/* <h1 className={classes.header}>
                 <FormattedMessage
                     id="forgotPasswordPage.header"
                     defaultMessage="Forgot Your Password?"
                 />
-            </h1>
+            </h1> */}
             <div className={classes.contentContainer}>
                 <ForgotPassword {...forgotPasswordProps} />
             </div>

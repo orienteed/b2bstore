@@ -11,6 +11,9 @@ import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import DEFAULT_OPERATIONS from './createAccount.gql';
 import { useEventingContext } from '../../context/eventing';
 
+// import doCsrLogin from   '@magento/peregrine/lib/RestApi/Csr/auth/login';
+import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login';
+
 /**
  * Returns props necessary to render CreateAccount component. In particular this
  * talon handles the submission flow by first doing a pre-submisson validation
@@ -41,14 +44,8 @@ export const useCreateAccount = props => {
     } = operations;
     const apolloClient = useApolloClient();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [
-        { cartId },
-        { createCart, removeCart, getCartDetails }
-    ] = useCartContext();
-    const [
-        { isGettingDetails },
-        { getUserDetails, setToken }
-    ] = useUserContext();
+    const [{ cartId }, { createCart, removeCart, getCartDetails }] = useCartContext();
+    const [{ isGettingDetails }, { getUserDetails, setToken }] = useUserContext();
 
     const [, { dispatch }] = useEventingContext();
 
@@ -58,12 +55,9 @@ export const useCreateAccount = props => {
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
-    const [createAccount, { error: createAccountError }] = useMutation(
-        createAccountMutation,
-        {
-            fetchPolicy: 'no-cache'
-        }
-    );
+    const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
+        fetchPolicy: 'no-cache'
+    });
 
     const [signIn, { error: signInError }] = useMutation(signInMutation, {
         fetchPolicy: 'no-cache'
@@ -72,11 +66,7 @@ export const useCreateAccount = props => {
     const fetchUserDetails = useAwaitQuery(getCustomerQuery);
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
-    const {
-        generateReCaptchaData,
-        recaptchaLoading,
-        recaptchaWidgetProps
-    } = useGoogleReCaptcha({
+    const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',
         formAction: 'createAccount'
     });
@@ -130,6 +120,12 @@ export const useCreateAccount = props => {
                 const token = signInResponse.data.generateCustomerToken.token;
                 await setToken(token);
 
+                // LMS logic
+                process.env.LMS_ENABLED === 'true' && doLmsLogin(formValues.password);
+
+                // CSR logic
+                // process.env.CSR_ENABLED === 'true' && doCsrLogin();
+
                 // Clear all cart/customer data from cache and redux.
                 await apolloClient.clearCacheData(apolloClient, 'cart');
                 await apolloClient.clearCacheData(apolloClient, 'customer');
@@ -168,22 +164,22 @@ export const useCreateAccount = props => {
             }
         },
         [
-            cartId,
-            generateReCaptchaData,
-            createAccount,
-            signIn,
-            setToken,
             apolloClient,
-            removeCart,
+            cartId,
+            createAccount,
             createCart,
-            fetchCartId,
-            mergeCarts,
-            getUserDetails,
-            fetchUserDetails,
-            getCartDetails,
+            dispatch,
             fetchCartDetails,
+            fetchCartId,
+            fetchUserDetails,
+            generateReCaptchaData,
+            getCartDetails,
+            getUserDetails,
+            mergeCarts,
             onSubmit,
-            dispatch
+            removeCart,
+            setToken,
+            signIn
         ]
     );
 
@@ -197,11 +193,7 @@ export const useCreateAccount = props => {
     }, [initialValues]);
 
     const errors = useMemo(
-        () =>
-            new Map([
-                ['createAccountQuery', createAccountError],
-                ['signInMutation', signInError]
-            ]),
+        () => new Map([['createAccountQuery', createAccountError], ['signInMutation', signInError]]),
         [createAccountError, signInError]
     );
 

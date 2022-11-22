@@ -107,14 +107,8 @@ export const GET_CART_DETAILS = gql`
 `;
 
 export const MERGE_CARTS = gql`
-    mutation MergeCartsAfterAccountCreation(
-        $sourceCartId: String!
-        $destinationCartId: String!
-    ) {
-        mergeCarts(
-            source_cart_id: $sourceCartId
-            destination_cart_id: $destinationCartId
-        ) {
+    mutation MergeCartsAfterAccountCreation($sourceCartId: String!, $destinationCartId: String!) {
+        mergeCarts(source_cart_id: $sourceCartId, destination_cart_id: $destinationCartId) {
             id
             # eslint-disable-next-line @graphql-eslint/require-id-when-available
             items {
