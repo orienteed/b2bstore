@@ -1,0 +1,70 @@
+.titleContainer {
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 37px;
+    margin-top: 28px;
+}
+
+.contentContainer {
+    display: grid;
+    gap: 23px;
+    grid-template-columns: 1fr 3fr;
+    margin: 0 5%;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.InfoContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 23px;
+    /* margin-right: 6%; */
+}
+
+.sectionTitle {
+    border-bottom: 1px solid #000000;
+}
+
+.sectionTitle h3 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.dataSection {
+    margin-top: 1rem;
+}
+
+.dataRow {
+    margin: 1rem 0;
+}
+
+.dataLabel {
+    font-weight: 700;
+    font-size: 16px;
+    color: #0c0c0c;
+}
+
+@media (max-width: 700px) {
+    .contentContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .InfoContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+.editBtn {
+    font-weight: 400;
+    font-size: 16px;
+    color: #e8aa00;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+}

@@ -1,0 +1,28 @@
+.container {
+    background-color: #f6f8fb;
+    width: 321px;
+    height: 221px;
+    border-radius: 8px;
+    padding: 40px 0 0 33px;
+}
+
+.menuItem {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 16px;
+    padding-left: 22px;
+}
+
+.activeItem {
+    font-weight: 700;
+    border-left: 3px solid #e8aa00;
+}
+
+@media (max-width: 700px) {
+    .container {
+        width: 100%;
+
+    }
+}
