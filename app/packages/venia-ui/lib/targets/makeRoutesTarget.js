@@ -5,7 +5,7 @@ function makeRoutesTarget(venia) {
     );
 
     // Add our own default routes!
-    addRoutes(routeList, require('../defaultRoutes.json'));
+    addRoutes(routeList, require('../defaultRoutes'));
 }
 
 function addRoutes(routeList, routes) {
@@ -24,15 +24,17 @@ function addRoutes(routeList, routes) {
         const redirectToProp = redirectTo ? `redirectTo={${redirectTo}} ` : '';
         const Component = route.authed ? AuthRouteComponent : 'Route';
 
-        routeList.prependJSX(
-            'Switch',
-            `<${Component} ${exact}${redirectToProp}path={${path}}><${AddedRoute}/></${Component}>`
-        );
+        if (route.isEnabled === undefined || route.isEnabled === 'true') {
+            routeList.prependJSX(
+                'Switch',
+                `<${Component} ${exact}${redirectToProp}path={${path}}><${AddedRoute}/></${Component}>`
+            );
 
-        routeList.insertAfterSource(
-            'const availableRoutes = [];',
-            'availableRoutes.push(' + JSON.stringify(route) + ');'
-        );
+            routeList.insertAfterSource(
+                'const availableRoutes = [];',
+                'availableRoutes.push(' + JSON.stringify(route) + ');'
+            );
+        }
     }
 }
 

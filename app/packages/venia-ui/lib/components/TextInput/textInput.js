@@ -8,22 +8,24 @@ import { FieldIcons, Message } from '../Field';
 import defaultClasses from './textInput.module.css';
 
 const TextInput = props => {
-    const {
-        after,
-        before,
-        classes: propClasses,
-        field,
-        message,
-        ...rest
-    } = props;
+    const { after, before, classes: propClasses, field, message, supportEmoji = false, ...rest } = props;
     const fieldState = useFieldState(field);
     const classes = useStyle(defaultClasses, propClasses);
     const inputClass = fieldState.error ? classes.input_error : classes.input;
 
+    const inputRest = { ...rest };
+    delete inputRest.fieldState;
+    delete inputRest.fieldApi;
+    delete inputRest.forwardedRef;
+
     return (
         <Fragment>
             <FieldIcons after={after} before={before}>
-                <InformedText {...rest} className={inputClass} field={field} />
+                {supportEmoji ? (
+                    <input {...inputRest} className={inputClass} />
+                ) : (
+                    <InformedText {...rest} className={inputClass} field={field} />
+                )}
             </FieldIcons>
             <Message fieldState={fieldState}>{message}</Message>
         </Fragment>

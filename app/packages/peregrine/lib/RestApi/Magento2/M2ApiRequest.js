@@ -65,7 +65,8 @@ class M2ApiRequest {
             // cannot be overridden, only appended to
             headers: withDefaultHeaders(
                 new Headers({
-                    authorization: signin_token ? `Bearer ${signin_token}` : ''
+                    authorization: signin_token ? `Bearer ${signin_token}` : '',
+                    'api-authorization': signin_token ? signin_token : ''
                 })
             )
         };

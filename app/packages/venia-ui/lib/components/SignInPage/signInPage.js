@@ -22,12 +22,9 @@ const SignInPage = props => {
                     defaultMessage: 'Sign In'
                 })}
             </StoreTitle>
-            <h1 className={classes.header}>
-                <FormattedMessage
-                    id="signInPage.header"
-                    defaultMessage="Sign In or Create Account"
-                />
-            </h1>
+            {/* <h1 className={classes.header}>
+                <FormattedMessage id="signInPage.header" defaultMessage="Sign In or Create Account" />
+            </h1> */}
             <div className={classes.contentContainer}>
                 <SignIn {...signInProps} />
             </div>

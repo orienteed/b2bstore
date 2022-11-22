@@ -11,6 +11,9 @@ import { retrieveCartId } from '../../store/actions/cart';
 import DEFAULT_OPERATIONS from './signIn.gql';
 import { useEventingContext } from '../../context/eventing';
 
+// import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
+import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login.js';
+
 export const useSignIn = props => {
     const {
         getCartDetailsQuery,
@@ -84,6 +87,12 @@ export const useSignIn = props => {
                 const token = signInResponse.data.generateCustomerToken.token;
                 await setToken(token);
 
+                // LMS logic
+                process.env.LMS_ENABLED === 'true' && doLmsLogin(password);
+
+                // CSR logic
+                // process.env.CSR_ENABLED === 'true' && doCsrLogin();
+
                 // Clear all cart/customer data from cache and redux.
                 await apolloClient.clearCacheData(apolloClient, 'cart');
                 await apolloClient.clearCacheData(apolloClient, 'customer');
@@ -128,20 +137,20 @@ export const useSignIn = props => {
             }
         },
         [
-            cartId,
-            generateReCaptchaData,
-            signIn,
-            setToken,
             apolloClient,
-            removeCart,
+            cartId,
             createCart,
-            fetchCartId,
-            mergeCarts,
-            getUserDetails,
-            fetchUserDetails,
-            getCartDetails,
+            dispatch,
             fetchCartDetails,
-            dispatch
+            fetchCartId,
+            fetchUserDetails,
+            generateReCaptchaData,
+            getCartDetails,
+            getUserDetails,
+            mergeCarts,
+            removeCart,
+            setToken,
+            signIn
         ]
     );
 
@@ -179,8 +188,9 @@ export const useSignIn = props => {
         handleCreateAccount,
         handleForgotPassword,
         handleSubmit,
-        isBusy: isGettingDetails || isSigningIn || recaptchaLoading,
-        setFormApi,
-        recaptchaWidgetProps
+        isBusy: isGettingDetails || isSigningIn, // || recaptchaLoading,
+        isSigningIn,
+        recaptchaWidgetProps,
+        setFormApi
     };
 };

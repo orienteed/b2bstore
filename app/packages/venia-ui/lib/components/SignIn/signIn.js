@@ -4,6 +4,7 @@ import { func, shape, string } from 'prop-types';
 import { Form } from 'informed';
 import { useSignIn } from '@magento/peregrine/lib/talons/SignIn/useSignIn';
 
+import LoadingIndicator from '../LoadingIndicator';
 import { useStyle } from '../../classify';
 import { isRequired } from '../../util/formValidators';
 import Button from '../Button';
@@ -19,10 +20,10 @@ import GoogleRecaptcha from '../GoogleReCaptcha';
 const SignIn = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const {
+        initialValues,
         setDefaultUsername,
         showCreateAccount,
-        showForgotPassword,
-        initialValues
+        showForgotPassword
     } = props;
 
     const { formatMessage } = useIntl();
@@ -39,9 +40,23 @@ const SignIn = props => {
         handleForgotPassword,
         handleSubmit,
         isBusy,
-        setFormApi,
-        recaptchaWidgetProps
+        isSigningIn,
+        recaptchaWidgetProps,
+        setFormApi
     } = talonProps;
+
+    if (isSigningIn) {
+        return (
+            <div className={classes.modal_active}>
+                <LoadingIndicator>
+                    <FormattedMessage
+                        id={'signIn.loadingText'}
+                        defaultMessage={'Signing In'}
+                    />
+                </LoadingIndicator>
+            </div>
+        );
+    }
 
     const forgotPasswordClasses = {
         root: classes.forgotPasswordButton
@@ -76,7 +91,6 @@ const SignIn = props => {
                         autoComplete="email"
                         field="email"
                         validate={isRequired}
-                        data-cy="email"
                     />
                 </Field>
                 <Password
@@ -90,7 +104,6 @@ const SignIn = props => {
                     validate={isRequired}
                     autoComplete="current-password"
                     isToggleButtonHidden={false}
-                    data-cy="password"
                 />
                 <div className={classes.forgotPasswordButtonContainer}>
                     <LinkButton

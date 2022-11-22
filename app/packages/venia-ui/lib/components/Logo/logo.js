@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { useStyle } from '../../classify';
 import Image from '../Image';
-import logo from './VeniaLogo.svg';
+import logo from './B2BStoreLogo.svg';
 
 /**
  * A component that renders a logo in the header.
@@ -22,14 +22,7 @@ const Logo = props => {
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
 
     return (
-        <Image
-            classes={{ image: classes.logo }}
-            height={height}
-            src={logo}
-            alt={title}
-            title={title}
-            width={width}
-        />
+        <Image classes={{ image: classes.logo }} height={height} src={logo} alt={title} title={title} width={width} />
     );
 };
 
@@ -52,8 +45,8 @@ Logo.propTypes = {
 };
 
 Logo.defaultProps = {
-    height: 18,
-    width: 102
+    height: 48,
+    width: 144
 };
 
 export default Logo;
