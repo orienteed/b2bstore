@@ -8,7 +8,7 @@
 
 .root_open {
     composes: root;
-    box-shadow: 0 4px rgb(var(--b2bstore-global-color-orange));
+    box-shadow: 0 4px var(--b2bstore-global-color-orange);
 }
 
 .trigger {

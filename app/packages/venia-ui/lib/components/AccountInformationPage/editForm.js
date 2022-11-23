@@ -8,21 +8,12 @@ import LinkButton from '../LinkButton';
 import Password from '../Password';
 import TextInput from '../TextInput';
 
-import {
-    isRequired,
-    hasLengthAtLeast,
-    validatePassword,
-    isNotEqualToField
-} from '../../util/formValidators';
+import { isRequired, hasLengthAtLeast, validatePassword, isNotEqualToField } from '../../util/formValidators';
 import combine from '../../util/combineValidators';
 import defaultClasses from './editForm.module.css';
 
 const EditForm = props => {
-    const {
-        classes: propClasses,
-        handleChangePassword,
-        shouldShowNewPassword
-    } = props;
+    const { classes: propClasses, handleChangePassword, shouldShowNewPassword } = props;
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, propClasses);
@@ -48,20 +39,14 @@ const EditForm = props => {
     ) : null;
 
     const maybeChangePasswordButton = !shouldShowNewPassword ? (
-        <div
-            className={classes.changePasswordButtonContainer}
-            data-cy="editForm-changePasswordButtonContainer"
-        >
+        <div className={classes.changePasswordButtonContainer} data-cy="editForm-changePasswordButtonContainer">
             <LinkButton
                 classes={classes.changePasswordButton}
                 type="button"
                 onClick={handleChangePassword}
                 data-cy="linkButton-root"
             >
-                <FormattedMessage
-                    id={'global.changePassword'}
-                    defaultMessage={'Change Password'}
-                />
+                <FormattedMessage id={'global.changePassword'} defaultMessage={'Change Password'} />
             </LinkButton>
         </div>
     ) : null;
@@ -82,30 +67,11 @@ const EditForm = props => {
                     <Field
                         id="firstname"
                         label={formatMessage({
-                            id: 'global.firstName',
-                            defaultMessage: 'First Name'
+                            id: 'global.companyName',
+                            defaultMessage: 'Company Name'
                         })}
                     >
-                        <TextInput
-                            field="firstname"
-                            validate={isRequired}
-                            data-cy="firstname"
-                        />
-                    </Field>
-                </div>
-                <div className={classes.lastname}>
-                    <Field
-                        id="lastname"
-                        label={formatMessage({
-                            id: 'global.lastName',
-                            defaultMessage: 'Last Name'
-                        })}
-                    >
-                        <TextInput
-                            field="lastname"
-                            validate={isRequired}
-                            data-cy="lastname"
-                        />
+                        <TextInput field="firstname" validate={isRequired} data-cy="firstname" />
                     </Field>
                 </div>
                 <div className={classes.email}>
@@ -116,11 +82,7 @@ const EditForm = props => {
                             defaultMessage: 'Email'
                         })}
                     >
-                        <TextInput
-                            field="email"
-                            validate={isRequired}
-                            data-cy="email"
-                        />
+                        <TextInput field="email" validate={isRequired} data-cy="email" />
                     </Field>
                 </div>
                 <div className={classes.password}>
@@ -134,6 +96,16 @@ const EditForm = props => {
                     />
                 </div>
                 {maybeNewPasswordField}
+                <div className={classes.taxvat}>
+                    <Field
+                        label={formatMessage({
+                            id: 'global.taxVatId',
+                            defaultMessage: 'Tax/Vat Id'
+                        })}
+                    >
+                        <TextInput field="taxvat"   validate={isRequired} data-cy="taxvat"º autocomplete="off"/>
+                    </Field>
+                </div>
             </div>
             {maybeChangePasswordButton}
         </Fragment>

@@ -10,6 +10,10 @@
     composes: col-end-span2 from global;
 }
 
+.firstname {
+    grid-column: 1 / span 2;
+}
+
 .email,
 .passwordLabel {
     composes: field;
@@ -30,8 +34,8 @@
 
 @media (max-width: 959px) {
     .firstname,
-    .lastname,
     .password,
+    .taxvat,
     .newPassword {
         grid-column: 1 / span 2;
     }
