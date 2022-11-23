@@ -3,9 +3,7 @@
     composes: mx-auto from global;
     composes: my-0 from global;
     composes: px-sm from global;
-
-    composes: lg_px-lg from global;
-    composes: lg_py-md from global;
+    composes: py-[2.5rem] from global;
 }
 
 .body {
@@ -55,8 +53,21 @@
      */
     composes: top-[5.5rem] from global; /* TODO @TW: review */
 }
+.additionalOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+/*
+ * Mobile-specific styles.
+ */
 
 @media (max-width: 959px) {
+    .root {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
     .body {
         /* Only one column in mobile view. */
         grid-template-columns: 100%;

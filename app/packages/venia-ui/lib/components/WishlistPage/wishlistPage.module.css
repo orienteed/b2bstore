@@ -5,17 +5,17 @@
     composes: pr-sm from global;
     composes: py-md from global;
 
-    composes: lg_gap-y-md from global;
-    composes: lg_px-lg from global;
+    composes: lg_gap-y-[1rem] from global;
+    composes: lg_px-md from global;
 }
 
 .heading {
     composes: font-bold from global;
-    composes: font-serif from global;
+    font-family: var(--b2bStore-font-family);
     composes: justify-self-center from global;
-    composes: pb-xs from global;
+    /* composes: pb-xs from global; */
 
-    composes: lg_pb-0 from global;
+    composes: lg_pb-xs from global;
 }
 
 .errorContainer {
