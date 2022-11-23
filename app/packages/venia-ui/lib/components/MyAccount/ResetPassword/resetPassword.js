@@ -23,22 +23,13 @@ const ResetPassword = props => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, propClasses);
     const talonProps = useResetPassword({ ...resetPasswordOperations });
-    const {
-        hasCompleted,
-        loading,
-        token,
-        formErrors,
-        handleSubmit,
-        recaptchaWidgetProps
-    } = talonProps;
+    const { hasCompleted, loading, token, formErrors, handleSubmit, recaptchaWidgetProps } = talonProps;
 
     const tokenMissing = (
         <div className={classes.invalidToken}>
             <FormattedMessage
                 id={'resetPassword.invalidTokenMessage'}
-                defaultMessage={
-                    'Uh oh, something went wrong. Check the link or try again.'
-                }
+                defaultMessage={'Uh oh, something went wrong. Check the link or try again.'}
             />
         </div>
     );
@@ -61,19 +52,18 @@ const ResetPassword = props => {
         <div className={classes.successMessage}>
             <FormattedMessage
                 id={'resetPassword.successMessage'}
-                defaultMessage={
-                    'Your new password has been saved. Please use this password to sign into your Account.'
-                }
+                defaultMessage={'Your new password has been saved. Please use this password to sign into your Account.'}
             />
         </div>
     ) : (
         <Form className={classes.form} onSubmit={handleSubmit}>
+            <span data-cy="ForgotPassword-title" className={classes.title}>
+                <FormattedMessage id="resetPassword.header" defaultMessage="Reset Password" />
+            </span>
             <div className={classes.description}>
                 <FormattedMessage
                     id={'resetPassword.descriptionText'}
-                    defaultMessage={
-                        'Please enter your email address and new password.'
-                    }
+                    defaultMessage={'Please enter your email address and new password.'}
                 />
             </div>
             <Field label={'Email address'}>
@@ -89,16 +79,8 @@ const ResetPassword = props => {
             />
             <GoogleReCaptcha {...recaptchaWidgetProps} />
             <div className={classes.buttonContainer}>
-                <Button
-                    className={classes.submitButton}
-                    type="submit"
-                    priority="high"
-                    disabled={loading}
-                >
-                    <FormattedMessage
-                        id="resetPassword.savePassword"
-                        defaultMessage="Save Password"
-                    />
+                <Button className={classes.submitButton} type="submit" priority="high" disabled={loading}>
+                    <FormattedMessage id="resetPassword.savePassword" defaultMessage="Save Password" />
                 </Button>
             </div>
             <FormErrors errors={formErrors} />
@@ -113,15 +95,13 @@ const ResetPassword = props => {
                     defaultMessage: 'Reset Password'
                 })}
             </StoreTitle>
-            <h1 aria-live="polite" className={classes.header}>
+            {/* <h1 aria-live="polite" className={classes.header}>
                 <FormattedMessage
                     id="resetPassword.header"
                     defaultMessage="Reset Password"
                 />
-            </h1>
-            <div className={classes.contentContainer}>
-                {token ? recoverPassword : tokenMissing}
-            </div>
+            </h1> */}
+            <div className={classes.contentContainer}>{token ? recoverPassword : tokenMissing}</div>
         </div>
     );
 };
