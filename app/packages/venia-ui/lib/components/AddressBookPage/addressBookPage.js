@@ -40,7 +40,7 @@ const AddressBookPage = props => {
 
     const PAGE_TITLE = formatMessage({
         id: 'addressBookPage.addressBookText',
-        defaultMessage: 'Address Book'
+        defaultMessage: 'Company info'
     });
     const addressBookElements = useMemo(() => {
         const defaultToBeginning = (address1, address2) => {
@@ -61,19 +61,25 @@ const AddressBookPage = props => {
                 const isConfirmingDelete =
                     confirmDeleteAddressId === addressEntry.id;
 
-                return (
-                    <AddressCard
-                        address={addressEntry}
-                        countryName={countryName}
-                        isConfirmingDelete={isConfirmingDelete}
-                        isDeletingCustomerAddress={isDeletingCustomerAddress}
-                        key={addressEntry.id}
-                        onCancelDelete={handleCancelDeleteAddress}
-                        onConfirmDelete={handleConfirmDeleteAddress}
-                        onDelete={boundDelete}
-                        onEdit={boundEdit}
-                    />
-                );
+                if (addressEntry.default_billing === true) {
+                    return null;
+                } else {
+                    return (
+                        <AddressCard
+                            address={addressEntry}
+                            countryName={countryName}
+                            isConfirmingDelete={isConfirmingDelete}
+                            isDeletingCustomerAddress={
+                                isDeletingCustomerAddress
+                            }
+                            key={addressEntry.id}
+                            onCancelDelete={handleCancelDeleteAddress}
+                            onConfirmDelete={handleConfirmDeleteAddress}
+                            onDelete={boundDelete}
+                            onEdit={boundEdit}
+                        />
+                    );
+                }
             });
     }, [
         confirmDeleteAddressId,
@@ -93,11 +99,7 @@ const AddressBookPage = props => {
     return (
         <div className={classes.root}>
             <StoreTitle>{PAGE_TITLE}</StoreTitle>
-            <h1
-                aria-live="polite"
-                className={classes.heading}
-                data-cy="AddressBookPage-heading"
-            >
+            <h1 className={classes.heading} data-cy="AddressBookPage-heading">
                 {PAGE_TITLE}
             </h1>
             <div className={classes.content} data-cy="AddressBookPage-content">

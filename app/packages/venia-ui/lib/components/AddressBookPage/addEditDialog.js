@@ -44,25 +44,22 @@ const AddEditDialog = props => {
     }
     const title = formatMessage(formatTitleArgs);
 
-    const firstNameLabel = formatMessage({
-        id: 'global.firstName',
-        defaultMessage: 'First Name'
-    });
-    const middleNameLabel = formatMessage({
-        id: 'global.middleName',
-        defaultMessage: 'Middle Name'
+    const companyLabel = formatMessage({
+        id: 'global.companyName',
+        defaultMessage: 'Company name'
     });
     const lastNameLabel = formatMessage({
         id: 'global.lastName',
         defaultMessage: 'Last Name'
     });
+
     const street1Label = formatMessage({
         id: 'global.streetAddress',
         defaultMessage: 'Street Address'
     });
     const street2Label = formatMessage({
-        id: 'global.streetAddress2',
-        defaultMessage: 'Street Address 2'
+        id: 'global.vatNumber',
+        defaultMessage: 'VAT Number'
     });
     const cityLabel = formatMessage({
         id: 'global.city',
@@ -94,7 +91,7 @@ const AddEditDialog = props => {
             />
             <div className={classes.root} data-cy="AddEditDialog-root">
                 <div className={classes.firstname}>
-                    <Field id="firstname" label={firstNameLabel}>
+                    <Field id="firstname" label={companyLabel}>
                         <TextInput
                             field="firstname"
                             validate={isRequired}
@@ -102,24 +99,13 @@ const AddEditDialog = props => {
                         />
                     </Field>
                 </div>
-                <div className={classes.middlename}>
-                    <Field
-                        id="middlename"
-                        label={middleNameLabel}
-                        optional={true}
-                    >
-                        <TextInput field="middlename" data-cy="middlename" />
-                    </Field>
-                </div>
+
                 <div className={classes.lastname}>
                     <Field id="lastname" label={lastNameLabel}>
-                        <TextInput
-                            field="lastname"
-                            validate={isRequired}
-                            data-cy="lastname"
-                        />
+                        <TextInput field="lastname" data-cy="lastname" />
                     </Field>
                 </div>
+
                 <div className={classes.country}>
                     <Country
                         field={'country_code'}
@@ -137,8 +123,8 @@ const AddEditDialog = props => {
                     </Field>
                 </div>
                 <div className={classes.street2}>
-                    <Field id="street2" label={street2Label} optional={true}>
-                        <TextInput field="street[1]" data-cy="street[1]" />
+                    <Field id="vat_id" label={street2Label}>
+                        <TextInput field="vat_id" data-cy="vat_id" />
                     </Field>
                 </div>
                 <div className={classes.city}>
