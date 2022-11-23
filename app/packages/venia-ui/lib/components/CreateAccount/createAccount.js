@@ -81,26 +81,26 @@ const CreateAccount = props => {
                     data-cy="customer-firstname"
                 />
             </Field>
-            <article className={classes.last_name}>
-                <Field
+            <Field
+                classes={{ root: classes.last_name }}
+                id="lastName"
+                label={formatMessage({
+                    id: 'createAccount.lastNameText',
+                    defaultMessage: 'Last Name'
+                })}
+            >
+                <TextInput
                     id="lastName"
-                    label={formatMessage({
-                        id: 'createAccount.lastNameText',
-                        defaultMessage: 'Last Name'
-                    })}
-                >
-                    <TextInput
-                        id="lastName"
-                        field="customer.lastname"
-                        autoComplete="family-name"
-                        validate={isRequired}
-                        validateOnBlur
-                        mask={value => value && value.trim()}
-                        maskOnBlur={true}
-                        data-cy="customer-lastname"
-                    />
-                </Field>
-            </article>
+                    field="customer.lastname"
+                    autoComplete="family-name"
+                    validate={isRequired}
+                    validateOnBlur
+                    mask={value => value && value.trim()}
+                    initialValue={'lastname'}
+                    maskOnBlur={true}
+                    data-cy="customer-lastname"
+                />
+            </Field>
             <Field
                 id="Email"
                 label={formatMessage({
