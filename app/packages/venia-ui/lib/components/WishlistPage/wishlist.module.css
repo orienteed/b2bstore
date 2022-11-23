@@ -1,11 +1,11 @@
 .root {
-    composes: border-2 from global;
+    /* composes: border-2 from global;
     composes: border-solid from global;
     composes: border-subtle from global;
-    composes: gap-y-md from global;
+    composes: gap-y-md from global; */
     composes: grid from global;
-    composes: p-sm from global;
-    composes: rounded-md from global;
+    /* composes: p-sm from global;
+    composes: rounded-md from global; */
 
     composes: md_p-md from global;
 }
@@ -76,9 +76,54 @@
 }
 
 .itemsCountContainer {
+    font-size: 28px;
+    font-weight: 700;
     composes: col-end-span2 from global;
     composes: justify-self-center from global;
 
     composes: md_col-end-auto from global;
     composes: md_justify-self-start from global;
+}
+.deleteItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    composes: mt-0 from global;
+    composes: mr-2 from global;
+    composes: mb-0 from global;
+    composes: ml-xs from global;
+    composes: justify-self-end from global;
+}
+.deleteItem span {
+    margin-left: 8px;
+}
+.printAddAllToCartShareContainer span {
+    margin-left: 5px;
+}
+
+.printAddAllToCartShareContainer {
+    margin-top: 56px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addAllToCartShareContainer {
+    display: flex;
+    align-items: center;
+}
+
+.addAllToCartShareContainer .shareIcon {
+    margin-left: 33px;
+    width: 58px;
+}
+.printAllContainer {
+    display: flex;
+    align-items: center;
+}
+
+.addAllToCart {
+    composes: root_highPriority from '../Button/button.module.css';
+}
+.printAddAllToCartShareContainer {
+    margin-bottom: 30px;
 }
