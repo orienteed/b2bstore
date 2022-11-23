@@ -8,8 +8,7 @@
 
 .root_open {
     composes: root;
-
-    composes: shadow-headerTrigger from global;
+    box-shadow: 0 4px rgb(var(--b2bstore-global-color-orange));
 }
 
 .trigger {
