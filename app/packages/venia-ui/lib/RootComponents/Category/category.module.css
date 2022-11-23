@@ -1,11 +1,13 @@
+:root {
+    --category-sidebar-width: 325px;
+}
+
 .root {
     composes: p-xs from global;
 }
 
 .title {
     composes: font-normal from global;
-    composes: px-2xs from global;
-    composes: py-0 from global;
     composes: text-xl from global;
 }
 
@@ -19,12 +21,12 @@
 }
 
 .categoryTitle {
-    composes: font-light from global;
+    composes: font-bold from global;
     composes: leading-snug from global;
     composes: pb-xs from global;
     composes: text-colorDefault from global;
-    composes: text-center from global;
-    composes: text-xl from global;
+    margin-top: 16px;
+    composes: text-2xl from global;
 }
 
 .heading {
@@ -36,8 +38,8 @@
     composes: lg_flex-nowrap from global;
     composes: lg_items-center from global;
     composes: lg_justify-between from global;
-    composes: lg_pb-sm from global;
-    composes: lg_w-full from global;
+    composes: lg_pb-6 from global;
+    /* composes: lg_w-full from global; */
 }
 
 .categoryContent {
@@ -46,24 +48,39 @@
 
 .categoryInfo {
     flex-basis: 100%;
-    composes: leading-tight from global;
+    /* composes: leading-tight from global; */
     composes: max-w-[75vw] from global;
     composes: mx-0 from global;
     composes: my-xs from global;
     composes: text-center from global;
+    line-height: var(--venia-global-typography-heading-lineHeight);
 
     composes: lg_m-0 from global;
     composes: lg_text-left from global;
+}
+
+.actionsBtnsMobile {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .headerButtons {
     composes: flex from global;
     composes: justify-center from global;
     composes: pb-sm from global;
+    composes: mt-4 from global;
+    composes: w-full from global;
     flex-basis: 100%;
+    display: grid;
+    /* grid-template-columns: 6.1fr 2fr 2fr; */
 
     composes: lg_justify-end from global;
     composes: lg_pb-0 from global;
+}
+
+.headerButtons div button {
+    width: 100%;
 }
 
 .contentWrapper {
@@ -77,6 +94,52 @@
 
     composes: lg_flex from global;
     composes: lg_self-start from global;
-    composes: lg_pt-16 from global;
-    composes: lg_w-filterSidebarWidth from global;
+}
+
+.downloadCsvMobile {
+    margin-bottom: 2rem;
+}
+.downloadCsvDesktop {
+    margin-left: 0.5rem;
+}
+.downloadCsvDesktop main article a button {
+    padding: 0.2rem 0.5rem !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+.downloadCsvDesktop section div button {
+    width: 40px;
+}
+.showDesBtn {
+    font-weight: 400;
+    font-size: 16px;
+    cursor: pointer;
+    color: #1071ff;
+}
+.descriptionText {
+    font-weight: 400;
+    font-size: 16px;
+    max-width: 1250px;
+}
+
+@media screen and (max-width: 1024px) {
+    .downloadCsvDesktop {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        width: var(--category-sidebar-width);
+        min-width: var(--category-sidebar-width);
+    }
+
+    .categoryHeader {
+        width: 100%;
+    }
+
+    .downloadCsvMobile {
+        margin-bottom: 2rem;
+        display: none;
+    }
 }
