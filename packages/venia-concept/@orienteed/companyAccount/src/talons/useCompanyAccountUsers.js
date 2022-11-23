@@ -41,15 +41,7 @@ export const useCompanyAccountUsers = props => {
     const handleAddNewUsersBtn = type => {
         setOpenAddUserModal(true);
         setModalType(type);
-        // submitUserRole({
-        //     variables: { password: 'kl td sghl 1!', input: {
-        //         name:'Test user role',
-        //         allow_all:true,
-        //         order_quantity:99,
-        //         order_amount:99,
-        //         user_rules:[]
-        //     } }
-        // });
+      
     };
 
     const handelCancelModal = () => {

@@ -162,6 +162,12 @@ const CREATE_USER_ROLE = gql`
     }
 `;
 
+const DELETE_USER_ROLE = gql`
+    mutation deleteMpCompanyUserRole($role_id: Int!, $password: String!) {
+        deleteMpCompanyUserRole(role_id: $role_id, password: $password)
+    }
+`;
+
 const COMPANY_USERS = gql`
     query mpCompanyAccountsUsers {
         mpCompanyAccountsUsers {
@@ -182,5 +188,6 @@ export default {
     getCompanyUsers: COMPANY_USERS,
     getLocale: GET_LOCALE,
     createUserRole: CREATE_USER_ROLE,
-    getUserRules: COMPANY_USERS_ROLES
+    getUserRules: COMPANY_USERS_ROLES,
+    deleteUserRole: DELETE_USER_ROLE
 };
