@@ -1,10 +1,13 @@
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { FormattedMessage } from 'react-intl';
+import defaultClasses from './CookieConsent.module.css';
 import { Link } from 'react-router-dom';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 const CookiesConsent = () => {
+    const classes = useStyle(defaultClasses);
     return (
-        <>
+        <div className={classes.CookieWrapper}>
             <CookieConsent
                 location="bottom"
                 buttonText={<FormattedMessage id={'CookiesConsent.accept'} defaultMessage={'Accept'} />}
@@ -16,12 +19,13 @@ const CookiesConsent = () => {
                 <FormattedMessage
                     id={'CookiesConsent.cookiesmsg'}
                     defaultMessage={'This website uses cookies to enhance the user experience.'}
-                />&nbsp;
+                />
+                &nbsp;
                 <span style={{ fontSize: '10px' }}>
-                        <FormattedMessage id={'CookiesConsent.privacy'} defaultMessage={'Privacy'} />
+                    <FormattedMessage id={'CookiesConsent.privacy'} defaultMessage={'Privacy'} />
                 </span>
             </CookieConsent>
-        </>
+        </div>
     );
 };
 
