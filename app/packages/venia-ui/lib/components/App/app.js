@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { array, func, shape, string } from 'prop-types';
 
@@ -15,11 +15,16 @@ import Routes from '../Routes';
 import ToastContainer from '../ToastContainer';
 import Icon from '../Icon';
 
-import {
-    AlertCircle as AlertCircleIcon,
-    CloudOff as CloudOffIcon,
-    Wifi as WifiIcon
-} from 'react-feather';
+import { useHistory } from 'react-router-dom';
+import ReactGA from 'react-ga';
+
+import CookiesConsent from '../CookiesConsent';
+
+ReactGA.initialize('UA-158777378-4');
+ReactGA.plugin.require('ecommerce');
+ReactGA.pageview(window.location.pathname + window.location.search);
+
+import { AlertCircle as AlertCircleIcon, CloudOff as CloudOffIcon, Wifi as WifiIcon } from 'react-feather';
 
 const OnlineIcon = <Icon src={WifiIcon} attrs={{ width: 18 }} />;
 const OfflineIcon = <Icon src={CloudOffIcon} attrs={{ width: 18 }} />;
@@ -29,7 +34,13 @@ const App = props => {
     const { markErrorHandled, renderError, unhandledErrors } = props;
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
+    const { location } = useHistory();
+    const { pathname } = location;
     useDelayedTransition();
+
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    }, [pathname]);
 
     const ERROR_MESSAGE = formatMessage({
         id: 'app.errorUnexpected',
@@ -42,8 +53,7 @@ const App = props => {
             icon: OfflineIcon,
             message: formatMessage({
                 id: 'app.errorOffline',
-                defaultMessage:
-                    'You are offline. Some features may be unavailable.'
+                defaultMessage: 'You are offline. Some features may be unavailable.'
             }),
             timeout: 3000
         });
@@ -105,13 +115,10 @@ const App = props => {
         <HeadProvider>
             <StoreTitle />
             <Main isMasked={hasOverlay}>
+                <CookiesConsent />
                 <Routes />
             </Main>
-            <Mask
-                isActive={hasOverlay}
-                dismiss={handleCloseDrawer}
-                data-cy="App-Mask-button"
-            />
+            <Mask isActive={hasOverlay} dismiss={handleCloseDrawer} data-cy="App-Mask-button" />
             <Navigation />
             <ToastContainer />
         </HeadProvider>

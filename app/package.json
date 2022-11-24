@@ -35,7 +35,10 @@
     "watch:all": "node scripts/watch-all.js",
     "watch:venia": "yarn venia run watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-cookie-consent": "~8.0.1",
+    "react-ga": "~3.3.1"
+  },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "~7.4.4",
     "@graphql-cli/validate": "~2.1.0",
