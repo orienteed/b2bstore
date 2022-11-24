@@ -7,7 +7,7 @@ import defaultOperations from './wishlistItem.gql';
 import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
-
+import { ADD_CONFIGURABLE_MUTATION } from '../ProductFullDetail/productFullDetail.gql.ce';
 const mergeSupportedProductTypes = (supportedProductTypes = []) => {
     const newSupportedProductTypes = [...SUPPORTED_PRODUCT_TYPES];
 
@@ -29,7 +29,9 @@ const mergeSupportedProductTypes = (supportedProductTypes = []) => {
  */
 export const useWishlistItem = props => {
     const { item, onOpenAddToCartDialog, wishlistId } = props;
-
+    const [addConfigurableProductToCart] = useMutation(
+        ADD_CONFIGURABLE_MUTATION
+    );
     const [, { dispatch }] = useEventingContext();
 
     const {
@@ -53,6 +55,12 @@ export const useWishlistItem = props => {
                 productType
             ),
         [props.supportedProductTypes, productType]
+    );
+
+    const addProductType = item.product.__typename;
+
+    const supportedProductType = SUPPORTED_PRODUCT_TYPES.includes(
+        addProductType
     );
 
     const operations = mergeOperations(defaultOperations, props.operations);
@@ -165,17 +173,36 @@ export const useWishlistItem = props => {
         ) {
             try {
                 await addWishlistItemToCart();
-
-                const selectedOptionsLabels =
-                    selectedConfigurableOptions?.length > 0
-                        ? selectedConfigurableOptions?.map(
-                              ({ option_label, value_label }) => ({
-                                  attribute: option_label,
-                                  value: value_label
-                              })
-                          )
-                        : null;
-
+                
+                const payload = {
+                    item: item.product,
+                    addProductType,
+                    quantity: 1
+                };
+                if (supportedProductType) {
+                    const variables = {
+                        cartId,
+                        parentSku: payload.item.orParentSku,
+                        product: payload.item,
+                        quantity: payload.quantity,
+                        sku: payload.item.sku
+                    };
+                    if (addProductType === 'SimpleProduct') {
+                        try {
+                            await addConfigurableProductToCart({
+                                variables
+                            });
+                        } catch {
+                            return;
+                        }
+                    } else if (addProductType === 'ConfigurableProduct') {
+                        return;
+                    }
+                } else {
+                    console.error(
+                        'Unsupported product type. Cannot add to cart.'
+                    );
+                }
                 dispatch({
                     type: 'CART_ADD_ITEM',
                     payload: {
@@ -203,12 +230,15 @@ export const useWishlistItem = props => {
         }
     }, [
         addWishlistItemToCart,
+        addConfigurableProductToCart,
+        addProductType,
         cartId,
         configurableOptions.length,
         dispatch,
         item,
         onOpenAddToCartDialog,
-        selectedConfigurableOptions
+        selectedConfigurableOptions.length,
+        supportedProductType
     ]);
 
     const handleRemoveProductFromWishlist = useCallback(async () => {

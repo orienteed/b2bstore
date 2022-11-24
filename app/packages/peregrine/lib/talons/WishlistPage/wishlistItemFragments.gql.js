@@ -6,11 +6,26 @@ export const WishlistItemFragment = gql`
         # eslint-disable-next-line @graphql-eslint/require-id-when-available
         product {
             uid
+            orParentSku
             image {
                 label
                 url
             }
             name
+            price {
+                regularPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                }
+                minimalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                }
+            }
             price_range {
                 maximum_price {
                     final_price {
@@ -24,9 +39,30 @@ export const WishlistItemFragment = gql`
             }
             sku
             stock_status
+            url_key
+            url_suffix
             # eslint-disable-next-line @graphql-eslint/require-id-when-available
             ... on ConfigurableProduct {
                 # eslint-disable-next-line @graphql-eslint/require-id-when-available
+                variants {
+                    attributes {
+                        uid
+                        code
+                        value_index
+                    }
+                    # eslint-disable-next-line @graphql-eslint/require-id-when-available
+                    product {
+                        stock_status
+                        id
+                        uid
+                        small_image {
+                            url 
+                        }
+                        thumbnail {
+                            url
+                        }
+                    }
+                }
                 configurable_options {
                     uid
                     attribute_code
@@ -48,24 +84,18 @@ export const WishlistItemFragment = gql`
                         }
                     }
                 }
-                variants {
-                    attributes {
-                        uid
-                        code
-                        value_index
-                    }
-                    # eslint-disable-next-line @graphql-eslint/require-id-when-available
-                    product {
-                        uid
-                        stock_status
-                        small_image {
-                            url
+            }
+            ... on SimpleProduct {
+                custom_attributes {
+                    selected_attribute_options {
+                        attribute_option {
+                            label
                         }
                     }
                 }
             }
         }
-        # TODO: Use configurable_product_option_uid for ConfigurableWishlistItem when available in 2.4.5
+
         ... on ConfigurableWishlistItem {
             configurable_options {
                 id
