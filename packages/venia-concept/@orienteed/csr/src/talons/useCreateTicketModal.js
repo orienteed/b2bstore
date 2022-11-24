@@ -202,26 +202,16 @@ export const useCreateTicketModal = props => {
 
     // Effects
     useEffect(() => {
-        if (createTicketStatus === 'success') {
-            setTicketType('Support issue');
+        if (createTicketStatus === 'success' || createTicketStatus === 'error') {
             customerOrdersItems.length !== 0 ? setOrderSelected('notSelected') : setOrderSelected('notFound');
-            setOrderError('');
+            setCreateTicketStatus('');
             setDropzoneError('');
             setFilesUploaded([]);
-            setTicketTitle('');
-            setTicketDescription('');
-            setCreateTicketStatus('');
-            setTicketModal(false);
-        } else if (createTicketStatus === 'error') {
-            setTicketType('Support issue');
-            customerOrdersItems.length !== 0 ? setOrderSelected('notSelected') : setOrderSelected('notFound');
             setOrderError('');
-            setDropzoneError('');
-            setFilesUploaded([]);
-            setTicketTitle('');
             setTicketDescription('');
-            setCreateTicketStatus('');
             setTicketModal(false);
+            setTicketTitle('');
+            setTicketType('Support issue');
         }
     }, [createTicketStatus, customerOrdersItems, setTicketModal]);
 

@@ -36,7 +36,7 @@ export const useChat = props => {
     }, [isSignedIn, ticketId]);
 
     useEffect(() => {
-        var objDiv = document.getElementById('chatContainer');
+        const objDiv = document.getElementById('chatContainer');
         if (objDiv) {
             objDiv.scrollTop = objDiv.scrollHeight;
         }

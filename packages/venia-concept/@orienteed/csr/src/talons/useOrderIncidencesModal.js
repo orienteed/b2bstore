@@ -69,22 +69,14 @@ export const useOrderIncidencesModal = props => {
 
     // Effects
     useEffect(() => {
-        if (createTicketStatus === 'success') {
-            setOrderError('');
+        if (createTicketStatus === 'success' || createTicketStatus === 'error') {
+            setCreateTicketStatus('');
             setDropzoneError('');
             setFilesUploaded([]);
-            setTicketTitle('');
-            setTicketDescription('');
-            setCreateTicketStatus('');
-            setTicketModal(false);
-        } else if (createTicketStatus === 'error') {
             setOrderError('');
-            setDropzoneError('');
-            setFilesUploaded([]);
-            setTicketTitle('');
             setTicketDescription('');
-            setCreateTicketStatus('');
             setTicketModal(false);
+            setTicketTitle('');
         }
     }, [createTicketStatus, setTicketModal]);
 

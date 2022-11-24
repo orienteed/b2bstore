@@ -27,13 +27,13 @@ export const useTicketFilter = props => {
 
     const filterByFunction = filterId => {
         if (filterId.attribute === 'type') {
-            if (activeFilterByType.includes(filterId.groupId) == false) {
+            if (!activeFilterByType.includes(filterId.groupId)) {
                 setFilterByType([...activeFilterByType, filterId.groupId]);
             } else {
                 setFilterByType(activeFilterByType.filter(item => item !== filterId.groupId));
             }
         } else {
-            if (activeFilterByStatus.includes(filterId.groupId) == false) {
+            if (!activeFilterByStatus.includes(filterId.groupId)) {
                 setFilterByStatus([...activeFilterByStatus, filterId.groupId]);
             } else {
                 setFilterByStatus(activeFilterByStatus.filter(item => item !== filterId.groupId));

@@ -44,12 +44,7 @@ export const useSupportPage = () => {
         if (isSignedIn) {
             const filters = { status: filterByStatus, type: filterByType };
             getTickets(orderBy, numPage, '', sortBy, filters).then(res => {
-                const newTickets =
-                    res.tickets.length !== 0
-                        ? orderBy === 'desc'
-                            ? Object.values(res.assets.Ticket).reverse()
-                            : Object.values(res.assets.Ticket)
-                        : res.tickets;
+                const newTickets = res.tickets.length !== 0 ? reverseIfDesc(orderBy, res.assets.Ticket) : res.tickets;
                 setTicketCount(prevTicketCount =>
                     multipleTickets ? prevTicketCount + res.tickets_count : res.tickets_count
                 );
@@ -82,6 +77,14 @@ export const useSupportPage = () => {
     }, [errorToast]);
 
     // Methods
+    const reverseIfDesc = (order, ticketList) => {
+        if (order === 'desc') {
+            return Object.values(ticketList).reverse();
+        } else {
+            return Object.values(ticketList);
+        }
+    };
+
     const changeOrderBy = () => {
         setMultipleTickets(false);
         setOrderBy(prevOrderBy => (prevOrderBy === 'asc' ? 'desc' : 'asc'));
@@ -102,13 +105,7 @@ export const useSupportPage = () => {
         if (isSignedIn) {
             getTickets(orderBy, 1, '').then(res => {
                 setTicketCount(res.tickets_count);
-                setTickets(
-                    res.tickets.length !== 0
-                        ? orderBy === 'desc'
-                            ? Object.values(res.assets.Ticket).reverse()
-                            : Object.values(res.assets.Ticket)
-                        : res.tickets
-                );
+                setTickets(res.tickets.length !== 0 ? reverseIfDesc(orderBy, res.assets.Ticket) : res.tickets);
             });
         }
     }, [isSignedIn, orderBy]);
@@ -119,13 +116,7 @@ export const useSupportPage = () => {
             if (isSignedIn) {
                 getTickets(orderBy, 1, search).then(res => {
                     setTicketCount(res.tickets_count);
-                    setTickets(
-                        res.tickets.length !== 0
-                            ? orderBy === 'desc'
-                                ? Object.values(res.assets.Ticket).reverse()
-                                : Object.values(res.assets.Ticket)
-                            : res.tickets
-                    );
+                    setTickets(res.tickets.length !== 0 ? reverseIfDesc(orderBy, res.assets.Ticket) : res.tickets);
                 });
             }
         },
@@ -134,9 +125,7 @@ export const useSupportPage = () => {
 
     const getCustomerInformationQuery = accountInformationPageGql.queries.getCustomerInformationQuery;
 
-    const { data: accountInformationData, error: loadDataError } = useQuery(
-        getCustomerInformationQuery
-    );
+    const { data: accountInformationData, error: loadDataError } = useQuery(getCustomerInformationQuery);
 
     return {
         accountInformationData,
