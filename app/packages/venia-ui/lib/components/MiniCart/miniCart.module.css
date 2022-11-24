@@ -37,14 +37,14 @@
     composes: absolute from global;
     composes: bg-white from global;
     composes: grid from global;
-    composes: max-h-[35rem] from global;
+    /* composes: max-h-[35rem] from global; */
     composes: overflow-hidden from global;
     composes: right-0 from global;
     composes: rounded-sm from global;
     composes: top-0 from global;
-    composes: w-[22.5rem] from global;
+    /* composes: w-[22.5rem] from global; */
     box-shadow: 0 1px 6px rgb(var(--venia-global-color-gray-900) / 0.2);
-    min-height: 20rem;
+    /* min-height: 20rem; */
     transform: translate3d(0, -8px, 0);
     transition-duration: 192ms;
     transition-property: transform;
@@ -141,7 +141,7 @@
 .checkoutButton {
     composes: root_highPriority from '../Button/button.module.css';
 
-    composes: bg-brand-dark from global;
+    /* composes: bg-brand-dark from global; */
     composes: border-0 from global;
     composes: font-bold from global;
     composes: m-auto from global;
@@ -150,7 +150,7 @@
 }
 
 .editCartButton {
-    composes: text-sm from global;
+    font-size: var(--venia-global-fontSize-100);
     composes: underline from global;
 }
 
