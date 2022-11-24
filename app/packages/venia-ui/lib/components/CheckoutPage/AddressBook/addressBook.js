@@ -101,6 +101,9 @@ const AddressBook = props => {
             if (address.default_shipping) {
                 defaultIndex = index;
             }
+            if (address.default_billing === true) {
+                return null;
+            }
 
             return (
                 <AddressCard
@@ -133,7 +136,7 @@ const AddressBook = props => {
     return (
         <Fragment>
             <div className={rootClass}>
-                <h1 aria-live="polite" className={classes.headerText}>
+                <h1 className={classes.headerText}>
                     <FormattedMessage
                         id={'addressBook.headerText'}
                         defaultMessage={'Change Shipping Information'}

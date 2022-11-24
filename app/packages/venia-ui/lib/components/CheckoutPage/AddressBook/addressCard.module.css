@@ -15,9 +15,9 @@
     composes: text-colorDefault from global;
     transition: border-color 384ms var(--venia-global-anim-in);
 
-    composes: focus_shadow-buttonFocus from global;
+    /* composes: focus_shadow-buttonFocus from global; */
 
-    composes: hover_border-brand-dark from global;
+    /* composes: hover_border-brand-dark from global; */
 
     composes: lg_px-md from global;
     composes: lg_py-xs from global;
@@ -25,14 +25,21 @@
 
 .root_selected {
     composes: root;
-
-    composes: border-brand-dark from global;
     composes: cursor-default from global;
+    border-color: var( --b2bstore-global-color-orange);
 }
 
 .root_updated {
     composes: root_selected;
     animation: flash var(--venia-global-anim-bounce) 640ms 2;
+}
+
+.root:focus {
+    box-shadow: -6px 6px rgb(var( --b2bstore-global-color-orange-alpha), 0.3);
+}
+
+.root:hover {
+    border-color: var(--b2bstore-global-color-orange);
 }
 
 .defaultCard {
@@ -50,11 +57,11 @@
 }
 
 .editButton:hover {
-    --fill: rgb(var(--venia-brand-color-1-700));
+    --fill: var( --b2bstore-global-color-orange);
 }
 
 .editIcon {
-    composes: stroke-brand-base from global;
+    stroke: var( --b2bstore-global-color-orange);
     fill: var(--fill, white);
     transition: fill 384ms var(--venia-global-anim-standard);
 }

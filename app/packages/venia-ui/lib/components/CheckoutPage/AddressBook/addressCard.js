@@ -34,7 +34,6 @@ const AddressCard = props => {
         country_code,
         default_shipping,
         firstname,
-        lastname,
         postcode,
         region: { region },
         street
@@ -73,7 +72,7 @@ const AddressCard = props => {
         </span>
     ) : null;
 
-    const nameString = `${firstname} ${lastname}`;
+    const nameString = `${firstname}`;
     const additionalAddressString = `${city}, ${region} ${postcode} ${country_code}`;
 
     return (

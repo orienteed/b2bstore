@@ -1,11 +1,12 @@
 .root {
-    composes: max-w-screen-lg from global;
+    /* composes: max-w-screen-lg from global; */
     composes: mx-auto from global;
     composes: my-0 from global;
     composes: px-sm from global;
     composes: py-md from global;
 
     composes: lg_px-lg from global;
+    max-width: 1080px;
 }
 
 /* prettier-ignore */

@@ -11,6 +11,7 @@
     composes: justify-between from global;
 
     composes: lg_grid-cols-autoAuto from global;
+    grid-template-rows: 60px 1fr;
 }
 
 .headerText {
@@ -59,6 +60,7 @@
     composes: lg_col-span-2 from global;
     composes: lg_grid-cols-3 from global;
     composes: lg_pt-md from global;
+    border-top: 1px solid var(--b2bstore-global-color-orange);
 }
 
 .addButton {
@@ -67,7 +69,7 @@
     composes: border-subtle from global;
     composes: font-semibold from global;
     composes: rounded-md from global;
-    composes: text-brand-dark from global;
+    /* composes: text-brand-dark from global; */
     composes: text-sm from global;
     transition: border-color 384ms var(--venia-global-anim-standard);
 
@@ -75,4 +77,13 @@
     composes: focus_shadow-buttonFocus from global;
 
     composes: hover_border-brand-dark from global;
+    color: var(--b2bstore-global-color-orange);
+}
+
+.addButton:focus {
+    outline: none;
+    box-shadow: -6px 6px var(--b2bstore-global-color-orange);
+}
+.addButton:hover {
+    border-color: var(--b2bstore-global-color-orange);
 }
