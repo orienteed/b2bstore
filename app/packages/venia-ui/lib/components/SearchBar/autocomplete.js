@@ -24,6 +24,8 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
             }
             # eslint-disable-next-line @graphql-eslint/require-id-when-available
             items {
+                orParentSku
+                orParentUrlKey
                 id
                 uid
                 sku
@@ -40,15 +42,10 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
                             currency
                         }
                     }
-                }
-                price_range {
-                    maximum_price {
-                        final_price {
+                    minimalPrice {
+                        amount {
                             currency
                             value
-                        }
-                        discount {
-                            amount_off
                         }
                     }
                 }
@@ -60,7 +57,6 @@ const GET_AUTOCOMPLETE_RESULTS = gql`
         }
     }
 `;
-
 const Autocomplete = props => {
     const { setVisible, valid, visible } = props;
     const talonProps = useAutocomplete({
@@ -70,14 +66,7 @@ const Autocomplete = props => {
         valid,
         visible
     });
-    const {
-        displayResult,
-        filters,
-        messageType,
-        products,
-        resultCount,
-        value
-    } = talonProps;
+    const { displayResult, filters, messageType, products, resultCount, value } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
@@ -130,18 +119,11 @@ const Autocomplete = props => {
         );
 
     const messageTpl = MESSAGES.get(messageType);
-    const message =
-        typeof messageTpl === 'function'
-            ? messageTpl`${resultCount}`
-            : messageTpl;
+    const message = typeof messageTpl === 'function' ? messageTpl`${resultCount}` : messageTpl;
 
     return (
         <div data-cy="Autocomplete-root" className={rootClassName}>
-            <label
-                id="search_query"
-                data-cy="Autocomplete-message"
-                className={classes.message}
-            >
+            <label id="search_query" data-cy="Autocomplete-message" className={classes.message}>
                 {message}
             </label>
             <div className={classes.suggestions}>
