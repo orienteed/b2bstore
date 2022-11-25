@@ -99,6 +99,8 @@ export const useCheckoutPage = (props = {}) => {
     );
     const [guestSignInUsername, setGuestSignInUsername] = useState('');
 
+    const [currentSelectedPaymentMethod, setCurrentSelectedPaymentMethod] = useState('banktransfer');
+
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
@@ -141,6 +143,12 @@ export const useCheckoutPage = (props = {}) => {
             cartId
         }
     });
+
+    const onBillingAddressChangedSuccess = useCallback(() => {
+        updatePaymentMethod({
+            variables: { cartId, payment_method: currentSelectedPaymentMethod }
+        });
+    }, [cartId, currentSelectedPaymentMethod]);
 
     const cartItems = useMemo(() => {
         return (checkoutData && checkoutData?.cart?.items) || [];
@@ -404,6 +412,9 @@ export const useCheckoutPage = (props = {}) => {
         reviewOrderButtonClicked,
         recaptchaWidgetProps,
         toggleAddressBookContent,
-        toggleSignInContent
+        toggleSignInContent,
+        onBillingAddressChangedSuccess,
+        currentSelectedPaymentMethod,
+        setCurrentSelectedPaymentMethod,
     };
 };

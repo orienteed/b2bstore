@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { shape, string, bool, func } from 'prop-types';
 import { useIntl } from 'react-intl';
 
 import { usePaymentMethods } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/usePaymentMethods';
 
-import { useStyle } from '../../../classify';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import RadioGroup from '@magento/venia-ui/lib/components/RadioGroup';
 import Radio from '@magento/venia-ui/lib/components/RadioGroup/radio';
 import defaultClasses from './paymentMethods.module.css';
@@ -16,7 +16,9 @@ const PaymentMethods = props => {
         onPaymentError,
         onPaymentSuccess,
         resetShouldSubmit,
-        shouldSubmit
+        shouldSubmit,
+        setCurrentSelectedPaymentMethod,
+        paymentMethodMutationData
     } = props;
 
     const { formatMessage } = useIntl();
@@ -25,19 +27,22 @@ const PaymentMethods = props => {
 
     const talonProps = usePaymentMethods({});
 
-    const {
-        availablePaymentMethods,
-        currentSelectedPaymentMethod,
-        handlePaymentMethodSelection,
-        initialSelectedMethod,
-        isLoading
-    } = talonProps;
+    const { availablePaymentMethods, currentSelectedPaymentMethod, initialSelectedMethod, isLoading } = talonProps;
+
+    useEffect(() => {
+        setCurrentSelectedPaymentMethod(currentSelectedPaymentMethod);
+    }, [currentSelectedPaymentMethod]);
 
     if (isLoading) {
         return null;
     }
+    
+    const paymentMethods =
+        process.env.B2BSTORE_VERSION === 'BASIC'
+            ? availablePaymentMethods?.filter(({ code }) => code !== 'creditsystem')
+            : availablePaymentMethods;
 
-    const radios = availablePaymentMethods
+    const radios = paymentMethods
         .map(({ code, title }) => {
             // If we don't have an implementation for a method type, ignore it.
             if (!Object.keys(payments).includes(code)) {
@@ -53,6 +58,7 @@ const PaymentMethods = props => {
                     onPaymentError={onPaymentError}
                     resetShouldSubmit={resetShouldSubmit}
                     shouldSubmit={shouldSubmit}
+                    paymentMethodMutationData={paymentMethodMutationData}
                 />
             ) : null;
 
@@ -66,7 +72,6 @@ const PaymentMethods = props => {
                             label: classes.radio_label
                         }}
                         checked={isSelected}
-                        onChange={handlePaymentMethodSelection}
                     />
                     {renderedComponent}
                 </div>
@@ -93,6 +98,14 @@ const PaymentMethods = props => {
 
     return (
         <div className={classes.root}>
+            <header>
+                <h5>
+                    {formatMessage({
+                        id: 'checkoutPage.paymentsTitles',
+                        defaultMessage: 'Payment Methods'
+                    })}
+                </h5>
+            </header>
             <RadioGroup
                 classes={{ root: classes.radio_group }}
                 field="selectedPaymentMethod"

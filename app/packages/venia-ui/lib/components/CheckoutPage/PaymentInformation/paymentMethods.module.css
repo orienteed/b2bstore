@@ -16,10 +16,19 @@
     composes: pt-xs from global;
 }
 
+.root header {
+    padding-bottom: 1.125rem;
+}
+
+.root header h5 {
+    font-weight: bold;
+}
+
 /* TODO @TW: cannot compose */
 .payment_method:last-of-type {
     /* composes: border-b-0 from global; */
     border-bottom-width: 0;
+    /* margin-top: 1.25rem; */
 }
 
 .radio_label {
@@ -31,4 +40,13 @@
     composes: grid from global;
     composes: gap-2xs from global;
     composes: text-error from global;
+}
+
+@media (max-width: 960px) {
+    .root {
+        padding: 0.7rem;
+    }
+    .root header {
+        padding: 1.125rem;
+    }
 }

@@ -77,6 +77,8 @@ const CheckoutPage = props => {
         reviewOrderButtonClicked,
         recaptchaWidgetProps,
         toggleAddressBookContent,
+        setCurrentSelectedPaymentMethod,
+        paymentMethodMutationData,
         toggleSignInContent
     } = talonProps;
 
@@ -222,6 +224,8 @@ const CheckoutPage = props => {
                     resetShouldSubmit={resetReviewOrderButtonClicked}
                     setCheckoutStep={setCheckoutStep}
                     shouldSubmit={reviewOrderButtonClicked}
+                    setCurrentSelectedPaymentMethod={setCurrentSelectedPaymentMethod}
+                    paymentMethodMutationData={paymentMethodMutationData}
                 />
             ) : (
                 <h3 className={classes.payment_information_heading}>
