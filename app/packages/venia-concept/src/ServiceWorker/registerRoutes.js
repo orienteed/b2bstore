@@ -26,7 +26,7 @@ export default function() {
     const imageCacheHandler = createImageCacheHandler();
 
     registerRoute(
-        new RegExp('(robots.txt|favicon.ico|manifest.json)'),
+        new RegExp('(robots.txt|favicon.svg)'),
         new StaleWhileRevalidate()
     );
 
