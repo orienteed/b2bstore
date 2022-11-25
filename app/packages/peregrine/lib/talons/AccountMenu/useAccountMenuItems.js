@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-// import doCsrLogout from '@magento/peregrine/lib/RestApi/Csr/auth/logout';
+import doCsrLogout from '@magento/peregrine/lib/RestApi/Csr/auth/logout';
 import doLmsLogout from '@magento/peregrine/lib/RestApi/Lms/auth/logout';
 
 /**
@@ -13,7 +13,7 @@ export const useAccountMenuItems = props => {
     const { onSignOut } = props;
 
     const handleSignOut = useCallback(() => {
-        // process.env.CSR_ENABLED === 'true' && doCsrLogout();
+        process.env.CSR_ENABLED === 'true' && doCsrLogout();
         process.env.LMS_ENABLED === 'true' && doLmsLogout();
         onSignOut();
     }, [onSignOut]);

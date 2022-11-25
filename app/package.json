@@ -36,7 +36,9 @@
     "watch:venia": "yarn venia run watch"
   },
   "dependencies": {
+    "emoji-picker-react": "~4.4.5",
     "react-cookie-consent": "~8.0.1",
+    "react-dropzone": "~14.2.3",
     "react-ga": "~3.3.1"
   },
   "devDependencies": {

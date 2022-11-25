@@ -11,7 +11,7 @@ import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import DEFAULT_OPERATIONS from './createAccount.gql';
 import { useEventingContext } from '../../context/eventing';
 
-// import doCsrLogin from   '@magento/peregrine/lib/RestApi/Csr/auth/login';
+import doCsrLogin from   '@magento/peregrine/lib/RestApi/Csr/auth/login';
 import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login';
 
 /**
@@ -124,7 +124,7 @@ export const useCreateAccount = props => {
                 process.env.LMS_ENABLED === 'true' && doLmsLogin(formValues.password);
 
                 // CSR logic
-                // process.env.CSR_ENABLED === 'true' && doCsrLogin();
+                process.env.CSR_ENABLED === 'true' && doCsrLogin();
 
                 // Clear all cart/customer data from cache and redux.
                 await apolloClient.clearCacheData(apolloClient, 'cart');

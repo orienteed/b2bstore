@@ -112,5 +112,14 @@ module.exports = [
         authed: true,
         redirectTo: '/sign-in',
         isEnabled: process.env.LMS_ENABLED
+    },
+    {
+        name: 'Support',
+        pattern: '/support',
+        exact: true,
+        path: '../Csr/SupportPage',
+        authed: true,
+        redirectTo: '/sign-in',
+        isEnabled: process.env.CSR_ENABLED
     }
 ];

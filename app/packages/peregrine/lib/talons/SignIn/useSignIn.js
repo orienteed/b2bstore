@@ -11,7 +11,7 @@ import { retrieveCartId } from '../../store/actions/cart';
 import DEFAULT_OPERATIONS from './signIn.gql';
 import { useEventingContext } from '../../context/eventing';
 
-// import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
+import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
 import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login.js';
 
 export const useSignIn = props => {
@@ -91,7 +91,7 @@ export const useSignIn = props => {
                 process.env.LMS_ENABLED === 'true' && doLmsLogin(password);
 
                 // CSR logic
-                // process.env.CSR_ENABLED === 'true' && doCsrLogin();
+                process.env.CSR_ENABLED === 'true' && doCsrLogin();
 
                 // Clear all cart/customer data from cache and redux.
                 await apolloClient.clearCacheData(apolloClient, 'cart');

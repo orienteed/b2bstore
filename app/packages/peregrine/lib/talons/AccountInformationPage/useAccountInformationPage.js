@@ -6,7 +6,7 @@ import { useEventingContext } from '../../context/eventing';
 import { useAppContext } from '../../context/app';
 
 import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
-// import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
+import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from '../../talons/CommunicationsPage/communicationsPage.gql.js';
@@ -250,7 +250,7 @@ export const useAccountInformationPage = props => {
                 process.env.LMS_ENABLED === 'true' && modifyLmsCustomer(firstname, '', email, newPassword);
 
                 // CSR logic
-                // process.env.CSR_ENABLED === 'true' && modifyCsrCustomer(firstname, '', email);
+                process.env.CSR_ENABLED === 'true' && modifyCsrCustomer(firstname, '', email);
 
                 // After submission, close the form if there were no errors.
                 handleCancel(false);
@@ -264,14 +264,7 @@ export const useAccountInformationPage = props => {
                 return;
             }
         },
-        [
-            initialValues,
-            handleCancel,
-            setCustomerInformation,
-            generateReCaptchaData,
-            changeCustomerPassword,
-            dispatch
-        ]
+        [initialValues, handleCancel, setCustomerInformation, generateReCaptchaData, changeCustomerPassword, dispatch]
     );
 
     const handleConfirmDialog = useCallback(

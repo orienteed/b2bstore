@@ -117,7 +117,7 @@ const Dialog = props => {
                     </div>
                     <div className={classes.body}>
                         <div className={classes.contents}>{children}</div>
-                        {maybeButtons}
+                        {/* {maybeButtons} */}
                     </div>
                 </div>
             </Form>

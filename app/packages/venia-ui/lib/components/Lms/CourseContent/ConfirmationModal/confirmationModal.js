@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Dialog from './Dialog/dialog';
+import Dialog from '../../../ConfirmationDialog';
 
 import defaultClasses from './confirmationModal.module.css';
 

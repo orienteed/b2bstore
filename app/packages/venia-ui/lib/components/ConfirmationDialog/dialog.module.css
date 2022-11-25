@@ -189,7 +189,7 @@
 @media (max-width: 959px) {
     .root {
         /* The Dialog starts off-screen on the right. */
-        transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 0, 0);
         /* For mobile, add position to the transitions. */
         transition-property: opacity, transform, visibility;
     }
