@@ -13,7 +13,7 @@
 .editButton {
     composes: p-xs from global;
     composes: -m-xs from global;
-    composes: text-brand-dark from global;
+    color: var(--b2bstore-global-color-orange);
 }
 
 .editButtonText {
@@ -23,7 +23,7 @@
 }
 
 .editIcon {
-    composes: stroke-brand-base from global;
+    stroke: var(--b2bstore-global-color-orange);
 }
 
 .error {

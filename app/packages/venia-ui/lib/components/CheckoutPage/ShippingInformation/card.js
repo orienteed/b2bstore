@@ -11,7 +11,6 @@ const Card = props => {
         country: { label: country },
         email,
         firstname,
-        lastname,
         postcode,
         region: { region },
         street,
@@ -24,7 +23,7 @@ const Card = props => {
 
     const classes = useStyle(defaultClasses, propClasses);
 
-    const nameString = `${firstname} ${lastname}`;
+    const nameString = `${firstname}`;
     const additionalAddressString = `${city}, ${region} ${postcode} ${country}`;
 
     return (

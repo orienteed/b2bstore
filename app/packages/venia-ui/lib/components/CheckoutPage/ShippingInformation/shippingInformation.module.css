@@ -38,7 +38,7 @@
 .editButton {
     composes: -m-xs from global;
     composes: p-xs from global;
-    composes: text-brand-dark from global;
+    color: var(--b2bstore-global-color-orange);
 }
 
 .editWrapper {
@@ -55,7 +55,7 @@
 }
 
 .editIcon {
-    composes: stroke-brand-base from global;
+    stroke: var(--b2bstore-global-color-orange);
 }
 
 .editText {

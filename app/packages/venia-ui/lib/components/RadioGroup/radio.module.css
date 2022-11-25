@@ -24,14 +24,6 @@
     composes: w-[1.5rem] from global;
     composes: z-foreground from global;
     grid-area: input;
-
-    composes: active_outline-none from global;
-    composes: active_shadow-radioActive from global;
-
-    composes: checked_bg-brand-dark from global;
-
-    composes: focus_outline-none from global;
-    composes: focus_shadow-radioFocus from global;
 }
 
 .icon {
@@ -41,9 +33,8 @@
     grid-area: input;
 }
 
-/* TODO @TW: cannot compose */
+
 .icon svg {
-    /* composes: stroke-gray-600 from global; */
     stroke: rgb(var(--venia-global-color-gray-600));
 }
 
@@ -53,16 +44,24 @@
     grid-area: label;
 }
 
-/* TODO @TW: cannot compose */
-.input:checked + .icon svg {
-    /* composes: stroke-brand-base from global; */
-    stroke: rgb(var(--venia-brand-color-1-700));
-}
-
 .input_shimmer {
     composes: h-[1.5rem] from global;
     composes: m-0 from global;
     composes: rounded-full from global;
     composes: w-[1.5rem] from global;
     composes: z-foreground from global;
+}
+
+.input:checked {
+    background-color: var(--b2bstore-global-color-orange);
+}
+
+.input:checked + .icon svg {
+    stroke: var(--b2bstore-global-color-orange);
+}
+
+.input:active,
+.input:focus {
+    box-shadow: -3px 3px rgba(var(--b2bstore-global-color-orange-alpha), 0.5);
+    outline: none;
 }
