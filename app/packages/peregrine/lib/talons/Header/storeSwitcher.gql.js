@@ -19,6 +19,14 @@ export const GET_ROUTE_DATA = gql`
     }
 `;
 
+export const IS_REQUIRED_LOGIN = gql`
+    query isRequiredLogin {
+        storeConfig {
+            is_required_login
+        }
+    }
+`;
+
 export const GET_AVAILABLE_STORES_DATA = gql`
     query getAvailableStoresData {
         # eslint-disable-next-line @graphql-eslint/require-id-when-available
@@ -38,5 +46,6 @@ export const GET_AVAILABLE_STORES_DATA = gql`
 export default {
     getStoreConfigData: GET_STORE_CONFIG_DATA,
     getRouteData: GET_ROUTE_DATA,
+    getIsRequiredLogin: IS_REQUIRED_LOGIN,
     getAvailableStoresData: GET_AVAILABLE_STORES_DATA
 };
