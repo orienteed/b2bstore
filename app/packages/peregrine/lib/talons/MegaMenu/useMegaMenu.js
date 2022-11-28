@@ -5,6 +5,8 @@ import useInternalLink from '../../hooks/useInternalLink';
 import { useQuery } from '@apollo/client';
 import { useEventListener } from '../../hooks/useEventListener';
 
+import { BrowserPersistence } from '../../util';
+
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './megaMenu.gql';
 
@@ -20,6 +22,10 @@ import DEFAULT_OPERATIONS from './megaMenu.gql';
 export const useMegaMenu = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getMegaMenuQuery, getStoreConfigQuery } = operations;
+
+    const storage = new BrowserPersistence();
+    const signin_token = storage.getItem('signin_token');
+    const isRequiredLogin = storage.getItem('is_required_login');
 
     const location = useLocation();
     const [activeCategoryId, setActiveCategoryId] = useState(null);
@@ -95,9 +101,7 @@ export const useMegaMenu = (props = {}) => {
                 megaMenuCategory.children = [...megaMenuCategory.children]
                     .filter(category => shouldRenderMegaMenuItem(category))
                     .sort((a, b) => (a.position > b.position ? 1 : -1))
-                    .map(child =>
-                        processData(child, megaMenuCategory.path, false)
-                    );
+                    .map(child => processData(child, megaMenuCategory.path, false));
             }
 
             return megaMenuCategory;
@@ -106,8 +110,9 @@ export const useMegaMenu = (props = {}) => {
     );
 
     const megaMenuData = useMemo(() => {
+        if (signin_token == undefined && isRequiredLogin) return {};
         return data ? processData(data.categoryList[0]) : {};
-    }, [data, processData]);
+    }, [data, processData, signin_token, isRequiredLogin]);
 
     const findActiveCategory = useCallback(
         (pathname, category) => {
@@ -116,9 +121,7 @@ export const useMegaMenu = (props = {}) => {
             }
 
             if (category.children) {
-                return category.children.find(category =>
-                    findActiveCategory(pathname, category)
-                );
+                return category.children.find(category => findActiveCategory(pathname, category));
             }
         },
         [isActive]
@@ -138,10 +141,7 @@ export const useMegaMenu = (props = {}) => {
     }, [setSubMenuState]);
 
     useEffect(() => {
-        const activeCategory = findActiveCategory(
-            location.pathname,
-            megaMenuData
-        );
+        const activeCategory = findActiveCategory(location.pathname, megaMenuData);
 
         if (activeCategory) {
             setActiveCategoryId(activeCategory.path[0]);
