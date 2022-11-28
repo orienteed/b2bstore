@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -30,29 +30,21 @@ import { useEventingContext } from '../../context/eventing';
  */
 export const useMiniCart = props => {
     const { isOpen, setIsOpen } = props;
-
     const [, { dispatch }] = useEventingContext();
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        removeItemMutation,
-        miniCartQuery,
-        getStoreConfigQuery
-    } = operations;
+    const { removeItemMutation, miniCartQuery, getStoreConfigQuery } = operations;
 
     const [{ cartId }] = useCartContext();
     const history = useHistory();
 
-    const { data: miniCartData, loading: miniCartLoading } = useQuery(
-        miniCartQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            variables: { cartId },
-            skip: !cartId,
-            errorPolicy: 'all'
-        }
-    );
+    const { data: miniCartData, loading: miniCartLoading } = useQuery(miniCartQuery, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
+        variables: { cartId },
+        skip: !cartId,
+        errorPolicy: 'all'
+    });
 
     const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
         fetchPolicy: 'cache-and-network'
@@ -70,29 +62,24 @@ export const useMiniCart = props => {
         }
     }, [storeConfigData]);
 
-    const [
-        removeItem,
-        {
-            loading: removeItemLoading,
-            called: removeItemCalled,
-            error: removeItemError
-        }
-    ] = useMutation(removeItemMutation);
+    const [removeItem, { loading: removeItemLoading, called: removeItemCalled, error: removeItemError }] = useMutation(
+        removeItemMutation
+    );
 
     const totalQuantity = useMemo(() => {
-        if (!miniCartLoading) {
+        if (!miniCartLoading && miniCartData) {
             return miniCartData?.cart?.total_quantity;
         }
     }, [miniCartData, miniCartLoading]);
 
     const subTotal = useMemo(() => {
-        if (!miniCartLoading) {
+        if (!miniCartLoading && miniCartData) {
             return miniCartData?.cart?.prices?.subtotal_excluding_tax;
         }
     }, [miniCartData, miniCartLoading]);
 
     const productList = useMemo(() => {
-        if (!miniCartLoading) {
+        if (!miniCartLoading && miniCartData) {
             return miniCartData?.cart?.items;
         }
     }, [miniCartData, miniCartLoading]);
@@ -110,18 +97,13 @@ export const useMiniCart = props => {
                         itemId: id
                     }
                 });
-
-                const [product] = productList.filter(
-                    p => (p.uid || p.id) === id
-                );
+                const [product] = productList.filter(p => (p.uid || p.id) === id);
 
                 const selectedOptionsLabels =
-                    product.configurable_options?.map(
-                        ({ option_label, value_label }) => ({
-                            attribute: option_label,
-                            value: value_label
-                        })
-                    ) || null;
+                    product.configurable_options?.map(({ option_label, value_label }) => ({
+                        attribute: option_label,
+                        value: value_label
+                    })) || null;
 
                 dispatch({
                     type: 'CART_REMOVE_ITEM',
@@ -131,8 +113,7 @@ export const useMiniCart = props => {
                         name: product.product.name,
                         priceTotal: product.prices.price.value,
                         currencyCode: product.prices.price.currency,
-                        discountAmount:
-                            product.prices.total_item_discount.value,
+                        discountAmount: product.prices.total_item_discount.value,
                         selectedOptions: selectedOptionsLabels,
                         quantity: product.quantity
                     }
@@ -154,10 +135,14 @@ export const useMiniCart = props => {
         history.push('/cart');
     }, [history, setIsOpen]);
 
-    const derivedErrorMessage = useMemo(
-        () => deriveErrorMessage([removeItemError]),
-        [removeItemError]
-    );
+    const derivedErrorMessage = useMemo(() => deriveErrorMessage([removeItemError]), [removeItemError]);
+
+    const [csvErrorType, setCsvErrorType] = useState('');
+    const [csvSkuErrorList, setCsvSkuErrorList] = useState([]);
+    const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
+    const handleCancelCsvDialog = useCallback(() => {
+        setIsCsvDialogOpen(false);
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -182,6 +167,13 @@ export const useMiniCart = props => {
         subTotal,
         totalQuantity,
         configurableThumbnailSource,
-        storeUrlSuffix
+        storeUrlSuffix,
+        csvErrorType: csvErrorType,
+        setCsvErrorType,
+        csvSkuErrorList: csvSkuErrorList,
+        setCsvSkuErrorList,
+        isCsvDialogOpen,
+        setIsCsvDialogOpen,
+        handleCancelCsvDialog
     };
 };

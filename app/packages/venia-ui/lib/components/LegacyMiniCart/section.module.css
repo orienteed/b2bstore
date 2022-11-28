@@ -32,11 +32,11 @@
 .icon {
     composes: root from '../Icon/icon.module.css';
 
-    --stroke: rgb(var(--venia-global-color-teal));
+    --stroke: var(--orienteed-global-color-orange);
 }
 
 .icon_filled {
     composes: icon;
 
-    --fill: rgb(var(--venia-global-color-teal));
+    --fill: var(--orienteed-global-color-orange);
 }

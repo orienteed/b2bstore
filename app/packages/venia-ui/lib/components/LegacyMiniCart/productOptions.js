@@ -15,14 +15,9 @@ const ProductOptions = props => {
                 const key = `${option_label}${value_label}`;
                 const optionLabelString = `${option_label} :`;
                 return (
-                    <div key={key} className={classes.optionLabel}>
-                        <dt className={classes.optionName}>
-                            {optionLabelString}
-                        </dt>
-                        <dd
-                            className={classes.optionValue}
-                            data-cy="ProductOptions-optionValue"
-                        >
+                    <div key={key} className={[classes.optionLabel, classes.mobileView].join(' ')}>
+                        <dt className={classes.optionName}>{optionLabelString}</dt>
+                        <dd className={classes.optionValue} data-cy="ProductOptions-optionValue">
                             {value_label}
                         </dd>
                     </div>

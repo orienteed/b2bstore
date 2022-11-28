@@ -1,9 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-    Lock as LockIcon,
-    AlertCircle as AlertCircleIcon
-} from 'react-feather';
+import { Lock as LockIcon, AlertCircle as AlertCircleIcon } from 'react-feather';
 import { bool, shape, string } from 'prop-types';
 
 import { useScrollLock, Price, useToasts } from '@magento/peregrine';
@@ -16,6 +13,7 @@ import StockStatusMessage from '../StockStatusMessage';
 import ProductList from './ProductList';
 import defaultClasses from './miniCart.module.css';
 import operations from './miniCart.gql';
+// import AddProductByCsv from '@orienteed/customComponents/components/AddProductsByCsv/addProductByCsv'; // TODO_B2B
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
@@ -49,15 +47,20 @@ const MiniCart = React.forwardRef((props, ref) => {
         subTotal,
         totalQuantity,
         configurableThumbnailSource,
+        // csvErrorType,
+        // setCsvErrorType,
+        // csvSkuErrorList,
+        // setCsvSkuErrorList,
+        // isCsvDialogOpen,
+        // setIsCsvDialogOpen,
+        // handleCancelCsvDialog,
         storeUrlSuffix
     } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isOpen ? classes.root_open : classes.root;
     const contentsClass = isOpen ? classes.contents_open : classes.contents;
-    const quantityClassName = loading
-        ? classes.quantity_loading
-        : classes.quantity;
+    const quantityClassName = loading ? classes.quantity_loading : classes.quantity;
     const priceClassName = loading ? classes.price_loading : classes.price;
 
     const isCartEmpty = !(productList && productList.length);
@@ -81,10 +84,7 @@ const MiniCart = React.forwardRef((props, ref) => {
             <div className={classes.stockStatusMessageContainer}>
                 <StockStatusMessage cartItems={productList} />
             </div>
-            <span
-                data-cy="MiniCart-totalQuantity"
-                className={quantityClassName}
-            >
+            <span data-cy="MiniCart-totalQuantity" className={quantityClassName}>
                 <FormattedMessage
                     id={'miniCart.totalQuantity'}
                     defaultMessage={'{totalQuantity} Items'}
@@ -93,30 +93,27 @@ const MiniCart = React.forwardRef((props, ref) => {
             </span>
             <span data-cy="MiniCart-subtotalPrice" className={priceClassName}>
                 <span data-cy="MiniCart-subtotalPriceLabel">
-                    <FormattedMessage
-                        id={'miniCart.subtotal'}
-                        defaultMessage={'Subtotal: '}
-                    />
+                    <FormattedMessage id={'miniCart.subtotal'} defaultMessage={'Subtotal: '} />
                 </span>
-                <Price
-                    currencyCode={subTotal.currency}
-                    value={subTotal.value}
-                />
+                <Price currencyCode={subTotal.currency} value={subTotal.value} />
             </span>
         </Fragment>
     ) : null;
 
     const contents = isCartEmpty ? (
         <div className={classes.emptyCart}>
-            <div
-                className={classes.emptyMessage}
-                data-cy="MiniCart-emptyMessage"
-            >
-                <FormattedMessage
-                    id={'miniCart.emptyMessage'}
-                    defaultMessage={'There are no items in your cart.'}
-                />
+            <div className={classes.emptyMessage} data-cy="MiniCart-emptyMessage">
+                <FormattedMessage id={'miniCart.emptyMessage'} defaultMessage={'There are no items in your cart.'} />
             </div>
+            {/* <AddProductByCsv
+                csvErrorType={csvErrorType}
+                setCsvErrorType={setCsvErrorType}
+                csvSkuErrorList={csvSkuErrorList}
+                setCsvSkuErrorList={setCsvSkuErrorList}
+                isCsvDialogOpen={isCsvDialogOpen}
+                setIsCsvDialogOpen={setIsCsvDialogOpen}
+                handleCancelCsvDialog={handleCancelCsvDialog}
+            /> */}
         </div>
     ) : (
         <Fragment>
@@ -146,11 +143,17 @@ const MiniCart = React.forwardRef((props, ref) => {
                             icon: classes.checkoutIcon
                         }}
                     />
-                    <FormattedMessage
-                        id={'miniCart.checkout'}
-                        defaultMessage={'CHECKOUT'}
-                    />
+                    <FormattedMessage id={'miniCart.checkout'} defaultMessage={'CHECKOUT'} />
                 </Button>
+                {/* <AddProductByCsv
+                    csvErrorType={csvErrorType}
+                    setCsvErrorType={setCsvErrorType}
+                    csvSkuErrorList={csvSkuErrorList}
+                    setCsvSkuErrorList={setCsvSkuErrorList}
+                    isCsvDialogOpen={isCsvDialogOpen}
+                    setIsCsvDialogOpen={setIsCsvDialogOpen}
+                    handleCancelCsvDialog={handleCancelCsvDialog}
+                /> */}
                 <Button
                     onClick={handleEditCart}
                     priority="high"
@@ -158,10 +161,7 @@ const MiniCart = React.forwardRef((props, ref) => {
                     disabled={loading || isCartEmpty}
                     data-cy="Minicart-editCartButton"
                 >
-                    <FormattedMessage
-                        id={'miniCart.editCartButton'}
-                        defaultMessage={'Edit Shopping Bag'}
-                    />
+                    <FormattedMessage id={'miniCart.editCartButton'} defaultMessage={'Edit Shopping Bag'} />
                 </Button>
             </div>
         </Fragment>
