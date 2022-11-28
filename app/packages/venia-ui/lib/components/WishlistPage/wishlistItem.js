@@ -1,18 +1,21 @@
 import React, { useEffect, useMemo } from 'react';
-import { Trash2 } from 'react-feather';
 import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
 import { useWishlistItem } from '@magento/peregrine/lib/talons/WishlistPage/useWishlistItem';
 
 import { useStyle } from '../../classify';
-import Icon from '../Icon';
 import Image from '../Image';
 import Price from '../Price';
 
 import defaultClasses from './wishlistItem.module.css';
+import orangeThrashCan from './assets/orangeThrashCan.svg';
+import ShareIcon from './assets/share.svg';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
 const WishlistItem = props => {
     const { item } = props;
+    const { url_key, url_suffix, sku, __typename: typename, price } = item.product;
+    const { minimalPrice, regularPrice } = price;
 
     const { configurable_options: configurableOptions = [], product } = item;
     const {
@@ -20,6 +23,11 @@ const WishlistItem = props => {
         price_range: priceRange,
         stock_status: stockStatus
     } = product;
+
+    const productLink = resourceUrl(`/${url_key}${url_suffix || ''}`);
+    const simpleProductLink = `/simple-product?sku=${sku}`;
+
+    const actualProductLink = typename === 'ConfigurableProduct' ? productLink : simpleProductLink;
 
     const { maximum_price: maximumPrice } = priceRange;
     const { final_price: finalPrice } = maximumPrice;
@@ -50,6 +58,17 @@ const WishlistItem = props => {
             });
         }
     }, [addToast, formatMessage, hasError]);
+
+    const handleShareClick = () => {
+        navigator.clipboard.writeText(window.origin + actualProductLink);
+        addToast({
+            type: 'success',
+            message: formatMessage({
+                id: 'quickOrder.copiedUrl',
+                defaultMessage: 'The product URL was copied to the clipboard'
+            })
+        });
+    };
 
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -103,10 +122,18 @@ const WishlistItem = props => {
         </button>
     ) : null;
 
+    const discount = Math.round(100 - (minimalPrice?.amount.value / regularPrice?.amount.value) * 100);
+
     return (
         <div className={rootClass} data-cy="wishlistItem-root">
-            <Image {...imageProps} />
-
+            <article className={classes.imageContainer}>
+                {discount ? (
+                    <div className={classes.discount}>
+                        <span>{discount}%</span>
+                    </div>
+                ) : null}
+                <Image {...imageProps} />
+            </article>
             <div className={classes.actionWrap}>
                 <span
                     className={classes.name}
@@ -114,14 +141,19 @@ const WishlistItem = props => {
                 >
                     {name}
                 </span>{' '}
-                <button
-                    className={classes.deleteItem}
-                    onClick={handleRemoveProductFromWishlist}
-                    aria-label={removeProductAriaLabel}
-                    data-cy="wishlistItem-deleteItem"
-                >
-                    <Icon size={16} src={Trash2} />
-                </button>
+                <article className={classes.shareAndCanContainer}>
+                    <button onClick={handleShareClick} className={classes.shareIcon}>
+                        <img src={ShareIcon} alt="share icon" />
+                    </button>
+                    <button
+                        className={classes.deleteItem}
+                        onClick={handleRemoveProductFromWishlist}
+                        aria-label={removeProductAriaLabel}
+                        data-cy="wishlistItem-deleteItem"
+                    >
+                        <img src={orangeThrashCan} alt="orangeThrashCan" />
+                    </button>
+                </article>
             </div>
             <div
                 className={classes.priceContainer}
@@ -129,7 +161,7 @@ const WishlistItem = props => {
             >
                 <Price currencyCode={currency} value={unitPrice} />
             </div>
-            {optionElements}
+            <article className={classes.optionContainer}> {optionElements}</article>
             {addToCart}
         </div>
     );

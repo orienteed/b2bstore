@@ -26,6 +26,7 @@ const WishlistPage = props => {
         id: 'wishlistPage.wishlistDisabledMessage',
         defaultMessage: 'The wishlist is not currently available.'
     });
+
     const wishlistElements = useMemo(() => {
         if (wishlists.length === 0) {
             return <Wishlist />;
@@ -81,19 +82,6 @@ const WishlistPage = props => {
 
     return (
         <div className={classes.root} data-cy="Wishlist-root">
-            <h1
-                aria-live="polite"
-                className={classes.heading}
-                data-cy="WishlistPage-heading"
-            >
-                <FormattedMessage
-                    values={{ count: wishlists.length }}
-                    id={'wishlistPage.headingText'}
-                    defaultMessage={
-                        '{count, plural, one {Favorites List} other {Favorites Lists}}'
-                    }
-                />
-            </h1>
             {content}
         </div>
     );

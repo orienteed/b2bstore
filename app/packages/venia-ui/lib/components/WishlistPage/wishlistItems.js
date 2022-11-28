@@ -6,7 +6,7 @@ import defaultClasses from './wishlistItems.module.css';
 import WishlistItem from './wishlistItem';
 import AddToCartDialog from '../AddToCartDialog';
 
-const WishlistItems = props => {
+const WishlistItems = React.forwardRef((props, ref) => {
     const { items, wishlistId } = props;
 
     const talonProps = useWishlistItems();
@@ -22,6 +22,7 @@ const WishlistItems = props => {
         return items.map(item => {
             return (
                 <WishlistItem
+                    ref={ref}
                     key={item.id}
                     item={item}
                     onOpenAddToCartDialog={handleOpenAddToCartDialog}
@@ -33,13 +34,15 @@ const WishlistItems = props => {
 
     return (
         <Fragment>
-            <div className={classes.root}>{itemElements}</div>
+            <div className={classes.root} ref={ref}>
+                {itemElements}
+            </div>
             <AddToCartDialog
                 item={activeAddToCartItem}
                 onClose={handleCloseAddToCartDialog}
             />
         </Fragment>
     );
-};
+});
 
 export default WishlistItems;
