@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, string, bool, func } from 'prop-types';
+import { string, bool, func } from 'prop-types';
 import PayWithBankTransfer from './PayWithBankTransfer';
 
 const PaymentMethods = props => {

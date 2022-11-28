@@ -15,7 +15,7 @@ import { useQuoteProduct } from '@orienteed/requestQuote/src/talons/QuotePage/us
 
 const IMAGE_SIZE = 100;
 
-const quoteProduct = props => {
+const QuoteProduct = props => {
     const { item, setActiveEditItem, setIsCartUpdating } = props;
 
     const { id, qty, product, prices, configurable_options } = item;
@@ -26,21 +26,13 @@ const quoteProduct = props => {
         setIsCartUpdating
     });
 
-    const {
-        errorMessage,
-        handleEditItem,
-        handleRemoveFromCart,
-        handleToggleFavorites,
-        handleUpdateItemQuantity,
-        isEditable,
-        isFavorite
-    } = talonProps;
+    const { handleRemoveFromCart, handleUpdateItemQuantity } = talonProps;
 
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, props.classes);
 
-    const itemLink = useMemo(() => resourceUrl('/' + product.url_key + product.url_suffix));
+    const itemLink = useMemo(() => resourceUrl('/' + product.url_key + product.url_suffix), [product]);
 
     return (
         <li className={classes.root}>
@@ -111,4 +103,4 @@ const quoteProduct = props => {
     );
 };
 
-export default quoteProduct;
+export default QuoteProduct;

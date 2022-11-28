@@ -24,7 +24,7 @@ const DEFAULT_TOTAL_PAGE = 0;
  *
  * @returns {useQuotes}
  */
-export const useQuotes = props => {
+export const useQuotes = () => {
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +41,7 @@ export const useQuotes = props => {
         if (!configLoading && configData == undefined) {
             history.push('/account-information');
         }
-    }, [configData, configLoading]);
+    }, [configData, configLoading, history]);
 
     // Delete Quote Mutation
     const [deleteSubmittedMpQuote] = useMutation(DELETE_SUBMITTED_MP_QUOTE);
@@ -81,7 +81,7 @@ export const useQuotes = props => {
             setTotalPage(total_pages);
             setIsLoading(false);
         }
-    }, [quoteList]);
+    }, [quoteList, loading]);
 
     const getMpQuoteList = useCallback(async () => {
         await refetch({
@@ -180,7 +180,7 @@ export const useQuotes = props => {
             });
             history.go(0);
         },
-        [refetch, pageSize, currentPage, addMpQuoteToCart]
+        [refetch, pageSize, currentPage, addMpQuoteToCart, history]
     );
 
     return {

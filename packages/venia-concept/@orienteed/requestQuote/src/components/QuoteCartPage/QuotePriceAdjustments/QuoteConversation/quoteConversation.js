@@ -1,18 +1,17 @@
-import React, { useMemo } from 'react';
+/* eslint-disable react/jsx-no-literals */
+import React from 'react';
 import { shape, string } from 'prop-types';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Paperclip, X as CloseIcon } from 'react-feather';
 import { Form } from 'informed';
-import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
 import defaultClasses from './quoteConversation.module.css';
 
 const QuoteConversation = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
 
     const conversationAttachment = (
         <div className={classes.attachmentBox}>

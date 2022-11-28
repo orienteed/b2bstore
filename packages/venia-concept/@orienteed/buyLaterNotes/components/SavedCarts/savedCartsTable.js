@@ -30,7 +30,7 @@ const SavedCartTable = props => {
 
     const contentClass = isOpen ? classes.content : classes.content_collapsed;
 
-    var copyBtn = <></>;
+    let copyBtn = <></>;
     if (showCopyUrl) {
         let copyText = 'Copy Link';
         if (copied) {

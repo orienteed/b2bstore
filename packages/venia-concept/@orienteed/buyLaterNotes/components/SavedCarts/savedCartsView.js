@@ -1,14 +1,16 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+// eslint-disable-next-line jsx-a11y/label-has-associated-control
+/* eslint-disable react/jsx-no-literals */
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartsView.module.css';
-import Image from '@magento/venia-ui/lib/components/Image';
 import { DATE_FORMAT } from '@orienteed/buyLaterNotes/config';
 import Price from '@magento/venia-ui/lib/components/Price';
 import SavedCartViewTableItems from '@orienteed/buyLaterNotes/components/SavedCartViewTableItems';
 
-const savedCartsView = props => {
+const SavedCartsView = props => {
     const {
         cart: { cart_name, cart_total, created_at, description, items, token },
         handleContentToggle,
@@ -48,46 +50,6 @@ const savedCartsView = props => {
         </div>
     );
 
-    const savedCartViewAction = (
-        <div className={classes.savedCartViewActions}>
-            <div className={classes.backAction}>
-                <button className={classes.savedCartBackLink} type="button" onClick={handleContentToggle}>
-                    <FormattedMessage id={'savedCartsView.savedCartBackText'} defaultMessage={'Back'} />
-                </button>
-            </div>
-            <div className={classes.restoreAction}>
-                <button
-                    id={token}
-                    className={classes.savedCartRestoreLink}
-                    type="button"
-                    onClick={handleRestoreSaveCart}
-                >
-                    <FormattedMessage id={'savedCartsView.savedCartRestoreText'} defaultMessage={'Restore'} />
-                </button>
-            </div>
-        </div>
-    );
-
-    const savedCartViewTableHead = (
-        <div className={[classes.savedCartViewTableRow, classes.savedCartViewTableHead].join(' ')}>
-            <div className={classes.productName}>
-                <span className={classes.productNameLabel}>
-                    <FormattedMessage id={'savedCartsView.productNameText'} defaultMessage={'Product Name'} />
-                </span>
-            </div>
-            <div className={classes.productSku}>
-                <span className={classes.productSkuLabel}>
-                    <FormattedMessage id={'savedCartsView.productSkuText'} defaultMessage={'SKU'} />
-                </span>
-            </div>
-            <div className={classes.productImage}>
-                <span className={classes.productImageLabel}>
-                    <FormattedMessage id={'savedCartsView.productImage'} defaultMessage={'Image'} />
-                </span>
-            </div>
-        </div>
-    );
-
     const savedCartViewTableFooter = (
         <div className={[classes.savedCartViewTableRow, classes.savedCartViewTableFooter].join(' ')}>
             <div className={[classes.tableSubtotal, classes.tableSubtotalDesk].join(' ')}>
@@ -115,7 +77,6 @@ const savedCartsView = props => {
     const savedCartViewTable = (
         <div className={classes.tableContent}>
             <div className={classes.savedCartViewTable}>
-                {/*savedCartViewTableHead*/}
                 <label className={classes.itemsTitle}>Items</label>
                 {savedCartViewTableItems}
                 <div className={classes.footer}>
@@ -169,9 +130,9 @@ const savedCartsView = props => {
     );
 };
 
-export default savedCartsView;
+export default SavedCartsView;
 
-savedCartsView.propTypes = {
+SavedCartsView.propTypes = {
     classes: shape({
         root: string,
         savedCartName: string,

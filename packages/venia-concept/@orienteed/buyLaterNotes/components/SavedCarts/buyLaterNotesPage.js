@@ -60,7 +60,7 @@ const BuyLaterNotesPage = props => {
                 </h3>
             );
         }
-    }, [carts]);
+    }, [carts, getSavedCarts, handleIsLoading, showCopyUrl, classes.emptyHistoryMessage]);
 
     if (isLoading) {
         return fullPageLoadingIndicator;

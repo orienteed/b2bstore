@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './payWithBankTransfer.module.css';
 
-import BillingAddress from '@magento/venia-ui/lib/components/CheckoutPage/BillingAddress';
 const PayWithBankTransfer = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -65,17 +64,7 @@ const PayWithBankTransfer = props => {
         }
     }
 
-    return (
-        <div className={classes.root}>
-            {_instructionsHtml}
-            {/* <BillingAddress
-                resetShouldSubmit={props.resetShouldSubmit}
-                shouldSubmit={props.shouldSubmit}
-                onBillingAddressChangedError={onBillingAddressChangedError}
-                onBillingAddressChangedSuccess={onBillingAddressChangedSuccess}
-            /> */}
-        </div>
-    );
+    return <div className={classes.root}>{_instructionsHtml}</div>;
 };
 
 export default PayWithBankTransfer;
@@ -91,5 +80,5 @@ PayWithBankTransfer.propTypes = {
     onPaymentError: func,
     resetShouldSubmit: func,
     onPaymentReady: func,
-    paymentMethodMutationData:object
+    paymentMethodMutationData: object
 };

@@ -6,13 +6,12 @@ import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import QuoteProductListing from './QuoteProductListing';
 import QuotePriceSummary from './QuotePriceSummary';
-import QuotePriceAdjustments from './QuotePriceAdjustments';
 import AddProductBySku from './AddProductBySku';
 import defaultClasses from './quoteCartPage.module.css';
 import { useQuoteCartPage } from '@orienteed/requestQuote/src/talons/useQuoteCartPage';
 import { getConfigData, getQuoteId } from '@orienteed/requestQuote/src/store';
 
-const quoteCartPage = props => {
+const QuoteCartPage = props => {
     const {
         loading,
         myQuote,
@@ -50,7 +49,6 @@ const quoteCartPage = props => {
         </h3>
     );
 
-    const quotePriceAdjustments = hasItems ? <QuotePriceAdjustments /> : null;
     const quotePriceSummary = hasItems ? (
         <QuotePriceSummary handleSubmitQuoteBtn={handleSubmitQuoteBtn} quote={myQuote} />
     ) : null;
@@ -82,9 +80,9 @@ const quoteCartPage = props => {
     );
 };
 
-export default quoteCartPage;
+export default QuoteCartPage;
 
-quoteCartPage.propTypes = {
+QuoteCartPage.propTypes = {
     classes: shape({
         root: string,
         heading_container: string,

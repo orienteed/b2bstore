@@ -24,7 +24,7 @@ const QuoteSuccess = props => {
 
     const convertedEntityId = useMemo(() => {
         if (entityId != undefined) {
-            var length = 10;
+            let length = 10;
             length -= parseInt(entityId.toString().length);
 
             let newLength = '';

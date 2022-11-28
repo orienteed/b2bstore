@@ -1,7 +1,4 @@
-// import { GET_CHECKOUT_DETAILS } from "@magento/peregrine/lib/talons/CheckoutPage/checkoutPage.gql";
-// import { useQuery } from "@apollo/client";
-// import { useCartContext } from "@magento/peregrine/lib/context/cart";
-// import { useCallback, useState } from 'react';
+
 import { SAVE_ADDITIONAL_INFO_TRIGGER } from './useAdditionalData';
 import { CHECKOUT_STEP } from '@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage';
 
@@ -14,51 +11,8 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CheckoutPage/checkoutPage.gql.js';
 import CheckoutError from '@magento/peregrine/lib/talons/CheckoutPage/CheckoutError';
 
-export default original => {
-    return function useCheckoutPage(props, ...restArgs) {
-        // const [{ cartId }] = useCartContext();
-
-        // // Run the original, wrapped function
-        // let { ...defaultReturnData } = original(props, ...restArgs);
-
-        // useQuery(GET_CHECKOUT_DETAILS, {
-        //   fetchPolicy: "network-only",
-        //   variables: {
-        //     cartId
-        //   }
-        // });
-
-        // console.log('defaultReturnData', defaultReturnData)
-
-        // // const setPaymentInformationDone = useCallback(() => {
-        // //   console.log('setPaymentInformationDone')
-        // //   if (defaultReturnData.checkoutStep === CHECKOUT_STEP.PAYMENT) {
-        // //     globalThis.scrollTo({
-        // //       left: 0,
-        // //       top: 0,
-        // //       behavior: 'smooth'
-        // //     });
-        // //     window.dispatchEvent(new CustomEvent(SAVE_ADDITIONAL_INFO_TRIGGER));
-        // //     setTimeout(()=>{
-        // //       defaultReturnData.setCheckoutStep(CHECKOUT_STEP.REVIEW);
-        // //     }, 3000)
-
-        // //   }
-
-        // // }, [defaultReturnData.checkoutStep, defaultReturnData]);
-
-        // // defaultReturnData.handleReviewOrder
-
-        // const handleReviewOrder = useCallback(() => {
-        //   window.dispatchEvent(new CustomEvent(SAVE_ADDITIONAL_INFO_TRIGGER));
-        //   defaultReturnData.setReviewOrderButtonClicked(true);
-        // }, [defaultReturnData]);
-
-        // return {
-        //   ...defaultReturnData,
-        //   handleReviewOrder,
-
-        // };
+export default () => {
+    return function useCheckoutPage( ) {
 
         const operations = mergeOperations(DEFAULT_OPERATIONS, {});
 

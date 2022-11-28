@@ -1,8 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import Icon from '@magento/venia-ui/lib/components/Icon';
-import { Printer } from 'react-feather';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesView.module.css';
 import Price from '@magento/venia-ui/lib/components/Price';

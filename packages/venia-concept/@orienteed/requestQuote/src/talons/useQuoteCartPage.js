@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
@@ -28,7 +29,7 @@ export const useQuoteCartPage = props => {
         if (!configLoading && configData === undefined) {
             history.push('/');
         }
-    }, [configData, configLoading]);
+    }, [configData, configLoading, history]);
 
     // Delete Current Quote Mutation
     const [deleteCurrentQuote] = useMutation(DELETE_CURRENT_QUOTE);
@@ -75,7 +76,7 @@ export const useQuoteCartPage = props => {
         await deleteQuoteId();
         await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: {} }));
         await history.push('/mprequestforquote/quoteCart/success/' + mpQuoteSubmit);
-    }, [submitCurrentQuote]);
+    }, [submitCurrentQuote, history]);
 
     return {
         loading,

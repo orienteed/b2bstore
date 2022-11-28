@@ -5,7 +5,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartButton.module.css';
 import Button from '@magento/venia-ui/lib/components/Button';
 
-const savedCartButton = props => {
+const SavedCartButton = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
     const savedCartBtn = (
@@ -17,9 +17,9 @@ const savedCartButton = props => {
     return <div className={classes.root}>{savedCartBtn}</div>;
 };
 
-export default savedCartButton;
+export default SavedCartButton;
 
-savedCartButton.propTypes = {
+SavedCartButton.propTypes = {
     classes: shape({
         root: string
     })

@@ -2,7 +2,7 @@ import React from 'react';
 
 import QuoteProductForm from './quoteProductForm';
 
-const QuoteEditModal = props => {
+const QuoteEditModal = () => {
     return <QuoteProductForm />;
 };
 

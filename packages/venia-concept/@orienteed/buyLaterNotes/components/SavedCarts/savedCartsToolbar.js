@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-onchange */
+/* eslint-disable react/jsx-no-literals */
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -5,7 +7,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './savedCartsToolbar.module.css';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
 
-const savedCartsToolbar = props => {
+const SavedCartsToolbar = props => {
     const { handlePageSize, handleCurrentPage, currentPage, totalPage } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -60,9 +62,9 @@ const savedCartsToolbar = props => {
     );
 };
 
-export default savedCartsToolbar;
+export default SavedCartsToolbar;
 
-savedCartsToolbar.propTypes = {
+SavedCartsToolbar.propTypes = {
     classes: shape({
         root: string,
         pageInfo: string,

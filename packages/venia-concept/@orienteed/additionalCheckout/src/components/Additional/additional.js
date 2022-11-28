@@ -7,7 +7,6 @@ import ScrollAnchor from '@magento/venia-ui/lib/components/ScrollAnchor/scrollAn
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
-import Button from '@magento/venia-ui/lib/components/Button';
 import { useAdditionalData } from '@orienteed/additionalCheckout/src/talons/useAdditionalData';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 
@@ -33,7 +32,6 @@ const Additional = props => {
         <div className={classes.additional_fields_container}>
             <ScrollAnchor>
                 <div className={classes.root}>
-                    {/* {additionalFields} */}
                     <Fragment>
                         <Form className={classes.additionalForm} onSubmit={handleAdditionalData}>
                             <div className={classes.cardHeader}>
@@ -75,43 +73,45 @@ const Additional = props => {
                 </div>
             </ScrollAnchor>
         </div>
-    ) : !additionalInformation.comment && !additionalInformation.external_order_number ? null : (
-        <div className={classes.additional_fields_container}>
-            <ScrollAnchor>
-                <div className={classes.root}>
-                    {/* {additionalFields} */}
-                    <Fragment>
-                        <div className={classes.cardHeader}>
-                            <h5 className={classes.cardTitle}>
-                                <FormattedMessage id={'additional.cardTitle'} defaultMessage={'Additional'} />
-                            </h5>
-                        </div>
-                        <div className={classes.cardBody}>
-                            {additionalInformation.comment && (
-                                <div className={classes.comment}>
-                                    <FormattedMessage
-                                        id={'additional.additionalMessage'}
-                                        defaultMessage={'Comment : '}
-                                    />
-                                    {additionalInformation.comment}
+    ) : (
+        <>
+            {!additionalInformation.comment && !additionalInformation.external_order_number ? null : (
+                <div className={classes.additional_fields_container}>
+                    <ScrollAnchor>
+                        <div className={classes.root}>
+                            <Fragment>
+                                <div className={classes.cardHeader}>
+                                    <h5 className={classes.cardTitle}>
+                                        <FormattedMessage id={'additional.cardTitle'} defaultMessage={'Additional'} />
+                                    </h5>
                                 </div>
-                            )}
-                            {additionalInformation.external_order_number && (
-                                <div className={classes.externalOrderNumber}>
-                                    <FormattedMessage
-                                        id={'additional.email'}
-                                        defaultMessage={'External order number : '}
-                                    />
-                                    {additionalInformation.external_order_number}
+                                <div className={classes.cardBody}>
+                                    {additionalInformation.comment && (
+                                        <div className={classes.comment}>
+                                            <FormattedMessage
+                                                id={'additional.additionalMessage'}
+                                                defaultMessage={'Comment : '}
+                                            />
+                                            {additionalInformation.comment}
+                                        </div>
+                                    )}
+                                    {additionalInformation.external_order_number && (
+                                        <div className={classes.externalOrderNumber}>
+                                            <FormattedMessage
+                                                id={'additional.email'}
+                                                defaultMessage={'External order number : '}
+                                            />
+                                            {additionalInformation.external_order_number}
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+                            </Fragment>
                         </div>
-                    </Fragment>
+                    </ScrollAnchor>
                 </div>
-            </ScrollAnchor>
-        </div>
+            )}
+        </>
     );
-
     return additionalInfo;
 };
 

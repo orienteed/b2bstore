@@ -6,9 +6,9 @@ import defaultClasses from '@orienteed/buyLaterNotes/components/SavedCarts/saved
 import Image from '@magento/venia-ui/lib/components/Image';
 import ReactHtmlParser from 'react-html-parser';
 
-const savedCartViewTableItems = props => {
+const SavedCartViewTableItems = props => {
     const {
-        item: { product_name, image, price, qty, sku, subtotal_converted }
+        item: { product_name, image, price, qty, subtotal_converted }
     } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -57,9 +57,9 @@ const savedCartViewTableItems = props => {
     return <>{savedCartViewTable}</>;
 };
 
-export default savedCartViewTableItems;
+export default SavedCartViewTableItems;
 
-savedCartViewTableItems.propTypes = {
+SavedCartViewTableItems.propTypes = {
     classes: shape({
         root: string,
         savedCartName: string,

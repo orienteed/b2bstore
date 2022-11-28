@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, Fragment } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';

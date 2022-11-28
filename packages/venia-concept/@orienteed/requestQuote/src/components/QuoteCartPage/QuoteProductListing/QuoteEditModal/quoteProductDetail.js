@@ -1,6 +1,6 @@
+/* eslint-disable react/jsx-no-literals */
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import Price from '@magento/venia-ui/lib/components/Price';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Image from '@magento/venia-ui/lib/components/Image';
@@ -9,8 +9,6 @@ import productImage from './vt12-kh_main.jpg';
 const IMAGE_SIZE = 240;
 
 const QuoteProductDetail = props => {
-    const { formatMessage } = useIntl();
-
     const classes = useStyle(defaultClasses, props.classes);
 
     return (

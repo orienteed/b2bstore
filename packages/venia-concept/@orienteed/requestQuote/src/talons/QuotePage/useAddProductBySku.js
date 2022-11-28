@@ -5,7 +5,7 @@ import { ADD_SIMPLE_PRODUCT_TO_MP_QUOTE, GET_PRODUCTS } from '@orienteed/request
 import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '@orienteed/requestQuote/src/talons/useQuoteCartTrigger';
 import { setQuoteId } from '@orienteed/requestQuote/src/store';
 
-export const useAddProductBySku = props => {
+export const useAddProductBySku = () => {
     const [products, setProducts] = useState([]);
     const [isFatching, setIsFatching] = useState(false);
 
@@ -27,34 +27,37 @@ export const useAddProductBySku = props => {
     );
 
     // Add Simple Product
-    const handleAddItemBySku = useCallback(async productSku => {
-        const variables = {
-            input: {
-                cart_items: [
-                    {
-                        data: {
-                            sku: productSku,
-                            quantity: 1
+    const handleAddItemBySku = useCallback(
+        async productSku => {
+            const variables = {
+                input: {
+                    cart_items: [
+                        {
+                            data: {
+                                sku: productSku,
+                                quantity: 1
+                            }
                         }
-                    }
-                ]
-            }
-        };
+                    ]
+                }
+            };
 
-        const {
-            data: {
-                addSimpleProductsToMpQuote: { quote }
-            }
-        } = await addSimpleProductToCart({
-            variables
-        });
-        await setQuoteId(quote.entity_id);
-        await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: quote }));
-    });
+            const {
+                data: {
+                    addSimpleProductsToMpQuote: { quote }
+                }
+            } = await addSimpleProductToCart({
+                variables
+            });
+            await setQuoteId(quote.entity_id);
+            await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: quote }));
+        },
+        [addSimpleProductToCart]
+    );
 
     useEffect(() => {
         if (productResult.data != undefined) {
-            const { data, error } = productResult;
+            const { data } = productResult;
             if (data.products) {
                 const {
                     products: { items }
@@ -73,7 +76,7 @@ export const useAddProductBySku = props => {
             // Get Products
             await debouncedRunQuery(searchField);
         }
-    }, [debouncedRunQuery, productResult]);
+    }, [debouncedRunQuery]);
 
     return {
         products,

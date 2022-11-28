@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useQuotes } from '@orienteed/requestQuote/src/talons/useQuotes';
 import Price from '@magento/venia-ui/lib/components/Price';
@@ -21,7 +21,6 @@ const QuotesTable = props => {
     const { created_at, entity_id, expired_at, quote_currency_code, status, subtotal } = quote;
 
     const classes = useStyle(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
     const talonProps = useQuotes();
     const { isOpen, handleContentToggle } = talonProps;
     const contentClass = isOpen ? classes.content : classes.content_collapsed;
@@ -36,7 +35,7 @@ const QuotesTable = props => {
     }
 
     const entityId = useMemo(() => {
-        var length = 10;
+        let length = 10;
         length -= parseInt(entity_id.toString().length);
 
         let newLength = '';
@@ -131,7 +130,6 @@ QuotesTable.propTypes = {
         quotesExpiredDate: string,
         quotesExpiredDateLabel: string,
         quotesExpiredDateValue: string,
-        quotesTotalLabel: string,
         quotesTotalLabel: string,
         quotesTotalValue: string,
         quotesStatus: string,

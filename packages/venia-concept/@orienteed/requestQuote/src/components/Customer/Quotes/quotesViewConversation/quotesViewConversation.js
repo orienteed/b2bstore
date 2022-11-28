@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+/* eslint-disable react/jsx-no-literals */
+import React from 'react';
 import { shape, string } from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -10,7 +11,7 @@ import Field from '@magento/venia-ui/lib/components/Field';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
 import defaultClasses from './quotesViewConversation.module.css';
 
-const quotesViewConversation = props => {
+const QuotesViewConversation = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const BLOCK_TITLE = formatMessage({
@@ -129,9 +130,9 @@ const quotesViewConversation = props => {
     );
 };
 
-export default quotesViewConversation;
+export default QuotesViewConversation;
 
-quotesViewConversation.propTypes = {
+QuotesViewConversation.propTypes = {
     classes: shape({
         root: string
     })

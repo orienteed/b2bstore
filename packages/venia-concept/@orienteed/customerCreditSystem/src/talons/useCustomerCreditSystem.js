@@ -1,24 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { GET_PAYMENT_CREDIT_SYSTEM_CONFIG } from '@orienteed/customerCreditSystem/src/query/customerCreditSystem.gql';
 import { useToasts } from '@magento/peregrine';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { useIntl } from 'react-intl';
-import DEFAULT_OPERATIONS from '@orienteed/customerCreditSystem/src/query/customerCreditSystem.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
 export const useCustomerCreditSystem = props => {
     const { formatMessage } = useIntl();
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-
-    const { setPaymentMethodOnCartMutation } = operations;
-
-    const [{ cartId }] = useCartContext();
 
     const { onPaymentSuccess, resetShouldSubmit, shouldSubmit, onPaymentError, paymentMethodMutationData } = props;
 
@@ -29,7 +20,7 @@ export const useCustomerCreditSystem = props => {
     const paymentMethodMutationLoading = paymentMethodMutationData?.paymentMethodMutationLoading;
     const paymentMethodMutationError = paymentMethodMutationData?.paymentMethodMutationError;
     const paymentMethodMutationCalled = paymentMethodMutationData?.paymentMethodMutationCalled;
-   
+
     // Get config details
     const { data, loading } = useQuery(GET_PAYMENT_CREDIT_SYSTEM_CONFIG, {
         fetchPolicy: 'cache-and-network',
@@ -64,7 +55,7 @@ export const useCustomerCreditSystem = props => {
                 resetShouldSubmit();
             }
         }
-    }, [checkoutData, shouldSubmit, resetShouldSubmit]);
+    }, [checkoutData, shouldSubmit, resetShouldSubmit, formatMessage, addToast]);
 
     useEffect(() => {
         const paymentMethodMutationCompleted = paymentMethodMutationCalled && !paymentMethodMutationLoading;
@@ -91,8 +82,6 @@ export const useCustomerCreditSystem = props => {
         resetShouldSubmit();
     }, [resetShouldSubmit]);
 
-  
-
     /** Handle Submit Btn */
     const handleSubmitBtn = useCallback(() => {
         onPaymentSuccess();
@@ -102,6 +91,6 @@ export const useCustomerCreditSystem = props => {
         loading,
         checkoutData,
         handleSubmitBtn,
-        onBillingAddressChangedError,
+        onBillingAddressChangedError
     };
 };

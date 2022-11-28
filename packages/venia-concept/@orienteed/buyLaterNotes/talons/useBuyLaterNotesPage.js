@@ -14,7 +14,7 @@ const DEFAULT_TOTAL_PAGE = 0;
  *
  * @returns {BuyLaterNotesPage}
  */
-export const useBuyLaterNotesPage = props => {
+export const useBuyLaterNotesPage = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [carts, setCarts] = useState([]);
@@ -39,7 +39,7 @@ export const useBuyLaterNotesPage = props => {
                 history.push('/');
             }
         }
-    }, [data]);
+    }, [data, history]);
 
     // Get carts details
     const { data: savedCartData, refetch } = useQuery(GET_SAVED_CARTS, {

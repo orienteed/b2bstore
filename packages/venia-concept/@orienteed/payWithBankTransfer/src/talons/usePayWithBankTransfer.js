@@ -1,23 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useEffect, useCallback } from 'react';
+import { useQuery } from '@apollo/client';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import DEFAULT_OPERATIONS from '@orienteed/payWithBankTransfer/src/query/payWithBankTransfer.gql';
 
 export const usePayWithBankTransfer = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const { setPaymentMethodOnCartMutation, getStoreConfig } = operations;
+    const { getStoreConfig } = operations;
 
-    const [{ cartId }] = useCartContext();
 
     const { onPaymentSuccess, resetShouldSubmit, onPaymentError, paymentMethodMutationData } = props;
     const paymentMethodMutationLoading = paymentMethodMutationData?.paymentMethodMutationLoading;
     const paymentMethodMutationError = paymentMethodMutationData?.paymentMethodMutationError;
     const paymentMethodMutationCalled = paymentMethodMutationData?.paymentMethodMutationCalled;
-
-
 
     // Getting Extra Information
     const { data: extraInfo, loading } = useQuery(getStoreConfig, {

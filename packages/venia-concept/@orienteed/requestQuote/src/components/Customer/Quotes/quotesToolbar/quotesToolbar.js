@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-literals */
+/* eslint-disable jsx-a11y/no-onchange */
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -5,7 +7,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesToolbar.module.css';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
 
-const quotesToolbar = props => {
+const QuotesToolbar = props => {
     const { pageSize, handlePageSize, handleCurrentPage, currentPage, totalPage } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -66,9 +68,9 @@ const quotesToolbar = props => {
     );
 };
 
-export default quotesToolbar;
+export default QuotesToolbar;
 
-quotesToolbar.propTypes = {
+QuotesToolbar.propTypes = {
     classes: shape({
         root: string,
         pageInfo: string,

@@ -6,7 +6,7 @@ import { SHARE_CART } from '@orienteed/buyLaterNotes/query/buyLaterNotes.gql';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { GET_CART_DETAILS } from '@magento/peregrine/lib/talons/CreateAccount/createAccount.gql';
 
-export const useShareCartPage = async props => {
+export const useShareCartPage = async () => {
     const [isLoading, setIsLoading] = useState(true);
     const [shareCartUpadte, setShareCartUpadte] = useState(1);
     const { pathname } = useLocation();
@@ -42,7 +42,7 @@ export const useShareCartPage = async props => {
                 history.push('/cart');
             }
         }
-    }, [getCartDetails, cartId, fetchCartDetails, shareCartUpadte, url]);
+    }, [getCartDetails, cartId, fetchCartDetails, shareCartUpadte, url, history, getShareCart]);
 
     useEffect(() => {
         if (!url[5]) {
@@ -52,7 +52,7 @@ export const useShareCartPage = async props => {
             handleShareCart();
             setShareCartUpadte(2);
         }
-    }, [url]);
+    }, [url, handleShareCart, history]);
 
     return {
         isLoading

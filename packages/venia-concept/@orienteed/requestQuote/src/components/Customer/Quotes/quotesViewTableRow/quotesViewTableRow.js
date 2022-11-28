@@ -6,10 +6,9 @@ import defaultClasses from '@orienteed/requestQuote/src/components/Customer/Quot
 import Price from '@magento/venia-ui/lib/components/Price';
 import ProductOptions from './productOptions';
 
-const quotesViewTableRow = props => {
+const QuotesViewTableRow = props => {
     const {
         item: {
-            name,
             sku,
             request_price,
             qty,
@@ -23,12 +22,6 @@ const quotesViewTableRow = props => {
 
     const quotesViewTableRow = (
         <li className={classes.quotesViewTableRow}>
-            {/* <div className={classes.productName}>
-                <span className={classes.productNameMobileLabel}>
-                    <FormattedMessage id={'quotesView.productNameText'} defaultMessage={'Product Name'} />
-                </span>
-                <span className={classes.productNameValue}>{name}</span>
-            </div> */}
             <div className={classes.productSku}>
                 <span className={classes.productSkuMobileLabel}>
                     <FormattedMessage
@@ -114,9 +107,9 @@ const quotesViewTableRow = props => {
     return <>{quotesViewTableRow}</>;
 };
 
-export default quotesViewTableRow;
+export default QuotesViewTableRow;
 
-quotesViewTableRow.propTypes = {
+QuotesViewTableRow.propTypes = {
     classes: shape({
         quotesViewTableRow: string,
         productName: string,

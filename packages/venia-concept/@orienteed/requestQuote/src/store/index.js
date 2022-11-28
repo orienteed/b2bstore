@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_CONFIG_DETAILS, MP_QUOTE } from '@orienteed/requestQuote/src/query/requestQuote.gql';

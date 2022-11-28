@@ -1,11 +1,7 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useCallback, useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import {
-    DELETE_SAVE_CART,
-    RESTORE_SAVE_CART,
-    CART_DETAILS_QUERY
-} from '@orienteed/buyLaterNotes/query/buyLaterNotes.gql';
+import { DELETE_SAVE_CART, RESTORE_SAVE_CART } from '@orienteed/buyLaterNotes/query/buyLaterNotes.gql';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { GET_CART_DETAILS } from '@magento/peregrine/lib/talons/CreateAccount/createAccount.gql';
 
@@ -50,7 +46,7 @@ export const useSavedCartsTable = props => {
 
     // Copy URL
     const copyCartUrl = useCallback(obj => {
-        var textField = document.createElement('textarea');
+        const textField = document.createElement('textarea');
         textField.innerText = obj.target.id;
         document.body.appendChild(textField);
         textField.select();
@@ -86,13 +82,7 @@ export const useSavedCartsTable = props => {
             await getSavedCarts();
             await handleIsLoading(false);
         },
-        [
-            getCartDetails,
-            cartId,
-            restoreSaveCart,
-            handleIsLoading,
-            getSavedCarts
-        ]
+        [getCartDetails, cartId, restoreSaveCart, handleIsLoading, getSavedCarts, fetchCartDetails]
     );
 
     return {

@@ -5,7 +5,6 @@ import { useCustomerCreditSystem } from '@orienteed/customerCreditSystem/src/tal
 import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './customerCreditSystem.module.css';
-import BillingAddress from '@magento/venia-ui/lib/components/CheckoutPage/BillingAddress';
 import Price from '@magento/venia-ui/lib/components/Price';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useQuery } from '@apollo/client';
@@ -23,7 +22,7 @@ const CustomerCreditSystem = props => {
         shouldSubmit,
         paymentMethodMutationData
     });
-    const { error, data } = useQuery(getPriceSummaryQuery, {
+    const { data } = useQuery(getPriceSummaryQuery, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first',
         skip: !cartId,
@@ -49,8 +48,6 @@ const CustomerCreditSystem = props => {
     }
 
     const {
-        onBillingAddressChangedError,
-        onBillingAddressChangedSuccess,
         checkoutData: { grand_total, leftincredit, remainingcreditformatted, remainingcreditcurrentcurrency }
     } = talonProps;
 
@@ -102,12 +99,6 @@ const CustomerCreditSystem = props => {
                     </tr>
                 </tbody>
             </table>
-            {/* <BillingAddress
-                resetShouldSubmit={props.resetShouldSubmit}
-                shouldSubmit={shouldSubmit}
-                onBillingAddressChangedError={onBillingAddressChangedError}
-                onBillingAddressChangedSuccess={onBillingAddressChangedSuccess}
-            /> */}
         </div>
     );
 };

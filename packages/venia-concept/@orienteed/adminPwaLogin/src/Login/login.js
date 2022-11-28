@@ -1,3 +1,5 @@
+/* eslint-disable no-empty-pattern */
+// eslint-disable-next-line no-empty-pattern
 import { useParams, useHistory } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -16,7 +18,7 @@ const Login = () => {
         await setToken(customer_token);
         await storage.setItem('pwa_login', 'true', 3600);
         history.push('/');
-    });
+    }, [customer_token, setToken, signOut, history]);
 
     useEffect(() => {
         setTimeout(function() {

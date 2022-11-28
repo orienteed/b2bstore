@@ -1,4 +1,5 @@
-import React, { useMemo, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useMemo } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
 import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';

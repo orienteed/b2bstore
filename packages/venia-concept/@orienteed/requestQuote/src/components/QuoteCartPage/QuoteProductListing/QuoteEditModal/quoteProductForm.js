@@ -3,7 +3,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Options from '@magento/venia-ui/lib/components/ProductOptions';
 import { QuantityFields } from '@orienteed/requestQuote/src/components/QuoteCartPage/QuoteProductListing/quoteQuantity';
 import defaultClasses from './quoteProductForm.module.css';

@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useMemo } from 'react';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -23,7 +22,7 @@ const QuoteProductListing = props => {
                 />
             ));
         }
-    }, [items]);
+    }, [items, setActiveEditItem, setIsCartUpdating]);
 
     const deleteQuoteCart = (
         <Button onClick={handleDeleteQuote} priority={'low'}>

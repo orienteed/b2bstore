@@ -9,13 +9,7 @@ export const SAVE_ADDITIONAL_INFO_TRIGGER = 'SAVE_ADDITIONAL_INFO_TRIGGER';
 export const useAdditionalData = () => {
     const [, { addToast }] = useToasts();
     const [additionalInformation, setAdditionalInformation] = useState({});
-    const displayMessage = (type = 'info', message, time = 5000) => {
-        addToast({
-            type: type,
-            message: message,
-            timeout: time
-        });
-    };
+
     const [{ cartId }] = useCartContext();
     const { setCustomAttributeQuoteSave, getCustomAdditionalQuoteData } = additionalCheckoutGraphql;
 
@@ -41,6 +35,13 @@ export const useAdditionalData = () => {
     }, [customAdditionalQuoteData]);
 
     const handleAdditionalData = useCallback(() => {
+        const displayMessage = (message, time = 5000, type = 'info') => {
+            addToast({
+                type: type,
+                message: message,
+                timeout: time
+            });
+        };
         const additionalMessage = document.querySelector('#additionalMessage').value;
         const externalOrderNumber = document.querySelector('#externalOrderNumber').value;
         setCustomAttributeQuoteSaveCall({
@@ -62,13 +63,13 @@ export const useAdditionalData = () => {
                 displayMessage('error', message);
             }
         });
-    }, [cartId, refectCustomAdditionalQuoteData]);
+    }, [cartId, refectCustomAdditionalQuoteData, setCustomAttributeQuoteSaveCall, addToast]);
 
     useMemo(() => {
-        window.addEventListener(SAVE_ADDITIONAL_INFO_TRIGGER, event => {
+        window.addEventListener(SAVE_ADDITIONAL_INFO_TRIGGER, () => {
             handleAdditionalData();
         });
-    }, [customAdditionalQuoteData, handleAdditionalData]);
+    }, [handleAdditionalData]);
 
     const isUpdating = setCustomAttributeQuoteSaveLoading ? true : false;
     const isLoading = customAdditionalQuoteDataLoading ? true : false;
