@@ -7,7 +7,7 @@ import { useNoReorderProductContext } from '@orienteed/customComponents/componen
 const useReOrderItems = ({ order, addConfigurableProductToCartMutation }) => {
     const history = useHistory();
     const { setNoProduct, setLoadingProduct } = useNoReorderProductContext();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading] = useState(false);
     const [{ cartId }] = useCartContext();
 
     const [addConfigurableProductToCart] = useMutation(
@@ -35,8 +35,8 @@ const useReOrderItems = ({ order, addConfigurableProductToCartMutation }) => {
     );
 
     const handleReOrderClick = async () => {
-        for (let i = 0; i < order.items.length; i++) {
-            await handleAddToCart(order.items[i]);
+        for (const element of order.items) {
+            await handleAddToCart(element);
             setLoadingProduct(true);
             window.scroll({ top: 0, left: 0 });
         }

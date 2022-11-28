@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
 import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
@@ -85,8 +86,8 @@ export const getDefaultBillingAddress = customerAddressesData => {
  *   shippingAddressCountry: String,
  * }
  */
-export default original => {
-    return function useBillingAddress(props, ...restArgs) {
+export default () => {
+    return function useBillingAddress(props) {
         const { shouldSubmit, onBillingAddressChangedError, onBillingAddressChangedSuccess } = props;
         const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
         const [, { addToast }] = useToasts();
@@ -103,7 +104,6 @@ export default original => {
         const client = useApolloClient();
         const formState = useFormState();
         const { validate: validateBillingAddressForm } = useFormApi();
-        const { validate } = useFormApi();
         const [{ cartId }] = useCartContext();
         const [{ isSignedIn }] = useUserContext();
 
@@ -272,7 +272,7 @@ export default original => {
                 }
             })
                 .then(res => console.log(res, 'useMutation22'))
-                .catch(err =>
+                .catch(() =>
                     addToast({
                         type: 'error',
                         icon: errorIcon,
@@ -285,7 +285,7 @@ export default original => {
                         timeout: 6000
                     })
                 );
-        }, [formState.values, updateBillingAddress, cartId]);
+        }, [formState.values, updateBillingAddress, cartId,addToast]);
 
         /**
          * Effects

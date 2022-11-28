@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useMemo, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Search as SearchIcon, AlertCircle as AlertCircleIcon, ArrowRight as SubmitIcon } from 'react-feather';
@@ -81,7 +83,7 @@ const OrderHistoryPage = props => {
                 />
             );
         });
-    }, [orders, storeConfigData, setSuccessToast, setErrorToast]);
+    }, [orders, storeConfigData, setSuccessToast, setErrorToast,address]);
 
     const pageContents = useMemo(() => {
         if (isLoadingWithoutData) {

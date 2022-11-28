@@ -1,7 +1,7 @@
 import { useMemo, useReducer } from 'react';
 import DEFAULT_OPERATIONS from '../graphql/orderAttributes.gql';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 const orderAttributesData = {
@@ -32,9 +32,9 @@ export const useOrderAttributes = () => {
     const orderAttributesIsActivated = useMemo(() => {
         return Object.keys(state).some(ele => state[ele]);
     }, [state]);
-    const [customAttributeQuoteSave, { error, loading, data }] = useMutation(setOrderAttributes);
+    const [customAttributeQuoteSave] = useMutation(setOrderAttributes);
 
-    const submitOrderAttribute = async data => {
+    const submitOrderAttribute = async () => {
         await customAttributeQuoteSave({
             variables: {
                 masked_id: cartId,

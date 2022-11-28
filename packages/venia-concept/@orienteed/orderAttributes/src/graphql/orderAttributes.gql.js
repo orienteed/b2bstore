@@ -14,13 +14,4 @@ const SET_ORDER_ATTRIBUTES = gql`
     }
 `;
 
-const GET_LOCALE = gql`
-    query getLocale {
-        storeConfig {
-            store_code
-            locale
-        }
-    }
-`;
-
 export default { setOrderAttributes: SET_ORDER_ATTRIBUTES };

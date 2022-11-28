@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React, { useState, useMemo, Suspense } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Select from '@magento/venia-concept/src/components/Gallery/SelectField/select';
@@ -30,7 +31,7 @@ const DeliveryDatesForm = props => {
     const isWeekday = date => {
         const { deliveryDaysOff } = deliveryDates?.deliveryTime;
         const day = date.getDay();
-        let isWeek = deliveryDaysOff.includes(String(day));
+        const isWeek = deliveryDaysOff.includes(String(day));
         return !isWeek;
     };
 
@@ -38,12 +39,12 @@ const DeliveryDatesForm = props => {
         const dateTime = data.getTime();
         const { deliveryDateOff } = deliveryDates?.deliveryTime;
         const daysOffTime = deliveryDateOff.map(item => new Date(item).getTime());
-        let isDisabled = daysOffTime.includes(dateTime);
+        const isDisabled = daysOffTime.includes(dateTime);
         return isDisabled ? classes.disabled : undefined;
     };
 
     const deliveryTime = deliveryDates?.deliveryTime?.deliveryTime?.map(item => {
-        let element = {
+        const element = {
             value: item,
             label: item
                 .split('-')

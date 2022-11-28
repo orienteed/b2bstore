@@ -27,7 +27,7 @@ const AddQuickOrder = props => {
     const [products, setProducts] = useState(JSON.parse(JSON.stringify(iniArray)));
     const [csvData, setCsvData] = useState([]);
     const classes = mergeClasses(defaultClasses, props.classes);
-    const { handleAddCofigItemBySku, handleAddItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
+    const { handleAddCofigItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
 
     const { formatMessage } = useIntl();
     const warningMsg = formatMessage({
@@ -62,6 +62,20 @@ const AddQuickOrder = props => {
         });
     };
     useEffect(() => {
+        const downloadCsv = () => {
+            const newArr = [...products];
+            const newData = [];
+            newArr.map(item => {
+                if (item.name) {
+                    const { sku, quantity } = item;
+                    newData.push({
+                        sku,
+                        quantity
+                    });
+                }
+            });
+            setCsvData(newData);
+        };
         downloadCsv();
     }, [products]);
 
@@ -97,9 +111,9 @@ const AddQuickOrder = props => {
     const formatData = data => {
         const dataValidated = [];
         const productArr = [...data];
-        for (let i = 0; i < productArr.length; i++) {
-            if (Object.keys(productArr[i]).length > 0 && productArr[i].sku) {
-                dataValidated.push([productArr[i].sku, productArr[i].quantity]);
+        for (const element of productArr) {
+            if (Object.keys(element).length > 0 && element.sku) {
+                dataValidated.push([element.sku, element.quantity]);
             }
         }
         return dataValidated;
@@ -119,20 +133,7 @@ const AddQuickOrder = props => {
             });
         }
     };
-    const downloadCsv = () => {
-        const newArr = [...products];
-        const newData = [];
-        newArr.map(item => {
-            if (item.name) {
-                const { sku, quantity } = item;
-                newData.push({
-                    sku,
-                    quantity
-                });
-            }
-        });
-        setCsvData(newData);
-    };
+
     const createOrderClick = () => {
         addToCartClick();
         push('/checkout');

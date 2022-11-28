@@ -7,7 +7,7 @@ export default original => {
         const [{ cartId }] = useCartContext();
 
         // Run the original, wrapped function
-        let { ...defaultReturnData } = original(props, ...restArgs);
+        const { ...defaultReturnData } = original(props, ...restArgs);
 
         useQuery(GET_CHECKOUT_DETAILS, {
             fetchPolicy: 'network-only',

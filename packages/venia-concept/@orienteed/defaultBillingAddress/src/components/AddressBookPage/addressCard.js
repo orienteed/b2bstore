@@ -28,7 +28,6 @@ const AddressCard = props => {
         default_billing,
         default_shipping,
         firstname,
-        middlename = '',
         postcode,
         region: { region },
         street,

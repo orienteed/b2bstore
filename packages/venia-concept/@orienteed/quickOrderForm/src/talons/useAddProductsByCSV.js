@@ -80,16 +80,16 @@ export const useAddProductsByCSV = props => {
     const handleAddProductsToCart = useCallback(
         async csvProducts => {
             const tempSkuErrorList = [];
-            for (let i = 0; i < csvProducts.length; i++) {
+            for (const element of csvProducts) {
                 try {
                     const parentSkuResponse = await getParentSku({
-                        variables: { sku: csvProducts[i][0] }
+                        variables: { sku: element[0] }
                     });
 
                     const variables = {
                         cartId,
-                        quantity: parseInt(csvProducts[i][1], 10),
-                        sku: csvProducts[i][0],
+                        quantity: parseInt(element[1], 10),
+                        sku: element[0],
                         parentSku: parentSkuResponse.data.products.items[0].orParentSku
                     };
                     await addConfigurableProductToCart({
@@ -97,7 +97,7 @@ export const useAddProductsByCSV = props => {
                     });
                     success();
                 } catch {
-                    tempSkuErrorList.push(csvProducts[i][0]);
+                    tempSkuErrorList.push(element[0]);
                     setCsvErrorType('loading');
                     setIsCsvDialogOpen(true);
                 }

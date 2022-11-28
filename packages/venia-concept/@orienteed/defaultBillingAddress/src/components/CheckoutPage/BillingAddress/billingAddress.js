@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React, { useCallback, useMemo } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { shape, string, func, bool } from 'prop-types';

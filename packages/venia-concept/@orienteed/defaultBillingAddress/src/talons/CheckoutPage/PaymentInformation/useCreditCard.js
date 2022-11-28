@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
 import { useQuery, useApolloClient, useMutation } from '@apollo/client';
@@ -91,8 +92,8 @@ export const getDefaultBillingAddress = customerAddressesData => {
  *   resetShouldTeardownDropin: Function
  * }
  */
-export default original => {
-    return function useCreditCard(props, ...restArgs) {
+export default () => {
+    return function useCreditCard(props) {
         const { onSuccess, onReady, onError, shouldSubmit, resetShouldSubmit } = props;
 
         const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
@@ -201,7 +202,7 @@ export default original => {
             }
 
             return { isBillingAddressDefault, ...billingAddress, defaultBillingAddressObject };
-        }, [isBillingAddressSameData, billingAddressData, defaultBillingAddressObject]);
+        }, [billingAddressData, defaultBillingAddressObject, isBillingAddressDefault]);
 
         /**
          * Helpers
@@ -447,7 +448,8 @@ export default original => {
             setIsBillingAddressSameInCache,
             resetShouldSubmit,
             validateBillingAddressForm,
-            formState.errors
+            formState.errors,
+            setDefaultBillingAddress
         ]);
 
         /**

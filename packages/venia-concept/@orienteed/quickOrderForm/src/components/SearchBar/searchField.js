@@ -1,32 +1,14 @@
 import React from 'react';
 import { func } from 'prop-types';
-import { Search as SearchIcon, X as ClearIcon } from 'react-feather';
-import { useSearchField } from '@magento/peregrine/lib/talons/SearchBar';
 
-import Icon from '@magento/venia-ui/lib/components/Icon';
-import Trigger from '@magento/venia-ui/lib/components/Trigger';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './searchField.module.css';
-import { FormattedMessage, useIntl } from 'react-intl';
-
-const clearIcon = <Icon src={ClearIcon} size={24} />;
-const searchIcon = <Icon src={SearchIcon} size={24} />;
+import { useIntl } from 'react-intl';
 
 const SearchField = props => {
     const classes = useStyle(defaultClasses);
-    const {
-        isSearchOpen,
-        onChange,
-        quickOrder,
-        onFocus,
-        placeholder,
-        value,
-        ...rest
-    } = props;
+    const { onChange, quickOrder, value, ...rest } = props;
     const { formatMessage } = useIntl();
-    // const { inputRef, resetForm } = useSearchField({ isSearchOpen });
-
-    // const resetButton = value ? <Trigger action={resetForm}>{clearIcon}</Trigger> : null;
 
     return (
         <div className={defaultClasses.searchField}>
@@ -38,8 +20,7 @@ const SearchField = props => {
                 })}
                 value={value}
                 {...rest}
-                className={`${classes.input} ${quickOrder &&
-                    defaultClasses.inputQty}`}
+                className={`${classes.input} ${quickOrder && defaultClasses.inputQty}`}
             />
         </div>
     );

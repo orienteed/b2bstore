@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { useFieldState } from 'informed';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
 

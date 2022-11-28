@@ -4,7 +4,6 @@ import { ChevronDown, ChevronUp } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import Button from '@magento/venia-ui/lib/components/Button';
-import CollapsedImageGallery from '@magento/venia-ui/lib/components/OrderHistoryPage/collapsedImageGallery';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import Image from '@magento/venia-ui/lib/components/Image';
 import OrderDetails from '@magento/venia-ui/lib/components/OrderHistoryPage/OrderDetails';
@@ -86,7 +85,6 @@ const OrderRow = props => {
 
     const contentToggleIcon = <Icon src={contentToggleIconSrc} size={24} />;
 
-    const collapsedImageGalleryElement = isOpen ? null : <CollapsedImageGallery items={imagesData} />;
 
     const orderDetails = loading ? null : (
         <OrderDetails config={config} address={address} orderData={order} imagesData={imagesData} />
