@@ -137,13 +137,6 @@ export const useMiniCart = props => {
 
     const derivedErrorMessage = useMemo(() => deriveErrorMessage([removeItemError]), [removeItemError]);
 
-    const [csvErrorType, setCsvErrorType] = useState('');
-    const [csvSkuErrorList, setCsvSkuErrorList] = useState([]);
-    const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
-    const handleCancelCsvDialog = useCallback(() => {
-        setIsCsvDialogOpen(false);
-    }, []);
-
     useEffect(() => {
         if (isOpen) {
             dispatch({
@@ -167,13 +160,6 @@ export const useMiniCart = props => {
         subTotal,
         totalQuantity,
         configurableThumbnailSource,
-        storeUrlSuffix,
-        csvErrorType: csvErrorType,
-        setCsvErrorType,
-        csvSkuErrorList: csvSkuErrorList,
-        setCsvSkuErrorList,
-        isCsvDialogOpen,
-        setIsCsvDialogOpen,
-        handleCancelCsvDialog
+        storeUrlSuffix
     };
 };

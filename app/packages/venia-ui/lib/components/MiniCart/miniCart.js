@@ -13,7 +13,6 @@ import StockStatusMessage from '../StockStatusMessage';
 import ProductList from './ProductList';
 import defaultClasses from './miniCart.module.css';
 import operations from './miniCart.gql';
-// import AddProductByCsv from '@orienteed/customComponents/components/AddProductsByCsv/addProductByCsv'; // TODO_B2B
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
@@ -47,13 +46,6 @@ const MiniCart = React.forwardRef((props, ref) => {
         subTotal,
         totalQuantity,
         configurableThumbnailSource,
-        // csvErrorType,
-        // setCsvErrorType,
-        // csvSkuErrorList,
-        // setCsvSkuErrorList,
-        // isCsvDialogOpen,
-        // setIsCsvDialogOpen,
-        // handleCancelCsvDialog,
         storeUrlSuffix
     } = talonProps;
 
@@ -105,15 +97,6 @@ const MiniCart = React.forwardRef((props, ref) => {
             <div className={classes.emptyMessage} data-cy="MiniCart-emptyMessage">
                 <FormattedMessage id={'miniCart.emptyMessage'} defaultMessage={'There are no items in your cart.'} />
             </div>
-            {/* <AddProductByCsv
-                csvErrorType={csvErrorType}
-                setCsvErrorType={setCsvErrorType}
-                csvSkuErrorList={csvSkuErrorList}
-                setCsvSkuErrorList={setCsvSkuErrorList}
-                isCsvDialogOpen={isCsvDialogOpen}
-                setIsCsvDialogOpen={setIsCsvDialogOpen}
-                handleCancelCsvDialog={handleCancelCsvDialog}
-            /> */}
         </div>
     ) : (
         <Fragment>
@@ -145,15 +128,6 @@ const MiniCart = React.forwardRef((props, ref) => {
                     />
                     <FormattedMessage id={'miniCart.checkout'} defaultMessage={'CHECKOUT'} />
                 </Button>
-                {/* <AddProductByCsv
-                    csvErrorType={csvErrorType}
-                    setCsvErrorType={setCsvErrorType}
-                    csvSkuErrorList={csvSkuErrorList}
-                    setCsvSkuErrorList={setCsvSkuErrorList}
-                    isCsvDialogOpen={isCsvDialogOpen}
-                    setIsCsvDialogOpen={setIsCsvDialogOpen}
-                    handleCancelCsvDialog={handleCancelCsvDialog}
-                /> */}
                 <Button
                     onClick={handleEditCart}
                     priority="high"
