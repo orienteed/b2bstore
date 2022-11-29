@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
@@ -67,7 +67,7 @@ export const useStoreSwitcher = (props = {}) => {
         });
     }, [availableRoutes]);
 
-    const { getStoreConfigData, getRouteData, getIsRequiredLogin, getAvailableStoresData } = operations;
+    const { getStoreConfigData, getRouteData, getAvailableStoresData } = operations;
     const { pathname, search: searchParams } = useLocation();
     const {
         elementRef: storeMenuRef,
@@ -93,11 +93,6 @@ export const useStoreSwitcher = (props = {}) => {
             return storeConfigData.storeConfig.store_name;
         }
     }, [storeConfigData]);
-
-    const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
 
     const currentGroupName = useMemo(() => {
         if (storeConfigData) {
@@ -133,20 +128,6 @@ export const useStoreSwitcher = (props = {}) => {
 
         return groups;
     }, [availableStores]);
-
-    useEffect(() => {
-        let is_required_login_value;
-
-        if (storeRequiredLogin) {
-            const {
-                storeConfig: { is_required_login }
-            } = storeConfig;
-
-            is_required_login_value = is_required_login === '1';
-        }
-
-        storage.setItem('is_required_login', is_required_login_value);
-    }, [storeRequiredLogin]);
 
     const getPathname = useCallback(
         async storeCode => {
