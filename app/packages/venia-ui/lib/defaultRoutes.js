@@ -121,5 +121,10 @@ module.exports = [
         authed: true,
         redirectTo: '/sign-in',
         isEnabled: process.env.CSR_ENABLED
+    },
+    {
+        name: 'AdminPwaLogin',
+        pattern: '/pwa/sign-in/:customer_token',
+        path: '../AdminPwaLogin'
     }
 ];
