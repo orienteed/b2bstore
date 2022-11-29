@@ -34,6 +34,10 @@ module.exports = veniaTargets => {
         {
             paymentCode: 'creditsystem',
             importPath: '@magento/venia-ui/lib/components/CheckoutPage/CustomerCreditSystem/customerCreditSystem'
+        },
+        {
+            paymentCode: 'banktransfer',
+            importPath: '@magento/venia-ui/lib/components/CheckoutPage/BankTransfer/bankTransfer'
         }
     );
 
