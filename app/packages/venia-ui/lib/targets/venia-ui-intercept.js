@@ -14,14 +14,7 @@ const RootShimmerTypes = require('./RootShimmerTypes');
 module.exports = veniaTargets => {
     const venia = Targetables.using(veniaTargets);
 
-    venia.setSpecialFeatures(
-        'cssModules',
-        'esModules',
-        'graphqlQueries',
-        'rootComponents',
-        'upward',
-        'i18n'
-    );
+    venia.setSpecialFeatures('cssModules', 'esModules', 'graphqlQueries', 'rootComponents', 'upward', 'i18n');
 
     makeRoutesTarget(venia);
 
@@ -33,31 +26,33 @@ module.exports = veniaTargets => {
     });
 
     const checkoutPagePaymentsList = new CheckoutPagePaymentsList(venia);
-    checkoutPagePaymentsList.add({
-        paymentCode: 'braintree',
-        importPath:
-            '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/creditCard'
-    });
+    checkoutPagePaymentsList.add(
+        {
+            paymentCode: 'braintree',
+            importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/creditCard'
+        },
+        {
+            paymentCode: 'creditsystem',
+            importPath: '@magento/venia-ui/lib/components/CheckoutPage/CustomerCreditSystem/customerCreditSystem'
+        }
+    );
 
     const savedPaymentTypes = new SavedPaymentTypes(venia);
     savedPaymentTypes.add({
         paymentCode: 'braintree',
-        importPath:
-            '@magento/venia-ui/lib/components/SavedPaymentsPage/creditCard'
+        importPath: '@magento/venia-ui/lib/components/SavedPaymentsPage/creditCard'
     });
 
     const editablePayments = new EditablePaymentTypes(venia);
     editablePayments.add({
         paymentCode: 'braintree',
-        importPath:
-            '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/editCard'
+        importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/editCard'
     });
 
     const summaryPagePaymentTypes = new SummaryPaymentTypes(venia);
     summaryPagePaymentTypes.add({
         paymentCode: 'braintree',
-        importPath:
-            '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/braintreeSummary'
+        importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/braintreeSummary'
     });
 
     new CategoryListProductAttributes(venia);
@@ -65,7 +60,6 @@ module.exports = veniaTargets => {
     const rootShimmerTypes = new RootShimmerTypes(venia);
     rootShimmerTypes.add({
         shimmerType: 'CATEGORY_SHIMMER',
-        importPath:
-            '@magento/venia-ui/lib/RootComponents/Category/categoryContent.shimmer'
+        importPath: '@magento/venia-ui/lib/RootComponents/Category/categoryContent.shimmer'
     });
 };
