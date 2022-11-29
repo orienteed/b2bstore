@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React, { useState } from 'react';
 
 import defaultClasses from './itemCard.module.css';
@@ -10,7 +11,7 @@ import { AvailableShippingMethodsCartFragment } from '@magento/peregrine/lib/tal
 const ItemCard = props => {
     const { item, tooglePrice } = props;
     const [itemPrice, setItemPrice] = useState(item.prices.price.value);
-    const [currency, setCurrency] = useState(item.prices.price.currency);
+    const [currency] = useState(item.prices.price.currency);
 
     const talonProps = usePdfPopupProduct({
         operations: {

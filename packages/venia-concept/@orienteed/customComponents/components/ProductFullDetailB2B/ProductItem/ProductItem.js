@@ -1,3 +1,9 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// eslint-disable-next-line jsx-a11y/no-static-element-interactions
+/* eslint-disable react/jsx-no-literals */
 import React, { useCallback, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
@@ -27,8 +33,7 @@ const ProductItem = props => {
         categoriesName,
         addConfigurableProductToCart,
         cartId,
-        errors,
-        isAddConfigurableLoading
+        errors
     } = props;
     const [copied, copy, setCopied] = useCopy(variant.product.sku);
 
@@ -69,12 +74,12 @@ const ProductItem = props => {
         } catch {
             setError('Error');
         }
-    }, [cartId, quantity, variant, addConfigurableProductToCart, setError]);
+    }, [cartId, quantity, variant, addConfigurableProductToCart, setError, product]);
 
     const requestQuoteClick = () => setIsOpen(true);
 
     const confirmRequestQuote = () => {
-        let simpleProducts = [
+        const simpleProducts = [
             {
                 sku: variant.product.sku,
                 orParentSku: product.sku,

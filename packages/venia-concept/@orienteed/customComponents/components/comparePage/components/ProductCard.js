@@ -7,7 +7,6 @@ import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Price } from '@magento/peregrine';
 import AddToCartbutton from '@magento/venia-ui/lib/components/Gallery/addToCartButton';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
-import { FormattedMessage } from 'react-intl';
 
 import defaultClasses from './ProductCard.module.css';
 

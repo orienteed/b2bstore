@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React, { useState } from 'react';
 import defaultClasses from './simpleProduct.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';

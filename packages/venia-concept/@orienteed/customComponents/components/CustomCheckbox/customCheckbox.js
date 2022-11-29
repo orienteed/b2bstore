@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { node, shape, string } from 'prop-types';
 import { Checkbox as InformedCheckbox, useFieldApi } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { Message } from '@magento/venia-ui/lib/components/Field';
 import { CheckSquare, Square } from 'react-feather';
@@ -20,7 +20,6 @@ const CustomCheckbox = props => {
     const fieldState = useFieldState(field);
     const classes = useStyle(defaultClasses, propClasses);
     const icon = fieldState.value ? checkedIcon : uncheckedIcon;
-    const { formatMessage } = useIntl();
 
     useEffect(() => {
         if (fieldValue != null && fieldValue !== fieldState.value) {

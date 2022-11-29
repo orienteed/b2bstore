@@ -37,10 +37,10 @@ const ProductsTable = ({ productsItems, deleteProduct }) => {
                     </tr>
                     {productsItems.length > 0 &&
                         productsItems[0].attributes?.map(attribute => {
-                            let attributeProducts = productsItems.map(({ attributes }) =>
+                            const attributeProducts = productsItems.map(({ attributes }) =>
                                 attributes.find(({ code }) => code === attribute.code)
                             );
-                            let inValidValues = attributeProducts.every(({ value }) => value === 'N/A');
+                            const inValidValues = attributeProducts.every(({ value }) => value === 'N/A');
                             if (!inValidValues) {
                                 return (
                                     <tr key={attribute.code}>

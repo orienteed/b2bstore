@@ -11,7 +11,7 @@ const ItemSummaryCard = props => {
     const [shipping, setShipping] = useState(
         priceSummary.shipping[0] ? priceSummary.shipping[0].selected_shipping_method.amount.value : 0
     );
-    const [currency, setCurrency] = useState(
+    const [currency] = useState(
         priceSummary.taxes[0] ? priceSummary.taxes[0].amount.currency : priceSummary.subtotal.currency
     );
 

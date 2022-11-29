@@ -20,7 +20,7 @@ const CompareProducts = () => {
             }
             return <ProductsTable deleteProduct={deleteProduct} productsItems={productsItems?.items} />;
         }
-    }, [productsItems]);
+    }, [productsItems, deleteProduct, isLoading]);
     return (
         <div className={classes.root} data-cy="CompareProducts-root">
             <h1 className={classes.heading} data-cy="CompareProductsPage-heading">

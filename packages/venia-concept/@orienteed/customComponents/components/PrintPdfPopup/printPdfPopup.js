@@ -18,7 +18,6 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
         " Company info, Información de la compañía, Informação da companhia, Information d'entreprise"
     );
 
-    const infoCompany = <FormattedMessage id={'companyInfo'} defaultMessage={'Company Info'} />;
 
     const productTitle = <FormattedMessage id={'productTitle'} defaultMessage={'Products'} />;
     const descriptionTitle = <FormattedMessage id={'descriptionTitle'} defaultMessage={'Description'} />;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 
-const imagesList = () => {
+const ImagesList = () => {
     const { files } = usePrintPdfContext();
     const imageRef = useRef();
 
@@ -21,4 +21,4 @@ const imagesList = () => {
     return <aside>{thumbs}</aside>;
 };
 
-export default imagesList;
+export default ImagesList;

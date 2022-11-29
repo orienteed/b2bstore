@@ -1,14 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useMemo, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import {
     CREATE_COMPARE_LIST,
-    GET_COMPARE_LIST,
     GET_COMPARE_LIST_CUSTOMER,
-    DELETE_PRODUCTS_FROM_LIST,
-    DELETE_COMPARE_LIST,
-    ASSGIN_COMPARE_TO_CUSTOMER
+    DELETE_PRODUCTS_FROM_LIST
 } from '@orienteed/customComponents/components/comparePage/query/compareRequest.gql';
 
 const useCompareProduct = () => {
@@ -17,9 +15,7 @@ const useCompareProduct = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isAction, setIsAction] = useState(false);
     const [createCompareList] = useMutation(CREATE_COMPARE_LIST);
-    const [assginListToCustomer] = useMutation(ASSGIN_COMPARE_TO_CUSTOMER);
     const [deleteProductsFromList] = useMutation(DELETE_PRODUCTS_FROM_LIST);
-    const [deleteCompareList] = useMutation(DELETE_COMPARE_LIST);
     const [getCustomerCompareList, { data, loading }] = useLazyQuery(GET_COMPARE_LIST_CUSTOMER, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
@@ -53,10 +49,10 @@ const useCompareProduct = () => {
     useEffect(() => {
         getCustomerCompareList();
         setIsLoading(loading);
-    }, [isAction]);
+    }, [isAction, loading, getCustomerCompareList]);
 
     const addProductsToCompare = async product => {
-        const { sku, id } = product;
+        const {  id } = product;
         const res = await createCompareList({
             variables: {
                 products: [id]

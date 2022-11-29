@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './options.module.css';

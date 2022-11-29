@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-no-literals */
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';

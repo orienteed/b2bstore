@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-literals */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useState, Suspense, useEffect, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
@@ -45,7 +47,7 @@ const ProductFullDetailB2B = props => {
     const [selectedFilterCategory, setSelectedFilterCategory] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize] = useState(10);
 
     const getCategoriesValuesIdByVariant = variant => {
         return variant.attributes.map(attribute => {
@@ -54,7 +56,7 @@ const ProductFullDetailB2B = props => {
     };
 
     const selectedVariants = variants => {
-        let items = [];
+        const items = [];
         variants.map(variant => {
             const categoriesIds = getCategoriesValuesIdByVariant(variant);
             let isContained;
@@ -75,14 +77,14 @@ const ProductFullDetailB2B = props => {
 
     const totalPage = useMemo(() => Math.ceil(selectedVariants(product.variants)?.length / 10) || 2, [
         product,
-        selectedFilterCategory
+        selectedVariants
     ]);
 
     const paginateItems = useMemo(() => {
         const { variants } = product;
-        let items = selectedVariants(variants);
-        let startIndex = (currentPage - 1) * pageSize;
-        let endIndex = currentPage * pageSize;
+        const items = selectedVariants(variants);
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = currentPage * pageSize;
         if (currentPage > totalPage) setCurrentPage(totalPage);
         return items?.slice(startIndex, endIndex);
     }, [product, currentPage, selectedFilter, totalPage, selectedFilterCategory]);
@@ -139,7 +141,7 @@ const ProductFullDetailB2B = props => {
     };
 
     const handleRemoveItem = (tempItemInfo, index) => {
-        let newSelectedFilter = [...selectedFilterCategory];
+        const newSelectedFilter = [...selectedFilterCategory];
         newSelectedFilter[index] = newSelectedFilter[index].filter(({ id }) => id !== tempItemInfo.item.value);
         setSelectedFilterCategory(newSelectedFilter);
         let tempFilterList = selectedFilter;
@@ -165,7 +167,7 @@ const ProductFullDetailB2B = props => {
     );
 
     const selectFilterClick = (filterList, index, filter) => {
-        let newSelected = [...selectedFilterCategory];
+        const newSelected = [...selectedFilterCategory];
         newSelected[index] = newSelected[index] || [];
         const keys = filter.map(filter => filter.id);
         newSelected[index] = [...filterList.filter(({ id }) => keys.includes(id))];

@@ -126,7 +126,7 @@ const ProductFullDetailB2C = props => {
                             <img
                                 className={classes.noImage}
                                 src={noImage}
-                                alt="No image"
+                                alt="NoImage"
                             />
                         </div>
                     )}

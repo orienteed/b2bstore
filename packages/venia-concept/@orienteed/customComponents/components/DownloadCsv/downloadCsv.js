@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CustomButton from './CustomButton/customButton';
 import { FormattedMessage } from 'react-intl';
-// import { useDownloadCsv } from '../../talons/DownloadCsv/useDownloadCsv';
 import { useDownloadCsvContext } from '../DownloadCsvProvider/downloadCsvProvider';
 
 import defaultClasses from './downloadCsv.module.css';
@@ -13,21 +12,7 @@ import { useSortCatalog } from '../../talons/DownloadCsv/useSortCatalog';
 
 const DownloadCsv = () => {
     const { galleryItem, currentCatalog } = useDownloadCsvContext();
-    const [data, setData] = useState();
-    // const talonProps = useDownloadCsv();
-    // const { catalogRegularPrice, catalogDiscountPrice } = talonProps;
-    // const { handleFullCatalog } = talonProps;
-
-    // useEffect(() => {
-    //     handleFullCatalog().then(res => {
-    //         setData(res);
-    //     });
-    // }, [handleFullCatalog]);
-
-    // console.log('downloadCsv', data);
     const sortProps1 = useSortCatalog();
-
-    let flatData;
 
     let newGalleryItemRegularPrice;
     let newGalleryItemDiscountPrice;
@@ -85,44 +70,6 @@ const DownloadCsv = () => {
     } else {
         return null;
     }
-
-    // let flattenRegularPrice;
-    // if (data) {
-    //     flatData = data.flat();
-    //     let newCatalogRegularPrice = flatData.map(product =>
-    //         product.variants.map(variant => {
-    //             return {
-    //                 categorie: variant.product.categories[0].name,
-    //                 description: variant.product.description.html,
-    //                 name: variant.product.name,
-    //                 price: variant.product.price.regularPrice.amount.value,
-    //                 sku: variant.product.sku
-    //             };
-    //         })
-    //     );
-    //     flattenRegularPrice = newCatalogRegularPrice.flat();
-    // } else {
-    //     return null;
-    // }
-
-    // let flattenDiscountPrice;
-    // if (data) {
-    //     flatData = data.flat();
-    //     let newCatalogDiscountPrice = flatData.map(product =>
-    //         product.variants.map(variant => {
-    //             return {
-    //                 categorie: variant.product.categories[0].name,
-    //                 description: variant.product.description.html,
-    //                 name: variant.product.name,
-    //                 price: variant.product.price.minimalPrice.amount.value,
-    //                 sku: variant.product.sku
-    //             };
-    //         })
-    //     );
-    //     flattenDiscountPrice = newCatalogDiscountPrice.flat();
-    // } else {
-    //     return null;
-    // }
 
     const flatNewGalleryItemRegularPrice = newGalleryItemRegularPrice.flat();
     const flatNewGalleryItemMinimalPrice = newGalleryItemDiscountPrice.flat();

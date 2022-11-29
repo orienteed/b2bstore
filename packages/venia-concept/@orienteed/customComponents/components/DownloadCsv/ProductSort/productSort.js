@@ -14,34 +14,17 @@ import { useDownloadCsvContext } from '../../DownloadCsvProvider/downloadCsvProv
 const ProductSort = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { setCurrentCatalog } = useDownloadCsvContext();
-    let { availableSortMethods, sortProps1 } = props;
+    let { availableSortMethods } = props;
+    const { sortProps1 } = props;
     const [currentSort, setSort] = sortProps1;
     const { elementRef, expanded, setExpanded } = useDropdown();
     const { formatMessage } = useIntl();
 
     useEffect(() => {
         setCurrentCatalog(currentSort.sortId);
-    }, [currentSort]);
+    }, [currentSort, setCurrentCatalog]);
 
     availableSortMethods = [
-        // {
-        //     id: 'fullCatalogPvP',
-        //     text: formatMessage({
-        //         id: 'fullCatalog',
-        //         defaultMessage: 'Full Catalog + PvP'
-        //     }),
-        //     attribute: 'fullCatalogPvP',
-        //     sortDirection: 'ASC'
-        // },
-        // {
-        //     id: 'fullCatalogPersonal',
-        //     text: formatMessage({
-        //         id: 'fullCatalogPersonal',
-        //         defaultMessage: 'Full + Personal'
-        //     }),
-        //     attribute: 'fullCatalogPersonal',
-        //     sortDirection: 'ASC'
-        // },
         {
             id: 'thisCatalogPvP',
             text: formatMessage({

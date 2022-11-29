@@ -3,11 +3,11 @@ import { useDropzone } from 'react-dropzone';
 import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 import { FormattedMessage } from 'react-intl';
 
-function DropzoneComponent(props) {
+function DropzoneComponent() {
     const { setFiles } = usePrintPdfContext();
 
     const onDrop = useCallback(acceptedFiles => {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsDataURL(acceptedFiles[0]);
         reader.onload = function(e) {
             setFiles(
@@ -18,7 +18,7 @@ function DropzoneComponent(props) {
                 )
             );
         };
-    }, []);
+    }, [setFiles]);
 
     const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
         onDrop,

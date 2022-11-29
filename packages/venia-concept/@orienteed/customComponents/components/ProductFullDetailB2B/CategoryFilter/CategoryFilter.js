@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
-import { FormattedMessage } from 'react-intl';
 import { arrayOf, shape, string } from 'prop-types';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -76,16 +75,7 @@ const CategoryFilter = props => {
         selectedFilter
     ]);
 
-    const getSelectedText = () => {
-        let selected = [];
-        const availableCategoryIds = availableCategoryItems.map(({ id }) => id);
-        selectedFilter?.map(ele => {
-            availableCategoryIds.includes(ele.id) ? selected.push(ele) : null;
-        });
-        return selected?.length > 0
-            ? selected.map(({ text }) => text).join(', ')
-            : null;
-    };
+
     // expand or collapse on click
     const handleSortClick = () => {
         setExpanded(!expanded);
