@@ -145,7 +145,7 @@ const DeliveryDateForm = props => {
                                                 <span>
                                                     <FormattedMessage
                                                         id={'deliveryDate.houseSecurityCode'}
-                                                        defaultMessage={'House Security Code'}
+                                                        defaultMessage={'House Security Code: '}
                                                     />
                                                 </span>
                                                 <TextInput
@@ -191,7 +191,7 @@ const DeliveryDateForm = props => {
                                     <span>
                                         <FormattedMessage
                                             id={'deliveryDate.deliveryDate'}
-                                            defaultMessage={'Delivery Date'}
+                                            defaultMessage={'Delivery Date: '}
                                         />
                                     </span>
                                     <span>{formatDeliveryDate}</span>
@@ -202,7 +202,7 @@ const DeliveryDateForm = props => {
                                     <span>
                                         <FormattedMessage
                                             id={'deliveryDate.deliveryTime'}
-                                            defaultMessage={'Delivery Time'}
+                                            defaultMessage={'Delivery Time: '}
                                         />
                                     </span>
                                     <span>{formatDeliveryTime}</span>
@@ -213,7 +213,7 @@ const DeliveryDateForm = props => {
                                     <span>
                                         <FormattedMessage
                                             id={'deliveryDate.houseSecurityCode'}
-                                            defaultMessage={'House Security Code'}
+                                            defaultMessage={'House Security Code: '}
                                         />
                                     </span>
                                     <span>{deliveryDateData.mp_house_security_code}</span>
@@ -222,7 +222,10 @@ const DeliveryDateForm = props => {
                             {deliveryDateData.mp_delivery_comment !== '' && (
                                 <div>
                                     <span>
-                                        <FormattedMessage id={'deliveryDate.commentDate'} defaultMessage={'Comment'} />
+                                        <FormattedMessage
+                                            id={'deliveryDate.commentDate'}
+                                            defaultMessage={'Comment: '}
+                                        />
                                     </span>
                                     <span>{deliveryDateData.mp_delivery_comment}</span>
                                 </div>
