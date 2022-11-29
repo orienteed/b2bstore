@@ -1,3 +1,69 @@
+/* CUSTOM STYLES */
+.infoContainer {
+    margin-bottom: 15px;
+}
+.info {
+    font-size: 11px;
+}
+
+.footerLogo {
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--b2bstore-global-color-gray);
+}
+
+.nullDiv {
+    border-right: 2px solid var(--b2bstore-global-color-gray);
+}
+.label {
+    color: var(--b2bstore-global-color-black);
+}
+
+.branding {
+    display: flex;
+    justify-content: space-between;
+    height: 76px;
+    align-items: center;
+    padding: 0px 88px 0px 88px;
+    width: 100%;
+}
+
+.copyrightContainer,
+.socialMediaContainer {
+    display: flex;
+    align-items: center;
+}
+
+.socialMediaB2bLogoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.b2bLogoContainer {
+    margin-left: 36px;
+}
+
+.logos {
+    margin-right: 10px;
+}
+
+@media (max-width: 960px) {
+    .nullDiv {
+        display: none;
+    }
+    .branding {
+        padding: 0px 22px 0px 22px;
+    }
+}
+
+@media (max-width: 414px) {
+    .branding {
+        padding: 0px 22px 0px 22px;
+        flex-direction: column;
+    }
+}
+
+/* DEFAULT STYLES */
 .root {
     composes: border-t-2 from global;
     composes: border-solid from global;
@@ -13,6 +79,7 @@
     composes: text-sm from global;
     composes: text-subtle from global;
     composes: w-full from global;
+    background-color: var(--b2bstore-footer-color);
 }
 
 .links {
@@ -70,45 +137,6 @@
     composes: grid from global;
     composes: grid-flow-col from global;
     composes: justify-start from global;
-}
-
-.branding {
-    composes: border-t-2 from global;
-    composes: border-solid from global;
-    composes: border-light from global;
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: grid-cols-auto from global;
-    composes: grid-flow-row from global;
-    composes: h-auto from global;
-    composes: items-center from global;
-    composes: justify-items-center from global;
-    composes: pb-16 from global;
-    composes: pt-md from global;
-    composes: px-md from global;
-    composes: text-center from global;
-    composes: w-full from global;
-    grid-template-areas: 'a b c';
-
-    composes: lg_gap-0 from global;
-    composes: lg_grid-flow-col from global;
-    composes: lg_h-[4rem] from global;
-    composes: lg_justify-self-center from global;
-    composes: lg_px-sm from global;
-    composes: lg_py-0 from global;
-    composes: lg_text-left from global;
-}
-
-@media (max-width: 959px) {
-    .branding {
-        grid-template-areas: 'c' 'b' 'a';
-    }
-}
-
-@media (min-width: 960px) {
-    .branding {
-        grid-template-columns: minmax(200px, 1fr) auto minmax(200px, 1fr);
-    }
 }
 
 .legal {

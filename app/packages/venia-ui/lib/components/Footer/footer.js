@@ -1,25 +1,29 @@
 import React, { Fragment } from 'react';
-import { Facebook, Instagram, Twitter } from 'react-feather';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import { Facebook, Instagram, Youtube } from 'react-feather';
 import { Link } from 'react-router-dom';
 import { shape, string } from 'prop-types';
-import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
-
-import Logo from '../Logo';
 import Newsletter from '../Newsletter';
 import { useStyle } from '../../classify';
 import defaultClasses from './footer.module.css';
-import { DEFAULT_LINKS, LOREM_IPSUM } from './sampleData';
+import { DEFAULT_LINKS } from './sampleData';
+import Logo from '../Logo';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import copyrightLogo from './assets/copyright.svg';
+import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { useStoreConfigData } from '@magento/peregrine/lib/talons/Footer/useStoreConfigData';
+
+const storage = new BrowserPersistence();
 
 const Footer = props => {
     const { links } = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const talonProps = useFooter();
+    const companyTitle = ' 2022 B2B Store';
+    const { storeConfigData } = useStoreConfigData();
 
-    const { copyrightText } = talonProps;
-    const { formatMessage } = useIntl();
-    const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
+    if (storeConfigData) {
+        storage.setItem('is_required_login', storeConfigData.storeConfig.is_required_login);
+    }
 
     const linkGroups = Array.from(links, ([groupKey, linkProps]) => {
         const linkElements = Array.from(linkProps, ([text, pathInfo]) => {
@@ -33,11 +37,11 @@ const Footer = props => {
             const itemKey = `text: ${text} path:${path}`;
             const child = path ? (
                 <Link data-cy="Footer-link" className={classes.link} to={path}>
-                    <FormattedMessage id={text} defaultMessage={text} />
+                    <FormattedMessage id={`footer.${text}`} defaultMessage={text} />
                 </Link>
             ) : (
                 <span data-cy="Footer-label" className={classes.label}>
-                    <FormattedMessage id={text} defaultMessage={text} />
+                    <FormattedMessage id={`footer.${text}`} defaultMessage={text} />
                 </span>
             );
 
@@ -58,63 +62,39 @@ const Footer = props => {
     return (
         <footer data-cy="Footer-root" className={classes.root}>
             <div className={classes.links}>
-                {linkGroups}
-                <div className={classes.callout}>
-                    <span
-                        data-cy="Footer-calloutHeading"
-                        className={classes.calloutHeading}
-                    >
-                        <FormattedMessage
-                            id={'footer.followText'}
-                            defaultMessage={'Follow Us!'}
-                        />
-                    </span>
-                    <p
-                        data-cy="Footer-calloutText"
-                        className={classes.calloutBody}
-                    >
-                        <FormattedMessage
-                            id={'footer.calloutText'}
-                            defaultMessage={LOREM_IPSUM}
-                        />
-                    </p>
-                    <ul className={classes.socialLinks}>
-                        <li>
-                            <Instagram size={20} />
-                        </li>
-                        <li>
-                            <Facebook size={20} />
-                        </li>
-                        <li>
-                            <Twitter size={20} />
-                        </li>
-                    </ul>
-                </div>
                 <Newsletter />
+                <div className={classes.nullDiv} />
+                {linkGroups}
             </div>
             <div className={classes.branding}>
-                <ul className={classes.legal}>
-                    <li data-cy="Footer-terms" className={classes.terms}>
-                        <FormattedMessage
-                            id={'footer.termsText'}
-                            defaultMessage={'Terms of Use'}
-                        />
-                    </li>
-                    <li data-cy="Footer-privacy" className={classes.privacy}>
-                        <FormattedMessage
-                            id={'footer.privacyText'}
-                            defaultMessage={'Privacy Policy'}
-                        />
-                    </li>
-                </ul>
-                <p className={classes.copyright}>{copyrightText || null}</p>
-                <Link
-                    to={resourceUrl('/')}
-                    aria-label={title}
-                    className={classes.logoContainer}
-                >
-                    <Logo classes={{ logo: classes.logo }} />
-                </Link>
+                <div className={classes.copyrightContainer}>
+                    <div className={classes.logos}>
+                        <img src={copyrightLogo} alt="copyrightLogo" />
+                    </div>
+                    <div>
+                        <p>{companyTitle}</p>
+                    </div>
+                </div>
+
+                <div className={classes.socialMediaB2bLogoContainer}>
+                    <ul className={classes.socialMediaContainer}>
+                        <li className={classes.logos}>
+                            <Facebook size={20} />
+                        </li>
+                        <li className={classes.logos}>
+                            <Instagram size={20} />
+                        </li>
+                        <li className={classes.logos}>
+                            <Youtube size={20} />
+                        </li>
+                    </ul>
+
+                    <div className={classes.b2bLogoContainer}>
+                        <Link to={resourceUrl('/')}>
+                            <Logo classes={{ logo: classes.logo }} />
+                        </Link>
+                    </div>
+                </div>
             </div>
         </footer>
     );
