@@ -28,9 +28,12 @@
     composes: pt-xs from global;
 }
 
-.firstname,
+.firstname {
+    grid-column: 1 / span 2;
+}
+
 .lastname {
-    composes: col-end-span1 from global;
+    display: none;
 }
 
 .buttons {

@@ -4,18 +4,18 @@ import { Form, Text } from 'informed';
 import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import { useCustomerForm } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingInformation/AddressForm/useCustomerForm';
 
-import { useStyle } from '../../../../classify';
-import { isRequired } from '../../../../util/formValidators';
-import Button from '../../../Button';
-import Checkbox from '../../../Checkbox';
-import Country from '../../../Country';
-import Field, { Message } from '../../../Field';
-import FormError from '../../../FormError';
-import Region from '../../../Region';
-import Postcode from '../../../Postcode';
-import TextInput from '../../../TextInput';
-import defaultClasses from './customerForm.module.css';
-import LoadingIndicator from '../../../LoadingIndicator';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import Button from '@magento/venia-ui/lib/components/Button';
+import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
+import Country from '@magento/venia-ui/lib/components/Country';
+import Field, { Message } from '@magento/venia-ui/lib/components/Field';
+import FormError from '@magento/venia-ui/lib/components/FormError';
+import Region from '@magento/venia-ui/lib/components/Region';
+import Postcode from '@magento/venia-ui/lib/components/Postcode';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import defaultClasses from '@magento/venia-ui/lib/components/CheckoutPage/ShippingInformation/AddressForm/customerForm.module.css';
+import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 
 const CustomerForm = props => {
     const {
@@ -32,6 +32,7 @@ const CustomerForm = props => {
         onSuccess,
         shippingData
     });
+
     const {
         errors,
         handleCancel,
@@ -149,8 +150,8 @@ const CustomerForm = props => {
                     <Field
                         id="customer_firstname"
                         label={formatMessage({
-                            id: 'global.firstName',
-                            defaultMessage: 'First Name'
+                            id: 'global.companyName',
+                            defaultMessage: 'Company Name'
                         })}
                     >
                         <TextInput
@@ -176,6 +177,7 @@ const CustomerForm = props => {
                             id="customer_lastname"
                             data-cy="CustomerForm-lastName"
                             validate={isRequired}
+                            initialValue={'lastname'}
                         />
                     </Field>
                 </div>
