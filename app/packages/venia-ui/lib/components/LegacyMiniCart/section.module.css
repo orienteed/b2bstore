@@ -32,11 +32,11 @@
 .icon {
     composes: root from '../Icon/icon.module.css';
 
-    --stroke: var(--orienteed-global-color-orange);
+    --stroke: rgb(var(--b2bstore-global-color-orange), 0.5);
 }
 
 .icon_filled {
     composes: icon;
 
-    --fill: var(--orienteed-global-color-orange);
+    --fill: rgb(var(--b2bstore-global-color-orange), 0.5);
 }
