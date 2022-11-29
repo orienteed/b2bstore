@@ -21,11 +21,10 @@ import DEFAULT_OPERATIONS from './megaMenu.gql';
  */
 export const useMegaMenu = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getMegaMenuQuery, getStoreConfigQuery } = operations;
+    const { getMegaMenuQuery, getStoreConfigQuery, getIsRequiredLogin } = operations;
 
     const storage = new BrowserPersistence();
     const signin_token = storage.getItem('signin_token');
-    const isRequiredLogin = storage.getItem('is_required_login');
 
     const location = useLocation();
     const [activeCategoryId, setActiveCategoryId] = useState(null);
@@ -37,6 +36,11 @@ export const useMegaMenu = (props = {}) => {
     });
 
     const { data } = useQuery(getMegaMenuQuery, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+    });
+
+    const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
     });
@@ -110,9 +114,16 @@ export const useMegaMenu = (props = {}) => {
     );
 
     const megaMenuData = useMemo(() => {
+        let isRequiredLogin = false;
+
+        if (storeRequiredLogin) {
+            const { is_required_login } = storeRequiredLogin['storeConfig'];
+            isRequiredLogin = is_required_login === '1' ? true : false;
+        }
+
         if (signin_token == undefined && isRequiredLogin) return {};
         return data ? processData(data.categoryList[0]) : {};
-    }, [data, processData, signin_token, isRequiredLogin]);
+    }, [data, processData, signin_token, storeRequiredLogin]);
 
     const findActiveCategory = useCallback(
         (pathname, category) => {
