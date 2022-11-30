@@ -26,14 +26,13 @@
     /* TODO @TW: cannot compose */
     .form input {
         /* TODO @TW: review */
-        padding-right: calc(1.875rem * var(--iconsAfter) + 0.625rem);
+        /* padding-right: calc(1.875rem * var(--iconsAfter) + 0.625rem); */
     }
 }
 
 /* TODO @TW: cannot compose */
 .form label {
     position: absolute;
-    z-index: -1;
     /* composes: z-behind from global; */
 }
 
@@ -54,6 +53,7 @@
     composes: mb-xs from global;
     composes: text-colorDefault from global;
     composes: text-sm from global;
+    color: var(--b2bStore-footer-color);
 }
 
 .subscribe_link {
@@ -74,6 +74,7 @@
 }
 
 .newsletter_text {
+    color: var(--b2bStore-footer-color);
     composes: mb-sm from global;
 }
 

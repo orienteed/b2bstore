@@ -8,14 +8,15 @@ import { useToasts } from '@magento/peregrine';
 
 import { isRequired } from '../../util/formValidators';
 import { useStyle } from '../../classify';
-import FormError from '../FormError';
-import Button from '../Button';
+import FormError from '@magento/venia-ui/lib/components/FormError';
 import Field from '../Field';
 import LoadingIndicator from '../LoadingIndicator';
 import TextInput from '../TextInput';
-import LinkButton from '../LinkButton';
+import CustomLinkButton from './CustomLinkButton';
 import Shimmer from './newsletter.shimmer';
 import defaultClasses from './newsletter.module.css';
+import CustomCheckbox from './CustomCheckbox';
+import Checkbox from '../Checkbox/checkbox';
 
 const Newsletter = props => {
     const { formatMessage } = useIntl();
@@ -57,82 +58,47 @@ const Newsletter = props => {
     const maybeLoadingIndicator = isBusy ? (
         <div className={classes.loadingContainer}>
             <LoadingIndicator>
-                <FormattedMessage
-                    id={'newsletter.loadingText'}
-                    defaultMessage={'Subscribing'}
-                />
+                <FormattedMessage id={'newsletter.loadingText'} defaultMessage={'Subscribing'} />
             </LoadingIndicator>
         </div>
     ) : null;
+
+    const personalDataTreatment = formatMessage({
+        id: 'footer.personalDataTreatment',
+        defaultMessage: 'I accept the personal data treatment.'
+    });
 
     return (
         <div className={classes.root} data-cy={'Newsletter-root'}>
             {maybeLoadingIndicator}
             <span data-cy="Newsletter-title" className={classes.title}>
-                <FormattedMessage
-                    id={'newsletter.titleText'}
-                    defaultMessage={'Subscribe to Venia'}
-                />
+                <FormattedMessage id={'newsletter.titleText'} defaultMessage={'Sign in for news'} />
             </span>
 
-            <p
-                data-cy="Newsletter-infoText"
-                className={classes.newsletter_text}
-            >
+            <p data-cy="Newsletter-infoText" className={classes.newsletter_text}>
                 <FormattedMessage
                     id={'newsletter.infoText'}
                     defaultMessage={
-                        'Recieve the latest news, update and special offers right to your inbox.'
+                        'Keep up to date with the latest product launches and news. Find out more about our brands and get special promo codes.'
                     }
                 />
             </p>
-            <FormError
-                allowErrorMessages
-                errors={Array.from(errors.values())}
-            />
-            <Form
-                getApi={setFormApi}
-                className={classes.form}
-                onSubmit={handleSubmit}
-            >
-                <Field
-                    id="email"
-                    label={formatMessage({
-                        id: 'global.email',
-                        defaultMessage: 'Email'
-                    })}
-                >
-                    <TextInput
-                        autoComplete="email"
-                        field="email"
-                        id="email"
-                        validate={isRequired}
-                    />
+            <FormError allowErrorMessages errors={Array.from(errors.values())} />
+            <Form getApi={setFormApi} className={classes.form} onSubmit={handleSubmit}>
+                <Field id="email">
+                    <TextInput autoComplete="email" field="email" id="email" validate={isRequired} />
                 </Field>
-                <LinkButton
+
+                <CustomLinkButton
                     data-cy="Newsletter-submitButton"
-                    className={classes.subscribe_link}
                     type="submit"
                     disabled={isBusy}
                     onClick={clearErrors}
                 >
-                    <FormattedMessage
-                        id={'newsletter.subscribeText'}
-                        defaultMessage={'Subscribe'}
-                    />
-                </LinkButton>
-                <div className={classes.buttonsContainer}>
-                    <Button
-                        priority="normal"
-                        type="submit"
-                        disabled={isBusy}
-                        onClick={clearErrors}
-                    >
-                        <FormattedMessage
-                            id={'newsletter.subscribeText'}
-                            defaultMessage={'Subscribe'}
-                        />
-                    </Button>
+                    <FormattedMessage id={'newsletter.subscribeText'} defaultMessage={'Sign up for newsletter'} />
+                </CustomLinkButton>
+                <div className={classes.checkbox}>
+                    <CustomCheckbox field="data_treatment" label={personalDataTreatment} validate={isRequired} />
                 </div>
             </Form>
         </div>

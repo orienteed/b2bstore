@@ -4,10 +4,7 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './newsletter.gql';
 
 export const useNewsletter = (props = {}) => {
-    const { subscribeMutation, getStoreConfigQuery } = mergeOperations(
-        DEFAULT_OPERATIONS,
-        props.operations
-    );
+    const { subscribeMutation, getStoreConfigQuery } = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const formApiRef = useRef(null);
 
@@ -15,20 +12,14 @@ export const useNewsletter = (props = {}) => {
 
     const clearErrors = () => setNewsLetterError(null);
 
-    const [
-        subscribeNewsLetter,
-        { data, loading: subscribeLoading }
-    ] = useMutation(subscribeMutation, {
+    const [subscribeNewsLetter, { data, loading: subscribeLoading }] = useMutation(subscribeMutation, {
         fetchPolicy: 'no-cache',
         onError: setNewsLetterError
     });
 
-    const { data: storeConfigData, loading: configLoading } = useQuery(
-        getStoreConfigQuery,
-        {
-            fetchPolicy: 'cache-and-network'
-        }
-    );
+    const { data: storeConfigData, loading: configLoading } = useQuery(getStoreConfigQuery, {
+        fetchPolicy: 'cache-and-network'
+    });
 
     const isEnabled = useMemo(() => {
         return !!storeConfigData?.storeConfig?.newsletter_enabled;
@@ -52,10 +43,7 @@ export const useNewsletter = (props = {}) => {
         },
         [subscribeNewsLetter]
     );
-    const errors = useMemo(
-        () => new Map([['subscribeMutation', newsLetterError]]),
-        [newsLetterError]
-    );
+    const errors = useMemo(() => new Map([['subscribeMutation', newsLetterError]]), [newsLetterError]);
 
     return {
         isEnabled,
