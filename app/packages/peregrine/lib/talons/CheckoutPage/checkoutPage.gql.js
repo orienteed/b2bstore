@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import { CheckoutPageFragment } from './checkoutPageFragments.gql';
-import { ItemsReviewFragment } from './ItemsReview/itemsReviewFragments.gql';
 import { OrderConfirmationPageFragment } from './OrderConfirmationPage/orderConfirmationPageFragments.gql';
 
 export const CREATE_CART = gql`
@@ -38,11 +37,9 @@ export const GET_CHECKOUT_DETAILS = gql`
         cart(cart_id: $cartId) {
             id
             ...CheckoutPageFragment
-            ...ItemsReviewFragment
         }
     }
     ${CheckoutPageFragment}
-    ${ItemsReviewFragment}
 `;
 
 export const GET_CUSTOMER = gql`
@@ -55,10 +52,25 @@ export const GET_CUSTOMER = gql`
     }
 `;
 
+export const SET_PAYMENT_METHOD_ON_CART = gql`
+    mutation setPaymentMethodOnCart($cartId: String!, $payment_method: String!) {
+        setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: { code: $payment_method } })
+            @connection(key: "setPaymentMethodOnCart") {
+            cart {
+                id
+                selected_payment_method {
+                    code
+                    title
+                }
+            }
+        }
+    }
+`;
 export default {
     createCartMutation: CREATE_CART,
     getCheckoutDetailsQuery: GET_CHECKOUT_DETAILS,
     getCustomerQuery: GET_CUSTOMER,
     getOrderDetailsQuery: GET_ORDER_DETAILS,
-    placeOrderMutation: PLACE_ORDER
+    placeOrderMutation: PLACE_ORDER,
+    setPaymentMethodOnCartMutation: SET_PAYMENT_METHOD_ON_CART
 };

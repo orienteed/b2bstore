@@ -118,25 +118,27 @@ const DeliveryDateForm = props => {
                                                             defaultMessage={'Delivery Time'}
                                                         />
                                                     </span>
-                                                    <Select
-                                                        field="shippingMethod"
-                                                        initialValue={''}
-                                                        items={[
-                                                            {
-                                                                label: formatMessage({
-                                                                    id: 'deliveryDate.pleaseSelect',
-                                                                    defaultMessage: 'Please select one'
-                                                                })
-                                                            },
-                                                            ...deliveryTime
-                                                        ]}
-                                                        onChange={e =>
-                                                            handleChange(
-                                                                'mp_delivery_time',
-                                                                JSON.parse(e.target.value).value
-                                                            )
-                                                        }
-                                                    />
+                                                    <Form>
+                                                        <Select
+                                                            field="shippingMethod"
+                                                            initialValue={''}
+                                                            items={[
+                                                                {
+                                                                    label: formatMessage({
+                                                                        id: 'deliveryDate.pleaseSelect',
+                                                                        defaultMessage: 'Please select one'
+                                                                    })
+                                                                },
+                                                                ...deliveryTime
+                                                            ]}
+                                                            onChange={e =>
+                                                                handleChange(
+                                                                    'mp_delivery_time',
+                                                                    e.target.value
+                                                                )                                                          
+                                                            }
+                                                        />
+                                                    </Form>
                                                 </div>
                                             )}
                                         </div>

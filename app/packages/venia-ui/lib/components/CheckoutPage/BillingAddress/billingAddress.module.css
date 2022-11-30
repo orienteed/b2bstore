@@ -17,20 +17,16 @@
     composes: pt-sm from global;
 }
 
-.first_name,
 .last_name {
-    composes: col-end-span2 from global;
-
-    composes: lg_col-end-span1 from global;
+    display: none;
 }
 
-.country,
-.street1,
-.street2,
-.address_check,
-.city,
-.region,
-.postal_code,
-.phone_number {
-    composes: col-end-span2 from global;
+.heading {
+    font-weight: 600 !important;
+    margin-bottom: 0.8rem;
+}
+
+.formContainer > div div label {
+    font-size: 1rem;
+    font-weight: 500;
 }

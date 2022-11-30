@@ -56,10 +56,12 @@ const OrderAttributesForm = props => {
                                                 defaultMessage="External order number"
                                             />
                                         </span>
-                                        <TextInput
-                                            onChange={e => handleChange('external_order_number', e.target.value)}
-                                            field="securityCode"
-                                        />
+                                        <Form>
+                                            <TextInput
+                                                onChange={e => handleChange('external_order_number', e.target.value)}
+                                                field="securityCode"
+                                            />
+                                        </Form>
                                     </div>
                                 </Suspense>
                             </Section>
