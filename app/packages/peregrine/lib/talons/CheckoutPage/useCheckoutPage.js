@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import {
-    useApolloClient,
-    useLazyQuery,
-    useMutation,
-    useQuery
-} from '@apollo/client';
+import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '../../context/user';
@@ -18,7 +13,7 @@ import CheckoutError from './CheckoutError';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 
 import ReactGA from 'react-ga';
-// import { useNoReorderProductContext } from '@orienteed/customComponents/components/NoReorderProductProvider/noReorderProductProvider';
+import { useNoReorderProductContext } from '@magento/venia-ui/lib/components/NoReorderProductProvider/noReorderProductProvider.js';
 
 export const CHECKOUT_STEP = {
     SHIPPING_ADDRESS: 1,
@@ -71,7 +66,7 @@ export const CHECKOUT_STEP = {
 export const useCheckoutPage = (props = {}) => {
     const { submitDeliveryDate, deliveryDateIsActivated, submitOrderAttribute } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    // const { setNoProduct } = useNoReorderProductContext();
+    const { setNoProduct } = useNoReorderProductContext();
     const {
         createCartMutation,
         getCheckoutDetailsQuery,
@@ -254,13 +249,13 @@ export const useCheckoutPage = (props = {}) => {
         });
         setPlaceOrderButtonClicked(true);
         setIsPlacingOrder(true);
-        // setNoProduct(false);
+        setNoProduct(false);
         ReactGA.event({
             category: 'Checkout page',
             action: 'Place order clicked',
             label: `Checkout page- Place order clicked`
         });
-    }, [cartId, getOrderDetails]);
+    }, [cartId, getOrderDetails, setNoProduct]);
 
     const [, { dispatch }] = useEventingContext();
 
@@ -336,10 +331,7 @@ export const useCheckoutPage = (props = {}) => {
     ]);
 
     useEffect(() => {
-        if (
-            checkoutStep === CHECKOUT_STEP.SHIPPING_ADDRESS &&
-            cartItems.length
-        ) {
+        if (checkoutStep === CHECKOUT_STEP.SHIPPING_ADDRESS && cartItems.length) {
             dispatch({
                 type: 'CHECKOUT_PAGE_VIEW',
                 payload: {
@@ -354,24 +346,17 @@ export const useCheckoutPage = (props = {}) => {
                     cart_id: cartId
                 }
             });
-        } else if (
-            placeOrderButtonClicked &&
-            orderDetailsData &&
-            orderDetailsData.cart
-        ) {
+        } else if (placeOrderButtonClicked && orderDetailsData && orderDetailsData.cart) {
             const shipping =
                 orderDetailsData.cart?.shipping_addresses &&
-                orderDetailsData.cart.shipping_addresses.reduce(
-                    (result, item) => {
-                        return [
-                            ...result,
-                            {
-                                ...item.selected_shipping_method
-                            }
-                        ];
-                    },
-                    []
-                );
+                orderDetailsData.cart.shipping_addresses.reduce((result, item) => {
+                    return [
+                        ...result,
+                        {
+                            ...item.selected_shipping_method
+                        }
+                    ];
+                }, []);
             const eventPayload = {
                 cart_id: cartId,
                 amount: orderDetailsData.cart.prices,
@@ -388,8 +373,7 @@ export const useCheckoutPage = (props = {}) => {
                 dispatch({
                     type: 'ORDER_CONFIRMATION_PAGE_VIEW',
                     payload: {
-                        order_number:
-                            placeOrderData.placeOrder.order.order_number,
+                        order_number: placeOrderData.placeOrder.order.order_number,
                         ...eventPayload
                     }
                 });
