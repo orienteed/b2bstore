@@ -1,11 +1,18 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import DEFAULT_OPERATIONS from './billingAddress.gql';
 
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
+import { useToasts } from '@magento/peregrine';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+
+const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
  * queries to input names in the billing address form.
@@ -15,16 +22,7 @@ import DEFAULT_OPERATIONS from './billingAddress.gql';
  */
 export const mapAddressData = rawAddressData => {
     if (rawAddressData) {
-        const {
-            firstName,
-            lastName,
-            city,
-            postcode,
-            phoneNumber,
-            street,
-            country,
-            region
-        } = rawAddressData;
+        const { firstName, lastName, city, postcode, phoneNumber, street, country, region } = rawAddressData;
 
         return {
             firstName,
@@ -33,7 +31,7 @@ export const mapAddressData = rawAddressData => {
             postcode,
             phoneNumber,
             street1: street[0],
-            street2: street[1] || '',
+            street2: street[1],
             country: country.code,
             region: region.code
         };
@@ -42,11 +40,26 @@ export const mapAddressData = rawAddressData => {
     }
 };
 
+export const getDefaultBillingAddress = customerAddressesData => {
+    if (customerAddressesData != undefined) {
+        const { customer } = customerAddressesData;
+
+        if (customer) {
+            const { addresses } = customer;
+
+            const defaultBillingAddressArray = addresses.filter(address => address.default_billing == true);
+            if (defaultBillingAddressArray.length > 0) {
+                return defaultBillingAddressArray[0];
+            }
+        }
+    }
+    return {};
+};
+
 /**
  * Talon to handle Billing address for payment forms.
  *
  * @param {Boolean} props.shouldSubmit boolean value which represents if a payment nonce request has been submitted
- * @param {Funciton} props.resetShouldSubmit callback to invoke when submit has completed (success or fail)
  * @param {Function} props.onBillingAddressChangedError callback to invoke when an error was thrown while setting the billing address
  * @param {Function} props.onBillingAddressChangedSuccess callback to invoke when address was sucessfully set
  * @param {DocumentNode} props.operations.getShippingAddressQuery query to fetch shipping address from cache
@@ -73,38 +86,43 @@ export const mapAddressData = rawAddressData => {
  * }
  */
 export const useBillingAddress = props => {
-    const {
-        resetShouldSubmit,
-        shouldSubmit,
-        onBillingAddressChangedError,
-        onBillingAddressChangedSuccess
-    } = props;
-
+    // return function useBillingAddress(props, ...restArgs) {
+    const { shouldSubmit, onBillingAddressChangedError, onBillingAddressChangedSuccess } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const [, { addToast }] = useToasts();
 
     const {
         getBillingAddressQuery,
         getShippingAddressQuery,
         getIsBillingAddressSameQuery,
-        setBillingAddressMutation
+        setBillingAddressMutation,
+        getCustomerAddressesQuery,
+        setDefaultBillingAddressMutation
     } = operations;
 
     const client = useApolloClient();
     const formState = useFormState();
     const { validate: validateBillingAddressForm } = useFormApi();
+    const { validate } = useFormApi();
     const [{ cartId }] = useCartContext();
+    const [{ isSignedIn }] = useUserContext();
+
+    const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
+        fetchPolicy: 'cache-and-network',
+        skip: !isSignedIn
+    });
 
     const { data: shippingAddressData } = useQuery(getShippingAddressQuery, {
         skip: !cartId,
         variables: { cartId }
     });
 
-    const { data: isBillingAddressSameData } = useQuery(
-        getIsBillingAddressSameQuery,
-        { skip: !cartId, variables: { cartId } }
-    );
+    const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
+        skip: !cartId,
+        variables: { cartId }
+    });
 
-    const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
+    const [loadBillingAddressQuery, { data: billingAddressData }] = useLazyQuery(getBillingAddressQuery, {
         skip: !cartId,
         variables: { cartId }
     });
@@ -117,27 +135,30 @@ export const useBillingAddress = props => {
             loading: billingAddressMutationLoading
         }
     ] = useMutation(setBillingAddressMutation);
+    const [
+        updateDefaultBillingAddress,
+        {
+            error: defaultBillingAddressMutationError,
+            called: defaultBillingAddressMutationCalled,
+            loading: defaultBillingAddressMutationLoading
+        }
+    ] = useMutation(setDefaultBillingAddressMutation);
 
     const shippingAddressCountry = shippingAddressData
-        ? shippingAddressData.cart.shippingAddresses[0].country.code
-        : DEFAULT_COUNTRY_CODE;
-    const isBillingAddressSame = formState.values.isBillingAddressSame;
+        ? shippingAddressData.cart?.shippingAddresses[0]?.country.code
+        : 'US';
+
+    const defaultBillingAddressObject = getDefaultBillingAddress(customerAddressesData);
+
+    const isBillingAddressDefault = Object.keys(defaultBillingAddressObject).length > 0 ? true : false;
 
     const initialValues = useMemo(() => {
-        const isBillingAddressSame = isBillingAddressSameData
-            ? isBillingAddressSameData.cart.isBillingAddressSame
-            : true;
-
         let billingAddress = {};
         /**
-         * If the user wants billing address same as shipping address, do
+         * If billing address is same as shipping address, do
          * not auto fill the fields.
          */
-        if (isBillingAddressSame) {
-            return { isBillingAddressSame, ...billingAddress };
-        } else if (billingAddressData) {
-            // The user does not want the billing address to be the same.
-            // Attempt to pre-populate the form if a billing address is already set.
+        if (billingAddressData && !isBillingAddressDefault) {
             if (billingAddressData.cart.billingAddress) {
                 const {
                     // eslint-disable-next-line no-unused-vars
@@ -148,9 +169,21 @@ export const useBillingAddress = props => {
             }
         }
 
-        return { isBillingAddressSame, ...billingAddress };
-    }, [isBillingAddressSameData, billingAddressData]);
+        return {
+            isBillingAddressDefault,
+            ...billingAddress,
+            defaultBillingAddressObject
+        };
+    }, [billingAddressData, defaultBillingAddressObject, isBillingAddressDefault]);
 
+    const locationLabel = useMemo(() => {
+        const { ...rawBillingAddress } = billingAddressData?.cart?.billingAddress;
+        const { region, country } = rawBillingAddress;
+        return {
+            region: region?.label,
+            country: country?.label
+        };
+    }, [isBillingAddressSameData, billingAddressData]);
     /**
      * Helpers
      */
@@ -167,19 +200,19 @@ export const useBillingAddress = props => {
                 cart: {
                     __typename: 'Cart',
                     id: cartId,
-                    isBillingAddressSame
+                    isBillingAddressSame: isBillingAddressDefault
                 }
             }
         });
-    }, [client, cartId, getIsBillingAddressSameQuery, isBillingAddressSame]);
+    }, [client, cartId, getIsBillingAddressSameQuery, isBillingAddressDefault]);
 
     /**
      * This function sets the billing address on the cart using the
      * shipping address.
      */
     const setShippingAddressAsBillingAddress = useCallback(() => {
-        const shippingAddress = shippingAddressData
-            ? mapAddressData(shippingAddressData.cart.shippingAddresses[0])
+        const shippingAddress = shippingAddressData?.cart
+            ? mapAddressData(shippingAddressData.cart?.shippingAddresses[0])
             : {};
 
         updateBillingAddress({
@@ -188,8 +221,23 @@ export const useBillingAddress = props => {
                 ...shippingAddress,
                 sameAsShipping: true
             }
-        });
+        })
+            .then(res => console.log(res, 'useMutation'))
+            .catch(err => console.log(err, 'useMutationerr'));
     }, [updateBillingAddress, shippingAddressData, cartId]);
+
+    const setDefaultBillingAddress = useCallback(() => {
+        const {
+            defaultBillingAddressObject: { id }
+        } = initialValues;
+
+        updateDefaultBillingAddress({
+            variables: {
+                cartId,
+                customerAddressId: id
+            }
+        });
+    }, [updateDefaultBillingAddress, initialValues, cartId]);
 
     /**
      * This function sets the billing address on the cart using the
@@ -222,12 +270,35 @@ export const useBillingAddress = props => {
                 phoneNumber,
                 sameAsShipping: false
             }
-        });
+        })
+            .then(res => console.log(res, 'useMutation22'))
+            .catch(err =>
+                addToast({
+                    type: 'error',
+                    icon: errorIcon,
+                    message: (
+                        <FormattedMessage
+                            id={'billingAddress.somethingWentWrongTryAnotherState'}
+                            defaultMessage={'Something went wrong, try another state'}
+                        />
+                    ),
+                    timeout: 6000
+                })
+            );
     }, [formState.values, updateBillingAddress, cartId]);
 
     /**
      * Effects
      */
+
+    /**
+     * Loads billing address if is different to shipment address.
+     */
+    useEffect(() => {
+        if (!isBillingAddressDefault) {
+            loadBillingAddressQuery();
+        }
+    }, [isBillingAddressDefault, loadBillingAddressQuery]);
 
     /**
      *
@@ -249,17 +320,17 @@ export const useBillingAddress = props => {
                  */
                 validateBillingAddressForm();
 
-                const hasErrors = Object.keys(formState.errors).length;
-
-                if (!hasErrors) {
-                    if (isBillingAddressSame) {
-                        setShippingAddressAsBillingAddress();
-                    } else {
-                        setBillingAddress();
-                    }
+                if (isBillingAddressDefault) {
+                    setDefaultBillingAddress();
                     setIsBillingAddressSameInCache();
                 } else {
-                    throw new Error('Errors in the billing address form');
+                    const hasErrors = Object.keys(formState.errors).length;
+                    if (!hasErrors) {
+                        setBillingAddress();
+                        setIsBillingAddressSameInCache();
+                    } else {
+                        throw new Error('Errors in the billing address form');
+                    }
                 }
             }
         } catch (err) {
@@ -270,7 +341,7 @@ export const useBillingAddress = props => {
         }
     }, [
         shouldSubmit,
-        isBillingAddressSame,
+        isBillingAddressDefault,
         setShippingAddressAsBillingAddress,
         setBillingAddress,
         setIsBillingAddressSameInCache,
@@ -285,21 +356,13 @@ export const useBillingAddress = props => {
      */
     useEffect(() => {
         try {
-            const billingAddressMutationCompleted =
-                billingAddressMutationCalled && !billingAddressMutationLoading;
+            const billingAddressMutationCompleted = billingAddressMutationCalled && !billingAddressMutationLoading;
 
-            if (
-                billingAddressMutationCompleted &&
-                !billingAddressMutationError
-            ) {
-                resetShouldSubmit();
+            if (billingAddressMutationCompleted && !billingAddressMutationError) {
                 onBillingAddressChangedSuccess();
             }
 
-            if (
-                billingAddressMutationCompleted &&
-                billingAddressMutationError
-            ) {
+            if (billingAddressMutationCompleted && billingAddressMutationError) {
                 /**
                  * Billing address save mutation is not successful.
                  * Reset update button clicked flag.
@@ -310,7 +373,6 @@ export const useBillingAddress = props => {
             if (process.env.NODE_ENV !== 'production') {
                 console.error(err);
             }
-            resetShouldSubmit();
             onBillingAddressChangedError();
         }
     }, [
@@ -318,22 +380,56 @@ export const useBillingAddress = props => {
         billingAddressMutationCalled,
         billingAddressMutationLoading,
         onBillingAddressChangedError,
-        onBillingAddressChangedSuccess,
-        resetShouldSubmit
+        onBillingAddressChangedSuccess
+    ]);
+
+    /**
+     * Default billing address mutation has completed
+     */
+    useEffect(() => {
+        try {
+            const billingAddressMutationCompleted =
+                defaultBillingAddressMutationCalled && !defaultBillingAddressMutationLoading;
+
+            if (billingAddressMutationCompleted && !defaultBillingAddressMutationError) {
+                onBillingAddressChangedSuccess();
+            }
+
+            if (billingAddressMutationCompleted && defaultBillingAddressMutationError) {
+                /**
+                 * Billing address save mutation is not successful.
+                 * Reset update button clicked flag.
+                 */
+                throw new Error('Billing address mutation failed');
+            }
+        } catch (err) {
+            if (process.env.NODE_ENV !== 'production') {
+                console.error(err);
+            }
+            onBillingAddressChangedError();
+        }
+    }, [
+        defaultBillingAddressMutationError,
+        defaultBillingAddressMutationCalled,
+        defaultBillingAddressMutationLoading,
+        onBillingAddressChangedError,
+        onBillingAddressChangedSuccess
     ]);
 
     const errors = useMemo(
         () =>
             new Map([
-                ['setBillingAddressMutation', billingAddressMutationError]
+                ['setBillingAddressMutation', billingAddressMutationError],
+                ['setBillingAddressMutation', defaultBillingAddressMutationError]
             ]),
-        [billingAddressMutationError]
+        [billingAddressMutationError, defaultBillingAddressMutationError]
     );
 
     return {
         errors,
-        isBillingAddressSame,
+        isBillingAddressDefault,
         initialValues,
-        shippingAddressCountry
+        shippingAddressCountry,
+        locationLabel
     };
 };

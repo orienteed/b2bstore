@@ -3,14 +3,12 @@ import { useFormState, useFormApi } from 'informed';
 import { useQuery, useApolloClient, useMutation } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
-import { useCartContext } from '../../../context/cart';
+import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+
 
 import DEFAULT_OPERATIONS from './creditCard.gql';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
-
-const getRegion = region => {
-    return region.region_id || region.label || region.code;
-};
 
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
@@ -19,18 +17,9 @@ const getRegion = region => {
  *
  * @param {ShippingCartAddress|BillingCartAddress} rawAddressData query data
  */
-export const mapAddressData = rawAddressData => {
+ export const mapAddressData = rawAddressData => {
     if (rawAddressData) {
-        const {
-            firstName,
-            lastName,
-            city,
-            postcode,
-            phoneNumber,
-            street,
-            country,
-            region
-        } = rawAddressData;
+        const { firstName, lastName, city, postcode, phoneNumber, street, country, region } = rawAddressData;
 
         return {
             firstName,
@@ -39,13 +28,29 @@ export const mapAddressData = rawAddressData => {
             postcode,
             phoneNumber,
             street1: street[0],
-            street2: street[1] || '',
+            street2: street[1],
             country: country.code,
-            region: getRegion(region)
+            region: region.code
         };
     } else {
         return {};
     }
+};
+
+export const getDefaultBillingAddress = customerAddressesData => {
+    if (customerAddressesData != undefined) {
+        const { customer } = customerAddressesData;
+
+        if (customer) {
+            const { addresses } = customer;
+
+            const defaultBillingAddressArray = addresses.filter(address => address.default_billing == true);
+            if (defaultBillingAddressArray.length > 0) {
+                return defaultBillingAddressArray[0];
+            }
+        }
+    }
+    return {};
 };
 
 /**
@@ -68,7 +73,7 @@ export const mapAddressData = rawAddressData => {
  *   onPaymentError: Function,
  *   onPaymentSuccess: Function,
  *   onPaymentReady: Function,
- *   isBillingAddressSame: Boolean,
+ *   isBillingAddressDefault: Boolean,
  *   isLoading: Boolean,
  *   stepNumber: Number,
  *   initialValues: {
@@ -81,7 +86,7 @@ export const mapAddressData = rawAddressData => {
  *      street2: String,
  *      country: String,
  *      state: String,
- *      isBillingAddressSame: Boolean
+ *      isBillingAddressDefault: Boolean
  *   },
  *   shippingAddressCountry: String,
  *   shouldTeardownDropin: Boolean,
@@ -89,13 +94,7 @@ export const mapAddressData = rawAddressData => {
  * }
  */
 export const useCreditCard = props => {
-    const {
-        onSuccess,
-        onReady,
-        onError,
-        shouldSubmit,
-        resetShouldSubmit
-    } = props;
+    const { onSuccess, onReady, onError, shouldSubmit, resetShouldSubmit } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
@@ -105,35 +104,35 @@ export const useCreditCard = props => {
         getPaymentNonceQuery,
         getShippingAddressQuery,
         setBillingAddressMutation,
-        setCreditCardDetailsOnCartMutation
+        setCreditCardDetailsOnCartMutation,
+        getCustomerAddressesQuery,
+        setDefaultBillingAddressMutation
     } = operations;
 
-    const {
-        recaptchaLoading,
-        generateReCaptchaData,
-        recaptchaWidgetProps
-    } = useGoogleReCaptcha({
-        currentForm: 'BRAINTREE',
-        formAction: 'braintree'
-    });
+const {
+    recaptchaLoading,
+    generateReCaptchaData,
+    recaptchaWidgetProps
+} = useGoogleReCaptcha({
+    currentForm: 'BRAINTREE',
+    formAction: 'braintree'
+});
 
     /**
      * Definitions
      */
 
     const [isDropinLoading, setDropinLoading] = useState(true);
-    const [shouldRequestPaymentNonce, setShouldRequestPaymentNonce] = useState(
-        false
-    );
+    const [shouldRequestPaymentNonce, setShouldRequestPaymentNonce] = useState(false);
     const [shouldTeardownDropin, setShouldTeardownDropin] = useState(false);
     /**
      * `stepNumber` depicts the state of the process flow in credit card
      * payment flow.
      *
      * `0` No call made yet
-     * `1` Billing address mutation initiated
-     * `2` Braintree nonce requested
-     * `3` Payment information mutation initiated
+     * `1` Billing address mutation intiated
+     * `2` Braintree nonce requsted
+     * `3` Payment information mutation intiated
      * `4` All mutations done
      */
     const [stepNumber, setStepNumber] = useState(0);
@@ -142,11 +141,14 @@ export const useCreditCard = props => {
     const formState = useFormState();
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
+    const [{ isSignedIn }] = useUserContext();
 
-    const isLoading =
-        isDropinLoading ||
-        recaptchaLoading ||
-        (stepNumber >= 1 && stepNumber <= 3);
+    const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
+
+    const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
+        fetchPolicy: 'cache-and-network',
+        skip: !isSignedIn
+    });
 
     const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
         skip: !cartId,
@@ -156,10 +158,10 @@ export const useCreditCard = props => {
         skip: !cartId,
         variables: { cartId }
     });
-    const { data: isBillingAddressSameData } = useQuery(
-        getIsBillingAddressSameQuery,
-        { skip: !cartId, variables: { cartId } }
-    );
+    const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
+        skip: !cartId,
+        variables: { cartId }
+    });
     const [
         updateBillingAddress,
         {
@@ -170,30 +172,34 @@ export const useCreditCard = props => {
     ] = useMutation(setBillingAddressMutation);
 
     const [
-        updateCCDetails,
+        updateDefaultBillingAddress,
         {
-            error: ccMutationError,
-            called: ccMutationCalled,
-            loading: ccMutationLoading
+            error: defaultBillingAddressMutationError,
+            called: defaultBillingAddressMutationCalled,
+            loading: defaultBillingAddressMutationLoading
         }
+    ] = useMutation(setDefaultBillingAddressMutation);
+
+    const [
+        updateCCDetails,
+        { error: ccMutationError, called: ccMutationCalled, loading: ccMutationLoading }
     ] = useMutation(setCreditCardDetailsOnCartMutation);
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart.shippingAddresses[0].country.code
-        : DEFAULT_COUNTRY_CODE;
-    const isBillingAddressSame = formState.values.isBillingAddressSame;
+        : 'US';
+
+    const defaultBillingAddressObject = getDefaultBillingAddress(customerAddressesData);
+
+    const isBillingAddressDefault = Object.keys(defaultBillingAddressObject).length > 0 ? true : false;
 
     const initialValues = useMemo(() => {
-        const isBillingAddressSame = isBillingAddressSameData
-            ? isBillingAddressSameData.cart.isBillingAddressSame
-            : true;
-
         let billingAddress = {};
         /**
          * If billing address is same as shipping address, do
          * not auto fill the fields.
          */
-        if (billingAddressData && !isBillingAddressSame) {
+        if (billingAddressData && !isBillingAddressDefault) {
             if (billingAddressData.cart.billingAddress) {
                 const {
                     // eslint-disable-next-line no-unused-vars
@@ -204,8 +210,8 @@ export const useCreditCard = props => {
             }
         }
 
-        return { isBillingAddressSame, ...billingAddress };
-    }, [isBillingAddressSameData, billingAddressData]);
+        return { isBillingAddressDefault, ...billingAddress, defaultBillingAddressObject };
+    }, [isBillingAddressSameData, billingAddressData, defaultBillingAddressObject]);
 
     /**
      * Helpers
@@ -223,11 +229,11 @@ export const useCreditCard = props => {
                 cart: {
                     __typename: 'Cart',
                     id: cartId,
-                    isBillingAddressSame
+                    isBillingAddressSame: isBillingAddressDefault
                 }
             }
         });
-    }, [client, cartId, getIsBillingAddressSameQuery, isBillingAddressSame]);
+    }, [client, cartId, getIsBillingAddressSameQuery, isBillingAddressDefault]);
 
     /**
      * This function sets the billing address on the cart using the
@@ -246,6 +252,19 @@ export const useCreditCard = props => {
             }
         });
     }, [updateBillingAddress, shippingAddressData, cartId]);
+
+    const setDefaultBillingAddress = useCallback(() => {
+        const {
+            defaultBillingAddressObject: { id }
+        } = initialValues;
+
+        updateDefaultBillingAddress({
+            variables: {
+                cartId,
+                customerAddressId: id
+            }
+        });
+    }, [updateDefaultBillingAddress, initialValues, cartId]);
 
     /**
      * This function sets the billing address on the cart using the
@@ -271,9 +290,9 @@ export const useCreditCard = props => {
                 lastName,
                 country,
                 street1,
-                street2: street2 || '',
+                street2,
                 city,
-                region: getRegion(region),
+                region,
                 postcode,
                 phoneNumber,
                 sameAsShipping: false
@@ -319,24 +338,17 @@ export const useCreditCard = props => {
      * this case `braintree`.
      */
     const updateCCDetailsOnCart = useCallback(
-        async braintreeNonce => {
-            try {
-                const { nonce } = braintreeNonce;
-                const reCaptchaData = await generateReCaptchaData();
-
-                await updateCCDetails({
-                    variables: {
-                        cartId,
-                        paymentMethod: 'braintree',
-                        paymentNonce: nonce
-                    },
-                    ...reCaptchaData
-                });
-            } catch (error) {
-                // Error is logged by apollo link - no need to double log.
-            }
+        braintreeNonce => {
+            const { nonce } = braintreeNonce;
+            updateCCDetails({
+                variables: {
+                    cartId,
+                    paymentMethod: 'braintree',
+                    paymentNonce: nonce
+                }
+            });
         },
-        [updateCCDetails, cartId, generateReCaptchaData]
+        [updateCCDetails, cartId]
     );
 
     /**
@@ -416,18 +428,17 @@ export const useCreditCard = props => {
                  */
                 validateBillingAddressForm();
 
-                const hasErrors = Object.keys(formState.errors).length;
-
-                if (!hasErrors) {
-                    setStepNumber(1);
-                    if (isBillingAddressSame) {
-                        setShippingAddressAsBillingAddress();
-                    } else {
-                        setBillingAddress();
-                    }
+                if (isBillingAddressDefault) {
+                    setDefaultBillingAddress();
                     setIsBillingAddressSameInCache();
                 } else {
-                    throw new Error('Errors in the billing address form');
+                    const hasErrors = Object.keys(formState.errors).length;
+                    if (!hasErrors) {
+                        setBillingAddress();
+                        setIsBillingAddressSameInCache();
+                    } else {
+                        throw new Error('Errors in the billing address form');
+                    }
                 }
             }
         } catch (err) {
@@ -440,7 +451,7 @@ export const useCreditCard = props => {
         }
     }, [
         shouldSubmit,
-        isBillingAddressSame,
+        isBillingAddressDefault,
         setShippingAddressAsBillingAddress,
         setBillingAddress,
         setIsBillingAddressSameInCache,
@@ -456,13 +467,9 @@ export const useCreditCard = props => {
      */
     useEffect(() => {
         try {
-            const billingAddressMutationCompleted =
-                billingAddressMutationCalled && !billingAddressMutationLoading;
+            const billingAddressMutationCompleted = billingAddressMutationCalled && !billingAddressMutationLoading;
 
-            if (
-                billingAddressMutationCompleted &&
-                !billingAddressMutationError
-            ) {
+            if (billingAddressMutationCompleted && !billingAddressMutationError) {
                 /**
                  * Billing address save mutation is successful
                  * we can initiate the braintree nonce request
@@ -471,10 +478,7 @@ export const useCreditCard = props => {
                 setShouldRequestPaymentNonce(true);
             }
 
-            if (
-                billingAddressMutationCompleted &&
-                billingAddressMutationError
-            ) {
+            if (billingAddressMutationCompleted && billingAddressMutationError) {
                 /**
                  * Billing address save mutation is not successful.
                  * Reset update button clicked flag.
@@ -493,6 +497,45 @@ export const useCreditCard = props => {
         billingAddressMutationError,
         billingAddressMutationCalled,
         billingAddressMutationLoading,
+        resetShouldSubmit
+    ]);
+
+    /**
+     * Default billing address mutation has completed
+     */
+    useEffect(() => {
+        try {
+            const billingAddressMutationCompleted =
+                defaultBillingAddressMutationCalled && !defaultBillingAddressMutationLoading;
+
+            if (billingAddressMutationCompleted && !defaultBillingAddressMutationError) {
+                /**
+                 * Billing address save mutation is successful
+                 * we can initiate the braintree nonce request
+                 */
+                setStepNumber(2);
+                setShouldRequestPaymentNonce(true);
+            }
+
+            if (billingAddressMutationCompleted && defaultBillingAddressMutationError) {
+                /**
+                 * Billing address save mutation is not successful.
+                 * Reset update button clicked flag.
+                 */
+                throw new Error('Billing address mutation failed');
+            }
+        } catch (err) {
+            if (process.env.NODE_ENV !== 'production') {
+                console.error(err);
+            }
+            setStepNumber(0);
+            resetShouldSubmit();
+            setShouldRequestPaymentNonce(false);
+        }
+    }, [
+        defaultBillingAddressMutationError,
+        defaultBillingAddressMutationCalled,
+        defaultBillingAddressMutationLoading,
         resetShouldSubmit
     ]);
 
@@ -558,7 +601,7 @@ export const useCreditCard = props => {
         onPaymentError,
         onPaymentSuccess,
         onPaymentReady,
-        isBillingAddressSame,
+        isBillingAddressDefault,
         isLoading,
         shouldRequestPaymentNonce,
         stepNumber,

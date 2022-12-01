@@ -3,6 +3,8 @@ import { gql } from '@apollo/client';
 import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 import { AvailablePaymentMethodsFragment } from '../PaymentInformation/paymentInformation.gql';
 
+import { CustomerAddressBookAddressFragment } from '../../AddressBookPage/addressBookFragments.gql';
+
 export const GET_IS_BILLING_ADDRESS_SAME = gql`
     query getIsBillingAddressSame($cartId: String!) {
         cart(cart_id: $cartId) @client {
@@ -21,11 +23,13 @@ export const GET_BILLING_ADDRESS = gql`
                 lastName: lastname
                 country {
                     code
+                    label
                 }
                 street
                 city
                 region {
                     code
+                    label
                 }
                 postcode
                 phoneNumber: telephone
@@ -86,7 +90,7 @@ export const SET_BILLING_ADDRESS = gql`
                     }
                 }
             }
-        ) {
+        ) @connection(key: "setBillingAddressOnCart") {
             cart {
                 id
                 billing_address {
@@ -112,9 +116,64 @@ export const SET_BILLING_ADDRESS = gql`
     ${AvailablePaymentMethodsFragment}
 `;
 
+export const SET_DEFAULT_BILLING_ADDRESS = gql`
+    mutation setDefaultBillingAddress(
+        $cartId: String!
+        $customerAddressId: Int
+    ) {
+        setBillingAddressOnCart(
+            input: {
+                cart_id: $cartId
+                billing_address: { customer_address_id: $customerAddressId }
+            }
+        ) @connection(key: "setBillingAddressOnCart") {
+            cart {
+                id
+                billing_address {
+                    firstname
+                    lastname
+                    country {
+                        code
+                    }
+                    street
+                    city
+                    region {
+                        code
+                    }
+                    postcode
+                    telephone
+                }
+                ...PriceSummaryFragment
+                ...AvailablePaymentMethodsFragment
+            }
+        }
+    }
+    ${PriceSummaryFragment}
+    ${AvailablePaymentMethodsFragment}
+`;
+
+export const GET_CUSTOMER_ADDRESSES = gql`
+    query GetCustomerAddressesForAddressBook {
+        customer {
+            id
+            addresses {
+                id
+                ...CustomerAddressBookAddressFragment
+            }
+        }
+        countries {
+            id
+            full_name_locale
+        }
+    }
+    ${CustomerAddressBookAddressFragment}
+`;
+
 export default {
     getBillingAddressQuery: GET_BILLING_ADDRESS,
     getIsBillingAddressSameQuery: GET_IS_BILLING_ADDRESS_SAME,
     getShippingAddressQuery: GET_SHIPPING_ADDRESS,
-    setBillingAddressMutation: SET_BILLING_ADDRESS
+    setBillingAddressMutation: SET_BILLING_ADDRESS,
+    getCustomerAddressesQuery: GET_CUSTOMER_ADDRESSES,
+    setDefaultBillingAddressMutation: SET_DEFAULT_BILLING_ADDRESS
 };

@@ -25,10 +25,10 @@ const AddressCard = props => {
     const {
         city,
         country_code,
+        default_billing,
         default_shipping,
         firstname,
         middlename = '',
-        lastname,
         postcode,
         region: { region },
         street,
@@ -51,38 +51,59 @@ const AddressCard = props => {
         );
     });
 
-    const defaultBadge = default_shipping ? (
-        <span
-            className={classes.defaultBadge}
-            data-cy="addressCard-defaultBadge"
-        >
-            <FormattedMessage
-                id={'addressCard.defaultText'}
-                defaultMessage={'Default'}
-            />
-        </span>
-    ) : null;
+    const defaultBadge =
+        default_shipping || default_billing ? (
+            <span className={classes.defaultBadge}>
+                {default_shipping && !default_billing && (
+                    <FormattedMessage
+                        id={'addressCard.defaultShippingText'}
+                        defaultMessage={'Default'}
+                    />
+                )}
+                {!default_shipping && default_billing && (
+                    <FormattedMessage
+                        id={'addressCard.defaultBillingText'}
+                        defaultMessage={'Default'}
+                    />
+                )}
+                {default_shipping && default_billing && (
+                    <FormattedMessage
+                        id={'addressCard.defaultBothText'}
+                        defaultMessage={'Default'}
+                    />
+                )}
+            </span>
+        ) : null;
 
-    const nameString = [firstname, middlename, lastname]
-        .filter(name => !!name)
-        .join(' ');
     const additionalAddressString = `${city}, ${region} ${postcode}`;
 
-    const deleteButtonElement = !default_shipping ? (
-        <LinkButton
-            classes={{ root: classes.deleteButton }}
-            onClick={onDelete}
-            data-cy="addressCard-deleteButton"
-        >
-            <Icon classes={{ icon: null }} size={16} src={TrashIcon} />
+    const deleteButtonElement =
+        !default_shipping && !default_billing ? (
+            <LinkButton
+                classes={{ root: classes.deleteButton }}
+                onClick={onDelete}
+            >
+                <Icon classes={{ icon: null }} size={16} src={TrashIcon} />
+                <span className={classes.actionLabel}>
+                    <FormattedMessage
+                        id="addressBookPage.deleteAddress"
+                        defaultMessage="Delete"
+                    />
+                </span>
+            </LinkButton>
+        ) : null;
+
+    const editButtonElement = (
+        <LinkButton classes={{ root: classes.editButton }} onClick={onEdit}>
+            <Icon classes={{ icon: null }} size={16} src={EditIcon} />
             <span className={classes.actionLabel}>
                 <FormattedMessage
-                    id="addressBookPage.deleteAddress"
-                    defaultMessage="Delete"
+                    id="addressBookPage.editAddress"
+                    defaultMessage="Edit"
                 />
             </span>
         </LinkButton>
-    ) : null;
+    );
 
     const maybeConfirmingDeleteOverlay = isConfirmingDelete ? (
         <div className={classes.confirmDeleteContainer}>
@@ -93,7 +114,6 @@ const AddressCard = props => {
                 type="button"
                 negative={true}
                 onClick={onConfirmDelete}
-                data-cy="addressCard-confirmDeleteButton"
             >
                 <FormattedMessage
                     id={'global.deleteButton'}
@@ -116,13 +136,10 @@ const AddressCard = props => {
     ) : null;
 
     return (
-        <div className={classes.root} data-cy="addressCard-root">
-            <div
-                className={classes.contentContainer}
-                data-cy="addressCard-contentContainer"
-            >
+        <div className={classes.root}>
+            <div className={classes.contentContainer}>
                 {defaultBadge}
-                <span className={classes.name}>{nameString}</span>
+                <span className={classes.name}>{firstname}</span>
                 {streetRows}
                 <span className={classes.additionalAddress}>
                     {additionalAddressString}
@@ -133,25 +150,12 @@ const AddressCard = props => {
                 <span className={classes.telephone}>
                     <FormattedMessage
                         id="addressBookPage.telephone"
-                        defaultMessage="Phone {telephone}"
                         values={{ telephone }}
                     />
                 </span>
             </div>
             <div className={classes.actionContainer}>
-                <LinkButton
-                    classes={{ root: classes.editButton }}
-                    onClick={onEdit}
-                    data-cy="addressCard-editButton"
-                >
-                    <Icon classes={{ icon: null }} size={16} src={EditIcon} />
-                    <span className={classes.actionLabel}>
-                        <FormattedMessage
-                            id="addressBookPage.editAddress"
-                            defaultMessage="Edit"
-                        />
-                    </span>
-                </LinkButton>
+                {editButtonElement}
                 {deleteButtonElement}
                 {maybeConfirmingDeleteOverlay}
             </div>

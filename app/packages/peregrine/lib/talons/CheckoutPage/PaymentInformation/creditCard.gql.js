@@ -3,6 +3,8 @@ import { gql } from '@apollo/client';
 import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 import { AvailablePaymentMethodsFragment } from './paymentInformation.gql';
 
+import { CustomerAddressBookAddressFragment } from '@magento/peregrine/lib/talons/AddressBookPage/addressBookFragments.gql';
+
 export const GET_IS_BILLING_ADDRESS_SAME = gql`
     query getIsBillingAddressSame($cartId: String!) {
         cart(cart_id: $cartId) @client {
@@ -35,8 +37,6 @@ export const GET_BILLING_ADDRESS = gql`
                 city
                 region {
                     code
-                    label
-                    region_id
                 }
                 postcode
                 phoneNumber: telephone
@@ -59,8 +59,6 @@ export const GET_SHIPPING_ADDRESS = gql`
                 city
                 region {
                     code
-                    label
-                    region_id
                 }
                 postcode
                 phoneNumber: telephone
@@ -99,7 +97,7 @@ export const SET_BILLING_ADDRESS = gql`
                     }
                 }
             }
-        ) {
+        ) @connection(key: "setBillingAddressOnCart") {
             cart {
                 id
                 billing_address {
@@ -112,8 +110,6 @@ export const SET_BILLING_ADDRESS = gql`
                     city
                     region {
                         code
-                        label
-                        region_id
                     }
                     postcode
                     telephone
@@ -128,22 +124,16 @@ export const SET_BILLING_ADDRESS = gql`
 `;
 
 export const SET_CC_DETAILS_ON_CART = gql`
-    mutation setSelectedPaymentMethod(
-        $cartId: String!
-        $paymentNonce: String!
-    ) {
+    mutation setSelectedPaymentMethod($cartId: String!, $paymentNonce: String!) {
         setPaymentMethodOnCart(
             input: {
                 cart_id: $cartId
                 payment_method: {
                     code: "braintree"
-                    braintree: {
-                        payment_method_nonce: $paymentNonce
-                        is_active_payment_token_enabler: false
-                    }
+                    braintree: { payment_method_nonce: $paymentNonce, is_active_payment_token_enabler: false }
                 }
             }
-        ) {
+        ) @connection(key: "setPaymentMethodOnCart") {
             cart {
                 id
                 selected_payment_method {
@@ -155,11 +145,60 @@ export const SET_CC_DETAILS_ON_CART = gql`
     }
 `;
 
+export const SET_DEFAULT_BILLING_ADDRESS = gql`
+    mutation setDefaultBillingAddress($cartId: String!, $customerAddressId: Int) {
+        setBillingAddressOnCart(
+            input: { cart_id: $cartId, billing_address: { customer_address_id: $customerAddressId } }
+        ) @connection(key: "setBillingAddressOnCart") {
+            cart {
+                id
+                billing_address {
+                    firstname
+                    lastname
+                    country {
+                        code
+                    }
+                    street
+                    city
+                    region {
+                        code
+                    }
+                    postcode
+                    telephone
+                }
+                ...PriceSummaryFragment
+                ...AvailablePaymentMethodsFragment
+            }
+        }
+    }
+    ${PriceSummaryFragment}
+    ${AvailablePaymentMethodsFragment}
+`;
+
+export const GET_CUSTOMER_ADDRESSES = gql`
+    query GetCustomerAddressesForAddressBook {
+        customer {
+            id
+            addresses {
+                id
+                ...CustomerAddressBookAddressFragment
+            }
+        }
+        countries {
+            id
+            full_name_locale
+        }
+    }
+    ${CustomerAddressBookAddressFragment}
+`;
+
 export default {
     getBillingAddressQuery: GET_BILLING_ADDRESS,
     getIsBillingAddressSameQuery: GET_IS_BILLING_ADDRESS_SAME,
     getPaymentNonceQuery: GET_PAYMENT_NONCE,
     getShippingAddressQuery: GET_SHIPPING_ADDRESS,
     setBillingAddressMutation: SET_BILLING_ADDRESS,
-    setCreditCardDetailsOnCartMutation: SET_CC_DETAILS_ON_CART
+    setCreditCardDetailsOnCartMutation: SET_CC_DETAILS_ON_CART,
+    getCustomerAddressesQuery: GET_CUSTOMER_ADDRESSES,
+    setDefaultBillingAddressMutation: SET_DEFAULT_BILLING_ADDRESS
 };

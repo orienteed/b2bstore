@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { bool, func, shape, string } from 'prop-types';
 import { useCreditCard } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/useCreditCard';
 
@@ -7,7 +7,6 @@ import { isRequired } from '../../../util/formValidators';
 import Country from '../../Country';
 import Region from '../../Region';
 import Postcode from '../../Postcode';
-import Checkbox from '../../Checkbox';
 import Field from '../../Field';
 import TextInput from '../../TextInput';
 import BrainTreeDropin from './brainTreeDropIn';
@@ -38,14 +37,11 @@ const STEP_DESCRIPTIONS = [
     }
 ];
 
-/**
- * The initial view for the Braintree payment method.
- */
 const CreditCard = props => {
     const {
         classes: propClasses,
         onPaymentSuccess: onSuccess,
-        onPaymentReady: onReady,
+        onDropinReady: onReady,
         onPaymentError: onError,
         resetShouldSubmit,
         shouldSubmit
@@ -68,7 +64,7 @@ const CreditCard = props => {
         onPaymentError,
         onPaymentSuccess,
         onPaymentReady,
-        isBillingAddressSame,
+        isBillingAddressDefault,
         isLoading,
         /**
          * `stepNumber` depicts the state of the process flow in credit card
@@ -88,11 +84,9 @@ const CreditCard = props => {
         recaptchaWidgetProps
     } = talonProps;
 
-    const creditCardComponentClassName = isLoading
-        ? classes.credit_card_root_hidden
-        : classes.credit_card_root;
+    const creditCardComponentClassName = isLoading ? classes.credit_card_root_hidden : classes.credit_card_root;
 
-    const billingAddressFieldsClassName = isBillingAddressSame
+    const billingAddressFieldsClassName = isBillingAddressDefault
         ? classes.billing_address_fields_root_hidden
         : classes.billing_address_fields_root;
 
@@ -126,8 +120,8 @@ const CreditCard = props => {
      * We write this function in `venia-ui` and not in the `peregrine` talon
      * because it references `isRequired` which is a `venia-ui` function.
      */
-    const isFieldRequired = useCallback((value, { isBillingAddressSame }) => {
-        if (isBillingAddressSame) {
+    const isFieldRequired = useCallback((value, { isBillingAddressDefault }) => {
+        if (isBillingAddressDefault) {
             /**
              * Informed validator functions return `undefined` if
              * validation is `true`
@@ -148,18 +142,26 @@ const CreditCard = props => {
               defaultMessage: 'Loading Payment'
           });
 
-    const loadingIndicator = isLoading ? (
-        <LoadingIndicator>{stepTitle}</LoadingIndicator>
-    ) : null;
+    const loadingIndicator = isLoading ? <LoadingIndicator>{stepTitle}</LoadingIndicator> : null;
+
+    const isBillingAddressDefaultHtml = useMemo(() => {
+        if (initialValues.isBillingAddressDefault) {
+            return (
+                <h2 className={classes.address_check}>
+                    <FormattedMessage
+                        id={'checkoutPage.billingAddressDefault'}
+                        defaultMessage={'Your default billing address will be used for this order'}
+                    />
+                </h2>
+            );
+        }
+        return null;
+    }, [initialValues]);
 
     return (
-        <div className={classes.root} data-cy="CreditCard-root">
+        <div className={classes.root}>
             <div className={creditCardComponentClassName}>
-                <FormError
-                    allowErrorMessages
-                    classes={{ root: classes.formErrorContainer }}
-                    errors={Array.from(errors.values())}
-                />
+                <FormError classes={{ root: classes.formErrorContainer }} errors={Array.from(errors.values())} />
                 <div className={classes.dropin_root}>
                     <BrainTreeDropin
                         onError={onPaymentError}
@@ -170,25 +172,8 @@ const CreditCard = props => {
                         resetShouldTeardownDropin={resetShouldTeardownDropin}
                     />
                 </div>
-                <div
-                    data-cy="CreditCard-AddressCheck-root"
-                    className={classes.address_check}
-                >
-                    <Checkbox
-                        data-cy="PaymentInformation-billingAddressSame"
-                        field="isBillingAddressSame"
-                        label={formatMessage({
-                            id: 'checkoutPage.billingAddressSame',
-                            defaultMessage:
-                                'Billing address same as shipping address'
-                        })}
-                        initialValue={initialValues.isBillingAddressSame}
-                    />
-                </div>
-                <div
-                    data-cy="CreditCard-billingAddressFields"
-                    className={billingAddressFieldsClassName}
-                >
+                {isBillingAddressDefaultHtml}
+                <div className={billingAddressFieldsClassName}>
                     <Field
                         id="firstName"
                         classes={fieldClasses.first_name}
@@ -198,7 +183,6 @@ const CreditCard = props => {
                         })}
                     >
                         <TextInput
-                            data-cy="CreditCard-billingAddress-firstname"
                             id="firstName"
                             field="firstName"
                             validate={isFieldRequired}
@@ -214,7 +198,6 @@ const CreditCard = props => {
                         })}
                     >
                         <TextInput
-                            data-cy="CreditCard-billingAddress-lastname"
                             id="lastName"
                             field="lastName"
                             validate={isFieldRequired}
@@ -222,7 +205,6 @@ const CreditCard = props => {
                         />
                     </Field>
                     <Country
-                        data-cy="CreditCard-billingAddress-country"
                         classes={fieldClasses.country}
                         validate={isFieldRequired}
                         initialValue={
@@ -242,7 +224,6 @@ const CreditCard = props => {
                         })}
                     >
                         <TextInput
-                            data-cy="CreditCard-billingAddress-street1"
                             id="street1"
                             field="street1"
                             validate={isFieldRequired}
@@ -258,12 +239,7 @@ const CreditCard = props => {
                         })}
                         optional={true}
                     >
-                        <TextInput
-                            data-cy="CreditCard-billingAddress-street2"
-                            id="street2"
-                            field="street2"
-                            initialValue={initialValues.street2}
-                        />
+                        <TextInput id="street2" field="street2" initialValue={initialValues.street2} />
                     </Field>
                     <Field
                         id="city"
@@ -274,7 +250,6 @@ const CreditCard = props => {
                         })}
                     >
                         <TextInput
-                            data-cy="CreditCard-billingAddress-city"
                             id="city"
                             field="city"
                             validate={isFieldRequired}
@@ -282,16 +257,11 @@ const CreditCard = props => {
                         />
                     </Field>
                     <Region
-                        data-cy="CreditCard-billingAddress-region"
                         classes={fieldClasses.region}
                         initialValue={initialValues.region}
                         validate={isFieldRequired}
-                        fieldInput={'region[label]'}
-                        fieldSelect={'region[region_id]'}
-                        optionValueKey={'id'}
                     />
                     <Postcode
-                        data-cy="CreditCard-billingAddress-postcode"
                         classes={fieldClasses.postal_code}
                         validate={isFieldRequired}
                         initialValue={initialValues.postcode}
@@ -305,7 +275,6 @@ const CreditCard = props => {
                         })}
                     >
                         <TextInput
-                            data-cy="CreditCard-billingAddress-phoneNumber"
                             id="phoneNumber"
                             field="phoneNumber"
                             validate={isFieldRequired}
@@ -342,7 +311,7 @@ CreditCard.propTypes = {
     }),
     shouldSubmit: bool.isRequired,
     onPaymentSuccess: func,
-    onPaymentReady: func,
+    onDropinReady: func,
     onPaymentError: func,
     resetShouldSubmit: func.isRequired
 };
