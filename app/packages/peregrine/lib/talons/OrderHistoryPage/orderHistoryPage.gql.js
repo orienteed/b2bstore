@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 const CustomerOrdersFragment = gql`
     fragment CustomerOrdersFragment on CustomerOrders {
         items {
+            store_id
             billing_address {
                 city
                 country_code
@@ -23,6 +24,14 @@ const CustomerOrdersFragment = gql`
                 product_sale_price {
                     currency
                     value
+                }
+                discounts {
+                    amount {
+                        currency
+                        value
+                    }
+                    label
+                    __typename
                 }
                 product_sku
                 product_url_key
@@ -94,12 +103,9 @@ const CustomerOrdersFragment = gql`
 `;
 
 export const GET_CUSTOMER_ORDERS = gql`
-    query GetCustomerOrders(
-        $filter: CustomerOrdersFilterInput
-        $pageSize: Int!
-    ) {
-        # eslint-disable-next-line @graphql-eslint/require-id-when-available
+    query GetCustomerOrders($filter: CustomerOrdersFilterInput, $pageSize: Int!) {
         customer {
+            id
             orders(filter: $filter, pageSize: $pageSize) {
                 ...CustomerOrdersFragment
             }
@@ -108,6 +114,19 @@ export const GET_CUSTOMER_ORDERS = gql`
     ${CustomerOrdersFragment}
 `;
 
+export const GET_STORE_CONFIG_DATA = gql`
+    query getStoreConfigData {
+        storeConfig {
+            store_code
+            id
+            code
+            store_name
+            store_group_name
+        }
+    }
+`;
+
 export default {
-    getCustomerOrdersQuery: GET_CUSTOMER_ORDERS
+    getCustomerOrdersQuery: GET_CUSTOMER_ORDERS,
+    getStoreConfigData: GET_STORE_CONFIG_DATA
 };

@@ -5,15 +5,14 @@ import { Link } from 'react-router-dom';
 import { useOrderHistoryContext } from '@magento/peregrine/lib/talons/OrderHistoryPage/orderHistoryContext';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Button from '../../Button';
-import ProductOptions from '../../LegacyMiniCart/productOptions';
+
 import Image from '../../Image';
 import Price from '../../Price';
 import defaultClasses from './item.module.css';
 import PlaceholderImage from '../../Image/placeholderImage';
-
 const Item = props => {
     const {
+        index,
         product_name,
         product_sale_price,
         product_url_key,
@@ -21,25 +20,18 @@ const Item = props => {
         selected_options,
         thumbnail
     } = props;
-    const { currency, value: unitPrice } = product_sale_price;
 
     const orderHistoryState = useOrderHistoryContext();
     const { productURLSuffix } = orderHistoryState;
     const itemLink = `${product_url_key}${productURLSuffix}`;
-    const mappedOptions = useMemo(
-        () =>
-            selected_options.map(option => ({
-                option_label: option.label,
-                value_label: option.value
-            })),
-        [selected_options]
-    );
+    const mappedOptions = useMemo(() => selected_options.map(option => option.value), [selected_options]);
     const classes = useStyle(defaultClasses, props.classes);
 
     const thumbnailProps = {
         alt: product_name,
         classes: { root: classes.thumbnail },
-        width: 50
+        width: 87,
+        height: 70
     };
     const thumbnailElement = thumbnail ? (
         <Image {...thumbnailProps} resource={thumbnail.url} />
@@ -48,44 +40,30 @@ const Item = props => {
     );
 
     return (
-        <div className={classes.root}>
-            <Link className={classes.thumbnailContainer} to={itemLink}>
-                {thumbnailElement}
-            </Link>
-            <div className={classes.nameContainer}>
-                <Link to={itemLink}>{product_name}</Link>
-            </div>
-            <ProductOptions
-                options={mappedOptions}
-                classes={{
-                    options: classes.options
-                }}
-            />
-            <span className={classes.quantity}>
-                <FormattedMessage
-                    id="orderDetails.quantity"
-                    defaultMessage="Qty : {quantity}"
-                    values={{
-                        quantity: quantity_ordered
-                    }}
-                />
-            </span>
-            <div className={classes.price}>
-                <Price currencyCode={currency} value={unitPrice} />
-            </div>
-            <Button
-                onClick={() => {
-                    // TODO will be implemented in PWA-979
-                    console.log('Buying Again');
-                }}
-                className={classes.buyAgainButton}
-            >
-                <FormattedMessage
-                    id="orderDetails.buyAgain"
-                    defaultMessage="Buy Again"
-                />
-            </Button>
-        </div>
+        <>
+            <tr className={classes.tableRow}>
+                <td>{index + 1}</td>
+                <td>
+                    <Link className={classes.thumbnailContainer} to={itemLink}>
+                        <span className={classes.nameProduct}>
+                            {thumbnailElement}
+                            {product_name} {mappedOptions.join(', ')}
+                        </span>
+                    </Link>
+                </td>
+                <td>{mappedOptions[0]}</td>
+                <td>
+                    {quantity_ordered + ' '}
+                    <FormattedMessage id="orderDetails.items" defaultMessage="items" />
+                </td>
+                <td>
+                    <Price value={product_sale_price.value} currencyCode={product_sale_price.currency} />
+                </td>
+                <td className={classes.grossPrice}>
+                    <Price value={product_sale_price.value} currencyCode={product_sale_price.currency} />
+                </td>
+            </tr>
+        </>
     );
 };
 

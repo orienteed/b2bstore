@@ -14,12 +14,11 @@ import DEFAULT_OPERATIONS from './orderRow.gql';
  * @returns {OrderRowTalonProps}
  */
 export const useOrderRow = props => {
+    const [ticketModal, setTicketModal] = useState(false);
+
     const { items } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        getProductThumbnailsQuery,
-        getConfigurableThumbnailSource
-    } = operations;
+    const { getProductThumbnailsQuery, getConfigurableThumbnailSource } = operations;
 
     const urlKeys = useMemo(() => {
         return items.map(item => item.product_url_key).sort();
@@ -33,17 +32,13 @@ export const useOrderRow = props => {
         }
     });
 
-    const { data: configurableThumbnailSourceData } = useQuery(
-        getConfigurableThumbnailSource,
-        {
-            fetchPolicy: 'cache-and-network'
-        }
-    );
+    const { data: configurableThumbnailSourceData } = useQuery(getConfigurableThumbnailSource, {
+        fetchPolicy: 'cache-and-network'
+    });
 
     const configurableThumbnailSource = useMemo(() => {
         if (configurableThumbnailSourceData) {
-            return configurableThumbnailSourceData.storeConfig
-                .configurable_thumbnail_source;
+            return configurableThumbnailSourceData.storeConfig.configurable_thumbnail_source;
         }
     }, [configurableThumbnailSourceData]);
 
@@ -52,18 +47,12 @@ export const useOrderRow = props => {
             // Images data is taken from simple product or from configured variant and assigned to item sku
             const mappedImagesData = {};
             items.forEach(item => {
-                const product = data.products.items.find(
-                    element => item.product_url_key === element.url_key
-                );
-                if (
-                    configurableThumbnailSource === 'itself' &&
-                    product.variants &&
-                    product.variants.length > 0
-                ) {
+                const product = data.products.items.find(element => item.product_url_key === element.url_key);
+                if (configurableThumbnailSource === 'itself' && product.variants && product.variants.length > 0) {
                     const foundVariant = product.variants.find(variant => {
                         return variant.product.sku === item.product_sku;
                     });
-                    mappedImagesData[item.product_sku] = foundVariant.product;
+                    mappedImagesData[item.product_sku] = foundVariant ? foundVariant.product : product;
                 } else {
                     mappedImagesData[item.product_sku] = product;
                 }
@@ -81,11 +70,18 @@ export const useOrderRow = props => {
         setIsOpen(currentValue => !currentValue);
     }, []);
 
+    const openOrderIncidenceModal = () => {
+        setTicketModal(true);
+    };
+
     return {
         loading,
         imagesData,
         isOpen,
-        handleContentToggle
+        handleContentToggle,
+        openOrderIncidenceModal,
+        setTicketModal,
+        ticketModal
     };
 };
 

@@ -1,16 +1,12 @@
 import React, { useMemo, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import {
-    Search as SearchIcon,
-    AlertCircle as AlertCircleIcon,
-    ArrowRight as SubmitIcon
-} from 'react-feather';
+import { Search as SearchIcon, AlertCircle as AlertCircleIcon, ArrowRight as SubmitIcon, X } from 'react-feather';
 import { shape, string } from 'prop-types';
 import { Form } from 'informed';
 
 import { useToasts } from '@magento/peregrine/lib/Toasts';
 import OrderHistoryContextProvider from '@magento/peregrine/lib/talons/OrderHistoryPage/orderHistoryContext';
-import { useOrderHistoryPage } from '@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage';
+import { useOrderHistoryPage } from '@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js';
 
 import { useStyle } from '../../classify';
 import Button from '../Button';
@@ -21,6 +17,9 @@ import TextInput from '../TextInput';
 
 import defaultClasses from './orderHistoryPage.module.css';
 import OrderRow from './orderRow';
+import gql from 'graphql-tag';
+import { useNoReorderProductContext } from './NoReorderProductProvider/noReorderProductProvider';
+
 import ResetButton from './resetButton';
 
 const errorIcon = (
@@ -34,18 +33,30 @@ const errorIcon = (
 const searchIcon = <Icon src={SearchIcon} size={24} />;
 
 const OrderHistoryPage = props => {
-    const talonProps = useOrderHistoryPage();
+    const { loadingProduct } = useNoReorderProductContext();
+    const talonProps = useOrderHistoryPage({
+        operations: {
+            getStoreConfigData: GET_STORE_CONFIG_DATA
+        }
+    });
     const {
+        address,
         errorMessage,
-        loadMoreOrders,
+        errorToast,
         handleReset,
         handleSubmit,
         isBackgroundLoading,
         isLoadingWithoutData,
+        loadMoreOrders,
         orders,
         pageInfo,
-        searchText
+        searchText,
+        setErrorToast,
+        setSuccessToast,
+        storeConfigData,
+        successToast
     } = talonProps;
+
     const [, { addToast }] = useToasts();
     const { formatMessage } = useIntl();
     const PAGE_TITLE = formatMessage({
@@ -60,9 +71,18 @@ const OrderHistoryPage = props => {
 
     const orderRows = useMemo(() => {
         return orders.map(order => {
-            return <OrderRow key={order.id} order={order} />;
+            return (
+                <OrderRow
+                    address={address}
+                    config={storeConfigData}
+                    key={order.id}
+                    order={order}
+                    setErrorToast={setErrorToast}
+                    setSuccessToast={setSuccessToast}
+                />
+            );
         });
-    }, [orders]);
+    }, [orders, storeConfigData, setSuccessToast, setErrorToast]);
 
     const pageContents = useMemo(() => {
         if (isLoadingWithoutData) {
@@ -90,10 +110,7 @@ const OrderHistoryPage = props => {
             );
         } else {
             return (
-                <ul
-                    className={classes.orderHistoryTable}
-                    data-cy="OrderHistoryPage-orderHistoryTable"
-                >
+                <ul data-cy="OrderHistoryPage-orderHistoryTable" className={classes.orderHistoryTable}>
                     {orderRows}
                 </ul>
             );
@@ -108,9 +125,7 @@ const OrderHistoryPage = props => {
         searchText
     ]);
 
-    const resetButtonElement = searchText ? (
-        <ResetButton onReset={handleReset} />
-    ) : null;
+    const resetButtonElement = searchText ? <ResetButton onReset={handleReset} /> : null;
 
     const submitIcon = (
         <Icon
@@ -137,12 +152,31 @@ const OrderHistoryPage = props => {
             onClick={loadMoreOrders}
             priority="low"
         >
-            <FormattedMessage
-                id={'orderHistoryPage.loadMore'}
-                defaultMessage={'Load More'}
-            />
+            <FormattedMessage id={'orderHistoryPage.loadMore'} defaultMessage={'Load More'} />
         </Button>
     ) : null;
+
+    const successToastContainer = (
+        <div className={classes.successToastContainer}>
+            <p className={classes.successToastText}>
+                <FormattedMessage id={'csr.ticketCreated'} defaultMessage={'Ticket created successfully'} />
+            </p>
+            <X size={20} onClick={() => setSuccessToast(false)} />
+        </div>
+    );
+
+    const errorToastContainer = (
+        <div className={classes.errorToastContainer}>
+            <p className={classes.errorToastText}>
+                <FormattedMessage
+                    id={'csr.errorToast'}
+                    defaultMessage={'Sorry, there has been an error.{br}Please, try again later.'}
+                    values={{ br: <br /> }}
+                />
+            </p>
+            <X size={20} onClick={() => setSuccessToast(false)} />
+        </div>
+    );
 
     useEffect(() => {
         if (errorMessage) {
@@ -157,38 +191,39 @@ const OrderHistoryPage = props => {
     }, [addToast, errorMessage]);
 
     return (
-        <OrderHistoryContextProvider>
-            <div className={classes.root}>
-                <StoreTitle>{PAGE_TITLE}</StoreTitle>
-                <h1 aria-live="polite" className={classes.heading}>
-                    {PAGE_TITLE}
-                </h1>
-                <div className={classes.filterRow}>
-                    <span className={classes.pageInfo}>{pageInfoLabel}</span>
-                    <Form className={classes.search} onSubmit={handleSubmit}>
-                        <TextInput
-                            after={resetButtonElement}
-                            before={searchIcon}
-                            field="search"
-                            id={classes.search}
-                            placeholder={SEARCH_PLACE_HOLDER}
-                        />
-                        <Button
-                            className={classes.searchButton}
-                            disabled={
-                                isBackgroundLoading || isLoadingWithoutData
-                            }
-                            priority={'high'}
-                            type="submit"
-                        >
-                            {submitIcon}
-                        </Button>
-                    </Form>
+        <>
+            <OrderHistoryContextProvider>
+                <div className={classes.root}>
+                    <StoreTitle>{PAGE_TITLE}</StoreTitle>
+                    <h1 className={classes.heading}>{PAGE_TITLE}</h1>
+                    <div className={classes.filterRow}>
+                        <span className={classes.pageInfo}>{pageInfoLabel}</span>
+                        <Form className={classes.search} onSubmit={handleSubmit}>
+                            <TextInput
+                                after={resetButtonElement}
+                                before={searchIcon}
+                                field="search"
+                                id={classes.search}
+                                placeholder={SEARCH_PLACE_HOLDER}
+                            />
+                            <Button
+                                className={classes.searchButton}
+                                disabled={isBackgroundLoading || isLoadingWithoutData}
+                                priority={'high'}
+                                type="submit"
+                            >
+                                {submitIcon}
+                            </Button>
+                        </Form>
+                    </div>
+                    {loadingProduct ? <LoadingIndicator /> : pageContents}
+                    {pageContents}
+                    {loadMoreButton}
                 </div>
-                {pageContents}
-                {loadMoreButton}
-            </div>
-        </OrderHistoryContextProvider>
+            </OrderHistoryContextProvider>
+            {successToast && successToastContainer}
+            {errorToast && errorToastContainer}
+        </>
     );
 };
 
@@ -206,3 +241,13 @@ OrderHistoryPage.propTypes = {
         loadMoreButton: string
     })
 };
+export const GET_STORE_CONFIG_DATA = gql`
+    query getStoreConfigData {
+        # eslint-disable-next-line @graphql-eslint/require-id-when-available
+        storeConfig {
+            id
+            store_code
+            product_url_suffix
+        }
+    }
+`;

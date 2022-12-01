@@ -1,1 +1,1 @@
-export { default } from './createTicketModal.js';
+export { default } from './createTicketModal';
