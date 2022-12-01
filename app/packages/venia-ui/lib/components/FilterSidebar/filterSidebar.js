@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useRef } from 'react';
+import React, { useMemo, useCallback, useRef, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { array, arrayOf, shape, string, number } from 'prop-types';
 import { useFilterSidebar } from '@magento/peregrine/lib/talons/FilterSidebar';
@@ -17,7 +17,7 @@ const SCROLL_OFFSET = 150;
  * @param {Object} props.filters - filters to display
  */
 const FilterSidebar = props => {
-    const { filters, filterCountToOpen } = props;
+    const { filters, filterCountToOpen, setfilterState } = props;
     const talonProps = useFilterSidebar({ filters });
     const {
         filterApi,
@@ -31,17 +31,16 @@ const FilterSidebar = props => {
 
     const filterRef = useRef();
     const classes = useStyle(defaultClasses, props.classes);
+    useEffect(() => {
+        if (setfilterState) setfilterState(filterState);
+    }, [filterState]);
 
     const handleApplyFilter = useCallback(
         (...args) => {
             const filterElement = filterRef.current;
-            if (
-                filterElement &&
-                typeof filterElement.getBoundingClientRect === 'function'
-            ) {
+            if (filterElement && typeof filterElement.getBoundingClientRect === 'function') {
                 const filterTop = filterElement.getBoundingClientRect().top;
-                const windowScrollY =
-                    window.scrollY + filterTop - SCROLL_OFFSET;
+                const windowScrollY = window.scrollY + filterTop - SCROLL_OFFSET;
                 window.scrollTo(0, windowScrollY);
             }
 
@@ -70,28 +69,13 @@ const FilterSidebar = props => {
                     />
                 );
             }),
-        [
-            filterApi,
-            filterItems,
-            filterNames,
-            filterFrontendInput,
-            filterState,
-            filterCountToOpen,
-            handleApplyFilter
-        ]
+        [filterApi, filterItems, filterNames, filterFrontendInput, filterState, filterCountToOpen, handleApplyFilter]
     );
 
     const clearAll = filterState.size ? (
         <div className={classes.action}>
-            <LinkButton
-                type="button"
-                onClick={handleReset}
-                data-cy="FilterSidebar-clearButton"
-            >
-                <FormattedMessage
-                    id={'filterModal.action'}
-                    defaultMessage={'Clear all'}
-                />
+            <LinkButton type="button" onClick={handleReset} data-cy="FilterSidebar-clearButton">
+                <FormattedMessage id={'filterModal.action'} defaultMessage={'Clear all'} />
             </LinkButton>
         </div>
     ) : null;
@@ -101,18 +85,13 @@ const FilterSidebar = props => {
             className={classes.root}
             ref={filterRef}
             data-cy="FilterSidebar-root"
+            aria-live="polite"
             aria-busy="false"
         >
             <div className={classes.body}>
                 <div className={classes.header}>
-                    <h2
-                        data-cy="FilterSidebar-headerTitle"
-                        className={classes.headerTitle}
-                    >
-                        <FormattedMessage
-                            id={'filterModal.headerTitle'}
-                            defaultMessage={'Filters'}
-                        />
+                    <h2 data-cy="FilterSidebar-headerTitle" className={classes.headerTitle}>
+                        <FormattedMessage id={'filterModal.headerTitle'} defaultMessage={'Filters'} />
                     </h2>
                 </div>
                 <CurrentFilters
