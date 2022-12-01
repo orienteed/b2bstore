@@ -18,7 +18,7 @@ import TextInput from '../TextInput';
 import defaultClasses from './orderHistoryPage.module.css';
 import OrderRow from './orderRow';
 import gql from 'graphql-tag';
-import { useNoReorderProductContext } from './NoReorderProductProvider/noReorderProductProvider';
+import { useNoReorderProductContext } from '../NoReorderProductProvider/noReorderProductProvider';
 
 import ResetButton from './resetButton';
 

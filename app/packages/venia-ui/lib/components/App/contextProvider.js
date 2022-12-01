@@ -5,7 +5,7 @@ import {
     WindowSizeContextProvider
 } from '@magento/peregrine';
 import LocaleProvider from './localeProvider';
-import { NoReorderProductProvider } from '../OrderHistoryPage/NoReorderProductProvider/noReorderProductProvider';
+import { NoReorderProductProvider } from '../NoReorderProductProvider/noReorderProductProvider';
 
 /**
  * List of context providers that are required to run Venia

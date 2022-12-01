@@ -29,7 +29,7 @@ import GoogleReCaptcha from '../GoogleReCaptcha';
 import defaultClasses from './checkoutPage.module.css';
 import ScrollAnchor from '../ScrollAnchor/scrollAnchor';
 
-// import { useNoReorderProductContext } from '@orienteed/customComponents/components/NoReorderProductProvider/noReorderProductProvider';
+import { useNoReorderProductContext } from '../NoReorderProductProvider/noReorderProductProvider';
 
 import DeliveryDate from './DeliveryDate/deliveryDateForm';
 import { useDeliveryDate } from '@magento/peregrine/lib/talons/CheckoutPage/DeliveryDate/useDeliveryDate';
@@ -65,7 +65,7 @@ const CheckoutPage = props => {
         deliveryDateIsActivated,
         submitOrderAttribute
     });
-    // const { noProduct } = useNoReorderProductContext();
+    const { noProduct } = useNoReorderProductContext();
 
     const {
         /**
@@ -370,7 +370,7 @@ const CheckoutPage = props => {
                     <h1 className={classes.heading} data-cy="ChekoutPage-headerText">
                         {headerText}
                     </h1>
-                    {/* <h2 className={classes.errorNoProductText}>{noProduct ? noProductText : null}</h2> */}
+                    <h2 className={classes.errorNoProductText}>{noProduct ? noProductText : null}</h2>
                 </div>
                 {signInContainerElement}
                 <div className={classes.shipping_information_container}>
