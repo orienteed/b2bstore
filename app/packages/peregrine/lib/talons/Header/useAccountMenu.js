@@ -38,10 +38,7 @@ export const useAccountMenu = props => {
     const history = useHistory();
     const location = useLocation();
     const [revokeToken] = useMutation(signOutMutation);
-    const [
-        { isSignedIn: isUserSignedIn, currentUser },
-        { signOut }
-    ] = useUserContext();
+    const [{ isSignedIn: isUserSignedIn, currentUser }, { signOut }] = useUserContext();
 
     const [, { dispatch }] = useEventingContext();
 
@@ -62,14 +59,7 @@ export const useAccountMenu = props => {
         // would be to call apolloClient.resetStore() but that would require
         // a large refactor.
         history.go(0);
-    }, [
-        history,
-        revokeToken,
-        setAccountMenuIsOpen,
-        signOut,
-        currentUser,
-        dispatch
-    ]);
+    }, [history, revokeToken, setAccountMenuIsOpen, signOut, currentUser, dispatch]);
 
     const handleForgotPassword = useCallback(() => {
         setView('FORGOT_PASSWORD');

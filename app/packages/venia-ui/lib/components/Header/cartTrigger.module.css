@@ -23,6 +23,8 @@
     composes: min-w-[3rem] from global;
     composes: relative from global;
     composes: z-foreground from global;
+    
+    margin-left: -10px;
 }
 
 .triggerContainer {

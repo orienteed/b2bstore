@@ -74,9 +74,9 @@
     composes: max-h-full from global;
     /* Minimum keeps a 16:9 aspect ratio and is 40rem x 22.5rem.  */
     composes: min-h-[360px] from global;
-    composes: w-[640px] from global;
+    /* composes: w-[640px] from global; */
 
-    composes: bg-white from global;
+    /* composes: bg-white from global; */
     composes: grid from global;
     composes: grid-rows-autoFirst from global;
     composes: max-w-modal from global;
@@ -99,10 +99,15 @@
  */
 
 .header {
-    composes: h-[3.5rem] from global;
+    /* Border */
+    /* composes: border-b from global;
+    composes: border-solid from global;
+    composes: border-subtle from global; */
+
+    /* composes: h-[3.5rem] from global;
     composes: pl-4 from global;
     composes: pr-3 from global;
-    composes: py-0 from global;
+    composes: py-0 from global; */
 
     /* The Header is itself a grid container for its children. */
     composes: gap-x-xs from global;
@@ -153,7 +158,7 @@
 }
 
 .contents {
-    composes: p-xs from global;
+    /* composes: p-xs from global; */
 
     /* Custom */
     padding: 0px 55px;

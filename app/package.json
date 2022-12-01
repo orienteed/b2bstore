@@ -37,7 +37,9 @@
   },
   "dependencies": {
     "emoji-picker-react": "~4.4.5",
+    "papaparse": "~5.3.2",
     "react-cookie-consent": "~8.0.1",
+    "react-csv": "~2.2.2",
     "react-datepicker": "~4.8.0",
     "react-dropzone": "~14.2.3",
     "react-ga": "~3.3.1",

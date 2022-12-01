@@ -10,7 +10,7 @@ import { Message } from '../Field';
 import defaultClasses from './quantityStepper.module.css';
 
 const QuantityStepper = props => {
-    const { initialValue, itemId, label, min, onChange, message } = props;
+    const { initialValue, itemId, label, min, onChange, message, fieldName = 'quantity' } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
     const iconClasses = { root: classes.icon };
@@ -18,7 +18,8 @@ const QuantityStepper = props => {
     const talonProps = useQuantityStepper({
         initialValue,
         min,
-        onChange
+        onChange,
+        fieldName
     });
 
     const {
@@ -58,7 +59,7 @@ const QuantityStepper = props => {
                     })}
                     data-cy="QuantityStepper-input"
                     classes={{ input: classes.input }}
-                    field="quantity"
+                    field={fieldName}
                     id={itemId}
                     inputMode="numeric"
                     mask={maskInput}
@@ -88,6 +89,7 @@ const QuantityStepper = props => {
 QuantityStepper.defaultProps = {
     min: 0,
     initialValue: 1,
+    fieldName: 'quantity',
     onChange: () => {}
 };
 

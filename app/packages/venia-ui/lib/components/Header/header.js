@@ -8,6 +8,8 @@ import CartTrigger from './cartTrigger';
 import NavTrigger from './navTrigger';
 import SearchTrigger from './searchTrigger';
 import OnlineIndicator from './onlineIndicator';
+import QuickOrderForm from '../QuickOrderForm';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useHeader } from '@magento/peregrine/lib/talons/Header/useHeader';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
@@ -18,6 +20,9 @@ import CurrencySwitcher from './currencySwitcher';
 import MegaMenu from '../MegaMenu';
 import PageLoadingIndicator from '../PageLoadingIndicator';
 import { useIntl } from 'react-intl';
+
+// import useCompareProduct from '@orienteed/customComponents/components/comparePage/talons/useCompareProduct';
+// import CompareIcon from './icons/compare.svg'; // TODO_B2B: enable comparePage
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 
@@ -30,9 +35,11 @@ const Header = props => {
         searchRef,
         searchTriggerRef
     } = useHeader();
-
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isSearchOpen ? classes.open : classes.closed;
+
+    const [{ isSignedIn }] = useUserContext();
+    // const { productsCount } = useCompareProduct();
 
     const searchBarFallback = (
         <div className={classes.searchFallback} ref={searchRef}>
@@ -53,7 +60,7 @@ const Header = props => {
     ) : null;
 
     const { formatMessage } = useIntl();
-    const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
+    const title = formatMessage({ id: 'logo.title', defaultMessage: 'B2BStore' });
 
     return (
         <Fragment>
@@ -68,10 +75,7 @@ const Header = props => {
                     <div className={classes.primaryActions}>
                         <NavTrigger />
                     </div>
-                    <OnlineIndicator
-                        hasBeenOffline={hasBeenOffline}
-                        isOnline={isOnline}
-                    />
+                    <OnlineIndicator hasBeenOffline={hasBeenOffline} isOnline={isOnline} />
                     <Link
                         aria-label={title}
                         to={resourceUrl('/')}
@@ -82,12 +86,16 @@ const Header = props => {
                     </Link>
                     <MegaMenu />
                     <div className={classes.secondaryActions}>
-                        <SearchTrigger
-                            onClick={handleSearchTriggerClick}
-                            ref={searchTriggerRef}
-                        />
+                        <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
                         <AccountTrigger />
                         <CartTrigger />
+                        {/* {isSignedIn && productsCount > 0 && (
+                            <Link className={classes.compareLink} to="/compare_products">
+                                <span className={classes.productsCount}>{productsCount}</span>
+                                <img src={CompareIcon} alt=" compare Icon" />
+                            </Link>
+                        )} */}
+                        {isSignedIn && <QuickOrderForm />}
                     </div>
                 </div>
                 {searchBar}

@@ -126,5 +126,20 @@ module.exports = [
         name: 'AdminPwaLogin',
         pattern: '/pwa/sign-in/:customer_token',
         path: '../AdminPwaLogin'
+    },
+    {
+        name: 'My Quotes',
+        pattern: '/mprequestforquote/customer/quotes',
+        path: '../RequestQuote/Customer/Quotes'
+    },
+    {
+        name: 'My Quote Cart',
+        pattern: '/mprequestforquote/quoteCart',
+        path: '../RequestQuote/QuoteCartPage'
+    },
+    {
+        name: 'Thank you',
+        pattern: '/mprequestforquote/quoteCart/success/:id',
+        path: '../RequestQuote/QuoteCartPage/QuoteSuccess'
     }
 ];

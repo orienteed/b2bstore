@@ -33,15 +33,12 @@ const CartTrigger = props => {
     const buttonAriaLabel = formatMessage(
         {
             id: 'cartTrigger.ariaLabel',
-            defaultMessage:
-                'Toggle mini cart. You have {count} items in your cart.'
+            defaultMessage: 'Toggle mini cart. You have {count} items in your cart.'
         },
         { count: itemCount }
     );
     const itemCountDisplay = itemCount > 99 ? '99+' : itemCount;
-    const triggerClassName = miniCartIsOpen
-        ? classes.triggerContainer_open
-        : classes.triggerContainer;
+    const triggerClassName = miniCartIsOpen ? classes.triggerContainer_open : classes.triggerContainer;
 
     const maybeItemCounter = itemCount ? (
         <span className={classes.counter} data-cy="CartTrigger-counter">
@@ -76,11 +73,7 @@ const CartTrigger = props => {
                 {maybeItemCounter}
             </button>
             <Suspense fallback={null}>
-                <MiniCart
-                    isOpen={miniCartIsOpen}
-                    setIsOpen={setMiniCartIsOpen}
-                    ref={miniCartRef}
-                />
+                <MiniCart isOpen={miniCartIsOpen} setIsOpen={setMiniCartIsOpen} ref={miniCartRef} />
             </Suspense>
         </Fragment>
     );

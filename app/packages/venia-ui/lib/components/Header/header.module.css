@@ -103,6 +103,7 @@
     composes: lg_col-end-13 from global;
     composes: lg_col-start-10 from global;
     composes: lg_gap-x-4 from global;
+    gap: 10px;
 }
 
 .searchFallback {

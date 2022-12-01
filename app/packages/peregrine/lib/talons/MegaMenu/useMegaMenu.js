@@ -4,8 +4,7 @@ import useInternalLink from '../../hooks/useInternalLink';
 
 import { useQuery } from '@apollo/client';
 import { useEventListener } from '../../hooks/useEventListener';
-
-import { BrowserPersistence } from '../../util';
+import { useUserContext } from '../../context/user';
 
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './megaMenu.gql';
@@ -22,11 +21,10 @@ import DEFAULT_OPERATIONS from './megaMenu.gql';
 export const useMegaMenu = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getMegaMenuQuery, getStoreConfigQuery, getIsRequiredLogin } = operations;
-
-    const storage = new BrowserPersistence();
-    const signin_token = storage.getItem('signin_token');
-
     const location = useLocation();
+
+    const [{ isSignedIn }] = useUserContext();
+
     const [activeCategoryId, setActiveCategoryId] = useState(null);
     const [subMenuState, setSubMenuState] = useState(false);
     const [disableFocus, setDisableFocus] = useState(false);
@@ -121,9 +119,9 @@ export const useMegaMenu = (props = {}) => {
             isRequiredLogin = is_required_login === '1' ? true : false;
         }
 
-        if (signin_token == undefined && isRequiredLogin) return {};
+        if (!isSignedIn && isRequiredLogin) return {};
         return data ? processData(data.categoryList[0]) : {};
-    }, [data, processData, signin_token, storeRequiredLogin]);
+    }, [data, processData, isSignedIn, storeRequiredLogin]);
 
     const findActiveCategory = useCallback(
         (pathname, category) => {
