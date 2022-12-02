@@ -172,3 +172,33 @@
         box-shadow: 0 var(--dot-size) 0 0;
     }
 }
+
+.compareLink {
+    margin-right: 0.4rem;
+    width: 18px;
+    position: relative;
+}
+.productsCount {
+    height: 1.3rem;
+    position: absolute;
+    bottom: 38%;
+    left: 48%;
+    border-radius: 100px;
+    font-weight: 600;
+    box-sizing: border-box;
+    padding: 0 0.35rem;
+    background-color: var(--b2bstore-global-color-orange);
+    border-radius: 100px;
+    color: rgb(var(--venia-global-color-background));
+}
+
+@media all and (max-device-width: 1300px) and (min-device-width: 960px) {
+    .toolbar {
+        column-gap: 1rem !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+    .logoContainer {
+        grid-column-start: 3 !important;
+        margin-right: 0rem !important;
+    }
+}

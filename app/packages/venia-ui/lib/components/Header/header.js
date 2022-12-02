@@ -21,8 +21,8 @@ import MegaMenu from '../MegaMenu';
 import PageLoadingIndicator from '../PageLoadingIndicator';
 import { useIntl } from 'react-intl';
 
-// import useCompareProduct from '@orienteed/customComponents/components/comparePage/talons/useCompareProduct';
-// import CompareIcon from './icons/compare.svg'; // TODO_B2B: enable comparePage
+import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
+import CompareIcon from './icons/compare.svg';
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 
@@ -39,7 +39,7 @@ const Header = props => {
     const rootClass = isSearchOpen ? classes.open : classes.closed;
 
     const [{ isSignedIn }] = useUserContext();
-    // const { productsCount } = useCompareProduct();
+    const { productsCount } = useCompareProduct();
 
     const searchBarFallback = (
         <div className={classes.searchFallback} ref={searchRef}>
@@ -89,12 +89,12 @@ const Header = props => {
                         <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
                         <AccountTrigger />
                         <CartTrigger />
-                        {/* {isSignedIn && productsCount > 0 && (
+                        {isSignedIn && productsCount > 0 && (
                             <Link className={classes.compareLink} to="/compare_products">
                                 <span className={classes.productsCount}>{productsCount}</span>
                                 <img src={CompareIcon} alt=" compare Icon" />
                             </Link>
-                        )} */}
+                        )}
                         {isSignedIn && <QuickOrderForm />}
                     </div>
                 </div>

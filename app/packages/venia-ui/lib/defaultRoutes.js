@@ -141,5 +141,10 @@ module.exports = [
         name: 'Thank you',
         pattern: '/mprequestforquote/quoteCart/success/:id',
         path: '../RequestQuote/QuoteCartPage/QuoteSuccess'
+    },
+    {
+        name:'Compare Products',
+        pattern: '/compare_products',
+        path: '../ComparePage'
     }
 ];
