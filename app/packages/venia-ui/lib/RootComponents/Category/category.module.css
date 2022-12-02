@@ -62,7 +62,7 @@
 .actionsBtnsMobile {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .headerButtons {
@@ -77,10 +77,6 @@
 
     composes: lg_justify-end from global;
     composes: lg_pb-0 from global;
-}
-
-.headerButtons div button {
-    width: 100%;
 }
 
 .contentWrapper {
@@ -102,12 +98,12 @@
 .downloadCsvDesktop {
     margin-left: 0.5rem;
 }
-.downloadCsvDesktop main article a button {
+.downloadCsvDesktop {
     padding: 0.2rem 0.5rem !important;
     font-size: 14px;
     font-weight: 600;
 }
-.downloadCsvDesktop section div button {
+.downloadCsvDesktop {
     width: 40px;
 }
 .showDesBtn {

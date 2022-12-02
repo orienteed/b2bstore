@@ -24,18 +24,10 @@ const IMAGE_WIDTH = 300;
 const IMAGE_HEIGHT = 375;
 
 // Gallery switches from two columns to three at 640px.
-const IMAGE_WIDTHS = new Map()
-    .set(640, IMAGE_WIDTH)
-    .set(UNCONSTRAINED_SIZE_KEY, 840);
+const IMAGE_WIDTHS = new Map().set(640, IMAGE_WIDTH).set(UNCONSTRAINED_SIZE_KEY, 840);
 
 const GalleryItem = props => {
-    const {
-        handleLinkClick,
-        item,
-        itemRef,
-        wishlistButtonProps,
-        isSupportedProductType
-    } = useGalleryItem(props);
+    const { handleLinkClick, item, itemRef, wishlistButtonProps, isSupportedProductType } = useGalleryItem(props);
 
     const { storeConfig } = props;
 
@@ -53,9 +45,7 @@ const GalleryItem = props => {
     const { url: smallImageURL } = small_image;
     const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
 
-    const wishlistButton = wishlistButtonProps ? (
-        <WishlistGalleryButton {...wishlistButtonProps} />
-    ) : null;
+    const wishlistButton = wishlistButtonProps ? <WishlistGalleryButton {...wishlistButtonProps} /> : null;
 
     const addButton = isSupportedProductType ? (
         <AddToCartButton item={item} urlSuffix={productUrlSuffix} />
@@ -72,9 +62,7 @@ const GalleryItem = props => {
     );
 
     // fallback to regular price when final price is unavailable
-    const priceSource =
-        price_range.maximum_price.final_price ||
-        price_range.maximum_price.regular_price;
+    const priceSource = price_range.maximum_price.final_price || price_range.maximum_price.regular_price;
 
     // Hide the Rating component until it is updated with the new look and feel (PWA-2512).
     const ratingAverage = null;
@@ -84,11 +72,7 @@ const GalleryItem = props => {
 
     return (
         <div data-cy="GalleryItem-root" className={classes.root} ref={itemRef}>
-            <Link
-                onClick={handleLinkClick}
-                to={productLink}
-                className={classes.images}
-            >
+            <Link onClick={handleLinkClick} to={productLink} className={classes.images}>
                 <Image
                     alt={name}
                     classes={{
@@ -103,19 +87,11 @@ const GalleryItem = props => {
                 />
                 {ratingAverage}
             </Link>
-            <Link
-                onClick={handleLinkClick}
-                to={productLink}
-                className={classes.name}
-                data-cy="GalleryItem-name"
-            >
+            <Link onClick={handleLinkClick} to={productLink} className={classes.name} data-cy="GalleryItem-name">
                 <span>{name}</span>
             </Link>
             <div data-cy="GalleryItem-price" className={classes.price}>
-                <Price
-                    value={priceSource.value}
-                    currencyCode={priceSource.currency}
-                />
+                <Price value={priceSource.value} currencyCode={priceSource.currency} />
             </div>
 
             <div className={classes.actionsContainer}>

@@ -7,9 +7,7 @@ import { useCategoryContent } from '@magento/peregrine/lib/talons/RootComponents
 
 import { useStyle } from '../../classify';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import FilterModalOpenButton, {
-    FilterModalOpenButtonShimmer
-} from '../../components/FilterModalOpenButton';
+import FilterModalOpenButton, { FilterModalOpenButtonShimmer } from '../../components/FilterModalOpenButton';
 import { FilterSidebarShimmer } from '../../components/FilterSidebar';
 import Gallery, { GalleryShimmer } from '../../components/Gallery';
 import { StoreTitle } from '../../components/Head';
@@ -17,26 +15,17 @@ import Pagination from '../../components/Pagination';
 import ProductSort, { ProductSortShimmer } from '../../components/ProductSort';
 import RichContent from '../../components/RichContent';
 import Shimmer from '../../components/Shimmer';
-import SortedByContainer, {
-    SortedByContainerShimmer
-} from '../../components/SortedByContainer';
+import SortedByContainer, { SortedByContainerShimmer } from '../../components/SortedByContainer';
 import defaultClasses from './category.module.css';
 import NoProductsFound from './NoProductsFound';
 
 const FilterModal = React.lazy(() => import('../../components/FilterModal'));
-const FilterSidebar = React.lazy(() =>
-    import('../../components/FilterSidebar')
-);
+const FilterSidebar = React.lazy(() => import('../../components/FilterSidebar'));
+
+import DownloadCsv from '../../components/Gallery/DownloadCsv';
 
 const CategoryContent = props => {
-    const {
-        categoryId,
-        data,
-        isLoading,
-        pageControl,
-        sortProps,
-        pageSize
-    } = props;
+    const { categoryId, data, isLoading, pageControl, sortProps, pageSize } = props;
     const [currentSort] = sortProps;
 
     const talonProps = useCategoryContent({
@@ -74,9 +63,7 @@ const CategoryContent = props => {
         <FilterModalOpenButtonShimmer />
     ) : null;
 
-    const filtersModal = shouldShowFilterButtons ? (
-        <FilterModal filters={filters} />
-    ) : null;
+    const filtersModal = shouldShowFilterButtons ? <FilterModal filters={filters} /> : null;
 
     const sidebar = shouldShowFilterButtons ? (
         <FilterSidebar filters={filters} />
@@ -85,10 +72,7 @@ const CategoryContent = props => {
     ) : null;
 
     const maybeSortButton = shouldShowSortButtons ? (
-        <ProductSort
-            sortProps={sortProps}
-            availableSortMethods={availableSortMethods}
-        />
+        <ProductSort sortProps={sortProps} availableSortMethods={availableSortMethods} />
     ) : shouldShowSortShimmer ? (
         <ProductSortShimmer />
     ) : null;
@@ -112,24 +96,16 @@ const CategoryContent = props => {
             <Shimmer width={5} />
         ) : null;
 
-    const categoryDescriptionElement = categoryDescription ? (
-        <RichContent html={categoryDescription} />
-    ) : null;
+    const categoryDescriptionElement = categoryDescription ? <RichContent html={categoryDescription} /> : null;
 
     const content = useMemo(() => {
         if (!totalPagesFromData && !isLoading) {
             return <NoProductsFound categoryId={categoryId} />;
         }
 
-        const gallery = totalPagesFromData ? (
-            <Gallery items={items} />
-        ) : (
-            <GalleryShimmer items={items} />
-        );
+        const gallery = totalPagesFromData ? <Gallery items={items} /> : <GalleryShimmer items={items} />;
 
-        const pagination = totalPagesFromData ? (
-            <Pagination pageControl={pageControl} />
-        ) : null;
+        const pagination = totalPagesFromData ? <Pagination pageControl={pageControl} /> : null;
 
         return (
             <Fragment>
@@ -137,15 +113,7 @@ const CategoryContent = props => {
                 <div className={classes.pagination}>{pagination}</div>
             </Fragment>
         );
-    }, [
-        categoryId,
-        classes.gallery,
-        classes.pagination,
-        isLoading,
-        items,
-        pageControl,
-        totalPagesFromData
-    ]);
+    }, [categoryId, classes.gallery, classes.pagination, isLoading, items, pageControl, totalPagesFromData]);
 
     const categoryTitle = categoryName ? categoryName : <Shimmer width={5} />;
 
@@ -156,10 +124,7 @@ const CategoryContent = props => {
             <article className={classes.root} data-cy="CategoryContent-root">
                 <div className={classes.categoryHeader}>
                     <h1 aria-live="polite" className={classes.title}>
-                        <div
-                            className={classes.categoryTitle}
-                            data-cy="CategoryContent-categoryTitle"
-                        >
+                        <div className={classes.categoryTitle} data-cy="CategoryContent-categoryTitle">
                             {categoryTitle}
                         </div>
                     </h1>
@@ -173,17 +138,23 @@ const CategoryContent = props => {
                     </div>
                     <div className={classes.categoryContent}>
                         <div className={classes.heading}>
-                            <div
-                                data-cy="CategoryContent-categoryInfo"
-                                className={classes.categoryInfo}
-                            >
+                            <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>
                                 {categoryResultsHeading}
                             </div>
                             <div className={classes.headerButtons}>
                                 {maybeFilterButtons}
                                 {maybeSortButton}
+                                <div className={classes.downloadCsvDesktop}>
+                                    <DownloadCsv showIcon />
+                                </div>
                             </div>
-                            {maybeSortContainer}
+                            <div className={classes.actionsBtnsMobile}>
+                                <div className={classes.downloadCsvMobile}>
+                                    <DownloadCsv />
+                                </div>
+
+                                {maybeSortContainer}
+                            </div>
                         </div>
                         {content}
                         <Suspense fallback={null}>{filtersModal}</Suspense>
@@ -210,9 +181,6 @@ CategoryContent.propTypes = {
         categoryInfo: string,
         headerButtons: string
     }),
-    // sortProps contains the following structure:
-    // [{sortDirection: string, sortAttribute: string, sortText: string},
-    // React.Dispatch<React.SetStateAction<{sortDirection: string, sortAttribute: string, sortText: string}]
     sortProps: array,
     pageSize: number
 };

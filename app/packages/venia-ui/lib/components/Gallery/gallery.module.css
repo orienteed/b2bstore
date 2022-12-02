@@ -19,4 +19,42 @@
     .items {
         grid-template-columns: repeat(2, 1fr);
     }
+    .recommendedWrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .recommendedWrapper > span {
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+    .recommendedLink {
+        font-weight: 400;
+        font-size: 14px;
+    }
+}
+
+.recommendedWrapper {
+    display: grid;
+    grid-template-columns: 4fr 1.2fr;
+}
+
+.recommendedWrapper > span {
+    font-weight: 700;
+    color: var(--b2bstore-global-color-black);
+    font-size: 28px;
+}
+
+.recommendedLink {
+    color: var(--b2bstore-global-color-orange);
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.recommendedLink span svg {
+    stroke: var(--b2bstore-global-color-orange);
+    margin-left: 0.5rem;
 }
