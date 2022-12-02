@@ -1,6 +1,5 @@
 .counter {
     composes: absolute from global;
-    composes: bg-brand-dark from global;
     composes: font-semibold from global;
     composes: leading-tight from global;
     composes: left-sm from global;
@@ -11,6 +10,7 @@
     composes: text-sm from global;
     composes: text-white from global;
     composes: top-1.5 from global;
+    background-color: var(--b2bstore-global-color-orange);
 }
 
 .trigger {
