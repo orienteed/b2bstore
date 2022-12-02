@@ -12,7 +12,7 @@ import defaultClasses from './orderConfirmationPage.module.css';
 import moment from 'moment';
 const OrderConfirmationPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const { data, orderNumber, deliveryDatesData, local, orderAttributesData , orderAttributesIsActivated } = props;
+    const { data, orderNumber, deliveryDateData, local, orderAttributesData , orderAttributesIsActivated } = props;
     const { formatMessage } = useIntl();
 
     const talonProps = useOrderConfirmationPage({
@@ -20,11 +20,21 @@ const OrderConfirmationPage = props => {
     });
 
     moment.locale(local);
-    const formatDeliveryDate = moment(new Date(deliveryDatesData?.mp_delivery_date)).format('L');
+    const formatDeliveryDate = moment(new Date(deliveryDateData?.mp_delivery_date)).format('L');
 
     const { flatData, isSignedIn } = talonProps;
 
-    const { city, country, email, firstname, lastname, postcode, region, shippingMethod, street } = flatData;
+    const {
+        city,
+        country,
+        email,
+        firstname,
+        lastname,
+        postcode,
+        region,
+        shippingMethod,
+        street
+    } = flatData;
 
     const streetRows = street.map((row, index) => {
         return (
@@ -46,7 +56,7 @@ const OrderConfirmationPage = props => {
         }
     }, []);
 
-    const delveryTime = deliveryDatesData?.mp_delivery_time
+    const delveryTime = deliveryDateData?.mp_delivery_time
         ?.split('-')
         ?.map(ele => ele.trim().slice(0, 5))
         .join('-');
@@ -90,16 +100,16 @@ const OrderConfirmationPage = props => {
                     <FormattedMessage id={'global.shippingMethod'} defaultMessage={'Shipping Method'} />
                 </div>
                 <div className={classes.shippingMethod}>{shippingMethod}</div>
-                {Object.keys(deliveryDatesData).every(ele => deliveryDatesData[ele] !== '') && (
-                    <div
-                        data-cy="OrderConfirmationPage-shippingMethodHeading"
-                        className={classes.shippingMethodHeading}
-                    >
-                        <FormattedMessage id={'deliveryDate.deliveryDate'} defaultMessage={'Delivery Date'} />
+                        {Object.keys(deliveryDateData).every(ele => deliveryDateData[ele] !== '') && (
+                        <div
+                            data-cy="OrderConfirmationPage-shippingMethodHeading"
+                            className={classes.shippingMethodHeading}
+                        >
+                                <FormattedMessage id={'deliveryDate.deliveryDate'} defaultMessage={'Delivery Date'} />
                     </div>
                 )}
                 <div>
-                    {deliveryDatesData.mp_delivery_date !== '' && (
+                    {deliveryDateData.mp_delivery_date !== '' && (
                         <div>
                             <span>
                                 <FormattedMessage id={'deliveryDate.deliveryDate'} defaultMessage={'Delivery Date'} />:
@@ -108,7 +118,7 @@ const OrderConfirmationPage = props => {
                             <span>{formatDeliveryDate}</span>
                         </div>
                     )}
-                    {deliveryDatesData.mp_delivery_time !== '' && (
+                    {deliveryDateData.mp_delivery_time !== '' && (
                         <div>
                             <span>
                                 <FormattedMessage id={'deliveryDate.deliveryTime'} defaultMessage={'Delivery Time'} />:
@@ -117,24 +127,24 @@ const OrderConfirmationPage = props => {
                             <span>{delveryTime}</span>
                         </div>
                     )}
-                    {deliveryDatesData.mp_house_security_code !== '' && (
+                    {deliveryDateData.mp_house_security_code !== '' && (
                         <div>
                             <span>
-                                <FormattedMessage
+                    <FormattedMessage
                                     id={'deliveryDate.houseSecurityCode'}
                                     defaultMessage={'House Security Code'}
-                                />
+                    />
                                 : &nbsp;
                             </span>
-                            <span>{deliveryDatesData.mp_house_security_code}</span>
+                            <span>{deliveryDateData.mp_house_security_code}</span>
                         </div>
                     )}
-                    {deliveryDatesData.mp_delivery_comment !== '' && (
+                    {deliveryDateData.mp_delivery_comment !== '' && (
                         <div>
                             <span>
                                 <FormattedMessage id={'deliveryDate.commentDate'} defaultMessage={'Comment'} />: &nbsp;
                             </span>
-                            <span>{deliveryDatesData.mp_delivery_comment}</span>
+                            <span>{deliveryDateData.mp_delivery_comment}</span>
                         </div>
                     )}
                 </div>
@@ -166,7 +176,7 @@ const OrderConfirmationPage = props => {
                                         : &nbsp;
                                     </span>
                                     <span>{orderAttributesData.external_order_number}</span>
-                                </div>
+                </div>
                             )}
                         </>
                     )}
