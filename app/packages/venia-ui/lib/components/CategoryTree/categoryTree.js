@@ -3,24 +3,20 @@ import { func, shape, string } from 'prop-types';
 import { useCategoryTree } from '@magento/peregrine/lib/talons/CategoryTree';
 
 import { useStyle } from '../../classify';
+
+
+import defaultClasses from './categoryTree.module.css';
+import QuickOrderForm from '../QuickOrderForm/quickOrderForm';
 import Branch from './categoryBranch';
 import Leaf from './categoryLeaf';
-import defaultClasses from './categoryTree.module.css';
 
 const Tree = props => {
-    const {
-        categoryId,
-        onNavigate,
-        setCategoryId,
-        updateCategories,
-        tabIndex
-    } = props;
+    const { categoryId, onNavigate, setCategoryId, updateCategories } = props;
 
     const talonProps = useCategoryTree({
         categoryId,
         updateCategories
     });
-
     const { data, childCategories, categoryUrlSuffix } = talonProps;
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -35,14 +31,12 @@ const Tree = props => {
                       category={category}
                       onNavigate={onNavigate}
                       categoryUrlSuffix={categoryUrlSuffix}
-                      tabIndex={tabIndex}
                   />
               ) : (
                   <Branch
                       key={id}
                       category={category}
                       setCategoryId={setCategoryId}
-                      tabIndex={tabIndex}
                   />
               );
           })
@@ -50,7 +44,12 @@ const Tree = props => {
 
     return (
         <div className={classes.root} data-cy="CategoryTree-root">
-            <ul className={classes.tree}>{branches}</ul>
+            <ul className={classes.tree}>
+                <li className={classes.quickOrderMobile}>
+                    <QuickOrderForm />
+                </li>
+                {branches}
+            </ul>
         </div>
     );
 };
@@ -65,6 +64,5 @@ Tree.propTypes = {
     }),
     onNavigate: func.isRequired,
     setCategoryId: func.isRequired,
-    updateCategories: func.isRequired,
-    tabIndex: func.isRequired
+    updateCategories: func.isRequired
 };

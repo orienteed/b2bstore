@@ -15,19 +15,81 @@ export const ProductsFragment = gql`
         items {
             id
             uid
+            ... on ConfigurableProduct {
+                configurable_options {
+                    attribute_code
+                    attribute_id
+                    uid
+                    label
+                    values {
+                        default_label
+                        label
+                        store_label
+                        use_default_value
+                        value_index
+
+                        uid
+                        swatch_data {
+                            ... on ImageSwatchData {
+                                thumbnail
+                            }
+                            value
+                        }
+                    }
+                }
+                variants {
+                    attributes {
+                        code
+                        value_index
+                    }
+                    product {
+                        stock_status
+                        uid
+                        name
+                        sku
+                        description {
+                            html
+                        }
+                        categories {
+                            name
+                        }
+                        price {
+                            regularPrice {
+                                amount {
+                                    currency
+                                    value
+                                }
+                            }
+                            minimalPrice {
+                                amount {
+                                    currency
+                                    value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             name
             price_range {
                 maximum_price {
-                    final_price {
-                        currency
-                        value
-                    }
                     regular_price {
                         currency
                         value
                     }
-                    discount {
-                        amount_off
+                }
+            }
+            price {
+                regularPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                }
+                minimalPrice {
+                    amount {
+                        currency
+                        value
                     }
                 }
             }
@@ -36,9 +98,12 @@ export const ProductsFragment = gql`
                 url
             }
             stock_status
+
             rating_summary
+            type_id
             __typename
             url_key
+            url_suffix
         }
         page_info {
             total_pages
