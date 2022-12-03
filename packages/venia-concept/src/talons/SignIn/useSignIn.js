@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import { useCallback, useRef, useState, useMemo } from 'react';
+import { useCallback, useRef, useState, useMemo, useEffect } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
 
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
@@ -15,11 +15,10 @@ import doCsrLogin from '@orienteed/csr/services/auth/login.js';
 import doLmsLogin from '@orienteed/lms/services/auth/login.js';
 
 export const useSignIn = props => {
-    const { getCartDetailsQuery, setDefaultUsername, showCreateAccount, showForgotPassword } = props;
+    const { getCartDetailsQuery, showCreateAccount, isUserSignedIn } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { createCartMutation, getCustomerQuery, mergeCartsMutation, signInMutation } = operations;
-
     const apolloClient = useApolloClient();
     const [isSigningIn, setIsSigningIn] = useState(false);
     const history = useHistory();
@@ -39,6 +38,10 @@ export const useSignIn = props => {
 
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);
+
+    useEffect(() => {
+        if (isUserSignedIn) history.push('/');
+    }, [isUserSignedIn, history]);
 
     const handleSubmit = useCallback(
         async ({ email, password }) => {
@@ -113,7 +116,7 @@ export const useSignIn = props => {
     const handleCreateAccount = useCallback(() => {
         history.push('/create-account');
         showCreateAccount();
-    }, [history]);
+    }, [history, showCreateAccount]);
 
     const handleForgotPassword = useCallback(() => {
         history.push('/forgot-password');

@@ -16,16 +16,20 @@ import LinkButton from '@magento/venia-ui/lib/components/LinkButton';
 import Password from '@magento/venia-ui/lib/components/Password';
 import FormError from '@magento/venia-ui/lib/components/FormError/formError';
 
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+
 const SignIn = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { setDefaultUsername, showCreateAccount, showForgotPassword } = props;
+    const [{ isSignedIn: isUserSignedIn }] = useUserContext();
 
     const { formatMessage } = useIntl();
     const talonProps = useSignIn({
         getCartDetailsQuery: GET_CART_DETAILS_QUERY,
         setDefaultUsername,
         showCreateAccount,
-        showForgotPassword
+        showForgotPassword,
+        isUserSignedIn
     });
 
     const { errors, handleCreateAccount, handleForgotPassword, handleSubmit, isBusy, setFormApi } = talonProps;
