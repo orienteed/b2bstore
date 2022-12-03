@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
 import { useHistory } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -27,7 +27,7 @@ const AddQuickOrder = props => {
     const [products, setProducts] = useState(JSON.parse(JSON.stringify(iniArray)));
     const [csvData, setCsvData] = useState([]);
     const classes = mergeClasses(defaultClasses, props.classes);
-    const { handleAddCofigItemBySku, handleAddItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
+    const { handleAddCofigItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
 
     const { formatMessage } = useIntl();
     const warningMsg = formatMessage({
@@ -123,7 +123,7 @@ const AddQuickOrder = props => {
         const newArr = [...products];
         const newData = [];
         newArr.map(item => {
-            if (item.name) {
+            if (item.name && item.name !== '') {
                 const { sku, quantity } = item;
                 newData.push({
                     sku,
@@ -133,6 +133,32 @@ const AddQuickOrder = props => {
         });
         setCsvData(newData);
     };
+
+    const csvBtn = useMemo(() => {
+        if (csvData.length) {
+            return (
+                <CSVLink filename={'quick-order-file.csv'} data={csvData}>
+                    <Button className={classes.downloadBtn}>
+                        <Icon src={Download} alt="download-icon" />
+                        <FormattedMessage
+                            id="quickOrder.DownloadYourSampleFile"
+                            defaultMessage="Download your sample file"
+                        />
+                    </Button>
+                </CSVLink>
+            );
+        } else {
+            return (
+                <Button disabled className={classes.downloadBtn}>
+                    <Icon src={Download} alt="download-icon" />
+                    <FormattedMessage
+                        id="quickOrder.DownloadYourSampleFile"
+                        defaultMessage="Download your sample file"
+                    />
+                </Button>
+            );
+        }
+    }, [csvData, classes]);
     const createOrderClick = () => {
         addToCartClick();
         push('/checkout');
@@ -273,15 +299,7 @@ const AddQuickOrder = props => {
                                             />
                                         </Button>
                                     </div>
-                                    <CSVLink data={csvData}>
-                                        <Button className={classes.downloadBtn}>
-                                            <Icon src={Download} alt="download-icon" />
-                                            <FormattedMessage
-                                                id="quickOrder.DownloadYourSampleFile"
-                                                defaultMessage="Download your sample file"
-                                            />
-                                        </Button>
-                                    </CSVLink>
+                                    {csvBtn}
                                 </div>
                             </div>
                         </div>
