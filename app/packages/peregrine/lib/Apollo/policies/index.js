@@ -73,27 +73,17 @@ const typePolicies = {
 
                     existing.forEach((existingShippingAddress, index) => {
                         // Use readField instead of existingShippingAddress.street directly because it will follow cache references.
-                        const street = readField(
-                            'street',
-                            existingShippingAddress
-                        );
+                        const street = readField('street', existingShippingAddress);
                         streetToIndex.set(street, index);
                     });
 
                     incoming.forEach(incomingShippingAddress => {
-                        const street = readField(
-                            'street',
-                            incomingShippingAddress
-                        );
+                        const street = readField('street', incomingShippingAddress);
 
                         if (streetToIndex.has(street)) {
                             const targetIndex = streetToIndex.get(street);
-                            const existingShippingAddress =
-                                existing[targetIndex];
-                            const merged = mergeObjects(
-                                existingShippingAddress,
-                                incomingShippingAddress
-                            );
+                            const existingShippingAddress = existing[targetIndex];
+                            const merged = mergeObjects(existingShippingAddress, incomingShippingAddress);
                             mergeResult.add(merged);
                         } else {
                             // We do not have an address with this street yet, add it on to the end.
@@ -122,10 +112,7 @@ const typePolicies = {
                             // entries had `id: CustomerAddress:1` which caused
                             // v3's lookup to fail. If we find a legacy id,
                             // point it at the object using a reference.
-                            if (
-                                address.id &&
-                                address.id.includes('CustomerAddress')
-                            ) {
+                            if (address.id && address.id.includes('CustomerAddress')) {
                                 return toReference(address.id);
                             } else {
                                 return address;
@@ -180,10 +167,7 @@ const typePolicies = {
         // TODO: Use configurable_product_option_uid for ConfigurableWishlistItem when available in 2.4.5
         keyFields: fields => {
             return fields.configurable_product_option_uid
-                ? [
-                      'configurable_product_option_uid',
-                      'configurable_product_option_value_uid'
-                  ]
+                ? ['configurable_product_option_uid', 'configurable_product_option_value_uid']
                 : ['id', 'value_id'];
         }
     },
@@ -201,37 +185,21 @@ const typePolicies = {
 
                     existing.forEach((existingShippingMethod, index) => {
                         // Use readField because it will follow cache references.
-                        const carrierCode = readField(
-                            'carrier_code',
-                            existingShippingMethod
-                        );
-                        const methodCode = readField(
-                            'method_code',
-                            existingShippingMethod
-                        );
+                        const carrierCode = readField('carrier_code', existingShippingMethod);
+                        const methodCode = readField('method_code', existingShippingMethod);
                         const carrierKey = `${carrierCode}|${methodCode}`;
                         carrierToIndex.set(carrierKey, index);
                     });
 
                     incoming.forEach(incomingShippingMethod => {
                         // Use readField because it will follow cache references.
-                        const carrierCode = readField(
-                            'carrier_code',
-                            incomingShippingMethod
-                        );
-                        const methodCode = readField(
-                            'method_code',
-                            incomingShippingMethod
-                        );
+                        const carrierCode = readField('carrier_code', incomingShippingMethod);
+                        const methodCode = readField('method_code', incomingShippingMethod);
                         const carrierKey = `${carrierCode}|${methodCode}`;
                         if (carrierToIndex.has(carrierKey)) {
                             const targetIndex = carrierToIndex.get(carrierKey);
-                            const existingShippingMethod =
-                                existing[targetIndex];
-                            const merged = mergeObjects(
-                                existingShippingMethod,
-                                incomingShippingMethod
-                            );
+                            const existingShippingMethod = existing[targetIndex];
+                            const merged = mergeObjects(existingShippingMethod, incomingShippingMethod);
                             mergeResult.add(merged);
                         } else {
                             // We do not have a method with this key yet, add it on to the end.
@@ -255,7 +223,7 @@ const typePolicies = {
         }
     },
     CategoryTree: {
-        keyFields: ['uid'],
+        // keyFields: ['uid'],
         fields: {
             children: {
                 merge(existing, incoming) {
