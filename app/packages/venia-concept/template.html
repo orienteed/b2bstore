@@ -32,7 +32,7 @@
             sizes="180x180"
             href="/venia-static/icons/apple-touch-icon.png"
         />
-        <link rel="icon" type="image/x-icon" href="/venia-static/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="/venia-static/favicon.ico" />
         <link rel="preconnect" href="<%= process.env.MAGENTO_BACKEND_URL %>" />
         <!--
             This following CSS is a copy of the css returned by Google's font API that
@@ -239,5 +239,13 @@
         <script type="text/javascript" src="/{{.}}"></script>
         {{/webpackChunks}} {{/pageTypeNonce}}
         <!-- /Inlined Data -->
+
+        <!-- Development Tippy-->
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+        <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+        <!-- Production Typpy-->
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
     </body>
 </html>
