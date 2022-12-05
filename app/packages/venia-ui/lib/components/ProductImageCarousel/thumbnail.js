@@ -5,9 +5,9 @@ import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useWindowSize } from '@magento/peregrine';
 import { useThumbnail } from '@magento/peregrine/lib/talons/ProductImageCarousel/useThumbnail';
 
-import { useStyle } from '../../classify';
-import defaultClasses from './thumbnail.module.css';
-import Image from '../Image';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductImageCarousel/thumbnail.module.css';
+import Image from '@magento/venia-ui/lib/components/Image';
 
 const DEFAULT_THUMBNAIL_HEIGHT = 170;
 const DEFAULT_THUMBNAIL_WIDTH = 135;
@@ -30,6 +30,7 @@ const Thumbnail = props => {
         isActive,
         item: { file, label },
         onClickHandler,
+        carouselWidth,
         itemIndex
     } = props;
 
@@ -37,17 +38,14 @@ const Thumbnail = props => {
         onClickHandler,
         itemIndex
     });
-
     const { handleClick } = talonProps;
 
     const windowSize = useWindowSize();
-    const isDesktop = windowSize.innerWidth >= 1024;
-
+    const isDesktop = windowSize.innerWidth >= carouselWidth || 1023;
     const thumbnailImage = useMemo(() => {
         if (!isDesktop) {
             return null;
         }
-
         return file ? (
             <Image
                 alt={label}
@@ -57,11 +55,7 @@ const Thumbnail = props => {
                 width={DEFAULT_THUMBNAIL_WIDTH}
             />
         ) : (
-            <Image
-                alt={label}
-                classes={{ image: classes.image }}
-                src={transparentPlaceholder}
-            />
+            <Image alt={label} classes={{ image: classes.image }} src={transparentPlaceholder} />
         );
     }, [file, isDesktop, label, classes.image]);
 

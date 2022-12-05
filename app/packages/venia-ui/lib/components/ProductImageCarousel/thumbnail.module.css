@@ -40,7 +40,7 @@
     .rootSelected {
         composes: root;
 
-        box-shadow: 0 0 10px 0 rgb(var(--venia-global-color-teal));
+        box-shadow: 0 0 10px 0 var(--b2bstore-global-color-orange);
     }
 
     .image {

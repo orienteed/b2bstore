@@ -3,9 +3,10 @@ import { arrayOf, bool, number, shape, string } from 'prop-types';
 import { useIntl } from 'react-intl';
 import {
     ChevronLeft as ChevronLeftIcon,
-    ChevronRight as ChevronRightIcon
+    ChevronRight as ChevronRightIcon,
+    ChevronUp as ChevronUpIcon,
+    ChevronDown as ChevronDownIcon
 } from 'react-feather';
-
 import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
 
@@ -15,7 +16,8 @@ import Icon from '../Icon';
 import Image from '../Image';
 import defaultClasses from './carousel.module.css';
 import Thumbnail from './thumbnail';
-
+import ReactImageZoom from 'react-image-zoom';
+import { generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 const IMAGE_WIDTH = 640;
 
 /**
@@ -29,10 +31,11 @@ const IMAGE_WIDTH = 640;
  *
  * @param {props} props
  *
- * @returns {React.Element} React carousel component that displays a product image
+ * @returns {React.Element}
  */
 const ProductImageCarousel = props => {
-    const { images } = props;
+    const { images, carouselWidth } = props;
+
     const { formatMessage } = useIntl();
     const talonProps = useProductImageCarousel({
         images,
@@ -46,39 +49,36 @@ const ProductImageCarousel = props => {
         handleNext,
         handlePrevious,
         handleThumbnailClick,
-        sortedImages
+        sortedImages,
+        initialIndex,
+        lastIndex
     } = talonProps;
 
-    // create thumbnail image component for every images in sorted order
-    const thumbnails = useMemo(
-        () =>
-            sortedImages.map((item, index) => (
+    const classes = useStyle(defaultClasses, props.classes);
+
+    const thumbnails = useMemo(() => {
+        return sortedImages.map((item, index) => {
+            return index >= initialIndex && index <= lastIndex ? (
                 <Thumbnail
                     key={item.uid}
                     item={item}
                     itemIndex={index}
                     isActive={activeItemIndex === index}
                     onClickHandler={handleThumbnailClick}
+                    carouselWidth={carouselWidth}
                 />
-            )),
-        [activeItemIndex, handleThumbnailClick, sortedImages]
-    );
+            ) : null;
+        });
+    }, [activeItemIndex, handleThumbnailClick, sortedImages, initialIndex, lastIndex]);
 
-    const classes = useStyle(defaultClasses, props.classes);
-
+    const src = useMemo(() => {
+        if (currentImage.file) {
+            return generateUrl(currentImage.file, 'image-product')(IMAGE_WIDTH, 800);
+        }
+    }, [generateUrl, currentImage, IMAGE_WIDTH]);
     let image;
     if (currentImage.file) {
-        image = (
-            <Image
-                alt={altText}
-                classes={{
-                    image: classes.currentImage,
-                    root: classes.imageContainer
-                }}
-                resource={currentImage.file}
-                width={IMAGE_WIDTH}
-            />
-        );
+        image = <ReactImageZoom zoomWidth={500} img={src} />;
     } else {
         image = (
             <Image
@@ -103,6 +103,7 @@ const ProductImageCarousel = props => {
     });
 
     const chevronClasses = { root: classes.chevron };
+
     return (
         <div className={classes.root}>
             <div className={classes.carouselContainer}>
@@ -112,27 +113,34 @@ const ProductImageCarousel = props => {
                     aria-label={previousButton}
                     type="button"
                 >
-                    <Icon
-                        classes={chevronClasses}
-                        src={ChevronLeftIcon}
-                        size={40}
-                    />
+                    <Icon classes={chevronClasses} src={ChevronLeftIcon} size={40} />
                 </AriaButton>
                 {image}
+                <AriaButton className={classes.nextButton} onPress={handleNext} aria-label={nextButton} type="button">
+                    <Icon classes={chevronClasses} src={ChevronRightIcon} size={40} />
+                </AriaButton>
+            </div>
+
+            <div className={classes.thumbnailList}>
                 <AriaButton
-                    className={classes.nextButton}
-                    onPress={handleNext}
+                    className={classes.previousButtonDesktop}
+                    onPress={activeItemIndex === 0 ? null : handlePrevious}
+                    aria-label={previousButton}
+                    type="button"
+                >
+                    <Icon classes={chevronClasses} src={ChevronUpIcon} size={40} />
+                </AriaButton>
+
+                {thumbnails}
+                <AriaButton
+                    className={classes.nextButtonDesktop}
+                    onPress={activeItemIndex >= sortedImages.length - 1 ? null : handleNext}
                     aria-label={nextButton}
                     type="button"
                 >
-                    <Icon
-                        classes={chevronClasses}
-                        src={ChevronRightIcon}
-                        size={40}
-                    />
+                    <Icon classes={chevronClasses} src={ChevronDownIcon} size={40} />
                 </AriaButton>
             </div>
-            <div className={classes.thumbnailList}>{thumbnails}</div>
         </div>
     );
 };
