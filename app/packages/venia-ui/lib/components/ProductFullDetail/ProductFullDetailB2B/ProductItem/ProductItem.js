@@ -15,8 +15,8 @@ import copyToClipboard from '../icons/copyToClipboard.png';
 import useCopy from 'use-copy';
 
 import Button from '@magento/venia-ui/lib/components/Button';
-import { useAddToQuote } from '@orienteed/quickOrderForm/src/talons/useAddToQuote';
-import ConfirmationModal from '@magento/venia-concept/src/components/Gallery/ConfirmationModal';
+import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
+import ConfirmationModal from '@magento/venia-ui/lib/components/ConfirmationModal';
 
 const ProductItem = props => {
     const classes = useStyle(defaultClasses, props.classes);

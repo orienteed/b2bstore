@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
@@ -18,7 +18,6 @@ const INITIAL_OPTION_CODES = new Map();
 const INITIAL_OPTION_SELECTIONS = new Map();
 const OUT_OF_STOCK_CODE = 'OUT_OF_STOCK';
 const IN_STOCK_CODE = 'IN_STOCK';
-
 const deriveOptionCodesFromProduct = product => {
     // If this is a simple product it has no option codes.
     if (!isProductConfigurable(product)) {
@@ -27,10 +26,7 @@ const deriveOptionCodesFromProduct = product => {
 
     // Initialize optionCodes based on the options of the product.
     const initialOptionCodes = new Map();
-    for (const {
-        attribute_id,
-        attribute_code
-    } of product.configurable_options) {
+    for (const { attribute_id, attribute_code } of product.configurable_options) {
         initialOptionCodes.set(attribute_id, attribute_code);
     }
 
@@ -61,19 +57,26 @@ const getIsMissingOptions = (product, optionSelections) => {
     // option selections than the product has options.
     const { configurable_options } = product;
     const numProductOptions = configurable_options.length;
-    const numProductSelections = Array.from(optionSelections.values()).filter(
-        value => !!value
-    ).length;
+    const numProductSelections = Array.from(optionSelections.values()).filter(value => !!value).length;
 
     return numProductSelections < numProductOptions;
+};
+
+const getHasOptionsOfTheSelection = (product, optionCodes, optionSelections) => {
+    const { variants } = product;
+    const item = findMatchingVariant({
+        optionCodes,
+        optionSelections,
+        variants
+    });
+
+    return item != null;
 };
 
 const getIsOutOfStock = (product, optionCodes, optionSelections) => {
     const { stock_status, variants } = product;
     const isConfigurable = isProductConfigurable(product);
-    const optionsSelected =
-        Array.from(optionSelections.values()).filter(value => !!value).length >
-        0;
+    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
 
     if (isConfigurable && optionsSelected) {
         const item = findMatchingVariant({
@@ -81,6 +84,7 @@ const getIsOutOfStock = (product, optionCodes, optionSelections) => {
             optionSelections,
             variants
         });
+
         const stockStatus = item?.product?.stock_status;
 
         return stockStatus === OUT_OF_STOCK_CODE || !stockStatus;
@@ -101,17 +105,13 @@ const getIsAllOutOfStock = product => {
     return stock_status === OUT_OF_STOCK_CODE;
 };
 
-const getMediaGalleryEntries = (product, optionCodes, optionSelections) => {
+const getMediaGalleryEntries = (product, optionCodes, optionSelections, derivedOptionSelections) => {
     let value = [];
-
     const { media_gallery_entries, variants } = product;
     const isConfigurable = isProductConfigurable(product);
-
+    const newOptions = deriveOptionCodesFromProduct(product);
     // Selections are initialized to "code => undefined". Once we select a value, like color, the selections change. This filters out unselected options.
-    const optionsSelected =
-        Array.from(optionSelections.values()).filter(value => !!value).length >
-        0;
-
+    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
     if (!isConfigurable || !optionsSelected) {
         value = media_gallery_entries;
     } else {
@@ -120,14 +120,12 @@ const getMediaGalleryEntries = (product, optionCodes, optionSelections) => {
         // include variants such as size. If Magento is configured to display
         // an image for a size attribute, it will render that image.
         const item = findMatchingVariant({
-            optionCodes,
+            optionCodes: newOptions,
             optionSelections,
             variants
         });
 
-        value = item
-            ? [...item.product.media_gallery_entries, ...media_gallery_entries]
-            : media_gallery_entries;
+        value = item ? [...item.product.media_gallery_entries, ...media_gallery_entries] : media_gallery_entries;
     }
 
     return value;
@@ -144,34 +142,28 @@ const getBreadcrumbCategoryId = categories => {
     const breadcrumbSet = new Set();
     categories.forEach(({ breadcrumbs }) => {
         // breadcrumbs can be `null`...
-        (breadcrumbs || []).forEach(({ category_id }) =>
-            breadcrumbSet.add(category_id)
-        );
+        (breadcrumbs || []).forEach(({ category_id }) => breadcrumbSet.add(category_id));
     });
 
     // Until we can get the single canonical breadcrumb path to a product we
     // will just return the first category id of the potential leaf categories.
-    const leafCategory = categories.find(
-        category => !breadcrumbSet.has(category.uid)
-    );
+    const leafCategory = categories?.find(category => !breadcrumbSet.has(category.uid));
 
     // If we couldn't find a leaf category then just use the first category
     // in the list for this product.
     return leafCategory.uid || categories[0].uid;
 };
 
-const getConfigPrice = (product, optionCodes, optionSelections) => {
+const getConfigPriceRegular = (product, optionCodes, optionSelections) => {
     let value;
 
     const { variants } = product;
     const isConfigurable = isProductConfigurable(product);
 
-    const optionsSelected =
-        Array.from(optionSelections.values()).filter(value => !!value).length >
-        0;
+    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
 
     if (!isConfigurable || !optionsSelected) {
-        value = product.price_range?.maximum_price;
+        value = product.price.regularPrice.amount;
     } else {
         const item = findMatchingVariant({
             optionCodes,
@@ -179,9 +171,30 @@ const getConfigPrice = (product, optionCodes, optionSelections) => {
             variants
         });
 
-        value = item
-            ? item.product.price_range?.maximum_price
-            : product.price_range?.maximum_price;
+        value = item ? item.product.price.regularPrice.amount : product.price.regularPrice.amount;
+        
+    }
+
+    return value;
+};
+const getConfigPriceMinimal = (product, optionCodes, optionSelections) => {
+    let value;
+
+    const { variants } = product;
+    const isConfigurable = isProductConfigurable(product);
+
+    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
+
+    if (!isConfigurable || !optionsSelected) {
+        value = product.price.minimalPrice.amount;
+    } else {
+        const item = findMatchingVariant({
+            optionCodes,
+            optionSelections,
+            variants
+        });
+
+        value = item ? item.product.price.minimalPrice.amount : product.price.minimalPrice.amount;
     }
 
     return value;
@@ -239,17 +252,9 @@ const getCustomAttributes = (product, optionCodes, optionSelections) => {
  * }}
  */
 export const useProductFullDetail = props => {
-    const {
-        addConfigurableProductToCartMutation,
-        addSimpleProductToCartMutation,
-        product
-    } = props;
-
+    const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, product } = props;
     const [, { dispatch }] = useEventingContext();
-
-    const hasDeprecatedOperationProp = !!(
-        addConfigurableProductToCartMutation || addSimpleProductToCartMutation
-    );
+    const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
     const operations = mergeOperations(defaultOperations, props.operations);
 
@@ -261,70 +266,49 @@ export const useProductFullDetail = props => {
     const [{ isSignedIn }] = useUserContext();
     const { formatMessage } = useIntl();
 
-    const { data: storeConfigData } = useQuery(
-        operations.getWishlistConfigQuery,
-        {
-            fetchPolicy: 'cache-and-network'
-        }
-    );
+    const { data: storeConfigData } = useQuery(operations.getWishlistConfigQuery, {
+        fetchPolicy: 'cache-and-network'
+    });
 
     const [
         addConfigurableProductToCart,
-        {
-            error: errorAddingConfigurableProduct,
-            loading: isAddConfigurableLoading
-        }
-    ] = useMutation(
-        addConfigurableProductToCartMutation ||
-            operations.addConfigurableProductToCartMutation
+        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
+    ] = useMutation(addConfigurableProductToCartMutation || operations.addConfigurableProductToCartMutation);
+
+    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
+        addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
     );
 
-    const [
-        addSimpleProductToCart,
-        { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }
-    ] = useMutation(
-        addSimpleProductToCartMutation ||
-            operations.addSimpleProductToCartMutation
+    const [addProductToCart, { error: errorAddingProductToCart, loading: isAddProductLoading }] = useMutation(
+        operations.addProductToCartMutation
     );
 
-    const [
-        addProductToCart,
-        { error: errorAddingProductToCart, loading: isAddProductLoading }
-    ] = useMutation(operations.addProductToCartMutation);
+    const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
 
-    const breadcrumbCategoryId = useMemo(
-        () => getBreadcrumbCategoryId(product.categories),
-        [product.categories]
-    );
+    const derivedOptionSelections = deriveOptionSelectionsFromProduct(product);
 
-    const derivedOptionSelections = useMemo(
-        () => deriveOptionSelectionsFromProduct(product),
-        [product]
-    );
-
-    const [optionSelections, setOptionSelections] = useState(
-        derivedOptionSelections
-    );
-
+    const [optionSelections, setOptionSelections] = useState(derivedOptionSelections);
     const [singleOptionSelection, setSingleOptionSelection] = useState();
 
-    const derivedOptionCodes = useMemo(
-        () => deriveOptionCodesFromProduct(product),
-        [product]
-    );
-    const [optionCodes] = useState(derivedOptionCodes);
+    const derivedOptionCodes = useMemo(() => deriveOptionCodesFromProduct(product), [product]);
+    const [optionCodes, setOptionCode] = useState(derivedOptionCodes);
+    useEffect(() => {
+        setOptionCode(derivedOptionCodes);
+    }, [derivedOptionCodes]);
 
-    const isMissingOptions = useMemo(
-        () => getIsMissingOptions(product, optionSelections),
-        [product, optionSelections]
-    );
+    const isMissingOptions = useMemo(() => getIsMissingOptions(product, optionSelections), [product, optionSelections]);
 
-    const isOutOfStock = useMemo(
-        () => getIsOutOfStock(product, optionCodes, optionSelections),
+    const hasOptionsOfTheSelection = useMemo(
+        () => getHasOptionsOfTheSelection(product, optionCodes, optionSelections),
         [product, optionCodes, optionSelections]
     );
 
-    // Check if display out of stock products option is selected in the Admin Dashboard
+    const isOutOfStock = useMemo(() => getIsOutOfStock(product, optionCodes, optionSelections), [
+        product,
+        optionCodes,
+        optionSelections
+    ]);
+
     const isOutOfStockProductDisplayed = useMemo(() => {
         let totalVariants = 1;
         const isConfigurable = isProductConfigurable(product);
@@ -358,19 +342,12 @@ export const useProductFullDetail = props => {
             isOutOfStockProductDisplayed
         ]
     );
-
     const mediaGalleryEntries = useMemo(
-        () => getMediaGalleryEntries(product, optionCodes, optionSelections),
-        [product, optionCodes, optionSelections]
+        () => getMediaGalleryEntries(product, optionCodes, optionSelections, derivedOptionSelections),
+        [product, optionCodes, optionSelections, derivedOptionSelections]
     );
-
     const customAttributes = useMemo(
         () => getCustomAttributes(product, optionCodes, optionSelections),
-        [product, optionCodes, optionSelections]
-    );
-
-    const productPrice = useMemo(
-        () => getConfigPrice(product, optionCodes, optionSelections),
         [product, optionCodes, optionSelections]
     );
 
@@ -396,9 +373,7 @@ export const useProductFullDetail = props => {
         optionSelections.forEach((value, key) => {
             const values = attributeIdToValuesMap.get(key);
 
-            const selectedValue = values?.find(
-                item => item.value_index === value
-            );
+            const selectedValue = values?.find(item => item.value_index === value);
 
             if (selectedValue) {
                 selectedOptions.push(selectedValue.uid);
@@ -410,104 +385,92 @@ export const useProductFullDetail = props => {
     const handleAddToCart = useCallback(
         async formValues => {
             const { quantity } = formValues;
-
-            /*
-                @deprecated in favor of general addProductsToCart mutation. Will support until the next MAJOR.
-             */
             if (hasDeprecatedOperationProp) {
-                const payload = {
-                    item: product,
-                    productType,
-                    quantity
-                };
+            const payload = {
+                item: product,
+                productType,
+                quantity
+            };
 
-                if (isProductConfigurable(product)) {
-                    appendOptionsToPayload(
-                        payload,
-                        optionSelections,
-                        optionCodes
-                    );
-                }
+            if (isProductConfigurable(product)) {
+                appendOptionsToPayload(payload, optionSelections, optionCodes);
+            }
 
-                if (isSupportedProductType) {
-                    const variables = {
-                        cartId,
-                        parentSku: payload.parentSku,
-                        product: payload.item,
-                        quantity: payload.quantity,
-                        sku: payload.item.sku
-                    };
-                    // Use the proper mutation for the type.
-                    if (productType === 'SimpleProduct') {
-                        try {
-                            await addSimpleProductToCart({
-                                variables
-                            });
-                        } catch {
-                            return;
-                        }
-                    } else if (productType === 'ConfigurableProduct') {
-                        try {
-                            await addConfigurableProductToCart({
-                                variables
-                            });
-                        } catch {
-                            return;
-                        }
-                    }
-                } else {
-                    console.error(
-                        'Unsupported product type. Cannot add to cart.'
-                    );
-                }
-            } else {
+            if (isSupportedProductType) {
                 const variables = {
                     cartId,
-                    product: {
-                        sku: product.sku,
-                        quantity
-                    },
-                    entered_options: [
-                        {
-                            uid: product.uid,
-                            value: product.name
-                        }
-                    ]
+                    parentSku: payload.parentSku,
+                    product: payload.item,
+                    quantity: payload.quantity,
+                    sku: payload.item.sku
                 };
-
-                if (selectedOptionsArray.length) {
-                    variables.product.selected_options = selectedOptionsArray;
+                // Use the proper mutation for the type.
+                if (productType === 'SimpleProduct') {
+                    try {
+                        await addSimpleProductToCart({
+                            variables
+                        });
+                    } catch {
+                        return;
+                    }
+                } else if (productType === 'ConfigurableProduct') {
+                    try {
+                        await addConfigurableProductToCart({
+                            variables
+                        });
+                    } catch {
+                        return;
+                    }
                 }
-
-                try {
-                    await addProductToCart({ variables });
-
-                    const selectedOptionsLabels =
-                        selectedOptionsArray?.map((uid, i) => ({
-                            attribute: product.configurable_options[i].label,
-                            value:
-                                product.configurable_options[i].values.findLast(
-                                    x => x.uid === uid
-                                )?.label || null
-                        })) || null;
-
-                    dispatch({
-                        type: 'CART_ADD_ITEM',
-                        payload: {
-                            cartId,
-                            sku: product.sku,
-                            name: product.name,
-                            priceTotal: productPrice.final_price.value,
-                            currencyCode: productPrice.final_price.currency,
-                            discountAmount: productPrice.discount.amount_off,
-                            selectedOptions: selectedOptionsLabels,
-                            quantity
-                        }
-                    });
-                } catch {
-                    return;
-                }
+            } else {
+                console.error('Unsupported product type. Cannot add to cart.');
             }
+        } else {
+            const variables = {
+                cartId,
+                product: {
+                    sku: product.sku,
+                    quantity
+                },
+                entered_options: [
+                    {
+                        uid: product.uid,
+                        value: product.name
+                    }
+                ]
+            };
+
+            if (selectedOptionsArray.length) {
+                variables.product.selected_options = selectedOptionsArray;
+            }
+
+            try {
+                await addProductToCart({ variables });
+
+                const selectedOptionsLabels =
+                    selectedOptionsArray?.map((uid, i) => ({
+                        attribute: product.configurable_options[i].label,
+                        value:
+                            product.configurable_options[i].values.findLast(
+                                x => x.uid === uid
+                            )?.label || null
+                    })) || null;
+
+                dispatch({
+                    type: 'CART_ADD_ITEM',
+                    payload: {
+                        cartId,
+                        sku: product.sku,
+                        name: product.name,
+                        
+                        selectedOptions: selectedOptionsLabels,
+                        quantity
+                    }
+                });
+            } catch {
+                return;
+            }
+        }
         },
         [
             addConfigurableProductToCart,
@@ -520,14 +483,24 @@ export const useProductFullDetail = props => {
             optionCodes,
             optionSelections,
             product,
-            productPrice,
             productType,
             selectedOptionsArray
         ]
     );
+    const optionSelectionsKeys = Array.from(optionSelections.keys());
+    const derivedOptionSelectionsKey = Array.from(derivedOptionSelections.keys());
+    const iskeysEqual = derivedOptionSelectionsKey.every(ele => optionSelectionsKeys.includes(ele));
 
     const handleSelectionChange = useCallback(
         (optionId, selection) => {
+            const optionSelectionsKeys1 = Array.from(optionSelections.keys());
+            const derivedOptionSelectionsKeys1 = Array.from(derivedOptionSelections.keys());
+
+            if (!derivedOptionSelectionsKeys1.every(ele => optionSelectionsKeys1.includes(ele))) {
+                const newOptionSelections = new Map([...derivedOptionSelections]);
+                newOptionSelections.set(optionId, selection);
+                return setOptionSelections(newOptionSelections);
+            }
             // We must create a new Map here so that React knows that the value
             // of optionSelections has changed.
             const nextOptionSelections = new Map([...optionSelections]);
@@ -538,30 +511,40 @@ export const useProductFullDetail = props => {
             nextSingleOptionSelection.set(optionId, selection);
             setSingleOptionSelection(nextSingleOptionSelection);
         },
-        [optionSelections]
+        [optionSelections, derivedOptionSelections]
     );
+
+    const productPriceRegular = useMemo(() => getConfigPriceRegular(product, optionCodes, optionSelections), [
+        product,
+        optionCodes,
+        optionSelections
+    ]);
+
+    const productPriceMinimal = useMemo(() => getConfigPriceMinimal(product, optionCodes, optionSelections), [
+        product,
+        optionCodes,
+        optionSelections
+    ]);
 
     // Normalization object for product details we need for rendering.
     const productDetails = {
         description: product.description,
         shortDescription: product.short_description,
         name: product.name,
-        price: productPrice?.final_price,
+        price: {
+            regularPrice: {
+                amount: productPriceRegular
+            },
+            minimalPrice: {
+                amount: productPriceMinimal
+            }
+        },
         sku: product.sku
     };
 
     const derivedErrorMessage = useMemo(
-        () =>
-            deriveErrorMessage([
-                errorAddingSimpleProduct,
-                errorAddingConfigurableProduct,
-                errorAddingProductToCart
-            ]),
-        [
-            errorAddingConfigurableProduct,
-            errorAddingProductToCart,
-            errorAddingSimpleProduct
-        ]
+        () => deriveErrorMessage([errorAddingSimpleProduct, errorAddingConfigurableProduct, errorAddingProductToCart]),
+        [errorAddingConfigurableProduct, errorAddingProductToCart, errorAddingSimpleProduct]
     );
 
     const wishlistItemOptions = useMemo(() => {
@@ -581,13 +564,13 @@ export const useProductFullDetail = props => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
+                    id: 'wishlistButton.addedText',
+                    defaultMessage: 'Added to Favorites'
+                })
                 : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
+                    id: 'wishlistButton.addText',
+                    defaultMessage: 'Add to Favorites'
+                }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };
@@ -606,16 +589,20 @@ export const useProductFullDetail = props => {
             isMissingOptions ||
             isAddConfigurableLoading ||
             isAddSimpleLoading ||
-            isAddProductLoading,
+            isAddProductLoading ||
+            !hasOptionsOfTheSelection,
         isSupportedProductType,
         mediaGalleryEntries,
         shouldShowWishlistButton:
-            isSignedIn &&
-            storeConfigData &&
-            !!storeConfigData.storeConfig.magento_wishlist_general_is_enabled,
+            isSignedIn && storeConfigData && !!storeConfigData.storeConfig.magento_wishlist_general_is_enabled,
         productDetails,
         customAttributes,
         wishlistButtonProps,
-        wishlistItemOptions
+        wishlistItemOptions,
+        hasOptionsOfTheSelection,
+        addConfigurableProductToCart,
+        isAddConfigurableLoading,
+        cartId,
+        derivedOptionSelectionsKey
     };
 };

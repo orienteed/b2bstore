@@ -1,26 +1,28 @@
-import React, { useMemo, Fragment, Suspense } from 'react';
+import React, { useMemo, Fragment, Suspense, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
 import { Form } from 'informed';
 import { Info } from 'react-feather';
 
-import Price from '@magento/venia-ui/lib/components/Price';
-import { useProductFullDetail } from '@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail';
+import { ProductOptionsShimmer } from '../ProductOptions';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
-
+import { useProductFullDetail } from '@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail';
 import { useStyle } from '../../classify';
+
 import Breadcrumbs from '../Breadcrumbs';
 import Button from '../Button';
 import Carousel from '../ProductImageCarousel';
 import FormError from '../FormError';
 import QuantityStepper from '../QuantityStepper';
 import RichContent from '../RichContent/richContent';
-import { ProductOptionsShimmer } from '../ProductOptions';
+import Price from '@magento/venia-ui/lib/components/Price';
+import ProductFullDetailB2B from './ProductFullDetailB2B/ProductFullDetailB2B';
+import ProductFullDetailB2C from './ProductFullDetailB2C/ProductFullDetailB2C';
 import CustomAttributes from './CustomAttributes';
-import defaultClasses from './productFullDetail.module.css';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
 
 const WishlistButton = React.lazy(() => import('../Wishlist/AddToListButton'));
-const Options = React.lazy(() => import('../ProductOptions'));
+const Options = React.lazy(() => import('@magento/venia-ui/lib/components/ProductOptions'));
 
 // Correlate a GQL error message to a field. GQL could return a longer error
 // string but it may contain contextual info such as product id. We can use
@@ -38,6 +40,7 @@ const ERROR_FIELD_TO_MESSAGE_MAPPING = {
 
 const ProductFullDetail = props => {
     const { product } = props;
+    const [quantity, setQuantity] = useState(1);
 
     const talonProps = useProductFullDetail({ product });
 
@@ -53,19 +56,63 @@ const ProductFullDetail = props => {
         isSupportedProductType,
         mediaGalleryEntries,
         productDetails,
+        wishlistButtonProps,
+        hasOptionsOfTheSelection,
+        addConfigurableProductToCart,
+        isAddConfigurableLoading,
+        cartId,
         customAttributes,
-        wishlistButtonProps
+        setOptionSelections
     } = talonProps;
 
     const { formatMessage } = useIntl();
 
     const classes = useStyle(defaultClasses, props.classes);
 
+    const {
+        price: {
+            regularPrice: {
+                amount: { value: regularPriceValue }
+            },
+            minimalPrice: {
+                amount: { value: minimalPriceValue }
+            }
+        }
+    } = productDetails;
+
+    const priceRender =
+        regularPriceValue == minimalPriceValue ? (
+            <div>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={productDetails.price.regularPrice.amount.currency}
+                        value={productDetails.price.regularPrice.amount.value}
+                    />
+                </p>
+            </div>
+        ) : (
+            <div>
+                <p className={classes.productOldPrice}>
+                    <Price
+                        currencyCode={productDetails.price.regularPrice.amount.currency}
+                        value={productDetails.price.regularPrice.amount.value}
+                    />
+                </p>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={productDetails.price.minimalPrice.amount.currency}
+                        value={productDetails.price.minimalPrice.amount.value}
+                    />
+                </p>
+            </div>
+        );
+
     const options = isProductConfigurable(product) ? (
         <Suspense fallback={<ProductOptionsShimmer />}>
             <Options
                 onSelectionChange={handleSelectionChange}
                 options={product.configurable_options}
+                sku={product.sku}
                 isEverythingOutOfStock={isEverythingOutOfStock}
                 outOfStockVariants={outOfStockVariants}
             />
@@ -76,6 +123,7 @@ const ProductFullDetail = props => {
         <Breadcrumbs
             categoryId={breadcrumbCategoryId}
             currentProduct={productDetails.name}
+            setOptionSelections={setOptionSelections}
         />
     ) : null;
 
@@ -105,9 +153,7 @@ const ProductFullDetail = props => {
         }
 
         // Handle cases where a cart wasn't created properly.
-        if (
-            errorMessage.includes('Variable "$cartId" got invalid value null')
-        ) {
+        if (errorMessage.includes('Variable "$cartId" got invalid value null')) {
             errors.set('form', [
                 new Error(
                     formatMessage({
@@ -125,8 +171,7 @@ const ProductFullDetail = props => {
                 new Error(
                     formatMessage({
                         id: 'productFullDetail.errorUnknown',
-                        defaultMessage:
-                            'Could not add item to cart. Please check required options and try again.'
+                        defaultMessage: 'Could not add item to cart. Please check required options and try again.'
                     })
                 )
             ]);
@@ -170,23 +215,47 @@ const ProductFullDetail = props => {
             pagebuilder: pagebuilder
         };
     }, [customAttributes, productDetails.sku, formatMessage]);
-
-    const cartCallToActionText =
-        !isEverythingOutOfStock || !isOutOfStock ? (
-            <FormattedMessage
-                id="productFullDetail.addItemToCart"
-                defaultMessage="Add to Cart"
-            />
+    
+    const tempTotalPrice =
+        regularPriceValue == minimalPriceValue ? (
+            <div>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={productDetails.price.regularPrice.amount.currency}
+                        value={productDetails.price.regularPrice.amount.value * quantity}
+                    />
+                </p>
+            </div>
         ) : (
-            <FormattedMessage
-                id="productFullDetail.itemOutOfStock"
-                defaultMessage="Out of Stock"
-            />
+            <div>
+                <p className={classes.productOldPrice}>
+                    <Price
+                        currencyCode={productDetails.price.regularPrice.amount.currency}
+                        value={productDetails.price.regularPrice.amount.value * quantity}
+                    />
+                </p>
+                <p className={classes.productPrice}>
+                    <Price
+                        currencyCode={productDetails.price.minimalPrice.amount.currency}
+                        value={productDetails.price.minimalPrice.amount.value * quantity}
+                    />
+                </p>
+            </div>
         );
-    // Error message for screen reader
+
+    const handleQuantityChange = tempQuantity => {
+        setQuantity(tempQuantity);
+    };
+
+    const cartCallToActionText = !isOutOfStock ? (
+        <FormattedMessage id="productFullDetail.addItemToCart" defaultMessage="Add to Cart" />
+    ) : (
+        <FormattedMessage id="productFullDetail.itemOutOfStock" defaultMessage="Out of Stock" />
+    );
+
     const cartActionContent = isSupportedProductType ? (
-        <section className={classes.actButton}>
-            <Button
+        <div className={isAddToCartDisabled ? classes.disabledButton : null}>
+            <Button 
                 data-cy="ProductFullDetail-addToCartButton"
                 disabled={isAddToCartDisabled}
                 aria-disabled={isAddToCartDisabled}
@@ -199,21 +268,19 @@ const ProductFullDetail = props => {
                           })
                         : ''
                 }
-                priority="high"
+                priority="high" 
                 type="submit"
             >
                 {cartCallToActionText}
             </Button>
-        </section>
+        </div>
     ) : (
         <div className={classes.unavailableContainer}>
             <Info />
             <p>
                 <FormattedMessage
                     id={'productFullDetail.unavailableProduct'}
-                    defaultMessage={
-                        'This product is currently unavailable for purchase.'
-                    }
+                    defaultMessage={'This product is currently unavailable for purchase.'}
                 />
             </p>
         </div>
@@ -232,95 +299,36 @@ const ProductFullDetail = props => {
             />
         </section>
     ) : null;
-
-    return (
-        <Fragment>
-            {breadcrumbs}
-            <Form
-                className={classes.root}
-                data-cy="ProductFullDetail-root"
-                onSubmit={handleAddToCart}
-            >
-                <section className={classes.imageCarousel}>
-                    <Carousel images={mediaGalleryEntries} />
-                </section>
-                <section className={classes.title}>
-                    <h1
-                        aria-live="polite"
-                        className={classes.productName}
-                        data-cy="ProductFullDetail-productName"
-                    >
-                        {productDetails.name}
-                    </h1>
-                    <p
-                        data-cy="ProductFullDetail-productPrice"
-                        className={classes.productPrice}
-                    >
-                        <Price
-                            currencyCode={productDetails.price.currency}
-                            value={productDetails.price.value}
-                        />
-                    </p>
-                    {shortDescription}
-                </section>
-                <FormError
-                    classes={{
-                        root: classes.formErrors
-                    }}
-                    errors={errors.get('form') || []}
-                />
-                <section className={classes.options}>{options}</section>
-                <section className={classes.quantity}>
-                    <span
-                        data-cy="ProductFullDetail-quantityTitle"
-                        className={classes.quantityTitle}
-                    >
-                        <FormattedMessage
-                            id={'global.quantity'}
-                            defaultMessage={'Quantity'}
-                        />
-                    </span>
-                    <QuantityStepper
-                        classes={{ root: classes.quantityRoot }}
-                        min={1}
-                        message={errors.get('quantity')}
-                    />
-                </section>
-                <section className={classes.actions}>
-                    {cartActionContent}
-                    <Suspense fallback={null}>
-                        <WishlistButton {...wishlistButtonProps} />
-                    </Suspense>
-                </section>
-                <section className={classes.description}>
-                    <span
-                        data-cy="ProductFullDetail-descriptionTitle"
-                        className={classes.descriptionTitle}
-                    >
-                        <FormattedMessage
-                            id={'productFullDetail.description'}
-                            defaultMessage={'Description'}
-                        />
-                    </span>
-                    <RichContent html={productDetails.description} />
-                </section>
-                <section className={classes.details}>
-                    <span
-                        data-cy="ProductFullDetail-detailsTitle"
-                        className={classes.detailsTitle}
-                    >
-                        <FormattedMessage
-                            id={'productFullDetail.details'}
-                            defaultMessage={'Details'}
-                        />
-                    </span>
-                    <CustomAttributes
-                        customAttributes={customAttributesDetails.list}
-                    />
-                </section>
-                {pageBuilderAttributes}
-            </Form>
-        </Fragment>
+    return process.env.IS_B2B === 'true' ? (
+        <ProductFullDetailB2B
+            addConfigurableProductToCart={addConfigurableProductToCart}
+            availableOptions={options}
+            breadcrumbs={breadcrumbs}
+            cartId={cartId}
+            errors={errors}
+            isAddConfigurableLoading={isAddConfigurableLoading}
+            mediaGalleryEntries={mediaGalleryEntries}
+            priceRender={priceRender}
+            product={product}
+            productDetails={productDetails}
+            wishlistButtonProps={wishlistButtonProps}
+        />
+    ) : (
+        <ProductFullDetailB2C
+            availableOptions={options}
+            breadcrumbs={breadcrumbs}
+            cartActionContent={cartActionContent}
+            errors={errors}
+            handleAddToCart={handleAddToCart}
+            handleQuantityChange={handleQuantityChange}
+            hasOptionsOfTheSelection={hasOptionsOfTheSelection}
+            mediaGalleryEntries={mediaGalleryEntries}
+            priceRender={priceRender}
+            productDetails={productDetails}
+            tempTotalPrice={tempTotalPrice}
+            wishlistButtonProps={wishlistButtonProps}
+            customAttributes={customAttributes}
+        />
     );
 };
 
@@ -334,7 +342,7 @@ ProductFullDetail.propTypes = {
         detailsPageBuilderList: string,
         detailsTitle: string,
         imageCarousel: string,
-        options: string,
+        availableOptions: string,
         productName: string,
         productPrice: string,
         quantity: string,

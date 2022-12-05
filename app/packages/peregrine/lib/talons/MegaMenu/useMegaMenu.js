@@ -33,10 +33,7 @@ export const useMegaMenu = (props = {}) => {
         fetchPolicy: 'cache-and-network'
     });
 
-    const { data } = useQuery(getMegaMenuQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data } = useQuery(getMegaMenuQuery);
 
     const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
         fetchPolicy: 'cache-and-network',

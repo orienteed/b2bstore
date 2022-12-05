@@ -11,7 +11,7 @@ import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
 import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
-import { useCmsBlock } from '@magento/venia-concept/src/talons/useCmsBlocks.js';
+import { useCmsBlock } from './useCmsBlocks';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
@@ -86,7 +86,7 @@ const ProductFullDetailB2B = props => {
         const endIndex = currentPage * pageSize;
         if (currentPage > totalPage) setCurrentPage(totalPage);
         return items?.slice(startIndex, endIndex);
-    }, [product, currentPage, selectedFilter, totalPage, selectedFilterCategory]);
+    }, [product, selectedVariants, currentPage, pageSize, totalPage]);
     const pageControl = {
         currentPage: currentPage,
         setPage: val => setCurrentPage(val),

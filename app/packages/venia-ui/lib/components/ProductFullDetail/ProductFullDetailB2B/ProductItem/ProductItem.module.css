@@ -6,8 +6,8 @@
 
 /* Add to cart button */
 .buttonAddToCart {
-    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
-    background-color: rgb(var(--venia-brand-color-1-700));
+    composes: root_highPriority from '../../../Button/button.module.css';
+    background-color: yellow;
     border: none;
     font-weight: bold;
     min-width: fit-content;

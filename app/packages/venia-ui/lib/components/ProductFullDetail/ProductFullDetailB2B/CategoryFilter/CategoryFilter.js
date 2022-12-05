@@ -6,7 +6,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import SortItem from '@magento/venia-ui/lib/components/ProductSort/sortItem';
 import defaultClasses from './CategoryFilter.module.css';
 import Button from '@magento/venia-ui/lib/components/Button';
-import Icon from '@magento/venia-ui/lib/components/Icon';
+import Icon from '../../../Icon';
 
 const CategoryFilter = props => {
     const classes = useStyle(defaultClasses, props.classes);

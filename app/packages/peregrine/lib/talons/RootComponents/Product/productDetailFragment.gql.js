@@ -35,15 +35,19 @@ export const ProductDetailsFragment = gql`
                     value
                 }
             }
+            minimalPrice {
+                amount {
+                    currency
+                    value
+                }
+            }
         }
+
         price_range {
             maximum_price {
                 final_price {
                     currency
                     value
-                }
-                discount {
-                    amount_off
                 }
             }
         }
@@ -115,6 +119,7 @@ export const ProductDetailsFragment = gql`
                 # eslint-disable-next-line @graphql-eslint/require-id-when-available
                 product {
                     uid
+                    name
                     # eslint-disable-next-line @graphql-eslint/require-id-when-available
                     media_gallery_entries {
                         uid
@@ -132,15 +137,18 @@ export const ProductDetailsFragment = gql`
                                 value
                             }
                         }
+                        minimalPrice {
+                            amount {
+                                currency
+                                value
+                            }
+                        }
                     }
                     price_range {
                         maximum_price {
                             final_price {
                                 currency
                                 value
-                            }
-                            discount {
-                                amount_off
                             }
                         }
                     }

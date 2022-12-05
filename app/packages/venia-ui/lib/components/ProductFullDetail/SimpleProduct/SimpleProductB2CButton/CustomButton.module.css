@@ -1,5 +1,5 @@
 .root {
-    composes: root from '@magento/venia-ui/lib/components/clickable.module.css';
+    composes: root from '../../../clickable.module.css';
     --stroke: var(--venia-brand-color-1-700);
     background: none;
     border-color: var(--orienteed-primary-color-base1);
