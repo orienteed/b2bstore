@@ -223,7 +223,7 @@ const typePolicies = {
         }
     },
     CategoryTree: {
-        // keyFields: ['uid'],
+        keyFields: ['uid'],
         fields: {
             children: {
                 merge(existing, incoming) {

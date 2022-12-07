@@ -2,11 +2,12 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
-import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
+import QuantityStepper from '../../../QuantityStepper';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Price from '@magento/venia-ui/lib/components/Price';
-import Image from '@magento/venia-ui/lib/components/Image';
-import Icon from '@magento/venia-ui/lib/components/Icon';
+import Price from '../../../Price';
+import Image from '../../../Image';
+import Icon from '../../../Icon';
+import Button from '../../../Button';
 import defaultClasses from './ProductItem.module.css';
 import CustomButton from '../CustomButtom/CustomButton';
 import inStock from '../icons/inStock.svg';
@@ -14,9 +15,8 @@ import outOfStock from '../icons/outOfStock.svg';
 import copyToClipboard from '../icons/copyToClipboard.png';
 import useCopy from 'use-copy';
 
-import Button from '@magento/venia-ui/lib/components/Button';
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
-import ConfirmationModal from '@magento/venia-ui/lib/components/ConfirmationModal';
+import ConfirmationModal from './ConfirmationModal';
 
 const ProductItem = props => {
     const classes = useStyle(defaultClasses, props.classes);

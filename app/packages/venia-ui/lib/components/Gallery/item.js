@@ -29,7 +29,7 @@ import CompareIcon from './Icons/compare.svg';
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote.js';
-import ConfirmationModal from '../ConfirmationModal';
+import ConfirmationModal from './ConfirmationModal';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
