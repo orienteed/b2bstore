@@ -19,7 +19,7 @@
 
 ## 📢 What is B2B Store?
 
-The B2B headless platform... Boost your B2B customer journey and performances using a modern, high featured, open source ecommerce platform based on leaders solutions like Magento Open Source and PWA Studio (React frontend).
+The B2B Frontend as a Service (FEaaS) solution for your e-Commerce... Boost your B2B customer journey and performances using a modern, high featured, open source ecommerce platform based on leaders solutions like Magento Open Source and PWA Studio (React frontend).
 
 With our customized solution we make it possible for manufacturers to add value to their distribution chain. Our value proposition is based on a platform with the functionalities of a B2B, adapted to your needs, and that will allow you to go to market in record time.
 
