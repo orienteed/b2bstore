@@ -138,9 +138,34 @@ const COMPANY_USERS_ROLES = gql`
         }
     }
 `;
+
 const CREATE_USER_ROLE = gql`
     mutation createMpCompanyUserRole($input: UserRolesInput!, $password: String!) {
         createMpCompanyUserRole(input: $input, password: $password) {
+            allow_all
+            company_id
+            created_at
+            name
+            order_amount
+            order_quantity
+            role_id
+            updated_at
+            user_rules {
+                created_at
+                permission
+                resource_id
+                role_id
+                rule_id
+                updated_at
+                __typename
+            }
+        }
+    }
+`;
+
+const SAVE_USER_ROLE = gql`
+    mutation saveMpCompanyUserRole($input: UserRolesInput!, $role_id: Int!, $password: String!) {
+        saveMpCompanyUserRole(input: $input, password: $password, role_id: $role_id) {
             allow_all
             company_id
             created_at
@@ -188,6 +213,7 @@ export default {
     getCompanyUsers: COMPANY_USERS,
     getLocale: GET_LOCALE,
     createUserRole: CREATE_USER_ROLE,
+    editUserRole: SAVE_USER_ROLE,
     getUserRules: COMPANY_USERS_ROLES,
     deleteUserRole: DELETE_USER_ROLE
 };
