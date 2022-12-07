@@ -521,6 +521,7 @@
     "galleryItem.unitsOfProducts": " unités du produit ",
     "galleryItem.youAreAboutToReq": "Vous êtes sur le point de demander un devis pour ",
     "galleryItem.yourPrice": "Votre prix :",
+    "galleryItem.confirmationBody": "Êtes-vous sûr de vouloir demander un devis pour ce produit ?",
     "gellary.recommendedProducts": "Produits recommandés",
     "genericPerpageText": "par page",
     "genericShowText": "Montrer",

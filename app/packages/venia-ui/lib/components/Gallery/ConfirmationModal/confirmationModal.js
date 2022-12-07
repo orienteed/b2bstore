@@ -14,7 +14,7 @@ const ConfirmationModal = props => {
     // Translations
     const modalTitleText = formatMessage({ id: 'csr.confirmationModalTitle', defaultMessage: 'Confirmation' });
 
-    const confirmationBodyText =
+    const confirmationTitleText =
         formatMessage({
             id: 'galleryItem.youAreAboutToReq',
             defaultMessage: 'You are about to request a quote for '
@@ -26,11 +26,19 @@ const ConfirmationModal = props => {
         }) +
         product?.product.name;
 
+        const confirmationBodyText = formatMessage(
+            {
+                id: 'galleryItem.confirmationBody',
+                defaultMessage: 'Are you sure you want to request a quote for this product?'
+            }
+        );
+
     return (
         <Dialog title={modalTitleText} isOpen={isOpen} onCancel={onCancel} onConfirm={onConfirm}>
             <div className={classes.confirmationModalContainer}>
                 <div className={classes.confirmationModalBodyContainer}>
-                    <p className={classes.headingText}>{confirmationBodyText}</p>
+                    <p className={classes.headingText}>{confirmationTitleText}</p>
+                    <p className={classes.bodyText}>{confirmationBodyText}</p>
                 </div>
             </div>
         </Dialog>

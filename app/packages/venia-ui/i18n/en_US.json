@@ -525,6 +525,7 @@
     "galleryItem.unitsOfProducts": " units of the product ",
     "galleryItem.youAreAboutToReq": "You are about to request a quote for ",
     "galleryItem.yourPrice": "Your price: ",
+    "galleryItem.confirmationBody": "Are you sure you want to request a quote for this product?",
     "gellary.recommendedProducts": "Recommended products",
     "genericPerpageText": "per page",
     "genericShowText": "Show",
