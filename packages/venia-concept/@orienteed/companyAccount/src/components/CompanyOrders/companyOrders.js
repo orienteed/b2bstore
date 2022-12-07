@@ -5,18 +5,22 @@ import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIn
 import SideMenu from '../SideMenu';
 import OrdersTable from './OrdersTable';
 import defaultClasses from './companyorders.module.css';
+import { FormattedMessage } from 'react-intl';
 
 const Companyorders = () => {
     const { companyOrders, loading, handleReOrderBtn } = useCompanyAccountOrders();
+    const classes = useStyle(defaultClasses);
 
     if (loading) {
         return <FullPageLoadingIndicator />;
     }
-    const classes = useStyle(defaultClasses);
     return (
         <div>
             <div className={classes.titleContainer}>
-                <h2>Orders</h2>
+                <h2>
+                    {' '}
+                    <FormattedMessage id={'companyAccount.orders'} defaultMessage="orders" />
+                </h2>
             </div>
             <div className={classes.contentContainer}>
                 <div>

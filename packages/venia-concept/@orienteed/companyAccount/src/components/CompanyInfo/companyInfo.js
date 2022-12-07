@@ -1,6 +1,9 @@
+/* eslint-disable react/jsx-no-literals */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Suspense } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import SideMenu from '../SideMenu';
 import defaultClasses from './companyInfo.module.css';
 import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
@@ -8,7 +11,7 @@ import { useCompanyAccountInfo } from '@orienteed/companyAccount/src/talons/useC
 import EditImage from '../../images/edit.svg';
 const EditModal = React.lazy(() => import('./EditCompanyInfo'));
 
-const CompanyInfo = props => {
+const CompanyInfo = () => {
     const classes = useStyle(defaultClasses);
     const {
         companyInfo,

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/scope */
 import React, { useMemo } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -6,10 +9,9 @@ import EditImg from '../../../images/edit.svg';
 import DeleteImg from '../../../images/delete.svg';
 
 const UserRolesTable = props => {
-    const { userRoles, handleOpenDeleteModal } = props;
+    const { userRoles, handleOpenDeleteModal, handleEditUser } = props;
     const classes = useStyle(defaultClasses);
     const { formatMessage } = useIntl();
-    console.log(userRoles, 'userRoles');
 
     const userRoleRow = useMemo(() => {
         return userRoles?.map(ele => {
@@ -57,7 +59,7 @@ const UserRolesTable = props => {
                 </tr>
             );
         });
-    }, [userRoles]);
+    }, [userRoles, classes, formatMessage, handleOpenDeleteModal, handleEditUser]);
     return (
         <div>
             <div className={classes.tableWrapper}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from '../graphql/company.gql';
@@ -8,25 +8,26 @@ import Icon from '@magento/venia-ui/lib/components/Icon';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
-export const useCompanyAccountUserRoles = props => {
+export const useCompanyAccountUserRoles = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [openAddUserModal, setOpenAddUserModal] = useState(false);
     const [selectedUserRole, setSelectedUserRole] = useState();
-    const [deleteForm, setdeleteForm] = useState();
+    const [deleteForm] = useState();
     const [modalType, setModalType] = useState();
-    const [formAddress, setFormAddress] = useState();
+    const [formAddress] = useState();
     const [, { addToast }] = useToasts();
 
     const formProps = {
-        initialValues: formAddress
+        initialValues: formAddress || selectedUserRole
     };
     const deleteFormProps = {
         initialValues: deleteForm
     };
-    const { getUserRules, createUserRole, deleteUserRole } = operations;
-    const [submitUserRole, { data: addUserRole }] = useMutation(createUserRole);
+    const { getUserRules, createUserRole, deleteUserRole, editUserRole } = operations;
+    const [submitUserRole] = useMutation(createUserRole);
     const [submitDeleteUserRole] = useMutation(deleteUserRole);
+    const [submitEditUserRole] = useMutation(editUserRole);
     const { data: userRoles, loading: userRolesLoading, refetch } = useQuery(getUserRules, {
         fetchPolicy: 'no-cache'
     });
@@ -38,33 +39,89 @@ export const useCompanyAccountUserRoles = props => {
 
     const submitAddUserRole = useCallback(
         async formValues => {
-            console.log(formValues, 'formValues');
-            const { password, ...rest } = formValues;
-            // setOpenAddUserModal();
-            submitUserRole({
-                variables: {
-                    password,
-                    input: {
-                        allow_all: false,
-                        ...rest,
-                        user_rules: [
-                            //     {
-                            //         resource_id: '23',
-                            //         permission: 'permission'
-                            //     }
-                        ]
-                    }
-                }
+            const { password, name, allow_all, order_amount, order_quantity, ...rest } = formValues;
+            const permissions = Object.keys(rest).map(resource_id => {
+                return {
+                    resource_id,
+                    permission: 'allow'
+                };
             });
+            if (modalType === 'addUserRole') {
+                try {
+                    submitUserRole({
+                        variables: {
+                            password,
+                            input: {
+                                allow_all,
+                                name,
+                                order_amount,
+                                order_quantity,
+                                user_rules: permissions
+                            }
+                        }
+                    });
+                    refetch();
+                    setOpenAddUserModal();
+                } catch (error) {
+                    addToast({
+                        type: 'error',
+                        icon: errorIcon,
+                        message: String(error),
+                        dismissable: true,
+                        timeout: 7000
+                    });
+                }
+            } else {
+                console.log(formValues, 'formValues', permissions);
+                try {
+                    submitEditUserRole({
+                        variables: {
+                            password,
+                            role_id: selectedUserRole?.company_id,
+                            input: {
+                                allow_all,
+                                name,
+                                order_amount,
+                                order_quantity,
+                                user_rules: permissions
+                            }
+                        }
+                    });
+                    refetch();
+                    setOpenAddUserModal();
+                } catch (error) {
+                    addToast({
+                        type: 'error',
+                        icon: errorIcon,
+                        message: String(error),
+                        dismissable: true,
+                        timeout: 7000
+                    });
+                }
+            }
         },
-        [modalType]
+        [selectedUserRole,modalType, submitUserRole, setOpenAddUserModal, refetch, addToast, submitEditUserRole]
     );
+
+    const handleEditUser = userRole => {
+        setOpenAddUserModal(true);
+        setModalType('EditUserRole');
+        const userRules = {};
+        userRole?.user_rules?.forEach(ele => {
+            if (ele?.permission === 'allow') {
+                userRules[(ele?.resource_id)] = true;
+            }
+        });
+        setSelectedUserRole({ ...userRole, ...userRules });
+        console.log(userRole, userRules);
+    };
 
     const handelCancelModal = () => {
         setSelectedUserRole();
         setOpenAddUserModal(false);
         setIsOpenDeleteModal(false);
     };
+
     const handleOpenDeleteModal = rule => {
         setIsOpenDeleteModal(true);
         setSelectedUserRole(rule);
@@ -95,7 +152,7 @@ export const useCompanyAccountUserRoles = props => {
                 });
             }
         },
-        [selectedUserRole]
+        [selectedUserRole, refetch, addToast, submitDeleteUserRole]
     );
     return {
         userRoles,
@@ -110,6 +167,7 @@ export const useCompanyAccountUserRoles = props => {
         isOpenDeleteModal,
         handleDeleteUser,
         deleteFormProps,
-        handleAddNewRolesBtn
+        handleAddNewRolesBtn,
+        handleEditUser
     };
 };

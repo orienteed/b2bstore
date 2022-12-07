@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useMemo } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './tableUsers.module.css';
@@ -5,7 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import EditImg from '../../../images/edit.svg';
 import DeleteImg from '../../../images/delete.svg';
 
-const tableUsers = ({ users, handleEditUser, handleOpenDeleteModal }) => {
+const TableUsers = ({ users, handleEditUser, handleOpenDeleteModal }) => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses);
 
@@ -15,6 +17,7 @@ const tableUsers = ({ users, handleEditUser, handleOpenDeleteModal }) => {
             return (
                 <tr key={entity_id} className={classes.rowTable}>
                     <td
+                        // eslint-disable-next-line jsx-a11y/scope
                         scope="row"
                         data-label={formatMessage({ id: 'companyAccount.ID', defaultMessage: 'ID' })}
                         className={classes.tableCell}
@@ -65,7 +68,7 @@ const tableUsers = ({ users, handleEditUser, handleOpenDeleteModal }) => {
                 </tr>
             );
         });
-    }, [users]);
+    }, [users, classes, formatMessage, handleEditUser, handleOpenDeleteModal]);
     return (
         <div className={classes.tableWrapper}>
             <table className={classes.tableUsers}>
@@ -97,4 +100,4 @@ const tableUsers = ({ users, handleEditUser, handleOpenDeleteModal }) => {
     );
 };
 
-export default tableUsers;
+export default TableUsers;

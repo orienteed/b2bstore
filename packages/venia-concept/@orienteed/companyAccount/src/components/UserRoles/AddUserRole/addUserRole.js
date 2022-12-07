@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Dialog from '@magento/venia-ui/lib/components/Dialog';
 import Field from '@magento/venia-ui/lib/components/Field';
@@ -7,33 +7,31 @@ import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import { useIntl, FormattedMessage } from 'react-intl';
 import defaultClasses from './addUserRole.module.css';
 import Password from '@magento/venia-ui/lib/components/Password';
+import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
+import UserRules from './UserRules';
 
-const AddUserRole = ({ onCancel, isOpen, onConfirm, formProps, userRoles = [], modalType }) => {
+const AddUserRole = ({ onCancel, isOpen, onConfirm, formProps, modalType }) => {
     const classes = useStyle(defaultClasses);
     const { formatMessage } = useIntl();
-
+    const [isRulesOpen, setIsRulesOpen] = useState(true);
     const AddUserRoleLabel = formatMessage({
         id: 'companyAccount.addNewUserRole',
         defaultMessage: 'Add new user role'
     });
     const editUserRoleLabel = formatMessage({
-        id: 'global.editwUserRole',
+        id: 'companyAccount.editUserRole',
         defaultMessage: 'Edit user Role'
     });
     const RoleNameLabel = formatMessage({
-        id: 'global.nameRole',
+        id: 'companyAccount.roleName',
         defaultMessage: 'Role Name'
     });
-    const RoleResourceLabel = formatMessage({
-        id: 'global.roleResource',
-        defaultMessage: 'Role Resource'
-    });
     const quantityLabel = formatMessage({
-        id: 'global.quantityLabel',
+        id: 'companyAccount.quantityLabel',
         defaultMessage: 'Order Quantity Limit per User'
     });
     const amountLabel = formatMessage({
-        id: 'global.roleAmount',
+        id: 'companyAccount.roleAmount',
         defaultMessage: 'Amount Limit Per Order'
     });
     const passwordLabel = formatMessage({
@@ -52,7 +50,9 @@ const AddUserRole = ({ onCancel, isOpen, onConfirm, formProps, userRoles = [], m
             >
                 <div>
                     <div className={classes.sectionTitle}>
-                        <span>Role Information</span>
+                        <span>
+                            <FormattedMessage id={'companyAccount.roleInformation'} defaultMessage="Role Information" />
+                        </span>
                     </div>
                     <>
                         <div className={classes.name}>
@@ -62,21 +62,39 @@ const AddUserRole = ({ onCancel, isOpen, onConfirm, formProps, userRoles = [], m
                         </div>
                     </>
                     <div className={classes.sectionTitle}>
-                        <span>Role Resource</span>
+                        <span>
+                            {' '}
+                            <FormattedMessage id={'companyAccount.roleResource'} defaultMessage="Role Resource" />
+                        </span>
                     </div>
-                    <></>
+                    <>
+                        <Checkbox
+                            field="allow_all"
+                            onChange={e => setIsRulesOpen(!e.target.checked)}
+                            label={formatMessage({
+                                id: 'companyAccount.ResourceAccess',
+                                defaultMessage: 'All Resource Access'
+                            })}
+                        />
+                        {isRulesOpen && <UserRules />}
+                    </>
                     <div className={classes.sectionTitle}>
-                        <span>Additional Permissions</span>
+                        <span>
+                            <FormattedMessage
+                                id={'companyAccount.additionalPermissions'}
+                                defaultMessage="Additional Permissions"
+                            />
+                        </span>
                     </div>
                     <>
                         <div className={classes.name}>
                             <Field id="order_quantity" label={quantityLabel}>
-                                <TextInput type='number' field="order_quantity" data-cy="order_quantity" />
+                                <TextInput type="number" field="order_quantity" data-cy="order_quantity" />
                             </Field>
                         </div>
                         <div className={classes.name}>
                             <Field id="order_amount" label={amountLabel}>
-                                <TextInput field="order_amount" data-cy="order_amount" />
+                                <TextInput type="number" field="order_amount" data-cy="order_amount" />
                             </Field>
                         </div>
                     </>

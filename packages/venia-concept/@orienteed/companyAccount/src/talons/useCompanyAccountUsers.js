@@ -1,25 +1,24 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import DEFAULT_OPERATIONS from '../graphql/company.gql';
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useToasts } from '@magento/peregrine';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
-export const useCompanyAccountUsers = props => {
+export const useCompanyAccountUsers = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const [openAddUserModal, setOpenAddUserModal] = useState(false);
     const [modalType, setModalType] = useState();
     const [selectedUser, setSelectedUser] = useState();
-    const [deleteForm, setdeleteForm] = useState();
+    const [deleteForm] = useState();
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-    const { getCompanyUsers, getUserRules, createUserRole, createUser, updateUser, deleteUser } = operations;
+    const { getCompanyUsers, getUserRules, createUser, updateUser, deleteUser } = operations;
     const [, { addToast }] = useToasts();
-    const [formAddress, setFormAddress] = useState();
+    const [formAddress] = useState();
     const formProps = {
         initialValues: formAddress || selectedUser
     };
@@ -31,9 +30,8 @@ export const useCompanyAccountUsers = props => {
     const { data: companyUsers, loading: companyUsersLoading, refetch } = useQuery(getCompanyUsers, {
         fetchPolicy: 'no-cache'
     });
-    const [submitUserRole] = useMutation(createUserRole);
-    const [createNewUser, { data: UsersData }] = useMutation(createUser);
-    const [editUser, { data: updatedUserData }] = useMutation(updateUser);
+    const [createNewUser] = useMutation(createUser);
+    const [editUser] = useMutation(updateUser);
     const [submitDeleteUser] = useMutation(deleteUser);
     const { data: userRoles, loading: UserRolesLoading } = useQuery(getUserRules, {
         fetchPolicy: 'no-cache'
@@ -41,7 +39,6 @@ export const useCompanyAccountUsers = props => {
     const handleAddNewUsersBtn = type => {
         setOpenAddUserModal(true);
         setModalType(type);
-      
     };
 
     const handelCancelModal = () => {
@@ -102,7 +99,7 @@ export const useCompanyAccountUsers = props => {
                 }
             }
         },
-        [modalType, selectedUser]
+        [modalType, selectedUser, addToast, refetch, createNewUser, editUser]
     );
     const handleEditUser = user => {
         setSelectedUser(user);
@@ -139,7 +136,7 @@ export const useCompanyAccountUsers = props => {
                 });
             }
         },
-        [selectedUser]
+        [selectedUser,refetch,addToast,submitDeleteUser]
     );
 
     return {

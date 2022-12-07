@@ -6,13 +6,12 @@ import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Dialog from '@magento/venia-ui/lib/components/Dialog';
 import Field from '@magento/venia-ui/lib/components/Field';
 import Country from '@magento/venia-ui/lib/components/Country';
-import FormError from '@magento/venia-ui/lib/components/FormError';
 import Postcode from '@magento/venia-ui/lib/components/Postcode';
 import Region from '@magento/venia-ui/lib/components/Region';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import defaultClasses from './editCompanyInfo.module.css';
 
-const editCompanyInfoModal = ({ onCancel, isOpen, onConfirm, formProps, editType }) => {
+const EditCompanyInfoModal = ({ onCancel, isOpen, onConfirm, formProps, editType }) => {
     const classes = useStyle(defaultClasses);
     const { formatMessage } = useIntl();
     const CompanyNameLabel = formatMessage({
@@ -69,70 +68,70 @@ const editCompanyInfoModal = ({ onCancel, isOpen, onConfirm, formProps, editType
                 title={modalTitle}
             >
                 <div className={classes.root} data-cy="AddEditDialog-root">
-                        <div className={editType == 'infoData' ? '' : classes.noDisplay}>
-                            <div className={classes.firstname}>
-                                <Field id="name" label={CompanyNameLabel}>
-                                    <TextInput field="name" validate={isRequired} data-cy="name" />
-                                </Field>
-                            </div>
-                            <div className={classes.legal_name}>
-                                <Field id="legal_name" label={CompanyLegalNameLabel}>
-                                    <TextInput field="legal_name" data-cy="legal_name" />
-                                </Field>
-                            </div>
-                            <div className={classes.email}>
-                                <Field id="email" label={CompanyEmaiLabel}>
-                                    <TextInput field="email" data-cy="email" />
-                                </Field>
-                            </div>
-                            <div className={classes.vat_id}>
-                                <Field id="vat_id" label={CompanyVatLabel}>
-                                    <TextInput field="vat_id" data-cy="vat_id" />
-                                </Field>
-                            </div>
-                            <div className={classes.reseller_id}>
-                                <Field id="reseller_id" label={CompanyResellerLabel}>
-                                    <TextInput field="reseller_id" data-cy="reseller_id" />
-                                </Field>
-                            </div>
+                    <div className={editType == 'infoData' ? '' : classes.noDisplay}>
+                        <div className={classes.firstname}>
+                            <Field id="name" label={CompanyNameLabel}>
+                                <TextInput field="name" validate={isRequired} data-cy="name" />
+                            </Field>
                         </div>
-                        <div className={editType !== 'infoData' ? '' : classes.noDisplay}>
-                            <div className={classes.street}>
-                                <Field id="street" label={CompanyStreetLabel}>
-                                    <TextInput field="street" validate={isRequired} data-cy="street" />
-                                </Field>
-                            </div>
-                            <div className={classes.city}>
-                                <Field id="city" label={CompanyCityLabel}>
-                                    <TextInput field="city" validate={isRequired} data-cy="city" />
-                                </Field>
-                            </div>
-                            <div className={classes.country}>
-                                <Country field={'country_id'} validate={isRequired} data-cy="country_id" />
-                            </div>
-                            <div className={classes.region}>
-                                <Region
-                                    countryCodeField={'country_id'}
-                                    fieldInput={'region'}
-                                    fieldSelect={'region_id'}
-                                    optionValueKey="id"
-                                    validate={isRequired}
-                                    data-cy="region_id"
-                                />
-                            </div>
-                            <div className={classes.postcode}>
-                                <Postcode validate={isRequired} data-cy="postcode" />
-                            </div>
-                            <div className={classes.telephone}>
-                                <Field id="telephone" label={CompanyPhoneLabel}>
-                                    <TextInput field="telephone" validate={isRequired} data-cy="telephone" />
-                                </Field>
-                            </div>
+                        <div className={classes.legal_name}>
+                            <Field id="legal_name" label={CompanyLegalNameLabel}>
+                                <TextInput field="legal_name" data-cy="legal_name" />
+                            </Field>
                         </div>
+                        <div className={classes.email}>
+                            <Field id="email" label={CompanyEmaiLabel}>
+                                <TextInput field="email" data-cy="email" />
+                            </Field>
+                        </div>
+                        <div className={classes.vat_id}>
+                            <Field id="vat_id" label={CompanyVatLabel}>
+                                <TextInput field="vat_id" data-cy="vat_id" />
+                            </Field>
+                        </div>
+                        <div className={classes.reseller_id}>
+                            <Field id="reseller_id" label={CompanyResellerLabel}>
+                                <TextInput field="reseller_id" data-cy="reseller_id" />
+                            </Field>
+                        </div>
+                    </div>
+                    <div className={editType !== 'infoData' ? '' : classes.noDisplay}>
+                        <div className={classes.street}>
+                            <Field id="street" label={CompanyStreetLabel}>
+                                <TextInput field="street" validate={isRequired} data-cy="street" />
+                            </Field>
+                        </div>
+                        <div className={classes.city}>
+                            <Field id="city" label={CompanyCityLabel}>
+                                <TextInput field="city" validate={isRequired} data-cy="city" />
+                            </Field>
+                        </div>
+                        <div className={classes.country}>
+                            <Country field={'country_id'} validate={isRequired} data-cy="country_id" />
+                        </div>
+                        <div className={classes.region}>
+                            <Region
+                                countryCodeField={'country_id'}
+                                fieldInput={'region'}
+                                fieldSelect={'region_id'}
+                                optionValueKey="id"
+                                validate={isRequired}
+                                data-cy="region_id"
+                            />
+                        </div>
+                        <div className={classes.postcode}>
+                            <Postcode validate={isRequired} data-cy="postcode" />
+                        </div>
+                        <div className={classes.telephone}>
+                            <Field id="telephone" label={CompanyPhoneLabel}>
+                                <TextInput field="telephone" validate={isRequired} data-cy="telephone" />
+                            </Field>
+                        </div>
+                    </div>
                 </div>
             </Dialog>
         </>
     );
 };
 
-export default editCompanyInfoModal;
+export default EditCompanyInfoModal;

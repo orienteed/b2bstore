@@ -10,7 +10,7 @@ import Button from '@magento/venia-ui/lib/components/Button';
 const AddUserRole = React.lazy(() => import('./AddUserRole'));
 const DeleteModal = React.lazy(() => import('./DeleteModal'));
 
-const userRoles = () => {
+const UserRoles = () => {
     const classes = useStyle(defaultClasses);
     const {
         userRoles,
@@ -25,7 +25,8 @@ const userRoles = () => {
         isOpenDeleteModal,
         handleDeleteUser,
         deleteFormProps,
-        modalType
+        modalType,
+        handleEditUser
     } = useCompanyAccountUserRoles({});
 
     if (loading) {
@@ -53,6 +54,7 @@ const userRoles = () => {
                         <UserRolesTable
                             userRoles={userRoles?.mpCompanyAccountsUserRoles}
                             handleOpenDeleteModal={handleOpenDeleteModal}
+                            handleEditUser={handleEditUser}
                         />
                     </div>
                 </div>
@@ -78,4 +80,4 @@ const userRoles = () => {
     );
 };
 
-export default userRoles;
+export default UserRoles;
