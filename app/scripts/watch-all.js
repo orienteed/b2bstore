@@ -8,10 +8,7 @@ const debounce = require('lodash.debounce');
 const path = require('path');
 
 const warn = (msg, ...args) => {
-    console.warn(
-        chalk.yellowBright(`\n  ${figures.warning}  ${msg}\n`),
-        ...args
-    );
+    console.warn(chalk.yellowBright(`\n  ${figures.warning}  ${msg}\n`), ...args);
 };
 
 const gracefulExit = () => {
@@ -29,7 +26,8 @@ const restartDevServerOnChange = [
     'packages/venia-*/*.{js,json,yml}',
     'packages/venia-*/.env',
     'packages/venia-*/static/**/*',
-    'yarn.lock'
+    'yarn.lock',
+    'packages/venia-concept/src/targets/componentOverrideMapping.js'
 ];
 
 const eventBuffer = [];
@@ -54,14 +52,10 @@ function summarizeEvents() {
 let devServer;
 function startDevServer() {
     eventBuffer.length = 0;
-    devServer = execa(
-        'webpack-dev-server',
-        ['--stdin', '--progress', '--color', '--env.mode', 'development'],
-        {
-            cwd: path.join(rootDir, 'packages/venia-concept'),
-            localDir: path.join(rootDir, 'node_modules/.bin')
-        }
-    );
+    devServer = execa('webpack-dev-server', ['--stdin', '--progress', '--color', '--env.mode', 'development'], {
+        cwd: path.join(rootDir, 'packages/venia-concept'),
+        localDir: path.join(rootDir, 'node_modules/.bin')
+    });
     devServer.on('exit', () => {
         devServer.exited = true;
     });
@@ -75,14 +69,10 @@ const runVeniaWatch = debounce(() => {
         warn('Launching webpack-dev-server');
         return startDevServer();
     }
-    const fileSummary =
-        eventBuffer.length > 20 ? summarizeEvents() : eventBuffer;
+    const fileSummary = eventBuffer.length > 20 ? summarizeEvents() : eventBuffer;
     warn(
         `Relaunching webpack-dev-server due to: \n  - ${fileSummary
-            .map(
-                ({ name, file }) =>
-                    `${chalk.yellow(name)} ${chalk.whiteBright(file)}`
-            )
+            .map(({ name, file }) => `${chalk.yellow(name)} ${chalk.whiteBright(file)}`)
             .join('\n  - ')}\n`
     );
     if (devServer.exited) {
@@ -121,9 +111,7 @@ function watchVeniaWithRestarts() {
         runVeniaWatch();
     }, 900);
 
-    eventsToListenTo.forEach(name =>
-        watcher.on(name, file => handler(name, file))
-    );
+    eventsToListenTo.forEach(name => watcher.on(name, file => handler(name, file)));
 }
 
 watchVeniaWithRestarts();
