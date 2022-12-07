@@ -122,14 +122,6 @@ const CategoryContent = props => {
             <Breadcrumbs categoryId={categoryId} />
             <StoreTitle>{categoryName}</StoreTitle>
             <article className={classes.root} data-cy="CategoryContent-root">
-                <div className={classes.categoryHeader}>
-                    <h1 aria-live="polite" className={classes.title}>
-                        <div className={classes.categoryTitle} data-cy="CategoryContent-categoryTitle">
-                            {categoryTitle}
-                        </div>
-                    </h1>
-                    {categoryDescriptionElement}
-                </div>
                 <div className={classes.contentWrapper}>
                     <div ref={sidebarRef} className={classes.sidebar}>
                         <Suspense fallback={<FilterSidebarShimmer />}>
@@ -137,6 +129,14 @@ const CategoryContent = props => {
                         </Suspense>
                     </div>
                     <div className={classes.categoryContent}>
+                        <div className={classes.categoryHeader}>
+                            <h1 aria-live="polite" className={classes.title}>
+                                <div className={classes.categoryTitle} data-cy="CategoryContent-categoryTitle">
+                                    {categoryTitle}
+                                </div>
+                            </h1>
+                            {categoryDescriptionElement}
+                        </div>
                         <div className={classes.heading}>
                             <div data-cy="CategoryContent-categoryInfo" className={classes.categoryInfo}>
                                 {categoryResultsHeading}

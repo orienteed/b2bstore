@@ -1,86 +1,41 @@
 .root {
-    composes: content-start from global;
-    composes: grid from global;
-    composes: gap-y-2xs from global;
+    align-content: start;
+    display: grid;
+    row-gap: 0.5rem;
 }
 
 .images {
-    composes: grid from global;
+    display: grid;
     grid-template-areas: 'main';
     position: relative;
 }
 
 .imageContainer {
     grid-area: main;
+    position: relative;
+}
+
+.imageContainer img {
+    margin: 0 !important;
 }
 
 .image {
-    composes: block from global;
-    composes: h-full from global;
-    composes: object-contain from global;
-    composes: w-full from global;
+    display: block;
+    height: 100%;
+    object-fit: contain;
     transition: opacity 512ms ease-out;
+    width: 100%;
 }
 
 .imageLoaded {
-    composes: loaded from '../Image/image.module.css';
-
-    composes: opacity-100 from global;
+    composes: loaded from '@magento/venia-ui/lib/components/Image/image.module.css';
+    opacity: 1;
 }
 
 .imageNotLoaded {
-    composes: notLoaded from '../Image/image.module.css';
-
-    composes: opacity-0 from global;
+    composes: notLoaded from '@magento/venia-ui/lib/components/Image/image.module.css';
+    opacity: 0;
 }
-
-.imagePlaceholder {
-    composes: image;
-
-    composes: bg-subtle from global;
-}
-
-.actionsContainer {
-    composes: gap-x-xs from global;
-    composes: grid from global;
-    composes: pl-2xs from global;
-    grid-template-columns: auto auto;
-}
-
-/* TODO @TW: cannot compose */
-.actionsContainer:empty {
-    display: none;
-}
-
-.name {
-    composes: font-semibold from global;
-}
-
-.name,
-.price {
-    composes: text-colorDefault from global;
-    min-height: 1rem;
-}
-
-.unavailableContainer {
-    composes: bg-subtle from global;
-    composes: gap-x-2xs from global;
-    composes: grid from global;
-    composes: grid-flow-col from global;
-    composes: italic from global;
-    composes: items-center from global;
-    composes: justify-start from global;
-    composes: p-3 from global;
-    composes: text-sm from global;
-    composes: text-subtle from global;
-    composes: w-full from global;
-}
-
-.regularPrice {
-    display: flex;
-    align-items: center;
-}
-
 .oldPrice {
     font-size: 0.875rem;
     line-height: 1rem;
@@ -89,9 +44,53 @@
     color: '#666666';
 }
 
+.imagePlaceholder {
+    composes: image;
+    background-color: rgb(var(--venia-global-color-gray));
+}
+
+.actionsContainer {
+    display: grid;
+    grid-template-columns: 1.9fr 0.2fr !important ;
+    padding-left: 0.5rem;
+}
+
+.actionsContainer:empty {
+    display: none;
+}
+
+.name {
+    font-weight: var(--venia-global-fontWeight-semibold);
+}
+
+.name,
+.price {
+    font-size: var(--venia-typography-detail-XL-fontSize);
+    min-height: 2rem;
+}
+
+.regularPrice {
+    display: flex;
+    align-items: center;
+}
+
+.unavailableContainer {
+    align-items: center;
+    background-color: rgb(var(--venia-global-color-gray));
+    color: rgb(var(--venia-global-color-gray-700));
+    column-gap: 0.5rem;
+    display: grid;
+    font-style: italic;
+    grid-auto-flow: column;
+    justify-content: start;
+    padding: 0.75rem;
+    width: 100%;
+    font-size: var(--venia-global-fontSize-100);
+}
+
 .discount {
     position: absolute;
-    background-color: var(--b2bstore-global-color-gray);
+    background-color: #999999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,6 +105,7 @@
 .discount span {
     font-style: normal;
     font-weight: 600;
+    color: #fff;
 }
 
 .shareIcon {
@@ -175,11 +175,11 @@
 
 .list li::before {
     content: '\2022';
-
+    color: #fff;
     font-weight: bold;
     display: inline-block;
     width: 1em;
-    margin-left: -0.4em;
+    margin-left: -1em;
 }
 
 .priceWrapper {
@@ -215,7 +215,6 @@
 }
 .configurableWrapper {
     height: 24px;
-    position: relative;
     display: flex;
 }
 
@@ -237,7 +236,7 @@
 
 .qtyField input,
 .productsSelect {
-    border: 1px solid var(--b2bstore-global-color-gray);
+    border: 1px solid #eaecee;
     border-radius: 8px;
 }
 

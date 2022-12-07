@@ -39,7 +39,11 @@
     composes: lg_items-center from global;
     composes: lg_justify-between from global;
     composes: lg_pb-6 from global;
-    /* composes: lg_w-full from global; */
+}
+.heading {
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
 }
 
 .categoryContent {
@@ -48,7 +52,6 @@
 
 .categoryInfo {
     flex-basis: 100%;
-    /* composes: leading-tight from global; */
     composes: max-w-[75vw] from global;
     composes: mx-0 from global;
     composes: my-xs from global;
@@ -60,7 +63,7 @@
 }
 
 .actionsBtnsMobile {
-    width: 100%;
+    width: 53%;
     display: flex;
     justify-content: space-around;
 }
@@ -69,12 +72,9 @@
     composes: flex from global;
     composes: justify-center from global;
     composes: pb-sm from global;
-    composes: mt-4 from global;
     composes: w-full from global;
     flex-basis: 100%;
-    display: grid;
-    /* grid-template-columns: 6.1fr 2fr 2fr; */
-
+    display: flex;
     composes: lg_justify-end from global;
     composes: lg_pb-0 from global;
 }
@@ -92,9 +92,6 @@
     composes: lg_self-start from global;
 }
 
-.downloadCsvMobile {
-    margin-bottom: 2rem;
-}
 .downloadCsvDesktop {
     margin-left: 0.5rem;
 }
@@ -116,6 +113,10 @@
     font-weight: 400;
     font-size: 16px;
     max-width: 1250px;
+}
+
+.categoryHeader {
+    margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 1024px) {
