@@ -4,21 +4,21 @@ import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
-import RichText from '@magento/venia-ui/lib/components/RichText';
-import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
-import CurrentFilter from '@magento/venia-ui/lib/components/FilterModal/CurrentFilters/currentFilter';
+import RichText from '../../RichText';
+import Carousel from '../../ProductImageCarousel';
+import CurrentFilter from '../../FilterModal/CurrentFilters/currentFilter';
 import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
-import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
+import CmsBlock from '../../CmsBlock/block';
 import { useCmsBlock } from './useCmsBlocks';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
 import gql from 'graphql-tag';
 import { useLazyQuery } from '@apollo/client';
-import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
-import Pagination from '@magento/venia-ui/lib/components/Pagination';
+import Breadcrumbs from '../../Breadcrumbs';
+import Pagination from '../../Pagination';
 
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);

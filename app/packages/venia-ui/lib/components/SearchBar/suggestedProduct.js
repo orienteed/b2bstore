@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { func, number, shape, string } from 'prop-types';
 import { Link } from 'react-router-dom';
-import Price from '@magento/venia-ui/lib/components/Price';
-import { useStyle } from '../../classify';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import Price from '../Price';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
+import Icon from '../Icon';
 import Image from '../Image';
 import defaultClasses from './suggestedProduct.module.css';
-import { useSuggestedProduct } from '@magento/peregrine/lib/talons/SearchBar';
+
+import Button from '@magento/venia-ui/lib/components/Button';
+import { useAddProduct } from '@magento/peregrine/lib/talons/AddProduct/useAddProduct';
+import {
+    ADD_CONFIGURABLE_MUTATION,
+    ADD_SIMPLE_MUTATION
+} from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
+
+import { ShoppingBag as ShoppingCartIcon } from 'react-feather';
+
+import { FormattedMessage } from 'react-intl';
+
+import useCopy from 'use-copy';
+import copyToClipboard from './Icons/copyToClipboard.png';
 
 const IMAGE_WIDTH = 60;
 
 const SuggestedProduct = props => {
+    const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
     const {
         url_key,
@@ -18,42 +34,123 @@ const SuggestedProduct = props => {
         name,
         onNavigate,
         price,
-        price_range,
         url_suffix,
         sku
     } = props;
 
-    const talonProps = useSuggestedProduct({
-        name,
-        price,
-        price_range,
-        onNavigate,
+    const [copied, copy, setCopied] = useCopy(sku);
+
+    const copyText = () => {
+        copy();
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    };
+
+    const handleClick = useCallback(() => {
+        if (typeof onNavigate === 'function') {
+            onNavigate();
+        }
+    }, [onNavigate]);
+
+    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [
         url_key,
-        url_suffix,
-        sku
+        url_suffix
+    ]);
+
+    const simpleProductLink = `/simple-product?sku=${suggested_Product.sku}`;
+
+    const talonProps = useAddProduct({
+        addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION,
+        addSimpleProductToCartMutation: ADD_SIMPLE_MUTATION,
+        suggested_Product
     });
 
-    const { priceProps, handleClick, uri } = talonProps;
-
+    const { handleAddToCart } = talonProps;
     return (
-        <Link
-            className={classes.root}
-            to={uri}
-            onClick={handleClick}
-            data-cy="SuggestedProduct-root"
-        >
-            <Image
-                alt={name}
-                classes={{ image: classes.thumbnail, root: classes.image }}
-                resource={small_image}
-                width={IMAGE_WIDTH}
-                data-cy="SuggestedProduct-image"
-            />
+        <div className={classes.root}>
+            <Link
+                to={
+                    suggested_Product.__typename === 'SimpleProduct'
+                        ? simpleProductLink
+                        : uri
+                }
+                onClick={handleClick}
+                data-cy="SuggestedProduct-root"
+            >
+                <Image
+                    alt={name}
+                    classes={{ image: classes.thumbnail, root: classes.image }}
+                    resource={small_image}
+                    width={IMAGE_WIDTH}
+                    data-cy="SuggestedProduct-image"
+                />
+            </Link>
             <span className={classes.name}>{name}</span>
-            <span data-cy="SuggestedProduct-price" className={classes.price}>
-                <Price {...priceProps} />
+            <span data-cy="SuggestedProduct-price" className={classes.sku}>
+                {copied ? (
+                    <span className={classes.copiedText}>
+                        <FormattedMessage
+                            id={'productFullDetailB2B.copiedText'}
+                            defaultMessage={'Copied'}
+                        />
+                    </span>
+                ) : (
+                    <div className={classes.productSkuContainer}>
+                        <a onClick={copyText}>
+                            {sku.length > 6 ? '...' + sku.substring(sku.length - 6) : sku}
+                        </a>
+                        <img
+                            src={copyToClipboard}
+                            alt="copyToClipboard"
+                            onClick={copyText}
+                        />
+                    </div>
+                )}
             </span>
-        </Link>
+            {suggested_Product.__typename === 'SimpleProduct' ? (
+                <Button
+                    className={classes.addButton}
+                    onClick={handleAddToCart}
+                    priority="high"
+                >
+                    <FormattedMessage
+                        id={'productFullDetail.cartAction'}
+                        defaultMessage={'Add to Cart'}
+                    />
+                </Button>
+            ) : null}
+
+            {suggested_Product.__typename === 'SimpleProduct' ? (
+                <Button
+                    className={classes.addButtonMobile}
+                    onClick={handleAddToCart}
+                    priority="high"
+                >
+                    <Icon src={ShoppingCartIcon} />
+                </Button>
+            ) : null}
+            {suggested_Product.__typename !== 'SimpleProduct' && <div className={classes.hideMobile}/>}
+            <span
+                className={
+                    classes.price
+                }
+            >
+                <Price
+                    currencyCode={
+                        price.minimalPrice.amount.currency != null
+                            ? price.minimalPrice.amount.currency
+                            : price.regularPrice.amount.currency
+                    }
+                    value={
+                        price.minimalPrice.amount.value != null
+                            ? price.minimalPrice.amount.value
+                            : price.regularPrice.amount.value
+                    }
+                />
+            </span>
+        </div>
     );
 };
 
@@ -68,23 +165,14 @@ SuggestedProduct.propTypes = {
                 currency: string,
                 value: number
             })
-        })
-    }).isRequired,
-    price_range: shape({
-        maximum_price: shape({
-            final_price: shape({
+        }),
+        minimalPrice: shape({
+            amount: shape({
                 currency: string,
                 value: number
-            }),
-            regular_price: shape({
-                currency: string,
-                value: number
-            }),
-            discount: shape({
-                amount_off: number
             })
         })
-    }),
+    }).isRequired,
     classes: shape({
         root: string,
         image: string,

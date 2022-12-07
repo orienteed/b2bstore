@@ -16,7 +16,7 @@ import copyToClipboard from '../icons/copyToClipboard.png';
 import useCopy from 'use-copy';
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
-import ConfirmationModal from './ConfirmationModal';
+import ConfirmationModal from '../../../Gallery/ConfirmationModal';
 
 const ProductItem = props => {
     const classes = useStyle(defaultClasses, props.classes);

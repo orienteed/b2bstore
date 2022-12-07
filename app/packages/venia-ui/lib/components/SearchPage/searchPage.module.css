@@ -1,3 +1,7 @@
+:root {
+    --search-sidebar-width: 325px;
+}
+
 .root {
     composes: p-xs from global;
 
@@ -34,7 +38,7 @@
 }
 
 .searchInfo {
-    composes: leading-tight from global;
+    line-height: var(--venia-global-typography-heading-lineHeight);
     composes: max-w-[75vw] from global;
     composes: mb-xs from global;
     composes: ml-0 from global;

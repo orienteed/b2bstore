@@ -10,14 +10,13 @@ const SuggestedProducts = props => {
     const { limit, onNavigate, products } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
-    const items = products.slice(0, limit).map(product => (
-        <li key={product.id} className={classes.item}>
-            <SuggestedProduct
-                {...mapProduct(product)}
-                onNavigate={onNavigate}
-            />
-        </li>
-    ));
+    const items = products.slice(0, limit).map(product => {
+        return (
+            <li key={product.id} className={classes.item}>
+                <SuggestedProduct {...mapProduct(product)} onNavigate={onNavigate} skuParent={product.sku} />
+            </li>
+        );
+    });
 
     return <ul className={classes.root}>{items}</ul>;
 };
@@ -25,7 +24,7 @@ const SuggestedProducts = props => {
 export default SuggestedProducts;
 
 SuggestedProducts.defaultProps = {
-    limit: 3
+    limit: 20
 };
 
 SuggestedProducts.propTypes = {

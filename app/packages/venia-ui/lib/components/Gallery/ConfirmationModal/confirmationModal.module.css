@@ -7,9 +7,10 @@
 
 .confirmationModalBodyContainer {
     align-content: center;
+    align-items: center;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    height: 160px;
     justify-content: center;
 }
 

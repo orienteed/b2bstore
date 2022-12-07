@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useMemo } from 'react';
+import React, { Fragment, Suspense, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { shape, string } from 'prop-types';
 
@@ -19,8 +19,12 @@ import { FilterSidebarShimmer } from '../FilterSidebar';
 import Shimmer from '../Shimmer';
 import { Meta, Title } from '../Head';
 
-const FilterModal = React.lazy(() => import('../FilterModal'));
-const FilterSidebar = React.lazy(() => import('../FilterSidebar'));
+const FilterModal = React.lazy(() =>
+    import('../FilterModal')
+);
+const FilterSidebar = React.lazy(() =>
+    import('../FilterSidebar')
+);
 
 const SearchPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -39,6 +43,8 @@ const SearchPage = props => {
 
     const { formatMessage } = useIntl();
     const [currentSort] = sortProps;
+    const [filterState, setfilterState] = useState();
+
     const content = useMemo(() => {
         if (!data && loading) {
             return (
@@ -73,8 +79,8 @@ const SearchPage = props => {
         if (data.products.items.length === 0) {
             return (
                 <div
-                    aria-live="polite"
-                    className={classes.noResult}
+                    aria-live="polite" 
+                    className={classes.noResult} 
                     data-cy="SearchPage-noResult"
                 >
                     <FormattedMessage
@@ -87,7 +93,10 @@ const SearchPage = props => {
             return (
                 <Fragment>
                     <section className={classes.gallery}>
-                        <Gallery items={data.products.items} />
+                        <Gallery
+                            items={data.products.items}
+                            filterState={filterState}
+                        />
                     </section>
                     <section className={classes.pagination}>
                         <Pagination pageControl={pageControl} />
@@ -95,15 +104,7 @@ const SearchPage = props => {
                 </Fragment>
             );
         }
-    }, [
-        classes.gallery,
-        classes.noResult,
-        classes.pagination,
-        error,
-        loading,
-        data,
-        pageControl
-    ]);
+    }, [data, loading, error, classes.gallery, classes.pagination, classes.noResult, filterState, pageControl]);
 
     const productsCount =
         data && data.products && data.products.total_count
@@ -128,7 +129,7 @@ const SearchPage = props => {
     ) : null;
 
     const maybeSidebar = shouldShowFilterButtons ? (
-        <FilterSidebar filters={filters} />
+        <FilterSidebar setfilterState={setfilterState} filters={filters} />
     ) : shouldShowFilterShimmer ? (
         <FilterSidebarShimmer />
     ) : null;
@@ -199,7 +200,7 @@ const SearchPage = props => {
             </div>
             <div className={classes.searchContent}>
                 <div className={classes.heading}>
-                    <div
+                    <div 
                         aria-live="polite"
                         aria-atomic="true"
                         className={classes.searchInfo}

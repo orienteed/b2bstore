@@ -46,18 +46,31 @@ export const PRODUCT_SEARCH = gql`
                 id
                 uid
                 name
-                price_range {
-                    maximum_price {
-                        final_price {
+                small_image {
+                    url
+                }
+                url_key
+                url_suffix
+                orParentUrlKey
+                price {
+                    regularPrice {
+                        amount {
+                            value
+                            currency
+                        }
+                    }
+                    minimalPrice {
+                        amount {
                             currency
                             value
                         }
+                    }
+                }
+                price_range {
+                    maximum_price {
                         regular_price {
                             currency
                             value
-                        }
-                        discount {
-                            amount_off
                         }
                     }
                 }
@@ -68,7 +81,73 @@ export const PRODUCT_SEARCH = gql`
                 stock_status
                 __typename
                 url_key
+                ... on ConfigurableProduct {
+                    configurable_options {
+                        attribute_code
+                        attribute_id
+                        uid
+                        label
+                        values {
+                            default_label
+                            label
+                            store_label
+                            use_default_value
+                            value_index
+                            uid
+                            swatch_data {
+                                ... on ImageSwatchData {
+                                    thumbnail
+                                }
+                                value
+                            }
+                        }
+                    }
+                    variants {
+                        attributes {
+                            code
+                            value_index
+                        }
+                        product {
+                            stock_status
+                            uid
+                            name
+                            sku
+                            description {
+                                html
+                            }
+                            categories {
+                                name
+                            }
+                            price {
+                                regularPrice {
+                                    amount {
+                                        currency
+                                        value
+                                    }
+                                }
+                                minimalPrice {
+                                    amount {
+                                        currency
+                                        value
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                custom_attributes {
+                    attribute_metadata {
+                        label
+                    }
+                    selected_attribute_options {
+                        attribute_option {
+                            label
+                        }
+                    }
+                }
             }
+
             page_info {
                 total_pages
             }
