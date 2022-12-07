@@ -143,8 +143,18 @@ module.exports = [
         path: '../RequestQuote/QuoteCartPage/QuoteSuccess'
     },
     {
-        name:'Compare Products',
+        name: 'Compare Products',
         pattern: '/compare_products',
         path: '../ComparePage'
+    },
+    {
+        name: 'BuyLaterNotes',
+        pattern: '/mpsavecart',
+        path: '../BuyLaterNotes/SavedCarts'
+    },
+    {
+        name: 'BuyLaterNotes',
+        pattern: '/mpsavecart/cart/share/id/:token',
+        path: '../BuyLaterNotes/ShareCart'
     }
 ];

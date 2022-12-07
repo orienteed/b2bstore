@@ -14,6 +14,8 @@ import PriceSummary from './PriceSummary';
 import ProductListing from './ProductListing';
 import defaultClasses from './cartPage.module.css';
 
+import SavedCartButton from '../BuyLaterNotes/SavedCartButton';
+
 const CheckIcon = <Icon size={20} src={Check} />;
 
 /**
@@ -50,6 +52,7 @@ const CartPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
+    const isPremium = process.env.B2BSTORE_VERSION === 'PREMIUM';
 
     useEffect(() => {
         if (wishlistSuccessProps) {
@@ -115,6 +118,10 @@ const CartPage = props => {
                 <div className={classes.summary_container}>
                     <div className={classes.summary_contents}>
                         {priceSummary}
+                        <div className={classes.additionalOptionsContainer}>
+                            {hasItems && isPremium ? <SavedCartButton /> : null}
+                            {/* {hasItems ? printPdfButton : null} */}
+                        </div>
                     </div>
                 </div>
             </div>
