@@ -1,8 +1,8 @@
 .root {
     composes: auto-cols-fr from global;
-    composes: bg-header from global;
+    composes: bg-white from global;
     composes: border-b from global;
-    composes: border-subtle from global;
+    composes: border-neutral-l1 from global;
     composes: grid from global;
     composes: h-auto from global;
     composes: justify-center from global;
@@ -10,8 +10,11 @@
     composes: top-0 from global;
     composes: sticky from global;
     composes: w-full from global;
-    composes: z-header from global;
+    composes: z-10 from global;
+}
 
+/* Large screen styles */
+.root {
     composes: lg_px-8 from global;
 }
 
@@ -20,11 +23,11 @@
     composes: grid from global;
     composes: grid-flow-col from global;
     composes: justify-end from global;
-    composes: max-w-site from global;
+    composes: max-w-desktop from global;
     composes: mx-auto from global;
     composes: relative from global;
     composes: w-full from global;
-    composes: z-menu from global;
+    composes: z-11 from global;
 }
 
 .switchersContainer {
@@ -57,18 +60,24 @@
     composes: h-14 from global;
     composes: items-center from global;
     composes: justify-self-center from global;
-    composes: max-w-site from global;
+    composes: max-w-desktop from global;
+    composes: min-height-header from global;
     composes: w-full from global;
-    composes: z-header from global;
+    composes: z-3 from global;
+}
 
+/* Large screen styles */
+.toolbar {
     composes: lg_h-20 from global;
     composes: lg_gap-x-8 from global;
     composes: lg_grid-cols-12 from global;
+    composes: lg_min-height-header from global;
 }
 
 .logo {
     height: var(--height);
     width: var(--width);
+    object-fit: contain;
 }
 
 .primaryActions {
@@ -83,7 +92,10 @@
 .logoContainer {
     composes: col-start-2 from global;
     composes: justify-self-center from global;
+}
 
+/* Large screen styles */
+.logoContainer {
     composes: lg_col-end-3 from global;
     composes: lg_col-start-1 from global;
     composes: lg_justify-self-start from global;
@@ -99,11 +111,13 @@
     composes: justify-items-end from global;
     composes: justify-self-end from global;
     composes: w-max from global;
+}
 
+/* Large screen styles */
+.secondaryActions {
     composes: lg_col-end-13 from global;
     composes: lg_col-start-10 from global;
     composes: lg_gap-x-4 from global;
-    gap: 10px;
 }
 
 .searchFallback {
@@ -115,18 +129,16 @@
 
 .input {
     composes: input from '../TextInput/textInput.module.css';
-
     composes: max-w-sm from global;
 }
 
 .loader,
-.loaderBefore,
-.loaderAfter {
+.loader:before,
+.loader:after {
     --dot-size: 2em;
     --dot-font-size: 6px;
     --dot-shadow-offset: calc(-1 * var(--dot-size) + var(--dot-font-size));
-
-    composes: rounded-full from global;
+    border-radius: 50%;
     width: var(--dot-size);
     height: var(--dot-size);
     animation: pulse 1.8s infinite ease-in-out;
@@ -134,32 +146,30 @@
 }
 
 .loader {
-    composes: mb-0 from global;
-    composes: mx-auto from global;
     composes: relative from global;
-    composes: text-subtle from global;
+    color: rgb(var(--venia-global-color-gray-dark));
     font-size: var(--dot-font-size);
-    margin-top: var(--dot-shadow-offset);
+    margin: var(--dot-shadow-offset) auto 0;
     transform: translateZ(0);
     animation-delay: -0.16s;
 }
 
-.loaderBefore,
-.loaderAfter {
-    composes: absolute from global;
-    composes: top-0 from global;
+.loader:before,
+.loader:after {
     content: '';
+    position: absolute;
+    top: 0;
 }
 
-.loaderBefore {
-    composes: left-[-3.5em] from global;
-    composes: text-gray-100 from global;
+.loader:before {
+    color: rgb(var(--venia-global-color-gray));
+    left: -3.5em;
     animation-delay: -0.32s;
 }
 
-.loaderAfter {
-    composes: left-[3.5em] from global;
-    composes: text-gray-600 from global;
+.loader:after {
+    color: rgb(var(--venia-global-color-gray-darker));
+    left: 3.5em;
 }
 
 @keyframes pulse {
@@ -187,7 +197,7 @@
     font-weight: 600;
     box-sizing: border-box;
     padding: 0 0.35rem;
-    background-color: var(--b2bstore-global-color-orange);
+    background-color: var(--orienteed-primary-color-base1);
     border-radius: 100px;
     color: rgb(var(--venia-global-color-background));
 }
