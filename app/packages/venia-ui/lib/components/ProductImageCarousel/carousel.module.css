@@ -80,6 +80,7 @@
 }
 
 .thumbnailList {
+    max-width: 50%;
     composes: content-stretch from global;
     composes: gap-xs from global;
     composes: grid from global;
