@@ -11,7 +11,7 @@
 .heading {
     composes: capitalize from global;
     composes: font-bold from global;
-    composes: font-serif from global;
+    font-family: var(--b2bStore-font-family);
     composes: leading-tight from global;
     composes: mb-md from global;
     composes: text-center from global;

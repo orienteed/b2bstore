@@ -34,7 +34,7 @@ export const useAccordion = props => {
     // We never want to re-run this effect, even if deps change.
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
-        const isOpenPropTruthy = child => child.props.isOpen;
+        const isOpenPropTruthy = child => child.props?.isOpen;
 
         const initialOpenSectionIds = new Set([]);
         let firstOpenSectionId;
