@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCartContext } from '../../../context/cart';
+import mergeOperations from '../../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './priceSummary.gql';
+import { usePrintPdfContext } from '@magento/venia-ui/lib/components/CartPage/PrintPdfProvider/printPdfProvider';
 
 /**
  * @ignore
@@ -21,7 +22,7 @@ const flattenData = data => {
         total: data.cart.prices.grand_total,
         discounts: data.cart.prices.discounts,
         giftCards: data.cart.applied_gift_cards,
-        giftOptions: data.cart.prices.gift_options,
+        // giftOptions: data.cart.prices.gift_options,
         taxes: data.cart.prices.applied_taxes,
         shipping: data.cart.shipping_addresses
     };
@@ -49,6 +50,8 @@ export const usePriceSummary = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getPriceSummaryQuery } = operations;
 
+    const { setPriceSummary } = usePrintPdfContext();
+
     const [{ cartId }] = useCartContext();
     const history = useHistory();
     // We don't want to display "Estimated" or the "Proceed" button in checkout.
@@ -63,6 +66,9 @@ export const usePriceSummary = (props = {}) => {
             cartId
         }
     });
+    useEffect(() => {
+        setPriceSummary(flattenData(data));
+    }, [data, setPriceSummary]);
 
     const handleProceedToCheckout = useCallback(() => {
         history.push('/checkout');
@@ -87,9 +93,8 @@ export const usePriceSummary = (props = {}) => {
  *
  * @property {String} subtotal Cart subtotal (excluding tax)
  * @property {String} total Cart grand total
- * @property {Array<Object>} discounts Applied discounts to the cart
+ * @property {Array<Object>} discounts Discounts applied to the cart
  * @property {Array<Object>} giftCards Gift cards applied to the cart
- * @property {Array<Object>} giftOptions Gift Options applied to the cart
  * @property {Array<Object>} taxes Taxes applied to the cart
  * @property {Array<Object>} shipping Shipping addresses associated with this cart
  */

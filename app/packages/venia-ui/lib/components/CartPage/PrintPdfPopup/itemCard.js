@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import defaultClasses from './itemCard.module.css';
-import { usePdfPopupProduct } from '../../talons/PdfPopupProduct/usePdfPopupProduct';
+import { usePdfPopupProduct } from '../PdfPopupProduct/usePdfPopupProduct';
 import { gql } from '@apollo/client';
 
 import { CartPageFragment } from '@magento/peregrine/lib/talons/CartPage/cartPageFragments.gql.js';

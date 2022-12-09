@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment, Suspense, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useProductListing } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useProductListing';
 
@@ -6,7 +6,7 @@ import { useStyle } from '../../../classify';
 import LoadingIndicator from '../../LoadingIndicator';
 import defaultClasses from './productListing.module.css';
 import Product from './product';
-import ErrorMessage from './errorMessage';
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 
 const EditModal = React.lazy(() => import('./EditModal'));
 /**
@@ -25,32 +25,23 @@ const EditModal = React.lazy(() => import('./EditModal'));
  * import ProductListing from "@magento/venia-ui/lib/components/CartPage/ProductListing";
  */
 const ProductListing = props => {
-    const {
-        onAddToWishlistSuccess,
-        setIsCartUpdating,
-        fetchCartDetails
-    } = props;
-
+    const { onAddToWishlistSuccess, setIsCartUpdating, fetchCartDetails } = props;
+    const { setCartItem } = usePrintPdfContext();
+ 
     const talonProps = useProductListing();
 
-    const {
-        activeEditItem,
-        isLoading,
-        error,
-        items,
-        setActiveEditItem,
-        wishlistConfig
-    } = talonProps;
+    const { activeEditItem, isLoading, items, setActiveEditItem, wishlistConfig } = talonProps;
+
+    useEffect(() => {
+        if (items.length) setCartItem([...items]);
+    }, [items]);
 
     const classes = useStyle(defaultClasses, props.classes);
 
     if (isLoading) {
         return (
             <LoadingIndicator>
-                <FormattedMessage
-                    id={'productListing.loading'}
-                    defaultMessage={'Fetching Cart...'}
-                />
+                <FormattedMessage id={'productListing.loading'} defaultMessage={'Fetching Cart...'} />
             </LoadingIndicator>
         );
     }
@@ -59,7 +50,7 @@ const ProductListing = props => {
         const productComponents = items.map(product => (
             <Product
                 item={product}
-                key={product.uid}
+                key={product.id}
                 setActiveEditItem={setActiveEditItem}
                 setIsCartUpdating={setIsCartUpdating}
                 onAddToWishlistSuccess={onAddToWishlistSuccess}
@@ -70,7 +61,6 @@ const ProductListing = props => {
 
         return (
             <Fragment>
-                <ErrorMessage error={error} />
                 <ul className={classes.root} data-cy="ProductListing-root">
                     {productComponents}
                 </ul>

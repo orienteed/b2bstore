@@ -1,8 +1,5 @@
-.root {
-}
-
 .errorText {
-    composes: leading-normal from global;
+    line-height: var(--venia-global-lineHeight-300);
     composes: text-error from global;
 }
 
@@ -15,12 +12,11 @@
 
 .lineItemLabel {
     composes: justify-self-start from global;
-    composes: my-2 from global;
 }
 
 .price {
     composes: justify-self-end from global;
-    composes: self-center from global;
+    /* composes: self-center from global; */
 }
 
 .totalLabel {
@@ -42,7 +38,6 @@
     composes: items-center from global;
     composes: inline-flex from global;
     composes: justify-center from global;
-    composes: mt-xs from global;
     composes: w-full from global;
     min-height: 5.5rem;
 }

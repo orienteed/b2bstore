@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
-
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { gql, useQuery, useLazyQuery } from '@apollo/client';
+import { useCartContext } from '../../context/cart';
+import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './cartPage.gql';
-import { useEventingContext } from '../../context/eventing';
 
 /**
  * This talon contains logic for a cart page component.
@@ -33,27 +31,22 @@ export const useCartPage = (props = {}) => {
     const [isCartUpdating, setIsCartUpdating] = useState(false);
     const [wishlistSuccessProps, setWishlistSuccessProps] = useState(null);
 
-    const [fetchCartDetails, { called, data, loading }] = useLazyQuery(
-        getCartDetailsQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            errorPolicy: 'all'
-        }
-    );
+    const [fetchCartDetails, { called, data, loading }] = useLazyQuery(getCartDetailsQuery, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first'
+        // errorPolicy: 'all'
+    });
 
-    const hasItems = !!data?.cart?.total_quantity;
+    const hasItems = !!(data && data.cart.total_quantity);
     const shouldShowLoadingIndicator = called && loading && !hasItems;
 
     const cartItems = useMemo(() => {
-        return data?.cart?.items || [];
+        return (data && data.cart.items) || [];
     }, [data]);
 
     const onAddToWishlistSuccess = useCallback(successToastProps => {
         setWishlistSuccessProps(successToastProps);
     }, []);
-
-    const [, { dispatch }] = useEventingContext();
 
     useEffect(() => {
         if (!called && cartId) {
@@ -64,17 +57,14 @@ export const useCartPage = (props = {}) => {
         setIsCartUpdating(loading);
     }, [fetchCartDetails, called, cartId, loading]);
 
-    useEffect(() => {
-        if (called && cartId && !loading) {
-            dispatch({
-                type: 'CART_PAGE_VIEW',
-                payload: {
-                    cart_id: cartId,
-                    products: cartItems
-                }
-            });
-        }
-    }, [called, cartItems, cartId, loading, dispatch]);
+    const [csvErrorType, setCsvErrorType] = useState('');
+    const [csvSkuErrorList, setCsvSkuErrorList] = useState([]);
+
+    const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
+
+    const handleCancelCsvDialog = useCallback(() => {
+        setIsCsvDialogOpen(false);
+    }, []);
 
     return {
         cartItems,
@@ -84,7 +74,14 @@ export const useCartPage = (props = {}) => {
         onAddToWishlistSuccess,
         setIsCartUpdating,
         shouldShowLoadingIndicator,
-        wishlistSuccessProps
+        wishlistSuccessProps,
+        csvErrorType,
+        setCsvErrorType,
+        csvSkuErrorList,
+        setCsvSkuErrorList,
+        isCsvDialogOpen,
+        setIsCsvDialogOpen,
+        handleCancelCsvDialog
     };
 };
 

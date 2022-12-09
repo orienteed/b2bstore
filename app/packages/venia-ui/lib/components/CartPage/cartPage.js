@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useReactToPrint } from 'react-to-print';
 import { Check } from 'react-feather';
 import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '../../classify';
 import { useToasts } from '@magento/peregrine';
 
 import Icon from '../Icon';
-import { StoreTitle } from '../Head';
-import { fullPageLoadingIndicator } from '../LoadingIndicator';
-import StockStatusMessage from '../StockStatusMessage';
-import PriceAdjustments from './PriceAdjustments';
+import Button from '../Button';
 import PriceSummary from './PriceSummary';
-import ProductListing from './ProductListing';
+import { StoreTitle } from '../Head';
 import defaultClasses from './cartPage.module.css';
+import ProductListing from './ProductListing';
+import PriceAdjustments from './PriceAdjustments';
+import StockStatusMessage from '../StockStatusMessage';
+import { fullPageLoadingIndicator } from '../LoadingIndicator';
+
+import PrintPdfPopup from './PrintPdfPopup';
+
 
 import SavedCartButton from '../BuyLaterNotes/SavedCartButton';
 
@@ -37,7 +42,14 @@ const CheckIcon = <Icon size={20} src={Check} />;
  */
 const CartPage = props => {
     const talonProps = useCartPage();
+    const [openPopup, setOpenPopup] = useState(false);
 
+    const componentRef = useRef();
+    // const onBeforeGetContentResolve = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current
+    });
     const {
         cartItems,
         hasItems,
@@ -72,21 +84,26 @@ const CartPage = props => {
         />
     ) : (
         <h3>
-            <FormattedMessage
-                id={'cartPage.emptyCart'}
-                defaultMessage={'There are no items in your cart.'}
-            />
+            <FormattedMessage id={'cartPage.emptyCart'} defaultMessage={'There are no items in your cart.'} />
         </h3>
     );
 
-    const priceAdjustments = hasItems ? (
-        <PriceAdjustments setIsCartUpdating={setIsCartUpdating} />
-    ) : null;
+    const priceAdjustments = hasItems ? <PriceAdjustments setIsCartUpdating={setIsCartUpdating} /> : null;
 
-    const priceSummary = hasItems ? (
-        <PriceSummary isUpdating={isCartUpdating} />
-    ) : null;
+    const priceSummary = hasItems ? <PriceSummary isUpdating={isCartUpdating} /> : null;
+    const handleOpenPopup = () => {
+        setOpenPopup(true);
+    };
 
+    const handleClosePopup = () => {
+        setOpenPopup(false);
+    };
+
+    const printPdfButton = (
+        <Button priority={'normal'} onClick={handleOpenPopup}>
+            <FormattedMessage id={'priceSummary.printPdfButton'} defaultMessage={'Print Pdf'} />
+        </Button>
+    );
     return (
         <div className={classes.root} data-cy="CartPage-root">
             <StoreTitle>
@@ -96,15 +113,8 @@ const CartPage = props => {
                 })}
             </StoreTitle>
             <div className={classes.heading_container}>
-                <h1
-                    aria-live="polite"
-                    data-cy="CartPage-heading"
-                    className={classes.heading}
-                >
-                    <FormattedMessage
-                        id={'cartPage.heading'}
-                        defaultMessage={'Cart'}
-                    />
+                <h1 data-cy="CartPage-heading" className={classes.heading}>
+                    <FormattedMessage id={'cartPage.heading'} defaultMessage={'Cart'} />
                 </h1>
                 <div className={classes.stockStatusMessageContainer}>
                     <StockStatusMessage cartItems={cartItems} />
@@ -112,9 +122,7 @@ const CartPage = props => {
             </div>
             <div className={classes.body}>
                 <div className={classes.items_container}>{productListing}</div>
-                <div className={classes.price_adjustments_container}>
-                    {priceAdjustments}
-                </div>
+                <div className={classes.price_adjustments_container}>{priceAdjustments}</div>
                 <div className={classes.summary_container}>
                     <div className={classes.summary_contents}>
                         {priceSummary}
@@ -124,6 +132,12 @@ const CartPage = props => {
                         </div>
                     </div>
                 </div>
+                <PrintPdfPopup
+                    ref={componentRef}
+                    openPopup={openPopup}
+                    handleClosePopup={handleClosePopup}
+                    handlePrint={handlePrint}
+                />
             </div>
         </div>
     );

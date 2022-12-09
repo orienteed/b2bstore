@@ -78,10 +78,10 @@
 .quantity {
     composes: grid from global;
     composes: items-start from global;
-    composes: justify-items-start from global;
+    composes: justify-items-center from global;
     grid-area: quantity;
 
-    composes: sm_justify-items-center from global;
+    composes: sm_justify-items-start from global;
 }
 
 .kebab {
@@ -122,7 +122,7 @@
 }
 
 .addToListButton {
-    --stroke: rgb(var(--venia-global-color-teal));
+    --stroke: var( --b2bstore-global-color-orange);
 
     composes: content-center from global;
     composes: gap-x-xs from global;
