@@ -4,9 +4,7 @@ import { useCategoryTree } from '@magento/peregrine/lib/talons/CategoryTree';
 
 import { useStyle } from '../../classify';
 
-
 import defaultClasses from './categoryTree.module.css';
-import QuickOrderForm from '../QuickOrderForm/quickOrderForm';
 import Branch from './categoryBranch';
 import Leaf from './categoryLeaf';
 
@@ -26,30 +24,16 @@ const Tree = props => {
         ? Array.from(childCategories, childCategory => {
               const [id, { category, isLeaf }] = childCategory;
               return isLeaf ? (
-                  <Leaf
-                      key={id}
-                      category={category}
-                      onNavigate={onNavigate}
-                      categoryUrlSuffix={categoryUrlSuffix}
-                  />
+                  <Leaf key={id} category={category} onNavigate={onNavigate} categoryUrlSuffix={categoryUrlSuffix} />
               ) : (
-                  <Branch
-                      key={id}
-                      category={category}
-                      setCategoryId={setCategoryId}
-                  />
+                  <Branch key={id} category={category} setCategoryId={setCategoryId} />
               );
           })
         : null;
 
     return (
         <div className={classes.root} data-cy="CategoryTree-root">
-            <ul className={classes.tree}>
-                <li className={classes.quickOrderMobile}>
-                    <QuickOrderForm />
-                </li>
-                {branches}
-            </ul>
+            <ul className={classes.tree}>{branches}</ul>
         </div>
     );
 };

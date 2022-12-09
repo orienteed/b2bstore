@@ -190,9 +190,6 @@ const QuickOrderForm = props => {
         <>
             <div className={classes.btnOrderContainer}>
                 <Button priority="high" className={`${classes.orderIcon} ${classes.gridBtn}`} onClick={onOrderClick}>
-                    <span className={classes.mobileText}>
-                        <FormattedMessage id="quickOrder.quickOrder" defaultMessage="Quick Order" />
-                    </span>
                     <img src={fastCart} alt="Cart icon" />
                 </Button>
             </div>
