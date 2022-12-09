@@ -217,7 +217,7 @@ const OrderHistoryPage = props => {
                         </Form>
                     </div>
                     {loadingProduct ? <LoadingIndicator /> : pageContents}
-                    {pageContents}
+
                     {loadMoreButton}
                 </div>
             </OrderHistoryContextProvider>
