@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
 import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
@@ -117,11 +116,6 @@ export default () => {
             variables: { cartId }
         });
 
-        const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
-            skip: !cartId,
-            variables: { cartId }
-        });
-
         const [loadBillingAddressQuery, { data: billingAddressData }] = useLazyQuery(getBillingAddressQuery, {
             skip: !cartId,
             variables: { cartId }
@@ -183,7 +177,7 @@ export default () => {
                 region: region?.label,
                 country: country?.label
             };
-        }, [isBillingAddressSameData, billingAddressData]);
+        }, [billingAddressData]);
         /**
          * Helpers
          */
@@ -285,7 +279,7 @@ export default () => {
                         timeout: 6000
                     })
                 );
-        }, [formState.values, updateBillingAddress, cartId,addToast]);
+        }, [formState.values, updateBillingAddress, cartId, addToast]);
 
         /**
          * Effects
@@ -339,6 +333,7 @@ export default () => {
                 }
                 onBillingAddressChangedError();
             }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [
             shouldSubmit,
             isBillingAddressDefault,

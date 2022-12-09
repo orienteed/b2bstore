@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-// eslint-disable-next-line jsx-a11y/label-has-associated-control
 /* eslint-disable react/jsx-no-literals */
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
@@ -77,7 +75,7 @@ const SavedCartsView = props => {
     const savedCartViewTable = (
         <div className={classes.tableContent}>
             <div className={classes.savedCartViewTable}>
-                <label className={classes.itemsTitle}>Items</label>
+                <span className={classes.itemsTitle}>Items</span>
                 {savedCartViewTableItems}
                 <div className={classes.footer}>
                     {savedCartViewTableFooter}

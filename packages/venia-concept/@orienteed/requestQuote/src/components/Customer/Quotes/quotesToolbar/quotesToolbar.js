@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-literals */
-/* eslint-disable jsx-a11y/no-onchange */
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -30,7 +29,7 @@ const QuotesToolbar = props => {
             <span className={classes.limiterLabel}>
                 <FormattedMessage id={'quotesToolbar.quotesShowText'} defaultMessage={'Show'} />
             </span>
-            <select id="limiter" className={classes.limiterOptions} onChange={handlePageSize}>
+            <select id="limiter" className={classes.limiterOptions} onBlur={handlePageSize}>
                 <option value="5" selected={pageSize == 5}>
                     {'5'}
                 </option>

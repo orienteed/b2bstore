@@ -3,6 +3,7 @@
     display: grid;
     gap: 1rem;
     grid-template-columns: 60px 1fr 1fr;
+    cursor: pointer;
 }
 
 .image {

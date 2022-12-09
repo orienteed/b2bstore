@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-onchange */
 /* eslint-disable react/jsx-no-literals */
 import React from 'react';
 import { shape, string } from 'prop-types';
@@ -30,7 +29,7 @@ const SavedCartsToolbar = props => {
             <span className={classes.limiterLabel}>
                 <FormattedMessage id={'savedCartsToolbar.cartShowText'} defaultMessage={'Show'} />
             </span>
-            <select id="limiter" className={classes.limiterOptions} onChange={handlePageSize}>
+            <select id="limiter" className={classes.limiterOptions} onBlur={handlePageSize}>
                 <option value="5">{'5'}</option>
                 <option value="10">{'10'}</option>
                 <option value="50">{'50'}</option>

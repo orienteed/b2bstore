@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useMutation } from '@apollo/client';
@@ -42,9 +41,7 @@ export const useAddToQuote = () => {
             } = await addSimpleProductToCart({
                 variables
             });
-            const {
-                data: { mpQuoteSubmit }
-            } = await submitCurrentQuote();
+            await submitCurrentQuote();
             await setQuoteId(quote.entity_id);
             await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: quote }));
             setTimeout(() => setIsLoading(false), 1000);
@@ -77,13 +74,11 @@ export const useAddToQuote = () => {
             const {
                 data: {
                     addConfigurableProductsToMpQuote: { quote }
-                },
+                }
             } = await addConfigProductToCart({
                 variables
             });
-            const {
-                data: { mpQuoteSubmit }
-            } = await submitCurrentQuote();
+            await submitCurrentQuote();
             await setQuoteId(quote.entity_id);
             await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_REQUEST_QUOTE, { detail: quote }));
             setTimeout(() => setIsLoading(false), 1000);

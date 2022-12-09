@@ -1,8 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-// eslint-disable-next-line jsx-a11y/no-static-element-interactions
 /* eslint-disable react/jsx-no-literals */
 import React, { useCallback, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -193,8 +188,12 @@ const ProductItem = props => {
                         </div>
                     ) : (
                         <div className={classes.productSkuContainer}>
-                            <a onClick={copyText}>...{lastDigitsOfSku}</a>
-                            <img src={copyToClipboard} alt="copyToClipboard" onClick={copyText} />
+                            <a href onClick={copyText}>
+                                ...{lastDigitsOfSku}
+                            </a>
+                            <a href onClick={copyText}>
+                                <img src={copyToClipboard} alt="copyToClipboard" />
+                            </a>
                         </div>
                     )}
                 </p>

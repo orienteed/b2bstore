@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useCallback } from 'react';
 import { func, number, shape, string } from 'prop-types';
 import Price from '@magento/venia-ui/lib/components/Price';
@@ -22,7 +20,7 @@ const SuggestedProduct = props => {
 
     return (
         <>
-            <div className={classes.root} onClick={handleClick} data-cy="SuggestedProduct-root">
+            <a className={classes.root} href onClick={handleClick} data-cy="SuggestedProduct-root">
                 <Image
                     alt={name}
                     classes={{
@@ -37,7 +35,7 @@ const SuggestedProduct = props => {
                 <span data-cy="SuggestedProduct-price" className={classes.price}>
                     <Price currencyCode={price.minimalPrice.amount.currency} value={price.minimalPrice.amount.value} />
                 </span>
-            </div>
+            </a>
         </>
     );
 };

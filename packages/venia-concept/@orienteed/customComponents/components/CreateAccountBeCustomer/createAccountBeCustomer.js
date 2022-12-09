@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Field from '@magento/venia-ui/lib/components/Field';
@@ -35,18 +34,18 @@ const CreateAccountBeCustomer = props => {
 
     return (
         <div className={classes.content}>
-            <label className={classes.title}>
+            <span className={classes.title}>
                 <FormattedMessage
                     id={'createAccountBeCustomer.title'}
                     defaultMessage={'Create an Account (Be customer)'}
                 />
-            </label>
+            </span>
             <Form className={classes.formContent} onSubmit={handleSendEmail}>
                 {formMsg}
                 <div className={classes.section}>
-                    <label className={classes.titleSection}>
+                    <span className={classes.titleSection}>
                         <FormattedMessage id={'createAccountBeCustomer.information'} defaultMessage={'Information'} />
-                    </label>
+                    </span>
                     <div className={classes.row}>
                         <Field
                             id="email"

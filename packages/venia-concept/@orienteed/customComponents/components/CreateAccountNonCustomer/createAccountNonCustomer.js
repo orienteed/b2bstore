@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Field from '@magento/venia-ui/lib/components/Field';
@@ -36,19 +35,19 @@ const CreateAccountNonCustomer = props => {
 
     return (
         <div className={classes.content}>
-            <label className={classes.title}>
+            <span className={classes.title}>
                 <FormattedMessage
                     id={'createAccountNonCustomer.title'}
                     defaultMessage={'Create an Account (Non customer)'}
                 />
-            </label>
+            </span>
             <Form className={classes.formContent} onSubmit={handleSendEmail}>
                 {formMsg}
 
                 <div className={classes.section}>
-                    <label className={classes.titleSection}>
+                    <span className={classes.titleSection}>
                         <FormattedMessage id={'createAccountNonCustomer.information'} defaultMessage={'Information'} />
-                    </label>
+                    </span>
                     <div className={classes.row}>
                         <Field
                             id="name"
@@ -66,9 +65,9 @@ const CreateAccountNonCustomer = props => {
                 </div>
 
                 <div className={classes.section}>
-                    <label className={classes.titleSection}>
+                    <span className={classes.titleSection}>
                         <FormattedMessage id={'createAccountNonCustomer.location'} defaultMessage={'Location'} />
-                    </label>
+                    </span>
                     <div className={classes.row}>
                         <Field
                             id="address1"
@@ -131,9 +130,9 @@ const CreateAccountNonCustomer = props => {
                 </div>
 
                 <div className={classes.section}>
-                    <label className={classes.titleSection}>
+                    <span className={classes.titleSection}>
                         <FormattedMessage id={'createAccountNonCustomer.contact'} defaultMessage={'Contact'} />
-                    </label>
+                    </span>
                     <div className={classes.row}>
                         <Field
                             id="contactName"

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
@@ -15,9 +14,9 @@ export const useQuoteCartPage = props => {
     const { getQuoteId } = props;
 
     const [myQuote, setMyQuote] = useState({});
-    const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
-    const [activeEditItem, setActiveEditItem] = useState(false);
-    const [isCartUpdating, setIsCartUpdating] = useState(false);
+    const [submittedQuoteId] = useState(0);
+    const [, setActiveEditItem] = useState(false);
+    const [, setIsCartUpdating] = useState(false);
 
     const history = useHistory();
 

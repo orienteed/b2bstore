@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useMemo, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Search as SearchIcon, AlertCircle as AlertCircleIcon, ArrowRight as SubmitIcon } from 'react-feather';
@@ -83,7 +81,7 @@ const OrderHistoryPage = props => {
                 />
             );
         });
-    }, [orders, storeConfigData, setSuccessToast, setErrorToast,address]);
+    }, [orders, storeConfigData, setSuccessToast, setErrorToast, address]);
 
     const pageContents = useMemo(() => {
         if (isLoadingWithoutData) {
@@ -158,12 +156,9 @@ const OrderHistoryPage = props => {
             <p className={classes.successToastText}>
                 <FormattedMessage id={'csr.ticketCreated'} defaultMessage={'Ticket created successfully'} />
             </p>
-            <img
-                alt="Close icon"
-                className={classes.toastCloseIcon}
-                onClick={() => setSuccessToast(false)}
-                src={closeIcon}
-            />
+            <a onClick={() => setSuccessToast(false)} href>
+                <img alt="Close icon" className={classes.toastCloseIcon} src={closeIcon} />
+            </a>
         </div>
     );
 
@@ -176,12 +171,9 @@ const OrderHistoryPage = props => {
                     values={{ br: <br /> }}
                 />
             </p>
-            <img
-                alt="Close icon"
-                className={classes.toastCloseIcon}
-                onClick={() => setErrorToast(false)}
-                src={closeIcon}
-            />
+            <a href onClick={() => setErrorToast(false)}>
+                <img alt="Close icon" className={classes.toastCloseIcon} src={closeIcon} />
+            </a>
         </div>
     );
 

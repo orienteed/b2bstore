@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-no-literals */
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -129,12 +127,14 @@ const ItemsTable = props => {
                         </div>
                     ) : (
                         <div className={classes.productSkuContainer}>
-                            <p onClick={copyText}>...{lastDigitsOfSku}</p>
+                            <a href onClick={copyText}>
+
+                            <p >...{lastDigitsOfSku}</p>
                             <img
                                 src={copyToClipboard}
                                 alt="copyToClipboard"
-                                onClick={copyText}
                             />
+                            </a>
                         </div>
                     )}
                 </div>

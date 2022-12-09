@@ -23,7 +23,6 @@ export const useOrderAttributes = () => {
     const [state, dispatch] = useReducer(reducer, orderAttributesData);
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const [{ cartId }] = useCartContext();
-    console.log(operations, 'DEFAULT_OPERATIONS');
     const { setOrderAttributes } = operations;
 
     const handleChangeOrderAttribute = (name, value) => {

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useMemo, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
@@ -12,17 +11,16 @@ import {
 const useCompareProduct = () => {
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
-    const [isLoading, setIsLoading] = useState(false);
     const [isAction, setIsAction] = useState(false);
     const [createCompareList] = useMutation(CREATE_COMPARE_LIST);
     const [deleteProductsFromList] = useMutation(DELETE_PRODUCTS_FROM_LIST);
-    const [getCustomerCompareList, { data, loading }] = useLazyQuery(GET_COMPARE_LIST_CUSTOMER, {
+    const [getCustomerCompareList, { data, loading: isLoading }] = useLazyQuery(GET_COMPARE_LIST_CUSTOMER, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
     });
 
     const deleteProduct = async item => {
-        const res = await deleteProductsFromList({
+        await deleteProductsFromList({
             variables: {
                 uid: data?.customer?.compare_list?.uid,
                 products: [item.uid]
@@ -48,12 +46,11 @@ const useCompareProduct = () => {
     }, [data]);
     useEffect(() => {
         getCustomerCompareList();
-        setIsLoading(loading);
-    }, [isAction, loading, getCustomerCompareList]);
+    }, [isAction, getCustomerCompareList]);
 
     const addProductsToCompare = async product => {
-        const {  id } = product;
-        const res = await createCompareList({
+        const { id } = product;
+        await createCompareList({
             variables: {
                 products: [id]
             }

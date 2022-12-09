@@ -1,5 +1,4 @@
-/* eslint-disable no-empty-pattern */
-// eslint-disable-next-line no-empty-pattern
+
 import { useParams, useHistory } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -10,7 +9,7 @@ const Login = () => {
     const { customer_token } = useParams();
     const history = useHistory();
 
-    const [{}, { setToken, signOut }] = useUserContext();
+    const [, { setToken, signOut }] = useUserContext();
 
     const handleSubmit = useCallback(async () => {
         await storage.removeItem('pwa_login');
