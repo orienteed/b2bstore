@@ -3,26 +3,25 @@ import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 import defaultClasses from './printPdfPopup.module.css';
 import ItemCard from './itemCard';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import ItemSummaryCard from './itemSummaryCard';
 import Dropzone from './Dropzone';
+import TextArea from '../../TextArea';
 import ImagesList from './imagesList';
 import Button from '@magento/venia-ui/lib/components/Button';
-import CustomDialog from './customDialog';
-
+import Dialog from '../../Dialog';
 const PrintPdfPopup = React.forwardRef((props, ref) => {
     const { openPopup, handleClosePopup, handlePrint } = props;
     const { priceSummary, cartItem } = usePrintPdfContext();
     const [tooglePrice, setTooglePrice] = useState(false);
-    const [companyInfo, setCompanyInfo] = useState(
-        " Company info, Información de la compañía, Informação da companhia, Information d'entreprise"
-    );
+    const [companyInfo, setCompanyInfo] = useState();
 
-    const infoCompany = <FormattedMessage id={'companyInfo'} defaultMessage={'Company Info'} />;
+    const { formatMessage } = useIntl();
 
     const productTitle = <FormattedMessage id={'productTitle'} defaultMessage={'Products'} />;
     const descriptionTitle = <FormattedMessage id={'descriptionTitle'} defaultMessage={'Description'} />;
     const pricesTitle = <FormattedMessage id={'pricesTitle'} defaultMessage={'Prices'} />;
+    const companyInfoPlaceholder = formatMessage({ id: 'companyInfo', defaultMessage: 'Company Info' });
 
     const handleTooglePrice = () => {
         setTooglePrice(!tooglePrice);
@@ -34,16 +33,12 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
         </Button>
     );
 
-    const cancelButton = (
-        <Button priority={'low'} onClick={handleClosePopup}>
-            <FormattedMessage id={'cancelPdfButton'} defaultMessage={'Cancel'} />
-        </Button>
-    );
     const printButton = (
         <Button priority={'high'} onClick={handlePrint}>
             <FormattedMessage id={'printTitle'} defaultMessage={'Print'} />
         </Button>
     );
+
     const doneButton = (
         <Button priority={'high'} onClick={handleTooglePrice}>
             <FormattedMessage id={'donePdfButton'} defaultMessage={'Done'} />
@@ -52,16 +47,15 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
 
     const printTitle = <FormattedMessage id={'printTitle'} defaultMessage={'Print'} />;
 
+    const dialogButtonsArray = [tooglePrice ? doneButton : editPriceButton, printButton];
+
     return (
-        <CustomDialog
-            confirmTranslationId={'global.close'}
-            confirmText="Print"
-            isOpen={openPopup}
-            onCancel={handleClosePopup}
-            shouldShowButtons={false}
+        <Dialog
             title={printTitle}
-            isModal={true}
-            shouldHideCancelButton={true}
+            isOpen={openPopup}
+            shouldUseButtonsArray={true}
+            buttonsArray={dialogButtonsArray}
+            onCancel={handleClosePopup}
         >
             <Dropzone />
             <main ref={ref}>
@@ -69,19 +63,14 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
                     <article className={defaultClasses.imagesContainer}>
                         <ImagesList />
                     </article>
-                    <article className={defaultClasses.containerCompanyInfo}>
-                        <textarea
-                            name="info"
-                            id=""
-                            cols="30"
-                            rows="10"
-                            value={companyInfo}
-                            onChange={e => {
-                                setCompanyInfo(e.target.value);
-                            }}
-                        />
-                    </article>
-
+                    <TextArea
+                        id="info"
+                        field="info"
+                        placeholder={companyInfoPlaceholder + '...'}
+                        value={companyInfo}
+                        maxLength={10000}
+                        onChange={e => setCompanyInfo(e.target.value)}
+                    />
                     <article className={defaultClasses.emptyContainer}>
                         <article />
                     </article>
@@ -113,18 +102,7 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
                     />
                 ) : null}
             </main>
-            <section className={defaultClasses.buttonsContainer}>
-                {tooglePrice ? (
-                    <article className={defaultClasses.individualButton}>{doneButton}</article>
-                ) : (
-                    <article className={defaultClasses.individualButton}>{editPriceButton}</article>
-                )}
-
-                <article className={defaultClasses.individualButton}>{cancelButton}</article>
-
-                <article className={defaultClasses.individualButton}>{printButton}</article>
-            </section>
-        </CustomDialog>
+        </Dialog>
     );
 });
 

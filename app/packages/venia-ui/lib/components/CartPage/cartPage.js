@@ -17,10 +17,7 @@ import StockStatusMessage from '../StockStatusMessage';
 import { fullPageLoadingIndicator } from '../LoadingIndicator';
 
 import PrintPdfPopup from './PrintPdfPopup';
-
-
 import SavedCartButton from '../BuyLaterNotes/SavedCartButton';
-
 const CheckIcon = <Icon size={20} src={Check} />;
 
 /**
@@ -45,7 +42,6 @@ const CartPage = props => {
     const [openPopup, setOpenPopup] = useState(false);
 
     const componentRef = useRef();
-    // const onBeforeGetContentResolve = useRef();
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current
@@ -128,7 +124,7 @@ const CartPage = props => {
                         {priceSummary}
                         <div className={classes.additionalOptionsContainer}>
                             {hasItems && isPremium ? <SavedCartButton /> : null}
-                            {/* {hasItems ? printPdfButton : null} */}
+                            {hasItems ? printPdfButton : null}
                         </div>
                     </div>
                 </div>

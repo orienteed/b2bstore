@@ -113,7 +113,7 @@ export const useMegaMenu = (props = {}) => {
 
         if (storeRequiredLogin) {
             const { is_required_login } = storeRequiredLogin['storeConfig'];
-            isRequiredLogin = is_required_login === '1' ? true : false;
+            isRequiredLogin = is_required_login === '1';
         }
 
         if (!isSignedIn && isRequiredLogin) return {};
