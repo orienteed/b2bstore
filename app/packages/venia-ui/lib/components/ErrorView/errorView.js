@@ -6,11 +6,9 @@ import { func, shape, string } from 'prop-types';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
 import defaultClasses from './errorView.module.css';
-import backgroundUrl from './errorViewBackground-1400x600.png';
-import mobileBackgroundUrl from './errorViewBackground-380x600.png';
 
 const DEFAULT_HEADER = 'Oops!';
-const DEFAULT_MESSAGE = 'Looks like something went wrong. Sorry about that.';
+const DEFAULT_MESSAGE = 'Looks like something went wrong. Contact the administration for more information.';
 const DEFAULT_PROMPT = 'Take me home';
 
 const ErrorView = props => {
@@ -22,24 +20,9 @@ const ErrorView = props => {
     }, [history]);
 
     const {
-        header = (
-            <FormattedMessage
-                id={'errorView.header'}
-                defaultMessage={DEFAULT_HEADER}
-            />
-        ),
-        message = (
-            <FormattedMessage
-                id={'errorView.message'}
-                defaultMessage={DEFAULT_MESSAGE}
-            />
-        ),
-        buttonPrompt = (
-            <FormattedMessage
-                id={'errorView.goHome'}
-                defaultMessage={DEFAULT_PROMPT}
-            />
-        ),
+        header = <FormattedMessage id={'errorView.header'} defaultMessage={DEFAULT_HEADER} />,
+        message = <FormattedMessage id={'errorView.message'} defaultMessage={DEFAULT_MESSAGE} />,
+        buttonPrompt = <FormattedMessage id={'errorView.goHome'} defaultMessage={DEFAULT_PROMPT} />,
         onClick = handleGoHome
     } = props;
 
@@ -47,18 +30,11 @@ const ErrorView = props => {
         onClick && onClick();
     }, [onClick]);
 
-    const style = {
-        '--backroundImageUrl': `url("${backgroundUrl}")`,
-        '--mobileBackgroundImageUrl': `url("${mobileBackgroundUrl}")`
-    };
-
     return (
-        <div className={classes.root} style={style} data-cy="ErrorView-root">
+        <div className={classes.root}>
             <div className={classes.content}>
                 <p className={classes.header}>{header}</p>
-                <p className={classes.message} data-cy="ErrorView-message">
-                    {message}
-                </p>
+                <p className={classes.message} data-cy="ErrorView-message">{message}</p>
                 <div className={classes.actionsContainer}>
                     <Button priority="high" type="button" onClick={handleClick}>
                         {buttonPrompt}

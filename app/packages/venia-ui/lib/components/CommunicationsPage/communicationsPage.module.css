@@ -9,7 +9,7 @@
 
 .title {
     composes: font-bold from global;
-    composes: font-serif from global;
+    font-family: var(--b2bStore-font-family);
     composes: justify-self-center from global;
 }
 

@@ -46,10 +46,7 @@ const CommunicationsPage = props => {
         <div className={classes.root}>
             <StoreTitle>{title}</StoreTitle>
             <h1 className={classes.title}>
-                <FormattedMessage
-                    id={'communicationsPage.communicationsText'}
-                    defaultMessage={'Communications'}
-                />
+                <FormattedMessage id={'communicationsPage.communicationsText'} defaultMessage={'Communications'} />
             </h1>
             <p>
                 <FormattedMessage
@@ -60,24 +57,19 @@ const CommunicationsPage = props => {
                 />
             </p>
             <FormError errors={formErrors} />
-            <Form
-                className={classes.form}
-                onSubmit={handleSubmit}
-                initialValues={initialValues}
-            >
+            <Form className={classes.form} onSubmit={handleSubmit} initialValues={initialValues}>
                 <Field
                     id="isSubscribed"
                     label={formatMessage({
                         id: 'communicationsPage.eNewsletterText',
-                        defaultMessage: 'Venia E-Newsletter'
+                        defaultMessage: 'B2BStore E-Newsletter'
                     })}
                 >
                     <Checkbox
                         field="isSubscribed"
                         label={formatMessage({
                             id: 'communicationsPage.subscribeText',
-                            defaultMessage:
-                                'Stay on the cutting edge of fashion; subscribe to the monthly Venia Newsletter.'
+                            defaultMessage: 'Stay updated; subscribe to the monthly B2BStore Newsletter.'
                         })}
                     />
                 </Field>
