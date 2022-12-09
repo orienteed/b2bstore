@@ -1,4 +1,5 @@
 .root {
+    margin: 0.2rem;
     composes: root from '../clickable.module.css';
 
     composes: border from global;

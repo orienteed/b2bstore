@@ -1,8 +1,8 @@
 .root {
-    composes: bg-gray-100 from global;
     composes: h-[2px] from global;
     composes: overflow-hidden from global;
     composes: w-full from global;
+    background: var(--b2bstore-global-color-gray);
 }
 
 .root_relative {
@@ -27,6 +27,7 @@
     composes: opacity-0 from global;
     composes: top-0 from global;
     composes: w-full from global;
+    background: var(--b2bstore-global-color-orange);
     transform: translateX(-100%);
     transform-origin: left;
     transition: transform 0.25s linear;
