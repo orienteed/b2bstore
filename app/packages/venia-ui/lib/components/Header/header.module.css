@@ -133,8 +133,8 @@
 }
 
 .loader,
-.loader:before,
-.loader:after {
+.loaderBefore,
+.loaderAfter {
     --dot-size: 2em;
     --dot-font-size: 6px;
     --dot-shadow-offset: calc(-1 * var(--dot-size) + var(--dot-font-size));
