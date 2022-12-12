@@ -1,12 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useQuery } from '@apollo/client';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 import getTickets from '@magento/peregrine/lib/RestApi/Csr/tickets/getTickets';
 import getGroups from '@magento/peregrine/lib/RestApi/Csr/groups/getGroups';
 import getStates from '@magento/peregrine/lib/RestApi/Csr/tickets/ticket_states/getStates';
-import accountInformationPageGql from '@magento/venia-ui/lib/components/AccountInformationPage/accountInformationPage.gql.js';
 
 export const useSupportPage = () => {
     const [{ isSignedIn }] = useUserContext();
@@ -123,12 +121,7 @@ export const useSupportPage = () => {
         [isSignedIn, orderBy]
     );
 
-    const getCustomerInformationQuery = accountInformationPageGql.queries.getCustomerInformationQuery;
-
-    const { data: accountInformationData, error: loadDataError } = useQuery(getCustomerInformationQuery);
-
     return {
-        accountInformationData,
         changeOrderBy,
         errorToast,
         filterByStatus,

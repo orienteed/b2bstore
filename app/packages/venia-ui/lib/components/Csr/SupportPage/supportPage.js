@@ -40,10 +40,9 @@ const PAGE_SIZE = 8;
 
 const ContentDialog = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const [{ isSignedIn, currentUser }] = useUserContext();
+    const [{ currentUser }] = useUserContext();
     const talonProps = useSupportPage();
     const {
-        accountInformationData,
         errorToast,
         filterByStatus,
         filterByType,
