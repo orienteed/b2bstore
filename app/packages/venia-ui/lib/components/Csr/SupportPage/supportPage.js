@@ -20,6 +20,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useSupportPage } from '@magento/peregrine/lib/talons/Csr/useSupportPage';
 import { useSortTicket } from '@magento/peregrine/lib/talons/Csr/useSortTicket.js';
 import { useFilterTicket } from '@magento/peregrine/lib/talons/Csr/useFilterTicket.js';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 import defaultClasses from './supportPage.module.css';
 
@@ -39,6 +40,7 @@ const PAGE_SIZE = 8;
 
 const ContentDialog = props => {
     const classes = useStyle(defaultClasses, props.classes);
+    const [{ isSignedIn, currentUser }] = useUserContext();
     const talonProps = useSupportPage();
     const {
         accountInformationData,
@@ -334,7 +336,7 @@ const ContentDialog = props => {
         amazon_connect('snippetId', 'QVFJREFIaTl2VUdnV3lybUVtc0FxTFVtYk4vUHoxRGdsUDM2Vm4zaFp0YXlzdS8wUEFHNWM5UUNtSE1kOWUvczd2UlBxcGZPQUFBQWJqQnNCZ2txaGtpRzl3MEJCd2FnWHpCZEFnRUFNRmdHQ1NxR1NJYjNEUUVIQVRBZUJnbGdoa2dCWlFNRUFTNHdFUVFNL2Z3V1J5UW9NeWMrOENlNUFnRVFnQ3R6L24rOVBPWjkyWUtscEI3bmQ1YTloenFCcTU5UzFNYnFuNUM1RWVGSVcvc3QzRm5nK3p6Y2FTWGs6OkZMTEl2Qmh4eW83Q2VzbmlLaEtxN0hSbkRkNDByaTJZbmVOK1RhcTdmTDlTaW0wdkZ6Q1I0di9YZ2tLSmVLUXRaWDhwb01BZnZRaEF4OVMwYXZNNGJVSkFBdU1SWm9JcGhxVGl3K1BGcVhUY3M2UGdvYlNsLzVSeXM3cGYxQXlSd0taSUdWVnlCd2lyNXV4K21xa25LYk1zckd5N3FUdz0=');
         amazon_connect('supportedMessagingContentTypes', [ 'text/plain', 'text/markdown' ]);
         amazon_connect('customerDisplayName', function(callback) {
-            const displayName = accountInformationData.customer.firstname;
+            const displayName = currentUser.firstname;
             callback(displayName);
           });
         amazon_connect('authenticate', function(callback) {
