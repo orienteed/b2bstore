@@ -3,8 +3,7 @@
     --stroke: var(--venia-brand-color-1-700);
     background: none;
     border-color: var(--b2bstore-global-color-orange);
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-radius: 10px;
     border-style: solid;
     border-width: 2px;
     color: rgb(var(--stroke));
