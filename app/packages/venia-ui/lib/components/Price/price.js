@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react';
 import { number, string, shape } from 'prop-types';
+import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import { useStyle } from '../../classify';
 import patches from '@magento/peregrine/lib/util/intlPatches';
+import defaultClasses from './price.module.css';
 
 /**
  * The **Price** component is used anywhere a price needs to be displayed.
@@ -17,6 +20,8 @@ import patches from '@magento/peregrine/lib/util/intlPatches';
 const Price = props => {
     const { locale } = useIntl();
     const { value, currencyCode, classes } = props;
+
+    const cssClasses = useStyle(defaultClasses, {});
 
     const parts = patches.toParts.call(
         new Intl.NumberFormat(locale, {
@@ -37,7 +42,13 @@ const Price = props => {
         );
     });
 
-    return <Fragment>{children}</Fragment>;
+    const signInBtn = (
+        <Link to={'/sign-in'}>
+            <p className={cssClasses.link}>Sign In to see prices</p>
+        </Link>
+    );
+
+    return <Fragment>{value === -1 ? signInBtn : children}</Fragment>;
 };
 
 Price.propTypes = {
