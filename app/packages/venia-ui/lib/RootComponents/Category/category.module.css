@@ -62,21 +62,16 @@
     composes: lg_text-left from global;
 }
 
-.actionsBtnsMobile {
-    width: 53%;
-    display: flex;
-    justify-content: space-around;
-}
-
 .headerButtons {
     composes: flex from global;
     composes: justify-center from global;
     composes: pb-sm from global;
     composes: w-full from global;
-    flex-basis: 100%;
-    display: flex;
     composes: lg_justify-end from global;
     composes: lg_pb-0 from global;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
 }
 
 .contentWrapper {
@@ -92,23 +87,13 @@
     composes: lg_self-start from global;
 }
 
-.downloadCsvDesktop {
-    margin-left: 0.5rem;
-}
-.downloadCsvDesktop {
-    padding: 0.2rem 0.5rem !important;
-    font-size: 14px;
-    font-weight: 600;
-}
-.downloadCsvDesktop {
-    width: 40px;
-}
 .showDesBtn {
     font-weight: 400;
     font-size: 16px;
     cursor: pointer;
     color: #1071ff;
 }
+
 .descriptionText {
     font-weight: 400;
     font-size: 16px;
@@ -119,12 +104,6 @@
     margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 1024px) {
-    .downloadCsvDesktop {
-        display: none;
-    }
-}
-
 @media (min-width: 1024px) {
     .sidebar {
         width: var(--category-sidebar-width);
@@ -133,10 +112,5 @@
 
     .categoryHeader {
         width: 100%;
-    }
-
-    .downloadCsvMobile {
-        margin-bottom: 2rem;
-        display: none;
     }
 }

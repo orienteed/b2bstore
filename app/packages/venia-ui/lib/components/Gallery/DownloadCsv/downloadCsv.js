@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomButton from './CustomButton/customButton';
+import Button from '../../Button';
 import { FormattedMessage } from 'react-intl';
 import { useDownloadCsvContext } from '@magento/venia-ui/lib/components/Gallery/DownloadCsvProvider/downloadCsvProvider.js';
 import defaultClasses from './downloadCsv.module.css';
@@ -39,9 +39,9 @@ const DownloadCsv = () => {
 
     const donwloadButton = (
         <CSVLink filename="Downloaded-catalog.csv" data={flatNewGalleryItem}>
-            <CustomButton priority={'high'}>
+            <Button className={defaultClasses.downloadButton}>
                 <FormattedMessage id={'download'} defaultMessage={'download'} />
-            </CustomButton>
+            </Button>
         </CSVLink>
     );
 

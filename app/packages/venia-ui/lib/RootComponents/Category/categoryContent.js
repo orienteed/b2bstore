@@ -144,16 +144,7 @@ const CategoryContent = props => {
                             <div className={classes.headerButtons}>
                                 {maybeFilterButtons}
                                 {maybeSortButton}
-                                <div className={classes.downloadCsvDesktop}>
-                                    <DownloadCsv showIcon />
-                                </div>
-                            </div>
-                            <div className={classes.actionsBtnsMobile}>
-                                <div className={classes.downloadCsvMobile}>
-                                    <DownloadCsv />
-                                </div>
-
-                                {maybeSortContainer}
+                                <DownloadCsv />
                             </div>
                         </div>
                         {content}
