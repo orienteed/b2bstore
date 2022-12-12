@@ -1,0 +1,30 @@
+.titleContainer {
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 37px;
+    margin-top: 28px;
+}
+
+.contentContainer {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 23px;
+    margin: 0 5%;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.tableContainer {
+    margin-top: 26px;
+}
+
+@media (max-width: 700px) {
+    .contentContainer {
+        grid-template-columns: 1fr;
+    }
+}

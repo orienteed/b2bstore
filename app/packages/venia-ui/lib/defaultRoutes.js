@@ -156,5 +156,25 @@ module.exports = [
         name: 'BuyLaterNotes',
         pattern: '/mpsavecart/cart/share/id/:token',
         path: '../BuyLaterNotes/ShareCart'
+    },
+    {
+        name: 'Company Account Information',
+        pattern: '/company-account/information',
+        path: '../CompanyAccount/CompanyInfo'
+    },
+    {
+        name: 'Company Account Users',
+        pattern: '/company-account/users',
+        path: '../CompanyAccount/CompanyUsers'
+    },
+    {
+        name: 'Company Account Orders',
+        pattern: '/company-account/orders',
+        path: '../CompanyAccount/CompanyOrders'
+    },
+    {
+        name: 'Company Account User Roles',
+        pattern: '/company-account/userRoles',
+        path: '../CompanyAccount/UserRoles'
     }
 ];
