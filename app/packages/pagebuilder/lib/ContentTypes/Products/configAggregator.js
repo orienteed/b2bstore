@@ -1,4 +1,4 @@
-import { getAdvanced } from '../../utils';
+import { getAdvanced } from '@magento/pagebuilder/lib/utils';
 
 export default (node, props) => {
     const forms = node.querySelectorAll(

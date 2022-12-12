@@ -1,9 +1,9 @@
-import acOperations from '../carousel.gql.ee';
-import mosOperations from '../carousel.gql.ce';
+import eeOperations from '../carousel.gql.ee';
+import ceOperations from '../carousel.gql.ce';
 
-export const mockGetStoreConfigAC = {
+export const mockGetStoreConfigEE = {
     request: {
-        query: acOperations.getStoreConfigQuery
+        query: eeOperations.getStoreConfigQuery
     },
     result: {
         data: {
@@ -17,9 +17,9 @@ export const mockGetStoreConfigAC = {
     }
 };
 
-export const mockGetStoreConfigMOS = {
+export const mockGetStoreConfigCE = {
     request: {
-        query: mosOperations.getStoreConfigQuery
+        query: ceOperations.getStoreConfigQuery
     },
     result: {
         data: {

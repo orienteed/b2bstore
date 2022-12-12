@@ -1,33 +1,34 @@
 import React from 'react';
-import rowConfigAggregator from './ContentTypes/Row/configAggregator';
-import Row from './ContentTypes/Row';
-import columnConfigAggregator from './ContentTypes/Column/configAggregator';
-import Column from './ContentTypes/Column';
-import columnGroupConfigAggregator from './ContentTypes/ColumnGroup/configAggregator';
-import ColumnGroup from './ContentTypes/ColumnGroup';
-import imageConfigAggregator from './ContentTypes/Image/configAggregator';
-import { ImageShimmer } from './ContentTypes/Image';
-import headingConfigAggregator from './ContentTypes/Heading/configAggregator';
-import Heading from './ContentTypes/Heading';
-import textConfigAggregator from './ContentTypes/Text/configAggregator';
-import Text from './ContentTypes/Text';
-import tabsConfigAggregator from './ContentTypes/Tabs/configAggregator';
-import tabItemConfigAggregator from './ContentTypes/TabItem/configAggregator';
-import blockConfigAggregator from './ContentTypes/Block/configAggregator';
-import dynamicBlockConfigAggregator from './ContentTypes/DynamicBlock/configAggregator';
-import productsConfigAggregator from './ContentTypes/Products/configAggregator';
-import buttonsConfigAggregator from './ContentTypes/Buttons/configAggregator';
-import buttonItemConfigAggregator from './ContentTypes/ButtonItem/configAggregator';
-import htmlConfigAggregator from './ContentTypes/Html/configAggregator';
-import dividerConfigAggregator from './ContentTypes/Divider/configAggregator';
-import videoConfigAggregator from './ContentTypes/Video/configAggregator';
-import mapConfigAggregator from './ContentTypes/Map/configAggregator';
-import bannerConfigAggregator from './ContentTypes/Banner/configAggregator';
-import { BannerShimmer } from './ContentTypes/Banner';
 import ButtonItem from './ContentTypes/ButtonItem';
+import Column from './ContentTypes/Column';
+import ColumnGroup from './ContentTypes/ColumnGroup';
+import Heading from './ContentTypes/Heading';
+import Row from './ContentTypes/Row';
+import Text from './ContentTypes/Text';
+import bannerConfigAggregator from './ContentTypes/Banner/configAggregator';
+import blockConfigAggregator from './ContentTypes/Block/configAggregator';
+import buttonItemConfigAggregator from './ContentTypes/ButtonItem/configAggregator';
+import buttonsConfigAggregator from './ContentTypes/Buttons/configAggregator';
+import columnConfigAggregator from './ContentTypes/Column/configAggregator';
+import columnGroupConfigAggregator from './ContentTypes/ColumnGroup/configAggregator';
+import courseSliderConfigAggregator from './ContentTypes/CourseSlider/configAggregator';
+import dividerConfigAggregator from './ContentTypes/Divider/configAggregator';
+import dynamicBlockConfigAggregator from './ContentTypes/DynamicBlock/configAggregator';
+import headingConfigAggregator from './ContentTypes/Heading/configAggregator';
+import htmlConfigAggregator from './ContentTypes/Html/configAggregator';
+import imageConfigAggregator from './ContentTypes/Image/configAggregator';
+import mapConfigAggregator from './ContentTypes/Map/configAggregator';
+import productsConfigAggregator from './ContentTypes/Products/configAggregator';
+import rowConfigAggregator from './ContentTypes/Row/configAggregator';
 import sliderConfigAggregator from './ContentTypes/Slider/configAggregator';
-import { SliderShimmer } from './ContentTypes/Slider';
+import tabItemConfigAggregator from './ContentTypes/TabItem/configAggregator';
+import tabsConfigAggregator from './ContentTypes/Tabs/configAggregator';
+import textConfigAggregator from './ContentTypes/Text/configAggregator';
+import videoConfigAggregator from './ContentTypes/Video/configAggregator';
+import { BannerShimmer } from './ContentTypes/Banner';
 import { DynamicBlockShimmer } from './ContentTypes/DynamicBlock';
+import { ImageShimmer } from './ContentTypes/Image';
+import { SliderShimmer } from './ContentTypes/Slider';
 
 /* istanbul ignore next */
 const contentTypesConfig = {
@@ -118,6 +119,13 @@ const contentTypesConfig = {
         componentShimmer: BannerShimmer
     }
 };
+
+if (process.env.LMS_ENABLED === 'true') {
+    contentTypesConfig['pagebuilder_lms'] = {
+        configAggregator: courseSliderConfigAggregator,
+        component: React.lazy(() => import('./ContentTypes/CourseSlider'))
+    };
+}
 
 /**
  * Retrieve a content types configuration
