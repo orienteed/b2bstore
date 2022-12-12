@@ -1,6 +1,6 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { useForgotPasswordPage } from '@magento/peregrine/lib/talons/ForgotPasswordPage/useForgotPasswordPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -22,12 +22,6 @@ const ForgotPasswordPage = props => {
                     defaultMessage: 'Forgot Your Password?'
                 })}
             </StoreTitle>
-            {/* <h1 className={classes.header}>
-                <FormattedMessage
-                    id="forgotPasswordPage.header"
-                    defaultMessage="Forgot Your Password?"
-                />
-            </h1> */}
             <div className={classes.contentContainer}>
                 <ForgotPassword {...forgotPasswordProps} />
             </div>

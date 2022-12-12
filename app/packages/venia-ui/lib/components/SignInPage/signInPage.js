@@ -1,6 +1,6 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { useSignInPage } from '@magento/peregrine/lib/talons/SignInPage/useSignInPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -22,9 +22,6 @@ const SignInPage = props => {
                     defaultMessage: 'Sign In'
                 })}
             </StoreTitle>
-            {/* <h1 className={classes.header}>
-                <FormattedMessage id="signInPage.header" defaultMessage="Sign In or Create Account" />
-            </h1> */}
             <div className={classes.contentContainer}>
                 <SignIn {...signInProps} />
             </div>

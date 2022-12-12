@@ -15,33 +15,17 @@ import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
 import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login.js';
 
 export const useSignIn = props => {
-    const {
-        getCartDetailsQuery,
-        setDefaultUsername,
-        showCreateAccount,
-        showForgotPassword
-    } = props;
+    const { getCartDetailsQuery, setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        createCartMutation,
-        getCustomerQuery,
-        mergeCartsMutation,
-        signInMutation
-    } = operations;
+    const { createCartMutation, getCustomerQuery, mergeCartsMutation, signInMutation } = operations;
 
     const apolloClient = useApolloClient();
     const [isSigningIn, setIsSigningIn] = useState(false);
 
-    const [
-        { cartId },
-        { createCart, removeCart, getCartDetails }
-    ] = useCartContext();
+    const [{ cartId }, { createCart, removeCart, getCartDetails }] = useCartContext();
 
-    const [
-        { isGettingDetails, getDetailsError },
-        { getUserDetails, setToken }
-    ] = useUserContext();
+    const [{ isGettingDetails, getDetailsError }, { getUserDetails, setToken }] = useUserContext();
 
     const [, { dispatch }] = useEventingContext();
 
@@ -49,11 +33,7 @@ export const useSignIn = props => {
         fetchPolicy: 'no-cache'
     });
 
-    const {
-        generateReCaptchaData,
-        recaptchaLoading,
-        recaptchaWidgetProps
-    } = useGoogleReCaptcha({
+    const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_LOGIN',
         formAction: 'signIn'
     });
@@ -174,14 +154,10 @@ export const useSignIn = props => {
         showCreateAccount();
     }, [setDefaultUsername, showCreateAccount]);
 
-    const errors = useMemo(
-        () =>
-            new Map([
-                ['getUserDetailsQuery', getDetailsError],
-                ['signInMutation', signInError]
-            ]),
-        [getDetailsError, signInError]
-    );
+    const errors = useMemo(() => new Map([['getUserDetailsQuery', getDetailsError], ['signInMutation', signInError]]), [
+        getDetailsError,
+        signInError
+    ]);
 
     return {
         errors,
