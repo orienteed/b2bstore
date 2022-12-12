@@ -14,6 +14,33 @@
     composes: underline from global;
 }
 
+.megaMenuItem:hover > div,
+.megaMenuItem:focus > div {
+    display: flex;
+}
+
+.iconMenu {
+    width: 54px;
+    background-color: #e8ab00;
+    border-radius: 28px;
+    height: 54px;
+}
+
+.iconMenu::after {
+    fill: white;
+    color: white;
+}
+
+.megaMenuItem_active {
+    composes: megaMenuItem;
+    display: flex;
+}
+
+.arrowDown {
+    padding-left: 0.5rem;
+    line-height: 0;
+}
+
 .megaMenuItem_active {
     composes: megaMenuItem;
     composes: flex from global;

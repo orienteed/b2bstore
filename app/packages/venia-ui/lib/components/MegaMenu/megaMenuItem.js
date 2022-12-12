@@ -2,10 +2,8 @@ import React, { useMemo } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { useMegaMenuItem } from '@magento/peregrine/lib/talons/MegaMenu/useMegaMenuItem';
-
 import { useStyle } from '../../classify';
 import defaultClasses from './megaMenuItem.module.css';
 import Submenu from './submenu';
@@ -33,9 +31,7 @@ const MegaMenuItem = props => {
     } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
-    const categoryUrl = resourceUrl(
-        `/${category.url_path}${categoryUrlSuffix || ''}`
-    );
+    const categoryUrl = resourceUrl(`/${category.url_path}${categoryUrlSuffix || ''}`);
 
     const talonProps = useMegaMenuItem({
         category,
@@ -44,18 +40,9 @@ const MegaMenuItem = props => {
         disableFocus
     });
 
-    const {
-        isFocused,
-        isActive,
-        handleMenuItemFocus,
-        handleCloseSubMenu,
-        isMenuActive,
-        handleKeyDown
-    } = talonProps;
+    const { isFocused, isActive, handleMenuItemFocus, handleCloseSubMenu, isMenuActive, handleKeyDown } = talonProps;
 
-    const megaMenuItemClassname = isMenuActive
-        ? classes.megaMenuItem_active
-        : classes.megaMenuItem;
+    const megaMenuItemClassname = isMenuActive ? classes.megaMenuItem_active : classes.megaMenuItem;
 
     const children = useMemo(() => {
         return category.children.length ? (
@@ -69,27 +56,32 @@ const MegaMenuItem = props => {
                 onNavigate={onNavigate}
             />
         ) : null;
-    }, [
-        category,
-        isFocused,
-        mainNavWidth,
-        subMenuState,
-        handleCloseSubMenu,
-        categoryUrlSuffix,
-        onNavigate
-    ]);
+    }, [category, isFocused, mainNavWidth, subMenuState, handleCloseSubMenu, categoryUrlSuffix, onNavigate]);
 
-    const maybeDownArrowIcon = category.children.length ? (
-        <Icon className={classes.arrowDown} src={ArrowDown} size={16} />
-    ) : null;
+    const maybeDownArrowIcon =
+        category.children.length && category.category_icon === '' ? (
+            <Icon className={classes.arrowDown} src={ArrowDown} size={16} />
+        ) : null;
 
     const linkAttributes = category.children.length
         ? {
-              'aria-label': `Category: ${category.name}. ${
-                  category.children.length
-              } sub-categories`
+              'aria-label': `Category: ${category.name}. ${category.children.length} sub-categories`
           }
         : {};
+
+    let tempImage = undefined;
+    try {
+        tempImage = require(`./icons/${category.category_icon}.svg`);
+    } catch (error) {
+        tempImage = undefined;
+    }
+
+    const contentLink =
+        category.category_icon != '' && tempImage != undefined ? (
+            <img className={classes.iconMenu} src={tempImage} alt={category.name} />
+        ) : (
+            category.name
+        );
 
     return (
         <div
@@ -115,14 +107,12 @@ const MegaMenuItem = props => {
             <Link
                 {...linkAttributes}
                 onKeyDown={handleKeyDown}
-                className={
-                    isActive ? classes.megaMenuLinkActive : classes.megaMenuLink
-                }
+                className={isActive ? classes.megaMenuLinkActive : classes.megaMenuLink}
                 data-cy="MegaMenu-MegaMenuItem-link"
                 to={categoryUrl}
                 onClick={onNavigate}
             >
-                {category.name}
+                {contentLink}
                 {maybeDownArrowIcon}
             </Link>
             {children}
