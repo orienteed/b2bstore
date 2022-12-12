@@ -233,7 +233,9 @@
 .qtyField {
     width: 25%;
 }
-
+.qtyField > form > div button {
+    display: none;
+}
 .qtyField input,
 .productsSelect {
     border: 1px solid #eaecee;

@@ -25,8 +25,8 @@ import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
 // import StarIcon from './Icons/star.svg';
 import { useToasts } from '@magento/peregrine';
+import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
 
-import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
 import Select from './SelectField/select';
 
 import { useHistory } from 'react-router-dom';
@@ -37,6 +37,7 @@ import useCompareProduct from '@orienteed/customComponents/components/comparePag
 
 import { useAddToQuote } from '@orienteed/quickOrderForm/src/talons/useAddToQuote';
 import ConfirmationModal from './ConfirmationModal';
+import { Form } from 'informed';
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
 const IMAGE_WIDTH = 300;
@@ -366,7 +367,18 @@ const GalleryItem = props => {
                     {location.search && item?.variants && (
                         <>
                             <div className={classes.qtyField}>
-                                <QuantityStepper value={quantity} onChange={e => onChangeQty(e)} min={1} />
+                                <Form>
+                                    <QuantityStepper
+                                        classes={{
+                                            button_increment: classes.disable,
+                                            button_decrement: classes.disable
+                                        }}
+                                        fieldName={`quantity-${item.sku}`}
+                                        value={quantity}
+                                        onChange={e => onChangeQty(e)}
+                                        min={1}
+                                    />
+                                </Form>
                             </div>
                             <div className={classes.productsSelect}>
                                 <Select

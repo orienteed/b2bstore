@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
 import { useHistory } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
 
-import Dialog from '../Dialog';
+import Dialog from '@magento/venia-ui/lib/components/Dialog';
 import SearchBar from '../SearchBar';
-import QuantityStepper from '@orienteed/customComponents/components/QuantityStepper/quantity';
+import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
@@ -27,7 +28,7 @@ const AddQuickOrder = props => {
     const [products, setProducts] = useState(JSON.parse(JSON.stringify(iniArray)));
     const [csvData, setCsvData] = useState([]);
     const classes = mergeClasses(defaultClasses, props.classes);
-    const { handleAddCofigItemBySku, handleAddItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
+    const { handleAddCofigItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
 
     const { formatMessage } = useIntl();
     const warningMsg = formatMessage({
@@ -148,7 +149,13 @@ const AddQuickOrder = props => {
     };
     const quantitySelector = (item, id) => (
         <div className={classes.inputQtyQuick}>
-            <QuantityStepper min={1} value={item.quantity} onChange={e => onChangeQty(e, id)} />
+            <QuantityStepper
+                classes={{ button_increment: classes.disable, button_decrement: classes.disable }}
+                min={1}
+                value={item.quantity}
+                fieldName={`quantity-${id}`}
+                onChange={e => onChangeQty(e, id)}
+            />
         </div>
     );
     return (
@@ -169,6 +176,9 @@ const AddQuickOrder = props => {
                     shouldShowButtons={false}
                     onCancel={() => setIsOpen(false)}
                     dialogName="DialogQuick"
+                    confirmText="Save"
+                    // onConfirm={onConfirm}
+                    // formProps={formProps}
                 >
                     <div>
                         <div className={classes.gridWrapper}>

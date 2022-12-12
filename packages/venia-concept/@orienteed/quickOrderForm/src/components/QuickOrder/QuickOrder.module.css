@@ -195,32 +195,14 @@
     stroke: #fff;
 }
 
-.inputQtyQuick {
-    padding-bottom: 1rem;
-}
 .inputQtyQuick > div {
-    background: #ffffff;
     display: block !important;
-    border: 2px solid var(--b2bStore-fieldInput-border-color);
-    box-sizing: border-box;
-    border-radius: 8px;
 }
 
-.inputQtyQuick > div:focus {
-    border: 2px solid var(--b2bStore-fieldInput-border-color);
+.inputQtyQuick > div button {
+    display: none;
 }
 
-.inputQtyQuick > div:focus {
-    box-shadow: none;
-}
-
-.searchBar > div {
-    /* padding: 0; */
-}
-
-.inputQtyQuick > form > div {
-    display: block;
-}
 @media (max-width: 750px) {
     .btnOrderContainer {
         display: block;
@@ -229,7 +211,7 @@
     .orderIcon {
         width: 100%;
     }
-    .orderIcon >span {
+    .orderIcon > span {
         width: 100%;
         justify-content: space-between;
     }
