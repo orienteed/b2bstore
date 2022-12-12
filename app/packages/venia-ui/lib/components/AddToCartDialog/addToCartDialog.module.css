@@ -12,6 +12,18 @@
     composes: w-full from global;
 }
 
+.noImage {
+    max-width: 320px;
+    margin: 0 auto;
+    margin-top: 64px;
+    opacity: 0.4;
+}
+
+.errorOptionCombination {
+    color: rgb(var(--venia-global-color-error));
+    margin-bottom: 20px;
+}
+
 .detailsContainer {
     composes: content-start from global;
     composes: gap-y-xs from global;
@@ -20,12 +32,13 @@
 
 .name {
     composes: font-bold from global;
-    composes: font-serif from global;
-    composes: text-xl from global;
+    font-family: var(--b2bStore-font-family);
+    font-size: var(--venia-typography-body-XXXL-fontSize);
 }
 
 .price {
     composes: font-semibold from global;
+    height: 30px;
 }
 
 /* TODO @TW: cannot compose */
