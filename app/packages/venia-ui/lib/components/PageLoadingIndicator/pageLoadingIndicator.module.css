@@ -21,7 +21,6 @@
 
 .indicator_off {
     composes: absolute from global;
-    composes: bg-brand-dark from global;
     composes: h-full from global;
     composes: left-0 from global;
     composes: opacity-0 from global;
