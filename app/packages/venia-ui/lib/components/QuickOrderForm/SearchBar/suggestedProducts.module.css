@@ -12,3 +12,7 @@
 .page-wrapper .block.block-search {
     width: 100%;
 }
+
+.item {
+    margin-bottom: 20px;
+}

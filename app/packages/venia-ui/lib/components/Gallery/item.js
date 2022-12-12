@@ -14,8 +14,6 @@ import GalleryItemShimmer from './item.shimmer';
 import defaultClasses from './item.module.css';
 import WishlistGalleryButton from '../Wishlist/AddToListButton';
 import AddToCartButton from './addToCartButton';
-// eslint-disable-next-line no-unused-vars
-import Rating from '../Rating';
 import ShareIcon from './Icons/share.svg';
 import InStockIcon from './Icons/inStoke.svg';
 import OutStockIcon from './Icons/outStoke.svg';
@@ -65,7 +63,6 @@ const GalleryItem = props => {
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
-    // eslint-disable-next-line no-unused-vars
     const {
         orParentUrlKey,
         name,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
 import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -87,6 +87,32 @@ const QuickOrderForm = props => {
         };
         downloadCsv();
     }, [products]);
+
+    const csvBtn = useMemo(() => {
+        if (csvData.length) {
+            return (
+                <CSVLink filename={'quick-order-file.csv'} data={csvData}>
+                    <Button className={classes.downloadBtn}>
+                        <Icon src={Download} alt="download-icon" />
+                        <FormattedMessage
+                            id="quickOrder.DownloadYourSampleFile"
+                            defaultMessage="Download your sample file"
+                        />
+                    </Button>
+                </CSVLink>
+            );
+        } else {
+            return (
+                <Button disabled={true} className={classes.downloadBtn}>
+                    <Icon src={Download} alt="download-icon" />
+                    <FormattedMessage
+                        id="quickOrder.DownloadYourSampleFile"
+                        defaultMessage="Download your sample file"
+                    />
+                </Button>
+            );
+        }
+    }, [csvData, classes]);
 
     // Methods
     const onOrderClick = () => {
@@ -314,15 +340,7 @@ const QuickOrderForm = props => {
                                             />
                                         </Button>
                                     </div>
-                                    <CSVLink data={csvData}>
-                                        <Button className={classes.downloadBtn}>
-                                            <Icon src={Download} alt="download-icon" />
-                                            <FormattedMessage
-                                                id="quickOrder.DownloadYourSampleFile"
-                                                defaultMessage="Download your sample file"
-                                            />
-                                        </Button>
-                                    </CSVLink>
+                                    {csvBtn}
                                 </div>
                             </div>
                         </div>

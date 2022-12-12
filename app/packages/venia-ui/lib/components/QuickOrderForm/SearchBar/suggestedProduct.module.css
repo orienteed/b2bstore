@@ -1,8 +1,8 @@
 .root {
     align-items: center;
     display: grid;
-    gap: 1rem;
-    grid-template-columns: 60px 1fr 1fr;
+    grid-template-columns: 40px 1.4fr 1fr;
+    gap: 0.4rem;
 }
 
 .image {
