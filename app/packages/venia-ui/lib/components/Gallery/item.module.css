@@ -214,8 +214,10 @@
     height: 75px;
 }
 .configurableWrapper {
-    height: 24px;
+    align-items: center;
     display: flex;
+    gap: 5px;
+    height: 24px;
 }
 
 .productsWrapper {
@@ -277,4 +279,8 @@
     padding: 0 0.5rem;
     min-height: 2rem;
     text-transform: uppercase;
+}
+
+.attributeInfoIcon {
+    width: 20px;
 }

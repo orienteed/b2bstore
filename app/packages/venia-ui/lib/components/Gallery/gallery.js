@@ -1,18 +1,16 @@
 import React, { useMemo, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { string, shape, array } from 'prop-types';
 
-import { useStyle } from '../../classify';
 import GalleryItem from './item';
 import GalleryItemShimmer from './item.shimmer';
-import defaultClasses from './gallery.module.css';
-import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
+
 import { useDownloadCsvContext } from './DownloadCsvProvider/downloadCsvProvider';
-
-import Icon from '@magento/venia-ui/lib/components/Icon';
+import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
 import { useHistory } from 'react-router-dom';
-import { ArrowRight } from 'react-feather';
+import { useStyle } from '../../classify';
 
-import { FormattedMessage } from 'react-intl';
+import defaultClasses from './gallery.module.css';
 
 /**
  * Renders a Gallery of items. If items is an array of nulls Gallery will render
@@ -29,6 +27,7 @@ const Gallery = props => {
 
     const { location } = useHistory();
     const isHomePage = location.pathname === '/';
+    
     useEffect(() => {
         setGalleryItem(items);
     }, [items]);

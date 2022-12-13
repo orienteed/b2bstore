@@ -1,35 +1,36 @@
 import React, { useState } from 'react';
+import Tippy from '@tippyjs/react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Info, ChevronDown } from 'react-feather';
-import { string, number, shape } from 'prop-types';
+import { Info } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
-import Price from '@magento/venia-ui/lib/components/Price';
+import { string, number, shape } from 'prop-types';
 
-import { UNCONSTRAINED_SIZE_KEY } from '@magento/peregrine/lib/talons/Image/useImage';
-import { useGalleryItem } from '@magento/peregrine/lib/talons/Gallery/useGalleryItem';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
-import { useStyle } from '../../classify';
-import Image from '../Image';
-import GalleryItemShimmer from './item.shimmer';
-import defaultClasses from './item.module.css';
-import WishlistGalleryButton from '../Wishlist/AddToListButton';
 import AddToCartButton from './addToCartButton';
-import ShareIcon from './Icons/share.svg';
-import InStockIcon from './Icons/inStoke.svg';
-import OutStockIcon from './Icons/outStoke.svg';
-import { useToasts } from '@magento/peregrine';
-
+import Button from '@magento/venia-ui/lib/components/Button';
+import ConfirmationModal from './ConfirmationModal';
+import GalleryItemShimmer from './item.shimmer';
+import Image from '../Image';
+import Price from '@magento/venia-ui/lib/components/Price';
 import QuantityStepper from './QuantityStepper/quantity';
 import Select from './SelectField/select';
+import WishlistGalleryButton from '../Wishlist/AddToListButton';
 
-import Button from '@magento/venia-ui/lib/components/Button';
-import CompareIcon from './Icons/compare.svg';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
-
+import { UNCONSTRAINED_SIZE_KEY } from '@magento/peregrine/lib/talons/Image/useImage';
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote.js';
-import ConfirmationModal from './ConfirmationModal';
-import Tippy from '@tippyjs/react';
+import { useGalleryItem } from '@magento/peregrine/lib/talons/Gallery/useGalleryItem';
+import { useStyle } from '../../classify';
+import { useToasts } from '@magento/peregrine';
+
+import defaultClasses from './item.module.css';
 import 'tippy.js/dist/tippy.css';
+
+import CompareIcon from './Icons/compare.svg';
+import InStockIcon from './Icons/inStoke.svg';
+import InfoIcon from './Icons/info.svg';
+import OutStockIcon from './Icons/outStoke.svg';
+import ShareIcon from './Icons/share.svg';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -173,7 +174,7 @@ const GalleryItem = props => {
                         </ul>
                     }
                 >
-                    <ChevronDown size={20} />
+                    <img className={classes.attributeInfoIcon} src={InfoIcon} />
                 </Tippy>
             </div>
         );
