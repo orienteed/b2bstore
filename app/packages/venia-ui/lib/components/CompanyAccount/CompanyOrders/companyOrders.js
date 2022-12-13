@@ -1,7 +1,7 @@
 import React from 'react';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useCompanyAccountOrders } from '@orienteed/companyAccount/src/talons/useCompanyAccountOrders';
-import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
+import { useStyle } from '../../../classify';
+import { useCompanyAccountOrders } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountOrders';
+import FullPageLoadingIndicator from '../../LoadingIndicator';
 import SideMenu from '../SideMenu';
 import OrdersTable from './OrdersTable';
 import defaultClasses from './companyorders.module.css';

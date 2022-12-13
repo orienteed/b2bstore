@@ -1,14 +1,14 @@
 import React from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Dialog from '@magento/venia-ui/lib/components/Dialog';
-import Field from '@magento/venia-ui/lib/components/Field';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import Dialog from '../../../Dialog';
+import Field from '../../../Field';
+import TextInput from '../../../TextInput';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import { useIntl, FormattedMessage } from 'react-intl';
 import defaultClasses from './addUserModal.module.css';
-import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
-import Password from '@magento/venia-ui/lib/components/Password';
-import Select from '@magento/venia-ui/lib/components/Select';
+import Checkbox from '../../../Checkbox';
+import Password from '../../../Password';
+import Select from '../../../Select';
 
 const AddUserModal = ({ onCancel, isOpen, onConfirm, formProps, userRoles=[], modalType }) => {
     const { formatMessage } = useIntl();

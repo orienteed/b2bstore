@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
 import SideMenu from '../SideMenu';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+import { useStyle } from '../../../classify';
 import { FormattedMessage } from 'react-intl';
-import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { useCompanyAccountUserRoles } from '@orienteed/companyAccount/src/talons/useCompanyAccountUserRoles';
+import FullPageLoadingIndicator from '../../LoadingIndicator';
+import { useCompanyAccountUserRoles } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountUserRoles';
 import defaultClasses from './userRoles.module.css';
 import UserRolesTable from './UserRolesTable';
-import Button from '@magento/venia-ui/lib/components/Button';
+import Button from '../../Button';
 const AddUserRole = React.lazy(() => import('./AddUserRole'));
 const DeleteModal = React.lazy(() => import('./DeleteModal'));
 

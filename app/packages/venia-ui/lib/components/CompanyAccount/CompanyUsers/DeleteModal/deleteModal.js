@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import Dialog from '@magento/venia-ui/lib/components/Dialog';
+import Dialog from '../../../Dialog';
 import defaultClasses from './deleteModal.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Password from '@magento/venia-ui/lib/components/Password';
+import Password from '../../../Password';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 
 const DeleteModal = ({ onCancel, isOpen, onConfirm, user, formProps }) => {
