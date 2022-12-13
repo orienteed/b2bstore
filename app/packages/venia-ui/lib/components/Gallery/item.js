@@ -24,7 +24,6 @@ import { useStyle } from '../../classify';
 import { useToasts } from '@magento/peregrine';
 
 import defaultClasses from './item.module.css';
-import 'tippy.js/dist/tippy.css';
 
 import CompareIcon from './Icons/compare.svg';
 import InStockIcon from './Icons/inStoke.svg';
