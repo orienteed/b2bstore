@@ -17,6 +17,7 @@ const PaymentMethods = props => {
         onPaymentSuccess,
         resetShouldSubmit,
         shouldSubmit,
+        setCurrentSelectedPaymentMethod,
         paymentMethodMutationData
     } = props;
 
@@ -27,6 +28,10 @@ const PaymentMethods = props => {
     const talonProps = usePaymentMethods({});
 
     const { availablePaymentMethods, currentSelectedPaymentMethod, initialSelectedMethod, isLoading } = talonProps;
+
+    useEffect(() => {
+        setCurrentSelectedPaymentMethod(currentSelectedPaymentMethod);
+    }, [currentSelectedPaymentMethod]);
 
     if (isLoading) {
         return null;
