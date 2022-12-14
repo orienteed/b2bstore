@@ -5,7 +5,7 @@ import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './company.gql';
 import { useToasts } from '@magento/peregrine';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
-import Icon from '../../components/Icon';
+import Icon from '@magento/venia-ui/lib/components/Icon';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 export const useCompanyAccountInfo = () => {

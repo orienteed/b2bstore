@@ -8,7 +8,7 @@ import SideMenu from '../SideMenu';
 import defaultClasses from './companyInfo.module.css';
 import FullPageLoadingIndicator from '../../LoadingIndicator';
 import { useCompanyAccountInfo } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountInfo';
-import EditImage from '../../images/edit.svg';
+import EditImage from '../images/edit.svg';
 const EditModal = React.lazy(() => import('./EditCompanyInfo'));
 
 const CompanyInfo = () => {

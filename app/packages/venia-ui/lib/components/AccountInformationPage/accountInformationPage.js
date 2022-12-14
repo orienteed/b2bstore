@@ -23,6 +23,10 @@ import { useToasts } from '@magento/peregrine';
 
 const EditModal = React.lazy(() => import('./editModal'));
 
+import { useCompanyAccountInfo } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountInfo';
+
+import CompanyInfo from '../CompanyAccount/CompanyInfo';
+
 const AccountInformationPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
@@ -47,6 +51,7 @@ const AccountInformationPage = props => {
         afterSubmit
     });
 
+    const { companyInfo, updateCompanyInfo } = useCompanyAccountInfo({});
     const {
         handleCancel,
         formErrorsCustomerAddress,
@@ -268,7 +273,7 @@ const AccountInformationPage = props => {
                 />
             </h1> */}
             {errorMessage ? errorMessage : pageContent}
-
+            <CompanyInfo />
             {initialValuesSubscribeToNewsletter && (
                 <div className={classes.container}>
                     <div className={classes.rootSubscribeToNewsletter}>
@@ -310,6 +315,7 @@ const AccountInformationPage = props => {
                     </div>
                 </div>
             )}
+            <button onClick={updateCompanyInfo}>sasas</button>
         </div>
     );
 };

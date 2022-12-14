@@ -5,8 +5,8 @@ import React, { useMemo } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { FormattedMessage, useIntl } from 'react-intl';
 import defaultClasses from './userRolesTable.module.css';
-import EditImg from '../../../images/edit.svg';
-import DeleteImg from '../../../images/delete.svg';
+import EditImg from '../../images/edit.svg';
+import DeleteImg from '../../images/delete.svg';
 
 const UserRolesTable = props => {
     const { userRoles, handleOpenDeleteModal, handleEditUser } = props;
