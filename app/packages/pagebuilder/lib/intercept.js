@@ -1,6 +1,7 @@
 const myName = '@magento/pagebuilder';
 const { Targetables } = require('@magento/pwa-buildpack');
 const CustomContentTypeList = require('./ContentTypes/CustomContentTypeList');
+
 module.exports = targets => {
     const pagebuilder = Targetables.using(targets);
     pagebuilder.setSpecialFeatures('esModules', 'cssModules');
@@ -14,14 +15,12 @@ module.exports = targets => {
         }
     ]);
 
-    targets
-        .of('@magento/venia-ui')
-        .richContentRenderers.tap(richContentRenderers => {
-            richContentRenderers.add({
-                componentName: 'PageBuilder',
-                importPath: myName
-            });
+    targets.of('@magento/venia-ui').richContentRenderers.tap(richContentRenderers => {
+        richContentRenderers.add({
+            componentName: 'PageBuilder',
+            importPath: myName
         });
+    });
 
     new CustomContentTypeList(pagebuilder);
 };

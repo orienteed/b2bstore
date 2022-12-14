@@ -63,7 +63,7 @@ export const CHECKOUT_STEP = {
  *  toggleSignInContent: Function,
  * }
  */
-export const useCheckoutPage = (props = {}) => {
+export const useCheckoutPage = props => {
     const { submitDeliveryDate, deliveryDateIsActivated, submitOrderAttribute } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { setNoProduct } = useNoReorderProductContext();
@@ -93,7 +93,7 @@ export const useCheckoutPage = (props = {}) => {
     const [checkoutStep, setCheckoutStep] = useState(CHECKOUT_STEP.SHIPPING_ADDRESS);
     const [guestSignInUsername, setGuestSignInUsername] = useState('');
 
-    const [currentSelectedPaymentMethod, setCurrentSelectedPaymentMethod] = useState('banktransfer');
+    const [currentSelectedPaymentMethod, setCurrentSelectedPaymentMethod] = useState('');
 
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();

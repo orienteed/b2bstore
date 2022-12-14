@@ -16,16 +16,11 @@ export const usePaymentMethods = props => {
         variables: { cartId }
     });
 
-    const { value: currentSelectedPaymentMethod } = useFieldState(
-        'selectedPaymentMethod'
-    );
+    const { value: currentSelectedPaymentMethod } = useFieldState('selectedPaymentMethod');
 
-    const availablePaymentMethods =
-        (data && data.cart.available_payment_methods) || [];
+    const availablePaymentMethods = (data && data.cart.available_payment_methods) || [];
 
-    const initialSelectedMethod =
-        (availablePaymentMethods.length && availablePaymentMethods[1].code) ||
-        null;
+    const initialSelectedMethod = null;
 
     return {
         availablePaymentMethods,

@@ -17,7 +17,6 @@ const PaymentMethods = props => {
         onPaymentSuccess,
         resetShouldSubmit,
         shouldSubmit,
-        setCurrentSelectedPaymentMethod,
         paymentMethodMutationData
     } = props;
 
@@ -29,14 +28,10 @@ const PaymentMethods = props => {
 
     const { availablePaymentMethods, currentSelectedPaymentMethod, initialSelectedMethod, isLoading } = talonProps;
 
-    useEffect(() => {
-        setCurrentSelectedPaymentMethod(currentSelectedPaymentMethod);
-    }, [currentSelectedPaymentMethod]);
-
     if (isLoading) {
         return null;
     }
-    
+
     const paymentMethods =
         process.env.B2BSTORE_VERSION === 'BASIC'
             ? availablePaymentMethods?.filter(({ code }) => code !== 'creditsystem')

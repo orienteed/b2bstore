@@ -5,7 +5,7 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import DEFAULT_OPERATIONS from './bankTransfer.gql';
 
-export const usePayWithBankTransfer = props => {
+export const useBankTransfer = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const { getStoreConfig } = operations;
