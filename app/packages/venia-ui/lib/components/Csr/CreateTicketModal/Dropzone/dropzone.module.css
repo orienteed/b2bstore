@@ -51,7 +51,7 @@
 .dropzoneItemName {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
-    color: #e8ab00;
+    color: var(--b2bstore-global-color-orange);
     display: -webkit-box;
     font-size: 16px;
     font-weight: 700;
