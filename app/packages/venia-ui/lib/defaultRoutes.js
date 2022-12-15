@@ -68,6 +68,12 @@ module.exports = [
         path: '../MyAccount/ResetPassword'
     },
     {
+        name: 'RMA',
+        pattern: '/rma',
+        exact: true,
+        path: '../RMA'
+    },
+    {
         name: 'SavedPayments',
         pattern: '/saved-payments',
         exact: true,
