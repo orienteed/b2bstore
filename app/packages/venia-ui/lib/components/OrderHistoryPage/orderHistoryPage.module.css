@@ -12,7 +12,7 @@
     composes: font-serif from global;
     composes: justify-self-center from global;
     composes: capitalize from global;
-    font-family: var(--b2bStore-font-family);
+    font-family: var(--b2bstore-font-family);
 }
 
 .emptyHistoryMessage {

@@ -35,7 +35,7 @@
 
 .label {
     cursor: pointer;
-    font-size: var(--b2bStore-footer-text-font-size);
+    font-size: var(--b2bstore-footer-text-font-size);
     grid-area: label;
     justify-self: start;
     z-index: 1;
@@ -61,7 +61,7 @@
 }
 .container {
     display: flex;
-    font-size: var(--b2bStore-footer-text-font-size);
+    font-size: var(--b2bstore-footer-text-font-size);
 }
 .dataPoliticsContainer {
     margin-top: 1.5px;

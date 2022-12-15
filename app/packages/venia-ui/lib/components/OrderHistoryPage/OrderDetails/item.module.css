@@ -6,7 +6,7 @@
     composes: lg_gap-y-1.5 from global;
 
     background: #ffffff;
-    border: 1px solid #f6f8fb;
+    border: 1px solid var(--b2bstore-background-color);
     border-radius: 8px;
     padding: 16px 16px 8px 8px;
     margin-bottom: 0.5rem;

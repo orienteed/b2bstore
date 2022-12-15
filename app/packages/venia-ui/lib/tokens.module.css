@@ -5,22 +5,22 @@
     --b2bstore-global-color-orange: #e8ab00;
     --b2bstore-global-color-gray: #808080;
     --b2bstore-global-color-black: #28282b;
-    --b2bstore-footer-color: #f6f8fb;
+    --b2bstore-background-color: #f6f8fb;
     --b2bstore-global-color-orange-alpha: 232, 171, 0;
     --b2bstore-global-color-gray-alpha: 128, 128, 128;
     --b2bstore-global-color-black-alpha: 40, 40, 43;
     /* fonts */
-    --b2bStore-footer-title-font-size: 20px;
-    --b2bStore-footer-text-font-size: 14px;
-    --b2bStore-footer-color: #0c0c0c;
-    --b2bStore-font-family: 'Lato', sans-serif;
-    --b2bStore-font-color: #676f71;
+    --b2bstore-footer-title-font-size: 20px;
+    --b2bstore-footer-text-font-size: 14px;
+    --b2bstore-font-family: 'Lato', sans-serif;
+    --b2bstore-font-color: #676f71;
+    --b2bstore-footerFont-color: #0c0c0c;
     /* field input */
-    --b2bStore-fieldInput-border-color: #d1d5db;
+    --b2bstore-fieldInput-border-color: #d1d5db;
     /*border */
-    --b2bStore-border-radius: 30px;
+    --b2bstore-border-radius: 30px;
     /*background */
-    --b2bStore-background-color-hover: #ffc82f;
+    --b2bstore-background-color-hover: #ffc82f;
 
     /* animation */
     --venia-global-anim-bounce: cubic-bezier(0.5, 1.8, 0.9, 0.8);

@@ -183,7 +183,7 @@
 }
 
 .sectionTab {
-    background-color: #f6f8fb;
+    background-color: var(--b2bstore-background-color);
     border-radius: 8px 8px 0px 0px;
     color: #0c0c0c;
     font-weight: 400;

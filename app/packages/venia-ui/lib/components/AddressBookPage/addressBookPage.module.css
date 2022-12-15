@@ -14,7 +14,7 @@
     composes: leading-tight from global;
     composes: mb-md from global;
     composes: text-center from global;
-    font-family: var(--b2bStore-font-family-Lato);
+    font-family: var(--b2bstore-font-family-Lato);
 }
 
 .content {
@@ -35,7 +35,7 @@
     composes: text-sm from global;
     transition: border-color 0ms var(--venia-global-anim-standard);
     color: rgb(var(--venia-global-color-text));
-    border: 2px dashed var(--b2bStore-fieldInput-border-color);
+    border: 2px dashed var(--b2bstore-fieldInput-border-color);
 }
 
 .addButton:focus {
@@ -44,6 +44,6 @@
 }
 
 .addButton:hover {
-    border-color: var(--b2bStore-background-color-hover);
+    border-color: var(--b2bstore-background-color-hover);
     color: var(--b2bstore-global-color-orange);
 }

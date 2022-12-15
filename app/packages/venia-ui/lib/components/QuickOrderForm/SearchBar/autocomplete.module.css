@@ -16,7 +16,7 @@
 
 .root {
     background-color: white;
-    border: 2px solid var(--b2bStore-fieldInput-border-color-button);
+    border: 2px solid var(--b2bstore-fieldInput-border-color-button);
     /* border-radius: 0 0 6px 6px; 
     Because appear blurry... */
     border-top-style: none;

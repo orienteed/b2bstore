@@ -53,7 +53,7 @@
     composes: mb-xs from global;
     composes: text-colorDefault from global;
     composes: text-sm from global;
-    color: var(--b2bStore-footer-color);
+    color: var(--b2bstore-footerFont-color);
 }
 
 .subscribe_link {
@@ -74,7 +74,7 @@
 }
 
 .newsletter_text {
-    color: var(--b2bStore-footer-color);
+    color: var(--b2bstore-footerFont-color);
     composes: mb-sm from global;
 }
 

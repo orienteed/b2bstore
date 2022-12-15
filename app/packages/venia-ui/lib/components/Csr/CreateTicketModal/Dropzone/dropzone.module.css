@@ -37,7 +37,7 @@
 
 /* Files */
 .dropzoneItem {
-    background: #f6f8fb;
+    background: var(--b2bstore-background-color);
     display: flex;
     flex-direction: row;
     gap: 5px;

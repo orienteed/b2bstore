@@ -32,7 +32,7 @@
 
 .name {
     composes: font-bold from global;
-    font-family: var(--b2bStore-font-family);
+    font-family: var(--b2bstore-font-family);
     font-size: var(--venia-typography-body-XXXL-fontSize);
 }
 

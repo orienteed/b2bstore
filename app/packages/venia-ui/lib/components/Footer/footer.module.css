@@ -79,7 +79,7 @@
     composes: text-sm from global;
     composes: text-subtle from global;
     composes: w-full from global;
-    background-color: var(--b2bstore-footer-color);
+    background-color: var(--b2bstore-background-color);
 }
 
 .links {

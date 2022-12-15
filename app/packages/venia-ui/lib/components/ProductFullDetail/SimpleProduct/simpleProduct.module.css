@@ -228,7 +228,7 @@ header .productName {
     align-items: center;
     justify-items: center;
     align-content: center;
-    background-color: #f6f8fb;
+    background-color: var(--b2bstore-background-color);
 }
 .titles {
     text-align: center;

@@ -32,7 +32,7 @@
     composes: text-colorDefault from global;
     composes: w-full from global;
     padding: calc(0.375rem - 1px) calc(0.625rem - 1px); /* TODO @TW: review */
-    border: 2px solid var(--b2bStore-fieldInput-border-color);
+    border: 2px solid var(--b2bstore-fieldInput-border-color);
 }
 
 .input:disabled {

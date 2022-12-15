@@ -14,7 +14,7 @@
     transition-duration: 256ms;
     transition-property: background-color, border-color, color;
     transition-timing-function: var(--venia-global-anim-standard);
-    border-radius: var(--b2bStore-border-radius);
+    border-radius: var(--b2bstore-border-radius);
 
     /* Figma rules */
     font-size: 16px;
@@ -110,9 +110,9 @@
 /* NORMAL PRIORITY */
 .root_normalPriority {
     composes: root;
-    border: 2px solid var(--b2bStore-fieldInput-border-color);
+    border: 2px solid var(--b2bstore-fieldInput-border-color);
     width: 100%;
-    color: var(--b2bStore-font-color);
+    color: var(--b2bstore-font-color);
 }
 
 .root_normalPriority:focus {
@@ -121,7 +121,7 @@
 
 .root_normalPriorityNegative {
     composes: root_normalPriority;
-    --stroke: var(--b2bStore-fieldInput-border-color);
+    --stroke: var(--b2bstore-fieldInput-border-color);
 }
 
 .root_normalPriorityNegative:hover {
@@ -131,7 +131,7 @@
 /* LOW PRIORITY */
 .root_lowPriority {
     composes: root;
-    --stroke: var(--b2bStore-fieldInput-border-color);
+    --stroke: var(--b2bstore-fieldInput-border-color);
 }
 .root_lowPriority:hover {
     --stroke: var( --b2bstore-global-color-black);

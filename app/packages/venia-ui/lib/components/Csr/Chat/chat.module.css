@@ -1,5 +1,5 @@
 .container {
-    background-color: #f6f8fb;
+    background-color: var(--b2bstore-background-color);
     max-height: 1300px;
     min-height: 500px;
     padding: 0 clamp(15px, 2.5vw, 35px);
@@ -179,7 +179,7 @@
     -webkit-appearance: none;
     background: white;
     border-radius: 29px;
-    border: 2px solid var(--b2bStore-fieldInput-border-color);
+    border: 2px solid var(--b2bstore-fieldInput-border-color);
     color: rgb(var(--venia-global-color-text));
     display: inline-flex;
     flex: 0 0 100%;
