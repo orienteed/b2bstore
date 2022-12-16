@@ -1,1 +1,1 @@
-export { default } from './RmaPage';
+export { default } from './RMAFrontPage';

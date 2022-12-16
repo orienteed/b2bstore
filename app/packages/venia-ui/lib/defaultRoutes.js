@@ -74,6 +74,12 @@ module.exports = [
         path: '../RMA'
     },
     {
+        name: 'RMA',
+        pattern: '/rma/form',
+        exact: true,
+        path: '../RMA/RMAForm'
+    },
+    {
         name: 'SavedPayments',
         pattern: '/saved-payments',
         exact: true,

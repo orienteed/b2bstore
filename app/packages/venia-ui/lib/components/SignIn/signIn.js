@@ -19,12 +19,7 @@ import GoogleRecaptcha from '../GoogleReCaptcha';
 
 const SignIn = props => {
     const classes = useStyle(defaultClasses, props.classes);
-    const {
-        initialValues,
-        setDefaultUsername,
-        showCreateAccount,
-        showForgotPassword
-    } = props;
+    const { initialValues, setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
     const { formatMessage } = useIntl();
     const talonProps = useSignIn({
@@ -49,10 +44,7 @@ const SignIn = props => {
         return (
             <div className={classes.modal_active}>
                 <LoadingIndicator>
-                    <FormattedMessage
-                        id={'signIn.loadingText'}
-                        defaultMessage={'Signing In'}
-                    />
+                    <FormattedMessage id={'signIn.loadingText'} defaultMessage={'Signing In'} />
                 </LoadingIndicator>
             </div>
         );
@@ -65,10 +57,7 @@ const SignIn = props => {
     return (
         <div data-cy="SignIn-root" className={classes.root}>
             <span data-cy="SignIn-title" className={classes.title}>
-                <FormattedMessage
-                    id={'signIn.titleText'}
-                    defaultMessage={'Sign-in to Your Account'}
-                />
+                <FormattedMessage id={'signIn.titleText'} defaultMessage={'Sign-in to Your Account'} />
             </span>
             <FormError errors={Array.from(errors.values())} />
             <Form
@@ -112,24 +101,13 @@ const SignIn = props => {
                         onClick={handleForgotPassword}
                         data-cy="SignIn-forgotPasswordButton"
                     >
-                        <FormattedMessage
-                            id={'signIn.forgotPasswordText'}
-                            defaultMessage={'Forgot Password?'}
-                        />
+                        <FormattedMessage id={'signIn.forgotPasswordText'} defaultMessage={'Forgot Password?'} />
                     </LinkButton>
                 </div>
                 <GoogleRecaptcha {...recaptchaWidgetProps} />
                 <div className={classes.buttonsContainer}>
-                    <Button
-                        priority="high"
-                        type="submit"
-                        data-cy="SignInButton-root_highPriority"
-                        disabled={isBusy}
-                    >
-                        <FormattedMessage
-                            id={'signIn.signInText'}
-                            defaultMessage={'Sign In'}
-                        />
+                    <Button priority="high" type="submit" data-cy="SignInButton-root_highPriority" disabled={isBusy}>
+                        <FormattedMessage id={'signIn.signInText'} defaultMessage={'Sign In'} />
                     </Button>
                     <Button
                         priority="normal"
@@ -137,10 +115,7 @@ const SignIn = props => {
                         onClick={handleCreateAccount}
                         data-cy="CreateAccount-initiateButton"
                     >
-                        <FormattedMessage
-                            id={'signIn.createAccountText'}
-                            defaultMessage={'Create an Account'}
-                        />
+                        <FormattedMessage id={'signIn.createAccountText'} defaultMessage={'Create an Account'} />
                     </Button>
                 </div>
             </Form>

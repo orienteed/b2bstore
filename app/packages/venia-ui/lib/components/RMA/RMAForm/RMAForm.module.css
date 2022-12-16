@@ -1,0 +1,24 @@
+.form {
+    composes: grid from global;
+    composes: gap-y-xs from global;
+    grid-template-columns: auto auto;
+    padding: 5rem;
+}
+.orderInformationTitle {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+.orderInformationInputs {
+    margin-top: 1rem;
+}
+.dropzoneContainer {
+    width: 80%;
+    margin: auto;
+}
+
+@media (max-width: 960px) {
+    .form {
+        grid-template-columns: auto;
+    }
+}

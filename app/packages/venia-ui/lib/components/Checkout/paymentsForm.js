@@ -12,12 +12,7 @@ import { usePaymentsForm } from '@magento/peregrine/lib/talons/Checkout/usePayme
  * the submission state as well as prepare/set initial values.
  */
 const PaymentsForm = props => {
-    const {
-        handleSubmit,
-        initialValues,
-        isSubmitting,
-        setIsSubmitting
-    } = usePaymentsForm({
+    const { handleSubmit, initialValues, isSubmitting, setIsSubmitting } = usePaymentsForm({
         initialValues: props.initialValues || {}
     });
 
@@ -30,11 +25,7 @@ const PaymentsForm = props => {
     };
 
     return (
-        <Form
-            className={classes.root}
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-        >
+        <Form className={classes.root} initialValues={initialValues} onSubmit={handleSubmit}>
             <PaymentsFormItems {...formChildrenProps} />
         </Form>
     );
