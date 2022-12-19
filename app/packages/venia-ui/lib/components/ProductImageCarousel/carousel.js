@@ -78,7 +78,7 @@ const ProductImageCarousel = props => {
     }, [generateUrl, currentImage, IMAGE_WIDTH]);
     let image;
     if (currentImage.file) {
-        image = <ReactImageZoom zoomWidth={500} img={src} />;
+        image = <ReactImageZoom zoomWidth={500} img={src} zoomStyle={'z-index: 1'} />;
     } else {
         image = (
             <Image
