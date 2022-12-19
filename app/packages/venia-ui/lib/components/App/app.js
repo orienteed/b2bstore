@@ -6,7 +6,7 @@ import { useToasts } from '@magento/peregrine';
 import useDelayedTransition from '@magento/peregrine/lib/hooks/useDelayedTransition';
 import { useApp } from '@magento/peregrine/lib/talons/App/useApp';
 
-// import globalCSS from '../../index.module.css';
+import globalCSS from '../../index.module.css';
 import { HeadProvider, StoreTitle } from '../Head';
 import Main from '../Main';
 import Mask from '../Mask';
@@ -24,14 +24,6 @@ ReactGA.initialize('UA-158777378-4');
 ReactGA.plugin.require('ecommerce');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-const { hostname } = window.location;
-let globalCSS = require('../../index.module.css');
-try {
-    globalCSS = require(`@magento/venia-concept/tenants/${hostname}/index.module.css`);
-} catch (e) {
-    globalCSS = require('../../index.module.css');
-}
-
 import { AlertCircle as AlertCircleIcon, CloudOff as CloudOffIcon, Wifi as WifiIcon } from 'react-feather';
 
 const OnlineIcon = <Icon src={WifiIcon} attrs={{ width: 18 }} />;
@@ -40,16 +32,11 @@ const ErrorIcon = <Icon src={AlertCircleIcon} attrs={{ width: 18 }} />;
 
 const App = props => {
     const { markErrorHandled, renderError, unhandledErrors } = props;
-
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
     const { location } = useHistory();
     const { pathname } = location;
     useDelayedTransition();
-
-    // import one index.module.css file or another based on the current host
-    // this is a workaround for the fact that we can't use CSS variables in
-    // CSS modules
 
     useEffect(() => {
         ReactGA.pageview(window.location.pathname + window.location.search);
