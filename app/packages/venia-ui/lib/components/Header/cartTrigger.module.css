@@ -47,7 +47,7 @@
     display: none !important;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 959px) {
     .triggerContainer {
         display: none;
     }

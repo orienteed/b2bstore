@@ -77,9 +77,6 @@ const DeliveryDateForm = props => {
         <>
             {isShowing && (
                 <div>
-                    {/* <h5 className={classes.heading}>
-                        <FormattedMessage id={'deliveryDate.deliveryDate'} defaultMessage={'Delivery Date'} />
-                    </h5> */}
                     {checkoutStep <= 3 ? (
                         <Accordion canOpenMultiple={true}>
                             <Section
@@ -91,7 +88,7 @@ const DeliveryDateForm = props => {
                                 })}
                             >
                                 <Suspense fallback={<LoadingIndicator />}>
-                                    <div>
+                                    <div className={classes.deliveryDateContainer}>
                                         <div className={classes.gridWrapper}>
                                             <div className={classes.dataPickerWrapper}>
                                                 <span>
@@ -105,6 +102,7 @@ const DeliveryDateForm = props => {
                                                     filterDate={isWeekday}
                                                     onChange={handleDateChange}
                                                     locale={local}
+                                                    className={classes.datePicker}
                                                     dateFormat={moment(date).format('L')}
                                                     dayClassName={disabledDate}
                                                     minDate={new Date()}
@@ -132,10 +130,7 @@ const DeliveryDateForm = props => {
                                                                 ...deliveryTime
                                                             ]}
                                                             onChange={e =>
-                                                                handleChange(
-                                                                    'mp_delivery_time',
-                                                                    e.target.value
-                                                                )                                                          
+                                                                handleChange('mp_delivery_time', e.target.value)
                                                             }
                                                         />
                                                     </Form>

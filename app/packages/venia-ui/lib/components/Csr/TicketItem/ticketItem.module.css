@@ -130,7 +130,7 @@
 .fieldChangeState {
     font-weight: 600;
     font-size: 14px;
-    color: #e8aa00;
+    color: var(--b2bstore-global-color-orange);
     text-align: left;
     height: 24px;
     cursor: pointer;

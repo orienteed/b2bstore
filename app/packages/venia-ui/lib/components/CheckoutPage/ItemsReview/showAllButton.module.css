@@ -19,10 +19,10 @@
     composes: font-semibold from global;
     composes: text-brand-dark from global;
     composes: text-sm from global;
+    color: var(--b2bstore-global-color-orange)
 }
 
 .arrowDown {
     composes: root from '../../Icon/icon.module.css';
-
-    --stroke: rgb(var(--venia-brand-color-1-700));
+    --stroke: var(--b2bstore-global-color-orange);
 }

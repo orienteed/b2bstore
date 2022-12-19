@@ -27,7 +27,7 @@
 }
 
 .recommendedLink {
-    color: #e8aa00;
+    color: var(--b2bstore-global-color-orange);
     font-weight: 500;
     font-size: 16px;
     cursor: pointer;
@@ -36,7 +36,7 @@
 }
 
 .recommendedLink span svg {
-    stroke: #e8aa00;
+    stroke: var(--b2bstore-global-color-orange);
     margin-left: 0.5rem;
 }
 

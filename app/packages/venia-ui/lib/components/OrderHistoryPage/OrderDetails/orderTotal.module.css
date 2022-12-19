@@ -52,7 +52,7 @@
     composes: gap-xs from global;
     composes: grid from global;
     composes: grid-cols-autoLast from global;
-    color: #e8aa00;
+    color: var(--b2bstore-global-color-orange);
     font-weight: 700;
     font-size: 24px;
 }
@@ -94,7 +94,7 @@
 }
 
 .grossText {
-    color: #e8aa00;
+    color: var(--b2bstore-global-color-orange);
 }
 
 .actionsWrapper {
@@ -110,8 +110,8 @@
 
 .shoppngBtn {
     background: #ffffff;
-    border: 2px solid #e8aa00;
+    border: 2px solid var(--b2bstore-global-color-orange);
     border-radius: 30px;
     height: 40px;
-    color: #e8aa00 !important;
+    color: var(--b2bstore-global-color-orange) !important;
 }

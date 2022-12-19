@@ -9,32 +9,19 @@
     border-width: 2px;
 }
 
-.heading {
-    font-weight: 600 !important;
-    margin-bottom: 0.8rem;
+.datePicker {
+    composes: input from '../../TextInput/textInput.module.css';
 }
 
 .gridWrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .disabled {
     pointer-events: none;
     color: #ccc;
-}
-
-.dataPickerWrapper > span {
-    margin-bottom: 0.5rem;
-}
-
-.dataPickerWrapper input {
-    height: 40px;
-}
-
-.dataPickerWrapper > div > div input {
-    border-width: 2px;
-    border-radius: 4px;
 }
 
 .timeWrapper > span {
