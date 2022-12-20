@@ -31,19 +31,11 @@
 
 .heading {
     composes: flex from global;
-    composes: flex-wrap from global;
-    composes: justify-center from global;
+    composes: justify-between from global;
+    
     composes: pb-2xs from global;
-
-    composes: lg_flex-nowrap from global;
-    composes: lg_items-center from global;
-    composes: lg_justify-between from global;
-    composes: lg_pb-6 from global;
-}
-.heading {
-    justify-content: space-between;
     align-items: center;
-    padding-bottom: 1.5rem;
+    
 }
 
 .categoryContent {
@@ -55,11 +47,8 @@
     composes: max-w-[75vw] from global;
     composes: mx-0 from global;
     composes: my-xs from global;
-    composes: text-center from global;
+    text-align: center;
     line-height: var(--venia-global-typography-heading-lineHeight);
-
-    composes: lg_m-0 from global;
-    composes: lg_text-left from global;
 }
 
 .headerButtons {
@@ -67,8 +56,6 @@
     composes: justify-center from global;
     composes: pb-sm from global;
     composes: w-full from global;
-    composes: lg_justify-end from global;
-    composes: lg_pb-0 from global;
     flex-wrap: wrap;
     gap: 20px;
     align-items: center;
@@ -76,7 +63,7 @@
 
 .contentWrapper {
     composes: w-full from global;
-
+    
     composes: lg_flex from global;
 }
 
@@ -104,7 +91,7 @@
     margin-bottom: 1rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1023px) {
     .sidebar {
         width: var(--category-sidebar-width);
         min-width: var(--category-sidebar-width);
@@ -112,5 +99,31 @@
 
     .categoryHeader {
         width: 100%;
+    }
+
+    .categoryInfo{
+        margin: 0;
+        text-align: left;
+    }
+
+    .headerButtons{
+        justify-content: end;
+        padding-bottom: 0;
+        flex-wrap:nowrap;
+    }
+
+    .heading{
+        flex-wrap: nowrap;
+        align-items: center;
+        padding-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 1023px){
+    .sidebar {
+        flex:0%;
+    }
+    .heading{
+        flex-wrap: wrap;
     }
 }
