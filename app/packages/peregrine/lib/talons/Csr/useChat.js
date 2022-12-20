@@ -50,7 +50,8 @@ export const useChat = props => {
 
     // Methods
     const handleOutsideClick = event => {
-        if (isEmojiPickerOpen && !event.path.includes(document.getElementById('emojiPicker'))) {
+        const path = event.path || (event.composedPath && event.composedPath());
+        if (isEmojiPickerOpen && !path.includes(document.getElementById('emojiPicker'))) {
             setIsEmojiPickerOpen(false);
         }
     };
