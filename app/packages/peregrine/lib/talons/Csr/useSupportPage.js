@@ -131,7 +131,6 @@ export const useSupportPage = () => {
         handleReset,
         handleSubmit,
         legendModal,
-        loadDataError,
         numPage,
         openTicketModal,
         openedChat,
