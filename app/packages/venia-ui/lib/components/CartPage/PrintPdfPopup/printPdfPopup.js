@@ -59,10 +59,10 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
         >
             <Dropzone />
             <main ref={ref}>
+                <article className={defaultClasses.imagesContainer}>
+                    <ImagesList />
+                </article>
                 <section className={defaultClasses.companyData}>
-                    <article className={defaultClasses.imagesContainer}>
-                        <ImagesList />
-                    </article>
                     <TextArea
                         id="info"
                         field="info"

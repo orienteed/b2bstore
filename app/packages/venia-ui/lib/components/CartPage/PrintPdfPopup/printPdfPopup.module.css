@@ -16,13 +16,6 @@
     resize: none;
 }
 
-/* 
-.imagesContainer,
-.companyInfo {
-    display: flex;
-    justify-content: center;
-} */
-
 .companyInfo {
     margin-top: 30px;
 }
@@ -34,6 +27,10 @@
 
 .cartItemContainer {
     margin: 20px 0;
+}
+.imagesContainer {
+    display: flex;
+    justify-content: center;
 }
 
 .buttonsContainer {
@@ -59,18 +56,6 @@
     font-weight: bold;
     font-size: 15px;
 }
-/* 
-@media (max-width: 960px) {
-    .buttonsContainer {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    }
-    .individualButton {
-        margin: 10px 0;
-    }
-} */
 
 @media only screen and (min-width: 992px) {
     .titlesContainer {
