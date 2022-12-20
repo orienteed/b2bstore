@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
 import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
-import { useCustomQuantityStepper } from '../../../talons/CustomQuantityStepper/useCustomQuantityStepper';
+import { useCustomQuantityStepper } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/CustomQuantityStepper/useCustomQuantityStepper';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';

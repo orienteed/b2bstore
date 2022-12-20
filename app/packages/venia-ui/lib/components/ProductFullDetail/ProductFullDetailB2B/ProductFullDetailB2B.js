@@ -11,7 +11,7 @@ import ProductItem from './ProductItem/ProductItem';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
 import CmsBlock from '../../CmsBlock/block';
-import { useCmsBlock } from './useCmsBlocks';
+import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 

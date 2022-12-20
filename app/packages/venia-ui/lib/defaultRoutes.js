@@ -156,5 +156,10 @@ module.exports = [
         name: 'BuyLaterNotes',
         pattern: '/mpsavecart/cart/share/id/:token',
         path: '../BuyLaterNotes/ShareCart'
+    },
+    {
+        name: 'SimpleProduct',
+        pattern: '/simple-product',
+        path: '../ProductFullDetail/SimpleProduct'
     }
 ];

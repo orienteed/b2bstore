@@ -90,8 +90,7 @@ const ItemsTable = props => {
 
     const addToCartButton = (
         <CustomButton
-            priority={'high'}
-            classes={{ root: classes.buttonAddToCart }}
+            className={classes.buttonAddToCart}
             onClick={handleAddToCart}
             disabled={simpleProductData.stock_status === 'OUT_OF_STOCK'}
         >

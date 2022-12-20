@@ -8,7 +8,7 @@ import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './simpleProduct.module.css';
 import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
-import { useCmsBlock } from '../useCmsBlocks.js';
+import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
 
 const SimpleProductB2B = props => {
     const { cmsBlocks } = useCmsBlock({

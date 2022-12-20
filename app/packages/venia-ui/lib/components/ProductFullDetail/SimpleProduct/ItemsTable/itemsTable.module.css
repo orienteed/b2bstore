@@ -1,16 +1,14 @@
 .quantityRoot {
-    composes: root from '@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.module.css';
+    composes: root from '../../../QuantityStepper/quantityStepper.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }
 
 /* Add to cart button */
 .buttonAddToCart {
-    composes: root_highPriority from '@magento/venia-concept/src/components/Button/button.module.css';
-    background-color: rgb(var(--venia-brand-color-1-700));
-    border: none;
-    font-weight: bold;
+    composes: root_highPriority from '../../../Button/button.module.css';
     min-width: fit-content;
+    width: 80px;
 }
 
 /* Product table */
@@ -49,29 +47,36 @@
     width: 15px;
     border-radius: 50%;
 }
+
 .inStock {
     background-color: green;
 }
+
 .outStock {
     background-color: red;
 }
+
 .stockStatusContainer {
     display: flex;
 }
+
 .stockStatusCircle {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 10px;
 }
+
 .totalPriceContainer {
     display: flex;
     margin-bottom: 5px;
     width: 100%;
 }
+
 .totalWrapper {
     margin-left: 10px;
 }
+
 .indexFixedImage {
     text-align: center;
     width: 100%;
@@ -95,6 +100,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .productSkuContainer img {
     width: 20px;
     height: 20px;
@@ -105,6 +111,7 @@
     color: var(--orienteed-primary-color-base1);
     font-weight: bold;
 }
+
 .copiedText {
     color: var(--orienteed-primary-color-base1);
     font-weight: bold;

@@ -5,10 +5,10 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Price from '@magento/venia-ui/lib/components/Price';
 import { FormattedMessage } from 'react-intl';
-import { useSimpleProduct } from '../../talons/SimpleProduct/useSimpleProduct';
+import { useSimpleProduct } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/useSimpleProduct';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
 import { ADD_CONFIGURABLE_MUTATION } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
-import ErrorView from '../../../../src/components/ErrorView/errorView';
+import ErrorView from '../../ErrorView/errorView';
 import SimpleProductB2B from './simpleProductB2B';
 import SimpleProductB2C from './simpleProductB2C';
 
