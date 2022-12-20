@@ -190,16 +190,6 @@ const ProductFullDetailB2C = props => {
                     <RichContent html={productDetails.description} />
                 </section>
                 <section className={classes.details}>
-                    <span
-                        data-cy="ProductFullDetail-detailsTitle"
-                        className={classes.detailsTitle}
-                    >
-                        <FormattedMessage
-                            id={'global.sku'}
-                            defaultMessage={'SKU'}
-                        />
-                    </span>
-                    <strong>{productDetails.sku}</strong>
                     <CustomAttributes
                         customAttributes={customAttributesDetails.list}
                     />
