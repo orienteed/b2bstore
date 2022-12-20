@@ -63,18 +63,8 @@ const GalleryItem = props => {
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
-    // eslint-disable-next-line no-unused-vars
-    const {
-        orParentUrlKey,
-        name,
-        price,
-        price_range,
-        small_image,
-        url_key,
-        url_suffix,
-        custom_attributes,
-        rating_summary
-    } = item;
+
+    const { name, price, small_image, url_key, custom_attributes } = item;
     const { url: smallImageURL } = small_image;
 
     const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
