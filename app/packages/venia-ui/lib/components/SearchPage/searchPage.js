@@ -9,22 +9,14 @@ import Pagination from '../../components/Pagination';
 import Gallery, { GalleryShimmer } from '../Gallery';
 import ProductSort, { ProductSortShimmer } from '../ProductSort';
 import defaultClasses from './searchPage.module.css';
-import SortedByContainer, {
-    SortedByContainerShimmer
-} from '../SortedByContainer';
-import FilterModalOpenButton, {
-    FilterModalOpenButtonShimmer
-} from '../FilterModalOpenButton';
+import SortedByContainer, { SortedByContainerShimmer } from '../SortedByContainer';
+import FilterModalOpenButton, { FilterModalOpenButtonShimmer } from '../FilterModalOpenButton';
 import { FilterSidebarShimmer } from '../FilterSidebar';
 import Shimmer from '../Shimmer';
 import { Meta, Title } from '../Head';
 
-const FilterModal = React.lazy(() =>
-    import('../FilterModal')
-);
-const FilterSidebar = React.lazy(() =>
-    import('../FilterSidebar')
-);
+const FilterModal = React.lazy(() => import('../FilterModal'));
+const FilterSidebar = React.lazy(() => import('../FilterSidebar'));
 
 const SearchPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -50,9 +42,7 @@ const SearchPage = props => {
             return (
                 <Fragment>
                     <section className={classes.gallery}>
-                        <GalleryShimmer
-                            items={Array.from({ length: 12 }).fill(null)}
-                        />
+                        <GalleryShimmer items={Array.from({ length: 12 }).fill(null)} />
                     </section>
                     <section className={classes.pagination} />
                 </Fragment>
@@ -61,12 +51,10 @@ const SearchPage = props => {
 
         if (!data && error) {
             return (
-                <div aria-live="polite" className={classes.noResult}>
+                <div className={classes.noResult}>
                     <FormattedMessage
                         id={'searchPage.noResult'}
-                        defaultMessage={
-                            'No results found. The search term may be missing or invalid.'
-                        }
+                        defaultMessage={'No results found. The search term may be missing or invalid.'}
                     />
                 </div>
             );
@@ -78,25 +66,15 @@ const SearchPage = props => {
 
         if (data.products.items.length === 0) {
             return (
-                <div
-                    aria-live="polite" 
-                    className={classes.noResult} 
-                    data-cy="SearchPage-noResult"
-                >
-                    <FormattedMessage
-                        id={'searchPage.noResultImportant'}
-                        defaultMessage={'No results found!'}
-                    />
+                <div className={classes.noResult} data-cy="SearchPage-noResult">
+                    <FormattedMessage id={'searchPage.noResultImportant'} defaultMessage={'No results found!'} />
                 </div>
             );
         } else {
             return (
                 <Fragment>
                     <section className={classes.gallery}>
-                        <Gallery
-                            items={data.products.items}
-                            filterState={filterState}
-                        />
+                        <Gallery items={data.products.items} filterState={filterState} />
                     </section>
                     <section className={classes.pagination}>
                         <Pagination pageControl={pageControl} />
@@ -104,12 +82,9 @@ const SearchPage = props => {
                 </Fragment>
             );
         }
-    }, [data, loading, error, classes.gallery, classes.pagination, classes.noResult, filterState, pageControl]);
+    }, [classes.gallery, classes.noResult, classes.pagination, error, loading, data, pageControl]);
 
-    const productsCount =
-        data && data.products && data.products.total_count
-            ? data.products.total_count
-            : 0;
+    const productsCount = data && data.products && data.products.total_count ? data.products.total_count : 0;
 
     const shouldShowFilterButtons = filters && filters.length;
     const shouldShowFilterShimmer = filters === null;
@@ -124,9 +99,7 @@ const SearchPage = props => {
         <FilterModalOpenButtonShimmer />
     ) : null;
 
-    const maybeFilterModal = shouldShowFilterButtons ? (
-        <FilterModal filters={filters} />
-    ) : null;
+    const maybeFilterModal = shouldShowFilterButtons ? <FilterModal filters={filters} /> : null;
 
     const maybeSidebar = shouldShowFilterButtons ? (
         <FilterSidebar setfilterState={setfilterState} filters={filters} />
@@ -135,12 +108,7 @@ const SearchPage = props => {
     ) : null;
 
     const maybeSortButton = shouldShowSortButtons ? (
-        availableSortMethods && (
-            <ProductSort
-                sortProps={sortProps}
-                availableSortMethods={availableSortMethods}
-            />
-        )
+        availableSortMethods && <ProductSort sortProps={sortProps} availableSortMethods={availableSortMethods} />
     ) : shouldShowSortShimmer ? (
         <ProductSortShimmer />
     ) : null;
@@ -157,24 +125,19 @@ const SearchPage = props => {
         <FormattedMessage
             id={'searchPage.searchTerm'}
             values={{
-                highlight: chunks => (
-                    <span className={classes.headingHighlight}>{chunks}</span>
-                ),
+                highlight: chunks => <span className={classes.headingHighlight}>{chunks}</span>,
                 category: searchCategory,
                 term: searchTerm
             }}
             defaultMessage="Showing results for <highlight>{term}</highlight>{category, select, null {} other { in <highlight>{category}</highlight>}}:"
         />
     ) : (
-        <FormattedMessage
-            id={'searchPage.searchTermEmpty'}
-            defaultMessage={'Showing all results:'}
-        />
+        <FormattedMessage id={'searchPage.searchTermEmpty'} defaultMessage={'Showing all results:'} />
     );
 
     const itemCountHeading =
         data && !loading ? (
-            <span aria-live="polite" className={classes.totalPages}>
+            <span className={classes.totalPages}>
                 {formatMessage(
                     {
                         id: 'searchPage.totalPages',
@@ -187,24 +150,16 @@ const SearchPage = props => {
             <Shimmer width={5} />
         ) : null;
 
-    const metaLabel = [searchTerm, `${STORE_NAME} Search`]
-        .filter(Boolean)
-        .join(' - ');
+    const metaLabel = [searchTerm, `${STORE_NAME} Search`].filter(Boolean).join(' - ');
 
     return (
         <article className={classes.root} data-cy="SearchPage-root">
             <div className={classes.sidebar}>
-                <Suspense fallback={<FilterSidebarShimmer />}>
-                    {maybeSidebar}
-                </Suspense>
+                <Suspense fallback={<FilterSidebarShimmer />}>{maybeSidebar}</Suspense>
             </div>
             <div className={classes.searchContent}>
                 <div className={classes.heading}>
-                    <div 
-                        aria-live="polite"
-                        aria-atomic="true"
-                        className={classes.searchInfo}
-                    >
+                    <div className={classes.searchInfo}>
                         {searchResultsHeading}
                         {itemCountHeading}
                     </div>

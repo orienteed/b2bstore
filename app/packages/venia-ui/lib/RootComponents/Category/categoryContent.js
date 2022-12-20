@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useMemo, useRef } from 'react';
+import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { array, number, shape, string } from 'prop-types';
 
@@ -27,7 +27,8 @@ import DownloadCsv from '../../components/Gallery/DownloadCsv';
 const CategoryContent = props => {
     const { categoryId, data, isLoading, pageControl, sortProps, pageSize } = props;
     const [currentSort] = sortProps;
-
+    const [showMore, setShowMore] = useState(false);
+    const [filterState, setfilterState] = useState();
     const talonProps = useCategoryContent({
         categoryId,
         data,
@@ -43,7 +44,6 @@ const CategoryContent = props => {
         totalCount,
         totalPagesFromData
     } = talonProps;
-
     const sidebarRef = useRef(null);
     const classes = useStyle(defaultClasses, props.classes);
     const shouldRenderSidebarContent = useIsInViewport({
@@ -66,7 +66,7 @@ const CategoryContent = props => {
     const filtersModal = shouldShowFilterButtons ? <FilterModal filters={filters} /> : null;
 
     const sidebar = shouldShowFilterButtons ? (
-        <FilterSidebar filters={filters} />
+        <FilterSidebar setfilterState={setfilterState} filters={filters} />
     ) : shouldShowFilterShimmer ? (
         <FilterSidebarShimmer />
     ) : null;
@@ -98,12 +98,17 @@ const CategoryContent = props => {
 
     const categoryDescriptionElement = categoryDescription ? <RichContent html={categoryDescription} /> : null;
 
+    const changeShowMore = () => setShowMore(!showMore);
     const content = useMemo(() => {
         if (!totalPagesFromData && !isLoading) {
             return <NoProductsFound categoryId={categoryId} />;
         }
 
-        const gallery = totalPagesFromData ? <Gallery items={items} /> : <GalleryShimmer items={items} />;
+        const gallery = totalPagesFromData ? (
+            <Gallery filterState={filterState} items={items} />
+        ) : (
+            <GalleryShimmer items={items} />
+        );
 
         const pagination = totalPagesFromData ? <Pagination pageControl={pageControl} /> : null;
 
@@ -172,6 +177,9 @@ CategoryContent.propTypes = {
         categoryInfo: string,
         headerButtons: string
     }),
+    // sortProps contains the following structure:
+    // [{sortDirection: string, sortAttribute: string, sortText: string},
+    // React.Dispatch<React.SetStateAction<{sortDirection: string, sortAttribute: string, sortText: string}]
     sortProps: array,
     pageSize: number
 };

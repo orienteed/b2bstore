@@ -63,6 +63,7 @@ const GalleryItem = props => {
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
     }
+    // eslint-disable-next-line no-unused-vars
     const {
         orParentUrlKey,
         name,
@@ -79,29 +80,28 @@ const GalleryItem = props => {
     const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
 
     const simpleProductLink = `/simple-product?sku=${item.sku}`;
+    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
+    const {
+        minimalPrice: {
+            amount: { currency: minimalPriceCurrency, value: minimalPriceValue }
+        },
+        regularPrice: {
+            amount: { value: regularPriceValue }
+        }
+    } = price;
 
-    const discount = Math.round(100 - (price?.minimalPrice?.amount.value / price?.regularPrice?.amount.value) * 100);
     const priceRender =
-        price?.minimalPrice?.amount.value === price?.regularPrice?.amount.value ? (
+        minimalPriceValue === regularPriceValue ? (
             <div className={`${classes.price} ${classes.regularPrice}`}>
-                <Price
-                    value={price?.regularPrice?.amount.value}
-                    currencyCode={price?.regularPrice?.amount.currency || 'EUR'}
-                />
+                <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
             </div>
         ) : (
             <div className={classes.priceWrapper}>
                 <div className={classes.oldPrice}>
-                    <Price
-                        value={price?.regularPrice?.amount.value}
-                        currencyCode={price?.regularPrice?.amount.currency || 'EUR'}
-                    />
+                    <Price value={price.regularPrice.amount.value} currencyCode={price.regularPrice.amount.currency} />
                 </div>
                 <div className={`${classes.price} ${classes.newPrice}`}>
-                    <Price
-                        value={price?.minimalPrice?.amount.value}
-                        currencyCode={price?.minimalPrice?.amount.currency || 'EUR'}
-                    />
+                    <Price value={minimalPriceValue} currencyCode={minimalPriceCurrency} />
                 </div>
             </div>
         );
@@ -218,7 +218,7 @@ const GalleryItem = props => {
 
     const getProductsInstance = () => {
         const instanceItem = { ...item };
-        var variants = [...instanceItem?.variants];
+        let variants = [...instanceItem?.variants];
         const filterKeys = filterState && [...filterState?.keys()];
         const filterValues = filterState && [...filterState?.values()];
         const filterValuesArray = filterValues?.map(filValue => {
@@ -352,10 +352,6 @@ const GalleryItem = props => {
                     </span>
                     {priceRender}
                 </div>
-                {/* <Price
-                    value={price_range.maximum_price.regular_price.value}
-                    currencyCode={price_range.maximum_price.regular_price.currency}
-                /> */}
             </div>
             {!pageBuilder && (
                 <div className={classes.productsWrapper}>
@@ -377,7 +373,7 @@ const GalleryItem = props => {
                 </div>
             )}
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
-                {!price?.minimalPrice?.amount.value && process.env.B2BSTORE_VERSION === 'PREMIUM'
+                {!price.minimalPrice?.amount.value && process.env.B2BSTORE_VERSION === 'PREMIUM'
                     ? requestQuateButton
                     : addButton}
                 <button className={classes.compareIcon} onClick={addToCompare}>
@@ -391,7 +387,6 @@ const GalleryItem = props => {
                     quantity={quantity}
                     setQuantity={val => setQuantity(val)}
                 />
-                {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
     );
