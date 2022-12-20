@@ -31,6 +31,7 @@
 .submenu_active {
     composes: submenu;
     composes: flex from global;
+    z-index: -1;
 }
 
 .submenuItems {
