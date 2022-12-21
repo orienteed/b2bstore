@@ -85,7 +85,7 @@ const ProductItem = props => {
         setIsOpen(false);
     };
 
-    const requestQuateButton = (
+    const requestQuoteButton = (
         <div className={classes.requestBtn}>
             <Button
                 disabled={variant.product.stock_status === 'OUT_OF_STOCK'}
@@ -212,7 +212,7 @@ const ProductItem = props => {
                 </span>
                 <div className={classes.stockAddContainer}>
                     {stockStatus}
-                    {variant.product.price.minimalPrice.amount.value ? addToCartButton : requestQuateButton}
+                    {variant.product.price.minimalPrice.amount.value ? addToCartButton : requestQuoteButton}
                 </div>
             </div>
             <ConfirmationModal
@@ -269,7 +269,7 @@ const ProductItem = props => {
                     </div>
                     <div className={classes.productItemBodyOperations}>
                         {quantitySelector(2)}
-                        {variant.product.price.minimalPrice.amount.value ? addToCartButton : requestQuateButton}
+                        {variant.product.price.minimalPrice.amount.value ? addToCartButton : requestQuoteButton}
                     </div>
                     {error != '' && <p style={{ color: '#f00' }}>{errors.get('quantity')}</p>}
                 </div>
