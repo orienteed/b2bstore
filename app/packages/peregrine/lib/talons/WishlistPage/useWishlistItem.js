@@ -172,7 +172,6 @@ export const useWishlistItem = props => {
             selectedConfigurableOptions.length === configurableOptions.length
         ) {
             try {
-                await addWishlistItemToCart();
                 
                 const payload = {
                     item: item.product,
