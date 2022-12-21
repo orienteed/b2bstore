@@ -244,10 +244,6 @@
     justify-content: space-around;
 }
 
-.stockAddContainer button:disabled{
-    opacity: 0.4;
-}
-
 .requestBtn button {
     min-width: auto;
 }
