@@ -40,11 +40,9 @@ export const useCategoryTree = props => {
         fetchPolicy: 'cache-and-network'
     });
 
-    const categoryUrlSuffix = useMemo(() => {
-        if (categoryUrlData) {
-            return categoryUrlData.storeConfig.category_url_suffix;
-        }
-    }, [categoryUrlData]);
+    console.log('categoryUrlData', categoryUrlData);
+    const categoryUrlSuffix = categoryUrlData?.storeConfig?.category_url_suffix;
+
     // fetch categories
     useEffect(() => {
         if (categoryId != null) {
@@ -67,11 +65,7 @@ export const useCategoryTree = props => {
         const childCategories = new Map();
 
         // Add the root category when appropriate.
-        if (
-            rootCategory &&
-            rootCategory.include_in_menu &&
-            rootCategory.url_path
-        ) {
+        if (rootCategory && rootCategory.include_in_menu && rootCategory.url_path) {
             childCategories.set(rootCategory.uid, {
                 category: rootCategory,
                 isLeaf: true
