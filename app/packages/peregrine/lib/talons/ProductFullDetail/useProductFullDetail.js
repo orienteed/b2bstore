@@ -101,7 +101,6 @@ const getIsAllOutOfStock = product => {
         });
         return !inStockItem;
     }
-
     return stock_status === OUT_OF_STOCK_CODE;
 };
 
@@ -172,11 +171,11 @@ const getConfigPriceRegular = (product, optionCodes, optionSelections) => {
         });
 
         value = item ? item.product.price.regularPrice.amount : product.price.regularPrice.amount;
-        
     }
 
     return value;
 };
+
 const getConfigPriceMinimal = (product, optionCodes, optionSelections) => {
     let value;
 
@@ -211,9 +210,7 @@ const attributeLabelCompare = (attribute1, attribute2) => {
 const getCustomAttributes = (product, optionCodes, optionSelections) => {
     const { custom_attributes, variants } = product;
     const isConfigurable = isProductConfigurable(product);
-    const optionsSelected =
-        Array.from(optionSelections.values()).filter(value => !!value).length >
-        0;
+    const optionsSelected = Array.from(optionSelections.values()).filter(value => !!value).length > 0;
 
     if (isConfigurable && optionsSelected) {
         const item = findMatchingVariant({
@@ -222,14 +219,10 @@ const getCustomAttributes = (product, optionCodes, optionSelections) => {
             variants
         });
 
-        return item && item.product
-            ? [...item.product.custom_attributes].sort(attributeLabelCompare)
-            : [];
+        return item && item.product ? [...item.product.custom_attributes].sort(attributeLabelCompare) : [];
     }
 
-    return custom_attributes
-        ? [...custom_attributes].sort(attributeLabelCompare)
-        : [];
+    return custom_attributes ? [...custom_attributes].sort(attributeLabelCompare) : [];
 };
 
 /**
@@ -321,9 +314,7 @@ export const useProductFullDetail = props => {
         }
     }, [product]);
 
-    const isEverythingOutOfStock = useMemo(() => getIsAllOutOfStock(product), [
-        product
-    ]);
+    const isEverythingOutOfStock = useMemo(() => getIsAllOutOfStock(product), [product]);
 
     const outOfStockVariants = useMemo(
         () =>
@@ -334,22 +325,17 @@ export const useProductFullDetail = props => {
                 optionSelections,
                 isOutOfStockProductDisplayed
             ),
-        [
-            product,
-            optionCodes,
-            singleOptionSelection,
-            optionSelections,
-            isOutOfStockProductDisplayed
-        ]
+        [product, optionCodes, singleOptionSelection, optionSelections, isOutOfStockProductDisplayed]
     );
     const mediaGalleryEntries = useMemo(
         () => getMediaGalleryEntries(product, optionCodes, optionSelections, derivedOptionSelections),
         [product, optionCodes, optionSelections, derivedOptionSelections]
     );
-    const customAttributes = useMemo(
-        () => getCustomAttributes(product, optionCodes, optionSelections),
-        [product, optionCodes, optionSelections]
-    );
+    const customAttributes = useMemo(() => getCustomAttributes(product, optionCodes, optionSelections), [
+        product,
+        optionCodes,
+        optionSelections
+    ]);
 
     // The map of ids to values (and their uids)
     // For example:
@@ -386,91 +372,88 @@ export const useProductFullDetail = props => {
         async formValues => {
             const { quantity } = formValues;
             if (hasDeprecatedOperationProp) {
-            const payload = {
-                item: product,
-                productType,
-                quantity
-            };
-
-            if (isProductConfigurable(product)) {
-                appendOptionsToPayload(payload, optionSelections, optionCodes);
-            }
-
-            if (isSupportedProductType) {
-                const variables = {
-                    cartId,
-                    parentSku: payload.parentSku,
-                    product: payload.item,
-                    quantity: payload.quantity,
-                    sku: payload.item.sku
+                const payload = {
+                    item: product,
+                    productType,
+                    quantity
                 };
-                // Use the proper mutation for the type.
-                if (productType === 'SimpleProduct') {
-                    try {
-                        await addSimpleProductToCart({
-                            variables
-                        });
-                    } catch {
-                        return;
+
+                if (isProductConfigurable(product)) {
+                    appendOptionsToPayload(payload, optionSelections, optionCodes);
+                }
+
+                if (isSupportedProductType) {
+                    const variables = {
+                        cartId,
+                        parentSku: payload.parentSku,
+                        product: payload.item,
+                        quantity: payload.quantity,
+                        sku: payload.item.sku
+                    };
+                    // Use the proper mutation for the type.
+                    if (productType === 'SimpleProduct') {
+                        try {
+                            await addSimpleProductToCart({
+                                variables
+                            });
+                        } catch {
+                            return;
+                        }
+                    } else if (productType === 'ConfigurableProduct') {
+                        try {
+                            await addConfigurableProductToCart({
+                                variables
+                            });
+                        } catch {
+                            return;
+                        }
                     }
-                } else if (productType === 'ConfigurableProduct') {
-                    try {
-                        await addConfigurableProductToCart({
-                            variables
-                        });
-                    } catch {
-                        return;
-                    }
+                } else {
+                    console.error('Unsupported product type. Cannot add to cart.');
                 }
             } else {
-                console.error('Unsupported product type. Cannot add to cart.');
-            }
-        } else {
-            const variables = {
-                cartId,
-                product: {
-                    sku: product.sku,
-                    quantity
-                },
-                entered_options: [
-                    {
-                        uid: product.uid,
-                        value: product.name
-                    }
-                ]
-            };
-
-            if (selectedOptionsArray.length) {
-                variables.product.selected_options = selectedOptionsArray;
-            }
-
-            try {
-                await addProductToCart({ variables });
-
-                const selectedOptionsLabels =
-                    selectedOptionsArray?.map((uid, i) => ({
-                        attribute: product.configurable_options[i].label,
-                        value:
-                            product.configurable_options[i].values.findLast(
-                                x => x.uid === uid
-                            )?.label || null
-                    })) || null;
-
-                dispatch({
-                    type: 'CART_ADD_ITEM',
-                    payload: {
-                        cartId,
+                const variables = {
+                    cartId,
+                    product: {
                         sku: product.sku,
-                        name: product.name,
-                        
-                        selectedOptions: selectedOptionsLabels,
                         quantity
-                    }
-                });
-            } catch {
-                return;
+                    },
+                    entered_options: [
+                        {
+                            uid: product.uid,
+                            value: product.name
+                        }
+                    ]
+                };
+
+                if (selectedOptionsArray.length) {
+                    variables.product.selected_options = selectedOptionsArray;
+                }
+
+                try {
+                    await addProductToCart({ variables });
+
+                    const selectedOptionsLabels =
+                        selectedOptionsArray?.map((uid, i) => ({
+                            attribute: product.configurable_options[i].label,
+                            value: product.configurable_options[i].values.findLast(x => x.uid === uid)?.label || null
+                        })) || null;
+
+                    dispatch({
+                        type: 'CART_ADD_ITEM',
+                        payload: {
+                            cartId,
+                            sku: product.sku,
+                            name: product.name,
+
+                            selectedOptions: selectedOptionsLabels,
+                            quantity
+                        }
+                    });
+                } catch {
+                    return;
+                }
             }
-        }
         },
         [
             addConfigurableProductToCart,
@@ -529,7 +512,6 @@ export const useProductFullDetail = props => {
     // Normalization object for product details we need for rendering.
     const productDetails = {
         description: product.description,
-        shortDescription: product.short_description,
         name: product.name,
         price: {
             regularPrice: {
@@ -564,13 +546,13 @@ export const useProductFullDetail = props => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                    id: 'wishlistButton.addedText',
-                    defaultMessage: 'Added to Favorites'
-                })
+                      id: 'wishlistButton.addedText',
+                      defaultMessage: 'Added to Favorites'
+                  })
                 : formatMessage({
-                    id: 'wishlistButton.addText',
-                    defaultMessage: 'Add to Favorites'
-                }),
+                      id: 'wishlistButton.addText',
+                      defaultMessage: 'Add to Favorites'
+                  }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };

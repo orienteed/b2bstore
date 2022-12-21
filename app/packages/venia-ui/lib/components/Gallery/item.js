@@ -70,7 +70,6 @@ const GalleryItem = props => {
     const productLink = resourceUrl(`/${url_key}${productUrlSuffix || ''}`);
 
     const simpleProductLink = `/simple-product?sku=${item.sku}`;
-    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
     const {
         minimalPrice: {
             amount: { currency: minimalPriceCurrency, value: minimalPriceValue }
@@ -79,7 +78,7 @@ const GalleryItem = props => {
             amount: { value: regularPriceValue }
         }
     } = price;
-
+    const discount = Math.round(100 - (price.minimalPrice?.amount.value / price.regularPrice?.amount.value) * 100);
     const priceRender =
         minimalPriceValue === regularPriceValue ? (
             <div className={`${classes.price} ${classes.regularPrice}`}>
@@ -377,6 +376,7 @@ const GalleryItem = props => {
                     quantity={quantity}
                     setQuantity={val => setQuantity(val)}
                 />
+                {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
     );

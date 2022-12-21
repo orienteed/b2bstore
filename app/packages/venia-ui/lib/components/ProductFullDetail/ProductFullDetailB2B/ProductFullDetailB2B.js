@@ -46,7 +46,7 @@ const ProductFullDetailB2B = props => {
     const [selectedFilterCategory, setSelectedFilterCategory] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(10);
 
     const getCategoriesValuesIdByVariant = variant => {
         return variant.attributes.map(attribute => {

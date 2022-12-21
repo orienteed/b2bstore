@@ -27,7 +27,6 @@ const Gallery = props => {
 
     const { location } = useHistory();
     const isHomePage = location.pathname === '/';
-
     useEffect(() => {
         setGalleryItem(items);
     }, [items]);
