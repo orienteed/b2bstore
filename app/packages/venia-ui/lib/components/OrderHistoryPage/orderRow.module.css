@@ -100,7 +100,15 @@
     gap: 1rem;
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 1400px) {
+    .imageWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 1400px) {
     .root {
         grid-template-columns: 1fr 1fr;
     }
@@ -149,13 +157,5 @@
     .orderTotalContainer {
         border-bottom: 2px solid rgb(var(--venia-global-color-gray));
         border-top: 2px solid rgb(var(--venia-global-color-gray));
-    }
-}
-
-@media (min-width: 1201px) {
-    .imageWrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 }
