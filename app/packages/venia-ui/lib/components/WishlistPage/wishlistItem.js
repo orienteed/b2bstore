@@ -80,7 +80,7 @@ const WishlistItem = props => {
                 value_label: valueLabel
             } = option;
 
-            const optionString = `${optionLabel} : ${valueLabel}`;
+            const optionString = `${optionLabel}: ${valueLabel}\n`;
 
             return (
                 <span className={classes.option} key={id}>
