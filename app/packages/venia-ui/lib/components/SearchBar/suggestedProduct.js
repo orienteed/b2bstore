@@ -20,7 +20,6 @@ import { ShoppingBag as ShoppingCartIcon } from 'react-feather';
 
 import { FormattedMessage } from 'react-intl';
 
-import useCopy from 'use-copy';
 import copyToClipboard from './Icons/copyToClipboard.png';
 
 const IMAGE_WIDTH = 60;
@@ -38,11 +37,12 @@ const SuggestedProduct = props => {
         sku
     } = props;
 
-    const [copied, copy, setCopied] = useCopy(sku);
+    const [copied, setCopied] = useState(false);
 
     const copyText = () => {
-        copy();
-
+        navigator.clipboard.writeText(sku);
+        setCopied(true);
+        
         setTimeout(() => {
             setCopied(false);
         }, 1000);

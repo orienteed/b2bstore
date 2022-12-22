@@ -13,7 +13,6 @@ import CustomButton from '../CustomButtom/CustomButton';
 import inStock from '../icons/inStock.svg';
 import outOfStock from '../icons/outOfStock.svg';
 import copyToClipboard from '../icons/copyToClipboard.png';
-import useCopy from 'use-copy';
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
 import ConfirmationModal from '../../../Gallery/ConfirmationModal';
@@ -30,12 +29,13 @@ const ProductItem = props => {
         cartId,
         errors
     } = props;
-    const [copied, copy, setCopied] = useCopy(variant.product.sku);
+    const [copied, setCopied] = useState(false);
 
     const { handleAddCofigItemBySku } = useAddToQuote();
 
     const copyText = () => {
-        copy();
+        navigator.clipboard.writeText(variant.product.sku);
+        setCopied(true);
 
         setTimeout(() => {
             setCopied(false);

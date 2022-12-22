@@ -11,7 +11,6 @@ import CustomButton from '../CustomButtom/CustomButton';
 import inStock from '../icons/inStock.svg';
 import outOfStock from '../icons/outOfStock.svg';
 import copyToClipboard from '../icons/copyToClipboard.png';
-import useCopy from 'use-copy';
 import CustomQuantityStepper from '../CustomQuantityStepper';
 
 const ItemsTable = props => {
@@ -26,10 +25,11 @@ const ItemsTable = props => {
         handleQuantityChange
     } = props;
 
-    const [copied, copy, setCopied] = useCopy(simpleProductData.sku);
+    const [copied, setCopied] = useState(false);
 
     const copyText = () => {
-        copy();
+        navigator.clipboard.writeText(simpleProductData.sku);
+        setCopied(true);
 
         setTimeout(() => {
             setCopied(false);
