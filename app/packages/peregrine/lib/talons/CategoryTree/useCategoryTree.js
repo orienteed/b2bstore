@@ -40,7 +40,6 @@ export const useCategoryTree = props => {
         fetchPolicy: 'cache-and-network'
     });
 
-    console.log('categoryUrlData', categoryUrlData);
     const categoryUrlSuffix = categoryUrlData?.storeConfig?.category_url_suffix;
 
     // fetch categories

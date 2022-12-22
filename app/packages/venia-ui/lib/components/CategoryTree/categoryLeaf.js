@@ -10,7 +10,6 @@ import defaultClasses from './categoryLeaf.module.css';
 
 const Leaf = props => {
     const { category, onNavigate, categoryUrlSuffix, tabIndex } = props;
-    console.log('categoryUrlSuffix', categoryUrlSuffix);
     const { name, url_path, children } = category;
     const classes = useStyle(defaultClasses, props.classes);
     const { handleClick } = useCategoryLeaf({ onNavigate });
