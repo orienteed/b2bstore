@@ -5,7 +5,8 @@
     composes: mx-sm from global;
     composes: my-0 from global;
     composes: px-0 from global;
-    composes: py-sm from global;
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
 }
 
 .title {

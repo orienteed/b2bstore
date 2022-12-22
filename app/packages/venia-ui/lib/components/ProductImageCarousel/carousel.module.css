@@ -80,7 +80,6 @@
 }
 
 .thumbnailList {
-    max-width: 50%;
     composes: content-stretch from global;
     composes: gap-xs from global;
     composes: grid from global;
@@ -104,4 +103,14 @@
 
 .carouselContainer > div div:nth-child(3) {
     box-shadow: 0 0 10px 0 #fbe4a4;
+}
+
+@media (max-width: 959px) {
+    .previousButtonDesktop,
+    .nextButtonDesktop {
+        display: none;
+    }
+    /* .thumbnailList {
+        max-width: 100% !important;
+    } */
 }
