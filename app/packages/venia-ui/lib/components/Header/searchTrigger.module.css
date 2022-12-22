@@ -6,13 +6,20 @@
     transition-property: color;
     transition-duration: 224ms;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-
-    composes: sm_w-auto from global;
 }
 
 .label {
     composes: hidden from global;
+}
 
-    composes: sm_inline from global;
-    composes: sm_ml-1 from global;
+@media (min-width:1400px) or ((max-width:1300px) and (min-width:860px)){
+    .root {
+        composes: w-auto from global;
+    }
+
+    .label {
+        display: inline;
+        composes: ml-1 from global;
+    }
+    
 }

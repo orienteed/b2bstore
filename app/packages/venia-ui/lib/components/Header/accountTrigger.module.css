@@ -18,3 +18,9 @@
     composes: min-w-[6rem] from global;
     composes: z-foreground from global;
 }
+
+@media(max-width: 680px){
+    .trigger {
+        composes: min-w-[2rem] from global;
+    }
+}
