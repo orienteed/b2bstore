@@ -46,9 +46,10 @@
 
 .inputPrice {
     outline: none;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
+    appearance: none;
     box-shadow: 0px 0px 5px 1px var(--b2bstore-global-color-orange);
-    -webkit-box-shadow: 0px 0px 5px 1px var(--b2bstore-global-color-orange);
-    -moz-box-shadow: 0px 0px 5px 1px var(--b2bstore-global-color-orange);
+    /* -webkit-box-shadow: 0px 0px 5px 1px var(--b2bstore-global-color-orange);
+    -moz-box-shadow: 0px 0px 5px 1px var(--b2bstore-global-color-orange); */
     width: 55px;
 }
