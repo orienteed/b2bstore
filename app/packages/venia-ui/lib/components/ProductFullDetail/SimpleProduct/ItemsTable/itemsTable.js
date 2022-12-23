@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { Form } from 'informed';
 import Price from '@magento/venia-ui/lib/components/Price';
 import Image from '@magento/venia-ui/lib/components/Image';
 import Icon from '@magento/venia-ui/lib/components/Icon';
@@ -11,7 +12,7 @@ import Button from '../../../Button';
 import inStock from '../icons/inStock.svg';
 import outOfStock from '../icons/outOfStock.svg';
 import copyToClipboard from '../icons/copyToClipboard.png';
-import CustomQuantityStepper from '../CustomQuantityStepper';
+import QuantityStepper from '../../../QuantityStepper';
 
 const ItemsTable = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -120,12 +121,14 @@ const ItemsTable = props => {
                         }
                     })}
                 </div>
-                <CustomQuantityStepper
-                    fieldName={`${simpleProductData.sku}`}
-                    classes={{ root: classes.quantityRoot }}
-                    min={1}
-                    onChange={handleQuantityChange}
-                />
+                <Form>
+                    <QuantityStepper
+                        fieldName={`${simpleProductData.sku}_2`}
+                        classes={{ root: classes.quantityRoot }}
+                        min={1}
+                        onChange={handleQuantityChange}
+                    />
+                </Form>
                 {priceTag}
                 <span className={classes.indexFixed}>{tempTotalPrice}</span>
                 <div className={classes.stockAddContainer}>
@@ -181,15 +184,16 @@ const ItemsTable = props => {
                             <span className={classes.indexFixed}>{tempTotalPrice}</span>
                         </div>
                     </article>
-                    <div className={classes.productItemBodyOperations}>
-                        <CustomQuantityStepper
-                            fieldName={`${simpleProductData.sku}`}
+                    <Form className={classes.productItemBodyOperations}>
+                        <QuantityStepper
+                            fieldName={`${simpleProductData.sku}_2`}
                             classes={{ root: classes.quantityRoot }}
                             min={1}
                             onChange={handleQuantityChange}
                         />
-                        {addToCartButton}
-                    </div>
+                    </Form>
+
+                    {addToCartButton}
                     {error != '' && <p style={{ color: '#f00' }}>{errors.get('quantity')}</p>}
                 </section>
             </div>
