@@ -109,14 +109,19 @@ const ProductImageCarousel = props => {
             <div className={classes.carouselContainer}>
                 <AriaButton
                     className={classes.previousButton}
-                    onPress={handlePrevious}
+                    onPress={activeItemIndex === 0 ? null : handlePrevious}
                     aria-label={previousButton}
                     type="button"
                 >
                     <Icon classes={chevronClasses} src={ChevronLeftIcon} size={40} />
                 </AriaButton>
                 {image}
-                <AriaButton className={classes.nextButton} onPress={handleNext} aria-label={nextButton} type="button">
+                <AriaButton
+                    className={classes.nextButton}
+                    onPress={activeItemIndex >= sortedImages.length - 1 ? null : handleNext}
+                    aria-label={nextButton}
+                    type="button"
+                >
                     <Icon classes={chevronClasses} src={ChevronRightIcon} size={40} />
                 </AriaButton>
             </div>
