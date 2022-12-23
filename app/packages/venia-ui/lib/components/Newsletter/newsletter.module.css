@@ -88,3 +88,26 @@
     composes: w-full from global;
     composes: z-mask from global;
 }
+
+/* Custom checkbox */
+.label {
+    cursor: pointer;
+    font-size: var(--b2bstore-footer-text-font-size);
+    grid-area: label;
+    justify-self: start;
+    z-index: 1;
+}
+
+.container {
+    display: flex;
+    font-size: var(--b2bstore-footer-text-font-size);
+}
+
+.dataPolitics {
+    color: var(--b2bstore-global-color-orange);
+}
+
+.dataPoliticsContainer {
+    margin-top: 1.5px;
+    margin-left: 30px;
+}

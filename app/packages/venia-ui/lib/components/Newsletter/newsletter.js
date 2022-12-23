@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
+import { Link } from 'react-router-dom';
 import { shape, string } from 'prop-types';
 
 import { useNewsletter } from '@magento/peregrine/lib/talons/Newsletter/useNewsletter';
@@ -9,14 +10,13 @@ import { useToasts } from '@magento/peregrine';
 import { isRequired } from '../../util/formValidators';
 import { useStyle } from '../../classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
+import Checkbox from '../Checkbox/checkbox';
 import Field from '../Field';
 import LoadingIndicator from '../LoadingIndicator';
 import TextInput from '../TextInput';
 import CustomLinkButton from './CustomLinkButton';
 import Shimmer from './newsletter.shimmer';
 import defaultClasses from './newsletter.module.css';
-import CustomCheckbox from './CustomCheckbox';
-import Checkbox from '../Checkbox/checkbox';
 
 const Newsletter = props => {
     const { formatMessage } = useIntl();
@@ -63,10 +63,21 @@ const Newsletter = props => {
         </div>
     ) : null;
 
-    const personalDataTreatment = formatMessage({
-        id: 'footer.personalDataTreatment',
-        defaultMessage: 'I accept the personal data treatment.'
-    });
+    const personalDataTreatment = (
+        <div className={classes.dataPoliticsContainer}>
+            <span className={classes.label}>
+                <FormattedMessage id={'footer.accept'} defaultMessage={`I accept `} />
+            </span>
+            <Link to="/">
+                <span className={classes.dataPolitics}>
+                    <FormattedMessage
+                        id={'footer.personalDataTreatment'}
+                        defaultMessage={`the personal data treatment.`}
+                    />
+                </span>
+            </Link>
+        </div>
+    );
 
     return (
         <div className={classes.root} data-cy={'Newsletter-root'}>
@@ -98,7 +109,12 @@ const Newsletter = props => {
                     <FormattedMessage id={'newsletter.subscribeText'} defaultMessage={'Sign up for newsletter'} />
                 </CustomLinkButton>
                 <div className={classes.checkbox}>
-                    <CustomCheckbox field="data_treatment" label={personalDataTreatment} validate={isRequired} />
+                    <Checkbox
+                        field="data_treatment"
+                        classes={{ container: classes.container }}
+                        richLabel={personalDataTreatment}
+                        validate={isRequired}
+                    />
                 </div>
             </Form>
         </div>

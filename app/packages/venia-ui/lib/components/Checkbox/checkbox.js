@@ -22,6 +22,7 @@ const Checkbox = props => {
         fieldValue,
         id,
         label,
+        richLabel = undefined,
         message,
         ...rest
     } = props;
@@ -38,21 +39,12 @@ const Checkbox = props => {
 
     return (
         <Fragment>
-            <label
-                data-cy="Checkbox-label"
-                aria-label={ariaLabel}
-                className={classes.root}
-                htmlFor={id}
-            >
-                <InformedCheckbox
-                    {...rest}
-                    className={classes.input}
-                    field={field}
-                    id={id}
-                />
+            <label data-cy="Checkbox-label" aria-label={ariaLabel} className={classes.root} htmlFor={id}>
+                <InformedCheckbox {...rest} className={classes.input} field={field} id={id} />
                 <span className={classes.icon}>{icon}</span>
-                <span className={classes.label}>{label}</span>
+                {richLabel === undefined && <span className={classes.label}>{label}</span>}
             </label>
+            {richLabel !== undefined && <div>{richLabel}</div>}
             <Message fieldState={fieldState}>{message}</Message>
         </Fragment>
     );
@@ -71,7 +63,8 @@ Checkbox.propTypes = {
     }),
     field: string.isRequired,
     id: string,
-    label: node.isRequired,
+    label: node,
+    richLabel: node,
     message: node
 };
 
