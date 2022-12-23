@@ -13,7 +13,7 @@
 .searchResultButton {
     min-width: 35%;
     height: 40px;
-    background-color: var(--orienteed-primary-color-base1);
+    background-color: var(--b2bstore-global-color-orange);
     color: white;
     border-radius: 20px;
     z-index: 500;

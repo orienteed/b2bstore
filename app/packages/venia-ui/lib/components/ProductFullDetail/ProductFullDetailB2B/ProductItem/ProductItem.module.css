@@ -98,11 +98,11 @@
 }
 
 .productSkuContainer a:hover {
-    color: var(--orienteed-primary-color-base1);
+    color: var(--b2bstore-global-color-orange);
     font-weight: bold;
 }
 .copiedText {
-    color: var(--orienteed-primary-color-base1);
+    color: var(--b2bstore-global-color-orange);
     font-weight: bold;
 }
 

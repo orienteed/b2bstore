@@ -16,7 +16,7 @@
     margin-top: 20px;
 }
 .continueShoppingBtn {
-    --stroke: var(--orienteed-primary-color-base2);
+    --stroke: var(--b2bstore-global-color-gray);
     align-items: center;
     cursor: pointer;
     display: inline-flex;
@@ -45,7 +45,7 @@
     color: rgb(var(--venia-global-color-gray-50));
 }
 .continueShoppingBtn:hover {
-    --stroke: var(--orienteed-primary-color-base1);
+    --stroke: var(--b2bstore-global-color-orange);
 }
 
 .continueShoppingBtn:focus {
@@ -54,7 +54,7 @@
 
 .continueShoppingBtn:active {
     transition-duration: 128ms;
-    --stroke: var(--orienteed-primary-color-base1);
+    --stroke: var(--b2bstore-global-color-orange);
 }
 .continueShoppingBtn:disabled,
 .continueShoppingBtn:hover:disabled {
