@@ -10,11 +10,11 @@ import { useToasts } from '@magento/peregrine';
 import { isRequired } from '../../util/formValidators';
 import { useStyle } from '../../classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import Checkbox from '../Checkbox/checkbox';
+import Checkbox from '../Checkbox';
 import Field from '../Field';
 import LoadingIndicator from '../LoadingIndicator';
 import TextInput from '../TextInput';
-import CustomLinkButton from './CustomLinkButton';
+import Button from '../Button';
 import Shimmer from './newsletter.shimmer';
 import defaultClasses from './newsletter.module.css';
 
@@ -99,15 +99,15 @@ const Newsletter = props => {
                 <Field id="email">
                     <TextInput autoComplete="email" field="email" id="email" validate={isRequired} />
                 </Field>
-
-                <CustomLinkButton
+                <Button
                     data-cy="Newsletter-submitButton"
-                    type="submit"
                     disabled={isBusy}
                     onClick={clearErrors}
+                    priority="high"
+                    type="submit"
                 >
                     <FormattedMessage id={'newsletter.subscribeText'} defaultMessage={'Sign up for newsletter'} />
-                </CustomLinkButton>
+                </Button>
                 <div className={classes.checkbox}>
                     <Checkbox
                         field="data_treatment"
