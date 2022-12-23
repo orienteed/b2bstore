@@ -7,7 +7,7 @@ import { string, number, shape } from 'prop-types';
 
 import AddToCartButton from './addToCartButton';
 import Button from '@magento/venia-ui/lib/components/Button';
-import ConfirmationModal from './ConfirmationModal';
+import ConfirmationModal from '../RequestQuote/ConfirmationModal';
 import GalleryItemShimmer from './item.shimmer';
 import Image from '../Image';
 import Price from '@magento/venia-ui/lib/components/Price';

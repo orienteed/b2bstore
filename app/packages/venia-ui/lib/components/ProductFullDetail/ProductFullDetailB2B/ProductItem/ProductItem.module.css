@@ -5,12 +5,11 @@
 }
 
 /* Add to cart button */
-.buttonAddToCart {
+.buttonAddToCart,
+.requestButton {
     composes: root_highPriority from '../../../Button/button.module.css';
-    background-color: yellow;
-    border: none;
-    font-weight: bold;
     min-width: fit-content;
+    width: 92px;
 }
 
 /* Product table */

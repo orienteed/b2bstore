@@ -9,7 +9,7 @@ import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
 import defaultClasses from './simpleProductB2C.module.css';
 import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import Options from '../CustomProductOptions/options';
-import CustomButton from './SimpleProductB2CButton/CustomButton';
+import Button from '../../Button';
 
 const SimpleProductB2C = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -66,9 +66,9 @@ const SimpleProductB2C = props => {
                     </article>
                 </section>
                 <section className={classes.actions}>
-                    <CustomButton priority="high" type="submit">
+                    <Button className={classes.addToCartButton} type="submit">
                         {cartCallToActionText}
-                    </CustomButton>
+                    </Button>
                     <section className={classes.favoritesButton}>
                         <Suspense fallback={null}>{wishlistButton}</Suspense>
                     </section>

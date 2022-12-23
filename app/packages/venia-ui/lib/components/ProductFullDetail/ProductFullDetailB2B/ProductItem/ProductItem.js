@@ -9,13 +9,12 @@ import Image from '../../../Image';
 import Icon from '../../../Icon';
 import Button from '../../../Button';
 import defaultClasses from './ProductItem.module.css';
-import CustomButton from '../CustomButtom/CustomButton';
 import inStock from '../icons/inStock.svg';
 import outOfStock from '../icons/outOfStock.svg';
 import copyToClipboard from '../icons/copyToClipboard.png';
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
-import ConfirmationModal from '../../../Gallery/ConfirmationModal';
+import ConfirmationModal from '../../../RequestQuote/ConfirmationModal';
 
 const ProductItem = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -71,8 +70,6 @@ const ProductItem = props => {
         }
     }, [cartId, quantity, variant, addConfigurableProductToCart, setError, product]);
 
-    const requestQuoteClick = () => setIsOpen(true);
-
     const confirmRequestQuote = () => {
         const simpleProducts = [
             {
@@ -86,15 +83,14 @@ const ProductItem = props => {
     };
 
     const requestQuoteButton = (
-        <div className={classes.requestBtn}>
-            <Button
-                disabled={variant.product.stock_status === 'OUT_OF_STOCK'}
-                onClick={requestQuoteClick}
-                priority="high"
-            >
-                <FormattedMessage id={'productFullDetailB2B.quote'} defaultMessage={'Quote'} />
-            </Button>
-        </div>
+        <Button
+            className={classes.requestButton}
+            disabled={variant.product.stock_status === 'OUT_OF_STOCK'}
+            onClick={() => setIsOpen(true)}
+            priority="high"
+        >
+            <FormattedMessage id={'productFullDetailB2B.quote'} defaultMessage={'Quote'} />
+        </Button>
     );
 
     const stockStatusText = (
@@ -147,9 +143,8 @@ const ProductItem = props => {
         );
 
     const addToCartButton = (
-        <CustomButton
-            priority={'high'}
-            classes={{ root: classes.buttonAddToCart }}
+        <Button
+            className={classes.buttonAddToCart}
             onClick={handleAddProductToCart}
             disabled={variant.product.stock_status === 'OUT_OF_STOCK'}
         >
@@ -160,7 +155,7 @@ const ProductItem = props => {
                 size={16}
                 src={ShoppingCartIcon}
             />
-        </CustomButton>
+        </Button>
     );
 
     const categoriesKeyValue = () => {

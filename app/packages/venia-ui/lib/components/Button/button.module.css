@@ -1,6 +1,6 @@
 .root {
     composes: root from '../clickable.module.css';
-    --stroke: var( --b2bstore-global-color-gray);
+    --stroke: var(--b2bstore-global-color-gray);
     background: none;
     border-color: rgb(var(--stroke));
     border-style: solid;
@@ -29,16 +29,16 @@
 }
 
 .root:hover {
-    --stroke: var( --b2bstore-global-color-orange);
+    --stroke: var(--b2bstore-global-color-orange);
 }
 
 .root:focus {
-    box-shadow: -6px 6px var( --b2bstore-global-color-gray);
+    box-shadow: -6px 6px var(--b2bstore-global-color-gray);
 }
 
 .root:active {
     transition-duration: 128ms;
-    --stroke: var( --b2bstore-global-color-orange);
+    --stroke: var(--b2bstore-global-color-orange);
 }
 
 /**
@@ -66,14 +66,14 @@
 .root_highPriority {
     composes: root;
     /* background-color: rgb(var(--stroke)); */
-    background-color: var( --b2bstore-global-color-orange);
+    background-color: var(--b2bstore-global-color-orange);
     border: none;
     width: 100%;
     color: rgb(var(--venia-global-color-gray-50));
 }
 
 .root_highPriority:focus {
-    box-shadow: -6px 6px rgba(var( --b2bstore-global-color-orange-alpha), 0.3);
+    box-shadow: -6px 6px rgba(var(--b2bstore-global-color-orange-alpha), 0.3);
 }
 
 .root_highPriorityNegative {
@@ -89,13 +89,13 @@
 .root_highPriorityInv {
     composes: root;
     /* background-color: rgb(var(--stroke)); */
-    color: var( --b2bstore-global-color-orange);
-    border: 2px solid var( --b2bstore-global-color-orange);
+    color: var(--b2bstore-global-color-orange);
+    border: 2px solid var(--b2bstore-global-color-orange);
     width: 100%;
 }
 
 .root_highPriorityInv:focus {
-    box-shadow: -6px 6px rgba(var( --b2bstore-global-color-orange-alpha), 0.3);
+    box-shadow: -6px 6px rgba(var(--b2bstore-global-color-orange-alpha), 0.3);
 }
 
 .root_highPriorityNegativeInv {
@@ -116,7 +116,7 @@
 }
 
 .root_normalPriority:focus {
-    box-shadow: -6px 6px rgba(var( --b2bstore-global-color-gray-alpha), 0.3);
+    box-shadow: -6px 6px rgba(var(--b2bstore-global-color-gray-alpha), 0.3);
 }
 
 .root_normalPriorityNegative {
@@ -134,7 +134,7 @@
     --stroke: var(--b2bstore-fieldInput-border-color);
 }
 .root_lowPriority:hover {
-    --stroke: var( --b2bstore-global-color-black);
+    --stroke: var(--b2bstore-global-color-black);
 }
 .root_lowPriorityNegative {
     composes: root_lowPriority;

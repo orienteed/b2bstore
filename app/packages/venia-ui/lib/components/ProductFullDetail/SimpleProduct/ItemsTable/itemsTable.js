@@ -7,7 +7,7 @@ import Price from '@magento/venia-ui/lib/components/Price';
 import Image from '@magento/venia-ui/lib/components/Image';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import defaultClasses from './itemsTable.module.css';
-import CustomButton from '../CustomButtom/CustomButton';
+import Button from '../../../Button';
 import inStock from '../icons/inStock.svg';
 import outOfStock from '../icons/outOfStock.svg';
 import copyToClipboard from '../icons/copyToClipboard.png';
@@ -16,14 +16,7 @@ import CustomQuantityStepper from '../CustomQuantityStepper';
 const ItemsTable = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
-    const {
-        simpleProductData,
-        errors,
-        handleAddToCart,
-        aggregations,
-        tempTotalPrice,
-        handleQuantityChange
-    } = props;
+    const { simpleProductData, errors, handleAddToCart, aggregations, tempTotalPrice, handleQuantityChange } = props;
 
     const [copied, setCopied] = useState(false);
 
@@ -43,18 +36,10 @@ const ItemsTable = props => {
     }, [error]);
 
     const stockStatusText = (
-        <FormattedMessage
-            id={'productFullDetailB2B.stockStatus'}
-            defaultMessage={'Stock Status'}
-        />
+        <FormattedMessage id={'productFullDetailB2B.stockStatus'} defaultMessage={'Stock Status'} />
     );
 
-    const totalPriceText = (
-        <FormattedMessage
-            id={'productFullDetailB2B.totalPrice'}
-            defaultMessage={'Total Price'}
-        />
-    );
+    const totalPriceText = <FormattedMessage id={'productFullDetailB2B.totalPrice'} defaultMessage={'Total Price'} />;
 
     const imageIcon = widthSize => (
         <div className={classes.indexFixedImage}>
@@ -69,9 +54,7 @@ const ItemsTable = props => {
     const priceTag = (
         <span className={classes.indexFixed}>
             <Price
-                currencyCode={
-                    simpleProductData.price.regularPrice.amount.currency
-                }
+                currencyCode={simpleProductData.price.regularPrice.amount.currency}
                 value={simpleProductData.price.minimalPrice.amount.value}
             />
         </span>
@@ -89,7 +72,7 @@ const ItemsTable = props => {
         );
 
     const addToCartButton = (
-        <CustomButton
+        <Button
             className={classes.buttonAddToCart}
             onClick={handleAddToCart}
             disabled={simpleProductData.stock_status === 'OUT_OF_STOCK'}
@@ -101,52 +84,35 @@ const ItemsTable = props => {
                 size={16}
                 src={ShoppingCartIcon}
             />
-        </CustomButton>
+        </Button>
     );
 
-    const lastDigitsOfSku = simpleProductData.sku.substring(
-        simpleProductData.sku.length - 7
-    );
+    const lastDigitsOfSku = simpleProductData.sku.substring(simpleProductData.sku.length - 7);
 
     const productItemDesktop = (
         <div className={classes.productItemErrorContainerDesktop}>
-            <div className={classes.errorMessage}>
-                {error != '' && <p>{errors.get('quantity')}</p>}
-            </div>
+            <div className={classes.errorMessage}>{error != '' && <p>{errors.get('quantity')}</p>}</div>
 
             <div className={classes.productItemContainerDesktop}>
                 {imageIcon(120)}
                 <div className={classes.indexMobileSku}>
                     {copied ? (
                         <div className={classes.copiedText}>
-                            <FormattedMessage
-                                id={'productFullDetailB2B.copiedText'}
-                                defaultMessage={'Copied'}
-                            />
+                            <FormattedMessage id={'productFullDetailB2B.copiedText'} defaultMessage={'Copied'} />
                         </div>
                     ) : (
                         <div className={classes.productSkuContainer}>
                             <p onClick={copyText}>...{lastDigitsOfSku}</p>
-                            <img
-                                src={copyToClipboard}
-                                alt="copyToClipboard"
-                                onClick={copyText}
-                            />
+                            <img src={copyToClipboard} alt="copyToClipboard" onClick={copyText} />
                         </div>
                     )}
                 </div>
                 <div className={classes.categoriesItemList}>
                     {aggregations.map((category, i) => {
-                        if (
-                            category.label !== 'Category' &&
-                            category.label !== 'Price'
-                        ) {
+                        if (category.label !== 'Category' && category.label !== 'Price') {
                             return category.options.map(option => {
                                 return (
-                                    <p
-                                        key={`${category.label}-${i}`}
-                                        className={classes.indexFixedCategory}
-                                    >
+                                    <p key={`${category.label}-${i}`} className={classes.indexFixedCategory}>
                                         {option.label}
                                     </p>
                                 );
@@ -174,18 +140,12 @@ const ItemsTable = props => {
         <main className={classes.productItemContainerMobile}>
             <div className={classes.productItemContainerMobileContent}>
                 <section className={classes.productItemHeaderMobile}>
-                    <div className={classes.productItemHeaderImageMobile}>
-                        {imageIcon(150)}
-                    </div>
+                    <div className={classes.productItemHeaderImageMobile}>{imageIcon(150)}</div>
                     <article className={classes.productItemHeaderTextMobile}>
-                        <small className={classes.skuTextMobile}>
-                            {simpleProductData.sku}
-                        </small>
+                        <small className={classes.skuTextMobile}>{simpleProductData.sku}</small>
                         <div className={classes.stockStatusContainer}>
                             <div>{stockStatusText}:</div>
-                            <div className={classes.stockStatusCircle}>
-                                {stockStatus}
-                            </div>
+                            <div className={classes.stockStatusCircle}>{stockStatus}</div>
                         </div>
                         <h2>{priceTag}</h2>
                     </article>
@@ -197,30 +157,16 @@ const ItemsTable = props => {
                         <article className={classes.mobileCategoryName}>
                             {' '}
                             {aggregations.map(category => {
-                                if (
-                                    category.label !== 'Category' &&
-                                    category.label !== 'Price'
-                                ) {
-                                    return (
-                                        <p key={category.label}>
-                                            {category.label}
-                                        </p>
-                                    );
+                                if (category.label !== 'Category' && category.label !== 'Price') {
+                                    return <p key={category.label}>{category.label}</p>;
                                 }
                             })}{' '}
                         </article>
                         <article className={classes.mobileCategoryValue}>
                             {aggregations.map((category, i) => {
-                                if (
-                                    category.label !== 'Category' &&
-                                    category.label !== 'Price'
-                                ) {
+                                if (category.label !== 'Category' && category.label !== 'Price') {
                                     return category.options.map(option => {
-                                        return (
-                                            <p key={`${category.label}-${i}`}>
-                                                {option.label}
-                                            </p>
-                                        );
+                                        return <p key={`${category.label}-${i}`}>{option.label}</p>;
                                     });
                                 }
                             })}
@@ -232,9 +178,7 @@ const ItemsTable = props => {
                         <div> {totalPriceText}:</div>
                         <div className={classes.totalWrapper}>
                             {' '}
-                            <span className={classes.indexFixed}>
-                                {tempTotalPrice}
-                            </span>
+                            <span className={classes.indexFixed}>{tempTotalPrice}</span>
                         </div>
                     </article>
                     <div className={classes.productItemBodyOperations}>
@@ -246,11 +190,7 @@ const ItemsTable = props => {
                         />
                         {addToCartButton}
                     </div>
-                    {error != '' && (
-                        <p style={{ color: '#f00' }}>
-                            {errors.get('quantity')}
-                        </p>
-                    )}
+                    {error != '' && <p style={{ color: '#f00' }}>{errors.get('quantity')}</p>}
                 </section>
             </div>
         </main>

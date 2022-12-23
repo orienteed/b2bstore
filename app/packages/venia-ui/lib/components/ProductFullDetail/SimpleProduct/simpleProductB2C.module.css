@@ -118,7 +118,7 @@
 }
 
 .quantityTitle {
-    composes: title from '@magento/venia-ui/lib/components/ProductOptions/option.module.css';
+    composes: title from '../../ProductOptions/option.module.css';
 }
 
 .actions {
@@ -188,7 +188,7 @@
 }
 
 .quantityRoot {
-    composes: root from '@magento/venia-ui/lib/components/QuantityStepper/quantityStepper.module.css';
+    composes: root from '../../QuantityStepper/quantityStepper.module.css';
     grid-template-columns: auto 4rem auto;
     justify-content: start;
 }
@@ -222,10 +222,6 @@
     color: rgb(var(--venia-global-color-error));
 }
 
-.disabledButton {
-    opacity: 0.4;
-}
-
 .productOldPrice {
     text-decoration-line: line-through;
 }
@@ -235,6 +231,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.addToCartButton {
+    composes: root_highPriority from '../../Button/button.module.css';
+    width: fit-content;
 }
 
 @media (max-width: 959px) {
