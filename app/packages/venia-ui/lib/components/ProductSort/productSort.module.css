@@ -45,6 +45,8 @@
     composes: lg_font-normal from global;
     composes: lg_normal-case from global;
     composes: lg_rounded-md from global;
+    
+    width: max-content;
 }
 
 .desktopText {
