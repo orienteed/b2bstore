@@ -78,6 +78,7 @@
 .downloadBtn {
     color: rgb(var(--venia-global-color-blue-200));
     font-size: var(--venia-global-fontSize-100);
+    margin-left: 1rem;
 }
 
 .addBtn {

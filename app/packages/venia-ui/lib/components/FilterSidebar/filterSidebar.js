@@ -33,7 +33,7 @@ const FilterSidebar = props => {
     const classes = useStyle(defaultClasses, props.classes);
     useEffect(() => {
         if (setfilterState) setfilterState(filterState);
-    }, [filterState]);
+    }, [filterState, setfilterState]);
 
     const handleApplyFilter = useCallback(
         (...args) => {

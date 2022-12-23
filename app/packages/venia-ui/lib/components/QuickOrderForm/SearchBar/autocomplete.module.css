@@ -67,3 +67,9 @@
         padding: 0.4rem;
     }
 }
+
+@media (max-width: 959px) and (min-width: 651px){
+    .root_visible {
+        padding: 0;
+    }
+}

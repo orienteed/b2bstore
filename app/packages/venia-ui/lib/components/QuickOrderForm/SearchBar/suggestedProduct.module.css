@@ -52,7 +52,7 @@
     }
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width: 960px) {
     .root {
         grid-template-columns: 0.3fr 2fr 0.2fr;
         gap: 0.3rem;
