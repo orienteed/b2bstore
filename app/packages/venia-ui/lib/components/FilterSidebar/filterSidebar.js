@@ -32,8 +32,13 @@ const FilterSidebar = props => {
     const filterRef = useRef();
     const classes = useStyle(defaultClasses, props.classes);
     useEffect(() => {
-        if (setfilterState) setfilterState(filterState);
-    }, [filterState, setfilterState]);
+        if (setfilterState) {
+            const selectedFilterKeys = filterState && [...filterState?.keys()];
+            const ignoredKeys = selectedFilterKeys?.filter(ele => filterItems.get(ele).length === 1);
+            ignoredKeys?.map(key => filterState.delete(key));
+            setfilterState(filterState);
+        }
+    }, [filterState]);
 
     const handleApplyFilter = useCallback(
         (...args) => {
