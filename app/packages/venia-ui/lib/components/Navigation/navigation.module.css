@@ -50,7 +50,7 @@
 }
 
 .body {
-    composes: min-h-0 from global;
+    min-height: 10vh;
     composes: opacity-100 from global;
     composes: overflow-auto from global;
     transition-duration: 192ms;
