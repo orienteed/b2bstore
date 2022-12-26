@@ -114,3 +114,9 @@
         max-width: 100% !important;
     } */
 }
+
+@media (min-width: 960px) {
+    .thumbnailList {
+        width: 50%;
+    }
+}
