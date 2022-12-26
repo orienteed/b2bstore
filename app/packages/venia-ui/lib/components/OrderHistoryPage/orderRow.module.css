@@ -100,7 +100,7 @@
     gap: 1rem;
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1401px) {
     .imageWrapper {
         display: flex;
         justify-content: center;
