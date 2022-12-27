@@ -58,7 +58,7 @@
 
     composes: justify-self-start from global;
     /* composes: min-w-full from global; */
-    composes: mt-1 from global;
+    composes: mt-5 from global;
 
     /* composes: xs_min-w-auto from global; */
 }
