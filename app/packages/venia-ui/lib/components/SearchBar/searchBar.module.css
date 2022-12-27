@@ -8,6 +8,8 @@
     composes: w-full from global;
     /* TODO @TW: review (B6) */
     /* composes: hidden from global; */
+    z-index: 100 !important;
+    position: relative !important;
     display: none;
 }
 
