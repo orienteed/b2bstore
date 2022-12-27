@@ -40,9 +40,13 @@ const AccountChip = props => {
         chipText = fallbackText;
     } else {
         if (!isLoadingUserName) {
+            let userFirstName = currentUser.firstname;
+            if (userFirstName.length > 12){
+            userFirstName = `${userFirstName.substring(0,8)}...`;
+            }
             chipText = formatMessage(
                 { id: 'accountChip.chipText', defaultMessage: 'Hi, {name}' },
-                { name: currentUser.firstname }
+                { name: userFirstName }
             );
         } else if (shouldIndicateLoading) {
             chipText = <Icon classes={{ icon: classes.loader }} src={Loader} />;
