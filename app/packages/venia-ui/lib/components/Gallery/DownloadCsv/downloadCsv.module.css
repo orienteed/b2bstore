@@ -17,6 +17,8 @@
 }
 
 .buttonContainer {
+    composes: ml-2xs from global;
+    
     display: flex;
 }
 
