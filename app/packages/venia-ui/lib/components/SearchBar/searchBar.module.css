@@ -8,19 +8,18 @@
     composes: w-full from global;
     /* TODO @TW: review (B6) */
     /* composes: hidden from global; */
-    z-index: 100 !important;
-    position: relative !important;
+    /* z-index: 100 !important;
+    position: relative !important; */
     display: none;
 }
 
 .root_open {
     composes: root;
 
-    composes: z-dropdown from global;
-
     /* TODO @TW: review (B6) */
     /* composes: grid from global; */
     display: grid;
+    z-index: 100;
 }
 
 .form {
