@@ -266,17 +266,19 @@ const QuickOrderForm = props => {
                                                         value={item.name}
                                                     />
                                                 </div>
-                                                <QuantityStepper
-                                                    min={1}
-                                                    value={item.quantity}
-                                                    onChange={e => onChangeQty(e, key)}
-                                                    fieldName={`quantity-${key}`}
-                                                    classes={{
-                                                        button_increment: classes.disable,
-                                                        button_decrement: classes.disable,
-                                                        root: classes.disable_gap
-                                                    }}
-                                                />
+                                                <div className={classes.inputQtyQuick}>
+                                                    <QuantityStepper
+                                                        min={1}
+                                                        value={item.quantity}
+                                                        onChange={e => onChangeQty(e, key)}
+                                                        fieldName={`quantity-${key}`}
+                                                        classes={{
+                                                            button_increment: classes.disable,
+                                                            button_decrement: classes.disable,
+                                                            root: classes.disable_gap
+                                                        }}
+                                                    />
+                                                </div>
                                                 <div className={classes.priceWrapper}>
                                                     {item.price ? (
                                                         <span className={classes.priceText}>
