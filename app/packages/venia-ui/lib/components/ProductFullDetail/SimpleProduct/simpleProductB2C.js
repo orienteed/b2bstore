@@ -30,6 +30,7 @@ const SimpleProductB2C = props => {
         ) : (
             <FormattedMessage id="productFullDetail.itemOutOfStock" defaultMessage="Out of Stock" />
         );
+
     return (
         <Fragment>
             <Breadcrumbs categoryId={simpleProductData.categories[0].uid} currentProduct={simpleProductData.name} />
@@ -66,7 +67,14 @@ const SimpleProductB2C = props => {
                     </article>
                 </section>
                 <section className={classes.actions}>
-                    <Button className={classes.addToCartButton} type="submit">
+                    <Button
+                        className={classes.addToCartButton}
+                        type="submit"
+                        disabled={
+                            simpleProductData.price?.minimalPrice?.amount?.value === -1 ||
+                            simpleProductData.price?.regularPrice?.amount?.value === -1
+                        }
+                    >
                         {cartCallToActionText}
                     </Button>
                     <section className={classes.favoritesButton}>

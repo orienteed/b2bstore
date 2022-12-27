@@ -26,9 +26,9 @@ import { useToasts } from '@magento/peregrine';
 import defaultClasses from './item.module.css';
 
 import CompareIcon from './Icons/compare.svg';
-import InStockIcon from './Icons/inStoke.svg';
+import InStockIcon from './Icons/inStock.svg';
 import InfoIcon from './Icons/info.svg';
-import OutStockIcon from './Icons/outStoke.svg';
+import OutStockIcon from './Icons/outStock.svg';
 import ShareIcon from './Icons/share.svg';
 
 // The placeholder image is 4:5, so we should make sure to size our product
@@ -113,7 +113,7 @@ const GalleryItem = props => {
         handleAddCofigItemBySku(simpleProducts);
         setIsOpen(false);
     };
-    const requestQuateButton = (
+    const requestQuoteButton = (
         <div className={classes.requestBtn}>
             <Button disabled={item.stock_status === 'OUT_OF_STOCK'} onClick={requestQuoteClick} priority="high">
                 <FormattedMessage id={'galleryItem.Requestquote'} defaultMessage={'Request quote'} />
@@ -167,7 +167,8 @@ const GalleryItem = props => {
             </div>
         );
     });
-    const StokeStatus = ({ status }) => {
+
+    const StockStatus = ({ status }) => {
         return (
             <>
                 {status === 'IN_STOCK' ? (
@@ -310,7 +311,7 @@ const GalleryItem = props => {
                     <img src={ShareIcon} alt="share icon" />
                 </div>
                 <div className={classes.stockIcon}>
-                    <StokeStatus status={stock_status} />
+                    <StockStatus status={stock_status} />
                 </div>
                 {ratingAverage}
             </div>
@@ -363,7 +364,7 @@ const GalleryItem = props => {
             )}
             <div className={`${classes.actionsContainer} ${isHomePage && classes.homeActionContainer}`}>
                 {!price.minimalPrice?.amount.value && process.env.B2BSTORE_VERSION === 'PREMIUM'
-                    ? requestQuateButton
+                    ? requestQuoteButton
                     : addButton}
                 <button className={classes.compareIcon} onClick={addToCompare}>
                     <img src={CompareIcon} alt="compare icon" />

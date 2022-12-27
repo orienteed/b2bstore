@@ -171,6 +171,7 @@
     color: #f52f2f;
     font-weight: 400;
     font-size: 14px;
+    width: 120px;
 }
 
 .list li::before {

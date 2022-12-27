@@ -31,25 +31,28 @@
 }
 
 .addButton {
+    composes: root_highPriority from '../Button/button.module.css';
+    min-width: auto;
+    width: fit-content;
     padding: 0.5rem;
-    /* height: 3rem; */
-    width: 100%;
-    background-color: var( --b2bstore-global-color-orange);
-    color: white;
-    font-weight: bold;
 }
 
 .addButtonMobile {
     display: none;
+    visibility: hidden;
+    composes: root_highPriority from '../Button/button.module.css';
+    min-width: fit-content;
 }
 
 @media only screen and (max-width: 980px) {
     .addButtonMobile {
-        display: block;
+        display: inline-block;
+        visibility: visible;
     }
 
     .addButton {
         display: none;
+        visibility: hidden;
     }
 }
 
@@ -80,9 +83,6 @@
         grid-row-start: 2;
         grid-column-start: 3;
     }
-    .hideMobile {
-        /* display: none; */
-    }
 }
 
 .productSkuContainer {
@@ -94,6 +94,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .productSkuContainer img {
     width: 20px;
     height: 20px;
@@ -101,11 +102,11 @@
 }
 
 .productSkuContainer a:hover {
-    color: var( --b2bstore-global-color-orange);
+    color: var(--b2bstore-global-color-orange);
     font-weight: bold;
 }
 
 .copiedText {
-    color: var( --b2bstore-global-color-orange);
+    color: var(--b2bstore-global-color-orange);
     font-weight: bold;
 }

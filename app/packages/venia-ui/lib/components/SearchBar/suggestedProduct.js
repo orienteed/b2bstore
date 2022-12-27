@@ -27,22 +27,14 @@ const IMAGE_WIDTH = 60;
 const SuggestedProduct = props => {
     const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
-    const {
-        url_key,
-        small_image,
-        name,
-        onNavigate,
-        price,
-        url_suffix,
-        sku
-    } = props;
+    const { url_key, small_image, name, onNavigate, price, url_suffix, sku } = props;
 
     const [copied, setCopied] = useState(false);
 
     const copyText = () => {
         navigator.clipboard.writeText(sku);
         setCopied(true);
-        
+
         setTimeout(() => {
             setCopied(false);
         }, 1000);
@@ -54,10 +46,7 @@ const SuggestedProduct = props => {
         }
     }, [onNavigate]);
 
-    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [
-        url_key,
-        url_suffix
-    ]);
+    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [url_key, url_suffix]);
 
     const simpleProductLink = `/simple-product?sku=${suggested_Product.sku}`;
 
@@ -71,11 +60,7 @@ const SuggestedProduct = props => {
     return (
         <div className={classes.root}>
             <Link
-                to={
-                    suggested_Product.__typename === 'SimpleProduct'
-                        ? simpleProductLink
-                        : uri
-                }
+                to={suggested_Product.__typename === 'SimpleProduct' ? simpleProductLink : uri}
                 onClick={handleClick}
                 data-cy="SuggestedProduct-root"
             >
@@ -91,21 +76,12 @@ const SuggestedProduct = props => {
             <span data-cy="SuggestedProduct-price" className={classes.sku}>
                 {copied ? (
                     <span className={classes.copiedText}>
-                        <FormattedMessage
-                            id={'productFullDetailB2B.copiedText'}
-                            defaultMessage={'Copied'}
-                        />
+                        <FormattedMessage id={'productFullDetailB2B.copiedText'} defaultMessage={'Copied'} />
                     </span>
                 ) : (
                     <div className={classes.productSkuContainer}>
-                        <a onClick={copyText}>
-                            {sku.length > 6 ? '...' + sku.substring(sku.length - 6) : sku}
-                        </a>
-                        <img
-                            src={copyToClipboard}
-                            alt="copyToClipboard"
-                            onClick={copyText}
-                        />
+                        <a onClick={copyText}>{sku.length > 6 ? '...' + sku.substring(sku.length - 6) : sku}</a>
+                        <img src={copyToClipboard} alt="copyToClipboard" onClick={copyText} />
                     </div>
                 )}
             </span>
@@ -113,12 +89,9 @@ const SuggestedProduct = props => {
                 <Button
                     className={classes.addButton}
                     onClick={handleAddToCart}
-                    priority="high"
+                    disabled={price?.minimalPrice?.amount?.value === -1 || price?.regularPrice?.amount?.value === -1}
                 >
-                    <FormattedMessage
-                        id={'productFullDetail.cartAction'}
-                        defaultMessage={'Add to Cart'}
-                    />
+                    <FormattedMessage id={'productFullDetail.cartAction'} defaultMessage={'Add to Cart'} />
                 </Button>
             ) : null}
 
@@ -126,17 +99,19 @@ const SuggestedProduct = props => {
                 <Button
                     className={classes.addButtonMobile}
                     onClick={handleAddToCart}
-                    priority="high"
+                    disabled={price?.minimalPrice?.amount?.value === -1 || price?.regularPrice?.amount?.value === -1}
                 >
-                    <Icon src={ShoppingCartIcon} />
+                    <Icon
+                        src={ShoppingCartIcon}
+                        size={16}
+                        classes={{
+                            icon: classes.buttonAddToCartIcon
+                        }}
+                    />
                 </Button>
             ) : null}
-            {suggested_Product.__typename !== 'SimpleProduct' && <div className={classes.hideMobile}/>}
-            <span
-                className={
-                    classes.price
-                }
-            >
+            {suggested_Product.__typename !== 'SimpleProduct' && <div className={classes.hideMobile} />}
+            <span className={classes.price}>
                 <Price
                     currencyCode={
                         price.minimalPrice.amount.currency != null

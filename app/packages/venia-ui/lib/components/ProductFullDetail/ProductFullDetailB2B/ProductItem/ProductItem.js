@@ -146,7 +146,10 @@ const ProductItem = props => {
         <Button
             className={classes.buttonAddToCart}
             onClick={handleAddProductToCart}
-            disabled={variant.product.stock_status === 'OUT_OF_STOCK'}
+            disabled={
+                variant.product.stock_status === 'OUT_OF_STOCK' ||
+                variant.product.price?.minimalPrice?.amount?.value === -1
+            }
         >
             <Icon
                 classes={{

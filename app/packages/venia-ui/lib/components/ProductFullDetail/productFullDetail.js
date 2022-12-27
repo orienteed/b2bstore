@@ -199,10 +199,7 @@ const ProductFullDetail = props => {
         };
         if (Array.isArray(customAttributes)) {
             customAttributes.forEach(customAttribute => {
-                if (
-                    customAttribute.attribute_metadata.ui_input
-                        .ui_input_type === 'PAGEBUILDER'
-                ) {
+                if (customAttribute.attribute_metadata.ui_input.ui_input_type === 'PAGEBUILDER') {
                     pagebuilder.push(customAttribute);
                 } else {
                     list.push(customAttribute);
@@ -215,8 +212,8 @@ const ProductFullDetail = props => {
             pagebuilder: pagebuilder
         };
     }, [customAttributes, productDetails.sku, formatMessage]);
-    
-    const tempTotalPrice =
+
+    const calculateTotalPrice =
         regularPriceValue == minimalPriceValue ? (
             <div>
                 <p className={classes.productPrice}>
@@ -243,6 +240,12 @@ const ProductFullDetail = props => {
             </div>
         );
 
+    const tempTotalPrice =
+        productDetails.price?.minimalPrice?.amount?.value !== -1 &&
+        productDetails.price?.regularPrice?.amount?.value !== -1
+            ? calculateTotalPrice
+            : null;
+
     const handleQuantityChange = tempQuantity => {
         setQuantity(tempQuantity);
     };
@@ -255,20 +258,23 @@ const ProductFullDetail = props => {
 
     const cartActionContent = isSupportedProductType ? (
         <div className={isAddToCartDisabled ? classes.disabledButton : null}>
-            <Button 
+            <Button
                 data-cy="ProductFullDetail-addToCartButton"
-                disabled={isAddToCartDisabled}
+                disabled={
+                    isAddToCartDisabled ||
+                    productDetails.price?.minimalPrice?.amount?.value === -1 ||
+                    productDetails.price?.regularPrice?.amount?.value === -1
+                }
                 aria-disabled={isAddToCartDisabled}
                 aria-label={
                     isEverythingOutOfStock
                         ? formatMessage({
                               id: 'productFullDetail.outOfStockProduct',
-                              defaultMessage:
-                                  'This item is currently out of stock'
+                              defaultMessage: 'This item is currently out of stock'
                           })
                         : ''
                 }
-                priority="high" 
+                priority="high"
                 type="submit"
             >
                 {cartCallToActionText}
@@ -299,6 +305,7 @@ const ProductFullDetail = props => {
             />
         </section>
     ) : null;
+
     return process.env.IS_B2B === 'true' ? (
         <ProductFullDetailB2B
             addConfigurableProductToCart={addConfigurableProductToCart}

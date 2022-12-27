@@ -114,7 +114,7 @@ const SimpleProduct = props => {
         }
     }
 
-    const tempTotalPrice =
+    const calculateTotalPrice =
         simpleProductData.price.regularPrice.amount.value === simpleProductData.price.minimalPrice.amount.value ? (
             <section>
                 <article className={classes.productPrice}>
@@ -140,6 +140,12 @@ const SimpleProduct = props => {
                 </article>
             </section>
         );
+
+    const tempTotalPrice =
+        simpleProductData.price?.minimalPrice?.amount?.value !== -1 &&
+        simpleProductData.price?.regularPrice?.amount?.value !== -1
+            ? calculateTotalPrice
+            : null;
 
     const indexTable = (
         <ul className={classes.productItemContainer}>

@@ -33,7 +33,8 @@ export const useAddToCartButton = props => {
     const isInStock = item.stock_status === 'IN_STOCK';
     const productType = item.__typename;
     const isUnsupportedProductType = UNSUPPORTED_PRODUCT_TYPES.includes(productType);
-    const isDisabled = isLoading || !isInStock || isUnsupportedProductType;
+    const isDisabled =
+        isLoading || !isInStock || isUnsupportedProductType || item.price?.regularPrice?.amount?.value === -1;
     const history = useHistory();
 
     const [{ cartId }] = useCartContext();

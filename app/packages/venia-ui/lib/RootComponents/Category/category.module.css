@@ -32,10 +32,9 @@
 .heading {
     composes: flex from global;
     composes: justify-between from global;
-    
+
     composes: pb-2xs from global;
     align-items: center;
-    
 }
 
 .categoryContent {
@@ -63,7 +62,7 @@
 
 .contentWrapper {
     composes: w-full from global;
-    
+
     composes: lg_flex from global;
 }
 
@@ -72,13 +71,6 @@
 
     composes: lg_flex from global;
     composes: lg_self-start from global;
-}
-
-.showDesBtn {
-    font-weight: 400;
-    font-size: 16px;
-    cursor: pointer;
-    color: #1071ff;
 }
 
 .descriptionText {
@@ -101,29 +93,29 @@
         width: 100%;
     }
 
-    .categoryInfo{
+    .categoryInfo {
         margin: 0;
         text-align: left;
     }
 
-    .headerButtons{
+    .headerButtons {
         justify-content: end;
         padding-bottom: 0;
-        flex-wrap:nowrap;
+        flex-wrap: nowrap;
     }
 
-    .heading{
+    .heading {
         flex-wrap: nowrap;
         align-items: center;
         padding-bottom: 1.5rem;
     }
 }
 
-@media (max-width: 1023px){
+@media (max-width: 1023px) {
     .sidebar {
-        flex:0%;
+        flex: 0%;
     }
-    .heading{
+    .heading {
         flex-wrap: wrap;
     }
 }
