@@ -50,7 +50,6 @@
 }
 
 .body {
-    min-height: 10vh;
     composes: opacity-100 from global;
     composes: overflow-auto from global;
     transition-duration: 192ms;
@@ -75,6 +74,7 @@
 }
 
 .footer {
+    margin-top: 10rem;
 }
 
 .switchers {
