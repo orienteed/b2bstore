@@ -38,6 +38,7 @@
 .text {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    line-height: initial;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
