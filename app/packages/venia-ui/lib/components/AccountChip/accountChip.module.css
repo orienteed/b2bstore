@@ -12,24 +12,25 @@
 
 /* Responsive account chip text with ellipsis */
 .chipContainer {
-    width: clamp(100px, 8vw, 150px);
+    width: fit-content;
+    max-width: clamp(100px, 8vw, 150px);
 }
 
 @media (max-width: 1300px) {
     .chipContainer {
-        width: clamp(75px, 15vw, 300px);
+        max-width: clamp(75px, 15vw, 300px);
     }
 }
 
 @media (max-width: 959px) {
     .chipContainer {
-        width: clamp(60px, 12vw, 150px);
+        max-width: clamp(60px, 12vw, 150px);
     }
 }
 
 @media (max-width: 639px) {
     .chipContainer {
-        width: auto;
+        max-width: none;
         padding-right: 20px;
     }
 }
