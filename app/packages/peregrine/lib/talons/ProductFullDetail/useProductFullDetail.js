@@ -289,7 +289,9 @@ export const useProductFullDetail = props => {
         setOptionCode(derivedOptionCodes);
     }, [derivedOptionCodes]);
 
-    const isMissingOptions = useMemo(() => getIsMissingOptions(product, optionSelections), [product, optionSelections]);
+    const isMissingOptions = useMemo(() => {
+        if (process.env.IS_B2B === false) getIsMissingOptions(product, optionSelections);
+    }, [product, optionSelections]);
 
     const hasOptionsOfTheSelection = useMemo(
         () => getHasOptionsOfTheSelection(product, optionCodes, optionSelections),

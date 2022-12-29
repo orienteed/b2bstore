@@ -40,7 +40,8 @@ const ProductFullDetailB2B = props => {
         priceRender,
         product,
         productDetails,
-        wishlistButtonProps
+        wishlistButtonProps,
+        isAddToCartDisabled
     } = props;
     const [selectedFilter, setSelectedFilter] = useState([]);
     const [selectedFilterCategory, setSelectedFilterCategory] = useState([]);
@@ -232,6 +233,7 @@ const ProductFullDetailB2B = props => {
                         cartId={cartId}
                         errors={errors}
                         isAddConfigurableLoading={isAddConfigurableLoading}
+                        isAddToCartDisabled={isAddToCartDisabled}
                     />
                 );
             })}

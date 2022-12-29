@@ -319,6 +319,7 @@ const ProductFullDetail = props => {
             product={product}
             productDetails={productDetails}
             wishlistButtonProps={wishlistButtonProps}
+            isAddToCartDisabled={isAddToCartDisabled}
         />
     ) : (
         <ProductFullDetailB2C

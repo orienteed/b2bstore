@@ -26,7 +26,8 @@ const ProductItem = props => {
         categoriesName,
         addConfigurableProductToCart,
         cartId,
-        errors
+        errors,
+        isAddToCartDisabled
     } = props;
     const [copied, setCopied] = useState(false);
 
@@ -146,10 +147,7 @@ const ProductItem = props => {
         <Button
             className={classes.buttonAddToCart}
             onClick={handleAddProductToCart}
-            disabled={
-                variant.product.stock_status === 'OUT_OF_STOCK' ||
-                variant.product.price?.minimalPrice?.amount?.value === -1
-            }
+            disabled={variant.product.stock_status === 'OUT_OF_STOCK' || isAddToCartDisabled}
         >
             <Icon
                 classes={{
