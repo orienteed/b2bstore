@@ -338,14 +338,6 @@
 }
 
 @media (max-width: 580px) {
-    .imageCarousel div {
-        height: 450px;
-    }
-
-    .imageCarousel div div {
-        height: 400px;
-    }
-
     .imageCarousel div div div img {
         height: 400px !important;
     }
