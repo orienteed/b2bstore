@@ -51,7 +51,7 @@
 
 .body {
     composes: opacity-100 from global;
-    composes: overflow-auto from global;
+    /* composes: overflow-auto from global; */
     transition-duration: 192ms;
     transition-property: opacity, visibility;
     transition-timing-function: var(--venia-global-anim-out);
@@ -74,7 +74,8 @@
 }
 
 .footer {
-    margin-top: 10rem;
+    /* margin-top: 10rem; */
+    grid-row: 3 / end;    
 }
 
 .switchers {
