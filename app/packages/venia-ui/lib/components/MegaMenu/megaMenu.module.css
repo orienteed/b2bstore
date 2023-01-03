@@ -7,11 +7,17 @@
 }
 
 /* Large screen styles */
-.megaMenu {
+/* .megaMenu {
     composes: lg_flex from global;
-}
+} */
 
 @media all and (max-width: 1300px) {
+    .megaMenu {
+        display: none !important;
+    }
+}
+
+@media (min-width: 960px) {
     .megaMenu {
         display: none !important;
     }
