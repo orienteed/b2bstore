@@ -9,9 +9,12 @@ import { Form } from 'informed';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
-import Dropzone from './Dropzone';
+import Dropzone from './Dropzone/dropzone';
 import ImagesList from './ImagesList';
 import { useRMAFormContext } from './RMAFormProvider/RMAFormProvider';
+import Trigger from '../../Trigger';
+import Icon from '../../Icon';
+import { Smile as EmojiPickerIcon } from 'react-feather';
 
 const RMAForm = props => {
     const talonProps = useRMA({
@@ -19,23 +22,47 @@ const RMAForm = props => {
     });
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
-    const { handleSubmit, setFormApi, initialValues } = talonProps;
-    const [comment, setComment] = useState();
-    const { files } = useRMAFormContext();
-
+    const {
+        handleSubmit,
+        filesUploaded,
+        setFilesUploaded,
+        setDropzoneError,
+        isEmojiPickerOpen,
+        comment,
+        setComment,
+        handleClose,
+        formProps
+    } = talonProps;
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
     });
-
+    const attachmentButton = (
+        <Trigger action={() => {}}>
+            <Dropzone
+                filesUploaded={filesUploaded}
+                setFilesUploaded={setFilesUploaded}
+                setDropzoneError={setDropzoneError}
+                // isTicketClosed={isTicketClosed}
+            />
+        </Trigger>
+    );
+    const emojiPickerButton = (
+        <Trigger action={() => {}}>
+            {isEmojiPickerOpen ? (
+                <img className={classes.emojiPickerIcon} src={closeIcon} alt="Close icon" />
+            ) : (
+                <Icon src={EmojiPickerIcon} size={25} classes={classes.emojiPickerIconEnabled} />
+            )}
+        </Trigger>
+    );
     return (
         <div>
             <Form
-                getApi={setFormApi}
                 className={classes.form}
                 onSubmit={handleSubmit}
                 data-cy="RMARequestForm-form"
-                initialValues={initialValues}
+                initialValues={formProps}
             >
                 <div className={classes.orderInformationContainer}>
                     <div className={classes.orderInformationTitle}>{orderInformationTitle}</div>
@@ -87,10 +114,27 @@ const RMAForm = props => {
                                 onChange={e => setComment(e.target.value)}
                             />
                         </Field>
-                        <div className={classes.dropzoneContainer}>
-                            <Dropzone />
+                        <div className={classes.dropZoneContainer}>
+                            {/* <Dropzone /> */}
+                            <TextInput
+                                disabled
+                                id="chatTextInput"
+                                field="comment"
+                                placeholder={'Attach your images'}
+                                classes={classes.dropZoneInput}
+                                before={emojiPickerButton}
+                                maxLength={10000}
+                                after={attachmentButton}
+                                supportEmoji={true}
+                                value={comment}
+                                onChange={e => {
+                                    setComment(e.target.value);
+                                }}
+                                classes={classes.dropZone}
+                                autoComplete="off"
+                            />
                         </div>
-                        <ImagesList />
+                        <ImagesList filesUploaded={filesUploaded} handleClose={handleClose} />
                     </div>
                 </div>
                 <div className={classes.rmaInformationContainer}>
