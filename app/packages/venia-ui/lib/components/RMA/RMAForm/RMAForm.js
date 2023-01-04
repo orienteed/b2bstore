@@ -12,7 +12,7 @@ import { isRequired } from '../../../util/formValidators';
 import Dropzone from './Dropzone/dropzone';
 import ImagesList from './ImagesList';
 import Trigger from '../../Trigger';
-import { Select as SelectProduct } from '../../Select';
+import SelectProduct from '../../Select';
 import { Accordion, Section } from '../../Accordion';
 import Icon from '../../Icon';
 import { Smile as EmojiPickerIcon } from 'react-feather';

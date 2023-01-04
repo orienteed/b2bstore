@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
-
+import { useHistory } from 'react-router-dom';
 const useRMA = () => {
+    const { push } = useHistory();
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);
     const [dropzoneError, setDropzoneError] = useState('');
@@ -25,6 +26,13 @@ const useRMA = () => {
     const handleReasonChange = (e, product, type) => {
         console.log(e.target, product, type, '(e, product, type) ');
     };
+
+    const handleRedirectCreateRMA = () => push('/rma/form');
+
+    const handleCancel = req => console.log(req);
+
+    const handleOpenRequestDetails = req => console.log(req);
+
     return {
         handleSubmit,
         filesUploaded,
@@ -44,12 +52,15 @@ const useRMA = () => {
         soluations,
         order,
         handleReasonChange,
-        returnType
+        userRMARequests,
+        handleRedirectCreateRMA,
+        returnType,
+        handleCancel,
+        handleOpenRequestDetails
     };
 };
 
 export default useRMA;
-
 
 const returnTypes = [
     {
@@ -91,3 +102,46 @@ const order = {
         }
     ]
 };
+
+const userRMARequests = [
+    {
+        request_id: '000000075',
+        order_id: '000000095',
+        order_increment_id: '0000055',
+        status_id: 'Pendeing',
+        is_canceled: 0,
+        updated_at: '1 / 4 / 23',
+        created_at: '1 / 4 / 23',
+        increment_id: 2
+    },
+    {
+        request_id: '00000058',
+        order_id: '000000097',
+        order_increment_id: '00000242',
+        status_id: 'Pendeing',
+        is_canceled: 0,
+        updated_at: '1 / 5 / 23',
+        created_at: '1 / 5 / 23',
+        increment_id: 552
+    },
+    {
+        request_id: '00000058',
+        order_id: '000000097',
+        order_increment_id: '00000242',
+        status_id: 'Pendeing',
+        is_canceled: 0,
+        updated_at: '1 / 5 / 23',
+        created_at: '1 / 5 / 23',
+        increment_id: 552
+    },
+    {
+        request_id: '00000058',
+        order_id: '000000097',
+        order_increment_id: '00000242',
+        status_id: 'Pendeing',
+        is_canceled: 0,
+        updated_at: '1 / 5 / 23',
+        created_at: '1 / 5 / 23',
+        increment_id: 552
+    }
+];
