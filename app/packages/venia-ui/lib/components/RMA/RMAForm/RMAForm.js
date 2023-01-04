@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Field from '../../Field';
 import TextInput from '../../TextInput';
 import useRMA from '@magento/peregrine/lib/talons/RMA/useRMA';
@@ -12,10 +12,13 @@ import { isRequired } from '../../../util/formValidators';
 import Dropzone from './Dropzone/dropzone';
 import ImagesList from './ImagesList';
 import Trigger from '../../Trigger';
+import { Select as SelectProduct } from '../../Select';
+import { Accordion, Section } from '../../Accordion';
 import Icon from '../../Icon';
 import { Smile as EmojiPickerIcon } from 'react-feather';
 import Select from './SelectField/select';
 import CustomCheckbox from './CustomCheckbox';
+import LoadingIndicator from '../../LoadingIndicator';
 
 const RMAForm = props => {
     const talonProps = useRMA({
@@ -32,11 +35,22 @@ const RMAForm = props => {
         comment,
         setComment,
         handleClose,
-        formProps
+        returnTypes,
+        handleReturnChange,
+        formProps,
+        returnType,
+        reasons,
+        soluations,
+        handleReasonChange,
+        order
     } = talonProps;
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
+    });
+    const rmaInformation = formatMessage({
+        id: 'rmaRequestForm.rmaInformation',
+        defaultMessage: 'RMA Information'
     });
     const attachmentButton = (
         <Trigger action={() => {}}>
@@ -44,7 +58,6 @@ const RMAForm = props => {
                 filesUploaded={filesUploaded}
                 setFilesUploaded={setFilesUploaded}
                 setDropzoneError={setDropzoneError}
-                // isTicketClosed={isTicketClosed}
             />
         </Trigger>
     );
@@ -159,7 +172,6 @@ const RMAForm = props => {
                                 id="chatTextInput"
                                 field="dropzone"
                                 placeholder={'Attach your images'}
-                                classes={classes.dropZoneInput}
                                 before={emojiPickerButton}
                                 maxLength={10000}
                                 after={attachmentButton}
@@ -176,6 +188,114 @@ const RMAForm = props => {
                     </div>
                 </div>
                 <div className={classes.rmaInformationContainer}>
+                    <div className={classes.orderInformationTitle}>{rmaInformation}</div>
+                    <hr />
+                    <div className={classes.rmaInformationInputs}>
+                        <Field
+                            id="rmaRequestFormreturnType"
+                            label={formatMessage({
+                                id: 'rmaRequestForm.returnType',
+                                defaultMessage: 'Return Type'
+                            })}
+                        >
+                            <SelectProduct onChange={handleReturnChange} field={'returnType'} items={returnTypes} />
+                        </Field>
+                        {returnType === 'allItems' ? (
+                            <div className={classes.allItemsSection}>
+                                <Field
+                                    id="rmaRequestFormreturnType"
+                                    label={formatMessage({
+                                        id: 'rmaRequestForm.reason',
+                                        defaultMessage: 'Reason'
+                                    })}
+                                >
+                                    <SelectProduct
+                                        field="reason"
+                                        onChange={e => handleReasonChange(e)}
+                                        items={reasons}
+                                    />
+                                </Field>
+                                <Field
+                                    id="rmaRequestFormreturnType"
+                                    label={formatMessage({
+                                        id: 'rmaRequestForm.solution',
+                                        defaultMessage: 'Solution'
+                                    })}
+                                >
+                                    <SelectProduct
+                                        field={'soluation'}
+                                        onChange={e => handleReasonChange(e)}
+                                        items={soluations}
+                                    />
+                                </Field>
+                            </div>
+                        ) : (
+                            <>
+                                {order.products.map(item => (
+                                    <div className={classes.item}>
+                                        <Accordion canOpenMultiple={true}>
+                                            <Section
+                                                data-cy="PriceAdjustments-couponCodeSection"
+                                                id={item.sku}
+                                                title={item.name + ' ' + item.SKU}
+                                            >
+                                                <Suspense fallback={<LoadingIndicator />}>
+                                                    <>
+                                                        <div className={classes.flexDisplay}>
+                                                            <span>
+                                                                {' '}
+                                                                <FormattedMessage
+                                                                    id={'global.price'}
+                                                                    defaultMessage={'Price'}
+                                                                />
+                                                            </span>
+                                                            <span>{item.price}</span>
+                                                        </div>
+                                                        <div className={classes.flexDisplay}>
+                                                            <span>
+                                                                {' '}
+                                                                <FormattedMessage
+                                                                    id={'global.qty'}
+                                                                    defaultMessage={'Quantity'}
+                                                                />
+                                                            </span>
+                                                            <span>{item.qty}</span>
+                                                        </div>
+                                                        <Field
+                                                            id="rmaRequestFormreturnType"
+                                                            label={formatMessage({
+                                                                id: 'rmaRequestForm.reason',
+                                                                defaultMessage: 'Reason'
+                                                            })}
+                                                        >
+                                                            <SelectProduct
+                                                                field="reason"
+                                                                onChange={e => handleReasonChange(e, item, returnType)}
+                                                                items={reasons}
+                                                            />
+                                                        </Field>
+                                                        <Field
+                                                            id="rmaRequestFormreturnType"
+                                                            label={formatMessage({
+                                                                id: 'rmaRequestForm.solution',
+                                                                defaultMessage: 'Solution'
+                                                            })}
+                                                        >
+                                                            <SelectProduct
+                                                                field={'soluation'}
+                                                                onChange={e => handleReasonChange(e, item, returnType)}
+                                                                items={soluations}
+                                                            />
+                                                        </Field>
+                                                    </>
+                                                </Suspense>
+                                            </Section>
+                                        </Accordion>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                    </div>
                     <Button priority="high" type="submit" data-cy="RMARequestForm-root_highPriority">
                         <FormattedMessage id={'rmaRequestForm.rmaRequestFormText'} defaultMessage={'Request'} />
                     </Button>

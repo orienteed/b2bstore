@@ -2,6 +2,7 @@
     composes: grid from global;
     composes: gap-y-xs from global;
     grid-template-columns: 1fr 1fr;
+    gap: 2rem;
     padding: 5rem;
 }
 .orderInformationTitle {
@@ -9,7 +10,8 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
-.orderInformationInputs {
+.orderInformationInputs,
+.rmaInformationInputs {
     margin-top: 1rem;
 }
 .dropzoneContainer {
@@ -68,4 +70,16 @@
 }
 .checkboxContainer {
     margin: 2rem 0rem 2rem 0rem;
+}
+
+.item,
+.allItemsSection {
+    margin: 1rem 0;
+}
+
+.flexDisplay {
+    display: flex;
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+    justify-content: space-between;
 }
