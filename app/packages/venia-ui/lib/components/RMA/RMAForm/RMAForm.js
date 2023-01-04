@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Field from '../../Field';
 import TextInput from '../../TextInput';
 import useRMA from '@magento/peregrine/lib/talons/RMA/useRMA';
@@ -11,11 +11,11 @@ import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
 import Dropzone from './Dropzone/dropzone';
 import ImagesList from './ImagesList';
-import { useRMAFormContext } from './RMAFormProvider/RMAFormProvider';
 import Trigger from '../../Trigger';
 import Icon from '../../Icon';
 import { Smile as EmojiPickerIcon } from 'react-feather';
 import Select from './SelectField/select';
+import CustomCheckbox from './CustomCheckbox';
 
 const RMAForm = props => {
     const talonProps = useRMA({
@@ -74,6 +74,10 @@ const RMAForm = props => {
     const orderIdTitle = formatMessage({
         id: 'rmaRequestForm.orderIdTitle',
         defaultMessage: 'Order Id'
+    });
+    const personalDataTreatment = formatMessage({
+        id: 'rmaRequestForm.termsAndConditions',
+        defaultMessage: 'By clicking submit you agree to the Terms and Conditions.'
     });
     return (
         <div>
@@ -142,8 +146,14 @@ const RMAForm = props => {
                                 onChange={e => setComment(e.target.value)}
                             />
                         </Field>
+                        <div className={classes.checkboxContainer}>
+                            <CustomCheckbox
+                                field="data_treatment"
+                                label={personalDataTreatment}
+                                validate={isRequired}
+                            />
+                        </div>
                         <div className={classes.dropZoneContainer}>
-                            {/* <Dropzone /> */}
                             <TextInput
                                 disabled
                                 id="chatTextInput"
