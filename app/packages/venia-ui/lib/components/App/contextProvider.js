@@ -8,7 +8,7 @@ import LocaleProvider from './localeProvider';
 import { NoReorderProductProvider } from '../NoReorderProductProvider/noReorderProductProvider';
 import { DownloadCsvProvider } from '../Gallery/DownloadCsvProvider/downloadCsvProvider';
 import { PrintPdfProvider } from '../CartPage/PrintPdfProvider/printPdfProvider';
-import { RMAFormProvider } from '../RMA/RMAForm/RMAFormProvider/RMAFormProvider';
+
 /**
  * List of context providers that are required to run Venia
  *
@@ -19,15 +19,13 @@ const contextProviders = [LocaleProvider, Peregrine, WindowSizeContextProvider, 
 const ContextProvider = ({ children }) => {
     return contextProviders.reduceRight((memo, ContextProvider) => {
         return (
-            <RMAFormProvider>
-                <PrintPdfProvider>
-                    <DownloadCsvProvider>
-                        <NoReorderProductProvider>
-                            <ContextProvider>{memo}</ContextProvider>
-                        </NoReorderProductProvider>
-                    </DownloadCsvProvider>
-                </PrintPdfProvider>
-            </RMAFormProvider>
+            <PrintPdfProvider>
+                <DownloadCsvProvider>
+                    <NoReorderProductProvider>
+                        <ContextProvider>{memo}</ContextProvider>
+                    </NoReorderProductProvider>
+                </DownloadCsvProvider>
+            </PrintPdfProvider>
         );
     }, children);
 };
