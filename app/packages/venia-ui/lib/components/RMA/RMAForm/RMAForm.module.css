@@ -53,3 +53,16 @@
     font-size: 16px;
     line-height: 24px;
 }
+
+.productsSelect {
+    border: 1px solid #eaecee;
+    border-radius: 8px;
+}
+
+.productsSelect {
+    width: 100%;
+}
+.orderIdTitle {
+    font-weight: bold;
+    margin: 0 1rem 0.5rem 0.1rem;
+}

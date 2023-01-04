@@ -15,6 +15,7 @@ import { useRMAFormContext } from './RMAFormProvider/RMAFormProvider';
 import Trigger from '../../Trigger';
 import Icon from '../../Icon';
 import { Smile as EmojiPickerIcon } from 'react-feather';
+import Select from './SelectField/select';
 
 const RMAForm = props => {
     const talonProps = useRMA({
@@ -56,6 +57,24 @@ const RMAForm = props => {
             )}
         </Trigger>
     );
+
+    const mockArray = [
+        { value: 'select1' },
+        { value: 'select2' },
+        { value: 'select3' },
+        { value: 'select4' },
+        { value: 'select5' }
+    ];
+
+    const defaultTextDropzone = formatMessage({
+        id: 'rmaRequestForm.orderDefaultTextDropzone',
+        defaultMessage: 'Drag and drop your images'
+    });
+
+    const orderIdTitle = formatMessage({
+        id: 'rmaRequestForm.orderIdTitle',
+        defaultMessage: 'Order Id'
+    });
     return (
         <div>
             <Form
@@ -68,6 +87,15 @@ const RMAForm = props => {
                     <div className={classes.orderInformationTitle}>{orderInformationTitle}</div>
                     <hr />
                     <div className={classes.orderInformationInputs}>
+                        <div className={classes.orderIdTitle}>{orderIdTitle}</div>
+                        <div className={classes.productsSelect}>
+                            <Select
+                                initialValue={'Item'}
+                                field="selection"
+                                items={mockArray}
+                                // onChange={onChangeVariant}
+                            />
+                        </div>
                         <Field
                             id="rmaRequestFormBillingName"
                             label={formatMessage({
@@ -119,14 +147,14 @@ const RMAForm = props => {
                             <TextInput
                                 disabled
                                 id="chatTextInput"
-                                field="comment"
+                                field="dropzone"
                                 placeholder={'Attach your images'}
                                 classes={classes.dropZoneInput}
                                 before={emojiPickerButton}
                                 maxLength={10000}
                                 after={attachmentButton}
                                 supportEmoji={true}
-                                value={comment}
+                                value={defaultTextDropzone}
                                 onChange={e => {
                                     setComment(e.target.value);
                                 }}
