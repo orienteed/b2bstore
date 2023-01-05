@@ -170,7 +170,10 @@ const RMAForm = props => {
                                 disabled
                                 id="chatTextInput"
                                 field="dropzone"
-                                placeholder={'Attach your images'}
+                                placeholder={formatMessage({
+                                    id: 'rmaRequestForm.attachYourImgs',
+                                    defaultMessage: 'Attach your images'
+                                })}
                                 before={emojiPickerButton}
                                 maxLength={10000}
                                 after={attachmentButton}

@@ -1,77 +1,83 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react';
+import React from 'react';
 import defaultClasses from './RMAFrontPage.module.css';
 import { useStyle } from '../../classify';
 import { FormattedMessage, useIntl } from 'react-intl';
 import useRMA from '@magento/peregrine/lib/talons/RMA/useRMA';
 import Button from '../Button';
+import Table from './Table/Table';
 
 const RMAFrontPage = () => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses);
     const { userRMARequests, handleRedirectCreateRMA, handleCancel, handleOpenRequestDetails } = useRMA({});
-    const tableRMARequests = useMemo(
-        () =>
-            userRMARequests.map(req => (
-                <tr key={req.request_id}>
-                    <td
-                        data-label={formatMessage({
-                            id: 'rmaPage.RMAReuests',
-                            defaultMessage: 'Request ID'
-                        })}
-                    >
-                        {req.request_id}
-                    </td>
-                    <td
-                        data-label={formatMessage({
-                            id: 'rmaPage.orderIncrementId',
-                            defaultMessage: 'Order Increment ID'
-                        })}
-                    >
-                        {req.order_increment_id}
-                    </td>
-                    <td
-                        data-label={formatMessage({
-                            id: 'rmaPage.requestStatus',
-                            defaultMessage: 'Request Status'
-                        })}
-                    >
-                        {req.status_id}
-                    </td>
-                    <td
-                        data-label={formatMessage({
-                            id: 'rmaPage.createdDate',
-                            defaultMessage: 'Created Date'
-                        })}
-                    >
-                        {req.created_at}
-                    </td>
-                    <td
-                        data-label={formatMessage({
-                            id: 'rmaPage.updatedDate',
-                            defaultMessage: 'Updated Date'
-                        })}
-                    >
-                        {req.updated_at}
-                    </td>{' '}
-                    <td
-                        data-label={formatMessage({
-                            id: 'rmaPage.actions',
-                            defaultMessage: 'Actions'
-                        })}
-                        className={classes.actionsWrapper}
-                    >
+
+    const tableHeader = [
+        <FormattedMessage id={'rmaPage.requestId'} defaultMessage={'Request ID'} />,
+        <FormattedMessage id={'rmaPage.orderIncrementId'} defaultMessage={'Order Increment ID'} />,
+        <FormattedMessage id={'rmaPage.requestStatus'} defaultMessage={'Request Status'} />,
+        <FormattedMessage id={'rmaPage.createdDate'} defaultMessage={'Created Date'} />,
+        <FormattedMessage id={'rmaPage.updatedDate'} defaultMessage={'Updated Date'} />,
+        <FormattedMessage id={'rmaPage.actions'} defaultMessage={'Actions'} />
+    ];
+
+    const tableRows = userRMARequests.map(req => {
+        return [
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.requestId',
+                    defaultMessage: 'Request ID'
+                }),
+                value: req.request_id
+            },
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.orderIncrementId',
+                    defaultMessage: 'Order Increment ID'
+                }),
+                value: req.order_increment_id
+            },
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.requestStatus',
+                    defaultMessage: 'Request Status'
+                }),
+                value: req.status_id
+            },
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.createdDate',
+                    defaultMessage: 'Created Date'
+                }),
+                value: req.created_at
+            },
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.updatedDate',
+                    defaultMessage: 'Updated Date'
+                }),
+                value: req.updated_at
+            },
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.actions',
+                    defaultMessage: 'Actions'
+                }),
+                classes: classes.actionsWrapper,
+                value: (
+                    <>
+                        {' '}
                         <a href className={classes.actionBtn} onClick={() => handleCancel(req)}>
-                            <FormattedMessage id={'global.cancel'} defaultMessage={'Cancel'} />
+                            <FormattedMessage id={'rmaPage.cancel'} defaultMessage={'Cancel'} />
                         </a>
                         <a href className={classes.actionBtn} onClick={() => handleOpenRequestDetails(req)}>
-                            <FormattedMessage id={'global.seeDetails'} defaultMessage={'See Details'} />
+                            <FormattedMessage id={'rmaPage.seeDetails'} defaultMessage={'See Details'} />
                         </a>
-                    </td>
-                </tr>
-            )),
-        [userRMARequests]
-    );
+                    </>
+                )
+            }
+        ];
+    });
+
     return (
         <div className={classes.root}>
             <div className={classes.headerWrapper}>
@@ -79,34 +85,10 @@ const RMAFrontPage = () => {
                     <FormattedMessage id={'rmaPage.RMAReuests'} defaultMessage="RMA Requests" />
                 </h1>
                 <Button onClick={handleRedirectCreateRMA} priority="high">
-                    <FormattedMessage id={'rmaPage.createRMA Req'} defaultMessage={'Create RMA Request'} />
+                    <FormattedMessage id={'rmaPage.createRMAReq'} defaultMessage={'Create RMA Request'} />
                 </Button>
             </div>
-            <table className={classes.creditTable}>
-                <thead>
-                    <tr>
-                        <th scope="col">
-                            <FormattedMessage id={'rmaPage.requestId'} defaultMessage={'Request ID'} />
-                        </th>
-                        <th scope="col">
-                            <FormattedMessage id={'rmaPage.orderIncrementId'} defaultMessage={'Order Increment ID'} />
-                        </th>
-                        <th scope="col">
-                            <FormattedMessage id={'rmaPage.requestStatus'} defaultMessage={'Request Status'} />
-                        </th>
-                        <th scope="col">
-                            <FormattedMessage id={'rmaPage.createdDate'} defaultMessage={'Created Date'} />
-                        </th>
-                        <th scope="col">
-                            <FormattedMessage id={'rmaPage.updatedDate'} defaultMessage={'Updated Date'} />
-                        </th>
-                        <th scope="col">
-                            <FormattedMessage id={'rmaPage.actions'} defaultMessage={'Actions'} />
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>{tableRMARequests}</tbody>
-            </table>
+            <Table headers={tableHeader} tableRows={tableRows} />
         </div>
     );
 };
