@@ -12,11 +12,10 @@ import { isRequired } from '../../../util/formValidators';
 import Dropzone from './Dropzone/dropzone';
 import ImagesList from './ImagesList';
 import Trigger from '../../Trigger';
-import SelectProduct from '../../Select';
+import Select from '../../Select';
 import { Accordion, Section } from '../../Accordion';
 import Icon from '../../Icon';
 import { Smile as EmojiPickerIcon } from 'react-feather';
-import Select from './SelectField/select';
 import CustomCheckbox from './CustomCheckbox';
 import LoadingIndicator from '../../LoadingIndicator';
 
@@ -198,7 +197,7 @@ const RMAForm = props => {
                                 defaultMessage: 'Return Type'
                             })}
                         >
-                            <SelectProduct onChange={handleReturnChange} field={'returnType'} items={returnTypes} />
+                            <Select onChange={handleReturnChange} field={'returnType'} items={returnTypes} />
                         </Field>
                         {returnType === 'allItems' ? (
                             <div className={classes.allItemsSection}>
@@ -209,11 +208,7 @@ const RMAForm = props => {
                                         defaultMessage: 'Reason'
                                     })}
                                 >
-                                    <SelectProduct
-                                        field="reason"
-                                        onChange={e => handleReasonChange(e)}
-                                        items={reasons}
-                                    />
+                                    <Select field="reason" onChange={e => handleReasonChange(e)} items={reasons} />
                                 </Field>
                                 <Field
                                     id="rmaRequestFormreturnType"
@@ -222,7 +217,7 @@ const RMAForm = props => {
                                         defaultMessage: 'Solution'
                                     })}
                                 >
-                                    <SelectProduct
+                                    <Select
                                         field={'soluation'}
                                         onChange={e => handleReasonChange(e)}
                                         items={soluations}
@@ -268,7 +263,7 @@ const RMAForm = props => {
                                                                 defaultMessage: 'Reason'
                                                             })}
                                                         >
-                                                            <SelectProduct
+                                                            <Select
                                                                 field="reason"
                                                                 onChange={e => handleReasonChange(e, item, returnType)}
                                                                 items={reasons}
@@ -281,7 +276,7 @@ const RMAForm = props => {
                                                                 defaultMessage: 'Solution'
                                                             })}
                                                         >
-                                                            <SelectProduct
+                                                            <Select
                                                                 field={'soluation'}
                                                                 onChange={e => handleReasonChange(e, item, returnType)}
                                                                 items={soluations}
