@@ -5,11 +5,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import useRMA from '@magento/peregrine/lib/talons/RMA/useRMA';
 import Button from '../Button';
 import Table from './Table/Table';
+import useRMAFrontPage from '@magento/peregrine/lib/talons/RMA/useRMAFrontPage.js';
+import DetailsPopUp from './RMAFrontPageDetails';
 
 const RMAFrontPage = () => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses);
-    const { userRMARequests, handleRedirectCreateRMA, handleCancel, handleOpenRequestDetails } = useRMA({});
+    const { userRMARequests, handleRedirectCreateRMA, handleCancel } = useRMA({});
+    const { handleOpenPopup, handleClosePopup, openPopup } = useRMAFrontPage();
 
     const tableHeader = [
         <FormattedMessage id={'rmaPage.requestId'} defaultMessage={'Request ID'} />,
@@ -65,12 +68,11 @@ const RMAFrontPage = () => {
                 classes: classes.actionsWrapper,
                 value: (
                     <>
-                        {' '}
                         <a href className={classes.actionBtn} onClick={() => handleCancel(req)}>
                             <FormattedMessage id={'rmaPage.cancel'} defaultMessage={'Cancel'} />
                         </a>
-                        <a href className={classes.actionBtn} onClick={() => handleOpenRequestDetails(req)}>
-                            <FormattedMessage id={'rmaPage.seeDetails'} defaultMessage={'See Details'} />
+                        <a href className={classes.actionBtn} onClick={handleOpenPopup}>
+                            <FormattedMessage id={'global.seeDetails'} defaultMessage={'See Details'} />
                         </a>
                     </>
                 )
@@ -89,6 +91,17 @@ const RMAFrontPage = () => {
                 </Button>
             </div>
             <Table headers={tableHeader} tableRows={tableRows} />
+            {userRMARequests.length > 0 &&
+                userRMARequests.map(item => {
+                    return (
+                        <DetailsPopUp
+                            key={item.request_id}
+                            openPopup={openPopup}
+                            handleClosePopup={handleClosePopup}
+                            item={item}
+                        />
+                    );
+                })}
         </div>
     );
 };

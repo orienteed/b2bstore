@@ -9,15 +9,11 @@ import { Form } from 'informed';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
-import Dropzone from './Dropzone/dropzone';
-import ImagesList from './ImagesList';
-import Trigger from '../../Trigger';
 import Select from '../../Select';
 import { Accordion, Section } from '../../Accordion';
-import Icon from '../../Icon';
-import { Smile as EmojiPickerIcon } from 'react-feather';
 import CustomCheckbox from './CustomCheckbox';
 import LoadingIndicator from '../../LoadingIndicator';
+import DropzonePrevisualizer from '../DropzonePrevisualizer';
 
 const RMAForm = props => {
     const talonProps = useRMA({
@@ -27,13 +23,8 @@ const RMAForm = props => {
     const { formatMessage } = useIntl();
     const {
         handleSubmit,
-        filesUploaded,
-        setFilesUploaded,
-        setDropzoneError,
-        isEmojiPickerOpen,
         comment,
         setComment,
-        handleClose,
         returnTypes,
         handleReturnChange,
         formProps,
@@ -51,24 +42,6 @@ const RMAForm = props => {
         id: 'rmaRequestForm.rmaInformation',
         defaultMessage: 'RMA Information'
     });
-    const attachmentButton = (
-        <Trigger action={() => {}}>
-            <Dropzone
-                filesUploaded={filesUploaded}
-                setFilesUploaded={setFilesUploaded}
-                setDropzoneError={setDropzoneError}
-            />
-        </Trigger>
-    );
-    const emojiPickerButton = (
-        <Trigger action={() => {}}>
-            {isEmojiPickerOpen ? (
-                <img className={classes.emojiPickerIcon} src={closeIcon} alt="Close icon" />
-            ) : (
-                <Icon src={EmojiPickerIcon} size={25} classes={classes.emojiPickerIconEnabled} />
-            )}
-        </Trigger>
-    );
 
     const mockArray = [
         { value: 'select1' },
@@ -77,11 +50,6 @@ const RMAForm = props => {
         { value: 'select4' },
         { value: 'select5' }
     ];
-
-    const defaultTextDropzone = formatMessage({
-        id: 'rmaRequestForm.orderDefaultTextDropzone',
-        defaultMessage: 'Drag and drop your images'
-    });
 
     const orderIdTitle = formatMessage({
         id: 'rmaRequestForm.orderIdTitle',
@@ -165,28 +133,7 @@ const RMAForm = props => {
                                 validate={isRequired}
                             />
                         </div>
-                        <div className={classes.dropZoneContainer}>
-                            <TextInput
-                                disabled
-                                id="chatTextInput"
-                                field="dropzone"
-                                placeholder={formatMessage({
-                                    id: 'rmaRequestForm.attachYourImgs',
-                                    defaultMessage: 'Attach your images'
-                                })}
-                                before={emojiPickerButton}
-                                maxLength={10000}
-                                after={attachmentButton}
-                                supportEmoji={true}
-                                value={defaultTextDropzone}
-                                onChange={e => {
-                                    setComment(e.target.value);
-                                }}
-                                classes={classes.dropZone}
-                                autoComplete="off"
-                            />
-                        </div>
-                        <ImagesList filesUploaded={filesUploaded} handleClose={handleClose} />
+                        <DropzonePrevisualizer />
                     </div>
                 </div>
                 <div className={classes.rmaInformationContainer}>

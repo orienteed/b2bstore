@@ -1,0 +1,33 @@
+.imagesContainer {
+    margin: 20px 0;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+}
+
+.imageWrap {
+    position: relative;
+}
+
+.imageWrap button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1rem;
+    min-width: 1rem;
+    border-radius: 20px;
+}
+
+.deleteBtn {
+    width: 1rem;
+}
+
+.previewImg {
+    height: 100px;
+    width: 100px;
+}
+
+.imageWrap svg {
+    stroke: white;
+}

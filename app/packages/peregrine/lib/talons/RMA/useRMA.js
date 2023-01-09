@@ -21,6 +21,7 @@ const useRMA = () => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
         setFilesUploaded(newFilesUploaded);
     };
+
     const handleReturnChange = e => setReturnType(e.target.value);
 
     const handleReasonChange = (e, product, type) => {
@@ -30,8 +31,6 @@ const useRMA = () => {
     const handleRedirectCreateRMA = () => push('/rma/form');
 
     const handleCancel = req => console.log(req);
-
-    const handleOpenRequestDetails = req => console.log(req);
 
     return {
         handleSubmit,
@@ -55,8 +54,7 @@ const useRMA = () => {
         userRMARequests,
         handleRedirectCreateRMA,
         returnType,
-        handleCancel,
-        handleOpenRequestDetails
+        handleCancel
     };
 };
 

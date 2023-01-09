@@ -10,6 +10,7 @@ import TextArea from '../../TextArea';
 import ImagesList from './imagesList';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Dialog from '../../Dialog';
+
 const PrintPdfPopup = React.forwardRef((props, ref) => {
     const { openPopup, handleClosePopup, handlePrint } = props;
     const { priceSummary, cartItem } = usePrintPdfContext();
