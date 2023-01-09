@@ -3,5 +3,5 @@
  * @param {string} uri
  */
 export default function ensureDirUri(uri) {
-    return uri.endsWith('/') ? uri : uri + '/';
+	return uri.endsWith('/') ? uri : uri + '/';
 }

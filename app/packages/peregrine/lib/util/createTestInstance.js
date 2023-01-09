@@ -6,11 +6,11 @@ import TestRenderer, { act } from 'react-test-renderer';
  * https://reactjs.org/docs/test-utils.html#act
  */
 export default (...args) => {
-    let instance;
+	let instance;
 
-    act(() => {
-        instance = TestRenderer.create(...args);
-    });
+	act(() => {
+		instance = TestRenderer.create(...args);
+	});
 
-    return instance;
+	return instance;
 };

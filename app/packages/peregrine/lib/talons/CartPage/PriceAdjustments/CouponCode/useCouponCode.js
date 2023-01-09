@@ -26,107 +26,85 @@ import DEFAULT_OPERATIONS from './couponCode.gql';
  * import { useCouponCode } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/CouponCode/useCouponCode';
  */
 export const useCouponCode = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        getAppliedCouponsQuery,
-        applyCouponMutation,
-        removeCouponMutation
-    } = operations;
-    const { setIsCartUpdating } = props;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getAppliedCouponsQuery, applyCouponMutation, removeCouponMutation } = operations;
+	const { setIsCartUpdating } = props;
 
-    const [{ cartId }] = useCartContext();
-    const { data, error: fetchError } = useQuery(getAppliedCouponsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
+	const [{ cartId }] = useCartContext();
+	const { data, error: fetchError } = useQuery(getAppliedCouponsQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first',
+		skip: !cartId,
+		variables: {
+			cartId
+		}
+	});
 
-    const [
-        applyCoupon,
-        {
-            called: applyCouponCalled,
-            error: applyError,
-            loading: applyingCoupon
-        }
-    ] = useMutation(applyCouponMutation);
+	const [applyCoupon, { called: applyCouponCalled, error: applyError, loading: applyingCoupon }] =
+		useMutation(applyCouponMutation);
 
-    const [
-        removeCoupon,
-        {
-            called: removeCouponCalled,
-            error: removeCouponError,
-            loading: removingCoupon
-        }
-    ] = useMutation(removeCouponMutation);
+	const [removeCoupon, { called: removeCouponCalled, error: removeCouponError, loading: removingCoupon }] =
+		useMutation(removeCouponMutation);
 
-    const handleApplyCoupon = useCallback(
-        async ({ couponCode }) => {
-            if (!couponCode) return;
-            try {
-                await applyCoupon({
-                    variables: {
-                        cartId,
-                        couponCode
-                    }
-                });
-            } catch (e) {
-                // Error is logged by apollo link - no need to double log.
-            }
-        },
-        [applyCoupon, cartId]
-    );
+	const handleApplyCoupon = useCallback(
+		async ({ couponCode }) => {
+			if (!couponCode) return;
+			try {
+				await applyCoupon({
+					variables: {
+						cartId,
+						couponCode
+					}
+				});
+			} catch (e) {
+				// Error is logged by apollo link - no need to double log.
+			}
+		},
+		[applyCoupon, cartId]
+	);
 
-    const handleRemoveCoupon = useCallback(
-        async couponCode => {
-            try {
-                await removeCoupon({
-                    variables: {
-                        cartId,
-                        couponCode
-                    }
-                });
-            } catch (e) {
-                // Error is logged by apollo link - no need to double log.
-            }
-        },
-        [cartId, removeCoupon]
-    );
+	const handleRemoveCoupon = useCallback(
+		async couponCode => {
+			try {
+				await removeCoupon({
+					variables: {
+						cartId,
+						couponCode
+					}
+				});
+			} catch (e) {
+				// Error is logged by apollo link - no need to double log.
+			}
+		},
+		[cartId, removeCoupon]
+	);
 
-    useEffect(() => {
-        if (applyCouponCalled || removeCouponCalled) {
-            // If a coupon mutation is in flight, tell the cart.
-            setIsCartUpdating(applyingCoupon || removingCoupon);
-        }
-    }, [
-        applyCouponCalled,
-        applyingCoupon,
-        removeCouponCalled,
-        removingCoupon,
-        setIsCartUpdating
-    ]);
+	useEffect(() => {
+		if (applyCouponCalled || removeCouponCalled) {
+			// If a coupon mutation is in flight, tell the cart.
+			setIsCartUpdating(applyingCoupon || removingCoupon);
+		}
+	}, [applyCouponCalled, applyingCoupon, removeCouponCalled, removingCoupon, setIsCartUpdating]);
 
-    // Create a memoized error map and toggle individual errors when they change
-    const errors = useMemo(
-        () =>
-            new Map([
-                ['getAppliedCouponsQuery', fetchError],
-                ['applyCouponMutation', applyError],
-                ['removeCouponMutation', removeCouponError]
-            ]),
-        [applyError, fetchError, removeCouponError]
-    );
+	// Create a memoized error map and toggle individual errors when they change
+	const errors = useMemo(
+		() =>
+			new Map([
+				['getAppliedCouponsQuery', fetchError],
+				['applyCouponMutation', applyError],
+				['removeCouponMutation', removeCouponError]
+			]),
+		[applyError, fetchError, removeCouponError]
+	);
 
-    return {
-        applyingCoupon,
-        data,
-        errors,
-        handleApplyCoupon,
-        handleRemoveCoupon,
-        removingCoupon
-    };
+	return {
+		applyingCoupon,
+		data,
+		errors,
+		handleApplyCoupon,
+		handleRemoveCoupon,
+		removingCoupon
+	};
 };
 
 /** JSDocs type definitions */

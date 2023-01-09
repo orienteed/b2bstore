@@ -9,55 +9,45 @@ import BrowserPersistence from '../util/simplePersistence';
 const UserContext = createContext();
 
 const UserContextProvider = props => {
-    const { actions, asyncActions, children, userState } = props;
+	const { actions, asyncActions, children, userState } = props;
 
-    const userApi = useMemo(
-        () => ({
-            actions,
-            ...asyncActions
-        }),
-        [actions, asyncActions]
-    );
+	const userApi = useMemo(
+		() => ({
+			actions,
+			...asyncActions
+		}),
+		[actions, asyncActions]
+	);
 
-    const contextValue = useMemo(() => [userState, userApi], [
-        userApi,
-        userState
-    ]);
+	const contextValue = useMemo(() => [userState, userApi], [userApi, userState]);
 
-    useEffect(() => {
-        // check if the user's token is not expired
-        const storage = new BrowserPersistence();
-        const item = storage.getRawItem('signin_token');
+	useEffect(() => {
+		// check if the user's token is not expired
+		const storage = new BrowserPersistence();
+		const item = storage.getRawItem('signin_token');
 
-        if (item) {
-            const { ttl, timeStored } = JSON.parse(item);
-            const now = Date.now();
+		if (item) {
+			const { ttl, timeStored } = JSON.parse(item);
+			const now = Date.now();
 
-            // if the token's TTYL has expired, we need to sign out
-            if (ttl && now - timeStored > ttl * 1000) {
-                asyncActions.signOut();
-            }
-        }
-    }, [asyncActions]);
+			// if the token's TTYL has expired, we need to sign out
+			if (ttl && now - timeStored > ttl * 1000) {
+				asyncActions.signOut();
+			}
+		}
+	}, [asyncActions]);
 
-    return (
-        <UserContext.Provider value={contextValue}>
-            {children}
-        </UserContext.Provider>
-    );
+	return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
 
 const mapStateToProps = ({ user }) => ({ userState: user });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actions, dispatch),
-    asyncActions: bindActionCreators(asyncActions, dispatch)
+	actions: bindActionCreators(actions, dispatch),
+	asyncActions: bindActionCreators(asyncActions, dispatch)
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserContextProvider);
+export default connect(mapStateToProps, mapDispatchToProps)(UserContextProvider);
 
 /**
  * @typedef {Object} UserState

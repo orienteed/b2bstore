@@ -17,59 +17,54 @@ import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCapt
  * import { useForgotPassword } from '@magento/peregrine/lib/talons/ForgotPassword/useForgotPassword.js';
  */
 export const useForgotPassword = props => {
-    const { onCancel, mutations } = props;
+	const { onCancel, mutations } = props;
 
-    const [hasCompleted, setCompleted] = useState(false);
-    const [forgotPasswordEmail, setForgotPasswordEmail] = useState(null);
+	const [hasCompleted, setCompleted] = useState(false);
+	const [forgotPasswordEmail, setForgotPasswordEmail] = useState(null);
 
-    const [
-        requestResetEmail,
-        { error: requestResetEmailError, loading: isResettingPassword }
-    ] = useMutation(mutations.requestPasswordResetEmailMutation);
+	const [requestResetEmail, { error: requestResetEmailError, loading: isResettingPassword }] = useMutation(
+		mutations.requestPasswordResetEmailMutation
+	);
 
-    const {
-        recaptchaLoading,
-        generateReCaptchaData,
-        recaptchaWidgetProps
-    } = useGoogleReCaptcha({
-        currentForm: 'CUSTOMER_FORGOT_PASSWORD',
-        formAction: 'forgotPassword'
-    });
+	const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
+		currentForm: 'CUSTOMER_FORGOT_PASSWORD',
+		formAction: 'forgotPassword'
+	});
 
-    const handleFormSubmit = useCallback(
-        async ({ email }) => {
-            try {
-                const reCaptchaData = await generateReCaptchaData();
+	const handleFormSubmit = useCallback(
+		async ({ email }) => {
+			try {
+				const reCaptchaData = await generateReCaptchaData();
 
-                await requestResetEmail({
-                    variables: { email },
-                    ...reCaptchaData
-                });
+				await requestResetEmail({
+					variables: { email },
+					...reCaptchaData
+				});
 
-                setForgotPasswordEmail(email);
-                setCompleted(true);
-            } catch (error) {
-                // Error is logged by apollo link - no need to double log.
+				setForgotPasswordEmail(email);
+				setCompleted(true);
+			} catch (error) {
+				// Error is logged by apollo link - no need to double log.
 
-                setCompleted(false);
-            }
-        },
-        [generateReCaptchaData, requestResetEmail]
-    );
+				setCompleted(false);
+			}
+		},
+		[generateReCaptchaData, requestResetEmail]
+	);
 
-    const handleCancel = useCallback(() => {
-        onCancel();
-    }, [onCancel]);
+	const handleCancel = useCallback(() => {
+		onCancel();
+	}, [onCancel]);
 
-    return {
-        forgotPasswordEmail,
-        formErrors: [requestResetEmailError],
-        handleCancel,
-        handleFormSubmit,
-        hasCompleted,
-        isResettingPassword: isResettingPassword || recaptchaLoading,
-        recaptchaWidgetProps
-    };
+	return {
+		forgotPasswordEmail,
+		formErrors: [requestResetEmailError],
+		handleCancel,
+		handleFormSubmit,
+		hasCompleted,
+		isResettingPassword: isResettingPassword || recaptchaLoading,
+		recaptchaWidgetProps
+	};
 };
 
 /** JSDocs type definitions */

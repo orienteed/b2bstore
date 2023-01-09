@@ -16,62 +16,58 @@ import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
  * @returns {React.Element} A React component that displays a Banner Shimmer.
  */
 const BannerShimmer = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        minHeight,
-        border,
-        borderWidth,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        mediaQueries,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		minHeight,
+		border,
+		borderWidth,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		mediaQueries,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
 
-    const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
+	const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
 
-    const rootStyles = {
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft
-    };
+	const rootStyles = {
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft
+	};
 
-    const wrapperStyles = {
-        minHeight: mediaQueryStyles?.minHeight || minHeight,
-        border,
-        borderWidth,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
+	const wrapperStyles = {
+		minHeight: mediaQueryStyles?.minHeight || minHeight,
+		border,
+		borderWidth,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
 
-    return (
-        <Shimmer
-            aria-live="polite"
-            aria-busy="true"
-            classes={{
-                root_rectangle: [
-                    classes.root,
-                    classes.shimmerRoot,
-                    ...cssClasses
-                ].join(' ')
-            }}
-            style={rootStyles}
-        >
-            <div className={classes.wrapper} style={wrapperStyles}>
-                <div className={classes.overlay}>
-                    <div className={classes.content} />
-                </div>
-            </div>
-        </Shimmer>
-    );
+	return (
+		<Shimmer
+			aria-live="polite"
+			aria-busy="true"
+			classes={{
+				root_rectangle: [classes.root, classes.shimmerRoot, ...cssClasses].join(' ')
+			}}
+			style={rootStyles}
+		>
+			<div className={classes.wrapper} style={wrapperStyles}>
+				<div className={classes.overlay}>
+					<div className={classes.content} />
+				</div>
+			</div>
+		</Shimmer>
+	);
 };
 
 /**
@@ -102,31 +98,31 @@ const BannerShimmer = props => {
  * the component
  */
 BannerShimmer.propTypes = {
-    classes: shape({
-        root: string,
-        shimmerRoot: string,
-        wrapper: string,
-        overlay: string,
-        content: string
-    }),
-    minHeight: string,
-    border: string,
-    borderWidth: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    mediaQueries: arrayOf(
-        shape({
-            media: string,
-            style: object
-        })
-    ),
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		root: string,
+		shimmerRoot: string,
+		wrapper: string,
+		overlay: string,
+		content: string
+	}),
+	minHeight: string,
+	border: string,
+	borderWidth: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	mediaQueries: arrayOf(
+		shape({
+			media: string,
+			style: object
+		})
+	),
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string)
 };
 
 export default BannerShimmer;

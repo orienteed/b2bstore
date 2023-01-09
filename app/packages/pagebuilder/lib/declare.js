@@ -5,27 +5,27 @@
  *
  */
 module.exports = targets => {
-    targets.declare({
-        /**
-         * Provides access to Pagebuilder custom content types
-         *
-         * @member {tapable.SyncHook}
-         *
-         * @see [Intercept function signature]{@link rendererInterceptFunction}
-         * @see [CustomContentTypeList]{@link #CustomContentTypeList}
-         * @see [Pagebuilder]{@link Pagebuilder}
-         * @see [RichContent]{@link RichContent}
-         *
-         * @example <caption>Add a custom content type</caption>
-         * targets.of('@magento/pagebuilder').customContentTypes.tap(
-         *   contentTypes => contentTypes.add({
-         *     contentType: 'AdobeXMC',
-         *     importPath: '@adobe/xm-components/xm-content-type'
-         *   })
-         * );
-         */
-        customContentTypes: new targets.types.Sync(['contentTypes'])
-    });
+	targets.declare({
+		/**
+		 * Provides access to Pagebuilder custom content types
+		 *
+		 * @member {tapable.SyncHook}
+		 *
+		 * @see [Intercept function signature]{@link rendererInterceptFunction}
+		 * @see [CustomContentTypeList]{@link #CustomContentTypeList}
+		 * @see [Pagebuilder]{@link Pagebuilder}
+		 * @see [RichContent]{@link RichContent}
+		 *
+		 * @example <caption>Add a custom content type</caption>
+		 * targets.of('@magento/pagebuilder').customContentTypes.tap(
+		 *   contentTypes => contentTypes.add({
+		 *     contentType: 'AdobeXMC',
+		 *     importPath: '@adobe/xm-components/xm-content-type'
+		 *   })
+		 * );
+		 */
+		customContentTypes: new targets.types.Sync(['contentTypes'])
+	});
 };
 
 /** Type definitions related to: customContentTypeRenderers */

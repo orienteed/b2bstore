@@ -9,17 +9,17 @@ import defaultOperations from './carousel.gql';
  * This is a duplicate of @magento/peregrine/lib/talons/Gallery/useGallery.js
  */
 export const useCarousel = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
+	const operations = mergeOperations(defaultOperations, props.operations);
 
-    useCustomerWishlistSkus();
+	useCustomerWishlistSkus();
 
-    const { data: storeConfigData } = useQuery(operations.getStoreConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+	const { data: storeConfigData } = useQuery(operations.getStoreConfigQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const storeConfig = storeConfigData ? storeConfigData.storeConfig : null;
+	const storeConfig = storeConfigData ? storeConfigData.storeConfig : null;
 
-    return {
-        storeConfig
-    };
+	return {
+		storeConfig
+	};
 };

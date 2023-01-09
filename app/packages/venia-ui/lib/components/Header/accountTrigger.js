@@ -19,58 +19,53 @@ const AccountMenu = React.lazy(() => import('../AccountMenu'));
  * @param {Object} props.classes - CSS classes to override element styles.
  */
 const AccountTrigger = props => {
-    const talonProps = useAccountTrigger();
-    const {
-        accountMenuIsOpen,
-        accountMenuRef,
-        accountMenuTriggerRef,
-        setAccountMenuIsOpen,
-        handleTriggerClick
-    } = talonProps;
+	const talonProps = useAccountTrigger();
+	const { accountMenuIsOpen, accountMenuRef, accountMenuTriggerRef, setAccountMenuIsOpen, handleTriggerClick } =
+		talonProps;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const rootClassName = accountMenuIsOpen ? classes.root_open : classes.root;
-    const { formatMessage } = useIntl();
+	const classes = useStyle(defaultClasses, props.classes);
+	const rootClassName = accountMenuIsOpen ? classes.root_open : classes.root;
+	const { formatMessage } = useIntl();
 
-    return (
-        <Fragment>
-            <div className={rootClassName} ref={accountMenuTriggerRef}>
-                <button
-                    aria-expanded={accountMenuIsOpen}
-                    aria-label={formatMessage({
-                        id: 'accountTrigger.ariaLabel',
-                        defaultMessage: 'Toggle My Account Menu'
-                    })}
-                    className={classes.trigger}
-                    onClick={handleTriggerClick}
-                    data-cy="AccountTrigger-trigger"
-                >
-                    <AccountChip
-                        fallbackText={formatMessage({
-                            id: 'accountTrigger.buttonFallback',
-                            defaultMessage: 'Sign In'
-                        })}
-                        shouldIndicateLoading={true}
-                    />
-                </button>
-            </div>
-            <Suspense fallback={null}>
-                <AccountMenu
-                    ref={accountMenuRef}
-                    accountMenuIsOpen={accountMenuIsOpen}
-                    setAccountMenuIsOpen={setAccountMenuIsOpen}
-                />
-            </Suspense>
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<div className={rootClassName} ref={accountMenuTriggerRef}>
+				<button
+					aria-expanded={accountMenuIsOpen}
+					aria-label={formatMessage({
+						id: 'accountTrigger.ariaLabel',
+						defaultMessage: 'Toggle My Account Menu'
+					})}
+					className={classes.trigger}
+					onClick={handleTriggerClick}
+					data-cy="AccountTrigger-trigger"
+				>
+					<AccountChip
+						fallbackText={formatMessage({
+							id: 'accountTrigger.buttonFallback',
+							defaultMessage: 'Sign In'
+						})}
+						shouldIndicateLoading={true}
+					/>
+				</button>
+			</div>
+			<Suspense fallback={null}>
+				<AccountMenu
+					ref={accountMenuRef}
+					accountMenuIsOpen={accountMenuIsOpen}
+					setAccountMenuIsOpen={setAccountMenuIsOpen}
+				/>
+			</Suspense>
+		</Fragment>
+	);
 };
 
 export default AccountTrigger;
 
 AccountTrigger.propTypes = {
-    classes: shape({
-        root: string,
-        root_open: string,
-        trigger: string
-    })
+	classes: shape({
+		root: string,
+		root_open: string,
+		trigger: string
+	})
 };

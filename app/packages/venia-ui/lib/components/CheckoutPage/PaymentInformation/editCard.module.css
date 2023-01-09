@@ -1,5 +1,5 @@
 .root {
-    composes: overflow-auto from global;
-    composes: px-xs from global;
-    composes: py-2xs from global;
+	composes: overflow-auto from global;
+	composes: px-xs from global;
+	composes: py-2xs from global;
 }

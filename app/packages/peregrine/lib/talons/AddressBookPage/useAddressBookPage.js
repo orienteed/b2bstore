@@ -22,271 +22,246 @@ import { useEventingContext } from '../../context/eventing';
  * import { useAddressBookPage } from '@magento/peregrine/lib/talons/AddressBookPage/useAddressBookPage';
  */
 export const useAddressBookPage = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const {
-        createCustomerAddressMutation,
-        deleteCustomerAddressMutation,
-        getCustomerAddressesQuery,
-        updateCustomerAddressMutation
-    } = operations;
+	const operations = mergeOperations(defaultOperations, props.operations);
+	const {
+		createCustomerAddressMutation,
+		deleteCustomerAddressMutation,
+		getCustomerAddressesQuery,
+		updateCustomerAddressMutation
+	} = operations;
 
-    const [
-        ,
-        {
-            actions: { setPageLoading }
-        }
-    ] = useAppContext();
-    const [{ isSignedIn, currentUser }] = useUserContext();
+	const [
+		,
+		{
+			actions: { setPageLoading }
+		}
+	] = useAppContext();
+	const [{ isSignedIn, currentUser }] = useUserContext();
 
-    const [, { dispatch }] = useEventingContext();
+	const [, { dispatch }] = useEventingContext();
 
-    const { data: customerAddressesData, loading } = useQuery(
-        getCustomerAddressesQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            skip: !isSignedIn
-        }
-    );
-    const [
-        deleteCustomerAddress,
-        { loading: isDeletingCustomerAddress }
-    ] = useMutation(deleteCustomerAddressMutation);
+	const { data: customerAddressesData, loading } = useQuery(getCustomerAddressesQuery, {
+		fetchPolicy: 'cache-and-network',
+		skip: !isSignedIn
+	});
+	const [deleteCustomerAddress, { loading: isDeletingCustomerAddress }] = useMutation(deleteCustomerAddressMutation);
 
-    const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
+	const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
 
-    const isRefetching = !!customerAddressesData && loading;
-    const customerAddresses =
-        (customerAddressesData &&
-            customerAddressesData.customer &&
-            customerAddressesData.customer.addresses) ||
-        [];
+	const isRefetching = !!customerAddressesData && loading;
+	const customerAddresses =
+		(customerAddressesData && customerAddressesData.customer && customerAddressesData.customer.addresses) || [];
 
-    const [
-        createCustomerAddress,
-        {
-            error: createCustomerAddressError,
-            loading: isCreatingCustomerAddress
-        }
-    ] = useMutation(createCustomerAddressMutation);
-    const [
-        updateCustomerAddress,
-        {
-            error: updateCustomerAddressError,
-            loading: isUpdatingCustomerAddress
-        }
-    ] = useMutation(updateCustomerAddressMutation);
+	const [createCustomerAddress, { error: createCustomerAddressError, loading: isCreatingCustomerAddress }] =
+		useMutation(createCustomerAddressMutation);
+	const [updateCustomerAddress, { error: updateCustomerAddressError, loading: isUpdatingCustomerAddress }] =
+		useMutation(updateCustomerAddressMutation);
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [isDialogEditMode, setIsDialogEditMode] = useState(false);
-    const [formAddress, setFormAddress] = useState({});
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [isDialogEditMode, setIsDialogEditMode] = useState(false);
+	const [formAddress, setFormAddress] = useState({});
 
-    // Use local state to determine whether to display errors or not.
-    // Could be replaced by a "reset mutation" function from apollo client.
-    // https://github.com/apollographql/apollo-feature-requests/issues/170
-    const [displayError, setDisplayError] = useState(false);
+	// Use local state to determine whether to display errors or not.
+	// Could be replaced by a "reset mutation" function from apollo client.
+	// https://github.com/apollographql/apollo-feature-requests/issues/170
+	const [displayError, setDisplayError] = useState(false);
 
-    // Update the page indicator if the GraphQL query is in flight.
-    useEffect(() => {
-        setPageLoading(isRefetching);
-    }, [isRefetching, setPageLoading]);
+	// Update the page indicator if the GraphQL query is in flight.
+	useEffect(() => {
+		setPageLoading(isRefetching);
+	}, [isRefetching, setPageLoading]);
 
-    const handleAddAddress = useCallback(() => {
-        // Hide all previous errors when we open the dialog.
-        setDisplayError(false);
+	const handleAddAddress = useCallback(() => {
+		// Hide all previous errors when we open the dialog.
+		setDisplayError(false);
 
-        setIsDialogEditMode(false);
-        setFormAddress({ country_code: DEFAULT_COUNTRY_CODE });
-        setIsDialogOpen(true);
-    }, []);
+		setIsDialogEditMode(false);
+		setFormAddress({ country_code: DEFAULT_COUNTRY_CODE });
+		setIsDialogOpen(true);
+	}, []);
 
-    const handleDeleteAddress = useCallback(addressId => {
-        setConfirmDeleteAddressId(addressId);
-    }, []);
+	const handleDeleteAddress = useCallback(addressId => {
+		setConfirmDeleteAddressId(addressId);
+	}, []);
 
-    const handleCancelDeleteAddress = useCallback(() => {
-        setConfirmDeleteAddressId(null);
-    }, []);
+	const handleCancelDeleteAddress = useCallback(() => {
+		setConfirmDeleteAddressId(null);
+	}, []);
 
-    const handleConfirmDeleteAddress = useCallback(async () => {
-        try {
-            await deleteCustomerAddress({
-                variables: { addressId: confirmDeleteAddressId },
-                refetchQueries: [{ query: getCustomerAddressesQuery }],
-                awaitRefetchQueries: true
-            });
+	const handleConfirmDeleteAddress = useCallback(async () => {
+		try {
+			await deleteCustomerAddress({
+				variables: { addressId: confirmDeleteAddressId },
+				refetchQueries: [{ query: getCustomerAddressesQuery }],
+				awaitRefetchQueries: true
+			});
 
-            dispatch({
-                type: 'USER_ADDRESS_DELETE',
-                payload: {
-                    addressId: confirmDeleteAddressId,
-                    user: currentUser
-                }
-            });
+			dispatch({
+				type: 'USER_ADDRESS_DELETE',
+				payload: {
+					addressId: confirmDeleteAddressId,
+					user: currentUser
+				}
+			});
 
-            setConfirmDeleteAddressId(null);
-        } catch {
-            return;
-        }
-    }, [
-        confirmDeleteAddressId,
-        deleteCustomerAddress,
-        getCustomerAddressesQuery,
-        dispatch,
-        currentUser
-    ]);
+			setConfirmDeleteAddressId(null);
+		} catch {
+			return;
+		}
+	}, [confirmDeleteAddressId, deleteCustomerAddress, getCustomerAddressesQuery, dispatch, currentUser]);
 
-    const handleEditAddress = useCallback(address => {
-        // Hide all previous errors when we open the dialog.
-        setDisplayError(false);
+	const handleEditAddress = useCallback(address => {
+		// Hide all previous errors when we open the dialog.
+		setDisplayError(false);
 
-        setIsDialogEditMode(true);
-        setFormAddress(address);
-        setIsDialogOpen(true);
-    }, []);
+		setIsDialogEditMode(true);
+		setFormAddress(address);
+		setIsDialogOpen(true);
+	}, []);
 
-    const handleCancelDialog = useCallback(() => {
-        setIsDialogOpen(false);
-    }, []);
+	const handleCancelDialog = useCallback(() => {
+		setIsDialogOpen(false);
+	}, []);
 
-    const handleConfirmDialog = useCallback(
-        async formValues => {
-            if (isDialogEditMode) {
-                try {
-                    const address = {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                middlename: formValues.middlename || '',
-                                lastname: 'lastname',
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
-                    };
+	const handleConfirmDialog = useCallback(
+		async formValues => {
+			if (isDialogEditMode) {
+				try {
+					const address = {
+						...formValues,
+						// Sends value as empty if none are provided
+						middlename: formValues.middlename || '',
+						lastname: 'lastname',
+						// Cleans up the street array when values are null or undefined
+						street: formValues.street.filter(e => e)
+					};
 
-                    await updateCustomerAddress({
-                        variables: {
-                            addressId: formAddress.id,
-                            updated_address: address
-                        },
-                        refetchQueries: [{ query: getCustomerAddressesQuery }],
-                        awaitRefetchQueries: true
-                    });
+					await updateCustomerAddress({
+						variables: {
+							addressId: formAddress.id,
+							updated_address: address
+						},
+						refetchQueries: [{ query: getCustomerAddressesQuery }],
+						awaitRefetchQueries: true
+					});
 
-                    dispatch({
-                        type: 'USER_ADDRESS_EDIT',
-                        payload: {
-                            id: formAddress.id,
-                            address: address,
-                            user: currentUser
-                        }
-                    });
+					dispatch({
+						type: 'USER_ADDRESS_EDIT',
+						payload: {
+							id: formAddress.id,
+							address: address,
+							user: currentUser
+						}
+					});
 
-                    setIsDialogOpen(false);
-                } catch {
-                    // Make sure any errors from the mutations are displayed.
-                    setDisplayError(true);
+					setIsDialogOpen(false);
+				} catch {
+					// Make sure any errors from the mutations are displayed.
+					setDisplayError(true);
 
-                    // we have an onError link that logs errors, and FormError
-                    // already renders this error, so just return to avoid
-                    // triggering the success callback
-                    return;
-                }
-            } else {
-                try {
-                    const address = {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                middlename: formValues.middlename || '',
-                                lastname: 'lastname',
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
-                    };
-                    await createCustomerAddress({
-                        variables: {
-                            address
-                        },
-                        refetchQueries: [{ query: getCustomerAddressesQuery }],
-                        awaitRefetchQueries: true
-                    });
+					// we have an onError link that logs errors, and FormError
+					// already renders this error, so just return to avoid
+					// triggering the success callback
+					return;
+				}
+			} else {
+				try {
+					const address = {
+						...formValues,
+						// Sends value as empty if none are provided
+						middlename: formValues.middlename || '',
+						lastname: 'lastname',
+						// Cleans up the street array when values are null or undefined
+						street: formValues.street.filter(e => e)
+					};
+					await createCustomerAddress({
+						variables: {
+							address
+						},
+						refetchQueries: [{ query: getCustomerAddressesQuery }],
+						awaitRefetchQueries: true
+					});
 
-                    dispatch({
-                        type: 'USER_ADDRESS_CREATE',
-                        payload: {
-                            address,
-                            user: currentUser
-                        }
-                    });
+					dispatch({
+						type: 'USER_ADDRESS_CREATE',
+						payload: {
+							address,
+							user: currentUser
+						}
+					});
 
-                    setIsDialogOpen(false);
-                } catch {
-                    // Make sure any errors from the mutations are displayed.
-                    setDisplayError(true);
+					setIsDialogOpen(false);
+				} catch {
+					// Make sure any errors from the mutations are displayed.
+					setDisplayError(true);
 
-                    // we have an onError link that logs errors, and FormError
-                    // already renders this error, so just return to avoid
-                    // triggering the success callback
-                    return;
-                }
-            }
-        },
-        [
-            createCustomerAddress,
-            formAddress,
-            getCustomerAddressesQuery,
-            isDialogEditMode,
-            updateCustomerAddress,
-            dispatch,
-            currentUser
-        ]
-    );
+					// we have an onError link that logs errors, and FormError
+					// already renders this error, so just return to avoid
+					// triggering the success callback
+					return;
+				}
+			}
+		},
+		[
+			createCustomerAddress,
+			formAddress,
+			getCustomerAddressesQuery,
+			isDialogEditMode,
+			updateCustomerAddress,
+			dispatch,
+			currentUser
+		]
+	);
 
-    const formErrors = useMemo(() => {
-        if (displayError) {
-            return new Map([
-                ['createCustomerAddressMutation', createCustomerAddressError],
-                ['updateCustomerAddressMutation', updateCustomerAddressError]
-            ]);
-        } else return new Map();
-    }, [createCustomerAddressError, displayError, updateCustomerAddressError]);
+	const formErrors = useMemo(() => {
+		if (displayError) {
+			return new Map([
+				['createCustomerAddressMutation', createCustomerAddressError],
+				['updateCustomerAddressMutation', updateCustomerAddressError]
+			]);
+		} else return new Map();
+	}, [createCustomerAddressError, displayError, updateCustomerAddressError]);
 
-    // use data from backend until Intl.DisplayNames is widely supported
-    const countryDisplayNameMap = useMemo(() => {
-        const countryMap = new Map();
+	// use data from backend until Intl.DisplayNames is widely supported
+	const countryDisplayNameMap = useMemo(() => {
+		const countryMap = new Map();
 
-        if (customerAddressesData) {
-            const { countries } = customerAddressesData;
-            countries.forEach(country => {
-                countryMap.set(country.id, country.full_name_locale);
-            });
-        }
+		if (customerAddressesData) {
+			const { countries } = customerAddressesData;
+			countries.forEach(country => {
+				countryMap.set(country.id, country.full_name_locale);
+			});
+		}
 
-        return countryMap;
-    }, [customerAddressesData]);
+		return countryMap;
+	}, [customerAddressesData]);
 
-    const isDialogBusy = isCreatingCustomerAddress || isUpdatingCustomerAddress;
-    const isLoadingWithoutData = !customerAddressesData && loading;
+	const isDialogBusy = isCreatingCustomerAddress || isUpdatingCustomerAddress;
+	const isLoadingWithoutData = !customerAddressesData && loading;
 
-    const formProps = {
-        initialValues: formAddress
-    };
+	const formProps = {
+		initialValues: formAddress
+	};
 
-    return {
-        confirmDeleteAddressId,
-        countryDisplayNameMap,
-        customerAddresses,
-        formErrors,
-        formProps,
-        handleAddAddress,
-        handleCancelDeleteAddress,
-        handleCancelDialog,
-        handleConfirmDeleteAddress,
-        handleConfirmDialog,
-        handleDeleteAddress,
-        handleEditAddress,
-        isDeletingCustomerAddress,
-        isDialogBusy,
-        isDialogEditMode,
-        isDialogOpen,
-        isLoading: isLoadingWithoutData
-    };
+	return {
+		confirmDeleteAddressId,
+		countryDisplayNameMap,
+		customerAddresses,
+		formErrors,
+		formProps,
+		handleAddAddress,
+		handleCancelDeleteAddress,
+		handleCancelDialog,
+		handleConfirmDeleteAddress,
+		handleConfirmDialog,
+		handleDeleteAddress,
+		handleEditAddress,
+		isDeletingCustomerAddress,
+		isDialogBusy,
+		isDialogEditMode,
+		isDialogOpen,
+		isLoading: isLoadingWithoutData
+	};
 };
 
 /**

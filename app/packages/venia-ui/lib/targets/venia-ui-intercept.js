@@ -13,63 +13,63 @@ const SummaryPaymentTypes = require('./SummaryPaymentTypes');
 const RootShimmerTypes = require('./RootShimmerTypes');
 
 module.exports = veniaTargets => {
-    const venia = Targetables.using(veniaTargets);
+	const venia = Targetables.using(veniaTargets);
 
-    venia.setSpecialFeatures('cssModules', 'esModules', 'graphqlQueries', 'rootComponents', 'upward', 'i18n');
+	venia.setSpecialFeatures('cssModules', 'esModules', 'graphqlQueries', 'rootComponents', 'upward', 'i18n');
 
-    makeRoutesTarget(venia);
+	makeRoutesTarget(venia);
 
-    const renderers = new RichContentRendererList(venia);
+	const renderers = new RichContentRendererList(venia);
 
-    renderers.add({
-        componentName: 'PlainHtmlRenderer',
-        importPath: './plainHtmlRenderer'
-    });
+	renderers.add({
+		componentName: 'PlainHtmlRenderer',
+		importPath: './plainHtmlRenderer'
+	});
 
-    const checkoutPagePaymentsList = new CheckoutPagePaymentsList(venia);
-    checkoutPagePaymentsList.add({
-        paymentCode: 'braintree',
-        importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/creditCard'
-    });
+	const checkoutPagePaymentsList = new CheckoutPagePaymentsList(venia);
+	checkoutPagePaymentsList.add({
+		paymentCode: 'braintree',
+		importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/creditCard'
+	});
 
-    const savedPaymentTypes = new SavedPaymentTypes(venia);
-    savedPaymentTypes.add({
-        paymentCode: 'braintree',
-        importPath: '@magento/venia-ui/lib/components/SavedPaymentsPage/creditCard'
-    });
+	const savedPaymentTypes = new SavedPaymentTypes(venia);
+	savedPaymentTypes.add({
+		paymentCode: 'braintree',
+		importPath: '@magento/venia-ui/lib/components/SavedPaymentsPage/creditCard'
+	});
 
-    const editablePayments = new EditablePaymentTypes(venia);
-    editablePayments.add({
-        paymentCode: 'braintree',
-        importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/editCard'
-    });
+	const editablePayments = new EditablePaymentTypes(venia);
+	editablePayments.add({
+		paymentCode: 'braintree',
+		importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/editCard'
+	});
 
-    const summaryPagePaymentTypes = new SummaryPaymentTypes(venia);
-    summaryPagePaymentTypes.add({
-        paymentCode: 'braintree',
-        importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/braintreeSummary'
-    });
+	const summaryPagePaymentTypes = new SummaryPaymentTypes(venia);
+	summaryPagePaymentTypes.add({
+		paymentCode: 'braintree',
+		importPath: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/braintreeSummary'
+	});
 
-    new CategoryListProductAttributes(venia);
+	new CategoryListProductAttributes(venia);
 
-    const rootShimmerTypes = new RootShimmerTypes(venia);
-    rootShimmerTypes.add({
-        shimmerType: 'CATEGORY_SHIMMER',
-        importPath: '@magento/venia-ui/lib/RootComponents/Category/categoryContent.shimmer'
-    });
+	const rootShimmerTypes = new RootShimmerTypes(venia);
+	rootShimmerTypes.add({
+		shimmerType: 'CATEGORY_SHIMMER',
+		importPath: '@magento/venia-ui/lib/RootComponents/Category/categoryContent.shimmer'
+	});
 
-    // Intercepts for custom payment methods
-    veniaTargets.of('@magento/venia-ui').checkoutPagePaymentTypes.tap(checkoutPagePaymentTypes =>
-        checkoutPagePaymentTypes.add({
-            paymentCode: 'creditsystem',
-            importPath: '@magento/venia-ui/lib/components/CheckoutPage/CustomerCreditSystem/customerCreditSystem'
-        })
-    );
+	// Intercepts for custom payment methods
+	veniaTargets.of('@magento/venia-ui').checkoutPagePaymentTypes.tap(checkoutPagePaymentTypes =>
+		checkoutPagePaymentTypes.add({
+			paymentCode: 'creditsystem',
+			importPath: '@magento/venia-ui/lib/components/CheckoutPage/CustomerCreditSystem/customerCreditSystem'
+		})
+	);
 
-    veniaTargets.of('@magento/venia-ui').checkoutPagePaymentTypes.tap(checkoutPagePaymentTypes =>
-        checkoutPagePaymentTypes.add({
-            paymentCode: 'banktransfer',
-            importPath: '@magento/venia-ui/lib/components/CheckoutPage/BankTransfer/bankTransfer'
-        })
-    );
+	veniaTargets.of('@magento/venia-ui').checkoutPagePaymentTypes.tap(checkoutPagePaymentTypes =>
+		checkoutPagePaymentTypes.add({
+			paymentCode: 'banktransfer',
+			importPath: '@magento/venia-ui/lib/components/CheckoutPage/BankTransfer/bankTransfer'
+		})
+	);
 };

@@ -11,37 +11,37 @@ import defaultClasses from './quantity.module.css';
  * @deprecated
  */
 const Quantity = props => {
-    const { classes: propClasses, selectLabel, ...restProps } = props;
-    const { formatMessage } = useIntl();
-    const classes = useStyle(defaultClasses, propClasses);
+	const { classes: propClasses, selectLabel, ...restProps } = props;
+	const { formatMessage } = useIntl();
+	const classes = useStyle(defaultClasses, propClasses);
 
-    return (
-        <div className={classes.root}>
-            <Select
-                {...restProps}
-                field="quantity"
-                aria-label={formatMessage({
-                    id: 'productQuantity.label',
-                    defaultMessage: selectLabel
-                })}
-                items={mockData}
-            />
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			<Select
+				{...restProps}
+				field="quantity"
+				aria-label={formatMessage({
+					id: 'productQuantity.label',
+					defaultMessage: selectLabel
+				})}
+				items={mockData}
+			/>
+		</div>
+	);
 };
 Quantity.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    items: arrayOf(
-        shape({
-            value: number
-        })
-    )
+	classes: shape({
+		root: string
+	}),
+	items: arrayOf(
+		shape({
+			value: number
+		})
+	)
 };
 
 Quantity.defaultProps = {
-    selectLabel: "product's quantity"
+	selectLabel: "product's quantity"
 };
 
 export default Quantity;

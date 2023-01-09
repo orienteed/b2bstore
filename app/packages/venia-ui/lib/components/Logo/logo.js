@@ -15,15 +15,15 @@ import logo from './B2BStoreLogo.svg';
  * @returns {React.Element} A React component that displays a logo.
  */
 const Logo = props => {
-    const { height, width } = props;
-    const classes = useStyle({}, props.classes);
-    const { formatMessage } = useIntl();
+	const { height, width } = props;
+	const classes = useStyle({}, props.classes);
+	const { formatMessage } = useIntl();
 
-    const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
+	const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
 
-    return (
-        <Image classes={{ image: classes.logo }} height={height} src={logo} alt={title} title={title} width={width} />
-    );
+	return (
+		<Image classes={{ image: classes.logo }} height={height} src={logo} alt={title} title={title} width={width} />
+	);
 };
 
 /**
@@ -37,16 +37,16 @@ const Logo = props => {
  * @property {number} [width=102] Width of the logo.
  */
 Logo.propTypes = {
-    classes: PropTypes.shape({
-        logo: PropTypes.string
-    }),
-    height: PropTypes.number,
-    width: PropTypes.number
+	classes: PropTypes.shape({
+		logo: PropTypes.string
+	}),
+	height: PropTypes.number,
+	width: PropTypes.number
 };
 
 Logo.defaultProps = {
-    height: 48,
-    width: 144
+	height: 48,
+	width: 144
 };
 
 export default Logo;

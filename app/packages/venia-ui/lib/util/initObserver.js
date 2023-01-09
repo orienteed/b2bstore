@@ -5,10 +5,12 @@
  * @param {GeneratorFunction} fn
  * @returns {function}
  */
-const initObserver = fn => (...args) => {
-    const obj = fn(...args);
-    obj.next();
-    return obj;
-};
+const initObserver =
+	fn =>
+	(...args) => {
+		const obj = fn(...args);
+		obj.next();
+		return obj;
+	};
 
 export default initObserver;

@@ -16,15 +16,15 @@ import defaultClasses from './googleReCaptcha.module.css';
  * @returns {React.Element} A React component that displays a container to be used by the useGoogleReCaptcha hook.
  */
 const GoogleReCaptcha = props => {
-    const { containerElement = () => {}, shouldRender = false } = props;
-    const classes = useStyle(defaultClasses, props.classes);
+	const { containerElement = () => {}, shouldRender = false } = props;
+	const classes = useStyle(defaultClasses, props.classes);
 
-    // Do not display if position is not inline
-    if (!shouldRender) {
-        return null;
-    }
+	// Do not display if position is not inline
+	if (!shouldRender) {
+		return null;
+	}
 
-    return <div ref={containerElement} className={classes.root} />;
+	return <div ref={containerElement} className={classes.root} />;
 };
 
 /**
@@ -39,11 +39,11 @@ const GoogleReCaptcha = props => {
  * @property {Boolean} shouldRender Checks if component should be rendered
  */
 GoogleReCaptcha.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    containerElement: func.isRequired,
-    shouldRender: bool.isRequired
+	classes: shape({
+		root: string
+	}),
+	containerElement: func.isRequired,
+	shouldRender: bool.isRequired
 };
 
 export default GoogleReCaptcha;

@@ -1,45 +1,45 @@
 .root {
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: justify-items-stretch from global;
-    composes: px-sm from global;
-    composes: py-xs from global;
+	composes: gap-xs from global;
+	composes: grid from global;
+	composes: justify-items-stretch from global;
+	composes: px-sm from global;
+	composes: py-xs from global;
 }
 
 .message {
-    composes: bg-subtle from global;
-    composes: leading-tight from global;
-    composes: p-xs from global;
-    composes: rounded from global;
-    composes: text-sm from global;
+	composes: bg-subtle from global;
+	composes: leading-tight from global;
+	composes: p-xs from global;
+	composes: rounded from global;
+	composes: text-sm from global;
 }
 
 /* TODO @TW: cannot compose */
 .message:empty {
-    display: none;
+	display: none;
 }
 
 .actions {
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: grid-flow-row from global;
-    composes: justify-center from global;
-    composes: mt-xs from global;
-    composes: text-center from global;
+	composes: gap-xs from global;
+	composes: grid from global;
+	composes: grid-flow-row from global;
+	composes: justify-center from global;
+	composes: mt-xs from global;
+	composes: text-center from global;
 
-    composes: lg_grid-flow-col from global;
+	composes: lg_grid-flow-col from global;
 }
 
 .cancelButton {
-    composes: root_normalPriority from '../Button/button.module.css';
+	composes: root_normalPriority from '../Button/button.module.css';
 }
 
 .submitButton {
-    composes: root_highPriority from '../Button/button.module.css';
+	composes: root_highPriority from '../Button/button.module.css';
 
-    composes: col-start-auto from global;
+	composes: col-start-auto from global;
 
-    composes: lg_col-start-2 from global;
+	composes: lg_col-start-2 from global;
 }
 
 /* .subscribe {
@@ -47,11 +47,11 @@
 } */
 
 .last_name {
-    display: none;
+	display: none;
 }
 
 .title {
-    composes: capitalize from global;
-    composes: pt-2xs from global;
-    composes: text-lg from global;
+	composes: capitalize from global;
+	composes: pt-2xs from global;
+	composes: text-lg from global;
 }

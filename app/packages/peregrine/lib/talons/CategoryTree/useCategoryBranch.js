@@ -11,15 +11,15 @@ import { useCallback } from 'react';
  * @return {{ exclude: boolean, handleClick: function }}
  */
 export const useCategoryBranch = props => {
-    const { category, setCategoryId } = props;
-    const { uid: id, include_in_menu } = category;
+	const { category, setCategoryId } = props;
+	const { uid: id, include_in_menu } = category;
 
-    // `include_in_menu` is undefined when Magento <= 2.3.1
-    const exclude = include_in_menu === 0;
+	// `include_in_menu` is undefined when Magento <= 2.3.1
+	const exclude = include_in_menu === 0;
 
-    const handleClick = useCallback(() => {
-        setCategoryId(id);
-    }, [id, setCategoryId]);
+	const handleClick = useCallback(() => {
+		setCategoryId(id);
+	}, [id, setCategoryId]);
 
-    return { exclude, handleClick };
+	return { exclude, handleClick };
 };

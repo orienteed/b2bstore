@@ -10,38 +10,38 @@ import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import defaultClasses from './createAccountPage.module.css';
 
 const CreateAccountPage = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const { createAccountProps } = useCreateAccountPage(props);
-    const { formatMessage } = useIntl();
+	const classes = useStyle(defaultClasses, props.classes);
+	const { createAccountProps } = useCreateAccountPage(props);
+	const { formatMessage } = useIntl();
 
-    return (
-        <div className={classes.root}>
-            <StoreTitle>
-                {formatMessage({
-                    id: 'createAccountPage.title',
-                    defaultMessage: 'Create an Account'
-                })}
-            </StoreTitle>
-            <div className={classes.contentContainer}>
-                <CreateAccount {...createAccountProps} />
-            </div>
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			<StoreTitle>
+				{formatMessage({
+					id: 'createAccountPage.title',
+					defaultMessage: 'Create an Account'
+				})}
+			</StoreTitle>
+			<div className={classes.contentContainer}>
+				<CreateAccount {...createAccountProps} />
+			</div>
+		</div>
+	);
 };
 
 CreateAccountPage.defaultProps = {
-    signedInRedirectUrl: '/',
-    signInPageUrl: '/sign-in'
+	signedInRedirectUrl: '/',
+	signInPageUrl: '/sign-in'
 };
 
 CreateAccountPage.propTypes = {
-    classes: shape({
-        root: string,
-        header: string,
-        contentContainer: string
-    }),
-    signedInRedirectUrl: string,
-    signInPageUrl: string
+	classes: shape({
+		root: string,
+		header: string,
+		contentContainer: string
+	}),
+	signedInRedirectUrl: string,
+	signInPageUrl: string
 };
 
 export default CreateAccountPage;

@@ -1,16 +1,16 @@
 @import './tokens.module.css';
 
 :global(*) {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 :global(html) {
-    background-color: rgb(var(--venia-global-color-gray-50));
-    font-size: 100%;
-    font-weight: var(--venia-global-fontWeight-normal);
-    line-height: var(--venia-global-lineHeight-100);
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
+	background-color: rgb(var(--venia-global-color-gray-50));
+	font-size: 100%;
+	font-weight: var(--venia-global-fontWeight-normal);
+	line-height: var(--venia-global-lineHeight-100);
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
 }
 
 /*
@@ -28,17 +28,17 @@
 :global(input),
 :global(select),
 :global(textarea) {
-    color: rgb(var(--venia-global-color-text));
-    font-family: var(--b2bstore-font-family);
+	color: rgb(var(--venia-global-color-text));
+	font-family: var(--b2bstore-font-family);
 }
 
 :global(*) {
-    font-family: var(--b2bstore-font-family);
+	font-family: var(--b2bstore-font-family);
 }
 :global(body) {
-    background-color: rgb(var(--venia-global-color-gray-50));
-    margin: 0;
-    padding: 0;
+	background-color: rgb(var(--venia-global-color-gray-50));
+	margin: 0;
+	padding: 0;
 }
 
 :global(h1),
@@ -47,65 +47,67 @@
 :global(h4),
 :global(h5),
 :global(h6) {
-    font-size: var(--venia-global-fontSize-200);
-    font-weight: var(--venia-global-fontWeight-normal);
-    margin: 0;
+	font-size: var(--venia-global-fontSize-200);
+	font-weight: var(--venia-global-fontWeight-normal);
+	margin: 0;
 }
 
 :global(h1) {
-    font-size: var(--venia-global-fontSize-600);
+	font-size: var(--venia-global-fontSize-600);
 }
 
 :global(h2) {
-    font-size: var(--venia-global-fontSize-400);
+	font-size: var(--venia-global-fontSize-400);
 }
 
 :global(a) {
-    color: currentColor;
-    text-decoration: none;
+	color: currentColor;
+	text-decoration: none;
 }
 
 :global(p) {
-    margin: 0;
+	margin: 0;
 }
 
 :global(dl),
 :global(ol),
 :global(ul) {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 
 :global(dd),
 :global(dt) {
-    margin: 0;
+	margin: 0;
 }
 
 :global(button) {
-    background: none;
-    border: 0;
-    cursor: pointer;
-    font-size: 100%;
-    padding: 0;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-appearance: none;
+	background: none;
+	border: 0;
+	cursor: pointer;
+	font-size: 100%;
+	padding: 0;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-appearance: none;
 }
 
 :global(button:disabled) {
-    cursor: default;
-    touch-action: none;
+	cursor: default;
+	touch-action: none;
 }
 
-:global(.braintree-sheet__content--form
-        .braintree-form__field-group
-        .braintree-form__field
-        .braintree-form__hosted-field
-        input.braintree-form__raw-input) {
-    color: #8f8f8f !important;
+:global(
+		.braintree-sheet__content--form
+			.braintree-form__field-group
+			.braintree-form__field
+			.braintree-form__hosted-field
+			input.braintree-form__raw-input
+	) {
+	color: #8f8f8f !important;
 }
 
 :global(.braintree-sheet__content--form .braintree-form__field-group .braintree-form__descriptor) {
-    color: #757575 !important;
+	color: #757575 !important;
 }

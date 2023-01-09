@@ -11,7 +11,7 @@ import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import DEFAULT_OPERATIONS from './createAccount.gql';
 import { useEventingContext } from '../../context/eventing';
 
-import doCsrLogin from   '@magento/peregrine/lib/RestApi/Csr/auth/login';
+import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login';
 import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login';
 
 /**
@@ -31,180 +31,184 @@ import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login';
  * import { useForgotPassword } from '@magento/peregrine/lib/talons/CreateAccount/useCreateAccount.js';
  */
 export const useCreateAccount = props => {
-    const { initialValues = {}, onSubmit, onCancel } = props;
+	const { initialValues = {}, onSubmit, onCancel } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        createAccountMutation,
-        createCartMutation,
-        getCartDetailsQuery,
-        getCustomerQuery,
-        mergeCartsMutation,
-        signInMutation
-    } = operations;
-    const apolloClient = useApolloClient();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [{ cartId }, { createCart, removeCart, getCartDetails }] = useCartContext();
-    const [{ isGettingDetails }, { getUserDetails, setToken }] = useUserContext();
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const {
+		createAccountMutation,
+		createCartMutation,
+		getCartDetailsQuery,
+		getCustomerQuery,
+		mergeCartsMutation,
+		signInMutation
+	} = operations;
+	const apolloClient = useApolloClient();
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [{ cartId }, { createCart, removeCart, getCartDetails }] = useCartContext();
+	const [{ isGettingDetails }, { getUserDetails, setToken }] = useUserContext();
 
-    const [, { dispatch }] = useEventingContext();
+	const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+	const [fetchCartId] = useMutation(createCartMutation);
 
-    const [mergeCarts] = useMutation(mergeCartsMutation);
+	const [mergeCarts] = useMutation(mergeCartsMutation);
 
-    // For create account and sign in mutations, we don't want to cache any
-    // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
-    const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
-        fetchPolicy: 'no-cache'
-    });
+	// For create account and sign in mutations, we don't want to cache any
+	// personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
+	const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
+		fetchPolicy: 'no-cache'
+	});
 
-    const [signIn, { error: signInError }] = useMutation(signInMutation, {
-        fetchPolicy: 'no-cache'
-    });
+	const [signIn, { error: signInError }] = useMutation(signInMutation, {
+		fetchPolicy: 'no-cache'
+	});
 
-    const fetchUserDetails = useAwaitQuery(getCustomerQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
+	const fetchUserDetails = useAwaitQuery(getCustomerQuery);
+	const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
-    const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
-        currentForm: 'CUSTOMER_CREATE',
-        formAction: 'createAccount'
-    });
+	const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
+		currentForm: 'CUSTOMER_CREATE',
+		formAction: 'createAccount'
+	});
 
-    const handleCancel = useCallback(() => {
-        onCancel();
-    }, [onCancel]);
+	const handleCancel = useCallback(() => {
+		onCancel();
+	}, [onCancel]);
 
-    const handleSubmit = useCallback(
-        async formValues => {
-            setIsSubmitting(true);
-            try {
-                // Get source cart id (guest cart id).
-                const sourceCartId = cartId;
+	const handleSubmit = useCallback(
+		async formValues => {
+			setIsSubmitting(true);
+			try {
+				// Get source cart id (guest cart id).
+				const sourceCartId = cartId;
 
-                // Get reCaptchaV3 Data for createAccount mutation
-                const recaptchaDataForCreateAccount = await generateReCaptchaData();
+				// Get reCaptchaV3 Data for createAccount mutation
+				const recaptchaDataForCreateAccount = await generateReCaptchaData();
 
-                // Create the account and then sign in.
-                await createAccount({
-                    variables: {
-                        email: formValues.customer.email,
-                        firstname: formValues.customer.firstname,
-                        lastname: formValues.customer.lastname,
-                        password: formValues.password,
-                        is_subscribed: !!formValues.subscribe
-                    },
-                    ...recaptchaDataForCreateAccount
-                });
+				// Create the account and then sign in.
+				await createAccount({
+					variables: {
+						email: formValues.customer.email,
+						firstname: formValues.customer.firstname,
+						lastname: formValues.customer.lastname,
+						password: formValues.password,
+						is_subscribed: !!formValues.subscribe
+					},
+					...recaptchaDataForCreateAccount
+				});
 
-                dispatch({
-                    type: 'USER_CREATE_ACCOUNT',
-                    payload: {
-                        email: formValues.customer.email,
-                        firstName: formValues.customer.firstname,
-                        lastName: formValues.customer.lastname,
-                        isSubscribed: !!formValues.subscribe
-                    }
-                });
+				dispatch({
+					type: 'USER_CREATE_ACCOUNT',
+					payload: {
+						email: formValues.customer.email,
+						firstName: formValues.customer.firstname,
+						lastName: formValues.customer.lastname,
+						isSubscribed: !!formValues.subscribe
+					}
+				});
 
-                // Get reCaptchaV3 Data for signIn mutation
-                const recaptchaDataForSignIn = await generateReCaptchaData();
+				// Get reCaptchaV3 Data for signIn mutation
+				const recaptchaDataForSignIn = await generateReCaptchaData();
 
-                const signInResponse = await signIn({
-                    variables: {
-                        email: formValues.customer.email,
-                        password: formValues.password
-                    },
-                    ...recaptchaDataForSignIn
-                });
-                const token = signInResponse.data.generateCustomerToken.token;
-                await setToken(token);
+				const signInResponse = await signIn({
+					variables: {
+						email: formValues.customer.email,
+						password: formValues.password
+					},
+					...recaptchaDataForSignIn
+				});
+				const token = signInResponse.data.generateCustomerToken.token;
+				await setToken(token);
 
-                // LMS logic
-                process.env.LMS_ENABLED === 'true' && doLmsLogin(formValues.password);
+				// LMS logic
+				process.env.LMS_ENABLED === 'true' && doLmsLogin(formValues.password);
 
-                // CSR logic
-                process.env.CSR_ENABLED === 'true' && doCsrLogin();
+				// CSR logic
+				process.env.CSR_ENABLED === 'true' && doCsrLogin();
 
-                // Clear all cart/customer data from cache and redux.
-                await apolloClient.clearCacheData(apolloClient, 'cart');
-                await apolloClient.clearCacheData(apolloClient, 'customer');
-                await removeCart();
+				// Clear all cart/customer data from cache and redux.
+				await apolloClient.clearCacheData(apolloClient, 'cart');
+				await apolloClient.clearCacheData(apolloClient, 'customer');
+				await removeCart();
 
-                // Create and get the customer's cart id.
-                await createCart({
-                    fetchCartId
-                });
-                const destinationCartId = await retrieveCartId();
+				// Create and get the customer's cart id.
+				await createCart({
+					fetchCartId
+				});
+				const destinationCartId = await retrieveCartId();
 
-                // Merge the guest cart into the customer cart.
-                await mergeCarts({
-                    variables: {
-                        destinationCartId,
-                        sourceCartId
-                    }
-                });
+				// Merge the guest cart into the customer cart.
+				await mergeCarts({
+					variables: {
+						destinationCartId,
+						sourceCartId
+					}
+				});
 
-                // Ensure old stores are updated with any new data.
-                await getUserDetails({ fetchUserDetails });
-                await getCartDetails({
-                    fetchCartId,
-                    fetchCartDetails
-                });
+				// Ensure old stores are updated with any new data.
+				await getUserDetails({ fetchUserDetails });
+				await getCartDetails({
+					fetchCartId,
+					fetchCartDetails
+				});
 
-                // Finally, invoke the post-submission callback.
-                if (onSubmit) {
-                    onSubmit();
-                }
-            } catch (error) {
-                if (process.env.NODE_ENV !== 'production') {
-                    console.error(error);
-                }
-                setIsSubmitting(false);
-            }
-        },
-        [
-            apolloClient,
-            cartId,
-            createAccount,
-            createCart,
-            dispatch,
-            fetchCartDetails,
-            fetchCartId,
-            fetchUserDetails,
-            generateReCaptchaData,
-            getCartDetails,
-            getUserDetails,
-            mergeCarts,
-            onSubmit,
-            removeCart,
-            setToken,
-            signIn
-        ]
-    );
+				// Finally, invoke the post-submission callback.
+				if (onSubmit) {
+					onSubmit();
+				}
+			} catch (error) {
+				if (process.env.NODE_ENV !== 'production') {
+					console.error(error);
+				}
+				setIsSubmitting(false);
+			}
+		},
+		[
+			apolloClient,
+			cartId,
+			createAccount,
+			createCart,
+			dispatch,
+			fetchCartDetails,
+			fetchCartId,
+			fetchUserDetails,
+			generateReCaptchaData,
+			getCartDetails,
+			getUserDetails,
+			mergeCarts,
+			onSubmit,
+			removeCart,
+			setToken,
+			signIn
+		]
+	);
 
-    const sanitizedInitialValues = useMemo(() => {
-        const { email, firstName, lastName, ...rest } = initialValues;
+	const sanitizedInitialValues = useMemo(() => {
+		const { email, firstName, lastName, ...rest } = initialValues;
 
-        return {
-            customer: { email, firstname: firstName, lastname: lastName },
-            ...rest
-        };
-    }, [initialValues]);
+		return {
+			customer: { email, firstname: firstName, lastname: lastName },
+			...rest
+		};
+	}, [initialValues]);
 
-    const errors = useMemo(
-        () => new Map([['createAccountQuery', createAccountError], ['signInMutation', signInError]]),
-        [createAccountError, signInError]
-    );
+	const errors = useMemo(
+		() =>
+			new Map([
+				['createAccountQuery', createAccountError],
+				['signInMutation', signInError]
+			]),
+		[createAccountError, signInError]
+	);
 
-    return {
-        errors,
-        handleCancel,
-        handleSubmit,
-        initialValues: sanitizedInitialValues,
-        isDisabled: isSubmitting || isGettingDetails || recaptchaLoading,
-        recaptchaWidgetProps
-    };
+	return {
+		errors,
+		handleCancel,
+		handleSubmit,
+		initialValues: sanitizedInitialValues,
+		isDisabled: isSubmitting || isGettingDetails || recaptchaLoading,
+		recaptchaWidgetProps
+	};
 };
 
 /** JSDocs type definitions */

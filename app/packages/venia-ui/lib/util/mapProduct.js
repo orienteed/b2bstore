@@ -9,18 +9,16 @@
  * @returns {MappedProduct} a clone of the incoming product with backwards compatible fields.
  */
 const mapProduct = product => {
-    const { description, small_image } = product;
+	const { description, small_image } = product;
 
-    const newDescription =
-        typeof description === 'object' ? description.html : description;
-    const newSmallImage =
-        typeof small_image === 'object' ? small_image.url : small_image;
+	const newDescription = typeof description === 'object' ? description.html : description;
+	const newSmallImage = typeof small_image === 'object' ? small_image.url : small_image;
 
-    return {
-        ...product,
-        description: newDescription,
-        small_image: newSmallImage
-    };
+	return {
+		...product,
+		description: newDescription,
+		small_image: newSmallImage
+	};
 };
 
 export default mapProduct;

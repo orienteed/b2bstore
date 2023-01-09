@@ -1,3 +1,3 @@
 module.exports = {
-    MockBabelNodePath: require('./MockBabelNodePath')
+	MockBabelNodePath: require('./MockBabelNodePath')
 };

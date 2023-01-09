@@ -13,55 +13,41 @@ import { useCommonToasts } from './useCommonToasts';
 const StarIcon = <Icon size={20} src={Star} />;
 
 const AddToListButton = props => {
-    const buttonRef = useRef();
-    const talonProps = useAddToListButton(props);
-    const {
-        buttonProps,
-        buttonText,
-        errorToastProps,
-        isSelected,
-        loginToastProps,
-        modalProps,
-        successToastProps
-    } = talonProps;
+	const buttonRef = useRef();
+	const talonProps = useAddToListButton(props);
+	const { buttonProps, buttonText, errorToastProps, isSelected, loginToastProps, modalProps, successToastProps } =
+		talonProps;
 
-    useCommonToasts({ errorToastProps, loginToastProps, successToastProps });
-    const { buttonProps: buttonAriaProps } = useButton(buttonProps, buttonRef);
+	useCommonToasts({ errorToastProps, loginToastProps, successToastProps });
+	const { buttonProps: buttonAriaProps } = useButton(buttonProps, buttonRef);
 
-    const multipleWishlistDialog = modalProps ? (
-        <WishlistDialog {...modalProps} />
-    ) : null;
+	const multipleWishlistDialog = modalProps ? <WishlistDialog {...modalProps} /> : null;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const buttonClass = isSelected ? classes.root_selected : classes.root;
+	const classes = useStyle(defaultClasses, props.classes);
+	const buttonClass = isSelected ? classes.root_selected : classes.root;
 
-    return (
-        <Fragment>
-            <button
-                ref={buttonRef}
-                className={buttonClass}
-                {...buttonAriaProps}
-                data-cy="addToListButton-root"
-            >
-                {props.icon} {buttonText}
-            </button>
-            {multipleWishlistDialog}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<button ref={buttonRef} className={buttonClass} {...buttonAriaProps} data-cy="addToListButton-root">
+				{props.icon} {buttonText}
+			</button>
+			{multipleWishlistDialog}
+		</Fragment>
+	);
 };
 
 export default AddToListButton;
 
 AddToListButton.defaultProps = {
-    icon: StarIcon
+	icon: StarIcon
 };
 
 AddToListButton.propTypes = {
-    afterAdd: func,
-    beforeAdd: func,
-    classes: shape({
-        root: string,
-        root_selected: string
-    }),
-    icon: element
+	afterAdd: func,
+	beforeAdd: func,
+	classes: shape({
+		root: string,
+		root_selected: string
+	}),
+	icon: element
 };

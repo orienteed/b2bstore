@@ -7,8 +7,8 @@ import { useStyle } from '../../../classify';
 const MINUS_SYMBOL = '-';
 
 const DEFAULT_AMOUNT = {
-    currency: 'USD',
-    value: 0
+	currency: 'USD',
+	value: 0
 };
 
 /**
@@ -17,17 +17,14 @@ const DEFAULT_AMOUNT = {
  * @param {Array} cards
  */
 const getGiftCards = (cards = []) => {
-    if (!cards.length) {
-        return DEFAULT_AMOUNT;
-    } else {
-        return {
-            currency: cards[0].applied_balance.currency,
-            value: cards.reduce(
-                (acc, card) => acc + card.applied_balance.value,
-                0
-            )
-        };
-    }
+	if (!cards.length) {
+		return DEFAULT_AMOUNT;
+	} else {
+		return {
+			currency: cards[0].applied_balance.currency,
+			value: cards.reduce((acc, card) => acc + card.applied_balance.value, 0)
+		};
+	}
 };
 
 /**
@@ -37,24 +34,18 @@ const getGiftCards = (cards = []) => {
  * @param {Object} props.data fragment response data
  */
 export default props => {
-    const classes = useStyle({}, props.classes);
-    const cards = getGiftCards(props.data);
+	const classes = useStyle({}, props.classes);
+	const cards = getGiftCards(props.data);
 
-    return cards.value ? (
-        <Fragment>
-            <span
-                className={classes.lineItemLabel}
-                data-cy="PriceSummary-GiftCardSummary-label"
-            >
-                <FormattedMessage
-                    id={'giftCardSummary.lineItemLabel'}
-                    defaultMessage={'Gift Card(s) applied'}
-                />
-            </span>
-            <span className={classes.price}>
-                {MINUS_SYMBOL}
-                <Price value={cards.value} currencyCode={cards.currency} />
-            </span>
-        </Fragment>
-    ) : null;
+	return cards.value ? (
+		<Fragment>
+			<span className={classes.lineItemLabel} data-cy="PriceSummary-GiftCardSummary-label">
+				<FormattedMessage id={'giftCardSummary.lineItemLabel'} defaultMessage={'Gift Card(s) applied'} />
+			</span>
+			<span className={classes.price}>
+				{MINUS_SYMBOL}
+				<Price value={cards.value} currencyCode={cards.currency} />
+			</span>
+		</Fragment>
+	) : null;
 };

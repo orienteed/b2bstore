@@ -16,91 +16,91 @@ import { useQuoteProduct } from '@magento/peregrine/lib/talons/RequestQuote/Quot
 const IMAGE_SIZE = 100;
 
 const QuoteProduct = props => {
-    const { item, setActiveEditItem, setIsCartUpdating } = props;
+	const { item, setActiveEditItem, setIsCartUpdating } = props;
 
-    const { id, qty, product, prices, configurable_options } = item;
+	const { id, qty, product, prices, configurable_options } = item;
 
-    const talonProps = useQuoteProduct({
-        item,
-        setActiveEditItem,
-        setIsCartUpdating
-    });
+	const talonProps = useQuoteProduct({
+		item,
+		setActiveEditItem,
+		setIsCartUpdating
+	});
 
-    const { handleRemoveFromCart, handleUpdateItemQuantity } = talonProps;
+	const { handleRemoveFromCart, handleUpdateItemQuantity } = talonProps;
 
-    const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const itemLink = useMemo(() => resourceUrl('/' + product.url_key + product.url_suffix), [product]);
+	const itemLink = useMemo(() => resourceUrl('/' + product.url_key + product.url_suffix), [product]);
 
-    return (
-        <li className={classes.root}>
-            <div className={classes.item}>
-                <Link to={itemLink} className={classes.imageContainer}>
-                    <Image
-                        classes={{
-                            root: classes.imageRoot,
-                            image: classes.image
-                        }}
-                        alt={product.name}
-                        width={IMAGE_SIZE}
-                        src={product.thumbnail.url}
-                    />
-                </Link>
-                <div className={classes.details}>
-                    <div className={classes.name}>
-                        <Link to={itemLink}>
-                            <FormattedMessage id={'quoteProduct.productName'} defaultMessage={product.name} />
-                        </Link>
-                    </div>
-                    <QuoteProductOptions
-                        options={configurable_options}
-                        classes={{
-                            options: classes.options,
-                            optionLabel: classes.optionLabel
-                        }}
-                    />
-                    <div className={classes.priceBox}>
-                        <span className={classes.priceLabel}>
-                            <FormattedMessage id={'quoteProduct.originalPrice'} defaultMessage={'Original Price : '} />
-                        </span>
-                        <span className={classes.price}>
-                            <Price currencyCode={prices.row_total.currency} value={prices.row_total.value} />
-                        </span>
-                    </div>
-                    <div className={classes.priceBox}>
-                        <span className={classes.priceLabel}>
-                            <FormattedMessage id={'quoteProduct.quotePrice'} defaultMessage={'Quote Price : '} />
-                        </span>
-                        <span className={classes.price}>
-                            <Price currencyCode={prices.row_total.currency} value={prices.row_total.value} />
-                        </span>
-                    </div>
-                    <div className={classes.quantity}>
-                        <QuoteQuantity itemId={id} initialValue={qty} onChange={handleUpdateItemQuantity} />
-                    </div>
-                </div>
-                <Kebab
-                    classes={{
-                        root: classes.kebab
-                    }}
-                >
-                    <Section
-                        text={formatMessage({
-                            id: 'quoteProduct.removeFromQuoteCart',
-                            defaultMessage: 'Remove from Quote cart'
-                        })}
-                        onClick={handleRemoveFromCart}
-                        icon="Trash"
-                        classes={{
-                            text: classes.sectionText
-                        }}
-                    />
-                </Kebab>
-            </div>
-        </li>
-    );
+	return (
+		<li className={classes.root}>
+			<div className={classes.item}>
+				<Link to={itemLink} className={classes.imageContainer}>
+					<Image
+						classes={{
+							root: classes.imageRoot,
+							image: classes.image
+						}}
+						alt={product.name}
+						width={IMAGE_SIZE}
+						src={product.thumbnail.url}
+					/>
+				</Link>
+				<div className={classes.details}>
+					<div className={classes.name}>
+						<Link to={itemLink}>
+							<FormattedMessage id={'quoteProduct.productName'} defaultMessage={product.name} />
+						</Link>
+					</div>
+					<QuoteProductOptions
+						options={configurable_options}
+						classes={{
+							options: classes.options,
+							optionLabel: classes.optionLabel
+						}}
+					/>
+					<div className={classes.priceBox}>
+						<span className={classes.priceLabel}>
+							<FormattedMessage id={'quoteProduct.originalPrice'} defaultMessage={'Original Price : '} />
+						</span>
+						<span className={classes.price}>
+							<Price currencyCode={prices.row_total.currency} value={prices.row_total.value} />
+						</span>
+					</div>
+					<div className={classes.priceBox}>
+						<span className={classes.priceLabel}>
+							<FormattedMessage id={'quoteProduct.quotePrice'} defaultMessage={'Quote Price : '} />
+						</span>
+						<span className={classes.price}>
+							<Price currencyCode={prices.row_total.currency} value={prices.row_total.value} />
+						</span>
+					</div>
+					<div className={classes.quantity}>
+						<QuoteQuantity itemId={id} initialValue={qty} onChange={handleUpdateItemQuantity} />
+					</div>
+				</div>
+				<Kebab
+					classes={{
+						root: classes.kebab
+					}}
+				>
+					<Section
+						text={formatMessage({
+							id: 'quoteProduct.removeFromQuoteCart',
+							defaultMessage: 'Remove from Quote cart'
+						})}
+						onClick={handleRemoveFromCart}
+						icon="Trash"
+						classes={{
+							text: classes.sectionText
+						}}
+					/>
+				</Kebab>
+			</div>
+		</li>
+	);
 };
 
 export default QuoteProduct;

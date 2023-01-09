@@ -19,26 +19,21 @@ import defaultOperations from './summary.gql';
  * }
  */
 export const useSummary = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
+	const operations = mergeOperations(defaultOperations, props.operations);
 
-    const { getSummaryData } = operations;
+	const { getSummaryData } = operations;
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    const { data: summaryData, loading: summaryDataLoading } = useQuery(
-        getSummaryData,
-        {
-            skip: !cartId,
-            variables: { cartId }
-        }
-    );
+	const { data: summaryData, loading: summaryDataLoading } = useQuery(getSummaryData, {
+		skip: !cartId,
+		variables: { cartId }
+	});
 
-    const selectedPaymentMethod = summaryData
-        ? summaryData.cart.selected_payment_method
-        : null;
+	const selectedPaymentMethod = summaryData ? summaryData.cart.selected_payment_method : null;
 
-    return {
-        isLoading: summaryDataLoading,
-        selectedPaymentMethod
-    };
+	return {
+		isLoading: summaryDataLoading,
+		selectedPaymentMethod
+	};
 };

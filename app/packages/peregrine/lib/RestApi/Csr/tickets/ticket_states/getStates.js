@@ -1,14 +1,14 @@
 import { Magento2 } from '@magento/peregrine/lib/RestApi';
 
 const getStates = async () => {
-    const { request } = Magento2;
+	const { request } = Magento2;
 
-    const reply = await request('/csr/api/v1/ticket_states/', {
-        method: 'GET',
-        credentials: 'include'
-    });
+	const reply = await request('/csr/api/v1/ticket_states/', {
+		method: 'GET',
+		credentials: 'include'
+	});
 
-    return reply;
+	return reply;
 };
 
 export default getStates;

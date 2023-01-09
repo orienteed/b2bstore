@@ -18,40 +18,37 @@ import ProductShimmer from './product.shimmer';
  */
 
 const Product = props => {
-    const { __typename: productType } = props;
-    const talonProps = useProduct({
-        mapProduct
-    });
+	const { __typename: productType } = props;
+	const talonProps = useProduct({
+		mapProduct
+	});
 
-    const { error, loading, product } = talonProps;
+	const { error, loading, product } = talonProps;
 
-    if (loading && !product)
-        return <ProductShimmer productType={productType} />;
-    if (error && !product) return <ErrorView />;
-    if (!product) {
-        return (
-            <h1>
-                <FormattedMessage
-                    id={'product.outOfStockTryAgain'}
-                    defaultMessage={
-                        'This Product is currently out of stock. Please try again later.'
-                    }
-                />
-            </h1>
-        );
-    }
+	if (loading && !product) return <ProductShimmer productType={productType} />;
+	if (error && !product) return <ErrorView />;
+	if (!product) {
+		return (
+			<h1>
+				<FormattedMessage
+					id={'product.outOfStockTryAgain'}
+					defaultMessage={'This Product is currently out of stock. Please try again later.'}
+				/>
+			</h1>
+		);
+	}
 
-    return (
-        <Fragment>
-            <StoreTitle>{product.name}</StoreTitle>
-            <Meta name="description" content={product.meta_description} />
-            <ProductFullDetail product={product} />
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<StoreTitle>{product.name}</StoreTitle>
+			<Meta name="description" content={product.meta_description} />
+			<ProductFullDetail product={product} />
+		</Fragment>
+	);
 };
 
 Product.propTypes = {
-    __typename: string.isRequired
+	__typename: string.isRequired
 };
 
 export default Product;

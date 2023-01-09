@@ -9,23 +9,23 @@ const AccordionContext = createContext();
 const { Provider } = AccordionContext;
 
 const Accordion = props => {
-    const { canOpenMultiple = true, children } = props;
+	const { canOpenMultiple = true, children } = props;
 
-    // The talon is the source of truth for the context value.
-    const talonProps = useAccordion({ canOpenMultiple, children });
-    const { handleSectionToggle, openSectionIds } = talonProps;
-    const contextValue = {
-        handleSectionToggle,
-        openSectionIds
-    };
+	// The talon is the source of truth for the context value.
+	const talonProps = useAccordion({ canOpenMultiple, children });
+	const { handleSectionToggle, openSectionIds } = talonProps;
+	const contextValue = {
+		handleSectionToggle,
+		openSectionIds
+	};
 
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    return (
-        <Provider value={contextValue}>
-            <div className={classes.root}>{children}</div>
-        </Provider>
-    );
+	return (
+		<Provider value={contextValue}>
+			<div className={classes.root}>{children}</div>
+		</Provider>
+	);
 };
 
 export default Accordion;

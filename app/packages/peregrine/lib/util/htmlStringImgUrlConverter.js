@@ -8,19 +8,19 @@ import resolveLinkProps from './resolveLinkProps';
  * @return {string}
  */
 const htmlStringImgUrlConverter = htmlString => {
-    const temporaryElement = document.createElement('div');
-    temporaryElement.innerHTML = htmlString;
-    for (const imgElement of temporaryElement.getElementsByTagName('img')) {
-        imgElement.src = makeUrl(imgElement.src, {
-            type: 'image-wysiwyg',
-            quality: 85
-        });
-    }
-    for (const linkElement of temporaryElement.getElementsByTagName('a')) {
-        const linkProps = resolveLinkProps(linkElement.href);
-        linkElement.href = linkProps.to || linkProps.href;
-    }
-    return temporaryElement.innerHTML;
+	const temporaryElement = document.createElement('div');
+	temporaryElement.innerHTML = htmlString;
+	for (const imgElement of temporaryElement.getElementsByTagName('img')) {
+		imgElement.src = makeUrl(imgElement.src, {
+			type: 'image-wysiwyg',
+			quality: 85
+		});
+	}
+	for (const linkElement of temporaryElement.getElementsByTagName('a')) {
+		const linkProps = resolveLinkProps(linkElement.href);
+		linkElement.href = linkProps.to || linkProps.href;
+	}
+	return temporaryElement.innerHTML;
 };
 
 export default htmlStringImgUrlConverter;

@@ -12,31 +12,31 @@ import defaultOperations from './wishlistPage.gql';
  * @returns {WishlistPageProps}
  */
 export const useWishlistPage = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const { getCustomerWishlistQuery } = operations;
+	const operations = mergeOperations(defaultOperations, props.operations);
+	const { getCustomerWishlistQuery } = operations;
 
-    const [{ isSignedIn }] = useUserContext();
+	const [{ isSignedIn }] = useUserContext();
 
-    const { data, error, loading } = useQuery(getCustomerWishlistQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !isSignedIn
-    });
+	const { data, error, loading } = useQuery(getCustomerWishlistQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first',
+		skip: !isSignedIn
+	});
 
-    const derivedWishlists = useMemo(() => {
-        return (data && data.customer.wishlists) || [];
-    }, [data]);
+	const derivedWishlists = useMemo(() => {
+		return (data && data.customer.wishlists) || [];
+	}, [data]);
 
-    const errors = useMemo(() => {
-        return new Map([['getCustomerWishlistQuery', error]]);
-    }, [error]);
+	const errors = useMemo(() => {
+		return new Map([['getCustomerWishlistQuery', error]]);
+	}, [error]);
 
-    return {
-        errors,
-        loading,
-        shouldRenderVisibilityToggle: derivedWishlists.length > 1,
-        wishlists: derivedWishlists
-    };
+	return {
+		errors,
+		loading,
+		shouldRenderVisibilityToggle: derivedWishlists.length > 1,
+		wishlists: derivedWishlists
+	};
 };
 
 /**

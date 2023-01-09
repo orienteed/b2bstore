@@ -3,26 +3,26 @@ import { useEventListener } from '@magento/peregrine';
 
 // TODO: Compare with `useDropdown` and consolidate if possible.
 export const useKebab = () => {
-    const kebabRef = useRef(null);
-    const [isOpen, setIsOpen] = useState(false);
+	const kebabRef = useRef(null);
+	const [isOpen, setIsOpen] = useState(false);
 
-    const handleKebabClick = useCallback(() => {
-        setIsOpen(!isOpen);
-    }, [isOpen]);
+	const handleKebabClick = useCallback(() => {
+		setIsOpen(!isOpen);
+	}, [isOpen]);
 
-    const handleOutsideKebabClick = useCallback(event => {
-        // Ensure we're truly outside of the kebab.
-        if (!kebabRef.current.contains(event.target)) {
-            setIsOpen(false);
-        }
-    }, []);
+	const handleOutsideKebabClick = useCallback(event => {
+		// Ensure we're truly outside of the kebab.
+		if (!kebabRef.current.contains(event.target)) {
+			setIsOpen(false);
+		}
+	}, []);
 
-    useEventListener(globalThis.document, 'mouseup', handleOutsideKebabClick);
-    useEventListener(globalThis.document, 'touchend', handleOutsideKebabClick);
+	useEventListener(globalThis.document, 'mouseup', handleOutsideKebabClick);
+	useEventListener(globalThis.document, 'touchend', handleOutsideKebabClick);
 
-    return {
-        handleKebabClick,
-        isOpen,
-        kebabRef
-    };
+	return {
+		handleKebabClick,
+		isOpen,
+		kebabRef
+	};
 };

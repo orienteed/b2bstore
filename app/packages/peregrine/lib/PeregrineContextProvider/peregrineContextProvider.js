@@ -15,20 +15,20 @@ import UserContextProvider from '../context/user';
  * @property {React.Component[]} contextProviders
  */
 const contextProviders = [
-    ErrorContextProvider,
-    EventingContextProvider,
-    AppContextProvider,
-    UserContextProvider,
-    CatalogContextProvider,
-    CartContextProvider,
-    CheckoutContextProvider,
-    RootComponentsProvider
+	ErrorContextProvider,
+	EventingContextProvider,
+	AppContextProvider,
+	UserContextProvider,
+	CatalogContextProvider,
+	CartContextProvider,
+	CheckoutContextProvider,
+	RootComponentsProvider
 ];
 
 const PeregrineContextProvider = ({ children }) => {
-    return contextProviders.reduceRight((memo, ContextProvider) => {
-        return <ContextProvider>{memo}</ContextProvider>;
-    }, children);
+	return contextProviders.reduceRight((memo, ContextProvider) => {
+		return <ContextProvider>{memo}</ContextProvider>;
+	}, children);
 };
 
 export default PeregrineContextProvider;

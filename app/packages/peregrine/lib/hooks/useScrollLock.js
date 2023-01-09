@@ -10,9 +10,9 @@ import { useLayoutEffect } from 'react';
  * @param {Boolean} locked Whether scrolling should be locked.
  */
 export const useScrollLock = locked => {
-    useLayoutEffect(() => {
-        if (!globalThis.document) return;
+	useLayoutEffect(() => {
+		if (!globalThis.document) return;
 
-        document.documentElement.dataset.scrollLock = locked || '';
-    }, [locked]);
+		document.documentElement.dataset.scrollLock = locked || '';
+	}, [locked]);
 };

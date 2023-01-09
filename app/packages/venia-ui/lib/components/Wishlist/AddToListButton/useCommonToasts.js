@@ -9,25 +9,25 @@ const ErrorIcon = <Icon size={20} src={AlertCircle} />;
 const InfoIcon = <Icon size={20} src={Info} />;
 
 export const useCommonToasts = props => {
-    const { errorToastProps, loginToastProps, successToastProps } = props;
+	const { errorToastProps, loginToastProps, successToastProps } = props;
 
-    const [, { addToast }] = useToasts();
+	const [, { addToast }] = useToasts();
 
-    useEffect(() => {
-        if (loginToastProps) {
-            addToast({ ...loginToastProps, icon: InfoIcon });
-        }
-    }, [addToast, loginToastProps]);
+	useEffect(() => {
+		if (loginToastProps) {
+			addToast({ ...loginToastProps, icon: InfoIcon });
+		}
+	}, [addToast, loginToastProps]);
 
-    useEffect(() => {
-        if (successToastProps) {
-            addToast({ ...successToastProps, icon: CheckIcon });
-        }
-    }, [addToast, successToastProps]);
+	useEffect(() => {
+		if (successToastProps) {
+			addToast({ ...successToastProps, icon: CheckIcon });
+		}
+	}, [addToast, successToastProps]);
 
-    useEffect(() => {
-        if (errorToastProps) {
-            addToast({ ...errorToastProps, icon: ErrorIcon });
-        }
-    }, [addToast, errorToastProps]);
+	useEffect(() => {
+		if (errorToastProps) {
+			addToast({ ...errorToastProps, icon: ErrorIcon });
+		}
+	}, [addToast, errorToastProps]);
 };

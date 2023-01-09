@@ -1,14 +1,14 @@
 import { Magento2 } from '@magento/peregrine/lib/RestApi';
 
 const markAsDone = async courseModuleId => {
-    const { request } = Magento2;
+	const { request } = Magento2;
 
-    const reply = await request(`/lms/api/v1/completion/done?courseModuleId=${courseModuleId}`, {
-        method: 'GET',
-        credentials: 'include'
-    });
+	const reply = await request(`/lms/api/v1/completion/done?courseModuleId=${courseModuleId}`, {
+		method: 'GET',
+		credentials: 'include'
+	});
 
-    return reply;
+	return reply;
 };
 
 export default markAsDone;

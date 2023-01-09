@@ -13,57 +13,57 @@ export const UNCONSTRAINED_SIZE_KEY = 'default';
  * @param {Map}      props.widths a map of breakpoints to possible widths used to create the img's sizes attribute.
  */
 export const useImage = props => {
-    const { onError, onLoad, width, widths, height, ratio } = props;
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [hasError, setHasError] = useState(false);
+	const { onError, onLoad, width, widths, height, ratio } = props;
+	const [isLoaded, setIsLoaded] = useState(false);
+	const [hasError, setHasError] = useState(false);
 
-    const handleImageLoad = useCallback(() => {
-        setIsLoaded(true);
+	const handleImageLoad = useCallback(() => {
+		setIsLoaded(true);
 
-        if (typeof onLoad === 'function') {
-            onLoad();
-        }
-    }, [onLoad]);
+		if (typeof onLoad === 'function') {
+			onLoad();
+		}
+	}, [onLoad]);
 
-    const handleError = useCallback(() => {
-        setHasError(true);
+	const handleError = useCallback(() => {
+		setHasError(true);
 
-        if (typeof onError === 'function') {
-            onError();
-        }
-    }, [onError]);
+		if (typeof onError === 'function') {
+			onError();
+		}
+	}, [onError]);
 
-    // Use the unconstrained / default entry in widths.
-    const resourceWidth = useMemo(() => {
-        if (width) {
-            return width;
-        }
+	// Use the unconstrained / default entry in widths.
+	const resourceWidth = useMemo(() => {
+		if (width) {
+			return width;
+		}
 
-        // We don't have an explicit width.
-        // Attempt to use the unconstrained entry in widths.
-        if (!widths) {
-            return undefined;
-        }
+		// We don't have an explicit width.
+		// Attempt to use the unconstrained entry in widths.
+		if (!widths) {
+			return undefined;
+		}
 
-        return widths.get(UNCONSTRAINED_SIZE_KEY);
-    }, [width, widths]);
+		return widths.get(UNCONSTRAINED_SIZE_KEY);
+	}, [width, widths]);
 
-    const resourceHeight = useMemo(() => {
-        if (height) {
-            return height;
-        } else if (resourceWidth && ratio) {
-            return resourceWidth / ratio;
-        } else {
-            return undefined;
-        }
-    }, [height, ratio, resourceWidth]);
+	const resourceHeight = useMemo(() => {
+		if (height) {
+			return height;
+		} else if (resourceWidth && ratio) {
+			return resourceWidth / ratio;
+		} else {
+			return undefined;
+		}
+	}, [height, ratio, resourceWidth]);
 
-    return {
-        handleError,
-        handleImageLoad,
-        hasError,
-        isLoaded,
-        resourceWidth,
-        resourceHeight
-    };
+	return {
+		handleError,
+		handleImageLoad,
+		hasError,
+		isLoaded,
+		resourceWidth,
+		resourceHeight
+	};
 };

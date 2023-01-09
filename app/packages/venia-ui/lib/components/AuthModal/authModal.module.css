@@ -1,15 +1,15 @@
 .root {
-    composes: block from global;
+	composes: block from global;
 }
 
 .createAccountActions {
-    composes: actions from '../CreateAccount/createAccount.module.css';
+	composes: actions from '../CreateAccount/createAccount.module.css';
 
-    composes: grid-flow-row from global;
+	composes: grid-flow-row from global;
 }
 
 .createAccountSubmitButton {
-    composes: root_highPriority from '../Button/button.module.css';
+	composes: root_highPriority from '../Button/button.module.css';
 
-    composes: col-start-auto from global;
+	composes: col-start-auto from global;
 }

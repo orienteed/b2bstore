@@ -14,45 +14,45 @@ import { arrayOf, string } from 'prop-types';
  * @returns {React.Element} A React component that renders Heading with optional styling properties.
  */
 const Heading = props => {
-    const {
-        headingType,
-        text,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
-    const HeadingType = `${headingType}`;
-    const dynamicStyles = {
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
-    return (
-        <HeadingType style={dynamicStyles} className={cssClasses.join(' ')}>
-            {text}
-        </HeadingType>
-    );
+	const {
+		headingType,
+		text,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
+	const HeadingType = `${headingType}`;
+	const dynamicStyles = {
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
+	return (
+		<HeadingType style={dynamicStyles} className={cssClasses.join(' ')}>
+			{text}
+		</HeadingType>
+	);
 };
 
 /**
@@ -78,22 +78,22 @@ const Heading = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Heading.propTypes = {
-    headingType: string,
-    text: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string)
+	headingType: string,
+	text: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Heading;

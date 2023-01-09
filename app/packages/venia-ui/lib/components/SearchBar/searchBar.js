@@ -9,61 +9,48 @@ import SearchField from './searchField';
 import defaultClasses from './searchBar.module.css';
 
 const SearchBar = React.forwardRef((props, ref) => {
-    const { isOpen } = props;
-    const talonProps = useSearchBar();
-    const {
-        containerRef,
-        handleChange,
-        handleFocus,
-        handleSubmit,
-        initialValues,
-        isAutoCompleteOpen,
-        setIsAutoCompleteOpen,
-        valid
-    } = talonProps;
+	const { isOpen } = props;
+	const talonProps = useSearchBar();
+	const {
+		containerRef,
+		handleChange,
+		handleFocus,
+		handleSubmit,
+		initialValues,
+		isAutoCompleteOpen,
+		setIsAutoCompleteOpen,
+		valid
+	} = talonProps;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const rootClassName = isOpen ? classes.root_open : classes.root;
+	const classes = useStyle(defaultClasses, props.classes);
+	const rootClassName = isOpen ? classes.root_open : classes.root;
 
-    return (
-        <div className={rootClassName} data-cy="SearchBar-root" ref={ref}>
-            <div ref={containerRef} className={classes.container}>
-                <Form
-                    autoComplete="off"
-                    className={classes.form}
-                    initialValues={initialValues}
-                    onSubmit={handleSubmit}
-                >
-                    <div className={classes.autocomplete}>
-                        <Autocomplete
-                            setVisible={setIsAutoCompleteOpen}
-                            valid={valid}
-                            visible={isAutoCompleteOpen}
-                        />
-                    </div>
-                    <div className={classes.search}>
-                        <SearchField
-                            isSearchOpen={isOpen}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                        />
-                    </div>
-                </Form>
-            </div>
-        </div>
-    );
+	return (
+		<div className={rootClassName} data-cy="SearchBar-root" ref={ref}>
+			<div ref={containerRef} className={classes.container}>
+				<Form autoComplete="off" className={classes.form} initialValues={initialValues} onSubmit={handleSubmit}>
+					<div className={classes.autocomplete}>
+						<Autocomplete setVisible={setIsAutoCompleteOpen} valid={valid} visible={isAutoCompleteOpen} />
+					</div>
+					<div className={classes.search}>
+						<SearchField isSearchOpen={isOpen} onChange={handleChange} onFocus={handleFocus} />
+					</div>
+				</Form>
+			</div>
+		</div>
+	);
 });
 
 export default SearchBar;
 
 SearchBar.propTypes = {
-    classes: shape({
-        autocomplete: string,
-        container: string,
-        form: string,
-        root: string,
-        root_open: string,
-        search: string
-    }),
-    isOpen: bool
+	classes: shape({
+		autocomplete: string,
+		container: string,
+		form: string,
+		root: string,
+		root_open: string,
+		search: string
+	}),
+	isOpen: bool
 };

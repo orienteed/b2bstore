@@ -39,7 +39,7 @@ function localIntercept(targets) {
             }
         });
 
-        paths.forEach(myPath => {
+        paths.forEach((myPath) => {
             const relativePath = myPath
                 .replace('.targetables', '')
                 .replace(
@@ -86,7 +86,7 @@ function localIntercept(targets) {
     const moduleOverridePlugin = require('./src/targets/moduleOverrideWebpackPlugin');
     const componentOverrideMapping = require('./src/targets/componentOverrideMapping');
 
-    targets.of('@magento/pwa-buildpack').webpackCompiler.tap(compiler => {
+    targets.of('@magento/pwa-buildpack').webpackCompiler.tap((compiler) => {
         new moduleOverridePlugin(componentOverrideMapping).apply(compiler);
     });
 }

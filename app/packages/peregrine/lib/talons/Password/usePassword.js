@@ -9,26 +9,26 @@ import { useCallback, useState } from 'react';
  * import { usePassword } from '@magento/peregrine/lib/talons/Password/usePassword.js';
  */
 export const usePassword = () => {
-    const [visible, setVisbility] = useState(false);
+	const [visible, setVisbility] = useState(false);
 
-    const togglePasswordVisibility = useCallback(() => {
-        setVisbility(!visible);
+	const togglePasswordVisibility = useCallback(() => {
+		setVisbility(!visible);
 
-        // TODO: Clicking the "toggle visibility" button does not focus the
-        // input, which means `onBlur` will not be called. To work around this
-        // we would need to somehow focus the input after this toggle, but that
-        // probably requires passing a ref down to informed.
-    }, [visible]);
+		// TODO: Clicking the "toggle visibility" button does not focus the
+		// input, which means `onBlur` will not be called. To work around this
+		// we would need to somehow focus the input after this toggle, but that
+		// probably requires passing a ref down to informed.
+	}, [visible]);
 
-    const handleBlur = useCallback(() => {
-        setVisbility(false);
-    }, []);
+	const handleBlur = useCallback(() => {
+		setVisbility(false);
+	}, []);
 
-    return {
-        handleBlur,
-        togglePasswordVisibility,
-        visible
-    };
+	return {
+		handleBlur,
+		togglePasswordVisibility,
+		visible
+	};
 };
 
 /** JSDocs type definitions */

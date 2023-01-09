@@ -21,89 +21,84 @@ const { matchMedia } = globalThis;
  * @returns {React.Element} A React component that displays a TabItem.
  */
 const TabItem = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        minHeight,
-        verticalAlignment,
-        backgroundColor,
-        desktopImage,
-        mobileImage,
-        backgroundSize,
-        backgroundPosition,
-        backgroundAttachment,
-        backgroundRepeat = 'repeat',
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        mediaQueries,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        children,
-        cssClasses = []
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		minHeight,
+		verticalAlignment,
+		backgroundColor,
+		desktopImage,
+		mobileImage,
+		backgroundSize,
+		backgroundPosition,
+		backgroundAttachment,
+		backgroundRepeat = 'repeat',
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		mediaQueries,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		children,
+		cssClasses = []
+	} = props;
 
-    const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
+	const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
 
-    let image = desktopImage;
-    if (mobileImage && matchMedia && matchMedia('(max-width: 768px)').matches) {
-        image = mobileImage;
-    }
+	let image = desktopImage;
+	if (mobileImage && matchMedia && matchMedia('(max-width: 768px)').matches) {
+		image = mobileImage;
+	}
 
-    const dynamicStyles = {
-        minHeight,
-        verticalAlignment,
-        backgroundColor,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
+	const dynamicStyles = {
+		minHeight,
+		verticalAlignment,
+		backgroundColor,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
 
-    if (image) {
-        const resourceImage = resourceUrl(image, {
-            type: 'image-wysiwyg',
-            quality: 85
-        });
-        dynamicStyles.backgroundImage = `url(${resourceImage})`;
-        dynamicStyles.backgroundSize = backgroundSize;
-        dynamicStyles.backgroundPosition = backgroundPosition;
-        dynamicStyles.backgroundAttachment = backgroundAttachment;
-        dynamicStyles.backgroundRepeat = backgroundRepeat;
-    }
+	if (image) {
+		const resourceImage = resourceUrl(image, {
+			type: 'image-wysiwyg',
+			quality: 85
+		});
+		dynamicStyles.backgroundImage = `url(${resourceImage})`;
+		dynamicStyles.backgroundSize = backgroundSize;
+		dynamicStyles.backgroundPosition = backgroundPosition;
+		dynamicStyles.backgroundAttachment = backgroundAttachment;
+		dynamicStyles.backgroundRepeat = backgroundRepeat;
+	}
 
-    if (verticalAlignment) {
-        dynamicStyles.display = 'flex';
-        dynamicStyles.justifyContent = verticalAlignmentToFlex(
-            verticalAlignment
-        );
-        dynamicStyles.flexDirection = 'column';
-    }
+	if (verticalAlignment) {
+		dynamicStyles.display = 'flex';
+		dynamicStyles.justifyContent = verticalAlignmentToFlex(verticalAlignment);
+		dynamicStyles.flexDirection = 'column';
+	}
 
-    return (
-        <div
-            style={{ ...dynamicStyles, ...mediaQueryStyles }}
-            className={[cssClasses, classes.root].join(' ')}
-        >
-            {children}
-        </div>
-    );
+	return (
+		<div style={{ ...dynamicStyles, ...mediaQueryStyles }} className={[cssClasses, classes.root].join(' ')}>
+			{children}
+		</div>
+	);
 };
 
 /**
@@ -140,39 +135,39 @@ const TabItem = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 TabItem.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    tabName: string,
-    verticalAlignment: oneOf(['top', 'middle', 'bottom']),
-    minHeight: string,
-    backgroundColor: string,
-    desktopImage: string,
-    mobileImage: string,
-    backgroundSize: string,
-    backgroundPosition: string,
-    backgroundAttachment: string,
-    backgroundRepeat: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    mediaQueries: arrayOf(
-        shape({
-            media: string,
-            style: object
-        })
-    ),
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		root: string
+	}),
+	tabName: string,
+	verticalAlignment: oneOf(['top', 'middle', 'bottom']),
+	minHeight: string,
+	backgroundColor: string,
+	desktopImage: string,
+	mobileImage: string,
+	backgroundSize: string,
+	backgroundPosition: string,
+	backgroundAttachment: string,
+	backgroundRepeat: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	mediaQueries: arrayOf(
+		shape({
+			media: string,
+			style: object
+		})
+	),
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string)
 };
 
 export default TabItem;

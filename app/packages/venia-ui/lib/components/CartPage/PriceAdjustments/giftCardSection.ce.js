@@ -3,5 +3,5 @@
  * Here in MOS, don't render the Accordion section at all.
  */
 export default () => {
-    return null;
+	return null;
 };

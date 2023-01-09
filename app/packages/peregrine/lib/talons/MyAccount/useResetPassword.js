@@ -19,57 +19,57 @@ import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCu
  * import { useResetPassword } from '@magento/peregrine/lib/talons/MyAccount/useResetPassword.js';
  */
 export const useResetPassword = props => {
-    const { mutations } = props;
+	const { mutations } = props;
 
-    const [hasCompleted, setHasCompleted] = useState(false);
-    const location = useLocation();
-    const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(mutations.resetPasswordMutation);
+	const [hasCompleted, setHasCompleted] = useState(false);
+	const location = useLocation();
+	const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(mutations.resetPasswordMutation);
 
-    const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
-        currentForm: 'CUSTOMER_FORGOT_PASSWORD',
-        formAction: 'resetPassword'
-    });
+	const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
+		currentForm: 'CUSTOMER_FORGOT_PASSWORD',
+		formAction: 'resetPassword'
+	});
 
-    const { handleSubmit: handleSignIn } = useSignIn({
-        getCartDetailsQuery: GET_CART_DETAILS_QUERY
-    });
+	const { handleSubmit: handleSignIn } = useSignIn({
+		getCartDetailsQuery: GET_CART_DETAILS_QUERY
+	});
 
-    const searchParams = useMemo(() => new URLSearchParams(location.search), [location]);
-    const token = searchParams.get('token');
+	const searchParams = useMemo(() => new URLSearchParams(location.search), [location]);
+	const token = searchParams.get('token');
 
-    const handleSubmit = useCallback(
-        async ({ email, newPassword }) => {
-            try {
-                if (email && token && newPassword) {
-                    const reCaptchaData = await generateReCaptchaData();
+	const handleSubmit = useCallback(
+		async ({ email, newPassword }) => {
+			try {
+				if (email && token && newPassword) {
+					const reCaptchaData = await generateReCaptchaData();
 
-                    await resetPassword({
-                        variables: { email, token, newPassword },
-                        ...reCaptchaData
-                    });
+					await resetPassword({
+						variables: { email, token, newPassword },
+						...reCaptchaData
+					});
 
-                    await handleSignIn({ email, password: newPassword });
+					await handleSignIn({ email, password: newPassword });
 
-                    process.env.LMS_ENABLED === 'true' && modifyLmsCustomer('', '', email, newPassword);
+					process.env.LMS_ENABLED === 'true' && modifyLmsCustomer('', '', email, newPassword);
 
-                    setHasCompleted(true);
-                }
-            } catch (err) {
-                // Error is logged by apollo link - no need to double log.
-                setHasCompleted(false);
-            }
-        },
-        [generateReCaptchaData, resetPassword, token, handleSignIn]
-    );
+					setHasCompleted(true);
+				}
+			} catch (err) {
+				// Error is logged by apollo link - no need to double log.
+				setHasCompleted(false);
+			}
+		},
+		[generateReCaptchaData, resetPassword, token, handleSignIn]
+	);
 
-    return {
-        formErrors: [resetPasswordErrors],
-        handleSubmit,
-        hasCompleted,
-        loading: loading || recaptchaLoading,
-        token,
-        recaptchaWidgetProps
-    };
+	return {
+		formErrors: [resetPasswordErrors],
+		handleSubmit,
+		hasCompleted,
+		loading: loading || recaptchaLoading,
+		token,
+		recaptchaWidgetProps
+	};
 };
 
 /** JSDocs type definitions */

@@ -27,80 +27,80 @@ import { useEventingContext } from '../../context/eventing';
  */
 
 export const useAccountMenu = props => {
-    const { accountMenuIsOpen, setAccountMenuIsOpen } = props;
+	const { accountMenuIsOpen, setAccountMenuIsOpen } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { signOutMutation } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { signOutMutation } = operations;
 
-    const [view, setView] = useState('SIGNIN');
-    const [username, setUsername] = useState('');
+	const [view, setView] = useState('SIGNIN');
+	const [username, setUsername] = useState('');
 
-    const history = useHistory();
-    const location = useLocation();
-    const [revokeToken] = useMutation(signOutMutation);
-    const [{ isSignedIn: isUserSignedIn, currentUser }, { signOut }] = useUserContext();
+	const history = useHistory();
+	const location = useLocation();
+	const [revokeToken] = useMutation(signOutMutation);
+	const [{ isSignedIn: isUserSignedIn, currentUser }, { signOut }] = useUserContext();
 
-    const [, { dispatch }] = useEventingContext();
+	const [, { dispatch }] = useEventingContext();
 
-    const handleSignOut = useCallback(async () => {
-        setView('SIGNIN');
-        setAccountMenuIsOpen(false);
+	const handleSignOut = useCallback(async () => {
+		setView('SIGNIN');
+		setAccountMenuIsOpen(false);
 
-        // Delete cart/user data from the redux store.
-        await signOut({ revokeToken });
+		// Delete cart/user data from the redux store.
+		await signOut({ revokeToken });
 
-        dispatch({
-            type: 'USER_SIGN_OUT',
-            payload: {
-                ...currentUser
-            }
-        });
-        // Refresh the page as a way to say "re-initialize". An alternative
-        // would be to call apolloClient.resetStore() but that would require
-        // a large refactor.
-        history.go(0);
-    }, [history, revokeToken, setAccountMenuIsOpen, signOut, currentUser, dispatch]);
+		dispatch({
+			type: 'USER_SIGN_OUT',
+			payload: {
+				...currentUser
+			}
+		});
+		// Refresh the page as a way to say "re-initialize". An alternative
+		// would be to call apolloClient.resetStore() but that would require
+		// a large refactor.
+		history.go(0);
+	}, [history, revokeToken, setAccountMenuIsOpen, signOut, currentUser, dispatch]);
 
-    const handleForgotPassword = useCallback(() => {
-        setView('FORGOT_PASSWORD');
-    }, []);
+	const handleForgotPassword = useCallback(() => {
+		setView('FORGOT_PASSWORD');
+	}, []);
 
-    const handleCancel = useCallback(() => {
-        setView('SIGNIN');
-    }, []);
+	const handleCancel = useCallback(() => {
+		setView('SIGNIN');
+	}, []);
 
-    const handleCreateAccount = useCallback(() => {
-        setView('CREATE_ACCOUNT');
-    }, []);
+	const handleCreateAccount = useCallback(() => {
+		setView('CREATE_ACCOUNT');
+	}, []);
 
-    const handleAccountCreation = useCallback(() => {
-        setView('ACCOUNT');
-    }, []);
+	const handleAccountCreation = useCallback(() => {
+		setView('ACCOUNT');
+	}, []);
 
-    // Close the Account Menu on page change.
-    // This includes even when the page "changes" to the current page.
-    // This can happen when clicking on a link to a page you're already on, for example.
-    useEffect(() => {
-        setAccountMenuIsOpen(false);
-    }, [location, setAccountMenuIsOpen]);
+	// Close the Account Menu on page change.
+	// This includes even when the page "changes" to the current page.
+	// This can happen when clicking on a link to a page you're already on, for example.
+	useEffect(() => {
+		setAccountMenuIsOpen(false);
+	}, [location, setAccountMenuIsOpen]);
 
-    // Update view based on user status everytime accountMenuIsOpen has changed.
-    useEffect(() => {
-        if (isUserSignedIn) {
-            setView('ACCOUNT');
-        } else {
-            setView('SIGNIN');
-        }
-    }, [accountMenuIsOpen, isUserSignedIn]);
+	// Update view based on user status everytime accountMenuIsOpen has changed.
+	useEffect(() => {
+		if (isUserSignedIn) {
+			setView('ACCOUNT');
+		} else {
+			setView('SIGNIN');
+		}
+	}, [accountMenuIsOpen, isUserSignedIn]);
 
-    return {
-        handleAccountCreation,
-        handleCreateAccount,
-        handleForgotPassword,
-        handleCancel,
-        handleSignOut,
-        updateUsername: setUsername,
-        username,
-        view
-    };
+	return {
+		handleAccountCreation,
+		handleCreateAccount,
+		handleForgotPassword,
+		handleCancel,
+		handleSignOut,
+		updateUsername: setUsername,
+		username,
+		view
+	};
 };

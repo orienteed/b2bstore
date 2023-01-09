@@ -16,18 +16,15 @@ import defaultClasses from './buttonGroup.module.css';
  * @returns {React.Element} A React component that displays multiple buttons.
  */
 const ButtonGroup = props => {
-    const { items } = props;
-    const classes = useStyle(defaultClasses, props.classes);
+	const { items } = props;
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const children = useMemo(
-        () =>
-            Array.from(items, ({ key, ...itemProps }) => (
-                <Button key={key} {...itemProps} />
-            )),
-        [items]
-    );
+	const children = useMemo(
+		() => Array.from(items, ({ key, ...itemProps }) => <Button key={key} {...itemProps} />),
+		[items]
+	);
 
-    return <div className={classes.root}>{children}</div>;
+	return <div className={classes.root}>{children}</div>;
 };
 
 /**
@@ -42,28 +39,28 @@ const ButtonGroup = props => {
  * memoization recomputation.
  */
 ButtonGroup.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    /**
-     * Props for a {@link ButtonGroup} button component
-     *
-     * @typedef buttonProps
-     *
-     * @property {ReactNodeLike} children component to render for the
-     * ButtonGroups's button component
-     * @property {string} key  the unique id for a button element
-     */
-    items: arrayOf(
-        shape({
-            children: node.isRequired,
-            key: string.isRequired
-        })
-    ).isRequired
+	classes: shape({
+		root: string
+	}),
+	/**
+	 * Props for a {@link ButtonGroup} button component
+	 *
+	 * @typedef buttonProps
+	 *
+	 * @property {ReactNodeLike} children component to render for the
+	 * ButtonGroups's button component
+	 * @property {string} key  the unique id for a button element
+	 */
+	items: arrayOf(
+		shape({
+			children: node.isRequired,
+			key: string.isRequired
+		})
+	).isRequired
 };
 
 ButtonGroup.defaultProps = {
-    items: []
+	items: []
 };
 
 export default ButtonGroup;

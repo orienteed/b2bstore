@@ -8,7 +8,7 @@
  */
 
 function identityObjProxyLoader() {
-    return 'exports = module.exports = require("identity-obj-proxy");';
+	return 'exports = module.exports = require("identity-obj-proxy");';
 }
 
 module.exports = identityObjProxyLoader;

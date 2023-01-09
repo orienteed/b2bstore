@@ -18,125 +18,125 @@ import Icon from '../Icon';
  * @param {function} props.onNavigate - function called when clicking on Link
  */
 const MegaMenuItem = props => {
-    const {
-        activeCategoryId,
-        category,
-        mainNavWidth,
-        categoryUrlSuffix,
-        subMenuState,
-        disableFocus,
-        onNavigate,
-        handleSubMenuFocus,
-        handleClickOutside
-    } = props;
+	const {
+		activeCategoryId,
+		category,
+		mainNavWidth,
+		categoryUrlSuffix,
+		subMenuState,
+		disableFocus,
+		onNavigate,
+		handleSubMenuFocus,
+		handleClickOutside
+	} = props;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const categoryUrl = resourceUrl(`/${category.url_path}${categoryUrlSuffix || ''}`);
+	const classes = useStyle(defaultClasses, props.classes);
+	const categoryUrl = resourceUrl(`/${category.url_path}${categoryUrlSuffix || ''}`);
 
-    const talonProps = useMegaMenuItem({
-        category,
-        activeCategoryId,
-        subMenuState,
-        disableFocus
-    });
+	const talonProps = useMegaMenuItem({
+		category,
+		activeCategoryId,
+		subMenuState,
+		disableFocus
+	});
 
-    const { isFocused, isActive, handleMenuItemFocus, handleCloseSubMenu, isMenuActive, handleKeyDown } = talonProps;
+	const { isFocused, isActive, handleMenuItemFocus, handleCloseSubMenu, isMenuActive, handleKeyDown } = talonProps;
 
-    const megaMenuItemClassname = isMenuActive ? classes.megaMenuItem_active : classes.megaMenuItem;
+	const megaMenuItemClassname = isMenuActive ? classes.megaMenuItem_active : classes.megaMenuItem;
 
-    const children = useMemo(() => {
-        return category.children.length ? (
-            <Submenu
-                isFocused={isFocused}
-                subMenuState={subMenuState}
-                items={category.children}
-                mainNavWidth={mainNavWidth}
-                handleCloseSubMenu={handleCloseSubMenu}
-                categoryUrlSuffix={categoryUrlSuffix}
-                onNavigate={onNavigate}
-            />
-        ) : null;
-    }, [category, isFocused, mainNavWidth, subMenuState, handleCloseSubMenu, categoryUrlSuffix, onNavigate]);
+	const children = useMemo(() => {
+		return category.children.length ? (
+			<Submenu
+				isFocused={isFocused}
+				subMenuState={subMenuState}
+				items={category.children}
+				mainNavWidth={mainNavWidth}
+				handleCloseSubMenu={handleCloseSubMenu}
+				categoryUrlSuffix={categoryUrlSuffix}
+				onNavigate={onNavigate}
+			/>
+		) : null;
+	}, [category, isFocused, mainNavWidth, subMenuState, handleCloseSubMenu, categoryUrlSuffix, onNavigate]);
 
-    const maybeDownArrowIcon =
-        category.children.length && category.category_icon === '' ? (
-            <Icon className={classes.arrowDown} src={ArrowDown} size={16} />
-        ) : null;
+	const maybeDownArrowIcon =
+		category.children.length && category.category_icon === '' ? (
+			<Icon className={classes.arrowDown} src={ArrowDown} size={16} />
+		) : null;
 
-    const linkAttributes = category.children.length
-        ? {
-              'aria-label': `Category: ${category.name}. ${category.children.length} sub-categories`
-          }
-        : {};
+	const linkAttributes = category.children.length
+		? {
+				'aria-label': `Category: ${category.name}. ${category.children.length} sub-categories`
+		  }
+		: {};
 
-    let tempImage = undefined;
-    try {
-        tempImage = require(`./icons/${category.category_icon}.svg`);
-    } catch (error) {
-        tempImage = undefined;
-    }
+	let tempImage = undefined;
+	try {
+		tempImage = require(`./icons/${category.category_icon}.svg`);
+	} catch (error) {
+		tempImage = undefined;
+	}
 
-    const contentLink =
-        category.category_icon != '' && tempImage != undefined ? (
-            <img className={classes.iconMenu} src={tempImage} alt={category.name} />
-        ) : (
-            category.name
-        );
+	const contentLink =
+		category.category_icon != '' && tempImage != undefined ? (
+			<img className={classes.iconMenu} src={tempImage} alt={category.name} />
+		) : (
+			category.name
+		);
 
-    return (
-        <div
-            className={megaMenuItemClassname}
-            data-cy="MegaMenu-MegaMenuItem-megaMenuItem"
-            onMouseEnter={() => {
-                handleSubMenuFocus();
-                handleMenuItemFocus();
-            }}
-            onFocus={() => {
-                handleSubMenuFocus();
-                handleMenuItemFocus();
-            }}
-            onTouchStart={() => {
-                handleSubMenuFocus();
-                handleMenuItemFocus();
-            }}
-            onMouseLeave={e => {
-                handleClickOutside(e);
-                handleCloseSubMenu();
-            }}
-        >
-            <Link
-                {...linkAttributes}
-                onKeyDown={handleKeyDown}
-                className={isActive ? classes.megaMenuLinkActive : classes.megaMenuLink}
-                data-cy="MegaMenu-MegaMenuItem-link"
-                to={categoryUrl}
-                onClick={onNavigate}
-            >
-                {contentLink}
-                {maybeDownArrowIcon}
-            </Link>
-            {children}
-        </div>
-    );
+	return (
+		<div
+			className={megaMenuItemClassname}
+			data-cy="MegaMenu-MegaMenuItem-megaMenuItem"
+			onMouseEnter={() => {
+				handleSubMenuFocus();
+				handleMenuItemFocus();
+			}}
+			onFocus={() => {
+				handleSubMenuFocus();
+				handleMenuItemFocus();
+			}}
+			onTouchStart={() => {
+				handleSubMenuFocus();
+				handleMenuItemFocus();
+			}}
+			onMouseLeave={e => {
+				handleClickOutside(e);
+				handleCloseSubMenu();
+			}}
+		>
+			<Link
+				{...linkAttributes}
+				onKeyDown={handleKeyDown}
+				className={isActive ? classes.megaMenuLinkActive : classes.megaMenuLink}
+				data-cy="MegaMenu-MegaMenuItem-link"
+				to={categoryUrl}
+				onClick={onNavigate}
+			>
+				{contentLink}
+				{maybeDownArrowIcon}
+			</Link>
+			{children}
+		</div>
+	);
 };
 
 export default MegaMenuItem;
 
 MegaMenuItem.propTypes = {
-    category: PropTypes.shape({
-        children: PropTypes.array,
-        uid: PropTypes.string.isRequired,
-        include_in_menu: PropTypes.number,
-        isActive: PropTypes.bool.isRequired,
-        name: PropTypes.string.isRequired,
-        path: PropTypes.array.isRequired,
-        position: PropTypes.number.isRequired,
-        url_path: PropTypes.string.isRequired
-    }).isRequired,
-    activeCategoryId: PropTypes.string,
-    mainNavWidth: PropTypes.number.isRequired,
-    categoryUrlSuffix: PropTypes.string,
-    onNavigate: PropTypes.func.isRequired,
-    handleSubMenuFocus: PropTypes.func.isRequired,
-    handleClickOutside: PropTypes.func.isRequired
+	category: PropTypes.shape({
+		children: PropTypes.array,
+		uid: PropTypes.string.isRequired,
+		include_in_menu: PropTypes.number,
+		isActive: PropTypes.bool.isRequired,
+		name: PropTypes.string.isRequired,
+		path: PropTypes.array.isRequired,
+		position: PropTypes.number.isRequired,
+		url_path: PropTypes.string.isRequired
+	}).isRequired,
+	activeCategoryId: PropTypes.string,
+	mainNavWidth: PropTypes.number.isRequired,
+	categoryUrlSuffix: PropTypes.string,
+	onNavigate: PropTypes.func.isRequired,
+	handleSubMenuFocus: PropTypes.func.isRequired,
+	handleClickOutside: PropTypes.func.isRequired
 };

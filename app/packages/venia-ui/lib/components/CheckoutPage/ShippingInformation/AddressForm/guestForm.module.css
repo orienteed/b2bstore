@@ -1,13 +1,13 @@
 .root {
-    composes: gap-x-2xs from global;
-    composes: gap-y-sm from global;
-    composes: grid from global;
-    composes: grid-cols-2 from global;
-    composes: w-full from global;
+	composes: gap-x-2xs from global;
+	composes: gap-y-sm from global;
+	composes: grid from global;
+	composes: grid-cols-2 from global;
+	composes: w-full from global;
 }
 
 .field {
-    composes: col-end-span2 from global;
+	composes: col-end-span2 from global;
 }
 
 .email,
@@ -18,30 +18,30 @@
 .region,
 .postcode,
 .telephone {
-    composes: field;
+	composes: field;
 }
 
 .firstname,
 .lastname {
-    composes: col-end-span1 from global;
+	composes: col-end-span1 from global;
 }
 
 .buttons {
-    composes: field;
+	composes: field;
 
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: grid-flow-col from global;
-    composes: justify-self-center from global;
-    composes: p-xs from global;
+	composes: gap-xs from global;
+	composes: grid from global;
+	composes: grid-flow-col from global;
+	composes: justify-self-center from global;
+	composes: p-xs from global;
 }
 
 @media (max-width: 959px) {
-    .firstname {
-        grid-column: 1 / span 2;
-    }
+	.firstname {
+		grid-column: 1 / span 2;
+	}
 
-    .lastname {
-        grid-column: 1 / span 2;
-    }
+	.lastname {
+		grid-column: 1 / span 2;
+	}
 }

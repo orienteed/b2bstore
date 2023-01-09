@@ -34,84 +34,76 @@ const UNAUTHED_ONLY = ['CREATE_ACCOUNT', 'FORGOT_PASSWORD', 'SIGN_IN'];
  * }}
  */
 export const useAuthModal = props => {
-    const {
-        closeDrawer,
-        showCreateAccount,
-        showForgotPassword,
-        showMainMenu,
-        showMyAccount,
-        showSignIn,
-        view
-    } = props;
+	const { closeDrawer, showCreateAccount, showForgotPassword, showMainMenu, showMyAccount, showSignIn, view } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { signOutMutation } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { signOutMutation } = operations;
 
-    const [isSigningOut, setIsSigningOut] = useState(false);
-    const [username, setUsername] = useState('');
-    const [{ currentUser, isSignedIn }, { signOut }] = useUserContext();
-    const [revokeToken] = useMutation(signOutMutation);
-    const history = useHistory();
+	const [isSigningOut, setIsSigningOut] = useState(false);
+	const [username, setUsername] = useState('');
+	const [{ currentUser, isSignedIn }, { signOut }] = useUserContext();
+	const [revokeToken] = useMutation(signOutMutation);
+	const history = useHistory();
 
-    const [, { dispatch }] = useEventingContext();
+	const [, { dispatch }] = useEventingContext();
 
-    // If the user is authed, the only valid view is "MY_ACCOUNT".
-    // view an also be `MENU` but in that case we don't want to act.
-    useEffect(() => {
-        if (currentUser && currentUser.email && UNAUTHED_ONLY.includes(view)) {
-            showMyAccount();
-        }
-    }, [currentUser, showMyAccount, view]);
+	// If the user is authed, the only valid view is "MY_ACCOUNT".
+	// view an also be `MENU` but in that case we don't want to act.
+	useEffect(() => {
+		if (currentUser && currentUser.email && UNAUTHED_ONLY.includes(view)) {
+			showMyAccount();
+		}
+	}, [currentUser, showMyAccount, view]);
 
-    // If the user token was invalidated by way of expiration, we need to reset
-    // the view back to the main menu.
-    useEffect(() => {
-        if (!isSignedIn && view === 'MY_ACCOUNT' && !isSigningOut) {
-            showMainMenu();
-        }
-    }, [isSignedIn, isSigningOut, showMainMenu, view]);
+	// If the user token was invalidated by way of expiration, we need to reset
+	// the view back to the main menu.
+	useEffect(() => {
+		if (!isSignedIn && view === 'MY_ACCOUNT' && !isSigningOut) {
+			showMainMenu();
+		}
+	}, [isSignedIn, isSigningOut, showMainMenu, view]);
 
-    const handleClose = useCallback(() => {
-        showMainMenu();
-        closeDrawer();
-    }, [closeDrawer, showMainMenu]);
+	const handleClose = useCallback(() => {
+		showMainMenu();
+		closeDrawer();
+	}, [closeDrawer, showMainMenu]);
 
-    const handleCancel = useCallback(() => {
-        showSignIn();
-    }, [showSignIn]);
+	const handleCancel = useCallback(() => {
+		showSignIn();
+	}, [showSignIn]);
 
-    const handleCreateAccount = useCallback(() => {
-        showMyAccount();
-    }, [showMyAccount]);
+	const handleCreateAccount = useCallback(() => {
+		showMyAccount();
+	}, [showMyAccount]);
 
-    const handleSignOut = useCallback(async () => {
-        setIsSigningOut(true);
+	const handleSignOut = useCallback(async () => {
+		setIsSigningOut(true);
 
-        dispatch({
-            type: 'USER_SIGN_OUT',
-            payload: currentUser
-        });
+		dispatch({
+			type: 'USER_SIGN_OUT',
+			payload: currentUser
+		});
 
-        // Delete cart/user data from the redux store.
-        await signOut({ revokeToken });
+		// Delete cart/user data from the redux store.
+		await signOut({ revokeToken });
 
-        // Refresh the page as a way to say "re-initialize". An alternative
-        // would be to call apolloClient.resetStore() but that would require
-        // a large refactor.
-        history.go(0);
-    }, [history, revokeToken, signOut, dispatch, currentUser]);
+		// Refresh the page as a way to say "re-initialize". An alternative
+		// would be to call apolloClient.resetStore() but that would require
+		// a large refactor.
+		history.go(0);
+	}, [history, revokeToken, signOut, dispatch, currentUser]);
 
-    return {
-        handleCancel,
-        handleClose,
-        handleCreateAccount,
-        handleSignOut,
-        setUsername,
-        showCreateAccount,
-        showForgotPassword,
-        showMyAccount,
-        username,
-        dispatch,
-        currentUser
-    };
+	return {
+		handleCancel,
+		handleClose,
+		handleCreateAccount,
+		handleSignOut,
+		setUsername,
+		showCreateAccount,
+		showForgotPassword,
+		showMyAccount,
+		username,
+		dispatch,
+		currentUser
+	};
 };

@@ -36,306 +36,269 @@ import { getOutOfStockVariantsWithInitialSelection } from '../../../../util/getO
 
 // Get initial selections
 function deriveOptionSelectionsFromProduct(cartItem) {
-    if (cartItem) {
-        const initialOptionSelections = new Map();
-        for (const { id, value_id } of cartItem.configurable_options) {
-            initialOptionSelections.set(String(id), value_id);
-        }
-        return initialOptionSelections;
-    }
+	if (cartItem) {
+		const initialOptionSelections = new Map();
+		for (const { id, value_id } of cartItem.configurable_options) {
+			initialOptionSelections.set(String(id), value_id);
+		}
+		return initialOptionSelections;
+	}
 }
 
 export const useProductForm = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const {
-        getConfigurableThumbnailSourceQuery,
-        getConfigurableOptionsQuery,
-        updateConfigurableOptionsMutation,
-        updateQuantityMutation
-    } = operations;
+	const {
+		getConfigurableThumbnailSourceQuery,
+		getConfigurableOptionsQuery,
+		updateConfigurableOptionsMutation,
+		updateQuantityMutation
+	} = operations;
 
-    const {
-        cartItem,
-        setIsCartUpdating,
-        setVariantPrice,
-        setActiveEditItem
-    } = props;
+	const { cartItem, setIsCartUpdating, setVariantPrice, setActiveEditItem } = props;
 
-    const [, { dispatch }] = useEventingContext();
+	const [, { dispatch }] = useEventingContext();
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    const derivedOptionSelections = useMemo(() => {
-        if (cartItem) {
-            return deriveOptionSelectionsFromProduct(cartItem);
-        }
-    }, [cartItem]);
+	const derivedOptionSelections = useMemo(() => {
+		if (cartItem) {
+			return deriveOptionSelectionsFromProduct(cartItem);
+		}
+	}, [cartItem]);
 
-    const [optionSelections, setOptionSelections] = useState(new Map());
-    const [multipleOptionSelections, setMultipleOptionSelections] = useState(
-        derivedOptionSelections ? derivedOptionSelections : new Map()
-    );
-    useEffect(() => {
-        if (cartItem) {
-            setMultipleOptionSelections(derivedOptionSelections);
-        }
-    }, [derivedOptionSelections, cartItem]);
+	const [optionSelections, setOptionSelections] = useState(new Map());
+	const [multipleOptionSelections, setMultipleOptionSelections] = useState(
+		derivedOptionSelections ? derivedOptionSelections : new Map()
+	);
+	useEffect(() => {
+		if (cartItem) {
+			setMultipleOptionSelections(derivedOptionSelections);
+		}
+	}, [derivedOptionSelections, cartItem]);
 
-    const handleClose = useCallback(() => {
-        setMultipleOptionSelections(new Map());
-        setOptionSelections(new Map());
-        setActiveEditItem(null);
-    }, [setActiveEditItem, setMultipleOptionSelections, setOptionSelections]);
+	const handleClose = useCallback(() => {
+		setMultipleOptionSelections(new Map());
+		setOptionSelections(new Map());
+		setActiveEditItem(null);
+	}, [setActiveEditItem, setMultipleOptionSelections, setOptionSelections]);
 
-    const [
-        updateItemQuantity,
-        {
-            called: updateQuantityCalled,
-            error: updateQuantityError,
-            loading: updateQuantityLoading
-        }
-    ] = useMutation(updateQuantityMutation);
+	const [
+		updateItemQuantity,
+		{ called: updateQuantityCalled, error: updateQuantityError, loading: updateQuantityLoading }
+	] = useMutation(updateQuantityMutation);
 
-    const [
-        updateConfigurableOptions,
-        {
-            called: updateConfigurableCalled,
-            error: updateConfigurableError,
-            loading: updateConfigurableLoading
-        }
-    ] = useMutation(updateConfigurableOptionsMutation);
+	const [
+		updateConfigurableOptions,
+		{ called: updateConfigurableCalled, error: updateConfigurableError, loading: updateConfigurableLoading }
+	] = useMutation(updateConfigurableOptionsMutation);
 
-    const isSaving =
-        (updateQuantityCalled && updateQuantityLoading) ||
-        (updateConfigurableCalled && updateConfigurableLoading);
+	const isSaving =
+		(updateQuantityCalled && updateQuantityLoading) || (updateConfigurableCalled && updateConfigurableLoading);
 
-    useEffect(() => {
-        setIsCartUpdating(isSaving);
-    }, [isSaving, setIsCartUpdating]);
+	useEffect(() => {
+		setIsCartUpdating(isSaving);
+	}, [isSaving, setIsCartUpdating]);
 
-    const { data, error, loading } = useQuery(getConfigurableOptionsQuery, {
-        skip: !cartItem,
-        variables: {
-            sku: cartItem ? cartItem.product.sku : null
-        }
-    });
+	const { data, error, loading } = useQuery(getConfigurableOptionsQuery, {
+		skip: !cartItem,
+		variables: {
+			sku: cartItem ? cartItem.product.sku : null
+		}
+	});
 
-    const { data: storeConfigData } = useQuery(
-        getConfigurableThumbnailSourceQuery,
-        {
-            fetchPolicy: 'cache-and-network'
-        }
-    );
+	const { data: storeConfigData } = useQuery(getConfigurableThumbnailSourceQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const handleOptionSelection = useCallback(
-        (optionId, selection) => {
-            const nextOptionSelections = new Map([...optionSelections]);
+	const handleOptionSelection = useCallback(
+		(optionId, selection) => {
+			const nextOptionSelections = new Map([...optionSelections]);
 
-            const initialSelection = cartItem.configurable_options.find(
-                option => option.id == optionId
-            );
+			const initialSelection = cartItem.configurable_options.find(option => option.id == optionId);
 
-            if (initialSelection?.value_id === selection) {
-                nextOptionSelections.delete(optionId);
-            } else {
-                nextOptionSelections.set(optionId, selection);
-            }
+			if (initialSelection?.value_id === selection) {
+				nextOptionSelections.delete(optionId);
+			} else {
+				nextOptionSelections.set(optionId, selection);
+			}
 
-            setOptionSelections(nextOptionSelections);
+			setOptionSelections(nextOptionSelections);
 
-            // Create a new Map to only keep track of user multiple selections with key as String
-            // without considering initialSelection.value_id
-            const nextMultipleOptionSelections = new Map([
-                ...multipleOptionSelections
-            ]);
-            nextMultipleOptionSelections.set(optionId, selection);
-            setMultipleOptionSelections(nextMultipleOptionSelections);
-        },
-        [cartItem, optionSelections, multipleOptionSelections]
-    );
+			// Create a new Map to only keep track of user multiple selections with key as String
+			// without considering initialSelection.value_id
+			const nextMultipleOptionSelections = new Map([...multipleOptionSelections]);
+			nextMultipleOptionSelections.set(optionId, selection);
+			setMultipleOptionSelections(nextMultipleOptionSelections);
+		},
+		[cartItem, optionSelections, multipleOptionSelections]
+	);
 
-    const configItem =
-        !loading && !error && data ? data.products.items[0] : null;
+	const configItem = !loading && !error && data ? data.products.items[0] : null;
 
-    // Check if display out of stock products option is selected in the Admin Dashboard
-    const isOutOfStockProductDisplayed = useMemo(() => {
-        let totalVariants = 1;
+	// Check if display out of stock products option is selected in the Admin Dashboard
+	const isOutOfStockProductDisplayed = useMemo(() => {
+		let totalVariants = 1;
 
-        if (configItem && configItem.configurable_options) {
-            for (const option of configItem.configurable_options) {
-                const length = option.values.length;
-                totalVariants = totalVariants * length;
-            }
-            return configItem.variants.length === totalVariants;
-        }
-    }, [configItem]);
+		if (configItem && configItem.configurable_options) {
+			for (const option of configItem.configurable_options) {
+				const length = option.values.length;
+				totalVariants = totalVariants * length;
+			}
+			return configItem.variants.length === totalVariants;
+		}
+	}, [configItem]);
 
-    const configurableOptionCodes = useMemo(() => {
-        const optionCodeMap = new Map();
+	const configurableOptionCodes = useMemo(() => {
+		const optionCodeMap = new Map();
 
-        if (configItem) {
-            configItem.configurable_options.forEach(option => {
-                optionCodeMap.set(option.attribute_id, option.attribute_code);
-            });
-        }
+		if (configItem) {
+			configItem.configurable_options.forEach(option => {
+				optionCodeMap.set(option.attribute_id, option.attribute_code);
+			});
+		}
 
-        return optionCodeMap;
-    }, [configItem]);
+		return optionCodeMap;
+	}, [configItem]);
 
-    const selectedVariant = useMemo(() => {
-        if (optionSelections.size && configItem) {
-            const mergedOptionSelections = new Map([...optionSelections]);
-            cartItem.configurable_options.forEach(option => {
-                if (!mergedOptionSelections.has(`${option.id}`)) {
-                    mergedOptionSelections.set(`${option.id}`, option.value_id);
-                }
-            });
+	const selectedVariant = useMemo(() => {
+		if (optionSelections.size && configItem) {
+			const mergedOptionSelections = new Map([...optionSelections]);
+			cartItem.configurable_options.forEach(option => {
+				if (!mergedOptionSelections.has(`${option.id}`)) {
+					mergedOptionSelections.set(`${option.id}`, option.value_id);
+				}
+			});
 
-            return findMatchingVariant({
-                variants: configItem.variants,
-                optionCodes: configurableOptionCodes,
-                optionSelections: mergedOptionSelections
-            });
-        }
-    }, [cartItem, configItem, configurableOptionCodes, optionSelections]);
+			return findMatchingVariant({
+				variants: configItem.variants,
+				optionCodes: configurableOptionCodes,
+				optionSelections: mergedOptionSelections
+			});
+		}
+	}, [cartItem, configItem, configurableOptionCodes, optionSelections]);
 
-    const outOfStockVariants = useMemo(() => {
-        if (cartItem && configItem) {
-            const product = cartItem.product;
-            return getOutOfStockVariantsWithInitialSelection(
-                product,
-                configurableOptionCodes,
-                multipleOptionSelections,
-                configItem,
-                isOutOfStockProductDisplayed
-            );
-        }
-    }, [
-        cartItem,
-        configurableOptionCodes,
-        multipleOptionSelections,
-        configItem,
-        isOutOfStockProductDisplayed
-    ]);
+	const outOfStockVariants = useMemo(() => {
+		if (cartItem && configItem) {
+			const product = cartItem.product;
+			return getOutOfStockVariantsWithInitialSelection(
+				product,
+				configurableOptionCodes,
+				multipleOptionSelections,
+				configItem,
+				isOutOfStockProductDisplayed
+			);
+		}
+	}, [cartItem, configurableOptionCodes, multipleOptionSelections, configItem, isOutOfStockProductDisplayed]);
 
-    const configurableThumbnailSource = useMemo(() => {
-        return storeConfigData?.storeConfig?.configurable_thumbnail_source;
-    }, [storeConfigData]);
+	const configurableThumbnailSource = useMemo(() => {
+		return storeConfigData?.storeConfig?.configurable_thumbnail_source;
+	}, [storeConfigData]);
 
-    useEffect(() => {
-        const variantPrice =
-            selectedVariant?.product?.price_range?.maximum_price?.final_price;
-        setVariantPrice(variantPrice);
-    }, [selectedVariant, setVariantPrice]);
+	useEffect(() => {
+		const variantPrice = selectedVariant?.product?.price_range?.maximum_price?.final_price;
+		setVariantPrice(variantPrice);
+	}, [selectedVariant, setVariantPrice]);
 
-    const handleSubmit = useCallback(
-        async formValues => {
-            try {
-                const quantity = formValues.quantity;
+	const handleSubmit = useCallback(
+		async formValues => {
+			try {
+				const quantity = formValues.quantity;
 
-                if (
-                    (selectedVariant && optionSelections.size) ||
-                    (selectedVariant && multipleOptionSelections.size)
-                ) {
-                    await updateConfigurableOptions({
-                        variables: {
-                            cartId,
-                            cartItemId: cartItem.uid,
-                            parentSku: cartItem.product.sku,
-                            variantSku: selectedVariant.product.sku,
-                            quantity: quantity
-                        }
-                    });
+				if ((selectedVariant && optionSelections.size) || (selectedVariant && multipleOptionSelections.size)) {
+					await updateConfigurableOptions({
+						variables: {
+							cartId,
+							cartItemId: cartItem.uid,
+							parentSku: cartItem.product.sku,
+							variantSku: selectedVariant.product.sku,
+							quantity: quantity
+						}
+					});
 
-                    setOptionSelections(new Map());
-                    setMultipleOptionSelections(new Map());
-                } else if (quantity !== cartItem.quantity) {
-                    await updateItemQuantity({
-                        variables: {
-                            cartId,
-                            cartItemId: cartItem.uid,
-                            quantity: quantity
-                        }
-                    });
-                }
+					setOptionSelections(new Map());
+					setMultipleOptionSelections(new Map());
+				} else if (quantity !== cartItem.quantity) {
+					await updateItemQuantity({
+						variables: {
+							cartId,
+							cartItemId: cartItem.uid,
+							quantity: quantity
+						}
+					});
+				}
 
-                const selectedOptionsLabels =
-                    // with updated variant
-                    selectedVariant?.attributes?.map(({ value_index }, i) => {
-                        const current = configItem.configurable_options[i];
-                        const attribute = current.label;
-                        const value = current.values.find(
-                            x => x.value_index === value_index
-                        )?.label;
+				const selectedOptionsLabels =
+					// with updated variant
+					selectedVariant?.attributes?.map(({ value_index }, i) => {
+						const current = configItem.configurable_options[i];
+						const attribute = current.label;
+						const value = current.values.find(x => x.value_index === value_index)?.label;
 
-                        return { attribute, value };
-                    }) ||
-                    // with current variant (updating only quantity)
-                    cartItem.configurable_options.map(
-                        ({ option_label, value_label }) => ({
-                            attribute: option_label,
-                            value: value_label
-                        })
-                    ) ||
-                    // not applicable
-                    null;
+						return { attribute, value };
+					}) ||
+					// with current variant (updating only quantity)
+					cartItem.configurable_options.map(({ option_label, value_label }) => ({
+						attribute: option_label,
+						value: value_label
+					})) ||
+					// not applicable
+					null;
 
-                dispatch({
-                    type: 'CART_UPDATE_ITEM',
-                    payload: {
-                        cartId,
-                        sku: cartItem.product.sku,
-                        name: cartItem.product.name,
-                        priceTotal: cartItem.prices.price.value,
-                        currencyCode: cartItem.prices.price.currency,
-                        discountAmount:
-                            cartItem.prices.total_item_discount.value,
-                        selectedOptions: selectedOptionsLabels,
-                        quantity
-                    }
-                });
-            } catch {
-                return;
-            }
+				dispatch({
+					type: 'CART_UPDATE_ITEM',
+					payload: {
+						cartId,
+						sku: cartItem.product.sku,
+						name: cartItem.product.name,
+						priceTotal: cartItem.prices.price.value,
+						currencyCode: cartItem.prices.price.currency,
+						discountAmount: cartItem.prices.total_item_discount.value,
+						selectedOptions: selectedOptionsLabels,
+						quantity
+					}
+				});
+			} catch {
+				return;
+			}
 
-            handleClose();
-        },
-        [
-            cartId,
-            cartItem,
-            configItem,
-            dispatch,
-            handleClose,
-            optionSelections.size,
-            multipleOptionSelections.size,
-            selectedVariant,
-            updateConfigurableOptions,
-            updateItemQuantity
-        ]
-    );
+			handleClose();
+		},
+		[
+			cartId,
+			cartItem,
+			configItem,
+			dispatch,
+			handleClose,
+			optionSelections.size,
+			multipleOptionSelections.size,
+			selectedVariant,
+			updateConfigurableOptions,
+			updateItemQuantity
+		]
+	);
 
-    const errors = useMemo(
-        () =>
-            new Map([
-                ['updateQuantityMutation', updateQuantityError],
-                ['updateConfigurableOptionsMutation', updateConfigurableError]
-            ]),
-        [updateConfigurableError, updateQuantityError]
-    );
+	const errors = useMemo(
+		() =>
+			new Map([
+				['updateQuantityMutation', updateQuantityError],
+				['updateConfigurableOptionsMutation', updateConfigurableError]
+			]),
+		[updateConfigurableError, updateQuantityError]
+	);
 
-    return {
-        configItem,
-        errors,
-        handleOptionSelection,
-        handleSubmit,
-        outOfStockVariants,
-        isLoading: !!loading,
-        isSaving,
-        isDialogOpen: cartItem !== null,
-        handleClose,
-        configurableThumbnailSource
-    };
+	return {
+		configItem,
+		errors,
+		handleOptionSelection,
+		handleSubmit,
+		outOfStockVariants,
+		isLoading: !!loading,
+		isSaving,
+		isDialogOpen: cartItem !== null,
+		handleClose,
+		configurableThumbnailSource
+	};
 };
 
 /** JSDocs type definitions */

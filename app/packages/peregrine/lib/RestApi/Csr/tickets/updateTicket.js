@@ -1,19 +1,19 @@
 import { Magento2 } from '@magento/peregrine/lib/RestApi';
 
 const updateTicket = async (ticketId, state) => {
-    const { request } = Magento2;
+	const { request } = Magento2;
 
-    const ticketBody = {
-        state: state
-    };
+	const ticketBody = {
+		state: state
+	};
 
-    const reply = await request(`/csr/api/v1/tickets/${ticketId}`, {
-        method: 'PUT',
-        body: JSON.stringify(ticketBody),
-        credentials: 'include'
-    });
+	const reply = await request(`/csr/api/v1/tickets/${ticketId}`, {
+		method: 'PUT',
+		body: JSON.stringify(ticketBody),
+		credentials: 'include'
+	});
 
-    return reply;
+	return reply;
 };
 
 export default updateTicket;

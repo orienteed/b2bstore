@@ -13,16 +13,16 @@ import { useFormApi } from 'informed';
  * @returns {function}  result.handleClick
  */
 export const useResetForm = props => {
-    const { onClick } = props;
+	const { onClick } = props;
 
-    const formApi = useFormApi();
+	const formApi = useFormApi();
 
-    const handleClick = useCallback(() => {
-        formApi.reset();
-        onClick();
-    }, [formApi, onClick]);
+	const handleClick = useCallback(() => {
+		formApi.reset();
+		onClick();
+	}, [formApi, onClick]);
 
-    return {
-        handleClick
-    };
+	return {
+		handleClick
+	};
 };

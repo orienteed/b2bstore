@@ -31,256 +31,207 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  */
 
 export const useProduct = props => {
-    const {
-        item,
-        setActiveEditItem,
-        setIsCartUpdating,
-        wishlistConfig
-    } = props;
+	const { item, setActiveEditItem, setIsCartUpdating, wishlistConfig } = props;
 
-    const [, { dispatch }] = useEventingContext();
+	const [, { dispatch }] = useEventingContext();
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        removeItemMutation,
-        updateItemQuantityMutation,
-        getStoreConfigQuery
-    } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { removeItemMutation, updateItemQuantityMutation, getStoreConfigQuery } = operations;
 
-    const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 
-    const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+	const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const configurableThumbnailSource = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.configurable_thumbnail_source;
-        }
-    }, [storeConfigData]);
+	const configurableThumbnailSource = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.configurable_thumbnail_source;
+		}
+	}, [storeConfigData]);
 
-    const storeUrlSuffix = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.product_url_suffix;
-        }
-    }, [storeConfigData]);
+	const storeUrlSuffix = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.product_url_suffix;
+		}
+	}, [storeConfigData]);
 
-    const flatProduct = flattenProduct(
-        item,
-        configurableThumbnailSource,
-        storeUrlSuffix
-    );
+	const flatProduct = flattenProduct(item, configurableThumbnailSource, storeUrlSuffix);
 
-    const [
-        removeItemFromCart,
-        {
-            called: removeItemCalled,
-            error: removeItemError,
-            loading: removeItemLoading
-        }
-    ] = useMutation(removeItemMutation);
+	const [removeItemFromCart, { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }] =
+		useMutation(removeItemMutation);
 
-    const [
-        updateItemQuantity,
-        {
-            loading: updateItemLoading,
-            error: updateError,
-            called: updateItemCalled
-        }
-    ] = useMutation(updateItemQuantityMutation);
+	const [updateItemQuantity, { loading: updateItemLoading, error: updateError, called: updateItemCalled }] =
+		useMutation(updateItemQuantityMutation);
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    // Use local state to determine whether to display errors or not.
-    // Could be replaced by a "reset mutation" function from apollo client.
-    // https://github.com/apollographql/apollo-feature-requests/issues/170
-    const [displayError, setDisplayError] = useState(false);
+	// Use local state to determine whether to display errors or not.
+	// Could be replaced by a "reset mutation" function from apollo client.
+	// https://github.com/apollographql/apollo-feature-requests/issues/170
+	const [displayError, setDisplayError] = useState(false);
 
-    const isProductUpdating = useMemo(() => {
-        if (updateItemCalled || removeItemCalled) {
-            return removeItemLoading || updateItemLoading;
-        } else {
-            return false;
-        }
-    }, [
-        updateItemCalled,
-        removeItemCalled,
-        removeItemLoading,
-        updateItemLoading
-    ]);
+	const isProductUpdating = useMemo(() => {
+		if (updateItemCalled || removeItemCalled) {
+			return removeItemLoading || updateItemLoading;
+		} else {
+			return false;
+		}
+	}, [updateItemCalled, removeItemCalled, removeItemLoading, updateItemLoading]);
 
-    useEffect(() => {
-        if (item.errors) {
-            setDisplayError(true);
-        }
-    }, [item.errors]);
+	useEffect(() => {
+		if (item.errors) {
+			setDisplayError(true);
+		}
+	}, [item.errors]);
 
-    const derivedErrorMessage = useMemo(() => {
-        return (
-            (displayError &&
-                deriveErrorMessage([updateError, removeItemError])) ||
-            deriveErrorMessage([...(item.errors || [])]) ||
-            ''
-        );
-    }, [displayError, removeItemError, updateError, item.errors]);
+	const derivedErrorMessage = useMemo(() => {
+		return (
+			(displayError && deriveErrorMessage([updateError, removeItemError])) ||
+			deriveErrorMessage([...(item.errors || [])]) ||
+			''
+		);
+	}, [displayError, removeItemError, updateError, item.errors]);
 
-    const handleEditItem = useCallback(() => {
-        setActiveEditItem(item);
+	const handleEditItem = useCallback(() => {
+		setActiveEditItem(item);
 
-        // If there were errors from removing/updating the product, hide them
-        // when we open the modal.
-        setDisplayError(false);
-    }, [item, setActiveEditItem]);
+		// If there were errors from removing/updating the product, hide them
+		// when we open the modal.
+		setDisplayError(false);
+	}, [item, setActiveEditItem]);
 
-    const handleRemoveFromCart = useCallback(async () => {
-        try {
-            await removeItemFromCart({
-                variables: {
-                    cartId,
-                    itemId: item.uid
-                }
-            });
+	const handleRemoveFromCart = useCallback(async () => {
+		try {
+			await removeItemFromCart({
+				variables: {
+					cartId,
+					itemId: item.uid
+				}
+			});
 
-            const selectedOptionsLabels =
-                item.configurable_options?.map(
-                    ({ option_label, value_label }) => ({
-                        attribute: option_label,
-                        value: value_label
-                    })
-                ) || null;
+			const selectedOptionsLabels =
+				item.configurable_options?.map(({ option_label, value_label }) => ({
+					attribute: option_label,
+					value: value_label
+				})) || null;
 
-            dispatch({
-                type: 'CART_REMOVE_ITEM',
-                payload: {
-                    cartId,
-                    sku: item.product.sku,
-                    name: item.product.name,
-                    priceTotal: item.prices.price.value,
-                    currencyCode: item.prices.price.currency,
-                    discountAmount: item.prices.total_item_discount.value,
-                    selectedOptions: selectedOptionsLabels,
-                    quantity: item.quantity
-                }
-            });
-        } catch (err) {
-            // Make sure any errors from the mutation are displayed.
-            setDisplayError(true);
-        }
-    }, [cartId, dispatch, item, removeItemFromCart]);
+			dispatch({
+				type: 'CART_REMOVE_ITEM',
+				payload: {
+					cartId,
+					sku: item.product.sku,
+					name: item.product.name,
+					priceTotal: item.prices.price.value,
+					currencyCode: item.prices.price.currency,
+					discountAmount: item.prices.total_item_discount.value,
+					selectedOptions: selectedOptionsLabels,
+					quantity: item.quantity
+				}
+			});
+		} catch (err) {
+			// Make sure any errors from the mutation are displayed.
+			setDisplayError(true);
+		}
+	}, [cartId, dispatch, item, removeItemFromCart]);
 
-    const handleUpdateItemQuantity = useCallback(
-        async quantity => {
-            try {
-                await updateItemQuantity({
-                    variables: {
-                        cartId,
-                        itemId: item.uid,
-                        quantity
-                    }
-                });
+	const handleUpdateItemQuantity = useCallback(
+		async quantity => {
+			try {
+				await updateItemQuantity({
+					variables: {
+						cartId,
+						itemId: item.uid,
+						quantity
+					}
+				});
 
-                const selectedOptions =
-                    item.configurable_options?.map(
-                        ({ option_label, value_label }) => ({
-                            attribute: option_label,
-                            value: value_label
-                        })
-                    ) || null;
+				const selectedOptions =
+					item.configurable_options?.map(({ option_label, value_label }) => ({
+						attribute: option_label,
+						value: value_label
+					})) || null;
 
-                dispatch({
-                    type: quantity ? 'CART_UPDATE_ITEM' : 'CART_REMOVE_ITEM',
-                    payload: {
-                        cartId,
-                        sku: item.product.sku,
-                        name: item.product.name,
-                        priceTotal: item.prices.price.value,
-                        currencyCode: item.prices.price.currency,
-                        discountAmount: item.prices.total_item_discount.value,
-                        selectedOptions,
-                        quantity: quantity || item.quantity
-                    }
-                });
-            } catch (err) {
-                // Make sure any errors from the mutation are displayed.
-                setDisplayError(true);
-            }
-        },
-        [cartId, dispatch, item, updateItemQuantity]
-    );
+				dispatch({
+					type: quantity ? 'CART_UPDATE_ITEM' : 'CART_REMOVE_ITEM',
+					payload: {
+						cartId,
+						sku: item.product.sku,
+						name: item.product.name,
+						priceTotal: item.prices.price.value,
+						currencyCode: item.prices.price.currency,
+						discountAmount: item.prices.total_item_discount.value,
+						selectedOptions,
+						quantity: quantity || item.quantity
+					}
+				});
+			} catch (err) {
+				// Make sure any errors from the mutation are displayed.
+				setDisplayError(true);
+			}
+		},
+		[cartId, dispatch, item, updateItemQuantity]
+	);
 
-    useEffect(() => {
-        setIsCartUpdating(isProductUpdating);
+	useEffect(() => {
+		setIsCartUpdating(isProductUpdating);
 
-        // Reset updating state on unmount
-        return () => setIsCartUpdating(false);
-    }, [setIsCartUpdating, isProductUpdating]);
+		// Reset updating state on unmount
+		return () => setIsCartUpdating(false);
+	}, [setIsCartUpdating, isProductUpdating]);
 
-    const addToWishlistProps = {
-        afterAdd: handleRemoveFromCart,
-        buttonText: () =>
-            formatMessage({
-                id: 'product.saveForLater',
-                defaultMessage: 'Save for later'
-            }),
-        item: {
-            quantity: item.quantity,
-            selected_options: item.configurable_options
-                ? item.configurable_options.map(
-                      option => option.configurable_product_option_value_uid
-                  )
-                : [],
-            sku: item.product.sku
-        },
-        storeConfig: wishlistConfig
-    };
+	const addToWishlistProps = {
+		afterAdd: handleRemoveFromCart,
+		buttonText: () =>
+			formatMessage({
+				id: 'product.saveForLater',
+				defaultMessage: 'Save for later'
+			}),
+		item: {
+			quantity: item.quantity,
+			selected_options: item.configurable_options
+				? item.configurable_options.map(option => option.configurable_product_option_value_uid)
+				: [],
+			sku: item.product.sku
+		},
+		storeConfig: wishlistConfig
+	};
 
-    return {
-        addToWishlistProps,
-        errorMessage: derivedErrorMessage,
-        handleEditItem,
-        handleRemoveFromCart,
-        handleUpdateItemQuantity,
-        isEditable: !!flatProduct.options.length,
-        product: flatProduct,
-        isProductUpdating
-    };
+	return {
+		addToWishlistProps,
+		errorMessage: derivedErrorMessage,
+		handleEditItem,
+		handleRemoveFromCart,
+		handleUpdateItemQuantity,
+		isEditable: !!flatProduct.options.length,
+		product: flatProduct,
+		isProductUpdating
+	};
 };
 
 const flattenProduct = (item, configurableThumbnailSource, storeUrlSuffix) => {
-    const {
-        configurable_options: options = [],
-        prices,
-        product,
-        quantity
-    } = item;
+	const { configurable_options: options = [], prices, product, quantity } = item;
 
-    const configured_variant = configuredVariant(options, product);
+	const configured_variant = configuredVariant(options, product);
 
-    const { price } = prices;
-    const { value: unitPrice, currency } = price;
+	const { price } = prices;
+	const { value: unitPrice, currency } = price;
 
-    const {
-        name,
-        small_image,
-        stock_status: stockStatus,
-        url_key: urlKey
-    } = product;
-    const { url: image } =
-        configurableThumbnailSource === 'itself' && configured_variant
-            ? configured_variant.small_image
-            : small_image;
+	const { name, small_image, stock_status: stockStatus, url_key: urlKey } = product;
+	const { url: image } =
+		configurableThumbnailSource === 'itself' && configured_variant ? configured_variant.small_image : small_image;
 
-    return {
-        currency,
-        image,
-        name,
-        options,
-        quantity,
-        stockStatus,
-        unitPrice,
-        urlKey,
-        urlSuffix: storeUrlSuffix
-    };
+	return {
+		currency,
+		image,
+		name,
+		options,
+		quantity,
+		stockStatus,
+		unitPrice,
+		urlKey,
+		urlSuffix: storeUrlSuffix
+	};
 };
 
 /** JSDocs type definitions */

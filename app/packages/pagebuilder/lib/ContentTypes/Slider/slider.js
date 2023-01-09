@@ -1,13 +1,5 @@
 import React, { Children } from 'react';
-import {
-    arrayOf,
-    bool,
-    number,
-    oneOf,
-    shape,
-    string,
-    object
-} from 'prop-types';
+import { arrayOf, bool, number, oneOf, shape, string, object } from 'prop-types';
 import SlickSlider from 'react-slick';
 import defaultClasses from './slider.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -27,97 +19,97 @@ import { jarallax } from 'jarallax';
  * @returns {React.Element} A React component that displays a Slider which contains slides.
  */
 const Slider = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const {
-        minHeight,
-        autoplay,
-        autoplaySpeed,
-        fade,
-        infinite,
-        showArrows,
-        showDots,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        mediaQueries,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = [],
-        children
-    } = props;
+	const {
+		minHeight,
+		autoplay,
+		autoplaySpeed,
+		fade,
+		infinite,
+		showArrows,
+		showDots,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		mediaQueries,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = [],
+		children
+	} = props;
 
-    const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
+	const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
 
-    const dynamicStyles = {
-        minHeight,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
-    const jarallaxInstances = {};
-    const sliderSettings = {
-        dots: showDots,
-        arrows: showArrows,
-        lazyLoad: 'ondemand',
-        afterChange: () => {
-            Object.keys(jarallaxInstances).map(key => {
-                jarallax(jarallaxInstances[key].element, 'onScroll');
-            });
-        },
-        infinite,
-        autoplay,
-        autoplaySpeed,
-        fade
-    };
+	const dynamicStyles = {
+		minHeight,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
+	const jarallaxInstances = {};
+	const sliderSettings = {
+		dots: showDots,
+		arrows: showArrows,
+		lazyLoad: 'ondemand',
+		afterChange: () => {
+			Object.keys(jarallaxInstances).map(key => {
+				jarallax(jarallaxInstances[key].element, 'onScroll');
+			});
+		},
+		infinite,
+		autoplay,
+		autoplaySpeed,
+		fade
+	};
 
-    // Override classes on banner to ensure min height is respected
-    Children.map(children, (child, index) => {
-        if (child.props && child.props.data) {
-            child.props.data.classes = {
-                root: classes.bannerRoot,
-                link: classes.bannerLink,
-                wrapper: classes.bannerWrapper,
-                posterOverlay: classes.bannerPosterOverlay
-            };
-            child.props.data.getParallax = (element, options) => {
-                jarallaxInstances[index] = {
-                    element,
-                    options
-                };
-            };
-        }
-        return child;
-    });
+	// Override classes on banner to ensure min height is respected
+	Children.map(children, (child, index) => {
+		if (child.props && child.props.data) {
+			child.props.data.classes = {
+				root: classes.bannerRoot,
+				link: classes.bannerLink,
+				wrapper: classes.bannerWrapper,
+				posterOverlay: classes.bannerPosterOverlay
+			};
+			child.props.data.getParallax = (element, options) => {
+				jarallaxInstances[index] = {
+					element,
+					options
+				};
+			};
+		}
+		return child;
+	});
 
-    return (
-        <div
-            aria-live="polite"
-            aria-busy="false"
-            className={[classes.root, ...cssClasses].join(' ')}
-            style={{ ...dynamicStyles, ...mediaQueryStyles }}
-        >
-            <SlickSlider {...sliderSettings}>{children}</SlickSlider>
-        </div>
-    );
+	return (
+		<div
+			aria-live="polite"
+			aria-busy="false"
+			className={[classes.root, ...cssClasses].join(' ')}
+			style={{ ...dynamicStyles, ...mediaQueryStyles }}
+		>
+			<SlickSlider {...sliderSettings}>{children}</SlickSlider>
+		</div>
+	);
 };
 
 /**
@@ -155,41 +147,41 @@ const Slider = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Slider.propTypes = {
-    classes: shape({
-        root: string,
-        bannerRoot: string,
-        bannerLink: string,
-        bannerWrapper: string,
-        bannerPosterOverlay: string
-    }),
-    appearance: oneOf(['default']),
-    minHeight: string,
-    autoplay: bool,
-    autoplaySpeed: number,
-    fade: bool,
-    infinite: bool,
-    showArrows: bool,
-    showDots: bool,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    mediaQueries: arrayOf(
-        shape({
-            media: string,
-            style: object
-        })
-    ),
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		root: string,
+		bannerRoot: string,
+		bannerLink: string,
+		bannerWrapper: string,
+		bannerPosterOverlay: string
+	}),
+	appearance: oneOf(['default']),
+	minHeight: string,
+	autoplay: bool,
+	autoplaySpeed: number,
+	fade: bool,
+	infinite: bool,
+	showArrows: bool,
+	showDots: bool,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	mediaQueries: arrayOf(
+		shape({
+			media: string,
+			style: object
+		})
+	),
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Slider;

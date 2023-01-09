@@ -8,32 +8,32 @@ import { FormattedMessage } from 'react-intl';
 import { ADD_CONFIGURABLE_MUTATION } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
 
 const ReOrder = props => {
-    const { orderNumber, order, config } = props;
-    const classes = useStyle(defaultClasses, buttonClasses);
+	const { orderNumber, order, config } = props;
+	const classes = useStyle(defaultClasses, buttonClasses);
 
-    const talonPropsForReOrderItems = useReOrderItems({
-        order,
-        config,
-        addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION
-    });
-    const { handleReOrderClick, isLoading } = talonPropsForReOrderItems;
+	const talonPropsForReOrderItems = useReOrderItems({
+		order,
+		config,
+		addConfigurableProductToCartMutation: ADD_CONFIGURABLE_MUTATION
+	});
+	const { handleReOrderClick, isLoading } = talonPropsForReOrderItems;
 
-    if (isLoading) {
-        return fullPageLoadingIndicator;
-    }
+	if (isLoading) {
+		return fullPageLoadingIndicator;
+	}
 
-    return (
-        <div className={classes.reOrderDiv}>
-            <button
-                onClick={() => handleReOrderClick(orderNumber)}
-                type="button"
-                id={orderNumber}
-                className={[classes.reOrderBtn, classes.root].join(' ')}
-            >
-                <FormattedMessage id={'orderRow.ReOrder'} defaultMessage={'ReOrder'} />
-            </button>
-        </div>
-    );
+	return (
+		<div className={classes.reOrderDiv}>
+			<button
+				onClick={() => handleReOrderClick(orderNumber)}
+				type="button"
+				id={orderNumber}
+				className={[classes.reOrderBtn, classes.root].join(' ')}
+			>
+				<FormattedMessage id={'orderRow.ReOrder'} defaultMessage={'ReOrder'} />
+			</button>
+		</div>
+	);
 };
 
 export default ReOrder;

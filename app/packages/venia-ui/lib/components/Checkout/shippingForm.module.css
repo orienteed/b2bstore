@@ -2,18 +2,18 @@
 }
 
 .heading {
-    composes: heading from './flow.module.css';
+	composes: heading from './flow.module.css';
 }
 
 .body {
-    composes: body from './flow.module.css';
+	composes: body from './flow.module.css';
 }
 
 .footer {
-    composes: footer from './flow.module.css';
+	composes: footer from './flow.module.css';
 }
 
 /* fields */
 .shippingMethod {
-    composes: col-end-span1 from global;
+	composes: col-end-span1 from global;
 }

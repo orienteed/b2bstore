@@ -8,30 +8,24 @@ export const { Consumer, Provider } = createContext();
  * @deprecated see @magento/venia-ui/components/Routes/routes.js
  */
 export default class MagentoRouter extends Component {
-    static propTypes = {
-        apiBase: string.isRequired,
-        routerProps: object,
-        using: func // e.g., BrowserRouter, MemoryRouter
-    };
+	static propTypes = {
+		apiBase: string.isRequired,
+		routerProps: object,
+		using: func // e.g., BrowserRouter, MemoryRouter
+	};
 
-    static defaultProps = {
-        routerProps: {},
-        using: BrowserRouter
-    };
+	static defaultProps = {
+		routerProps: {},
+		using: BrowserRouter
+	};
 
-    render() {
-        const { apiBase, children, routerProps, using: Router } = this.props;
+	render() {
+		const { apiBase, children, routerProps, using: Router } = this.props;
 
-        return (
-            <Router {...routerProps}>
-                <Route>
-                    {routeProps => (
-                        <Provider value={{ apiBase, ...routeProps }}>
-                            {children}
-                        </Provider>
-                    )}
-                </Route>
-            </Router>
-        );
-    }
+		return (
+			<Router {...routerProps}>
+				<Route>{routeProps => <Provider value={{ apiBase, ...routeProps }}>{children}</Provider>}</Route>
+			</Router>
+		);
+	}
 }

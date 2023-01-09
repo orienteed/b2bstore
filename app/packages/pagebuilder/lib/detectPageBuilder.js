@@ -5,5 +5,5 @@
  * @returns {boolean}
  */
 export default function detectPageBuilder(content) {
-    return /data-content-type=/.test(content);
+	return /data-content-type=/.test(content);
 }

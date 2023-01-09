@@ -1,5 +1,5 @@
 module.exports = {
-    IOAdapter: require('./IOAdapter'),
-    middleware: require('./middleware'),
-    createUpwardServer: require('./createUpwardServer')
+	IOAdapter: require('./IOAdapter'),
+	middleware: require('./middleware'),
+	createUpwardServer: require('./createUpwardServer')
 };

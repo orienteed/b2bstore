@@ -27,64 +27,64 @@ const storage = new BrowserPersistence();
  */
 
 export const useCurrencySwitcher = (props = {}) => {
-    const { typePolicies = CUSTOM_TYPES } = props;
+	const { typePolicies = CUSTOM_TYPES } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCurrencyQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getCurrencyQuery } = operations;
 
-    useTypePolicies(typePolicies);
+	useTypePolicies(typePolicies);
 
-    const { data: currencyData } = useQuery(getCurrencyQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+	const { data: currencyData } = useQuery(getCurrencyQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const currentCurrencyCode = useMemo(() => {
-        if (currencyData) {
-            return currencyData.currency.current_currency_code;
-        }
-    }, [currencyData]);
+	const currentCurrencyCode = useMemo(() => {
+		if (currencyData) {
+			return currencyData.currency.current_currency_code;
+		}
+	}, [currencyData]);
 
-    const availableCurrencies = useMemo(() => {
-        if (currencyData) {
-            return currencyData.currency.available_currency_codes;
-        }
-    }, [currencyData]);
+	const availableCurrencies = useMemo(() => {
+		if (currencyData) {
+			return currencyData.currency.available_currency_codes;
+		}
+	}, [currencyData]);
 
-    const history = useHistory();
+	const history = useHistory();
 
-    const handleSwitchCurrency = useCallback(
-        currencyCode => {
-            // Do nothing when currency code is not present in available currencies
-            if (!availableCurrencies.includes(currencyCode)) return;
+	const handleSwitchCurrency = useCallback(
+		currencyCode => {
+			// Do nothing when currency code is not present in available currencies
+			if (!availableCurrencies.includes(currencyCode)) return;
 
-            storage.setItem('store_view_currency', currencyCode);
+			storage.setItem('store_view_currency', currencyCode);
 
-            // Refresh the page to re-trigger the queries once currency are saved in local storage.
-            history.go(0);
-        },
-        [availableCurrencies, history]
-    );
+			// Refresh the page to re-trigger the queries once currency are saved in local storage.
+			history.go(0);
+		},
+		[availableCurrencies, history]
+	);
 
-    const {
-        elementRef: currencyMenuRef,
-        expanded: currencyMenuIsOpen,
-        setExpanded: setCurrencyMenuIsOpen,
-        triggerRef: currencyMenuTriggerRef
-    } = useDropdown();
+	const {
+		elementRef: currencyMenuRef,
+		expanded: currencyMenuIsOpen,
+		setExpanded: setCurrencyMenuIsOpen,
+		triggerRef: currencyMenuTriggerRef
+	} = useDropdown();
 
-    const handleTriggerClick = useCallback(() => {
-        // Toggle Stores Menu.
-        setCurrencyMenuIsOpen(isOpen => !isOpen);
-    }, [setCurrencyMenuIsOpen]);
+	const handleTriggerClick = useCallback(() => {
+		// Toggle Stores Menu.
+		setCurrencyMenuIsOpen(isOpen => !isOpen);
+	}, [setCurrencyMenuIsOpen]);
 
-    return {
-        currentCurrencyCode,
-        availableCurrencies,
-        currencyMenuRef,
-        currencyMenuTriggerRef,
-        currencyMenuIsOpen,
-        handleTriggerClick,
-        handleSwitchCurrency
-    };
+	return {
+		currentCurrencyCode,
+		availableCurrencies,
+		currencyMenuRef,
+		currencyMenuTriggerRef,
+		currencyMenuIsOpen,
+		handleTriggerClick,
+		handleSwitchCurrency
+	};
 };

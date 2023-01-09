@@ -6,16 +6,16 @@
  * @returns {Promise<*>}
  */
 const getNamedExport = (obj, name = 'default') =>
-    Promise.resolve(obj).then(mod => {
-        if (!mod || typeof mod !== 'object') {
-            throw new Error('Invalid namespace object provided.');
-        }
+	Promise.resolve(obj).then(mod => {
+		if (!mod || typeof mod !== 'object') {
+			throw new Error('Invalid namespace object provided.');
+		}
 
-        if (!mod.hasOwnProperty(name)) {
-            throw new Error(`Binding ${name} not found.`);
-        }
+		if (!mod.hasOwnProperty(name)) {
+			throw new Error(`Binding ${name} not found.`);
+		}
 
-        return mod[name];
-    });
+		return mod[name];
+	});
 
 export default getNamedExport;

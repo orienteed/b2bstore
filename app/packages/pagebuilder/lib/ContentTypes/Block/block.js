@@ -15,45 +15,45 @@ import { arrayOf, string } from 'prop-types';
  * @returns {React.Element} A React component that displays a Block.
  */
 const Block = props => {
-    const {
-        richContent,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
+	const {
+		richContent,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
 
-    const dynamicStyles = {
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
+	const dynamicStyles = {
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
 
-    return (
-        <div style={dynamicStyles} className={cssClasses.join(' ')}>
-            <CmsBlock content={richContent} />
-        </div>
-    );
+	return (
+		<div style={dynamicStyles} className={cssClasses.join(' ')}>
+			<CmsBlock content={richContent} />
+		</div>
+	);
 };
 
 /**
@@ -78,20 +78,20 @@ const Block = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Block.propTypes = {
-    richContent: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    cssClasses: arrayOf(string)
+	richContent: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Block;

@@ -9,27 +9,27 @@ import defaultClasses from './quotePriceAdjustments.module.css';
 const QuoteConversation = React.lazy(() => import('./QuoteConversation'));
 
 const QuotePriceAdjustments = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 
-    return (
-        <div className={classes.root}>
-            <Accordion canOpenMultiple={true}>
-                <Section
-                    id={'quote_conversation'}
-                    title={formatMessage({
-                        id: 'quotePriceAdjustments.conversation',
-                        defaultMessage: 'Conversation'
-                    })}
-                >
-                    <Suspense fallback={<LoadingIndicator />}>
-                        <QuoteConversation />
-                    </Suspense>
-                </Section>
-            </Accordion>
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			<Accordion canOpenMultiple={true}>
+				<Section
+					id={'quote_conversation'}
+					title={formatMessage({
+						id: 'quotePriceAdjustments.conversation',
+						defaultMessage: 'Conversation'
+					})}
+				>
+					<Suspense fallback={<LoadingIndicator />}>
+						<QuoteConversation />
+					</Suspense>
+				</Section>
+			</Accordion>
+		</div>
+	);
 };
 
 export default QuotePriceAdjustments;

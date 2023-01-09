@@ -12,10 +12,7 @@ import { bindActionCreators } from 'redux';
  * @param {Function | CreatorObject} value - Action creator(s) to be bound.
  * @return {Function} - A function compatible with `value`.
  */
-const getBindFunction = value =>
-    typeof value === 'function'
-        ? bindActionCreators
-        : bindActionCreatorsRecursively;
+const getBindFunction = value => (typeof value === 'function' ? bindActionCreators : bindActionCreatorsRecursively);
 
 /**
  * Maps an object whose values are action creators (or objects of such)
@@ -31,10 +28,10 @@ const getBindFunction = value =>
  * @return {CreatorObject} - A nested object containing bound action creators.
  */
 const bindActionCreatorsRecursively = (actions, dispatch) =>
-    Object.entries(actions).reduce((acc, [name, value]) => {
-        const bind = getBindFunction(value);
-        acc[name] = bind(value, dispatch);
-        return acc;
-    }, {});
+	Object.entries(actions).reduce((acc, [name, value]) => {
+		const bind = getBindFunction(value);
+		acc[name] = bind(value, dispatch);
+		return acc;
+	}, {});
 
 export default bindActionCreatorsRecursively;

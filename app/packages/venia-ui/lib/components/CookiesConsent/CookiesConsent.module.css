@@ -1,18 +1,18 @@
 .CookieWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 .CookieWrapper > div {
-    width: 75% !important;
-    left: unset !important;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+	width: 75% !important;
+	left: unset !important;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 @media (max-width: 650px) {
-    .CookieWrapper > div > div {
-        flex: 1 0 250px !important;
-    }
+	.CookieWrapper > div > div {
+		flex: 1 0 250px !important;
+	}
 }

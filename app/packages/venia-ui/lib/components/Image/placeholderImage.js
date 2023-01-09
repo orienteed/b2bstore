@@ -20,63 +20,51 @@ import SimpleImage from './simpleImage';
  * @param {number}   props.width the intrinsic width of the image.
  */
 const PlaceholderImage = props => {
-    const {
-        alt,
-        classes,
-        displayPlaceholder,
-        height,
-        imageHasError,
-        imageIsLoaded,
-        src,
-        width,
-        ...rest
-    } = props;
+	const { alt, classes, displayPlaceholder, height, imageHasError, imageIsLoaded, src, width, ...rest } = props;
 
-    const talonProps = usePlaceholderImage({
-        displayPlaceholder,
-        imageHasError,
-        imageIsLoaded
-    });
+	const talonProps = usePlaceholderImage({
+		displayPlaceholder,
+		imageHasError,
+		imageIsLoaded
+	});
 
-    const { shouldRenderPlaceholder } = talonProps;
+	const { shouldRenderPlaceholder } = talonProps;
 
-    const placeholderClass = shouldRenderPlaceholder
-        ? classes.placeholder
-        : classes.placeholder_layoutOnly;
+	const placeholderClass = shouldRenderPlaceholder ? classes.placeholder : classes.placeholder_layoutOnly;
 
-    const placeholderFullClass = `${classes.image} ${placeholderClass}`;
+	const placeholderFullClass = `${classes.image} ${placeholderClass}`;
 
-    // Note: Attributes that are allowed to be overridden must appear before the spread of `rest`.
-    return (
-        <SimpleImage
-            loading="eager"
-            height={height}
-            width={width}
-            {...rest}
-            alt={alt}
-            className={placeholderFullClass}
-            src={src}
-        />
-    );
+	// Note: Attributes that are allowed to be overridden must appear before the spread of `rest`.
+	return (
+		<SimpleImage
+			loading="eager"
+			height={height}
+			width={width}
+			{...rest}
+			alt={alt}
+			className={placeholderFullClass}
+			src={src}
+		/>
+	);
 };
 
 PlaceholderImage.propTypes = {
-    alt: string.isRequired,
-    classes: shape({
-        image: string,
-        placeholder: string,
-        placeholder_layoutOnly: string
-    }).isRequired,
-    displayPlaceholder: bool,
-    height: oneOfType([number, string]),
-    imageHasError: bool,
-    imageIsLoaded: bool,
-    src: string,
-    width: oneOfType([number, string])
+	alt: string.isRequired,
+	classes: shape({
+		image: string,
+		placeholder: string,
+		placeholder_layoutOnly: string
+	}).isRequired,
+	displayPlaceholder: bool,
+	height: oneOfType([number, string]),
+	imageHasError: bool,
+	imageIsLoaded: bool,
+	src: string,
+	width: oneOfType([number, string])
 };
 
 PlaceholderImage.defaultProps = {
-    src: transparentPlaceholder
+	src: transparentPlaceholder
 };
 
 export default PlaceholderImage;

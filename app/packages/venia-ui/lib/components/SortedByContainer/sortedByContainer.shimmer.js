@@ -6,19 +6,19 @@ import Shimmer from '../Shimmer';
 import defaultClasses from './sortedByContainer.module.css';
 
 const SortedByContainerShimmer = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    return (
-        <div className={classes.root} aria-live="polite" aria-busy="true">
-            <Shimmer width={10} />
-        </div>
-    );
+	return (
+		<div className={classes.root} aria-live="polite" aria-busy="true">
+			<Shimmer width={10} />
+		</div>
+	);
 };
 
 SortedByContainerShimmer.propTypes = {
-    classes: shape({
-        root: string
-    })
+	classes: shape({
+		root: string
+	})
 };
 
 export default SortedByContainerShimmer;

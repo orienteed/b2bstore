@@ -25,76 +25,64 @@ import ShippingRadios from './shippingRadios';
  * import ShippingMethods from "@magento/venia-ui/lib/components/CartPage/PriceAdjustments/ShippingMethods";
  */
 const ShippingMethods = props => {
-    const { setIsCartUpdating } = props;
-    const {
-        hasMethods,
-        isShowingForm,
-        selectedShippingFields,
-        selectedShippingMethod,
-        shippingMethods,
-        showForm
-    } = useShippingMethods();
+	const { setIsCartUpdating } = props;
+	const { hasMethods, isShowingForm, selectedShippingFields, selectedShippingMethod, shippingMethods, showForm } =
+		useShippingMethods();
 
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const radios =
-        isShowingForm && hasMethods ? (
-            <Fragment>
-                <h3 className={classes.prompt}>
-                    <FormattedMessage
-                        id={'shippingMethods.prompt'}
-                        defaultMessage={'Shipping Methods'}
-                    />
-                </h3>
-                <Form>
-                    <ShippingRadios
-                        selectedShippingMethod={selectedShippingMethod}
-                        setIsCartUpdating={setIsCartUpdating}
-                        shippingMethods={shippingMethods}
-                    />
-                </Form>
-            </Fragment>
-        ) : null;
+	const radios =
+		isShowingForm && hasMethods ? (
+			<Fragment>
+				<h3 className={classes.prompt}>
+					<FormattedMessage id={'shippingMethods.prompt'} defaultMessage={'Shipping Methods'} />
+				</h3>
+				<Form>
+					<ShippingRadios
+						selectedShippingMethod={selectedShippingMethod}
+						setIsCartUpdating={setIsCartUpdating}
+						shippingMethods={shippingMethods}
+					/>
+				</Form>
+			</Fragment>
+		) : null;
 
-    const formOrPlaceholder = isShowingForm ? (
-        <Fragment>
-            <ShippingForm
-                hasMethods={hasMethods}
-                selectedShippingFields={selectedShippingFields}
-                setIsCartUpdating={setIsCartUpdating}
-            />
-            {radios}
-        </Fragment>
-    ) : (
-        <Button
-            priority="normal"
-            type="button"
-            classes={{
-                root_normalPriority: classes.estimateButton
-            }}
-            data-cy="ShippingMethods-estimateButton"
-            onClick={showForm}
-        >
-            <FormattedMessage
-                id={'shippingMethods.estimateButton'}
-                defaultMessage={'I want to estimate my shipping'}
-            />
-        </Button>
-    );
+	const formOrPlaceholder = isShowingForm ? (
+		<Fragment>
+			<ShippingForm
+				hasMethods={hasMethods}
+				selectedShippingFields={selectedShippingFields}
+				setIsCartUpdating={setIsCartUpdating}
+			/>
+			{radios}
+		</Fragment>
+	) : (
+		<Button
+			priority="normal"
+			type="button"
+			classes={{
+				root_normalPriority: classes.estimateButton
+			}}
+			data-cy="ShippingMethods-estimateButton"
+			onClick={showForm}
+		>
+			<FormattedMessage id={'shippingMethods.estimateButton'} defaultMessage={'I want to estimate my shipping'} />
+		</Button>
+	);
 
-    return (
-        <div className={classes.root} data-cy="ShippingMethods-root">
-            <p className={classes.message}>
-                <FormattedMessage
-                    id={'shippingMethods.message'}
-                    defaultMessage={
-                        'For shipping estimates before proceeding to checkout, please provide the Country, State, and ZIP for the destination of your order.'
-                    }
-                />
-            </p>
-            {formOrPlaceholder}
-        </div>
-    );
+	return (
+		<div className={classes.root} data-cy="ShippingMethods-root">
+			<p className={classes.message}>
+				<FormattedMessage
+					id={'shippingMethods.message'}
+					defaultMessage={
+						'For shipping estimates before proceeding to checkout, please provide the Country, State, and ZIP for the destination of your order.'
+					}
+				/>
+			</p>
+			{formOrPlaceholder}
+		</div>
+	);
 };
 
 export default ShippingMethods;

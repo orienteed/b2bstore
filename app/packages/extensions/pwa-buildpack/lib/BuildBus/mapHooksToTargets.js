@@ -11,15 +11,15 @@ const Tapable = require('tapable');
  * @private
  */
 const allowedTargetTypes = [
-    'Sync',
-    'SyncBail',
-    'SyncWaterfall',
-    'SyncLoop',
-    'AsyncParallel',
-    'AsyncParallelBail',
-    'AsyncSeries',
-    'AsyncSeriesBail',
-    'AsyncSeriesWaterfall'
+	'Sync',
+	'SyncBail',
+	'SyncWaterfall',
+	'SyncLoop',
+	'AsyncParallel',
+	'AsyncParallelBail',
+	'AsyncSeries',
+	'AsyncSeriesBail',
+	'AsyncSeriesWaterfall'
 ];
 
 /**
@@ -38,9 +38,9 @@ const types = {};
 
 // Populate the validator map and type dictionary
 for (const type of allowedTargetTypes) {
-    const HookConstructor = Tapable[type + 'Hook'];
-    types[type] = HookConstructor;
-    VALID_TYPES.set(HookConstructor, type);
+	const HookConstructor = Tapable[type + 'Hook'];
+	types[type] = HookConstructor;
+	VALID_TYPES.set(HookConstructor, type);
 }
 
 /**
@@ -48,17 +48,16 @@ for (const type of allowedTargetTypes) {
  * @private
  */
 const hasAsyncHookInterface = hook =>
-    typeof hook.tapAsync === 'function' &&
-    typeof hook.tapPromise === 'function' &&
-    typeof hook.callAsync === 'function' &&
-    typeof hook.promise === 'function';
+	typeof hook.tapAsync === 'function' &&
+	typeof hook.tapPromise === 'function' &&
+	typeof hook.callAsync === 'function' &&
+	typeof hook.promise === 'function';
 
 /**
  * Duck typing for sync hooks
  * @private
  */
-const hasSyncHookInterface = hook =>
-    typeof hook.tap === 'function' && typeof hook.call === 'function';
+const hasSyncHookInterface = hook => typeof hook.tap === 'function' && typeof hook.call === 'function';
 
 /**
  * Use duck typing to validate that the passed object seems like a Tapable hook.
@@ -68,10 +67,10 @@ const hasSyncHookInterface = hook =>
  * @returns {boolean} True if the object looks like a Tapable hook. False otherwise.
  */
 const appearsToBeTapable = hookLike =>
-    hookLike &&
-    typeof hookLike === 'object' &&
-    typeof hookLike.intercept === 'function' &&
-    (hasSyncHookInterface(hookLike) || hasAsyncHookInterface(hookLike));
+	hookLike &&
+	typeof hookLike === 'object' &&
+	typeof hookLike.intercept === 'function' &&
+	(hasSyncHookInterface(hookLike) || hasAsyncHookInterface(hookLike));
 
 /**
  * Get the string type name of a provided object. If it is one of the base
@@ -85,7 +84,7 @@ const appearsToBeTapable = hookLike =>
 const getTapableType = hook => VALID_TYPES.get(hook.constructor) || '<unknown>';
 
 module.exports = {
-    appearsToBeTapable,
-    getTapableType,
-    types
+	appearsToBeTapable,
+	getTapableType,
+	types
 };

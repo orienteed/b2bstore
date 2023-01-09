@@ -29,12 +29,12 @@ const { stringifyRequest } = require('loader-utils');
 
 module.exports = function loader() {};
 module.exports.pitch = function pitch(request) {
-    if (this.cacheable) {
-        this.cacheable();
-    }
+	if (this.cacheable) {
+		this.cacheable();
+	}
 
-    const insertCss = require.resolve('../insertCss.js');
-    return `
+	const insertCss = require.resolve('../insertCss.js');
+	return `
     var refs = 0;
     var css = require(${stringifyRequest(this, `!!${request}`)});
     var insertCss = require(${stringifyRequest(this, `!${insertCss}`)});

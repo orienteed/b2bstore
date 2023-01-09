@@ -16,16 +16,16 @@ import { usePrintPdfContext } from '@magento/venia-ui/lib/components/CartPage/Pr
  * @param {Object} data query data
  */
 const flattenData = data => {
-    if (!data) return {};
-    return {
-        subtotal: data.cart.prices.subtotal_excluding_tax,
-        total: data.cart.prices.grand_total,
-        discounts: data.cart.prices.discounts,
-        giftCards: data.cart.applied_gift_cards,
-        // giftOptions: data.cart.prices.gift_options,
-        taxes: data.cart.prices.applied_taxes,
-        shipping: data.cart.shipping_addresses
-    };
+	if (!data) return {};
+	return {
+		subtotal: data.cart.prices.subtotal_excluding_tax,
+		total: data.cart.prices.grand_total,
+		discounts: data.cart.prices.discounts,
+		giftCards: data.cart.applied_gift_cards,
+		// giftOptions: data.cart.prices.gift_options,
+		taxes: data.cart.prices.applied_taxes,
+		shipping: data.cart.shipping_addresses
+	};
 };
 
 /**
@@ -47,41 +47,41 @@ const flattenData = data => {
  * import { usePriceSummary } from '@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary';
  */
 export const usePriceSummary = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getPriceSummaryQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getPriceSummaryQuery } = operations;
 
-    const { setPriceSummary } = usePrintPdfContext();
+	const { setPriceSummary } = usePrintPdfContext();
 
-    const [{ cartId }] = useCartContext();
-    const history = useHistory();
-    // We don't want to display "Estimated" or the "Proceed" button in checkout.
-    const match = useRouteMatch('/checkout');
-    const isCheckout = !!match;
+	const [{ cartId }] = useCartContext();
+	const history = useHistory();
+	// We don't want to display "Estimated" or the "Proceed" button in checkout.
+	const match = useRouteMatch('/checkout');
+	const isCheckout = !!match;
 
-    const { error, loading, data } = useQuery(getPriceSummaryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
-    useEffect(() => {
-        setPriceSummary(flattenData(data));
-    }, [data, setPriceSummary]);
+	const { error, loading, data } = useQuery(getPriceSummaryQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first',
+		skip: !cartId,
+		variables: {
+			cartId
+		}
+	});
+	useEffect(() => {
+		setPriceSummary(flattenData(data));
+	}, [data, setPriceSummary]);
 
-    const handleProceedToCheckout = useCallback(() => {
-        history.push('/checkout');
-    }, [history]);
+	const handleProceedToCheckout = useCallback(() => {
+		history.push('/checkout');
+	}, [history]);
 
-    return {
-        handleProceedToCheckout,
-        hasError: !!error,
-        hasItems: data && !!data.cart.items.length,
-        isCheckout,
-        isLoading: !!loading,
-        flatData: flattenData(data)
-    };
+	return {
+		handleProceedToCheckout,
+		hasError: !!error,
+		hasItems: data && !!data.cart.items.length,
+		isCheckout,
+		isLoading: !!loading,
+		flatData: flattenData(data)
+	};
 };
 
 /** JSDocs type definitions */

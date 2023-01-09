@@ -14,22 +14,22 @@ const MockWebpackLoaderContext = require('./MockedWebpackLoaderContext');
  * @returns Output of the loader.
  */
 async function runLoader(loader, content, contextValues) {
-    return new Promise((res, rej) => {
-        const callback = (err, output) => {
-            if (err) {
-                rej(err);
-            } else {
-                res({ context, output });
-            }
-        };
+	return new Promise((res, rej) => {
+		const callback = (err, output) => {
+			if (err) {
+				rej(err);
+			} else {
+				res({ context, output });
+			}
+		};
 
-        const context = new MockWebpackLoaderContext(callback, contextValues);
+		const context = new MockWebpackLoaderContext(callback, contextValues);
 
-        const output = loader.call(context, content);
-        if (context.mustReturnSync) {
-            res({ context, output });
-        }
-    });
+		const output = loader.call(context, content);
+		if (context.mustReturnSync) {
+			res({ context, output });
+		}
+	});
 }
 
 module.exports = { runLoader };

@@ -16,21 +16,21 @@ import { useUserContext } from '../../context/user';
  * }}
  */
 export const useAuthBar = props => {
-    const { disabled, showMyAccount, showSignIn } = props;
-    const [{ isSignedIn: isUserSignedIn }] = useUserContext();
+	const { disabled, showMyAccount, showSignIn } = props;
+	const [{ isSignedIn: isUserSignedIn }] = useUserContext();
 
-    const handleSignIn = useCallback(() => {
-        showSignIn();
-    }, [showSignIn]);
+	const handleSignIn = useCallback(() => {
+		showSignIn();
+	}, [showSignIn]);
 
-    const handleShowMyAccount = useCallback(() => {
-        showMyAccount();
-    }, [showMyAccount]);
+	const handleShowMyAccount = useCallback(() => {
+		showMyAccount();
+	}, [showMyAccount]);
 
-    return {
-        handleShowMyAccount,
-        handleSignIn,
-        isDisabled: disabled,
-        isUserSignedIn
-    };
+	return {
+		handleShowMyAccount,
+		handleSignIn,
+		isDisabled: disabled,
+		isUserSignedIn
+	};
 };

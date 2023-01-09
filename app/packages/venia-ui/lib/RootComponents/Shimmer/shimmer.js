@@ -4,23 +4,23 @@ import { fullPageLoadingIndicator } from '../../components/LoadingIndicator';
 import TYPES from './types';
 
 const RootShimmer = props => {
-    const { type } = props;
+	const { type } = props;
 
-    if (!type || typeof TYPES[type] === 'undefined') {
-        return fullPageLoadingIndicator;
-    }
+	if (!type || typeof TYPES[type] === 'undefined') {
+		return fullPageLoadingIndicator;
+	}
 
-    const Component = TYPES[type];
+	const Component = TYPES[type];
 
-    return <Component />;
+	return <Component />;
 };
 
 RootShimmer.defaultProps = {
-    type: null
+	type: null
 };
 
 RootShimmer.propTypes = {
-    type: string
+	type: string
 };
 
 export default RootShimmer;

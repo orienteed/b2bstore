@@ -8,19 +8,19 @@ import { useCallback } from 'react';
  * }}
  */
 export const useAttributeType = props => {
-    const { typeConfig = {} } = props;
+	const { typeConfig = {} } = props;
 
-    // Retrieve a attribute types configuration
-    const getAttributeTypeConfig = useCallback(
-        attributeType => {
-            if (typeConfig[attributeType]) {
-                return typeConfig[attributeType];
-            }
-        },
-        [typeConfig]
-    );
+	// Retrieve a attribute types configuration
+	const getAttributeTypeConfig = useCallback(
+		attributeType => {
+			if (typeConfig[attributeType]) {
+				return typeConfig[attributeType];
+			}
+		},
+		[typeConfig]
+	);
 
-    return {
-        getAttributeTypeConfig
-    };
+	return {
+		getAttributeTypeConfig
+	};
 };

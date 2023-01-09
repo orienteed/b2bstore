@@ -28,321 +28,296 @@ import DEFAULT_OPERATIONS from './giftOptions.gql';
  * import { useGiftOptions } from '@magento/peregrine/lib/talons/CartPage/GiftOptions/useGiftOptions';
  */
 export const useGiftOptions = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { setGiftOptionsOnCartMutation, getGiftOptionsQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { setGiftOptionsOnCartMutation, getGiftOptionsQuery } = operations;
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    const [
-        setGiftOptionsOnCart,
-        { error: setGiftOptionsOnCartError }
-    ] = useMutation(setGiftOptionsOnCartMutation);
-    const {
-        data: getGiftOptionsData,
-        error: getGiftOptionsError,
-        loading
-    } = useQuery(getGiftOptionsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+	const [setGiftOptionsOnCart, { error: setGiftOptionsOnCartError }] = useMutation(setGiftOptionsOnCartMutation);
+	const {
+		data: getGiftOptionsData,
+		error: getGiftOptionsError,
+		loading
+	} = useQuery(getGiftOptionsQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first',
+		skip: !cartId,
+		variables: { cartId }
+	});
 
-    const { cart } = getGiftOptionsData || {};
+	const { cart } = getGiftOptionsData || {};
 
-    const formApiRef = useRef(null);
+	const formApiRef = useRef(null);
 
-    const [giftMessageIsChecked, setGiftMessageIsChecked] = useState(false);
-    const [showGiftMessageResult, setShowGiftMessageResult] = useState(false);
-    const [savingOptions, setSavingOptions] = useState([]);
+	const [giftMessageIsChecked, setGiftMessageIsChecked] = useState(false);
+	const [showGiftMessageResult, setShowGiftMessageResult] = useState(false);
+	const [savingOptions, setSavingOptions] = useState([]);
 
-    const initialValues = useMemo(() => {
-        const hasInitialGiftMessage =
-            cart?.gift_message?.from.length > 0 ||
-            cart?.gift_message?.to.length > 0 ||
-            cart?.gift_message?.message.length > 0;
+	const initialValues = useMemo(() => {
+		const hasInitialGiftMessage =
+			cart?.gift_message?.from.length > 0 ||
+			cart?.gift_message?.to.length > 0 ||
+			cart?.gift_message?.message.length > 0;
 
-        if (formApiRef?.current?.getState()?.values === undefined) {
-            setGiftMessageIsChecked(hasInitialGiftMessage);
-            setShowGiftMessageResult(hasInitialGiftMessage);
-        }
+		if (formApiRef?.current?.getState()?.values === undefined) {
+			setGiftMessageIsChecked(hasInitialGiftMessage);
+			setShowGiftMessageResult(hasInitialGiftMessage);
+		}
 
-        return {
-            cardFrom: cart?.gift_message?.from || '',
-            cardTo: cart?.gift_message?.to || '',
-            cardMessage: cart?.gift_message?.message || '',
-            includeGiftReceipt: cart?.gift_receipt_included === true,
-            includeGiftMessage: hasInitialGiftMessage,
-            includePrintedCard: cart?.printed_card_included === true
-        };
-    }, [cart]);
+		return {
+			cardFrom: cart?.gift_message?.from || '',
+			cardTo: cart?.gift_message?.to || '',
+			cardMessage: cart?.gift_message?.message || '',
+			includeGiftReceipt: cart?.gift_receipt_included === true,
+			includeGiftMessage: hasInitialGiftMessage,
+			includePrintedCard: cart?.printed_card_included === true
+		};
+	}, [cart]);
 
-    const giftMessageResult = useMemo(
-        () => ({
-            cardFrom: cart?.gift_message?.from || '',
-            cardTo: cart?.gift_message?.to || '',
-            cardMessage: cart?.gift_message?.message || ''
-        }),
-        [
-            cart?.gift_message?.from,
-            cart?.gift_message?.message,
-            cart?.gift_message?.to
-        ]
-    );
+	const giftMessageResult = useMemo(
+		() => ({
+			cardFrom: cart?.gift_message?.from || '',
+			cardTo: cart?.gift_message?.to || '',
+			cardMessage: cart?.gift_message?.message || ''
+		}),
+		[cart?.gift_message?.from, cart?.gift_message?.message, cart?.gift_message?.to]
+	);
 
-    const printedCardPrice = cart?.prices?.gift_options?.printed_card || {};
+	const printedCardPrice = cart?.prices?.gift_options?.printed_card || {};
 
-    const hasGiftMessage =
-        giftMessageResult.cardFrom.length > 0 &&
-        giftMessageResult.cardTo.length > 0 &&
-        giftMessageResult.cardMessage.length > 0;
+	const hasGiftMessage =
+		giftMessageResult.cardFrom.length > 0 &&
+		giftMessageResult.cardTo.length > 0 &&
+		giftMessageResult.cardMessage.length > 0;
 
-    const setFormApi = useCallback(api => (formApiRef.current = api), []);
+	const setFormApi = useCallback(api => (formApiRef.current = api), []);
 
-    const handleOnChange = useCallback(async () => {
-        try {
-            const formApi = formApiRef.current;
+	const handleOnChange = useCallback(async () => {
+		try {
+			const formApi = formApiRef.current;
 
-            if (formApi) {
-                await setGiftOptionsOnCart({
-                    variables: {
-                        cartId,
-                        giftReceiptIncluded: formApi.getValue(
-                            'includeGiftReceipt'
-                        ),
-                        printedCardIncluded: formApi.getValue(
-                            'includePrintedCard'
-                        )
-                    }
-                });
+			if (formApi) {
+				await setGiftOptionsOnCart({
+					variables: {
+						cartId,
+						giftReceiptIncluded: formApi.getValue('includeGiftReceipt'),
+						printedCardIncluded: formApi.getValue('includePrintedCard')
+					}
+				});
 
-                // Reset saving options when mutation is complete
-                setSavingOptions([]);
-            }
-        } catch (e) {
-            // Error is logged by apollo link - no need to double log.
-        }
-    }, [cartId, setGiftOptionsOnCart]);
+				// Reset saving options when mutation is complete
+				setSavingOptions([]);
+			}
+		} catch (e) {
+			// Error is logged by apollo link - no need to double log.
+		}
+	}, [cartId, setGiftOptionsOnCart]);
 
-    // TODO: Update mutation when backend provides the option to remove Gift Message
-    const handleRemoveGiftMessage = useCallback(async () => {
-        try {
-            const formApi = formApiRef.current;
+	// TODO: Update mutation when backend provides the option to remove Gift Message
+	const handleRemoveGiftMessage = useCallback(async () => {
+		try {
+			const formApi = formApiRef.current;
 
-            if (formApi) {
-                // Indicates Gift Message is currently saving
-                setSavingOptions([...savingOptions, 'giftMessage']);
+			if (formApi) {
+				// Indicates Gift Message is currently saving
+				setSavingOptions([...savingOptions, 'giftMessage']);
 
-                // Reset form data and form errors
-                formApi.setValues({
-                    cardTo: '',
-                    cardFrom: '',
-                    cardMessage: ''
-                });
-                formApi.setError('cardTo');
-                formApi.setError('cardFrom');
-                formApi.setError('cardMessage');
-                setShowGiftMessageResult(false);
+				// Reset form data and form errors
+				formApi.setValues({
+					cardTo: '',
+					cardFrom: '',
+					cardMessage: ''
+				});
+				formApi.setError('cardTo');
+				formApi.setError('cardFrom');
+				formApi.setError('cardMessage');
+				setShowGiftMessageResult(false);
 
-                await setGiftOptionsOnCart({
-                    variables: {
-                        cartId,
-                        giftMessage: {
-                            to: '',
-                            from: '',
-                            message: ''
-                        },
-                        // Mutation requires both options to be provided
-                        giftReceiptIncluded: formApi.getValue(
-                            'includeGiftReceipt'
-                        ),
-                        printedCardIncluded: formApi.getValue(
-                            'includePrintedCard'
-                        )
-                    }
-                });
+				await setGiftOptionsOnCart({
+					variables: {
+						cartId,
+						giftMessage: {
+							to: '',
+							from: '',
+							message: ''
+						},
+						// Mutation requires both options to be provided
+						giftReceiptIncluded: formApi.getValue('includeGiftReceipt'),
+						printedCardIncluded: formApi.getValue('includePrintedCard')
+					}
+				});
 
-                // Reset saving options when mutation is complete
-                setSavingOptions([]);
-            }
-        } catch (e) {
-            // Error is logged by apollo link - no need to double log.
-        }
-    }, [cartId, savingOptions, setGiftOptionsOnCart]);
+				// Reset saving options when mutation is complete
+				setSavingOptions([]);
+			}
+		} catch (e) {
+			// Error is logged by apollo link - no need to double log.
+		}
+	}, [cartId, savingOptions, setGiftOptionsOnCart]);
 
-    const handleUpdateGiftMessage = useCallback(async () => {
-        try {
-            const formApi = formApiRef.current;
+	const handleUpdateGiftMessage = useCallback(async () => {
+		try {
+			const formApi = formApiRef.current;
 
-            if (formApi) {
-                formApi.validate();
+			if (formApi) {
+				formApi.validate();
 
-                if (!formApi.getState().invalid) {
-                    // Indicates Gift Message is currently saving
-                    setSavingOptions([...savingOptions, 'giftMessage']);
+				if (!formApi.getState().invalid) {
+					// Indicates Gift Message is currently saving
+					setSavingOptions([...savingOptions, 'giftMessage']);
 
-                    await setGiftOptionsOnCart({
-                        variables: {
-                            cartId,
-                            giftMessage: {
-                                to: formApi.getValue('cardTo'),
-                                from: formApi.getValue('cardFrom'),
-                                message: formApi.getValue('cardMessage')
-                            },
-                            // Mutation requires both options to be provided
-                            giftReceiptIncluded: formApi.getValue(
-                                'includeGiftReceipt'
-                            ),
-                            printedCardIncluded: formApi.getValue(
-                                'includePrintedCard'
-                            )
-                        }
-                    });
+					await setGiftOptionsOnCart({
+						variables: {
+							cartId,
+							giftMessage: {
+								to: formApi.getValue('cardTo'),
+								from: formApi.getValue('cardFrom'),
+								message: formApi.getValue('cardMessage')
+							},
+							// Mutation requires both options to be provided
+							giftReceiptIncluded: formApi.getValue('includeGiftReceipt'),
+							printedCardIncluded: formApi.getValue('includePrintedCard')
+						}
+					});
 
-                    setShowGiftMessageResult(true);
-                    // Reset saving options when mutation is complete
-                    setSavingOptions([]);
-                }
-            }
-        } catch (e) {
-            // Error is logged by apollo link - no need to double log.
-        }
-    }, [cartId, savingOptions, setGiftOptionsOnCart]);
+					setShowGiftMessageResult(true);
+					// Reset saving options when mutation is complete
+					setSavingOptions([]);
+				}
+			}
+		} catch (e) {
+			// Error is logged by apollo link - no need to double log.
+		}
+	}, [cartId, savingOptions, setGiftOptionsOnCart]);
 
-    const handleToggleGiftMessageIsChecked = useCallback(
-        async isChecked => {
-            if (!isChecked) {
-                // Remove Gift Message and reset form
-                await handleRemoveGiftMessage();
-            }
+	const handleToggleGiftMessageIsChecked = useCallback(
+		async isChecked => {
+			if (!isChecked) {
+				// Remove Gift Message and reset form
+				await handleRemoveGiftMessage();
+			}
 
-            setGiftMessageIsChecked(prevState => !prevState);
-        },
-        [handleRemoveGiftMessage]
-    );
+			setGiftMessageIsChecked(prevState => !prevState);
+		},
+		[handleRemoveGiftMessage]
+	);
 
-    const handleToggleGiftMessageResult = useCallback(() => {
-        setShowGiftMessageResult(prevState => !prevState);
-    }, []);
+	const handleToggleGiftMessageResult = useCallback(() => {
+		setShowGiftMessageResult(prevState => !prevState);
+	}, []);
 
-    // Batch writes if the user inputs quickly.
-    const debouncedOnChange = useMemo(
-        () =>
-            debounce(() => {
-                handleOnChange();
-            }, 500),
-        [handleOnChange]
-    );
+	// Batch writes if the user inputs quickly.
+	const debouncedOnChange = useMemo(
+		() =>
+			debounce(() => {
+				handleOnChange();
+			}, 500),
+		[handleOnChange]
+	);
 
-    // Indicates which options are currently saving
-    const updateSavingOptionsOnChange = useCallback(
-        element => {
-            const elementName = element.target.name;
+	// Indicates which options are currently saving
+	const updateSavingOptionsOnChange = useCallback(
+		element => {
+			const elementName = element.target.name;
 
-            if (!savingOptions.includes(elementName)) {
-                setSavingOptions([...savingOptions, elementName]);
-            }
+			if (!savingOptions.includes(elementName)) {
+				setSavingOptions([...savingOptions, elementName]);
+			}
 
-            debouncedOnChange();
-        },
-        [debouncedOnChange, savingOptions]
-    );
+			debouncedOnChange();
+		},
+		[debouncedOnChange, savingOptions]
+	);
 
-    const giftReceiptProps = {
-        field: 'includeGiftReceipt',
-        onChange: updateSavingOptionsOnChange
-    };
+	const giftReceiptProps = {
+		field: 'includeGiftReceipt',
+		onChange: updateSavingOptionsOnChange
+	};
 
-    const printedCardProps = {
-        field: 'includePrintedCard',
-        onChange: updateSavingOptionsOnChange
-    };
+	const printedCardProps = {
+		field: 'includePrintedCard',
+		onChange: updateSavingOptionsOnChange
+	};
 
-    const giftMessageCheckboxProps = {
-        disabled: savingOptions.includes('giftMessage'),
-        field: 'includeGiftMessage',
-        onValueChange: handleToggleGiftMessageIsChecked
-    };
+	const giftMessageCheckboxProps = {
+		disabled: savingOptions.includes('giftMessage'),
+		field: 'includeGiftMessage',
+		onValueChange: handleToggleGiftMessageIsChecked
+	};
 
-    const cardToProps = {
-        disabled:
-            !giftMessageIsChecked || savingOptions.includes('giftMessage'),
-        field: 'cardTo',
-        validate: isRequired
-    };
+	const cardToProps = {
+		disabled: !giftMessageIsChecked || savingOptions.includes('giftMessage'),
+		field: 'cardTo',
+		validate: isRequired
+	};
 
-    const cardFromProps = {
-        disabled:
-            !giftMessageIsChecked || savingOptions.includes('giftMessage'),
-        field: 'cardFrom',
-        validate: isRequired
-    };
+	const cardFromProps = {
+		disabled: !giftMessageIsChecked || savingOptions.includes('giftMessage'),
+		field: 'cardFrom',
+		validate: isRequired
+	};
 
-    const cardMessageProps = {
-        disabled:
-            !giftMessageIsChecked || savingOptions.includes('giftMessage'),
-        field: 'cardMessage',
-        validate: isRequired
-    };
+	const cardMessageProps = {
+		disabled: !giftMessageIsChecked || savingOptions.includes('giftMessage'),
+		field: 'cardMessage',
+		validate: isRequired
+	};
 
-    const optionsFormProps = {
-        initialValues,
-        getApi: setFormApi
-    };
+	const optionsFormProps = {
+		initialValues,
+		getApi: setFormApi
+	};
 
-    const editGiftMessageButtonProps = {
-        disabled:
-            !giftMessageIsChecked || savingOptions.includes('giftMessage'),
-        priority: 'normal',
-        type: 'button',
-        onClick: handleToggleGiftMessageResult
-    };
+	const editGiftMessageButtonProps = {
+		disabled: !giftMessageIsChecked || savingOptions.includes('giftMessage'),
+		priority: 'normal',
+		type: 'button',
+		onClick: handleToggleGiftMessageResult
+	};
 
-    const cancelGiftMessageButtonProps = {
-        disabled:
-            !giftMessageIsChecked || savingOptions.includes('giftMessage'),
-        priority: 'low',
-        type: 'button',
-        onClick: handleToggleGiftMessageResult
-    };
+	const cancelGiftMessageButtonProps = {
+		disabled: !giftMessageIsChecked || savingOptions.includes('giftMessage'),
+		priority: 'low',
+		type: 'button',
+		onClick: handleToggleGiftMessageResult
+	};
 
-    const saveGiftMessageButtonProps = {
-        disabled:
-            !giftMessageIsChecked || savingOptions.includes('giftMessage'),
-        priority: 'normal',
-        type: 'button',
-        onClick: handleUpdateGiftMessage
-    };
+	const saveGiftMessageButtonProps = {
+		disabled: !giftMessageIsChecked || savingOptions.includes('giftMessage'),
+		priority: 'normal',
+		type: 'button',
+		onClick: handleUpdateGiftMessage
+	};
 
-    // Create a memoized error map and toggle individual errors when they change
-    const errors = useMemo(
-        () =>
-            new Map([
-                ['setGiftOptionsOnCartMutation', setGiftOptionsOnCartError],
-                ['getGiftOptionsQuery', getGiftOptionsError]
-            ]),
-        [getGiftOptionsError, setGiftOptionsOnCartError]
-    );
+	// Create a memoized error map and toggle individual errors when they change
+	const errors = useMemo(
+		() =>
+			new Map([
+				['setGiftOptionsOnCartMutation', setGiftOptionsOnCartError],
+				['getGiftOptionsQuery', getGiftOptionsError]
+			]),
+		[getGiftOptionsError, setGiftOptionsOnCartError]
+	);
 
-    return {
-        loading,
-        errors,
-        savingOptions,
-        giftReceiptProps,
-        printedCardProps,
-        printedCardPrice,
-        giftMessageCheckboxProps,
-        giftMessageResult,
-        hasGiftMessage,
-        showGiftMessageResult,
-        cardToProps,
-        cardFromProps,
-        cardMessageProps,
-        editGiftMessageButtonProps,
-        cancelGiftMessageButtonProps,
-        saveGiftMessageButtonProps,
-        optionsFormProps
-    };
+	return {
+		loading,
+		errors,
+		savingOptions,
+		giftReceiptProps,
+		printedCardProps,
+		printedCardPrice,
+		giftMessageCheckboxProps,
+		giftMessageResult,
+		hasGiftMessage,
+		showGiftMessageResult,
+		cardToProps,
+		cardFromProps,
+		cardMessageProps,
+		editGiftMessageButtonProps,
+		cancelGiftMessageButtonProps,
+		saveGiftMessageButtonProps,
+		optionsFormProps
+	};
 };
 
 /** JSDocs type definitions */

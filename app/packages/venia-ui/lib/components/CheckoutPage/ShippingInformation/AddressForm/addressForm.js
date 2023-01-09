@@ -9,10 +9,10 @@ import GuestForm from './guestForm';
  * the correct form to render based on the current signed in state.
  */
 const AddressForm = props => {
-    const [{ isSignedIn }] = useUserContext();
-    const AddressForm = isSignedIn ? CustomerForm : GuestForm;
+	const [{ isSignedIn }] = useUserContext();
+	const AddressForm = isSignedIn ? CustomerForm : GuestForm;
 
-    return <AddressForm {...props} />;
+	return <AddressForm {...props} />;
 };
 
 export default AddressForm;

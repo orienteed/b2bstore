@@ -34,65 +34,61 @@ const morgan = require('morgan');
  * @return Promise `{ app, server?, close? }`
  */
 async function createUpwardServer({
-    bindLocal = false,
-    port = 0,
-    host = '0.0.0.0',
-    https,
-    logUrl = false,
-    upwardPath,
-    env = process.env,
-    before = () => {}
+	bindLocal = false,
+	port = 0,
+	host = '0.0.0.0',
+	https,
+	logUrl = false,
+	upwardPath,
+	env = process.env,
+	before = () => {}
 }) {
-    if (!upwardPath) {
-        throw new Error(`upwardPath is required`);
-    }
-    const app = express();
-    before(app);
-    const upward = await middleware(resolve(upwardPath), env);
+	if (!upwardPath) {
+		throw new Error(`upwardPath is required`);
+	}
+	const app = express();
+	before(app);
+	const upward = await middleware(resolve(upwardPath), env);
 
-    if (env.NODE_ENV === 'production') {
-        app.use(morgan('combined'));
-        app.use(upward);
-    } else {
-        app.use(morgan('dev'));
-        app.use(upward);
-        errorhandler.title = `⚠️ Error in upward-js v${version}`;
-        app.use(errorhandler());
-    }
+	if (env.NODE_ENV === 'production') {
+		app.use(morgan('combined'));
+		app.use(upward);
+	} else {
+		app.use(morgan('dev'));
+		app.use(upward);
+		errorhandler.title = `⚠️ Error in upward-js v${version}`;
+		app.use(errorhandler());
+	}
 
-    if (bindLocal) {
-        return new Promise((resolve, reject) => {
-            try {
-                const protocol = https ? 'https' : 'http';
-                const server = https
-                    ? require('https').createServer(https, app)
-                    : require('http').createServer(app);
+	if (bindLocal) {
+		return new Promise((resolve, reject) => {
+			try {
+				const protocol = https ? 'https' : 'http';
+				const server = https ? require('https').createServer(https, app) : require('http').createServer(app);
 
-                server.listen(port, host);
+				server.listen(port, host);
 
-                server.on('listening', () => {
-                    if (logUrl) {
-                        console.log(
-                            `${protocol}://${host}:${server.address().port}/`
-                        );
-                    }
-                    resolve({
-                        app,
-                        server,
-                        close() {
-                            return new Promise(resolve => {
-                                server.on('close', resolve);
-                                server.close();
-                            });
-                        }
-                    });
-                });
-            } catch (e) {
-                reject(e);
-            }
-        });
-    }
-    return { app };
+				server.on('listening', () => {
+					if (logUrl) {
+						console.log(`${protocol}://${host}:${server.address().port}/`);
+					}
+					resolve({
+						app,
+						server,
+						close() {
+							return new Promise(resolve => {
+								server.on('close', resolve);
+								server.close();
+							});
+						}
+					});
+				});
+			} catch (e) {
+				reject(e);
+			}
+		});
+	}
+	return { app };
 }
 
 module.exports = createUpwardServer;

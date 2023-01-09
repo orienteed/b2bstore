@@ -1,13 +1,13 @@
 .root {
-    composes: gap-x-xs from global;
-    composes: gap-y-sm from global;
-    composes: grid from global;
-    composes: grid-cols-2 from global;
-    composes: w-full from global;
+	composes: gap-x-xs from global;
+	composes: gap-y-sm from global;
+	composes: grid from global;
+	composes: grid-cols-2 from global;
+	composes: w-full from global;
 }
 
 .field {
-    composes: col-end-span2 from global;
+	composes: col-end-span2 from global;
 }
 
 .formMessage,
@@ -19,38 +19,38 @@
 .region,
 .postcode,
 .telephone {
-    composes: field;
+	composes: field;
 }
 
 .defaultShipping {
-    composes: field;
+	composes: field;
 
-    composes: pt-xs from global;
+	composes: pt-xs from global;
 }
 
 .firstname {
-    grid-column: 1 / span 2;
+	grid-column: 1 / span 2;
 }
 
 .lastname {
-    display: none;
+	display: none;
 }
 
 .buttons {
-    composes: field;
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: grid-flow-col from global;
-    composes: justify-self-center from global;
-    composes: p-xs from global;
+	composes: field;
+	composes: gap-xs from global;
+	composes: grid from global;
+	composes: grid-flow-col from global;
+	composes: justify-self-center from global;
+	composes: p-xs from global;
 }
 
 @media (max-width: 959px) {
-    .firstname {
-        grid-column: 1 / span 2;
-    }
+	.firstname {
+		grid-column: 1 / span 2;
+	}
 
-    .lastname {
-        grid-column: 1 / span 2;
-    }
+	.lastname {
+		grid-column: 1 / span 2;
+	}
 }

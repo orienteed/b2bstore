@@ -16,56 +16,39 @@ import { useListState } from './useListState';
  * @returns{React.Element} A React component container for all the items in list.
  */
 const Items = props => {
-    const {
-        getItemKey,
-        initialSelection,
-        items,
-        onSelectionChange,
-        renderItem,
-        selectionModel
-    } = props;
+	const { getItemKey, initialSelection, items, onSelectionChange, renderItem, selectionModel } = props;
 
-    const [state, api] = useListState({
-        getItemKey,
-        initialSelection,
-        onSelectionChange,
-        selectionModel
-    });
-    const { cursor, hasFocus, selectedKeys } = state;
-    const { removeFocus, setFocus, updateSelectedKeys } = api;
+	const [state, api] = useListState({
+		getItemKey,
+		initialSelection,
+		onSelectionChange,
+		selectionModel
+	});
+	const { cursor, hasFocus, selectedKeys } = state;
+	const { removeFocus, setFocus, updateSelectedKeys } = api;
 
-    const children = useMemo(() => {
-        return Array.from(items, (item, index) => {
-            const key = getItemKey(item, index);
+	const children = useMemo(() => {
+		return Array.from(items, (item, index) => {
+			const key = getItemKey(item, index);
 
-            return (
-                <Item
-                    hasFocus={hasFocus && cursor === key}
-                    isSelected={selectedKeys.has(key)}
-                    item={item}
-                    itemIndex={index}
-                    key={key}
-                    onBlur={removeFocus}
-                    render={renderItem}
-                    setFocus={setFocus}
-                    uniqueId={key}
-                    updateSelectedKeys={updateSelectedKeys}
-                />
-            );
-        });
-    }, [
-        cursor,
-        getItemKey,
-        hasFocus,
-        items,
-        removeFocus,
-        renderItem,
-        selectedKeys,
-        setFocus,
-        updateSelectedKeys
-    ]);
+			return (
+				<Item
+					hasFocus={hasFocus && cursor === key}
+					isSelected={selectedKeys.has(key)}
+					item={item}
+					itemIndex={index}
+					key={key}
+					onBlur={removeFocus}
+					render={renderItem}
+					setFocus={setFocus}
+					uniqueId={key}
+					updateSelectedKeys={updateSelectedKeys}
+				/>
+			);
+		});
+	}, [cursor, getItemKey, hasFocus, items, removeFocus, renderItem, selectedKeys, setFocus, updateSelectedKeys]);
 
-    return <Fragment>{children}</Fragment>;
+	return <Fragment>{children}</Fragment>;
 };
 
 /**
@@ -81,12 +64,12 @@ const Items = props => {
  * @property {checkbox | radio} selectionModel A string corresponding to a selection model
  */
 Items.propTypes = {
-    getItemKey: func.isRequired,
-    initialSelection: oneOfType([array, object]),
-    items: iterable.isRequired,
-    onSelectionChange: func,
-    renderItem: oneOfType([func, string]),
-    selectionModel: oneOf(['checkbox', 'radio'])
+	getItemKey: func.isRequired,
+	initialSelection: oneOfType([array, object]),
+	items: iterable.isRequired,
+	onSelectionChange: func,
+	renderItem: oneOfType([func, string]),
+	selectionModel: oneOf(['checkbox', 'radio'])
 };
 
 /**
@@ -95,8 +78,8 @@ Items.propTypes = {
  * @typedef @defaultProps
  */
 Items.defaultProps = {
-    getItemKey: ({ id }) => id,
-    selectionModel: 'radio'
+	getItemKey: ({ id }) => id,
+	selectionModel: 'radio'
 };
 
 export default Items;

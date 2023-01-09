@@ -17,162 +17,162 @@ import Password from '../Password';
 import GoogleRecaptcha from '../GoogleReCaptcha';
 
 const CreateAccount = props => {
-    const talonProps = useCreateAccount({
-        initialValues: props.initialValues,
-        onSubmit: props.onSubmit,
-        onCancel: props.onCancel
-    });
+	const talonProps = useCreateAccount({
+		initialValues: props.initialValues,
+		onSubmit: props.onSubmit,
+		onCancel: props.onCancel
+	});
 
-    const { errors, handleCancel, handleSubmit, isDisabled, initialValues, recaptchaWidgetProps } = talonProps;
-    const { formatMessage } = useIntl();
-    const classes = useStyle(defaultClasses, props.classes);
+	const { errors, handleCancel, handleSubmit, isDisabled, initialValues, recaptchaWidgetProps } = talonProps;
+	const { formatMessage } = useIntl();
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const cancelButton = props.isCancelButtonHidden ? null : (
-        <Button
-            data-cy="CreateAccount-cancelButton"
-            className={classes.cancelButton}
-            disabled={isDisabled}
-            type="button"
-            priority="low"
-            onClick={handleCancel}
-        >
-            <FormattedMessage id={'createAccount.cancelText'} defaultMessage={'Cancel'} />
-        </Button>
-    );
+	const cancelButton = props.isCancelButtonHidden ? null : (
+		<Button
+			data-cy="CreateAccount-cancelButton"
+			className={classes.cancelButton}
+			disabled={isDisabled}
+			type="button"
+			priority="low"
+			onClick={handleCancel}
+		>
+			<FormattedMessage id={'createAccount.cancelText'} defaultMessage={'Cancel'} />
+		</Button>
+	);
 
-    const submitButton = (
-        <Button
-            className={classes.submitButton}
-            disabled={isDisabled}
-            type="submit"
-            priority="high"
-            data-cy="CreateAccount-submitButton"
-        >
-            <FormattedMessage id={'createAccount.createAccountText'} defaultMessage={'Create an Account'} />
-        </Button>
-    );
+	const submitButton = (
+		<Button
+			className={classes.submitButton}
+			disabled={isDisabled}
+			type="submit"
+			priority="high"
+			data-cy="CreateAccount-submitButton"
+		>
+			<FormattedMessage id={'createAccount.createAccountText'} defaultMessage={'Create an Account'} />
+		</Button>
+	);
 
-    return (
-        <Form
-            data-cy="CreateAccount-form"
-            className={classes.root}
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-        >
-            <span data-cy="CreateAccount-title" className={classes.title}>
-                <FormattedMessage id={'createAccount.createAccountText'} defaultMessage={'Create an Account'} />
-            </span>
-            <FormError errors={Array.from(errors.values())} />
-            <Field
-                id="firstName"
-                label={formatMessage({
-                    id: 'global.companyName',
-                    defaultMessage: 'Company Name'
-                })}
-            >
-                <TextInput
-                    id="firstName"
-                    field="customer.firstname"
-                    autoComplete="given-name"
-                    validate={isRequired}
-                    validateOnBlur
-                    mask={value => value && value.trim()}
-                    maskOnBlur={true}
-                    data-cy="customer-firstname"
-                />
-            </Field>
-            <Field
-                classes={{ root: classes.last_name }}
-                id="lastName"
-                label={formatMessage({
-                    id: 'createAccount.lastNameText',
-                    defaultMessage: 'Last Name'
-                })}
-            >
-                <TextInput
-                    id="lastName"
-                    field="customer.lastname"
-                    autoComplete="family-name"
-                    validate={isRequired}
-                    validateOnBlur
-                    mask={value => value && value.trim()}
-                    initialValue={'lastname'}
-                    maskOnBlur={true}
-                    data-cy="customer-lastname"
-                />
-            </Field>
-            <Field
-                id="Email"
-                label={formatMessage({
-                    id: 'createAccount.emailText',
-                    defaultMessage: 'Email'
-                })}
-            >
-                <TextInput
-                    id="Email"
-                    field="customer.email"
-                    autoComplete="email"
-                    validate={isRequired}
-                    validateOnBlur
-                    mask={value => value && value.trim()}
-                    maskOnBlur={true}
-                    data-cy="customer-email"
-                />
-            </Field>
-            <Password
-                id="Password"
-                autoComplete="new-password"
-                fieldName="password"
-                isToggleButtonHidden={false}
-                label={formatMessage({
-                    id: 'createAccount.passwordText',
-                    defaultMessage: 'Password'
-                })}
-                validate={combine([isRequired, [hasLengthAtLeast, 8], validatePassword])}
-                validateOnBlur
-                mask={value => value && value.trim()}
-                maskOnBlur={true}
-                data-cy="password"
-            />
-            <div className={classes.subscribe}>
-                <Checkbox
-                    field="subscribe"
-                    id="subscribe"
-                    label={formatMessage({
-                        id: 'createAccount.subscribeText',
-                        defaultMessage: 'Subscribe to news and updates'
-                    })}
-                />
-            </div>
-            <GoogleRecaptcha {...recaptchaWidgetProps} />
-            <div className={classes.actions}>
-                {submitButton}
-                {cancelButton}
-            </div>
-        </Form>
-    );
+	return (
+		<Form
+			data-cy="CreateAccount-form"
+			className={classes.root}
+			initialValues={initialValues}
+			onSubmit={handleSubmit}
+		>
+			<span data-cy="CreateAccount-title" className={classes.title}>
+				<FormattedMessage id={'createAccount.createAccountText'} defaultMessage={'Create an Account'} />
+			</span>
+			<FormError errors={Array.from(errors.values())} />
+			<Field
+				id="firstName"
+				label={formatMessage({
+					id: 'global.companyName',
+					defaultMessage: 'Company Name'
+				})}
+			>
+				<TextInput
+					id="firstName"
+					field="customer.firstname"
+					autoComplete="given-name"
+					validate={isRequired}
+					validateOnBlur
+					mask={value => value && value.trim()}
+					maskOnBlur={true}
+					data-cy="customer-firstname"
+				/>
+			</Field>
+			<Field
+				classes={{ root: classes.last_name }}
+				id="lastName"
+				label={formatMessage({
+					id: 'createAccount.lastNameText',
+					defaultMessage: 'Last Name'
+				})}
+			>
+				<TextInput
+					id="lastName"
+					field="customer.lastname"
+					autoComplete="family-name"
+					validate={isRequired}
+					validateOnBlur
+					mask={value => value && value.trim()}
+					initialValue={'lastname'}
+					maskOnBlur={true}
+					data-cy="customer-lastname"
+				/>
+			</Field>
+			<Field
+				id="Email"
+				label={formatMessage({
+					id: 'createAccount.emailText',
+					defaultMessage: 'Email'
+				})}
+			>
+				<TextInput
+					id="Email"
+					field="customer.email"
+					autoComplete="email"
+					validate={isRequired}
+					validateOnBlur
+					mask={value => value && value.trim()}
+					maskOnBlur={true}
+					data-cy="customer-email"
+				/>
+			</Field>
+			<Password
+				id="Password"
+				autoComplete="new-password"
+				fieldName="password"
+				isToggleButtonHidden={false}
+				label={formatMessage({
+					id: 'createAccount.passwordText',
+					defaultMessage: 'Password'
+				})}
+				validate={combine([isRequired, [hasLengthAtLeast, 8], validatePassword])}
+				validateOnBlur
+				mask={value => value && value.trim()}
+				maskOnBlur={true}
+				data-cy="password"
+			/>
+			<div className={classes.subscribe}>
+				<Checkbox
+					field="subscribe"
+					id="subscribe"
+					label={formatMessage({
+						id: 'createAccount.subscribeText',
+						defaultMessage: 'Subscribe to news and updates'
+					})}
+				/>
+			</div>
+			<GoogleRecaptcha {...recaptchaWidgetProps} />
+			<div className={classes.actions}>
+				{submitButton}
+				{cancelButton}
+			</div>
+		</Form>
+	);
 };
 
 CreateAccount.propTypes = {
-    classes: shape({
-        actions: string,
-        lead: string,
-        root: string,
-        subscribe: string
-    }),
-    initialValues: shape({
-        email: string,
-        firstName: string,
-        lastName: string
-    }),
-    isCancelButtonHidden: bool,
-    onSubmit: func,
-    onCancel: func
+	classes: shape({
+		actions: string,
+		lead: string,
+		root: string,
+		subscribe: string
+	}),
+	initialValues: shape({
+		email: string,
+		firstName: string,
+		lastName: string
+	}),
+	isCancelButtonHidden: bool,
+	onSubmit: func,
+	onCancel: func
 };
 
 CreateAccount.defaultProps = {
-    onCancel: () => {},
-    isCancelButtonHidden: true
+	onCancel: () => {},
+	isCancelButtonHidden: true
 };
 
 export default CreateAccount;

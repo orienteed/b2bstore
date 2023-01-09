@@ -9,41 +9,36 @@ import ErrorMessage from '../ErrorMessage';
 import defaultClasses from './formError.module.css';
 
 const FormError = props => {
-    const {
-        classes: propClasses,
-        errors,
-        scrollOnError,
-        allowErrorMessages
-    } = props;
+	const { classes: propClasses, errors, scrollOnError, allowErrorMessages } = props;
 
-    const talonProps = useFormError({ errors, allowErrorMessages });
-    const { errorMessage } = talonProps;
+	const talonProps = useFormError({ errors, allowErrorMessages });
+	const { errorMessage } = talonProps;
 
-    const errorRef = useRef(null);
+	const errorRef = useRef(null);
 
-    useScrollIntoView(errorRef, scrollOnError && errorMessage);
+	useScrollIntoView(errorRef, scrollOnError && errorMessage);
 
-    const classes = useStyle(defaultClasses, propClasses);
+	const classes = useStyle(defaultClasses, propClasses);
 
-    return errorMessage ? (
-        <ErrorMessage classes={classes} ref={errorRef}>
-            {errorMessage}
-        </ErrorMessage>
-    ) : null;
+	return errorMessage ? (
+		<ErrorMessage classes={classes} ref={errorRef}>
+			{errorMessage}
+		</ErrorMessage>
+	) : null;
 };
 
 export default FormError;
 
 FormError.propTypes = {
-    classes: shape({
-        root: string,
-        errorMessage: string
-    }),
-    errors: arrayOf(instanceOf(Error)),
-    scrollOnError: bool,
-    allowErrorMessages: bool
+	classes: shape({
+		root: string,
+		errorMessage: string
+	}),
+	errors: arrayOf(instanceOf(Error)),
+	scrollOnError: bool,
+	allowErrorMessages: bool
 };
 
 FormError.defaultProps = {
-    scrollOnError: true
+	scrollOnError: true
 };

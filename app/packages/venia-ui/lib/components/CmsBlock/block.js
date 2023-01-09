@@ -22,7 +22,7 @@ const Block = ({ content }) => <RichContent html={content} />;
  * @property {String} content Rich content of the block
  */
 Block.propTypes = {
-    content: string
+	content: string
 };
 
 export default Block;

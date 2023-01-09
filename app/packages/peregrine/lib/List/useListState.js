@@ -18,95 +18,84 @@ import withLogger from '../util/withLogger';
  *
  * @return {Object[]} An array with two entries containing the following content: [ {@link ListState}, {@link API}]
  */
-export const useListState = ({
-    getItemKey,
-    initialSelection,
-    onSelectionChange,
-    selectionModel
-}) => {
-    const initialState = useMemo(
-        () => getInitialState({ getItemKey, initialSelection, selectionModel }),
-        [getItemKey, initialSelection, selectionModel]
-    );
+export const useListState = ({ getItemKey, initialSelection, onSelectionChange, selectionModel }) => {
+	const initialState = useMemo(
+		() => getInitialState({ getItemKey, initialSelection, selectionModel }),
+		[getItemKey, initialSelection, selectionModel]
+	);
 
-    const [state, dispatch] = useReducer(wrappedReducer, initialState);
-    const { selectedKeys } = state;
+	const [state, dispatch] = useReducer(wrappedReducer, initialState);
+	const { selectedKeys } = state;
 
-    // Whenever the selectedKeys changes, notify.
-    useEffect(() => {
-        if (onSelectionChange) {
-            onSelectionChange(selectedKeys);
-        }
-    }, [onSelectionChange, selectedKeys]);
+	// Whenever the selectedKeys changes, notify.
+	useEffect(() => {
+		if (onSelectionChange) {
+			onSelectionChange(selectedKeys);
+		}
+	}, [onSelectionChange, selectedKeys]);
 
-    /*
-     *  Functions of the API.
-     */
+	/*
+	 *  Functions of the API.
+	 */
 
-    /**
-     * Function to remove focus on any item if it has focus.
-     *
-     * @typedef {function} removeFocus
-     *
-     * @param {void}
-     * @returns {void}
-     */
-    const removeFocus = useCallback(
-        () => dispatch({ type: 'REMOVE_FOCUS' }),
-        []
-    );
+	/**
+	 * Function to remove focus on any item if it has focus.
+	 *
+	 * @typedef {function} removeFocus
+	 *
+	 * @param {void}
+	 * @returns {void}
+	 */
+	const removeFocus = useCallback(() => dispatch({ type: 'REMOVE_FOCUS' }), []);
 
-    /**
-     * Function to set focus on a given item in the list.
-     *
-     * @typedef {function} setFocus
-     *
-     * @param {Key} key - Key of the item to set focus on.
-     * @returns {void}
-     */
-    const setFocus = useCallback(
-        key => dispatch({ type: 'SET_FOCUS', payload: { key } }),
-        []
-    );
+	/**
+	 * Function to set focus on a given item in the list.
+	 *
+	 * @typedef {function} setFocus
+	 *
+	 * @param {Key} key - Key of the item to set focus on.
+	 * @returns {void}
+	 */
+	const setFocus = useCallback(key => dispatch({ type: 'SET_FOCUS', payload: { key } }), []);
 
-    /**
-     * Function to update the selected keys.
-     *
-     * @typedef {function} updateSelectedKeys
-     *
-     * @param {Key} key - The key of the item in the list to select (or deselect).
-     * @returns {void}
-     */
-    const updateSelectedKeys = useCallback(
-        key =>
-            dispatch({
-                type: 'UPDATE_SELECTED_KEYS',
-                payload: { key, selectionModel }
-            }),
-        [selectionModel]
-    );
+	/**
+	 * Function to update the selected keys.
+	 *
+	 * @typedef {function} updateSelectedKeys
+	 *
+	 * @param {Key} key - The key of the item in the list to select (or deselect).
+	 * @returns {void}
+	 */
+	const updateSelectedKeys = useCallback(
+		key =>
+			dispatch({
+				type: 'UPDATE_SELECTED_KEYS',
+				payload: { key, selectionModel }
+			}),
+		[selectionModel]
+	);
 
-    /**
-     * The API for managing the Items inside the List.
-     *
-     * This object should never change.
-     * @typedef {Object} API
-     *
-     * @property {setFocus} setFocus
-     * @property {removeFocus} removeFocus
-     * @property {updateSelectedKeys} updateSelectedKeys
-     */
+	/**
+	 * The API for managing the Items inside the List.
+	 *
+	 * This object should never change.
+	 * @typedef {Object} API
+	 *
+	 * @property {setFocus} setFocus
+	 * @property {removeFocus} removeFocus
+	 * @property {updateSelectedKeys} updateSelectedKeys
+	 */
 
-    const api = useMemo(
-        () => ({
-            setFocus,
-            removeFocus,
-            updateSelectedKeys
-        }),
-        [setFocus, removeFocus, updateSelectedKeys]
-    );
+	const api = useMemo(
+		() => ({
+			setFocus,
+			removeFocus,
+			updateSelectedKeys
+		}),
+		[setFocus, removeFocus, updateSelectedKeys]
+	);
 
-    return [state, api];
+	return [state, api];
 };
 
 /**
@@ -122,36 +111,32 @@ export const useListState = ({
  * @param {string} action.payload.selectionModel
  */
 const reducer = (state, { type, payload }) => {
-    const { selectedKeys } = state;
+	const { selectedKeys } = state;
 
-    switch (type) {
-        case 'REMOVE_FOCUS':
-            return {
-                ...state,
-                hasFocus: false
-            };
-        case 'SET_FOCUS':
-            return {
-                ...state,
-                hasFocus: true,
-                cursor: payload.key
-            };
-        case 'UPDATE_SELECTED_KEYS': {
-            const { key, selectionModel } = payload;
-            const newSelectedKeys = updateSelectedKeysInternal(
-                key,
-                selectedKeys,
-                selectionModel
-            );
+	switch (type) {
+		case 'REMOVE_FOCUS':
+			return {
+				...state,
+				hasFocus: false
+			};
+		case 'SET_FOCUS':
+			return {
+				...state,
+				hasFocus: true,
+				cursor: payload.key
+			};
+		case 'UPDATE_SELECTED_KEYS': {
+			const { key, selectionModel } = payload;
+			const newSelectedKeys = updateSelectedKeysInternal(key, selectedKeys, selectionModel);
 
-            return {
-                ...state,
-                selectedKeys: newSelectedKeys
-            };
-        }
-        default:
-            return state;
-    }
+			return {
+				...state,
+				selectedKeys: newSelectedKeys
+			};
+		}
+		default:
+			return state;
+	}
 };
 
 const wrappedReducer = withLogger(reducer);
@@ -169,17 +154,17 @@ const wrappedReducer = withLogger(reducer);
  * @returns {Object} - {@link ListState}
  */
 const getInitialState = ({ getItemKey, initialSelection, selectionModel }) => {
-    const initiallySelectedKeys = getInitiallySelectedKeys({
-        getItemKey,
-        initialSelection,
-        selectionModel
-    });
+	const initiallySelectedKeys = getInitiallySelectedKeys({
+		getItemKey,
+		initialSelection,
+		selectionModel
+	});
 
-    return {
-        cursor: null,
-        hasFocus: false,
-        selectedKeys: new Set(initiallySelectedKeys)
-    };
+	return {
+		cursor: null,
+		hasFocus: false,
+		selectedKeys: new Set(initiallySelectedKeys)
+	};
 };
 
 /**
@@ -191,48 +176,42 @@ const getInitialState = ({ getItemKey, initialSelection, selectionModel }) => {
  * @param {string}  selectionModel
  * @returns {Array} an array containing initial item keys
  */
-const getInitiallySelectedKeys = ({
-    getItemKey,
-    initialSelection,
-    selectionModel
-}) => {
-    if (!initialSelection) {
-        return null;
-    }
+const getInitiallySelectedKeys = ({ getItemKey, initialSelection, selectionModel }) => {
+	if (!initialSelection) {
+		return null;
+	}
 
-    // We store the keys of each item that is initially selected,
-    // but we must also respect the selection model.
-    if (selectionModel === 'radio') {
-        // Only one thing can be selected at a time.
-        const target = Array.isArray(initialSelection)
-            ? initialSelection[0]
-            : initialSelection;
+	// We store the keys of each item that is initially selected,
+	// but we must also respect the selection model.
+	if (selectionModel === 'radio') {
+		// Only one thing can be selected at a time.
+		const target = Array.isArray(initialSelection) ? initialSelection[0] : initialSelection;
 
-        const itemKey = getItemKey(target);
+		const itemKey = getItemKey(target);
 
-        if (itemKey) {
-            return [itemKey];
-        }
+		if (itemKey) {
+			return [itemKey];
+		}
 
-        return [];
-    }
+		return [];
+	}
 
-    if (selectionModel === 'checkbox') {
-        // Multiple things can be selected at a time.
+	if (selectionModel === 'checkbox') {
+		// Multiple things can be selected at a time.
 
-        // Do we have multiple things?
-        if (Array.isArray(initialSelection)) {
-            return initialSelection.map(getItemKey);
-        }
+		// Do we have multiple things?
+		if (Array.isArray(initialSelection)) {
+			return initialSelection.map(getItemKey);
+		}
 
-        const itemKey = getItemKey(initialSelection);
+		const itemKey = getItemKey(initialSelection);
 
-        if (itemKey) {
-            return [itemKey];
-        }
+		if (itemKey) {
+			return [itemKey];
+		}
 
-        return [];
-    }
+		return [];
+	}
 };
 
 /**
@@ -248,26 +227,26 @@ const getInitiallySelectedKeys = ({
  * @returns {Set} - The new Set of selectedKeys.
  */
 const updateSelectedKeysInternal = (key, selectedKeys, selectionModel) => {
-    let newSelectedKeys;
+	let newSelectedKeys;
 
-    if (selectionModel === 'radio') {
-        // For radio, only one item can be selected at a time.
-        newSelectedKeys = new Set().add(key);
-    }
+	if (selectionModel === 'radio') {
+		// For radio, only one item can be selected at a time.
+		newSelectedKeys = new Set().add(key);
+	}
 
-    if (selectionModel === 'checkbox') {
-        newSelectedKeys = new Set(selectedKeys);
+	if (selectionModel === 'checkbox') {
+		newSelectedKeys = new Set(selectedKeys);
 
-        if (!newSelectedKeys.has(key)) {
-            // The item is being selected.
-            newSelectedKeys.add(key);
-        } else {
-            // The item is being deselected.
-            newSelectedKeys.delete(key);
-        }
-    }
+		if (!newSelectedKeys.has(key)) {
+			// The item is being selected.
+			newSelectedKeys.add(key);
+		} else {
+			// The item is being deselected.
+			newSelectedKeys.delete(key);
+		}
+	}
 
-    return newSelectedKeys;
+	return newSelectedKeys;
 };
 
 // Custom Type Definitions

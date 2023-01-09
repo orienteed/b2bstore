@@ -15,31 +15,25 @@ const path = require('path');
  * @returns {String} Transformed local identity name, aka classname
  */
 function getLocalIdent(loaderContext, localIdentName, localName, options) {
-    if (!options.context) {
-        // eslint-disable-next-line no-param-reassign
-        options.context = loaderContext.rootContext;
-    }
+	if (!options.context) {
+		// eslint-disable-next-line no-param-reassign
+		options.context = loaderContext.rootContext;
+	}
 
-    const request = path
-        .relative(options.context, loaderContext.resourcePath)
-        .replace(/\\/g, '/');
+	const request = path.relative(options.context, loaderContext.resourcePath).replace(/\\/g, '/');
 
-    // eslint-disable-next-line no-param-reassign
-    options.content = `${options.hashPrefix + request}+${localName}`;
+	// eslint-disable-next-line no-param-reassign
+	options.content = `${options.hashPrefix + request}+${localName}`;
 
-    // eslint-disable-next-line no-param-reassign
-    localIdentName = localIdentName.replace(/\[local\]/gi, localName);
+	// eslint-disable-next-line no-param-reassign
+	localIdentName = localIdentName.replace(/\[local\]/gi, localName);
 
-    const hash = loaderUtils.interpolateName(
-        loaderContext,
-        localIdentName,
-        options
-    );
+	const hash = loaderUtils.interpolateName(loaderContext, localIdentName, options);
 
-    return hash
-        .replace('.module', '')
-        .replace(new RegExp('[^a-zA-Z0-9\\-_\u00A0-\uFFFF]', 'g'), '-')
-        .replace(/^((-?[0-9])|--)/, '_$1');
+	return hash
+		.replace('.module', '')
+		.replace(new RegExp('[^a-zA-Z0-9\\-_\u00A0-\uFFFF]', 'g'), '-')
+		.replace(/^((-?[0-9])|--)/, '_$1');
 }
 
 /**
@@ -51,12 +45,12 @@ function getLocalIdent(loaderContext, localIdentName, localName, options) {
  * @returns {Object[]} Array of Webpack rules.
  */
 async function getModuleRules(helper) {
-    return Promise.all([
-        getModuleRules.graphql(helper),
-        getModuleRules.js(helper),
-        getModuleRules.css(helper),
-        getModuleRules.files(helper)
-    ]);
+	return Promise.all([
+		getModuleRules.graphql(helper),
+		getModuleRules.js(helper),
+		getModuleRules.css(helper),
+		getModuleRules.files(helper)
+	]);
 }
 
 /**
@@ -65,13 +59,13 @@ async function getModuleRules(helper) {
  *   `.graphql` files
  */
 getModuleRules.graphql = async ({ paths, hasFlag }) => ({
-    test: /\.graphql$/,
-    include: [paths.src, ...hasFlag('graphqlQueries')],
-    use: [
-        {
-            loader: 'graphql-tag/loader'
-        }
-    ]
+	test: /\.graphql$/,
+	include: [paths.src, ...hasFlag('graphqlQueries')],
+	use: [
+		{
+			loader: 'graphql-tag/loader'
+		}
+	]
 });
 
 /**
@@ -79,59 +73,44 @@ getModuleRules.graphql = async ({ paths, hasFlag }) => ({
  * @returns Rule object for Webpack `module` configuration which parses
  *   JavaScript files
  */
-getModuleRules.js = async ({
-    mode,
-    paths,
-    hasFlag,
-    babelRootMode,
-    transformRequests
-}) => {
-    const overrides = Object.entries(transformRequests.babel).map(
-        ([plugin, requestsByFile]) => ({
-            test: Object.keys(requestsByFile),
-            plugins: [[plugin, { requestsByFile }]]
-        })
-    );
+getModuleRules.js = async ({ mode, paths, hasFlag, babelRootMode, transformRequests }) => {
+	const overrides = Object.entries(transformRequests.babel).map(([plugin, requestsByFile]) => ({
+		test: Object.keys(requestsByFile),
+		plugins: [[plugin, { requestsByFile }]]
+	}));
 
-    const astLoaders = [
-        {
-            // Use custom loader to enable warning reporting from Babel plugins
-            loader: path.resolve(
-                __dirname,
-                '../loaders/buildbus-babel-loader.js'
-            ),
-            options: {
-                sourceMaps: mode === 'development' && 'inline',
-                envName: mode,
-                root: paths.root,
-                rootMode: babelRootMode,
-                overrides
-            }
-        }
-    ];
+	const astLoaders = [
+		{
+			// Use custom loader to enable warning reporting from Babel plugins
+			loader: path.resolve(__dirname, '../loaders/buildbus-babel-loader.js'),
+			options: {
+				sourceMaps: mode === 'development' && 'inline',
+				envName: mode,
+				root: paths.root,
+				rootMode: babelRootMode,
+				overrides
+			}
+		}
+	];
 
-    const sourceLoaders = Object.entries(transformRequests.source).map(
-        ([loader, requestsByFile]) => {
-            return {
-                test: Object.keys(requestsByFile),
-                use: [
-                    info => ({
-                        loader,
-                        options: requestsByFile[info.realResource].map(
-                            req => req.options
-                        )
-                    })
-                ]
-            };
-        }
-    );
+	const sourceLoaders = Object.entries(transformRequests.source).map(([loader, requestsByFile]) => {
+		return {
+			test: Object.keys(requestsByFile),
+			use: [
+				info => ({
+					loader,
+					options: requestsByFile[info.realResource].map(req => req.options)
+				})
+			]
+		};
+	});
 
-    return {
-        test: /\.(mjs|js|jsx)$/,
-        include: [paths.src, ...hasFlag('esModules')],
-        sideEffects: false,
-        rules: [...astLoaders, ...sourceLoaders]
-    };
+	return {
+		test: /\.(mjs|js|jsx)$/,
+		include: [paths.src, ...hasFlag('esModules')],
+		sideEffects: false,
+		rules: [...astLoaders, ...sourceLoaders]
+	};
 };
 
 /**
@@ -140,57 +119,51 @@ getModuleRules.js = async ({
  *   CSS files
  */
 getModuleRules.css = async ({ hasFlag, mode }) => ({
-    test: /\.css$/,
-    oneOf: [
-        {
-            test: [/\.module\.css$/, ...hasFlag('cssModules')],
-            use: [
-                {
-                    loader: 'style-loader',
-                    options: {
-                        injectType:
-                            mode === 'development'
-                                ? 'styleTag'
-                                : 'singletonStyleTag'
-                    }
-                },
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 1,
-                        modules: {
-                            getLocalIdent,
-                            localIdentName: `[name]-[local]-[hash:base64:3]`
-                        },
-                        sourceMap: mode === 'development'
-                    }
-                },
-                'postcss-loader'
-            ]
-        },
-        {
-            use: [
-                {
-                    loader: 'style-loader',
-                    options: {
-                        injectType:
-                            mode === 'development'
-                                ? 'styleTag'
-                                : 'singletonStyleTag'
-                    }
-                },
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 1,
-                        modules: false,
-                        sourceMap: mode === 'development'
-                    }
-                },
-                'postcss-loader'
-            ]
-        }
-    ]
+	test: /\.css$/,
+	oneOf: [
+		{
+			test: [/\.module\.css$/, ...hasFlag('cssModules')],
+			use: [
+				{
+					loader: 'style-loader',
+					options: {
+						injectType: mode === 'development' ? 'styleTag' : 'singletonStyleTag'
+					}
+				},
+				{
+					loader: 'css-loader',
+					options: {
+						importLoaders: 1,
+						modules: {
+							getLocalIdent,
+							localIdentName: `[name]-[local]-[hash:base64:3]`
+						},
+						sourceMap: mode === 'development'
+					}
+				},
+				'postcss-loader'
+			]
+		},
+		{
+			use: [
+				{
+					loader: 'style-loader',
+					options: {
+						injectType: mode === 'development' ? 'styleTag' : 'singletonStyleTag'
+					}
+				},
+				{
+					loader: 'css-loader',
+					options: {
+						importLoaders: 1,
+						modules: false,
+						sourceMap: mode === 'development'
+					}
+				},
+				'postcss-loader'
+			]
+		}
+	]
 });
 
 /**
@@ -199,15 +172,15 @@ getModuleRules.css = async ({ hasFlag, mode }) => ({
  *   and inlines binary files below a certain size
  */
 getModuleRules.files = async () => ({
-    test: /\.(gif|jpg|png|svg)$/,
-    use: [
-        {
-            loader: 'file-loader',
-            options: {
-                name: '[name]-[hash:base58:3].[ext]'
-            }
-        }
-    ]
+	test: /\.(gif|jpg|png|svg)$/,
+	use: [
+		{
+			loader: 'file-loader',
+			options: {
+				name: '[name]-[hash:base58:3].[ext]'
+			}
+		}
+	]
 });
 
 module.exports = getModuleRules;

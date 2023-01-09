@@ -1,90 +1,90 @@
 .courseContentContainerLeft,
 .courseContentContainerRight {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	align-items: center;
 }
 
 .courseContentContainer {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    justify-content: space-between;
-    align-items: center;
-    height: 59px;
-    padding: 16px;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	justify-content: space-between;
+	align-items: center;
+	height: 59px;
+	padding: 16px;
 }
 
 .courseContentContainerOdd {
-    composes: courseContentContainer;
-    background-color: var(--b2bstore-background-color);
+	composes: courseContentContainer;
+	background-color: var(--b2bstore-background-color);
 }
 
 @media (max-width: 601px) {
-    .courseContentContainerLeft,
-    .courseContentContainerRight {
-        gap: 10px;
-    }
+	.courseContentContainerLeft,
+	.courseContentContainerRight {
+		gap: 10px;
+	}
 
-    .courseContentContainer {
-        padding: 10px;
-    }
+	.courseContentContainer {
+		padding: 10px;
+	}
 
-    .courseContentContainerOdd {
-        padding: 10px;
-    }
+	.courseContentContainerOdd {
+		padding: 10px;
+	}
 }
 
 .courseContentIconContainer {
-    min-width: 24px;
+	min-width: 24px;
 }
 
 .courseContentIcon {
-    /* width: 20px; */
+	/* width: 20px; */
 }
 
 .moduleTitle {
-    width: 100%;
-    margin-right: 10px;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+	width: 100%;
+	margin-right: 10px;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 /* Action icons to open or download files */
 .actionIcons {
-    composes: courseContentIcon;
-    cursor: pointer;
+	composes: courseContentIcon;
+	cursor: pointer;
 }
 
 .actionIconsDisabled {
-    composes: courseContentIcon;
-    cursor: not-allowed;
+	composes: courseContentIcon;
+	cursor: not-allowed;
 }
 
 .actionIcons:hover {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.2);
+	-webkit-transform: scale(1.1);
+	transform: scale(1.2);
 }
 
 .actionIcons:active {
-    transform: translateY(-1px);
+	transform: translateY(-1px);
 }
 
 .popup {
-    width: 100%;
-    height: 500px;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    background-color: white;
+	width: 100%;
+	height: 500px;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	background-color: white;
 }
 
 body {
-    background-color: transparent;
+	background-color: transparent;
 }
 iframe {
-    background-color: transparent;
+	background-color: transparent;
 }

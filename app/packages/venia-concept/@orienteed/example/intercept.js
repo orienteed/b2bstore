@@ -1,7 +1,7 @@
-module.exports = targets => {
+module.exports = (targets) => {
     const builtins = targets.of('@magento/pwa-buildpack');
 
-    builtins.specialFeatures.tap(features => {
+    builtins.specialFeatures.tap((features) => {
         features[targets.name] = {
             esModules: true,
             cssModules: true,
@@ -10,14 +10,12 @@ module.exports = targets => {
         };
     });
 
-    targets.of('@magento/venia-ui').routes.tap(routes => {
-        routes.push(
-            {
-                name: 'Example',
-                pattern: '/example',
-                path: '@orienteed/example/src/components/Example'
-            }
-        );
+    targets.of('@magento/venia-ui').routes.tap((routes) => {
+        routes.push({
+            name: 'Example',
+            pattern: '/example',
+            path: '@orienteed/example/src/components/Example'
+        });
         return routes;
     });
 };

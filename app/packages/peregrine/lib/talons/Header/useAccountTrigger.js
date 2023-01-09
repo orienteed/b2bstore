@@ -13,23 +13,23 @@ import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
  * @returns {Function}  talonProps.handleTriggerClick - A function for handling when the trigger is clicked.
  */
 export const useAccountTrigger = () => {
-    const {
-        elementRef: accountMenuRef,
-        expanded: accountMenuIsOpen,
-        setExpanded: setAccountMenuIsOpen,
-        triggerRef: accountMenuTriggerRef
-    } = useDropdown();
+	const {
+		elementRef: accountMenuRef,
+		expanded: accountMenuIsOpen,
+		setExpanded: setAccountMenuIsOpen,
+		triggerRef: accountMenuTriggerRef
+	} = useDropdown();
 
-    const handleTriggerClick = useCallback(() => {
-        // Toggle the Account Menu.
-        setAccountMenuIsOpen(isOpen => !isOpen);
-    }, [setAccountMenuIsOpen]);
+	const handleTriggerClick = useCallback(() => {
+		// Toggle the Account Menu.
+		setAccountMenuIsOpen(isOpen => !isOpen);
+	}, [setAccountMenuIsOpen]);
 
-    return {
-        accountMenuIsOpen,
-        accountMenuRef,
-        accountMenuTriggerRef,
-        setAccountMenuIsOpen,
-        handleTriggerClick
-    };
+	return {
+		accountMenuIsOpen,
+		accountMenuRef,
+		accountMenuTriggerRef,
+		setAccountMenuIsOpen,
+		handleTriggerClick
+	};
 };

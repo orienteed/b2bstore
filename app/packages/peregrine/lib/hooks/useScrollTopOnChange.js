@@ -6,13 +6,13 @@ import { useEffect } from 'react';
  * @param {any} watched item to observe for changes to run the scroll effect
  */
 export const useScrollTopOnChange = watched => {
-    useEffect(() => {
-        if (!globalThis.scrollTo) return;
+	useEffect(() => {
+		if (!globalThis.scrollTo) return;
 
-        globalThis.scrollTo({
-            behavior: 'smooth',
-            left: 0,
-            top: 0
-        });
-    }, [watched]);
+		globalThis.scrollTo({
+			behavior: 'smooth',
+			left: 0,
+			top: 0
+		});
+	}, [watched]);
 };

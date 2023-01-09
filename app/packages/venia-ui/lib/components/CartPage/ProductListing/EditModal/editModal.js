@@ -23,19 +23,19 @@ import ProductForm from './productForm';
  * import EditModal from "@magento/venia-ui/lib/components/CartPage/ProductListing/EditModal";
  */
 const EditModal = props => {
-    const { item, setActiveEditItem, setIsCartUpdating } = props;
-    const talonProps = useEditModal();
-    const { setVariantPrice, variantPrice } = talonProps;
+	const { item, setActiveEditItem, setIsCartUpdating } = props;
+	const talonProps = useEditModal();
+	const { setVariantPrice, variantPrice } = talonProps;
 
-    return (
-        <ProductForm
-            item={item}
-            setIsCartUpdating={setIsCartUpdating}
-            setVariantPrice={setVariantPrice}
-            variantPrice={variantPrice}
-            setActiveEditItem={setActiveEditItem}
-        />
-    );
+	return (
+		<ProductForm
+			item={item}
+			setIsCartUpdating={setIsCartUpdating}
+			setVariantPrice={setVariantPrice}
+			variantPrice={variantPrice}
+			setActiveEditItem={setActiveEditItem}
+		/>
+	);
 };
 
 export default EditModal;

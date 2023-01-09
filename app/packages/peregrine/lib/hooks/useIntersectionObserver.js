@@ -1,7 +1,7 @@
 export default () => {
-    if (typeof IntersectionObserver === 'undefined') {
-        return;
-    }
+	if (typeof IntersectionObserver === 'undefined') {
+		return;
+	}
 
-    return IntersectionObserver;
+	return IntersectionObserver;
 };

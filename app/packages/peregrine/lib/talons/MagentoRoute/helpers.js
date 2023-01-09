@@ -6,5 +6,4 @@ export const isRedirect = code => REDIRECT_CODES.has(code);
 // Depending on the environment, it may be a CommonJS or ES module.
 const warning = () => new Error('fetchRootComponent is not defined');
 const { fetchRootComponent = warning } = globalThis;
-export const getRootComponent =
-    fetchRootComponent.default || fetchRootComponent;
+export const getRootComponent = fetchRootComponent.default || fetchRootComponent;

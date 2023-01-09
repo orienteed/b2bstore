@@ -6,13 +6,13 @@ import { useStyle } from '../../classify';
 import defaultClasses from './cms.module.css';
 
 const CMSPageShimmer = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    return (
-        <div className={classes.root} aria-live="polite" aria-busy="true">
-            <Shimmer width="100%" height="880px" key="banner" />
-        </div>
-    );
+	return (
+		<div className={classes.root} aria-live="polite" aria-busy="true">
+			<Shimmer width="100%" height="880px" key="banner" />
+		</div>
+	);
 };
 
 export default CMSPageShimmer;

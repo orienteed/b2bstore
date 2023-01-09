@@ -18,7 +18,7 @@ export const registerSW = () => {
                 window.console.warn('Failed to register SW.');
             });
 
-        navigator.serviceWorker.addEventListener('message', e => {
+        navigator.serviceWorker.addEventListener('message', (e) => {
             const { type, payload } = e.data;
             handleMessageFromSW(type, payload, e);
         });

@@ -5,11 +5,11 @@ import checkout from './checkout';
 import user from './user';
 
 const reducers = {
-    app,
-    cart,
-    catalog,
-    checkout,
-    user
+	app,
+	cart,
+	catalog,
+	checkout,
+	user
 };
 
 export default reducers;

@@ -31,106 +31,106 @@ const OfflineIcon = <Icon src={CloudOffIcon} attrs={{ width: 18 }} />;
 const ErrorIcon = <Icon src={AlertCircleIcon} attrs={{ width: 18 }} />;
 
 const App = props => {
-    const { markErrorHandled, renderError, unhandledErrors } = props;
-    const { formatMessage } = useIntl();
-    const [, { addToast }] = useToasts();
-    const { location } = useHistory();
-    const { pathname } = location;
-    useDelayedTransition();
+	const { markErrorHandled, renderError, unhandledErrors } = props;
+	const { formatMessage } = useIntl();
+	const [, { addToast }] = useToasts();
+	const { location } = useHistory();
+	const { pathname } = location;
+	useDelayedTransition();
 
-    useEffect(() => {
-        ReactGA.pageview(window.location.pathname + window.location.search);
-    }, [pathname]);
+	useEffect(() => {
+		ReactGA.pageview(window.location.pathname + window.location.search);
+	}, [pathname]);
 
-    const ERROR_MESSAGE = formatMessage({
-        id: 'app.errorUnexpected',
-        defaultMessage: 'Sorry! An unexpected error occurred.'
-    });
+	const ERROR_MESSAGE = formatMessage({
+		id: 'app.errorUnexpected',
+		defaultMessage: 'Sorry! An unexpected error occurred.'
+	});
 
-    const handleIsOffline = useCallback(() => {
-        addToast({
-            type: 'error',
-            icon: OfflineIcon,
-            message: formatMessage({
-                id: 'app.errorOffline',
-                defaultMessage: 'You are offline. Some features may be unavailable.'
-            }),
-            timeout: 3000
-        });
-    }, [addToast, formatMessage]);
+	const handleIsOffline = useCallback(() => {
+		addToast({
+			type: 'error',
+			icon: OfflineIcon,
+			message: formatMessage({
+				id: 'app.errorOffline',
+				defaultMessage: 'You are offline. Some features may be unavailable.'
+			}),
+			timeout: 3000
+		});
+	}, [addToast, formatMessage]);
 
-    const handleIsOnline = useCallback(() => {
-        addToast({
-            type: 'info',
-            icon: OnlineIcon,
-            message: formatMessage({
-                id: 'app.infoOnline',
-                defaultMessage: 'You are online.'
-            }),
-            timeout: 3000
-        });
-    }, [addToast, formatMessage]);
+	const handleIsOnline = useCallback(() => {
+		addToast({
+			type: 'info',
+			icon: OnlineIcon,
+			message: formatMessage({
+				id: 'app.infoOnline',
+				defaultMessage: 'You are online.'
+			}),
+			timeout: 3000
+		});
+	}, [addToast, formatMessage]);
 
-    const handleError = useCallback(
-        (error, id, loc, handleDismissError) => {
-            const errorToastProps = {
-                icon: ErrorIcon,
-                message: `${ERROR_MESSAGE}\nDebug: ${id} ${loc}`,
-                onDismiss: remove => {
-                    handleDismissError();
-                    remove();
-                },
-                timeout: 15000,
-                type: 'error'
-            };
+	const handleError = useCallback(
+		(error, id, loc, handleDismissError) => {
+			const errorToastProps = {
+				icon: ErrorIcon,
+				message: `${ERROR_MESSAGE}\nDebug: ${id} ${loc}`,
+				onDismiss: remove => {
+					handleDismissError();
+					remove();
+				},
+				timeout: 15000,
+				type: 'error'
+			};
 
-            addToast(errorToastProps);
-        },
-        [ERROR_MESSAGE, addToast]
-    );
+			addToast(errorToastProps);
+		},
+		[ERROR_MESSAGE, addToast]
+	);
 
-    const talonProps = useApp({
-        handleError,
-        handleIsOffline,
-        handleIsOnline,
-        markErrorHandled,
-        renderError,
-        unhandledErrors
-    });
+	const talonProps = useApp({
+		handleError,
+		handleIsOffline,
+		handleIsOnline,
+		markErrorHandled,
+		renderError,
+		unhandledErrors
+	});
 
-    const { hasOverlay, handleCloseDrawer } = talonProps;
+	const { hasOverlay, handleCloseDrawer } = talonProps;
 
-    if (renderError) {
-        return (
-            <HeadProvider>
-                <StoreTitle />
-                <Main isMasked={true} />
-                <Mask isActive={true} />
-                <ToastContainer />
-            </HeadProvider>
-        );
-    }
+	if (renderError) {
+		return (
+			<HeadProvider>
+				<StoreTitle />
+				<Main isMasked={true} />
+				<Mask isActive={true} />
+				<ToastContainer />
+			</HeadProvider>
+		);
+	}
 
-    return (
-        <HeadProvider>
-            <StoreTitle />
-            <Main isMasked={hasOverlay}>
-                <CookiesConsent />
-                <Routes />
-            </Main>
-            <Mask isActive={hasOverlay} dismiss={handleCloseDrawer} data-cy="App-Mask-button" />
-            <Navigation />
-            <ToastContainer />
-        </HeadProvider>
-    );
+	return (
+		<HeadProvider>
+			<StoreTitle />
+			<Main isMasked={hasOverlay}>
+				<CookiesConsent />
+				<Routes />
+			</Main>
+			<Mask isActive={hasOverlay} dismiss={handleCloseDrawer} data-cy="App-Mask-button" />
+			<Navigation />
+			<ToastContainer />
+		</HeadProvider>
+	);
 };
 
 App.propTypes = {
-    markErrorHandled: func.isRequired,
-    renderError: shape({
-        stack: string
-    }),
-    unhandledErrors: array
+	markErrorHandled: func.isRequired,
+	renderError: shape({
+		stack: string
+	}),
+	unhandledErrors: array
 };
 
 App.globalCSS = globalCSS;

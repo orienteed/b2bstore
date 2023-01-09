@@ -15,48 +15,39 @@ import { UNCONSTRAINED_SIZE_KEY } from './useImage';
  * @param {number}   props.ratio is the image width to height ratio. Defaults to 4/5.
  */
 export const useResourceImage = props => {
-    const {
-        generateSrcset,
-        generateUrl,
-        height,
-        resource,
-        type,
-        width,
-        widths,
-        ratio
-    } = props;
+	const { generateSrcset, generateUrl, height, resource, type, width, widths, ratio } = props;
 
-    const src = useMemo(() => {
-        return generateUrl(resource, type)(width, height);
-    }, [generateUrl, height, resource, type, width]);
+	const src = useMemo(() => {
+		return generateUrl(resource, type)(width, height);
+	}, [generateUrl, height, resource, type, width]);
 
-    const srcSet = useMemo(() => {
-        return generateSrcset(resource, type, ratio);
-    }, [generateSrcset, resource, type, ratio]);
+	const srcSet = useMemo(() => {
+		return generateSrcset(resource, type, ratio);
+	}, [generateSrcset, resource, type, ratio]);
 
-    // Example: 100px
-    // Example: (max-width: 640px) 50px, 100px
-    const sizes = useMemo(() => {
-        if (!widths) {
-            return width ? `${width}px` : '';
-        }
+	// Example: 100px
+	// Example: (max-width: 640px) 50px, 100px
+	const sizes = useMemo(() => {
+		if (!widths) {
+			return width ? `${width}px` : '';
+		}
 
-        const result = [];
-        for (const [breakpoint, width] of widths) {
-            if (breakpoint !== UNCONSTRAINED_SIZE_KEY) {
-                result.push(`(max-width: ${breakpoint}px) ${width}px`);
-            }
-        }
+		const result = [];
+		for (const [breakpoint, width] of widths) {
+			if (breakpoint !== UNCONSTRAINED_SIZE_KEY) {
+				result.push(`(max-width: ${breakpoint}px) ${width}px`);
+			}
+		}
 
-        // Add the unconstrained size at the end.
-        result.push(`${widths.get(UNCONSTRAINED_SIZE_KEY)}px`);
+		// Add the unconstrained size at the end.
+		result.push(`${widths.get(UNCONSTRAINED_SIZE_KEY)}px`);
 
-        return result.join(', ');
-    }, [width, widths]);
+		return result.join(', ');
+	}, [width, widths]);
 
-    return {
-        sizes,
-        src,
-        srcSet
-    };
+	return {
+		sizes,
+		src,
+		srcSet
+	};
 };

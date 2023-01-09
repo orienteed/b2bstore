@@ -20,47 +20,47 @@ import shrinkQuery from '@magento/peregrine/lib/util/shrinkQuery';
  * @param {*} options
  */
 export const customFetchToShrinkQuery = (uri, options) => {
-    // TODO: add `ismorphic-fetch` or equivalent to avoid this error
-    if (typeof globalThis.fetch !== 'function') {
-        console.error('This environment does not define `fetch`.');
-        return () => {};
-    }
+	// TODO: add `ismorphic-fetch` or equivalent to avoid this error
+	if (typeof globalThis.fetch !== 'function') {
+		console.error('This environment does not define `fetch`.');
+		return () => {};
+	}
 
-    const resource = options.method === 'GET' ? shrinkQuery(uri) : uri;
+	const resource = options.method === 'GET' ? shrinkQuery(uri) : uri;
 
-    return globalThis.fetch(resource, options);
+	return globalThis.fetch(resource, options);
 };
 
 const getLinks = apiBase => {
-    const authLink = createAuthLink();
-    const storeLink = createStoreLink();
-    const errorLink = createErrorLink();
-    const retryLink = createRetryLink();
-    const gqlCacheLink = createGqlCacheLink();
-    const mutationQueueLink = createMutationQueueLink();
+	const authLink = createAuthLink();
+	const storeLink = createStoreLink();
+	const errorLink = createErrorLink();
+	const retryLink = createRetryLink();
+	const gqlCacheLink = createGqlCacheLink();
+	const mutationQueueLink = createMutationQueueLink();
 
-    // Warning: `useGETForQueries` risks exceeding URL length limits.
-    // These limits in practice are typically set at or behind where TLS
-    // terminates. For Magento Cloud & Fastly, 8kb is the maximum by default.
-    // https://docs.fastly.com/en/guides/resource-limits#request-and-response-limits
-    const httpLink = createHttpLink({
-        fetch: customFetchToShrinkQuery,
-        useGETForQueries: true,
-        uri: apiBase
-    });
+	// Warning: `useGETForQueries` risks exceeding URL length limits.
+	// These limits in practice are typically set at or behind where TLS
+	// terminates. For Magento Cloud & Fastly, 8kb is the maximum by default.
+	// https://docs.fastly.com/en/guides/resource-limits#request-and-response-limits
+	const httpLink = createHttpLink({
+		fetch: customFetchToShrinkQuery,
+		useGETForQueries: true,
+		uri: apiBase
+	});
 
-    // preserve this array order, it's important
-    // as the terminating link, `httpLink` must be last
-    const links = new Map()
-        .set('MUTATION_QUEUE', mutationQueueLink)
-        .set('RETRY', retryLink)
-        .set('AUTH', authLink)
-        .set('GQL_CACHE', gqlCacheLink)
-        .set('STORE', storeLink)
-        .set('ERROR', errorLink)
-        .set('HTTP', httpLink);
+	// preserve this array order, it's important
+	// as the terminating link, `httpLink` must be last
+	const links = new Map()
+		.set('MUTATION_QUEUE', mutationQueueLink)
+		.set('RETRY', retryLink)
+		.set('AUTH', authLink)
+		.set('GQL_CACHE', gqlCacheLink)
+		.set('STORE', storeLink)
+		.set('ERROR', errorLink)
+		.set('HTTP', httpLink);
 
-    return links;
+	return links;
 };
 
 export default getLinks;

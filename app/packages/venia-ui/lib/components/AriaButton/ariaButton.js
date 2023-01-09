@@ -13,15 +13,15 @@ import { useButton } from 'react-aria';
  * @returns {React.Element} A React component that displays a button with improved accessibility.
  */
 const AriaButton = props => {
-    const ref = useRef();
-    const { buttonProps } = useButton(props, ref);
-    const { children } = props;
+	const ref = useRef();
+	const { buttonProps } = useButton(props, ref);
+	const { children } = props;
 
-    return (
-        <button {...buttonProps} className={props.className} ref={ref}>
-            {children}
-        </button>
-    );
+	return (
+		<button {...buttonProps} className={props.className} ref={ref}>
+			{children}
+		</button>
+	);
 };
 
 /**
@@ -33,8 +33,8 @@ const AriaButton = props => {
  * @property {ReactNodeLike} children children of the button
  */
 AriaButton.propTypes = {
-    className: string,
-    children: node
+	className: string,
+	children: node
 };
 
 export default AriaButton;

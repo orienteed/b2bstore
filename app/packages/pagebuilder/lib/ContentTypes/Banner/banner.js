@@ -27,319 +27,303 @@ const handleDragStart = event => event.preventDefault();
  * @returns {React.Element} A React component that displays a Banner.
  */
 const Banner = props => {
-    const backgroundElement = useRef(null);
-    const viewportElement = useRef(null);
-    const classes = useStyle(defaultClasses, props.classes);
-    const [hovered, setHovered] = useState(false);
-    const [bgImageStyle, setBgImageStyle] = useState(null);
-    const toggleHover = () => setHovered(!hovered);
-    const intersectionObserver = useIntersectionObserver();
-    const {
-        appearance = 'poster',
-        minHeight,
-        backgroundColor,
-        desktopImage,
-        mobileImage,
-        backgroundSize,
-        backgroundPosition,
-        backgroundAttachment,
-        backgroundRepeat = 'repeat',
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        content,
-        showButton,
-        buttonType,
-        buttonText,
-        link,
-        openInNewTab = false,
-        showOverlay,
-        overlayColor,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        mediaQueries,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = [],
-        backgroundType,
-        videoSrc,
-        videoFallbackSrc,
-        videoLoop,
-        videoPlayOnlyVisible,
-        videoLazyLoading,
-        videoOverlayColor,
-        getParallax = () => {}
-    } = props;
+	const backgroundElement = useRef(null);
+	const viewportElement = useRef(null);
+	const classes = useStyle(defaultClasses, props.classes);
+	const [hovered, setHovered] = useState(false);
+	const [bgImageStyle, setBgImageStyle] = useState(null);
+	const toggleHover = () => setHovered(!hovered);
+	const intersectionObserver = useIntersectionObserver();
+	const {
+		appearance = 'poster',
+		minHeight,
+		backgroundColor,
+		desktopImage,
+		mobileImage,
+		backgroundSize,
+		backgroundPosition,
+		backgroundAttachment,
+		backgroundRepeat = 'repeat',
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		content,
+		showButton,
+		buttonType,
+		buttonText,
+		link,
+		openInNewTab = false,
+		showOverlay,
+		overlayColor,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		mediaQueries,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = [],
+		backgroundType,
+		videoSrc,
+		videoFallbackSrc,
+		videoLoop,
+		videoPlayOnlyVisible,
+		videoLazyLoading,
+		videoOverlayColor,
+		getParallax = () => {}
+	} = props;
 
-    const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
+	const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
 
-    let image = desktopImage;
-    if (mobileImage && matchMedia && matchMedia('(max-width: 768px)').matches) {
-        image = mobileImage;
-    }
+	let image = desktopImage;
+	if (mobileImage && matchMedia && matchMedia('(max-width: 768px)').matches) {
+		image = mobileImage;
+	}
 
-    const rootStyles = {
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft
-    };
-    const wrapperStyles = {
-        backgroundColor,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        textAlign
-    };
-    const overlayStyles = {
-        backgroundColor: showOverlay !== 'never' ? overlayColor : null
-    };
-    const contentStyles = {};
+	const rootStyles = {
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft
+	};
+	const wrapperStyles = {
+		backgroundColor,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		textAlign
+	};
+	const overlayStyles = {
+		backgroundColor: showOverlay !== 'never' ? overlayColor : null
+	};
+	const contentStyles = {};
 
-    const videoOverlayStyles = {
-        backgroundColor: videoOverlayColor
-    };
+	const videoOverlayStyles = {
+		backgroundColor: videoOverlayColor
+	};
 
-    // Initiate jarallax for background video
-    /* eslint-disable react-hooks/exhaustive-deps */
-    useEffect(() => {
-        let parallaxElement;
-        let jarallax;
-        let jarallaxVideo;
+	// Initiate jarallax for background video
+	/* eslint-disable react-hooks/exhaustive-deps */
+	useEffect(() => {
+		let parallaxElement;
+		let jarallax;
+		let jarallaxVideo;
 
-        if (backgroundType === 'video') {
-            const config = {
-                speed: 1,
-                imgSrc: videoFallbackSrc
-                    ? resourceUrl(videoFallbackSrc, {
-                          type: 'image-wysiwyg',
-                          quality: 85
-                      })
-                    : null,
-                elementInViewport: viewportElement.current,
-                videoSrc,
-                videoLoop,
-                videoPlayOnlyVisible,
-                videoLazyLoading
-            };
-            parallaxElement = backgroundElement.current;
-            ({ jarallax, jarallaxVideo } = require('jarallax'));
-            jarallaxVideo();
-            jarallax(parallaxElement, config);
-            parallaxElement.jarallax.video &&
-                parallaxElement.jarallax.video.on('started', () => {
-                    const self = parallaxElement.jarallax;
+		if (backgroundType === 'video') {
+			const config = {
+				speed: 1,
+				imgSrc: videoFallbackSrc
+					? resourceUrl(videoFallbackSrc, {
+							type: 'image-wysiwyg',
+							quality: 85
+					  })
+					: null,
+				elementInViewport: viewportElement.current,
+				videoSrc,
+				videoLoop,
+				videoPlayOnlyVisible,
+				videoLazyLoading
+			};
+			parallaxElement = backgroundElement.current;
+			({ jarallax, jarallaxVideo } = require('jarallax'));
+			jarallaxVideo();
+			jarallax(parallaxElement, config);
+			parallaxElement.jarallax.video &&
+				parallaxElement.jarallax.video.on('started', () => {
+					const self = parallaxElement.jarallax;
 
-                    // show video
-                    if (self.$video) {
-                        self.$video.style.visibility = 'visible';
-                    }
-                });
-            getParallax(parallaxElement, config);
-        }
+					// show video
+					if (self.$video) {
+						self.$video.style.visibility = 'visible';
+					}
+				});
+			getParallax(parallaxElement, config);
+		}
 
-        return () => {
-            if (parallaxElement && backgroundType === 'video') {
-                jarallax(parallaxElement, 'destroy');
-            }
-        };
-    }, [
-        backgroundType,
-        videoSrc,
-        videoFallbackSrc,
-        videoLoop,
-        videoPlayOnlyVisible,
-        videoLazyLoading
-    ]);
-    /* eslint-enable react-hooks/exhaustive-deps */
+		return () => {
+			if (parallaxElement && backgroundType === 'video') {
+				jarallax(parallaxElement, 'destroy');
+			}
+		};
+	}, [backgroundType, videoSrc, videoFallbackSrc, videoLoop, videoPlayOnlyVisible, videoLazyLoading]);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
-    if (image) {
-        wrapperStyles.backgroundImage = `url(${bgImageStyle})`;
-        wrapperStyles.backgroundSize = backgroundSize;
-        wrapperStyles.backgroundPosition = backgroundPosition;
-        wrapperStyles.backgroundAttachment = backgroundAttachment;
-        wrapperStyles.backgroundRepeat = backgroundRepeat;
-    }
+	if (image) {
+		wrapperStyles.backgroundImage = `url(${bgImageStyle})`;
+		wrapperStyles.backgroundSize = backgroundSize;
+		wrapperStyles.backgroundPosition = backgroundPosition;
+		wrapperStyles.backgroundAttachment = backgroundAttachment;
+		wrapperStyles.backgroundRepeat = backgroundRepeat;
+	}
 
-    const setBgImage = useCallback(() => {
-        const resourceImage = resourceUrl(image, {
-            type: 'image-wysiwyg',
-            quality: 85
-        });
+	const setBgImage = useCallback(() => {
+		const resourceImage = resourceUrl(image, {
+			type: 'image-wysiwyg',
+			quality: 85
+		});
 
-        const backgroundImage = document.createElement('img');
-        backgroundImage.src = resourceImage;
-        setBgImageStyle(resourceImage);
-    }, [image]);
+		const backgroundImage = document.createElement('img');
+		backgroundImage.src = resourceImage;
+		setBgImageStyle(resourceImage);
+	}, [image]);
 
-    // Load image only if in viewport
-    useEffect(() => {
-        if (!image || !backgroundElement.current) {
-            return;
-        }
+	// Load image only if in viewport
+	useEffect(() => {
+		if (!image || !backgroundElement.current) {
+			return;
+		}
 
-        // Fallback if IntersectionObserver is not supported
-        if (typeof intersectionObserver === 'undefined') {
-            setBgImage();
-            return;
-        }
+		// Fallback if IntersectionObserver is not supported
+		if (typeof intersectionObserver === 'undefined') {
+			setBgImage();
+			return;
+		}
 
-        const htmlElement = backgroundElement.current;
+		const htmlElement = backgroundElement.current;
 
-        const onIntersection = entries => {
-            if (entries.some(entry => entry.isIntersecting)) {
-                observer.unobserve(htmlElement);
+		const onIntersection = entries => {
+			if (entries.some(entry => entry.isIntersecting)) {
+				observer.unobserve(htmlElement);
 
-                setBgImage();
-            }
-        };
-        const observer = new intersectionObserver(onIntersection);
-        observer.observe(htmlElement);
+				setBgImage();
+			}
+		};
+		const observer = new intersectionObserver(onIntersection);
+		observer.observe(htmlElement);
 
-        return () => {
-            if (htmlElement) {
-                observer.unobserve(htmlElement);
-            }
-        };
-    }, [backgroundElement, image, intersectionObserver, setBgImage]);
+		return () => {
+			if (htmlElement) {
+				observer.unobserve(htmlElement);
+			}
+		};
+	}, [backgroundElement, image, intersectionObserver, setBgImage]);
 
-    if (appearance === 'poster') {
-        overlayStyles.minHeight = minHeight;
-        overlayStyles.paddingTop = paddingTop;
-        overlayStyles.paddingRight = paddingRight;
-        overlayStyles.paddingBottom = paddingBottom;
-        overlayStyles.paddingLeft = paddingLeft;
-        contentStyles.width = '100%';
-    } else {
-        wrapperStyles.minHeight = minHeight;
-        wrapperStyles.paddingTop = paddingTop;
-        wrapperStyles.paddingRight = paddingRight;
-        wrapperStyles.paddingBottom = paddingBottom;
-        wrapperStyles.paddingLeft = paddingLeft;
-    }
+	if (appearance === 'poster') {
+		overlayStyles.minHeight = minHeight;
+		overlayStyles.paddingTop = paddingTop;
+		overlayStyles.paddingRight = paddingRight;
+		overlayStyles.paddingBottom = paddingBottom;
+		overlayStyles.paddingLeft = paddingLeft;
+		contentStyles.width = '100%';
+	} else {
+		wrapperStyles.minHeight = minHeight;
+		wrapperStyles.paddingTop = paddingTop;
+		wrapperStyles.paddingRight = paddingRight;
+		wrapperStyles.paddingBottom = paddingBottom;
+		wrapperStyles.paddingLeft = paddingLeft;
+	}
 
-    const appearanceOverlayClasses = {
-        poster: classes.posterOverlay,
-        'collage-left': classes.collageLeftOverlay,
-        'collage-centered': classes.collageCenteredOverlay,
-        'collage-right': classes.collageRightOverlay
-    };
-    const appearanceOverlayHoverClasses = {
-        poster: classes.posterOverlayHover,
-        'collage-left': classes.collageLeftOverlayHover,
-        'collage-centered': classes.collageCenteredOverlayHover,
-        'collage-right': classes.collageRightOverlayHover
-    };
+	const appearanceOverlayClasses = {
+		'poster': classes.posterOverlay,
+		'collage-left': classes.collageLeftOverlay,
+		'collage-centered': classes.collageCenteredOverlay,
+		'collage-right': classes.collageRightOverlay
+	};
+	const appearanceOverlayHoverClasses = {
+		'poster': classes.posterOverlayHover,
+		'collage-left': classes.collageLeftOverlayHover,
+		'collage-centered': classes.collageCenteredOverlayHover,
+		'collage-right': classes.collageRightOverlayHover
+	};
 
-    const typeToPriorityMapping = {
-        primary: 'high',
-        secondary: 'normal',
-        link: 'low'
-    };
+	const typeToPriorityMapping = {
+		primary: 'high',
+		secondary: 'normal',
+		link: 'low'
+	};
 
-    let BannerButton;
-    if (showButton !== 'never') {
-        const buttonClass =
-            showButton === 'hover' ? classes.buttonHover : classes.button;
+	let BannerButton;
+	if (showButton !== 'never') {
+		const buttonClass = showButton === 'hover' ? classes.buttonHover : classes.button;
 
-        BannerButton = (
-            <div className={buttonClass}>
-                <Button
-                    priority={typeToPriorityMapping[buttonType]}
-                    type="button"
-                    onClick={() => {}}
-                >
-                    {buttonText}
-                </Button>
-            </div>
-        );
-    }
+		BannerButton = (
+			<div className={buttonClass}>
+				<Button priority={typeToPriorityMapping[buttonType]} type="button" onClick={() => {}}>
+					{buttonText}
+				</Button>
+			</div>
+		);
+	}
 
-    const videoOverlay = videoOverlayColor ? (
-        <div className={classes.videoOverlay} style={videoOverlayStyles} />
-    ) : null;
-    const videoViewportElement =
-        backgroundType === 'video' ? (
-            <div ref={viewportElement} className={classes.viewportElement} />
-        ) : null;
+	const videoOverlay = videoOverlayColor ? <div className={classes.videoOverlay} style={videoOverlayStyles} /> : null;
+	const videoViewportElement =
+		backgroundType === 'video' ? <div ref={viewportElement} className={classes.viewportElement} /> : null;
 
-    const overlayClass =
-        showOverlay === 'hover' && !hovered
-            ? appearanceOverlayHoverClasses[appearance]
-            : appearanceOverlayClasses[appearance];
+	const overlayClass =
+		showOverlay === 'hover' && !hovered
+			? appearanceOverlayHoverClasses[appearance]
+			: appearanceOverlayClasses[appearance];
 
-    const history = useHistory();
+	const history = useHistory();
 
-    const clickHandler = event => {
-        handleHtmlContentClick(history, event);
-    };
+	const clickHandler = event => {
+		handleHtmlContentClick(history, event);
+	};
 
-    let BannerFragment = (
-        <div
-            className={classes.wrapper}
-            style={{
-                ...wrapperStyles,
-                ...(appearance !== 'poster' && mediaQueryStyles)
-            }}
-            ref={backgroundElement}
-        >
-            {videoOverlay}
-            <div
-                className={overlayClass}
-                style={{
-                    ...overlayStyles,
-                    ...(appearance === 'poster' && mediaQueryStyles)
-                }}
-            >
-                <div
-                    className={classes.content}
-                    style={contentStyles}
-                    dangerouslySetInnerHTML={toHTML(content)}
-                    onClick={clickHandler}
-                    onKeyDown={clickHandler}
-                    role="presentation"
-                />
-                {BannerButton}
-            </div>
-            {videoViewportElement}
-        </div>
-    );
+	let BannerFragment = (
+		<div
+			className={classes.wrapper}
+			style={{
+				...wrapperStyles,
+				...(appearance !== 'poster' && mediaQueryStyles)
+			}}
+			ref={backgroundElement}
+		>
+			{videoOverlay}
+			<div
+				className={overlayClass}
+				style={{
+					...overlayStyles,
+					...(appearance === 'poster' && mediaQueryStyles)
+				}}
+			>
+				<div
+					className={classes.content}
+					style={contentStyles}
+					dangerouslySetInnerHTML={toHTML(content)}
+					onClick={clickHandler}
+					onKeyDown={clickHandler}
+					role="presentation"
+				/>
+				{BannerButton}
+			</div>
+			{videoViewportElement}
+		</div>
+	);
 
-    if (typeof link === 'string') {
-        const linkProps = resolveLinkProps(link);
-        const LinkComponent = linkProps.to ? Link : 'a';
-        BannerFragment = (
-            <LinkComponent
-                className={classes.link}
-                {...linkProps}
-                {...(openInNewTab ? { target: '_blank' } : '')}
-                onDragStart={handleDragStart}
-            >
-                {BannerFragment}
-            </LinkComponent>
-        );
-    }
+	if (typeof link === 'string') {
+		const linkProps = resolveLinkProps(link);
+		const LinkComponent = linkProps.to ? Link : 'a';
+		BannerFragment = (
+			<LinkComponent
+				className={classes.link}
+				{...linkProps}
+				{...(openInNewTab ? { target: '_blank' } : '')}
+				onDragStart={handleDragStart}
+			>
+				{BannerFragment}
+			</LinkComponent>
+		);
+	}
 
-    return (
-        <div
-            aria-live="polite"
-            aria-busy="false"
-            className={[classes.root, ...cssClasses].join(' ')}
-            data-cy="PageBuilder-Banner-root"
-            style={rootStyles}
-            onMouseEnter={toggleHover}
-            onMouseLeave={toggleHover}
-        >
-            {BannerFragment}
-        </div>
-    );
+	return (
+		<div
+			aria-live="polite"
+			aria-busy="false"
+			className={[classes.root, ...cssClasses].join(' ')}
+			data-cy="PageBuilder-Banner-root"
+			style={rootStyles}
+			onMouseEnter={toggleHover}
+			onMouseLeave={toggleHover}
+		>
+			{BannerFragment}
+		</div>
+	);
 };
 
 /**
@@ -407,75 +391,70 @@ const Banner = props => {
  * @property {Function} getParallax Return parallax element and options
  */
 Banner.propTypes = {
-    classes: shape({
-        root: string,
-        link: string,
-        wrapper: string,
-        overlay: string,
-        content: string,
-        button: string,
-        buttonHover: string,
-        posterOverlay: string,
-        posterOverlayHover: string,
-        collageLeftOverlay: string,
-        collageLeftOverlayHover: string,
-        collageCenteredOverlay: string,
-        collageCenteredOverlayHover: string,
-        collageRightOverlay: string,
-        collageRightOverlayHover: string,
-        videoOverlay: string,
-        viewportElement: string
-    }),
-    appearance: oneOf([
-        'poster',
-        'collage-left',
-        'collage-centered',
-        'collage-right'
-    ]),
-    minHeight: string,
-    backgroundColor: string,
-    desktopImage: string,
-    mobileImage: string,
-    backgroundSize: string,
-    backgroundPosition: string,
-    backgroundAttachment: string,
-    backgroundRepeat: string,
-    content: string,
-    link: string,
-    linkType: oneOf(['default', 'product', 'category', 'page']),
-    openInNewTab: bool,
-    showButton: oneOf(['always', 'hover', 'never']),
-    buttonText: string,
-    buttonType: oneOf(['primary', 'secondary', 'link']),
-    showOverlay: oneOf(['always', 'hover', 'never']),
-    overlayColor: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    mediaQueries: arrayOf(
-        shape({
-            media: string,
-            style: object
-        })
-    ),
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    cssClasses: arrayOf(string),
-    backgroundType: string,
-    videoSrc: string,
-    videoFallbackSrc: string,
-    videoLoop: bool,
-    videoPlayOnlyVisible: bool,
-    videoLazyLoading: bool,
-    videoOverlayColor: string,
-    getParallax: func
+	classes: shape({
+		root: string,
+		link: string,
+		wrapper: string,
+		overlay: string,
+		content: string,
+		button: string,
+		buttonHover: string,
+		posterOverlay: string,
+		posterOverlayHover: string,
+		collageLeftOverlay: string,
+		collageLeftOverlayHover: string,
+		collageCenteredOverlay: string,
+		collageCenteredOverlayHover: string,
+		collageRightOverlay: string,
+		collageRightOverlayHover: string,
+		videoOverlay: string,
+		viewportElement: string
+	}),
+	appearance: oneOf(['poster', 'collage-left', 'collage-centered', 'collage-right']),
+	minHeight: string,
+	backgroundColor: string,
+	desktopImage: string,
+	mobileImage: string,
+	backgroundSize: string,
+	backgroundPosition: string,
+	backgroundAttachment: string,
+	backgroundRepeat: string,
+	content: string,
+	link: string,
+	linkType: oneOf(['default', 'product', 'category', 'page']),
+	openInNewTab: bool,
+	showButton: oneOf(['always', 'hover', 'never']),
+	buttonText: string,
+	buttonType: oneOf(['primary', 'secondary', 'link']),
+	showOverlay: oneOf(['always', 'hover', 'never']),
+	overlayColor: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	mediaQueries: arrayOf(
+		shape({
+			media: string,
+			style: object
+		})
+	),
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	cssClasses: arrayOf(string),
+	backgroundType: string,
+	videoSrc: string,
+	videoFallbackSrc: string,
+	videoLoop: bool,
+	videoPlayOnlyVisible: bool,
+	videoLazyLoading: bool,
+	videoOverlayColor: string,
+	getParallax: func
 };
 
 export default Banner;

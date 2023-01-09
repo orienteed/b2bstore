@@ -9,17 +9,17 @@ import { getSearchParam } from './useSearchParam';
  * @private
  */
 const setQueryParam = ({ history, location, parameter, replace, value }) => {
-    const { search } = location;
-    const queryParams = new URLSearchParams(search);
+	const { search } = location;
+	const queryParams = new URLSearchParams(search);
 
-    queryParams.set(parameter, value);
-    const destination = { search: queryParams.toString() };
+	queryParams.set(parameter, value);
+	const destination = { search: queryParams.toString() };
 
-    if (replace) {
-        history.replace(destination);
-    } else {
-        history.push(destination);
-    }
+	if (replace) {
+		history.replace(destination);
+	} else {
+		history.push(destination);
+	}
 };
 
 const defaultInitialPage = 1;
@@ -43,81 +43,81 @@ const defaultInitialPage = 1;
  * @return {Object[]} An array with two entries containing the following content: [ {@link PaginationState}, {@link API} ]
  */
 export const usePagination = (props = {}) => {
-    const { namespace = '', parameter = 'page', initialTotalPages = 1 } = props;
+	const { namespace = '', parameter = 'page', initialTotalPages = 1 } = props;
 
-    const history = useHistory();
-    const location = useLocation();
-    const [totalPages, setTotalPages] = useState(initialTotalPages);
+	const history = useHistory();
+	const location = useLocation();
+	const [totalPages, setTotalPages] = useState(initialTotalPages);
 
-    const searchParam = namespace ? `${namespace}_${parameter}` : parameter;
-    const initialPage = props.initialPage || defaultInitialPage;
-    const currentPage = parseInt(getSearchParam(searchParam, location));
+	const searchParam = namespace ? `${namespace}_${parameter}` : parameter;
+	const initialPage = props.initialPage || defaultInitialPage;
+	const currentPage = parseInt(getSearchParam(searchParam, location));
 
-    // use the location to hold state
-    const setCurrentPage = useCallback(
-        (page, replace = false) => {
-            // Update the query parameter.
-            setQueryParam({
-                history,
-                location,
-                parameter: searchParam,
-                replace,
-                value: page
-            });
-        },
-        [history, location, searchParam]
-    );
+	// use the location to hold state
+	const setCurrentPage = useCallback(
+		(page, replace = false) => {
+			// Update the query parameter.
+			setQueryParam({
+				history,
+				location,
+				parameter: searchParam,
+				replace,
+				value: page
+			});
+		},
+		[history, location, searchParam]
+	);
 
-    // ensure the location contains a page number
-    useEffect(() => {
-        if (!currentPage) {
-            setCurrentPage(initialPage, true);
-        }
-    }, [currentPage, initialPage, setCurrentPage]);
+	// ensure the location contains a page number
+	useEffect(() => {
+		if (!currentPage) {
+			setCurrentPage(initialPage, true);
+		}
+	}, [currentPage, initialPage, setCurrentPage]);
 
-    /**
-     * The current pagination state
-     *
-     * @typedef PaginationState
-     *
-     * @kind Object
-     *
-     * @property {Number} currentPage The current page number
-     * @property {Number} totalPages The total number of pages
-     */
-    const paginationState = {
-        currentPage: currentPage || initialPage,
-        totalPages
-    };
+	/**
+	 * The current pagination state
+	 *
+	 * @typedef PaginationState
+	 *
+	 * @kind Object
+	 *
+	 * @property {Number} currentPage The current page number
+	 * @property {Number} totalPages The total number of pages
+	 */
+	const paginationState = {
+		currentPage: currentPage || initialPage,
+		totalPages
+	};
 
-    /**
-     * The API object used for modifying the PaginationState.
-     *
-     * @typedef API
-     *
-     * @kind Object
-     */
-    /**
-     * Set the current page
-     *
-     * @function API.setCurrentPage
-     *
-     * @param {Number} page The number to assign to the current page
-     */
-    /**
-     * Set the total number of pages
-     *
-     * @function API.setTotalPages
-     *
-     * @param {Number} total The number to set the amount of pages available
-     */
-    const api = useMemo(
-        () => ({
-            setCurrentPage,
-            setTotalPages
-        }),
-        [setCurrentPage, setTotalPages]
-    );
+	/**
+	 * The API object used for modifying the PaginationState.
+	 *
+	 * @typedef API
+	 *
+	 * @kind Object
+	 */
+	/**
+	 * Set the current page
+	 *
+	 * @function API.setCurrentPage
+	 *
+	 * @param {Number} page The number to assign to the current page
+	 */
+	/**
+	 * Set the total number of pages
+	 *
+	 * @function API.setTotalPages
+	 *
+	 * @param {Number} total The number to set the amount of pages available
+	 */
+	const api = useMemo(
+		() => ({
+			setCurrentPage,
+			setTotalPages
+		}),
+		[setCurrentPage, setTotalPages]
+	);
 
-    return [paginationState, api];
+	return [paginationState, api];
 };

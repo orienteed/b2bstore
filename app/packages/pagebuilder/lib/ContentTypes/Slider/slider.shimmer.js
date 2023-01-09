@@ -16,61 +16,57 @@ import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
  * @returns {React.Element} A React component that displays a Slider Shimmer.
  */
 const SliderShimmer = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        minHeight,
-        showDots,
-        border,
-        borderWidth,
-        marginTop = 0,
-        marginRight = 0,
-        marginBottom = 0,
-        marginLeft = 0,
-        mediaQueries,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		minHeight,
+		showDots,
+		border,
+		borderWidth,
+		marginTop = 0,
+		marginRight = 0,
+		marginBottom = 0,
+		marginLeft = 0,
+		mediaQueries,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
 
-    const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
+	const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
 
-    const dynamicStyles = {
-        minHeight: mediaQueryStyles?.minHeight || minHeight,
-        border,
-        borderWidth,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
+	const dynamicStyles = {
+		minHeight: mediaQueryStyles?.minHeight || minHeight,
+		border,
+		borderWidth,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
 
-    const dotsContainer = showDots ? <div className="slick-dots" /> : null;
+	const dotsContainer = showDots ? <div className="slick-dots" /> : null;
 
-    return (
-        <Shimmer
-            aria-live="polite"
-            aria-busy="true"
-            classes={{
-                root_rectangle: [
-                    classes.root,
-                    classes.shimmerRoot,
-                    ...cssClasses
-                ].join(' ')
-            }}
-            style={dynamicStyles}
-        >
-            <div className="slick-slider">
-                <div className="slick-list" />
-                {dotsContainer}
-            </div>
-        </Shimmer>
-    );
+	return (
+		<Shimmer
+			aria-live="polite"
+			aria-busy="true"
+			classes={{
+				root_rectangle: [classes.root, classes.shimmerRoot, ...cssClasses].join(' ')
+			}}
+			style={dynamicStyles}
+		>
+			<div className="slick-slider">
+				<div className="slick-list" />
+				{dotsContainer}
+			</div>
+		</Shimmer>
+	);
 };
 
 /**
@@ -98,29 +94,29 @@ const SliderShimmer = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 SliderShimmer.propTypes = {
-    classes: shape({
-        root: string,
-        shimmerRoot: string
-    }),
-    minHeight: string,
-    showDots: bool,
-    border: string,
-    borderWidth: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    mediaQueries: arrayOf(
-        shape({
-            media: string,
-            style: object
-        })
-    ),
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		root: string,
+		shimmerRoot: string
+	}),
+	minHeight: string,
+	showDots: bool,
+	border: string,
+	borderWidth: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	mediaQueries: arrayOf(
+		shape({
+			media: string,
+			style: object
+		})
+	),
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string)
 };
 
 export default SliderShimmer;

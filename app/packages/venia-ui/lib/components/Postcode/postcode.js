@@ -9,50 +9,42 @@ import TextInput from '../TextInput';
 import defaultClasses from './postcode.module.css';
 
 const Postcode = props => {
-    const { classes: propClasses, fieldInput, label, ...inputProps } = props;
+	const { classes: propClasses, fieldInput, label, ...inputProps } = props;
 
-    const classes = useStyle(defaultClasses, propClasses);
-    const postcodeProps = {
-        classes,
-        ...inputProps
-    };
+	const classes = useStyle(defaultClasses, propClasses);
+	const postcodeProps = {
+		classes,
+		...inputProps
+	};
 
-    const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 
-    const fieldLabel =
-        label ||
-        formatMessage({
-            id: 'postcode.label',
-            defaultMessage: 'ZIP / Postal Code'
-        });
+	const fieldLabel =
+		label ||
+		formatMessage({
+			id: 'postcode.label',
+			defaultMessage: 'ZIP / Postal Code'
+		});
 
-    usePostcode({ fieldInput });
+	usePostcode({ fieldInput });
 
-    return (
-        <Field
-            id={classes.root}
-            label={fieldLabel}
-            classes={{ root: classes.root }}
-        >
-            <TextInput
-                {...postcodeProps}
-                field={fieldInput}
-                id={classes.root}
-            />
-        </Field>
-    );
+	return (
+		<Field id={classes.root} label={fieldLabel} classes={{ root: classes.root }}>
+			<TextInput {...postcodeProps} field={fieldInput} id={classes.root} />
+		</Field>
+	);
 };
 
 export default Postcode;
 
 Postcode.defaultProps = {
-    fieldInput: 'postcode'
+	fieldInput: 'postcode'
 };
 
 Postcode.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    fieldInput: string,
-    label: string
+	classes: shape({
+		root: string
+	}),
+	fieldInput: string,
+	label: string
 };

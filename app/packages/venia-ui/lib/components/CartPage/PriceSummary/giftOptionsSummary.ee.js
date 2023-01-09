@@ -11,30 +11,21 @@ import Price from '@magento/venia-ui/lib/components/Price';
  * @param {Object} props.data fragment response data
  */
 export default props => {
-    const classes = useStyle({}, props.classes);
-    const giftOptions = props?.data?.printed_card || {};
+	const classes = useStyle({}, props.classes);
+	const giftOptions = props?.data?.printed_card || {};
 
-    if (!giftOptions || !giftOptions.value) {
-        return null;
-    }
+	if (!giftOptions || !giftOptions.value) {
+		return null;
+	}
 
-    return (
-        <Fragment>
-            <span
-                className={classes.lineItemLabel}
-                data-cy="PriceSummary-GiftOptionsSummary-label"
-            >
-                <FormattedMessage
-                    id={'giftOptionsSummary.lineItemLabel'}
-                    defaultMessage={'Printed Card'}
-                />
-            </span>
-            <span className={classes.price}>
-                <Price
-                    value={giftOptions.value}
-                    currencyCode={giftOptions.currency}
-                />
-            </span>
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<span className={classes.lineItemLabel} data-cy="PriceSummary-GiftOptionsSummary-label">
+				<FormattedMessage id={'giftOptionsSummary.lineItemLabel'} defaultMessage={'Printed Card'} />
+			</span>
+			<span className={classes.price}>
+				<Price value={giftOptions.value} currencyCode={giftOptions.currency} />
+			</span>
+		</Fragment>
+	);
 };

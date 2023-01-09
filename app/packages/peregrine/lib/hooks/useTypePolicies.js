@@ -23,9 +23,9 @@ import { useEffect } from 'react';
  * @param {TypePolicyMap} typePolicies
  */
 export const useTypePolicies = typePolicies => {
-    const apolloClient = useApolloClient();
+	const apolloClient = useApolloClient();
 
-    useEffect(() => {
-        apolloClient.cache.policies.addTypePolicies(typePolicies);
-    }, [apolloClient, typePolicies]);
+	useEffect(() => {
+		apolloClient.cache.policies.addTypePolicies(typePolicies);
+	}, [apolloClient, typePolicies]);
 };

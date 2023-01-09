@@ -9,47 +9,40 @@ import { useCallback } from 'react';
  * @param {function} props.setEditing set editing state object
  */
 export const useOverview = props => {
-    const {
-        cancelCheckout,
-        cart,
-        isSubmitting,
-        ready,
-        setEditing,
-        submitOrder
-    } = props;
+	const { cancelCheckout, cart, isSubmitting, ready, setEditing, submitOrder } = props;
 
-    const handleAddressFormClick = useCallback(() => {
-        setEditing('address');
-    }, [setEditing]);
+	const handleAddressFormClick = useCallback(() => {
+		setEditing('address');
+	}, [setEditing]);
 
-    const handlePaymentFormClick = useCallback(() => {
-        setEditing('paymentMethod');
-    }, [setEditing]);
+	const handlePaymentFormClick = useCallback(() => {
+		setEditing('paymentMethod');
+	}, [setEditing]);
 
-    const handleShippingFormClick = useCallback(() => {
-        setEditing('shippingMethod');
-    }, [setEditing]);
+	const handleShippingFormClick = useCallback(() => {
+		setEditing('shippingMethod');
+	}, [setEditing]);
 
-    const handleCancel = useCallback(() => {
-        cancelCheckout();
-    }, [cancelCheckout]);
+	const handleCancel = useCallback(() => {
+		cancelCheckout();
+	}, [cancelCheckout]);
 
-    const handleSubmit = useCallback(() => {
-        submitOrder();
-    }, [submitOrder]);
+	const handleSubmit = useCallback(() => {
+		submitOrder();
+	}, [submitOrder]);
 
-    const { derivedDetails } = cart;
-    const { currencyCode, numItems, subtotal } = derivedDetails;
+	const { derivedDetails } = cart;
+	const { currencyCode, numItems, subtotal } = derivedDetails;
 
-    return {
-        currencyCode,
-        handleAddressFormClick,
-        handleCancel,
-        handlePaymentFormClick,
-        handleShippingFormClick,
-        handleSubmit,
-        isSubmitDisabled: isSubmitting || !ready,
-        numItems,
-        subtotal
-    };
+	return {
+		currencyCode,
+		handleAddressFormClick,
+		handleCancel,
+		handlePaymentFormClick,
+		handleShippingFormClick,
+		handleSubmit,
+		isSubmitDisabled: isSubmitting || !ready,
+		numItems,
+		subtotal
+	};
 };

@@ -4,31 +4,31 @@ import { func, number, string } from 'prop-types';
 import QuantityStepper from '../../QuantityStepper';
 
 const Quantity = props => {
-    return (
-        <Form
-            initialValues={{
-                quantity: props.initialValue
-            }}
-        >
-            <QuantityStepper {...props} />
-        </Form>
-    );
+	return (
+		<Form
+			initialValues={{
+				quantity: props.initialValue
+			}}
+		>
+			<QuantityStepper {...props} />
+		</Form>
+	);
 };
 
 Quantity.propTypes = {
-    initialValue: number,
-    itemId: string,
-    label: string,
-    min: number,
-    onChange: func,
-    message: string
+	initialValue: number,
+	itemId: string,
+	label: string,
+	min: number,
+	onChange: func,
+	message: string
 };
 
 Quantity.defaultProps = {
-    label: 'Quantity',
-    min: 0,
-    initialValue: 1,
-    onChange: () => {}
+	label: 'Quantity',
+	min: 0,
+	initialValue: 1,
+	onChange: () => {}
 };
 
 /**

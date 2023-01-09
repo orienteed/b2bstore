@@ -22,9 +22,7 @@
  * @example <caption>Importing into your project</caption>
  * import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity';
  */
-export {
-    useQuantityStepper as useQuantity
-} from '../../QuantityStepper/useQuantityStepper';
+export { useQuantityStepper as useQuantity } from '../../QuantityStepper/useQuantityStepper';
 
 /** JSDoc type definitions */
 

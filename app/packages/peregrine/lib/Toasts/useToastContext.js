@@ -9,58 +9,58 @@ import withLogger from '../util/withLogger';
  * @property {Map} toasts Map object associating an id to toast data
  */
 const initialState = {
-    toasts: new Map()
+	toasts: new Map()
 };
 
 const reducer = (prevState = initialState, action = {}) => {
-    const { type, payload } = action;
+	const { type, payload } = action;
 
-    switch (type) {
-        case 'add': {
-            const nextToasts = new Map(prevState.toasts);
-            const prevToast = nextToasts.get(payload.id);
+	switch (type) {
+		case 'add': {
+			const nextToasts = new Map(prevState.toasts);
+			const prevToast = nextToasts.get(payload.id);
 
-            const isDuplicate = !!prevToast;
-            let timestamp = payload.timestamp;
-            if (isDuplicate) {
-                // If this is a _new_ duplicate toast we need to clear the
-                // previous timeout to prevent premature removal.
-                globalThis.clearTimeout(prevToast.removalTimeoutId);
+			const isDuplicate = !!prevToast;
+			let timestamp = payload.timestamp;
+			if (isDuplicate) {
+				// If this is a _new_ duplicate toast we need to clear the
+				// previous timeout to prevent premature removal.
+				globalThis.clearTimeout(prevToast.removalTimeoutId);
 
-                // And to retain chronological order of addition, keep the
-                // original timestamp.
-                timestamp = prevToast.timestamp;
-            }
+				// And to retain chronological order of addition, keep the
+				// original timestamp.
+				timestamp = prevToast.timestamp;
+			}
 
-            nextToasts.set(payload.id, {
-                ...payload,
-                timestamp,
-                isDuplicate
-            });
+			nextToasts.set(payload.id, {
+				...payload,
+				timestamp,
+				isDuplicate
+			});
 
-            return {
-                ...prevState,
-                toasts: nextToasts
-            };
-        }
-        case 'remove': {
-            const nextToasts = new Map(prevState.toasts);
+			return {
+				...prevState,
+				toasts: nextToasts
+			};
+		}
+		case 'remove': {
+			const nextToasts = new Map(prevState.toasts);
 
-            const prevToast = nextToasts.get(payload.id);
-            if (prevToast) {
-                globalThis.clearTimeout(prevToast.removalTimeoutId);
-            }
+			const prevToast = nextToasts.get(payload.id);
+			if (prevToast) {
+				globalThis.clearTimeout(prevToast.removalTimeoutId);
+			}
 
-            nextToasts.delete(payload.id);
+			nextToasts.delete(payload.id);
 
-            return {
-                ...prevState,
-                toasts: nextToasts
-            };
-        }
-        default:
-            return prevState;
-    }
+			return {
+				...prevState,
+				toasts: nextToasts
+			};
+		}
+		default:
+			return prevState;
+	}
 };
 
 const ToastContext = createContext();
@@ -76,10 +76,8 @@ const wrappedReducer = withLogger(reducer);
  *
  */
 export const ToastContextProvider = ({ children }) => {
-    const store = useReducer(wrappedReducer, initialState);
-    return (
-        <ToastContext.Provider value={store}>{children}</ToastContext.Provider>
-    );
+	const store = useReducer(wrappedReducer, initialState);
+	return <ToastContext.Provider value={store}>{children}</ToastContext.Provider>;
 };
 
 /**

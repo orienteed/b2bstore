@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 
 const DEFAULT_AMOUNT = {
-    currency: 'USD',
-    value: 0
+	currency: 'USD',
+	value: 0
 };
 
 /**
@@ -11,18 +11,15 @@ const DEFAULT_AMOUNT = {
  * @param {Array} discounts
  */
 const getTotalDiscount = (discounts = []) => {
-    // discounts from data can be null
-    if (!discounts || !discounts.length) {
-        return DEFAULT_AMOUNT;
-    } else {
-        return {
-            currency: discounts[0].amount.currency,
-            value: discounts.reduce(
-                (acc, discount) => acc + discount.amount.value,
-                0
-            )
-        };
-    }
+	// discounts from data can be null
+	if (!discounts || !discounts.length) {
+		return DEFAULT_AMOUNT;
+	} else {
+		return {
+			currency: discounts[0].amount.currency,
+			value: discounts.reduce((acc, discount) => acc + discount.amount.value, 0)
+		};
+	}
 };
 
 /**
@@ -33,22 +30,22 @@ const getTotalDiscount = (discounts = []) => {
  * @returns {DiscountSummaryProps}
  */
 export const useDiscountSummary = props => {
-    const { data: discountData } = props;
+	const { data: discountData } = props;
 
-    const totalDiscount = getTotalDiscount(discountData);
+	const totalDiscount = getTotalDiscount(discountData);
 
-    const [expanded, setExpanded] = useState(false);
+	const [expanded, setExpanded] = useState(false);
 
-    const handleClick = useCallback(() => {
-        setExpanded(value => !value);
-    }, [setExpanded]);
+	const handleClick = useCallback(() => {
+		setExpanded(value => !value);
+	}, [setExpanded]);
 
-    return {
-        totalDiscount,
-        discountData,
-        expanded,
-        handleClick
-    };
+	return {
+		totalDiscount,
+		discountData,
+		expanded,
+		handleClick
+	};
 };
 
 /** JSDocs type definitions */

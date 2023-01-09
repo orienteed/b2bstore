@@ -1,15 +1,15 @@
 # Rationale: Why UPWARD
 
-- [Rationale: Why UPWARD](#rationale-why-upward)
-  - [The Problem With PWA Runtime Dependencies](#the-problem-with-pwa-runtime-dependencies)
-    - [Tiered Architectures](#tiered-architectures)
-    - [Edge Definition, Not Service Orchestration](#edge-definition-not-service-orchestration)
-    - [Common PWA Backing Service Characteristics](#common-pwa-backing-service-characteristics)
-  - [UPWARD with PWAs](#upward-with-pwas)
-    - [Enforce stateless middle tiers](#enforce-stateless-middle-tiers)
-      - [Example `upward.yml`](#example-upwardyml)
-      - [Push business logic to the edges of the system](#push-business-logic-to-the-edges-of-the-system)
-  - [Objections](#objections)
+-   [Rationale: Why UPWARD](#rationale-why-upward)
+    -   [The Problem With PWA Runtime Dependencies](#the-problem-with-pwa-runtime-dependencies)
+        -   [Tiered Architectures](#tiered-architectures)
+        -   [Edge Definition, Not Service Orchestration](#edge-definition-not-service-orchestration)
+        -   [Common PWA Backing Service Characteristics](#common-pwa-backing-service-characteristics)
+    -   [UPWARD with PWAs](#upward-with-pwas)
+        -   [Enforce stateless middle tiers](#enforce-stateless-middle-tiers)
+            -   [Example `upward.yml`](#example-upwardyml)
+            -   [Push business logic to the edges of the system](#push-business-logic-to-the-edges-of-the-system)
+    -   [Objections](#objections)
 
 Progressive Web Apps represent a new plateau of maturity for the Web as a platform. Like any other high-quality software, PWAs benefit from [Twelve-factor methodology][twelve factor], but they have historically been considered a _part_ of a full-scale deployed application, the "frontend", and not a full application to which all twelve-factor principles should apply.
 
@@ -34,8 +34,8 @@ This is a difficult migration path for many web apps, for many reasons: security
 
 The most frequently used solution to the problem of PWA runtime dependencies is a [multitier architecture][multitier architecture], using some combination of:
 
-- a "presentation tier" or "[backend-for-frontend][backend-for-frontend]" for serving the app assets and reverse proxying to services
-- a "middle tier" or "[gateway][gateway aggregation]" for combining related service requests.
+-   a "presentation tier" or "[backend-for-frontend][backend-for-frontend]" for serving the app assets and reverse proxying to services
+-   a "middle tier" or "[gateway][gateway aggregation]" for combining related service requests.
 
 In both of those cases, the intermediaries serve as a gathering point for the frontend:
 
@@ -55,23 +55,23 @@ PWA best practices recommend a small subset of the possible things a web server 
 
 A PWA should:
 
-- Serve over [HTTPS only][pwa https]
-- Serve an [application shell][application shell] with some aspects common to all pages
-- Serve static resources from [edge servers][cdn def] whenever possible
-- Provide a common strategy for data exchange, such as GraphQL, to avoid excess client responsibilities
-- Consume data from as few conceptual domains as possible
+-   Serve over [HTTPS only][pwa https]
+-   Serve an [application shell][application shell] with some aspects common to all pages
+-   Serve static resources from [edge servers][cdn def] whenever possible
+-   Provide a common strategy for data exchange, such as GraphQL, to avoid excess client responsibilities
+-   Consume data from as few conceptual domains as possible
 
 A PWA should not:
 
-- Require many resources that cannot be [cached and reused when offline][offline mode]
-- Depend on server-side state for [most interactions and workflows][high perf loading]
-- Depend on a particular backing technology stack
+-   Require many resources that cannot be [cached and reused when offline][offline mode]
+-   Depend on server-side state for [most interactions and workflows][high perf loading]
+-   Depend on a particular backing technology stack
 
 It follows that a server which delivers PWA resources can count on the following to be true:
 
-- Requests are idempotent
-- Responses are small
-- All services are GraphQL
+-   Requests are idempotent
+-   Responses are small
+-   All services are GraphQL
 
 These assumptions enable a manageably small declarative specification for an app shell server.
 
@@ -91,60 +91,60 @@ headers: page.headers
 body: page.body
 
 articleResult:
-  url: env.LIBRARY_SVC
-  query: './getArticle.graphql'
-  variables:
-    articleId: request.url.query.artID
+    url: env.LIBRARY_SVC
+    query: './getArticle.graphql'
+    variables:
+        articleId: request.url.query.artID
 
 authorBioResult:
-  url: env.LIBRARY_SVC
-  query: './getAuthor.graphql'
-  variables:
-    searchTerm: request.url.query.authorID
+    url: env.LIBRARY_SVC
+    query: './getAuthor.graphql'
+    variables:
+        searchTerm: request.url.query.authorID
 
 textHtml:
-  inline:
-    'content-type': 'text/html'
+    inline:
+        'content-type': 'text/html'
 
 notFound:
-  inline:
-    status: 404
-    headers: textHtml
-    body:
-      engine: mustache
-      template: './notFound.mst'
+    inline:
+        status: 404
+        headers: textHtml
+        body:
+            engine: mustache
+            template: './notFound.mst'
 
 page:
-  when:
-    - matches: request.url.pathname
-      pattern: '/article'
-      use:
-        when:
-          - matches: articleResult.data.article.id
-            pattern: '.'
-            use:
-              inline:
-                status: 200
-                headers: textHtml
-                body:
-                  engine: mustache
-                  template: './article.mst'
-        default: notFound
-    - matches: request.url.pathname
-      pattern: '/author'
-      use:
-        when:
-          - matches: authorBioResult.data.author.id
-            pattern: '.'
-            use:
-              inline:
-                status: 200
-                headers: textHtml
-                body:
-                  engine: mustache
-                  template: './authorBio.mst'
-        default: notFound
-  default: notFound
+    when:
+        - matches: request.url.pathname
+          pattern: '/article'
+          use:
+              when:
+                  - matches: articleResult.data.article.id
+                    pattern: '.'
+                    use:
+                        inline:
+                            status: 200
+                            headers: textHtml
+                            body:
+                                engine: mustache
+                                template: './article.mst'
+              default: notFound
+        - matches: request.url.pathname
+          pattern: '/author'
+          use:
+              when:
+                  - matches: authorBioResult.data.author.id
+                    pattern: '.'
+                    use:
+                        inline:
+                            status: 200
+                            headers: textHtml
+                            body:
+                                engine: mustache
+                                template: './authorBio.mst'
+              default: notFound
+    default: notFound
 ```
 
 The `LIBRARY_SVC` endpoint is responsible for providing, querying, and doing existence checks on the backing data. The `.mst` template files implement only the base Mustache specification, so they are almost completely logic-free--they don't even have conditionals. A PWA expecting this server can read this document and structure the same GraphQL calls; in this way, a PWA can include an `upward.yml` to define service dependencies, or it can build against a service-provided `upward.yml` to do service discovery.
@@ -161,24 +161,24 @@ An UPWARD-compliant server is not responsible for caching, proxying, or static a
 
 Common objections to creating new specifications and standards include:
 
-- **Necessity**: Unclear what problem the standard solves
-- **Proliferation**: Too many standards exist already
-- **Restrictiveness**: The standard imposes restrictions that hamper desired functionality
-- **Erosion risk**: Ensuring compliance with a standard's updates adds to the cost of software development and maintenance
+-   **Necessity**: Unclear what problem the standard solves
+-   **Proliferation**: Too many standards exist already
+-   **Restrictiveness**: The standard imposes restrictions that hamper desired functionality
+-   **Erosion risk**: Ensuring compliance with a standard's updates adds to the cost of software development and maintenance
 
 The UPWARD team shares those concerns, and applies them continuously to the standard as it develops. UPWARD exists because it answers these concerns with clear necessity, wise restrictiveness and limited scope, in this document and in its specification.
 
-[pwa https]: <https://developers.google.com/web/fundamentals/security/encrypt-in-transit/why-https>
-[twelve factor]: <https://12factor.net/>
-[twelve factor resources]: <https://12factor.net/backing-services>
-[application shell]: <https://developers.google.com/web/fundamentals/architecture/app-shell>
-[ports and adapters architecture]: <https://spin.atomicobject.com/2013/02/23/ports-adapters-software-architecture/>
-[cdn def]: <https://en.wikipedia.org/wiki/Content_delivery_network>
-[offline mode]: <https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/>
-[high perf loading]: <https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading>
-[service orchestration]: <https://en.wikipedia.org/wiki/Orchestration_(computing)>
-[service choreography]: <https://en.wikipedia.org/wiki/Service_choreography>
-[backend-for-frontend]: <https://docs.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends>
-[gateway aggregation]: <https://docs.microsoft.com/en-us/azure/architecture/patterns/gateway-aggregation>
-[uddi]: <https://en.wikipedia.org/wiki/Web_Services_Discovery>
-[tosca]: <https://en.wikipedia.org/wiki/OASIS_TOSCA>
+[pwa https]: https://developers.google.com/web/fundamentals/security/encrypt-in-transit/why-https
+[twelve factor]: https://12factor.net/
+[twelve factor resources]: https://12factor.net/backing-services
+[application shell]: https://developers.google.com/web/fundamentals/architecture/app-shell
+[ports and adapters architecture]: https://spin.atomicobject.com/2013/02/23/ports-adapters-software-architecture/
+[cdn def]: https://en.wikipedia.org/wiki/Content_delivery_network
+[offline mode]: https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/
+[high perf loading]: https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading
+[service orchestration]: https://en.wikipedia.org/wiki/Orchestration_(computing)
+[service choreography]: https://en.wikipedia.org/wiki/Service_choreography
+[backend-for-frontend]: https://docs.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends
+[gateway aggregation]: https://docs.microsoft.com/en-us/azure/architecture/patterns/gateway-aggregation
+[uddi]: https://en.wikipedia.org/wiki/Web_Services_Discovery
+[tosca]: https://en.wikipedia.org/wiki/OASIS_TOSCA

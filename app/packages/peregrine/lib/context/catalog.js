@@ -8,38 +8,28 @@ import bindActionCreators from '../util/bindActionCreators';
 const CatalogContext = createContext();
 
 const CatalogContextProvider = props => {
-    const { actions, asyncActions, catalogState, children } = props;
+	const { actions, asyncActions, catalogState, children } = props;
 
-    const catalogApi = useMemo(
-        () => ({
-            actions,
-            ...asyncActions
-        }),
-        [actions, asyncActions]
-    );
+	const catalogApi = useMemo(
+		() => ({
+			actions,
+			...asyncActions
+		}),
+		[actions, asyncActions]
+	);
 
-    const contextValue = useMemo(() => [catalogState, catalogApi], [
-        catalogApi,
-        catalogState
-    ]);
+	const contextValue = useMemo(() => [catalogState, catalogApi], [catalogApi, catalogState]);
 
-    return (
-        <CatalogContext.Provider value={contextValue}>
-            {children}
-        </CatalogContext.Provider>
-    );
+	return <CatalogContext.Provider value={contextValue}>{children}</CatalogContext.Provider>;
 };
 
 const mapStateToProps = ({ catalog }) => ({ catalogState: catalog });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actions, dispatch),
-    asyncActions: bindActionCreators(asyncActions, dispatch)
+	actions: bindActionCreators(actions, dispatch),
+	asyncActions: bindActionCreators(asyncActions, dispatch)
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CatalogContextProvider);
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogContextProvider);
 
 export const useCatalogContext = () => useContext(CatalogContext);

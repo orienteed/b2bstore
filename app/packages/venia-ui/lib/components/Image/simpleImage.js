@@ -13,48 +13,39 @@ import { func, number, oneOfType, string } from 'prop-types';
  * @param {Number}  props.width - The width of the img element.
  */
 const SimpleImage = props => {
-    const {
-        alt,
-        className,
-        handleError,
-        handleLoad,
-        height,
-        src,
-        width,
-        ...rest
-    } = props;
-    const dimensionAttributes = {};
-    if (typeof height !== 'undefined') {
-        dimensionAttributes['--height'] = height + 'px';
-    }
-    if (typeof width !== 'undefined') {
-        dimensionAttributes['--width'] = width + 'px';
-    }
-    // Note: Attributes that are allowed to be overridden must appear before the spread of `rest`.
-    return (
-        <img
-            loading="lazy"
-            style={dimensionAttributes}
-            {...rest}
-            alt={alt}
-            className={className}
-            height={height}
-            onError={handleError}
-            onLoad={handleLoad}
-            src={src}
-            width={width}
-        />
-    );
+	const { alt, className, handleError, handleLoad, height, src, width, ...rest } = props;
+	const dimensionAttributes = {};
+	if (typeof height !== 'undefined') {
+		dimensionAttributes['--height'] = height + 'px';
+	}
+	if (typeof width !== 'undefined') {
+		dimensionAttributes['--width'] = width + 'px';
+	}
+	// Note: Attributes that are allowed to be overridden must appear before the spread of `rest`.
+	return (
+		<img
+			loading="lazy"
+			style={dimensionAttributes}
+			{...rest}
+			alt={alt}
+			className={className}
+			height={height}
+			onError={handleError}
+			onLoad={handleLoad}
+			src={src}
+			width={width}
+		/>
+	);
 };
 
 SimpleImage.propTypes = {
-    alt: string.isRequired,
-    className: string,
-    handleError: func,
-    handleLoad: func,
-    height: oneOfType([number, string]),
-    src: string.isRequired,
-    width: oneOfType([number, string])
+	alt: string.isRequired,
+	className: string,
+	handleError: func,
+	handleLoad: func,
+	height: oneOfType([number, string]),
+	src: string.isRequired,
+	width: oneOfType([number, string])
 };
 
 export default SimpleImage;

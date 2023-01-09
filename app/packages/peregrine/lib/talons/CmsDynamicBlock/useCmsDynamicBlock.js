@@ -8,43 +8,37 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './cmsDynamicBlock.gql';
 
 export const flatten = cartData => {
-    const cartItems = cartData?.cart?.items || [];
-    const totalWeight = cartItems.reduce((prevItem, currentItem) => {
-        const { product, quantity, configured_variant } = currentItem;
+	const cartItems = cartData?.cart?.items || [];
+	const totalWeight = cartItems.reduce((prevItem, currentItem) => {
+		const { product, quantity, configured_variant } = currentItem;
 
-        const currentWeight = configured_variant
-            ? configured_variant.weight
-            : product.weight || 0;
+		const currentWeight = configured_variant ? configured_variant.weight : product.weight || 0;
 
-        return prevItem + currentWeight * quantity;
-    }, 0);
-    const shippingAddresses = cartData?.cart?.shipping_addresses || [];
-    const subtotalExcludingTax =
-        cartData?.cart?.prices?.subtotal_excluding_tax?.value || 0;
-    const subtotalIncludingTax =
-        cartData?.cart?.prices?.subtotal_including_tax?.value || 0;
-    const selectedPaymentMethod =
-        cartData?.cart?.selected_payment_method?.code || null;
-    const shippingCountryCode = shippingAddresses[0]?.country?.code || null;
-    const shippingPostCode = shippingAddresses[0]?.postcode || null;
-    const shippingRegionCode = shippingAddresses[0]?.region?.code || null;
-    const shippingRegionId = shippingAddresses[0]?.region?.region_id || null;
-    const selectedShippingMethod =
-        shippingAddresses[0]?.selected_shipping_method?.method_code || null;
-    const totalQuantity = cartData?.cart?.total_quantity || 0;
+		return prevItem + currentWeight * quantity;
+	}, 0);
+	const shippingAddresses = cartData?.cart?.shipping_addresses || [];
+	const subtotalExcludingTax = cartData?.cart?.prices?.subtotal_excluding_tax?.value || 0;
+	const subtotalIncludingTax = cartData?.cart?.prices?.subtotal_including_tax?.value || 0;
+	const selectedPaymentMethod = cartData?.cart?.selected_payment_method?.code || null;
+	const shippingCountryCode = shippingAddresses[0]?.country?.code || null;
+	const shippingPostCode = shippingAddresses[0]?.postcode || null;
+	const shippingRegionCode = shippingAddresses[0]?.region?.code || null;
+	const shippingRegionId = shippingAddresses[0]?.region?.region_id || null;
+	const selectedShippingMethod = shippingAddresses[0]?.selected_shipping_method?.method_code || null;
+	const totalQuantity = cartData?.cart?.total_quantity || 0;
 
-    return JSON.stringify([
-        totalWeight,
-        subtotalExcludingTax,
-        subtotalIncludingTax,
-        selectedPaymentMethod,
-        shippingCountryCode,
-        shippingPostCode,
-        shippingRegionCode,
-        shippingRegionId,
-        selectedShippingMethod,
-        totalQuantity
-    ]);
+	return JSON.stringify([
+		totalWeight,
+		subtotalExcludingTax,
+		subtotalIncludingTax,
+		selectedPaymentMethod,
+		shippingCountryCode,
+		shippingPostCode,
+		shippingRegionCode,
+		shippingRegionId,
+		selectedShippingMethod,
+		totalQuantity
+	]);
 };
 
 /**
@@ -70,123 +64,90 @@ export const flatten = cartData => {
  * import { useCmsDynamicBlock } from '@magento/peregrine/lib/talons/CmsDynamicBlock/useCmsDynamicBlock';
  */
 export const useCmsDynamicBlock = props => {
-    const { locations, uids, type } = props;
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        getCmsDynamicBlocksQuery,
-        getSalesRulesDataQuery,
-        getStoreConfigData,
-        getProductDetailQuery
-    } = operations;
+	const { locations, uids, type } = props;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getCmsDynamicBlocksQuery, getSalesRulesDataQuery, getStoreConfigData, getProductDetailQuery } = operations;
 
-    const [{ cartId }] = useCartContext();
-    const { pathname } = useLocation();
+	const [{ cartId }] = useCartContext();
+	const { pathname } = useLocation();
 
-    // Get Product Data from cache
-    const { data: storeConfigData, loading: storeConfigLoading } = useQuery(
-        getStoreConfigData
-    );
-    const slug = pathname.split('/').pop();
-    const productUrlSuffix = storeConfigData?.storeConfig?.product_url_suffix;
-    const urlKey = productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
-    const { data: productData, loading: productDataLoading } = useQuery(
-        getProductDetailQuery,
-        {
-            skip: !storeConfigData,
-            variables: {
-                urlKey
-            }
-        }
-    );
+	// Get Product Data from cache
+	const { data: storeConfigData, loading: storeConfigLoading } = useQuery(getStoreConfigData);
+	const slug = pathname.split('/').pop();
+	const productUrlSuffix = storeConfigData?.storeConfig?.product_url_suffix;
+	const urlKey = productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
+	const { data: productData, loading: productDataLoading } = useQuery(getProductDetailQuery, {
+		skip: !storeConfigData,
+		variables: {
+			urlKey
+		}
+	});
 
-    // @TODO: Update with uid when done in Product Root Component
-    const products =
-        productData?.products?.items && productData.products.items.length > 0
-            ? productData.products.items
-            : [];
-    const productUid = products.find(item => item.url_key === urlKey)?.uid;
+	// @TODO: Update with uid when done in Product Root Component
+	const products =
+		productData?.products?.items && productData.products.items.length > 0 ? productData.products.items : [];
+	const productUid = products.find(item => item.url_key === urlKey)?.uid;
 
-    const { client, loading, error, data, refetch } = useQuery(
-        getCmsDynamicBlocksQuery,
-        {
-            variables: {
-                cartId,
-                type,
-                locations,
-                uids,
-                ...(productUid ? { productId: productUid } : {})
-            },
-            skip: !cartId
-        }
-    );
+	const { client, loading, error, data, refetch } = useQuery(getCmsDynamicBlocksQuery, {
+		variables: {
+			cartId,
+			type,
+			locations,
+			uids,
+			...(productUid ? { productId: productUid } : {})
+		},
+		skip: !cartId
+	});
 
-    const { loading: cartLoading, data: cartData } = useQuery(
-        getSalesRulesDataQuery,
-        {
-            variables: { cartId },
-            skip: !cartId
-        }
-    );
+	const { loading: cartLoading, data: cartData } = useQuery(getSalesRulesDataQuery, {
+		variables: { cartId },
+		skip: !cartId
+	});
 
-    const currentSalesRulesData = flatten(cartData);
-    const isLoading =
-        loading || cartLoading || storeConfigLoading || productDataLoading;
-    const cachedSalesRulesData = data?.dynamicBlocks?.salesRulesData;
+	const currentSalesRulesData = flatten(cartData);
+	const isLoading = loading || cartLoading || storeConfigLoading || productDataLoading;
+	const cachedSalesRulesData = data?.dynamicBlocks?.salesRulesData;
 
-    const updateSalesRulesData = useCallback(
-        (currentData, currentSalesRulesData) => {
-            client.writeQuery({
-                query: getCmsDynamicBlocksQuery,
-                data: {
-                    dynamicBlocks: {
-                        ...currentData,
-                        salesRulesData: currentSalesRulesData
-                    }
-                },
-                variables: {
-                    cartId,
-                    type,
-                    locations,
-                    uids,
-                    ...(productUid ? { productId: productUid } : {})
-                },
-                skip: !cartId
-            });
-        },
-        [
-            cartId,
-            client,
-            getCmsDynamicBlocksQuery,
-            locations,
-            productUid,
-            type,
-            uids
-        ]
-    );
+	const updateSalesRulesData = useCallback(
+		(currentData, currentSalesRulesData) => {
+			client.writeQuery({
+				query: getCmsDynamicBlocksQuery,
+				data: {
+					dynamicBlocks: {
+						...currentData,
+						salesRulesData: currentSalesRulesData
+					}
+				},
+				variables: {
+					cartId,
+					type,
+					locations,
+					uids,
+					...(productUid ? { productId: productUid } : {})
+				},
+				skip: !cartId
+			});
+		},
+		[cartId, client, getCmsDynamicBlocksQuery, locations, productUid, type, uids]
+	);
 
-    useEffect(() => {
-        if (data && cachedSalesRulesData !== currentSalesRulesData) {
-            if (!cachedSalesRulesData) {
-                // Save cart conditions data in cache
-                updateSalesRulesData(data.dynamicBlocks, currentSalesRulesData);
-            } else {
-                // Refetch cms data if there's a mismatch
-                refetch();
-            }
-        }
-    }, [
-        cachedSalesRulesData,
-        currentSalesRulesData,
-        data,
-        refetch,
-        updateSalesRulesData
-    ]);
+	useEffect(() => {
+		if (data && cachedSalesRulesData !== currentSalesRulesData) {
+			if (!cachedSalesRulesData) {
+				// Save cart conditions data in cache
+				updateSalesRulesData(data.dynamicBlocks, currentSalesRulesData);
+			} else {
+				// Refetch cms data if there's a mismatch
+				refetch();
+			}
+		}
+	}, [cachedSalesRulesData, currentSalesRulesData, data, refetch, updateSalesRulesData]);
 
-    return {
-        loading: isLoading,
-        error,
-        data
-    };
+	return {
+		loading: isLoading,
+		error,
+		data
+	};
 };
 
 /** JSDocs type definitions */

@@ -5,34 +5,32 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import defaultOperations from './creditCard.gql';
 
 export const useCreditCard = props => {
-    const { paymentHash } = props;
+	const { paymentHash } = props;
 
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const { deleteCreditCardPaymentMutation } = operations;
+	const operations = mergeOperations(defaultOperations, props.operations);
+	const { deleteCreditCardPaymentMutation } = operations;
 
-    const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+	const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
-    const [deletePayment, { error, loading }] = useMutation(
-        deleteCreditCardPaymentMutation
-    );
+	const [deletePayment, { error, loading }] = useMutation(deleteCreditCardPaymentMutation);
 
-    const handleDeletePayment = useCallback(async () => {
-        try {
-            await deletePayment({ variables: { paymentHash } });
-        } catch {
-            setIsConfirmingDelete(false);
-        }
-    }, [deletePayment, paymentHash]);
+	const handleDeletePayment = useCallback(async () => {
+		try {
+			await deletePayment({ variables: { paymentHash } });
+		} catch {
+			setIsConfirmingDelete(false);
+		}
+	}, [deletePayment, paymentHash]);
 
-    const toggleDeleteConfirmation = useCallback(() => {
-        setIsConfirmingDelete(current => !current);
-    }, []);
+	const toggleDeleteConfirmation = useCallback(() => {
+		setIsConfirmingDelete(current => !current);
+	}, []);
 
-    return {
-        handleDeletePayment,
-        hasError: !!error,
-        isConfirmingDelete,
-        isDeletingPayment: loading,
-        toggleDeleteConfirmation
-    };
+	return {
+		handleDeletePayment,
+		hasError: !!error,
+		isConfirmingDelete,
+		isDeletingPayment: loading,
+		toggleDeleteConfirmation
+	};
 };

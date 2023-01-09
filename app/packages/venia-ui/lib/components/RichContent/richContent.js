@@ -18,26 +18,26 @@ import richContentRenderers from './richContentRenderers';
  * @returns {React.Element} A React component that renders Heading with optional styling properties.
  */
 const RichContent = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const rendererProps = {
-        ...props,
-        classes
-    };
-    for (const Renderer of richContentRenderers) {
-        const { Component, canRender } = Renderer;
-        if (canRender(rendererProps.html)) {
-            return <Component {...rendererProps} />;
-        }
-    }
-    // If no renderer returned a value
-    if (process.env.NODE_ENV === 'development') {
-        console.warn(
-            `None of the following rich content renderers returned anything for the provided HTML.`,
-            richContentRenderers.map(r => `<${r.name}>`),
-            props.html
-        );
-    }
-    return null;
+	const classes = useStyle(defaultClasses, props.classes);
+	const rendererProps = {
+		...props,
+		classes
+	};
+	for (const Renderer of richContentRenderers) {
+		const { Component, canRender } = Renderer;
+		if (canRender(rendererProps.html)) {
+			return <Component {...rendererProps} />;
+		}
+	}
+	// If no renderer returned a value
+	if (process.env.NODE_ENV === 'development') {
+		console.warn(
+			`None of the following rich content renderers returned anything for the provided HTML.`,
+			richContentRenderers.map(r => `<${r.name}>`),
+			props.html
+		);
+	}
+	return null;
 };
 
 /**
@@ -50,10 +50,10 @@ const RichContent = props => {
  * @property {String} html Content
  */
 RichContent.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    html: string
+	classes: shape({
+		root: string
+	}),
+	html: string
 };
 
 export default RichContent;

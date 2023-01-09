@@ -12,26 +12,21 @@
  * used to render the gallery item component in category lists.
  */
 class CategoryListProductAttributes {
-    /** @hideconstructor */
-    constructor(venia) {
-        const registry = this;
-        this._component = venia.reactComponent({
-            module: '@magento/venia-ui/lib/components/Gallery/item.js',
-            publish(targets) {
-                targets.categoryListProductAttributes.call(registry);
-            }
-        });
-    }
+	/** @hideconstructor */
+	constructor(venia) {
+		const registry = this;
+		this._component = venia.reactComponent({
+			module: '@magento/venia-ui/lib/components/Gallery/item.js',
+			publish(targets) {
+				targets.categoryListProductAttributes.call(registry);
+			}
+		});
+	}
 
-    insertAfterJSX({ matcher, importStatement }) {
-        const ProductAttributeComponent = this._component.addImport(
-            importStatement
-        );
-        this._component.insertAfterJSX(
-            matcher,
-            `<${ProductAttributeComponent} item={props.item} />`
-        );
-    }
+	insertAfterJSX({ matcher, importStatement }) {
+		const ProductAttributeComponent = this._component.addImport(importStatement);
+		this._component.insertAfterJSX(matcher, `<${ProductAttributeComponent} item={props.item} />`);
+	}
 }
 
 module.exports = CategoryListProductAttributes;

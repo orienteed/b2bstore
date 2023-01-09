@@ -34,11 +34,11 @@ const complexData = new Map()
 
 ## Props
 
-Prop Name | Required? | Description
---------- | :-------: | :----------
-`classes` | ❌ | A classname hash
-`items` | ✅ | An iterable that yields `[key, item]` pairs, such as an ES2015 `Map`
-`render` | ✅ | A [render prop](https://reactjs.org/docs/render-props.html) for the list element. Also accepts a tagname (e.g., `"div"`)
-`renderItem` | ❌ | A [render prop](https://reactjs.org/docs/render-props.html) for the list item elements. Also accepts a tagname (e.g., `"div"`)
-`onSelectionChange` | ❌ | A callback fired when the selection state changes
-`selectionModel` | ❌ | A string specifying whether to use a `radio` or `checkbox` selection model
+| Prop Name           | Required? | Description                                                                                                                    |
+| ------------------- | :-------: | :----------------------------------------------------------------------------------------------------------------------------- |
+| `classes`           |    ❌     | A classname hash                                                                                                               |
+| `items`             |    ✅     | An iterable that yields `[key, item]` pairs, such as an ES2015 `Map`                                                           |
+| `render`            |    ✅     | A [render prop](https://reactjs.org/docs/render-props.html) for the list element. Also accepts a tagname (e.g., `"div"`)       |
+| `renderItem`        |    ❌     | A [render prop](https://reactjs.org/docs/render-props.html) for the list item elements. Also accepts a tagname (e.g., `"div"`) |
+| `onSelectionChange` |    ❌     | A callback fired when the selection state changes                                                                              |
+| `selectionModel`    |    ❌     | A string specifying whether to use a `radio` or `checkbox` selection model                                                     |

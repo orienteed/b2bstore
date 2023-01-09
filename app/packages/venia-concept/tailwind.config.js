@@ -25,7 +25,7 @@ const config = {
         extractors: [
             {
                 extensions: ['css'],
-                extractor: content => content.match(matcher) || []
+                extractor: (content) => content.match(matcher) || []
             }
         ]
     },

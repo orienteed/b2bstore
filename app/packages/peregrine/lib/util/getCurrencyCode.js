@@ -1,15 +1,15 @@
 const DEFAULT_CURRENCY_CODE = 'USD';
 
 const getCurrencyCode = cart => {
-    let result;
+	let result;
 
-    try {
-        result = cart.details.currency.quote_currency_code;
-    } catch {
-        result = DEFAULT_CURRENCY_CODE;
-    }
+	try {
+		result = cart.details.currency.quote_currency_code;
+	} catch {
+		result = DEFAULT_CURRENCY_CODE;
+	}
 
-    return result;
+	return result;
 };
 
 export default getCurrencyCode;

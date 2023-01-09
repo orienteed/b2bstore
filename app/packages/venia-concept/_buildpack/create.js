@@ -12,10 +12,10 @@ const uniqBy = (array, property) => {
     return Array.from(map.values());
 };
 
-const removeDuplicateBackends = backendEnvironments =>
+const removeDuplicateBackends = (backendEnvironments) =>
     uniqBy(backendEnvironments, 'url');
 
-const fetchSampleBackends = async defaultSampleBackends => {
+const fetchSampleBackends = async (defaultSampleBackends) => {
     try {
         const res = await fetch(
             'https://fvp0esmt8f.execute-api.us-east-1.amazonaws.com/default/getSampleBackends'
@@ -108,7 +108,7 @@ async function createProjectFromVenia({ fs, tasks, options, sampleBackends }) {
                     license: 'UNLICENSED',
                     scripts: {}
                 };
-                toCopyFromPackageJson.forEach(prop => {
+                toCopyFromPackageJson.forEach((prop) => {
                     pkg[prop] = pkgTpt[prop];
                 });
 
@@ -123,7 +123,7 @@ async function createProjectFromVenia({ fs, tasks, options, sampleBackends }) {
                 // The venia-concept template is part of the monorepo, which
                 // uses yarn for workspaces. But if the user wants to use
                 // npm, then the scripts which use `yarn` must change.
-                const toPackageScript = script => {
+                const toPackageScript = (script) => {
                     const outputScript = script.replace(/\bvenia\b/g, name);
                     return npmCli === 'npm'
                         ? outputScript.replace(/yarn run/g, 'npm run')
@@ -136,14 +136,14 @@ async function createProjectFromVenia({ fs, tasks, options, sampleBackends }) {
                             '\ndoes not have a "scripts"'
                     );
                 }
-                scriptsToCopy.forEach(name => {
+                scriptsToCopy.forEach((name) => {
                     if (pkgTpt.scripts[name]) {
                         pkg.scripts[name] = toPackageScript(
                             pkgTpt.scripts[name]
                         );
                     }
                 });
-                Object.keys(scriptsToInsert).forEach(name => {
+                Object.keys(scriptsToInsert).forEach((name) => {
                     pkg.scripts[name] = toPackageScript(scriptsToInsert[name]);
                 });
 
@@ -190,9 +190,7 @@ function setDebugDependencies(pkg, fs) {
         );
     } catch (e) {
         throw new Error(
-            `DEBUG_PROJECT_CREATION: Could not parse output of '${yarnWorkspaceInfoCmd}:\n${workspaceInfo}. Please check your version of yarn is v1.22.4+.\n${
-                e.stack
-            }`
+            `DEBUG_PROJECT_CREATION: Could not parse output of '${yarnWorkspaceInfoCmd}:\n${workspaceInfo}. Please check your version of yarn is v1.22.4+.\n${e.stack}`
         );
     }
 
@@ -208,17 +206,17 @@ function setDebugDependencies(pkg, fs) {
         'dependencies',
         'devDependencies',
         'optionalDependencies'
-    ].filter(type => pkg.hasOwnProperty(type));
+    ].filter((type) => pkg.hasOwnProperty(type));
 
-    const getNewestTarballIn = dir => {
+    const getNewestTarballIn = (dir) => {
         const tarballsInDir = fs
             .readdirSync(dir)
-            .filter(filename => filename.endsWith('.tgz'));
+            .filter((filename) => filename.endsWith('.tgz'));
         if (tarballsInDir.length === 0) {
             throw new Error('Found no new .tgz files in ${dir}.');
         }
         // turn filename into a tuple of filename and modified time
-        const tarballsWithModifiedTime = tarballsInDir.map(filename => ({
+        const tarballsWithModifiedTime = tarballsInDir.map((filename) => ({
             filename,
             modified: fs.statSync(resolve(dir, filename)).mtime
         }));
@@ -234,7 +232,7 @@ function setDebugDependencies(pkg, fs) {
     for (const [name, packageDir] of packageDirs) {
         // skip packages not in the template that are also not transitive
         if (
-            !depTypes.find(type => pkg[type].hasOwnProperty(name)) &&
+            !depTypes.find((type) => pkg[type].hasOwnProperty(name)) &&
             !transitivePackages.has(name)
         ) {
             continue;
@@ -262,9 +260,7 @@ function setDebugDependencies(pkg, fs) {
             filename = getNewestTarballIn(packageDir);
         } catch (e) {
             throw new Error(
-                `DEBUG_PROJECT_CREATION: npm pack in ${name} package failed: output was ${packOutput}\n\nerror was ${
-                    e.message
-                }`
+                `DEBUG_PROJECT_CREATION: npm pack in ${name} package failed: output was ${packOutput}\n\nerror was ${e.message}`
             );
         }
 
@@ -278,7 +274,7 @@ function setDebugDependencies(pkg, fs) {
 
         // If the project has an explicit dependency on this package already...
         const depType =
-            depTypes.find(type => pkg[type].hasOwnProperty(name)) ||
+            depTypes.find((type) => pkg[type].hasOwnProperty(name)) ||
             // then depType will be the dependency collection where it was found.
             // This way we replace an existing dependency and avoid duplicates.
             // OR...

@@ -5,8 +5,5 @@ const path = require('path');
 const root = path.resolve(__dirname, './packages/venia-concept');
 
 module.exports = {
-    plugins: [
-        require('autoprefixer'),
-        require('tailwindcss')(path.resolve(root, './tailwind.config.js'))
-    ]
+	plugins: [require('autoprefixer'), require('tailwindcss')(path.resolve(root, './tailwind.config.js'))]
 };

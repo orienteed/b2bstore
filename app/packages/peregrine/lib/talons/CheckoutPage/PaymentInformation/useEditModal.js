@@ -25,80 +25,77 @@ import { useCartContext } from '../../../context/cart';
  * }
  */
 export const useEditModal = props => {
-    const { onClose } = props;
+	const { onClose } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getSelectedPaymentMethodQuery } = operations;
-    /**
-     * Definitions
-     */
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getSelectedPaymentMethodQuery } = operations;
+	/**
+	 * Definitions
+	 */
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [updateButtonClicked, setUpdateButtonClicked] = useState(false);
-    const [{ cartId }] = useCartContext();
-    const [, { dispatch }] = useEventingContext();
+	const [isLoading, setIsLoading] = useState(true);
+	const [updateButtonClicked, setUpdateButtonClicked] = useState(false);
+	const [{ cartId }] = useCartContext();
+	const [, { dispatch }] = useEventingContext();
 
-    /**
-     * Queries
-     */
+	/**
+	 * Queries
+	 */
 
-    const { data: selectedPaymentMethodData } = useQuery(
-        getSelectedPaymentMethodQuery,
-        {
-            skip: !cartId,
-            variables: {
-                cartId
-            }
-        }
-    );
-    const selectedPaymentMethod = selectedPaymentMethodData
-        ? selectedPaymentMethodData.cart.selected_payment_method.code
-        : null;
+	const { data: selectedPaymentMethodData } = useQuery(getSelectedPaymentMethodQuery, {
+		skip: !cartId,
+		variables: {
+			cartId
+		}
+	});
+	const selectedPaymentMethod = selectedPaymentMethodData
+		? selectedPaymentMethodData.cart.selected_payment_method.code
+		: null;
 
-    /**
-     * Helper Functions
-     */
+	/**
+	 * Helper Functions
+	 */
 
-    const handleClose = useCallback(() => {
-        onClose();
-    }, [onClose]);
+	const handleClose = useCallback(() => {
+		onClose();
+	}, [onClose]);
 
-    const handleUpdate = useCallback(() => {
-        setUpdateButtonClicked(true);
-    }, [setUpdateButtonClicked]);
+	const handleUpdate = useCallback(() => {
+		setUpdateButtonClicked(true);
+	}, [setUpdateButtonClicked]);
 
-    const handlePaymentSuccess = useCallback(() => {
-        onClose();
-        dispatch({
-            type: 'CHECKOUT_BILLING_INFORMATION_UPDATED',
-            payload: {
-                cart_id: cartId,
-                selected_payment_method: selectedPaymentMethod
-            }
-        });
-    }, [onClose, dispatch, cartId, selectedPaymentMethod]);
+	const handlePaymentSuccess = useCallback(() => {
+		onClose();
+		dispatch({
+			type: 'CHECKOUT_BILLING_INFORMATION_UPDATED',
+			payload: {
+				cart_id: cartId,
+				selected_payment_method: selectedPaymentMethod
+			}
+		});
+	}, [onClose, dispatch, cartId, selectedPaymentMethod]);
 
-    const handlePaymentError = useCallback(() => {
-        setUpdateButtonClicked(false);
-    }, []);
+	const handlePaymentError = useCallback(() => {
+		setUpdateButtonClicked(false);
+	}, []);
 
-    const handlePaymentReady = useCallback(() => {
-        setIsLoading(false);
-    }, [setIsLoading]);
+	const handlePaymentReady = useCallback(() => {
+		setIsLoading(false);
+	}, [setIsLoading]);
 
-    const resetUpdateButtonClicked = useCallback(() => {
-        setUpdateButtonClicked(false);
-    }, [setUpdateButtonClicked]);
+	const resetUpdateButtonClicked = useCallback(() => {
+		setUpdateButtonClicked(false);
+	}, [setUpdateButtonClicked]);
 
-    return {
-        selectedPaymentMethod,
-        isLoading,
-        updateButtonClicked,
-        handleClose,
-        handleUpdate,
-        handlePaymentError,
-        handlePaymentReady,
-        handlePaymentSuccess,
-        resetUpdateButtonClicked
-    };
+	return {
+		selectedPaymentMethod,
+		isLoading,
+		updateButtonClicked,
+		handleClose,
+		handleUpdate,
+		handlePaymentError,
+		handlePaymentReady,
+		handlePaymentSuccess,
+		resetUpdateButtonClicked
+	};
 };

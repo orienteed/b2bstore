@@ -17,49 +17,39 @@ import defaultClasses from './multiselect.module.css';
  * @returns {React.Element} A React component that displays a Multiselect Type Product Attribute.
  */
 const Multiselect = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const { attribute_metadata = {}, selected_attribute_options = {} } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const { attribute_metadata = {}, selected_attribute_options = {} } = props;
 
-    const attributeLabel = attribute_metadata.label ? (
-        <div className={classes.label}>{attribute_metadata.label}</div>
-    ) : null;
-    let attributeContent;
+	const attributeLabel = attribute_metadata.label ? (
+		<div className={classes.label}>{attribute_metadata.label}</div>
+	) : null;
+	let attributeContent;
 
-    if (selected_attribute_options.attribute_option?.length > 0) {
-        const { is_html_allowed: isHtml } = attribute_metadata.ui_input;
+	if (selected_attribute_options.attribute_option?.length > 0) {
+		const { is_html_allowed: isHtml } = attribute_metadata.ui_input;
 
-        if (isHtml) {
-            const options = selected_attribute_options.attribute_option.map(
-                (option, key) => {
-                    return (
-                        // TODO: Get decoded wysiwyg widgets from GraphQl
-                        <RichContent
-                            classes={{ root: classes.option }}
-                            key={key}
-                            html={option.label}
-                        />
-                    );
-                }
-            );
+		if (isHtml) {
+			const options = selected_attribute_options.attribute_option.map((option, key) => {
+				return (
+					// TODO: Get decoded wysiwyg widgets from GraphQl
+					<RichContent classes={{ root: classes.option }} key={key} html={option.label} />
+				);
+			});
 
-            attributeContent = (
-                <div className={classes.contentHtml}>{options}</div>
-            );
-        } else {
-            const options = selected_attribute_options.attribute_option
-                .map(option => option.label)
-                .join(', ');
+			attributeContent = <div className={classes.contentHtml}>{options}</div>;
+		} else {
+			const options = selected_attribute_options.attribute_option.map(option => option.label).join(', ');
 
-            attributeContent = <div className={classes.content}>{options}</div>;
-        }
-    }
+			attributeContent = <div className={classes.content}>{options}</div>;
+		}
+	}
 
-    return (
-        <Fragment>
-            {attributeLabel}
-            {attributeContent}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			{attributeLabel}
+			{attributeContent}
+		</Fragment>
+	);
 };
 
 /**
@@ -80,25 +70,25 @@ const Multiselect = props => {
  * @property {String} selected_attribute_options.attribute_option.label Label of the selected option
  */
 Multiselect.propTypes = {
-    classes: shape({
-        label: string,
-        content: string,
-        contentHtml: string,
-        option: string
-    }),
-    attribute_metadata: shape({
-        label: string,
-        ui_input: shape({
-            is_html_allowed: bool
-        })
-    }),
-    selected_attribute_options: shape({
-        attribute_option: arrayOf(
-            shape({
-                label: string
-            })
-        )
-    })
+	classes: shape({
+		label: string,
+		content: string,
+		contentHtml: string,
+		option: string
+	}),
+	attribute_metadata: shape({
+		label: string,
+		ui_input: shape({
+			is_html_allowed: bool
+		})
+	}),
+	selected_attribute_options: shape({
+		attribute_option: arrayOf(
+			shape({
+				label: string
+			})
+		)
+	})
 };
 
 export default Multiselect;

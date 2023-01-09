@@ -8,7 +8,7 @@ import restrictedAuthPage from '../middleware/restrictedAuthPage';
 const middleware = [thunk, auth, restrictedAuthPage];
 
 if (process.env.NODE_ENV !== 'production') {
-    middleware.push(log);
+	middleware.push(log);
 }
 
 export default applyMiddleware(...middleware);

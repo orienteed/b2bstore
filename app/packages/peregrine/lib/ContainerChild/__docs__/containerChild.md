@@ -9,16 +9,11 @@ PWA Studio.
 import { ContainerChild } from '@magento/peregrine';
 
 <div data-mid="some.container.identifier">
-    <ContainerChild
-        id="another.unique.id"
-        render={() => <div>Used just like a normal render() method</div>}
-    />
-    <ContainerChild
-        id="one.more.unique.id"
-        render={() => (
-            <div>Can render anything a normal component can render</div>
-        )}
-    />
+	<ContainerChild id="another.unique.id" render={() => <div>Used just like a normal render() method</div>} />
+	<ContainerChild
+		id="one.more.unique.id"
+		render={() => <div>Can render anything a normal component can render</div>}
+	/>
 </div>;
 ```
 

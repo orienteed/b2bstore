@@ -22,56 +22,53 @@ const { Volume } = require('memfs');
  *
  */
 const makeCompiler = (config, mockFiles = {}) => {
-    const inputFileSystem = new Union();
-    inputFileSystem.use(fs).use(Volume.fromJSON(mockFiles, config.context));
+	const inputFileSystem = new Union();
+	inputFileSystem.use(fs).use(Volume.fromJSON(mockFiles, config.context));
 
-    const defaults = {
-        mode: 'none',
-        optimization: {
-            minimize: false
-        },
-        output: {
-            path: config.context
-        }
-    };
-    const finalOptions = deepDefaults(config, defaults);
+	const defaults = {
+		mode: 'none',
+		optimization: {
+			minimize: false
+		},
+		output: {
+			path: config.context
+		}
+	};
+	const finalOptions = deepDefaults(config, defaults);
 
-    const compiler = webpack(finalOptions);
+	const compiler = webpack(finalOptions);
 
-    compiler.inputFileSystem = inputFileSystem;
-    compiler.resolvers.normal.fileSystem = inputFileSystem;
-    compiler.resolvers.context.fileSystem = inputFileSystem;
+	compiler.inputFileSystem = inputFileSystem;
+	compiler.resolvers.normal.fileSystem = inputFileSystem;
+	compiler.resolvers.context.fileSystem = inputFileSystem;
 
-    const files = {};
-    const logs = {
-        mkdirp: [],
-        writeFile: []
-    };
-    compiler.outputFileSystem = {
-        join() {
-            return [].join.call(arguments, '/').replace(/\/+/g, '/');
-        },
-        mkdirp(path, callback) {
-            logs.mkdirp.push(path);
-            callback();
-        },
-        writeFile(absPath, content, callback) {
-            const name = path.relative(finalOptions.context, absPath);
-            logs.writeFile.push(name, content);
-            files[name] = content.toString('utf-8');
-            callback();
-        }
-    };
-    compiler.hooks.compilation.tap(
-        'CompilerTest',
-        compilation => (compilation.bail = true)
-    );
+	const files = {};
+	const logs = {
+		mkdirp: [],
+		writeFile: []
+	};
+	compiler.outputFileSystem = {
+		join() {
+			return [].join.call(arguments, '/').replace(/\/+/g, '/');
+		},
+		mkdirp(path, callback) {
+			logs.mkdirp.push(path);
+			callback();
+		},
+		writeFile(absPath, content, callback) {
+			const name = path.relative(finalOptions.context, absPath);
+			logs.writeFile.push(name, content);
+			files[name] = content.toString('utf-8');
+			callback();
+		}
+	};
+	compiler.hooks.compilation.tap('CompilerTest', compilation => (compilation.bail = true));
 
-    compiler.testResults = {
-        files,
-        logs
-    };
-    return compiler;
+	compiler.testResults = {
+		files,
+		logs
+	};
+	return compiler;
 };
 
 /**
@@ -85,28 +82,24 @@ const makeCompiler = (config, mockFiles = {}) => {
  *
  */
 const compileToPromise = compiler =>
-    new Promise((res, rej) => {
-        compiler.run((err, stats) => {
-            if (err) {
-                return rej(err);
-            }
-            stats = stats.toJson({
-                modules: true,
-                reasons: true
-            });
-            if (stats.errors.length > 0) {
-                return rej(stats.errors[0]);
-            }
-            if (!compiler.testResults) {
-                rej(
-                    new Error(
-                        'Compiler was not created with makeCompiler, cannot use compileToPromise on it'
-                    )
-                );
-            } else {
-                res({ ...compiler.testResults, stats });
-            }
-        });
-    });
+	new Promise((res, rej) => {
+		compiler.run((err, stats) => {
+			if (err) {
+				return rej(err);
+			}
+			stats = stats.toJson({
+				modules: true,
+				reasons: true
+			});
+			if (stats.errors.length > 0) {
+				return rej(stats.errors[0]);
+			}
+			if (!compiler.testResults) {
+				rej(new Error('Compiler was not created with makeCompiler, cannot use compileToPromise on it'));
+			} else {
+				res({ ...compiler.testResults, stats });
+			}
+		});
+	});
 
 module.exports = { makeCompiler, compileToPromise };

@@ -13,21 +13,21 @@ import useLink from '@magento/peregrine/lib/talons/Link/useLink';
  * <Link shouldPrefetch={true} to="/about/">About Us</Link>
  */
 const Link = props => {
-    // TODO: remove `prefetchType`
-    const { innerRef, prefetchType, shouldPrefetch, ...propsForBase } = props;
-    const talonProps = useLink({
-        ...props,
-        innerRef,
-        shouldPrefetch: shouldPrefetch || prefetchType
-    });
-    const { ref } = talonProps;
+	// TODO: remove `prefetchType`
+	const { innerRef, prefetchType, shouldPrefetch, ...propsForBase } = props;
+	const talonProps = useLink({
+		...props,
+		innerRef,
+		shouldPrefetch: shouldPrefetch || prefetchType
+	});
+	const { ref } = talonProps;
 
-    return <RouterLink {...propsForBase} innerRef={ref} />;
+	return <RouterLink {...propsForBase} innerRef={ref} />;
 };
 
 Link.defaultProps = {
-    prefetchType: false,
-    shouldPrefetch: false
+	prefetchType: false,
+	shouldPrefetch: false
 };
 
 /**
@@ -35,8 +35,8 @@ Link.defaultProps = {
  * @property {bool} [shouldPrefetch=false] Determine if the link should be prefetched using `IntersectionObserver`.
  */
 Link.propTypes = {
-    prefetchType: bool,
-    shouldPrefetch: bool
+	prefetchType: bool,
+	shouldPrefetch: bool
 };
 
 export default Link;

@@ -6,26 +6,26 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 export const usePaymentMethods = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getPaymentMethodsQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getPaymentMethodsQuery } = operations;
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    const { data, loading } = useQuery(getPaymentMethodsQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+	const { data, loading } = useQuery(getPaymentMethodsQuery, {
+		skip: !cartId,
+		variables: { cartId }
+	});
 
-    const { value: currentSelectedPaymentMethod } = useFieldState('selectedPaymentMethod');
+	const { value: currentSelectedPaymentMethod } = useFieldState('selectedPaymentMethod');
 
-    const availablePaymentMethods = (data && data.cart.available_payment_methods) || [];
+	const availablePaymentMethods = (data && data.cart.available_payment_methods) || [];
 
-    const initialSelectedMethod = null;
+	const initialSelectedMethod = null;
 
-    return {
-        availablePaymentMethods,
-        currentSelectedPaymentMethod,
-        initialSelectedMethod,
-        isLoading: loading
-    };
+	return {
+		availablePaymentMethods,
+		currentSelectedPaymentMethod,
+		initialSelectedMethod,
+		isLoading: loading
+	};
 };

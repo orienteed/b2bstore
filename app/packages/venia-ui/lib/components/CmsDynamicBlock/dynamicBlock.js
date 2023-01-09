@@ -24,9 +24,9 @@ const DynamicBlock = ({ content }) => <RichContent html={content.html} />;
  * @property {String} content.html Rich content of the Dynamic Block
  */
 DynamicBlock.propTypes = {
-    content: shape({
-        html: string
-    })
+	content: shape({
+		html: string
+	})
 };
 
 export default DynamicBlock;

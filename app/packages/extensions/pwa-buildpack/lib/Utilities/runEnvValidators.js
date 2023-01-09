@@ -16,58 +16,53 @@ const debug = require('debug')('pwa-buildpack:runEnvValidators');
  * @returns {Boolean}
  */
 async function validateEnv(context, env) {
-    debug('Running ENV Validations');
+	debug('Running ENV Validations');
 
-    const BuildBus = require('../BuildBus');
+	const BuildBus = require('../BuildBus');
 
-    if (process.env.DEBUG && process.env.DEBUG.includes('BuildBus')) {
-        BuildBus.enableTracking();
-    }
+	if (process.env.DEBUG && process.env.DEBUG.includes('BuildBus')) {
+		BuildBus.enableTracking();
+	}
 
-    const bus = BuildBus.for(context);
-    bus.init();
+	const bus = BuildBus.for(context);
+	bus.init();
 
-    const errorMessages = [];
-    const onFail = errorMessage => errorMessages.push(errorMessage);
+	const errorMessages = [];
+	const onFail = errorMessage => errorMessages.push(errorMessage);
 
-    const validationContext = { env, onFail, debug };
+	const validationContext = { env, onFail, debug };
 
-    try {
-        await bus
-            .getTargetsOf('@magento/pwa-buildpack')
-            .validateEnv.promise(validationContext);
-    } catch {
-        /**
-         * While creating a new project using the create-pwa cli
-         * runEnvValidators will be invoked but the buildpack targets
-         * will be missing, and it is expected. Hence we are wrapping
-         * it in a try catch to avoid build failures. Anyways we wont be
-         * using env validations while creating project. It will be useful
-         * while building a project.
-         */
-        debug('Buildpack targets not found.');
-    }
+	try {
+		await bus.getTargetsOf('@magento/pwa-buildpack').validateEnv.promise(validationContext);
+	} catch {
+		/**
+		 * While creating a new project using the create-pwa cli
+		 * runEnvValidators will be invoked but the buildpack targets
+		 * will be missing, and it is expected. Hence we are wrapping
+		 * it in a try catch to avoid build failures. Anyways we wont be
+		 * using env validations while creating project. It will be useful
+		 * while building a project.
+		 */
+		debug('Buildpack targets not found.');
+	}
 
-    if (errorMessages.length) {
-        debug('Found validation errors in ENV, stopping the build process');
+	if (errorMessages.length) {
+		debug('Found validation errors in ENV, stopping the build process');
 
-        const removeErrorPrefix = msg => msg.replace(/^Error:\s*/, '');
-        const printValidationMsg = (error, index) =>
-            `\n (${index + 1}) ${removeErrorPrefix(error.message || error)}`;
-        const prettyErrorList = errorMessages.map(printValidationMsg);
-        const validationError = new Error(
-            `Environment has ${
-                errorMessages.length
-            } validation errors: ${prettyErrorList}`
-        );
-        validationError.errorMessages = errorMessages;
+		const removeErrorPrefix = msg => msg.replace(/^Error:\s*/, '');
+		const printValidationMsg = (error, index) => `\n (${index + 1}) ${removeErrorPrefix(error.message || error)}`;
+		const prettyErrorList = errorMessages.map(printValidationMsg);
+		const validationError = new Error(
+			`Environment has ${errorMessages.length} validation errors: ${prettyErrorList}`
+		);
+		validationError.errorMessages = errorMessages;
 
-        throw validationError;
-    }
+		throw validationError;
+	}
 
-    debug('No issues found in the ENV');
+	debug('No issues found in the ENV');
 
-    return true;
+	return true;
 }
 
 module.exports = validateEnv;

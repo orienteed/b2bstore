@@ -5,5 +5,5 @@
  * @param {Object} obj - the object under test.
  */
 export default function isObjectEmpty(obj) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
+	return Object.keys(obj).length === 0 && obj.constructor === Object;
 }

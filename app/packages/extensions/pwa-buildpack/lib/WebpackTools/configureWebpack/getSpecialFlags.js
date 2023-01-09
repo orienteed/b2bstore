@@ -37,25 +37,21 @@ const pkgDir = require('pkg-dir');
  * @returns {hasSpecialFlags}
  */
 async function getSpecialFlags(special = {}, bus, resolver) {
-    bus.getTargetsOf('@magento/pwa-buildpack').specialFeatures.call(special);
+	bus.getTargetsOf('@magento/pwa-buildpack').specialFeatures.call(special);
 
-    // Resolve every module listed in the `special` object into an absolute
-    // filesystem path. Will be used as a test for the loader rules for each
-    // of these feature flags.
-    const features = await Promise.all(
-        Object.entries(special).map(async ([packageName, flags]) => [
-            packageName,
-            await pkgDir(path.dirname(await resolver.resolve(packageName))),
-            flags
-        ])
-    );
+	// Resolve every module listed in the `special` object into an absolute
+	// filesystem path. Will be used as a test for the loader rules for each
+	// of these feature flags.
+	const features = await Promise.all(
+		Object.entries(special).map(async ([packageName, flags]) => [
+			packageName,
+			await pkgDir(path.dirname(await resolver.resolve(packageName))),
+			flags
+		])
+	);
 
-    return flag =>
-        features.reduce(
-            (hasIt, [, packagePath, flags]) =>
-                flags[flag] ? [...hasIt, packagePath] : hasIt,
-            []
-        );
+	return flag =>
+		features.reduce((hasIt, [, packagePath, flags]) => (flags[flag] ? [...hasIt, packagePath] : hasIt), []);
 }
 
 module.exports = getSpecialFlags;

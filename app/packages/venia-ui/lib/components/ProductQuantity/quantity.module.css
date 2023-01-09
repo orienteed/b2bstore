@@ -1,4 +1,4 @@
 .root {
-    composes: flex from global;
-    composes: flex-col from global;
+	composes: flex from global;
+	composes: flex-col from global;
 }

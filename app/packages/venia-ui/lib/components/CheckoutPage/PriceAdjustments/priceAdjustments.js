@@ -17,35 +17,35 @@ import defaultClasses from './priceAdjustments.module.css';
  * @param {Function} props.setPageIsUpdating callback that sets checkout page updating state
  */
 const PriceAdjustments = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const { setPageIsUpdating } = props;
-    const { formatMessage } = useIntl();
+	const { setPageIsUpdating } = props;
+	const { formatMessage } = useIntl();
 
-    return (
-        <div className={classes.root}>
-            <Accordion canOpenMultiple={true}>
-                <Section
-                    data-cy="PriceAdjustments-couponCodeSection"
-                    id={'coupon_code'}
-                    title={formatMessage({
-                        id: 'checkoutPage.couponCode',
-                        defaultMessage: 'Enter Coupon Code'
-                    })}
-                >
-                    <Suspense fallback={<LoadingIndicator />}>
-                        <CouponCode setIsCartUpdating={setPageIsUpdating} />
-                    </Suspense>
-                </Section>
-                <GiftCardSection setIsCartUpdating={setPageIsUpdating} />
-                <GiftOptionsSection />
-            </Accordion>
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			<Accordion canOpenMultiple={true}>
+				<Section
+					data-cy="PriceAdjustments-couponCodeSection"
+					id={'coupon_code'}
+					title={formatMessage({
+						id: 'checkoutPage.couponCode',
+						defaultMessage: 'Enter Coupon Code'
+					})}
+				>
+					<Suspense fallback={<LoadingIndicator />}>
+						<CouponCode setIsCartUpdating={setPageIsUpdating} />
+					</Suspense>
+				</Section>
+				<GiftCardSection setIsCartUpdating={setPageIsUpdating} />
+				<GiftOptionsSection />
+			</Accordion>
+		</div>
+	);
 };
 
 export default PriceAdjustments;
 
 PriceAdjustments.propTypes = {
-    setPageIsUpdating: func
+	setPageIsUpdating: func
 };

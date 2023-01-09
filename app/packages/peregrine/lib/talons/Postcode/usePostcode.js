@@ -12,28 +12,28 @@ import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInforme
  * @return {PostcodeTalonProps}
  */
 export const usePostcode = props => {
-    const { countryCodeField = 'country', fieldInput = 'postcode' } = props;
+	const { countryCodeField = 'country', fieldInput = 'postcode' } = props;
 
-    const hasInitialized = useRef(false);
-    const countryFieldState = useFieldState(countryCodeField);
-    const { value: country } = countryFieldState;
+	const hasInitialized = useRef(false);
+	const countryFieldState = useFieldState(countryCodeField);
+	const { value: country } = countryFieldState;
 
-    const postcodeInputFieldApi = useFieldApi(fieldInput);
+	const postcodeInputFieldApi = useFieldApi(fieldInput);
 
-    // Reset postcode when country changes. Because of how Informed sets
-    // initialValues, we want to skip the first state change of the value being
-    // initialized.
-    useEffect(() => {
-        if (country) {
-            if (hasInitialized.current) {
-                postcodeInputFieldApi.reset();
-            } else {
-                hasInitialized.current = true;
-            }
-        }
-    }, [country, postcodeInputFieldApi]);
+	// Reset postcode when country changes. Because of how Informed sets
+	// initialValues, we want to skip the first state change of the value being
+	// initialized.
+	useEffect(() => {
+		if (country) {
+			if (hasInitialized.current) {
+				postcodeInputFieldApi.reset();
+			} else {
+				hasInitialized.current = true;
+			}
+		}
+	}, [country, postcodeInputFieldApi]);
 
-    return {};
+	return {};
 };
 
 /** JSDocs type definitions */

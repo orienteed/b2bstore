@@ -1,34 +1,34 @@
 .root {
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: p-md from global;
+	composes: gap-xs from global;
+	composes: grid from global;
+	composes: p-md from global;
 }
 
 .loading {
-    composes: root from '../../LoadingIndicator/indicator.module.css';
+	composes: root from '../../LoadingIndicator/indicator.module.css';
 
-    composes: text-center from global;
+	composes: text-center from global;
 }
 
 .heading_container {
-    composes: grid from global;
-    composes: grid-cols-1 from global;
-    composes: grid-flow-col from global;
+	composes: grid from global;
+	composes: grid-cols-1 from global;
+	composes: grid-flow-col from global;
 }
 
 .edit_button {
-    composes: p-xs from global;
-    composes: -m-xs from global;
-    color: var(--b2bstore-global-color-orange);
+	composes: p-xs from global;
+	composes: -m-xs from global;
+	color: var(--b2bstore-global-color-orange);
 }
 
 .heading {
-    composes: font-semibold from global;
+	composes: font-semibold from global;
 }
 
 .address_summary_container {
-    composes: grid from global;
-    composes: gap-y-2xs from global;
+	composes: grid from global;
+	composes: gap-y-2xs from global;
 }
 
 .first_name,
@@ -39,22 +39,22 @@
 .state,
 .postalCode,
 .country {
-    composes: pr-1 from global;
+	composes: pr-1 from global;
 }
 
 .edit_icon {
-    composes: stroke-brand-base from global;
+	composes: stroke-brand-base from global;
 }
 
 .edit_text {
-    composes: hidden from global;
+	composes: hidden from global;
 
-    composes: lg_inline from global;
+	composes: lg_inline from global;
 }
 
 .card_details_container {
-    composes: grid from global;
-    composes: gap-2xs from global;
+	composes: grid from global;
+	composes: gap-2xs from global;
 }
 
 .payment_type {

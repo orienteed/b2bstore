@@ -22,63 +22,58 @@ const loadingIndicator = <LoadingIndicator>{loadingText}</LoadingIndicator>;
  * or the editable form based on the 'editing' state value.
  */
 const Form = props => {
-    const { setStep } = props;
+	const { setStep } = props;
 
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const [, { addToast }] = useToasts();
-    const [editing, setEditing] = useState(null);
+	const [, { addToast }] = useToasts();
+	const [editing, setEditing] = useState(null);
 
-    const talonProps = useForm({ countriesQuery: GET_ALL_COUNTRIES });
-    const { countries, hasError, isLoading } = talonProps;
+	const talonProps = useForm({ countriesQuery: GET_ALL_COUNTRIES });
+	const { countries, hasError, isLoading } = talonProps;
 
-    useEffect(() => {
-        if (hasError) {
-            addToast({
-                type: 'error',
-                icon: ErrorIcon,
-                message: 'Unable to load checkout. Please try again later.',
-                timeout: 3000
-            });
+	useEffect(() => {
+		if (hasError) {
+			addToast({
+				type: 'error',
+				icon: ErrorIcon,
+				message: 'Unable to load checkout. Please try again later.',
+				timeout: 3000
+			});
 
-            setStep('cart');
-        }
-    }, [addToast, hasError, setStep]);
+			setStep('cart');
+		}
+	}, [addToast, hasError, setStep]);
 
-    if (isLoading) return loadingIndicator;
+	if (isLoading) return loadingIndicator;
 
-    const child = editing ? (
-        <EditableForm
-            countries={countries}
-            editing={editing}
-            setEditing={setEditing}
-            {...props}
-        />
-    ) : (
-        <Overview classes={classes} {...props} setEditing={setEditing} />
-    );
+	const child = editing ? (
+		<EditableForm countries={countries} editing={editing} setEditing={setEditing} {...props} />
+	) : (
+		<Overview classes={classes} {...props} setEditing={setEditing} />
+	);
 
-    return <div className={classes.root}>{child}</div>;
+	return <div className={classes.root}>{child}</div>;
 };
 
 Form.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    setStep: func
+	classes: shape({
+		root: string
+	}),
+	setStep: func
 };
 
 export default Form;
 
 const GET_ALL_COUNTRIES = gql`
-    query getAllCountries {
-        countries {
-            available_regions {
-                code
-                id
-                name
-            }
-            id
-        }
-    }
+	query getAllCountries {
+		countries {
+			available_regions {
+				code
+				id
+				name
+			}
+			id
+		}
+	}
 `;

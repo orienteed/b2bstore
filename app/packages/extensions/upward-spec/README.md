@@ -8,64 +8,64 @@ See [EXECUTION_SCHEDULING_STRATEGIES.md](EXECUTION_SCHEDULING_STRATEGIES.md) for
 
 See [UPWARD_MAGENTO.md](UPWARD_MAGENTO.md) for context on how UPWARD fills a need in Magento PWA Studio and Magento 2 frontend development.
 
-- [UPWARD Specification](#upward-specification)
-  - [Quickstart](#quickstart)
-  - [Summary](#summary)
-    - [Echo Example](#echo-example)
-  - [Configuration](#configuration)
-  - [Responding to requests](#responding-to-requests)
-    - [Execution scheduling and ordering](#execution-scheduling-and-ordering)
-    - [Cyclic dependencies](#cyclic-dependencies)
-    - [Response flush triggering](#response-flush-triggering)
-  - [Context Reference](#context-reference)
-    - [Initial context](#initial-context)
-      - [Context Path Syntax](#context-path-syntax)
-      - [Using context](#using-context)
-      - [Context persistence and size](#context-persistence-and-size)
-  - [Resolver Reference](#resolver-reference)
-    - [InlineResolver](#inlineresolver)
-      - [InlineResolver Configuration Options](#inlineresolver-configuration-options)
-    - [FileResolver](#fileresolver)
-      - [FileResolver Configuration Options](#fileresolver-configuration-options)
-      - [Parsing](#parsing)
-      - [FileResolver Error Handling](#fileresolver-error-handling)
-      - [FileResolver shorthand](#fileresolver-shorthand)
-    - [ServiceResolver](#serviceresolver)
-      - [ServiceResolver Configuration Options](#serviceresolver-configuration-options)
-      - [Example REST service call](#example-rest-service-call)
-      - [Response Assignment](#response-assignment)
-      - [ServiceResolver Error Handling](#serviceresolver-error-handling)
-    - [TemplateResolver](#templateresolver)
-      - [TemplateResolver Configuration Options](#templateresolver-configuration-options)
-      - [Template Context](#template-context)
-      - [Template Engines](#template-engines)
-        - [Example React DOM Server support](#example-react-dom-server-support)
-      - [TemplateResolver Error Handling](#templateresolver-error-handling)
-    - [ConditionalResolver](#conditionalresolver)
-      - [ConditionalResolver Configuration Options](#conditionalresolver-configuration-options)
-      - [Matchers](#matchers)
-      - [Match context](#match-context)
-      - [ConditionalResolver notes](#conditionalresolver-notes)
-    - [ProxyResolver](#proxyresolver)
-      - [ProxyResolver Example](#proxyresolver-example)
-      - [ProxyResolver Configuration Options](#proxyresolver-configuration-options)
-      - [ProxyResolver notes](#proxyresolver-notes)
-    - [DirectoryResolver](#directoryresolver)
-      - [DirectoryResolver Example](#directoryresolver-example)
-      - [DirectoryResolver Configuration Options](#directoryresolver-configuration-options)
-    - [UrlResolver](#urlresolver)
-      - [UrlResolver Example](#urlresolver-example)
-      - [UrlResolver Configuration Options](#urlresolver-configuration-options)
-      - [UrlResolver Notes](#urlresolver-notes)
-    - [ComputedResolver](#computedresolver)
-      - [ComputedResolver Example](#computedresolver-example)
-      - [ComputedResolver Configuration Options](#computedresolver-configuration-options)
-      - [ComputedResolver Notes](#computedresolver-notes)
-  - [Reducing boilerplate](#reducing-boilerplate)
-    - [Default parameters](#default-parameters)
-    - [Builtin constants](#builtin-constants)
-    - [Resolver type inference](#resolver-type-inference)
-    - [YAML anchors](#yaml-anchors)
+-   [UPWARD Specification](#upward-specification)
+    -   [Quickstart](#quickstart)
+    -   [Summary](#summary)
+        -   [Echo Example](#echo-example)
+    -   [Configuration](#configuration)
+    -   [Responding to requests](#responding-to-requests)
+        -   [Execution scheduling and ordering](#execution-scheduling-and-ordering)
+        -   [Cyclic dependencies](#cyclic-dependencies)
+        -   [Response flush triggering](#response-flush-triggering)
+    -   [Context Reference](#context-reference)
+        -   [Initial context](#initial-context)
+            -   [Context Path Syntax](#context-path-syntax)
+            -   [Using context](#using-context)
+            -   [Context persistence and size](#context-persistence-and-size)
+    -   [Resolver Reference](#resolver-reference)
+        -   [InlineResolver](#inlineresolver)
+            -   [InlineResolver Configuration Options](#inlineresolver-configuration-options)
+        -   [FileResolver](#fileresolver)
+            -   [FileResolver Configuration Options](#fileresolver-configuration-options)
+            -   [Parsing](#parsing)
+            -   [FileResolver Error Handling](#fileresolver-error-handling)
+            -   [FileResolver shorthand](#fileresolver-shorthand)
+        -   [ServiceResolver](#serviceresolver)
+            -   [ServiceResolver Configuration Options](#serviceresolver-configuration-options)
+            -   [Example REST service call](#example-rest-service-call)
+            -   [Response Assignment](#response-assignment)
+            -   [ServiceResolver Error Handling](#serviceresolver-error-handling)
+        -   [TemplateResolver](#templateresolver)
+            -   [TemplateResolver Configuration Options](#templateresolver-configuration-options)
+            -   [Template Context](#template-context)
+            -   [Template Engines](#template-engines)
+                -   [Example React DOM Server support](#example-react-dom-server-support)
+            -   [TemplateResolver Error Handling](#templateresolver-error-handling)
+        -   [ConditionalResolver](#conditionalresolver)
+            -   [ConditionalResolver Configuration Options](#conditionalresolver-configuration-options)
+            -   [Matchers](#matchers)
+            -   [Match context](#match-context)
+            -   [ConditionalResolver notes](#conditionalresolver-notes)
+        -   [ProxyResolver](#proxyresolver)
+            -   [ProxyResolver Example](#proxyresolver-example)
+            -   [ProxyResolver Configuration Options](#proxyresolver-configuration-options)
+            -   [ProxyResolver notes](#proxyresolver-notes)
+        -   [DirectoryResolver](#directoryresolver)
+            -   [DirectoryResolver Example](#directoryresolver-example)
+            -   [DirectoryResolver Configuration Options](#directoryresolver-configuration-options)
+        -   [UrlResolver](#urlresolver)
+            -   [UrlResolver Example](#urlresolver-example)
+            -   [UrlResolver Configuration Options](#urlresolver-configuration-options)
+            -   [UrlResolver Notes](#urlresolver-notes)
+        -   [ComputedResolver](#computedresolver)
+            -   [ComputedResolver Example](#computedresolver-example)
+            -   [ComputedResolver Configuration Options](#computedresolver-configuration-options)
+            -   [ComputedResolver Notes](#computedresolver-notes)
+    -   [Reducing boilerplate](#reducing-boilerplate)
+        -   [Default parameters](#default-parameters)
+        -   [Builtin constants](#builtin-constants)
+        -   [Resolver type inference](#resolver-type-inference)
+        -   [YAML anchors](#yaml-anchors)
 
 ## Quickstart
 
@@ -73,12 +73,12 @@ This repository is a test suite for UPWARD compliance, testing several scenarios
 
 1. Write or obtain a POSIX shell script which:
 
-   - gets the path to an UPWARD definition file from the environment variable `UPWARD_PATH`
-   - launches and/or binds the UPWARD server under test and runs it in the foreground (not as a daemon process).
-   - prints the hostname and port of the now-running server instance to standard out
-   - responds to SIGTERM by gracefully closing the server
+    - gets the path to an UPWARD definition file from the environment variable `UPWARD_PATH`
+    - launches and/or binds the UPWARD server under test and runs it in the foreground (not as a daemon process).
+    - prints the hostname and port of the now-running server instance to standard out
+    - responds to SIGTERM by gracefully closing the server
 
-   [Example here.][spec-shell-script]
+    [Example here.][spec-shell-script]
 
 2. Use `npx` to run `upward-spec` on your shell script
 
@@ -92,7 +92,7 @@ This repository is a test suite for UPWARD compliance, testing several scenarios
 
 4. By default, the test runner will print human-readable results to stdout; the argument `--xunit` will make it print XUnit-compatible (and therefore JUnit-compatible) test result XML. The argument `--tap` will make it print [Test Anything Protocol](https://testanything.org/)-compatible text. Under the hood, this uses [tape](https://github.com/substack/tape) and it can be piped to [any number of open-source TAP reporters](https://github.com/sindresorhus/awesome-tap#javascript).
 
-:information_source: _(The `npx` tool above is not required; it's a convenience script to avoid installing global NPM dependencies. You can also install `upward-spec` permanently using `yarn global add upward-spec`, and then simply invoke `upward-spec ./test_upward_server.sh` from that point forward.)_
+:information*source: *(The `npx` tool above is not required; it's a convenience script to avoid installing global NPM dependencies. You can also install `upward-spec` permanently using `yarn global add upward-spec`, and then simply invoke `upward-spec ./test_upward_server.sh` from that point forward.)\_
 
 ## Summary
 
@@ -108,38 +108,37 @@ This example definition file echoes request data as text back to the client.
 
 ```yaml
 status:
-  resolver: inline
-  inline: 200
-headers:
-  resolver: inline
-  inline:
-    content-type: text/plain
-body:
-  resolver: template
-  engine: mustache
-  provide:
-    - request
-  template:
     resolver: inline
-    inline: |
-      {{#request}}
-      Headers:
-          {{#headerEntries}}
-          {{name}}: {{value}}
-          {{/headerEntries}}
-      URL:
-          {{#url}}{{#?protocol}}protocol: {{protocol}}
-          {{/?protocol}}{{#?host}}host: {{host}}
-          {{/?host}}{{#?hostname}}hostname: {{hostname}}
-          {{/?hostname}}{{#?port}}port: {{port}}
-          {{/?port}}pathname: {{pathname}}
-          {{/url}}
-      URL Query:
-          {{#queryEntries}}
-          {{name}}: {{value}}
-          {{/queryEntries}}
-      {{/request}}
-
+    inline: 200
+headers:
+    resolver: inline
+    inline:
+        content-type: text/plain
+body:
+    resolver: template
+    engine: mustache
+    provide:
+        - request
+    template:
+        resolver: inline
+        inline: |
+            {{#request}}
+            Headers:
+                {{#headerEntries}}
+                {{name}}: {{value}}
+                {{/headerEntries}}
+            URL:
+                {{#url}}{{#?protocol}}protocol: {{protocol}}
+                {{/?protocol}}{{#?host}}host: {{host}}
+                {{/?host}}{{#?hostname}}hostname: {{hostname}}
+                {{/?hostname}}{{#?port}}port: {{port}}
+                {{/?port}}pathname: {{pathname}}
+                {{/url}}
+            URL Query:
+                {{#queryEntries}}
+                {{name}}: {{value}}
+                {{/queryEntries}}
+            {{/request}}
 ```
 
 This example demonstrates the initial properties of the context object, populated by the originating HTTP request. describes a server which always returns status 200 with a single header, `content-type`, and a text body which is a plaintext summary of the GET request properties. An example request to such a server results in:
@@ -184,7 +183,7 @@ See [EXECUTION_SCHEDULING_STRATEGIES.md](EXECUTION_SCHEDULING_STRATEGIES.md) for
 
 **The root context must always eventually have non-null `status`, `headers`, and `body` properties.** Once the resolution path has assigned these three values fo context, the UPWARD-compliant server should immediately use those three values to create an HTTP response and flush it to the client. No streaming or buffering interface should be provided; UPWARD servers should not deal in data large enough to require streaming. **If all resolvers finish executing and the response is lacking any of the `status`, `headers`, or `body` properties, the server should emit a 500 error.** If it is possible at startup time to trace a path through the decision tree where this occurs, the implementation may use static analysis to do so and raise an error on startup.
 
-:information_source: _In real-world scenarios, the generation of `status`, `headers`, and `body` will share a lot of logic. The recommended best practice is to use an InlineResolver to create a top-level object, called something like "response", with those properties, and then define the top-level `status`, `headers`, and `body` properties to refer to that object in context, e.g. `status: response.status`.
+:information_source: \_In real-world scenarios, the generation of `status`, `headers`, and `body` will share a lot of logic. The recommended best practice is to use an InlineResolver to create a top-level object, called something like "response", with those properties, and then define the top-level `status`, `headers`, and `body` properties to refer to that object in context, e.g. `status: response.status`.
 
 ## Context Reference
 
@@ -196,46 +195,46 @@ Context values cannot be overwritten. A resolver which attempts to overwrite an 
 
 When an UPWARD-compliant server receives an HTTP GET request, it must populate an initial context object with the following values:
 
-- `request`: an object representing the incoming HTTP request. It must have these properties:
+-   `request`: an object representing the incoming HTTP request. It must have these properties:
 
-  - `headers`: An object representing HTTP headers. Header names are lower-cased, and multiple values are joined with commas.
+    -   `headers`: An object representing HTTP headers. Header names are lower-cased, and multiple values are joined with commas.
 
-  - `headerEntries`: An iterable array version of the `headers` object, suitable for use in a Mustache template (which cannot iterate over plain JSON objects). For this headers object:
+    -   `headerEntries`: An iterable array version of the `headers` object, suitable for use in a Mustache template (which cannot iterate over plain JSON objects). For this headers object:
 
-    ```json
-    {
-      "accept": "text/html",
-      "host": "example.com"
-    }
-    ```
+        ```json
+        {
+        	"accept": "text/html",
+        	"host": "example.com"
+        }
+        ```
 
-    the `headerEntries` array would be:
+        the `headerEntries` array would be:
 
-    ```json
-    [
-      { "name": "accept", "value": "text/html" },
-      { "name": "host", "value": "example.com" }
-    ]
-    ```
+        ```json
+        [
+        	{ "name": "accept", "value": "text/html" },
+        	{ "name": "host", "value": "example.com" }
+        ]
+        ```
 
-  - `queryEntries`: An iterable array version of the URL `query` object, suitable for Mustache like the `headerEntries` property explained above.
+    -   `queryEntries`: An iterable array version of the URL `query` object, suitable for Mustache like the `headerEntries` property explained above.
 
-  - `url`: A subset of a [URL record][url spec] as specified by WHATWG. The following properties should at least be populated; the Host header can be used to infer the origin.
+    -   `url`: A subset of a [URL record][url spec] as specified by WHATWG. The following properties should at least be populated; the Host header can be used to infer the origin.
 
-    | Attribute  | Example                |
-    | ---------- | ---------------------- |
-    | `host`     | `example.com:8080`     |
-    | `hostname` | `example.com`          |
-    | `port`     | `8080`                 |
-    | `pathname` | `/deep/blue/sea`       |
-    | `search`   | `?baby=beluga`         |
-    | `query`    | `{ "baby": "beluga" }` |
+        | Attribute  | Example                |
+        | ---------- | ---------------------- |
+        | `host`     | `example.com:8080`     |
+        | `hostname` | `example.com`          |
+        | `port`     | `8080`                 |
+        | `pathname` | `/deep/blue/sea`       |
+        | `search`   | `?baby=beluga`         |
+        | `query`    | `{ "baby": "beluga" }` |
 
-    Because HTTP servers are sometimes unable to ascertain their own domain names or origins, it is acceptable for one or more of the `href`, `origin`, `protocol`, `username`, `password`, `host`, `hostname`, and `port` properties to be undefined. However, a compliant server MUST provide `pathname`, `search`, and `query`.
+        Because HTTP servers are sometimes unable to ascertain their own domain names or origins, it is acceptable for one or more of the `href`, `origin`, `protocol`, `username`, `password`, `host`, `hostname`, and `port` properties to be undefined. However, a compliant server MUST provide `pathname`, `search`, and `query`.
 
-    The `query` property is not part of the WHATWG specification, but it must be included in the `url` object nevertheless. Much like the `headers` and `headerEntries` properties, these objects exist for property lookup and iteration in logic-less templates, respectively.
+        The `query` property is not part of the WHATWG specification, but it must be included in the `url` object nevertheless. Much like the `headers` and `headerEntries` properties, these objects exist for property lookup and iteration in logic-less templates, respectively.
 
-- `env`: an object containing the environment variables set when the server was launched. For instance, if a Dockerfile launches the server through Apache, with an environment variable MAGENTO_GRAPHQL_ENDPOINT:
+-   `env`: an object containing the environment variables set when the server was launched. For instance, if a Dockerfile launches the server through Apache, with an environment variable MAGENTO_GRAPHQL_ENDPOINT:
 
     ```dockerfile
     ENV MAGENTO_GRAPHQL_ENDPOINT https://m2host.com/graphql
@@ -246,22 +245,22 @@ When an UPWARD-compliant server receives an HTTP GET request, it must populate a
 
 For convenience and concision, frequently used strings should be registered as self-referential top-level context objects. Examples include:
 
-- `GET`: the string `'GET'` must be included in the global context for convenience, to [reduce boilerplate](#reducing-boilerplate)
+-   `GET`: the string `'GET'` must be included in the global context for convenience, to [reduce boilerplate](#reducing-boilerplate)
 
-- `POST`: the string `'POST'` must be included in the global context for convenience, to [reduce boilerplate](#reducing-boilerplate)
+-   `POST`: the string `'POST'` must be included in the global context for convenience, to [reduce boilerplate](#reducing-boilerplate)
 
-- `mustache`: the string `'mustache'`, included in the global context for convenience, to [reduce boilerplate](#reducing-boilerplate)
+-   `mustache`: the string `'mustache'`, included in the global context for convenience, to [reduce boilerplate](#reducing-boilerplate)
 
-- Other strings that must be preset as literals in the context include:
+-   Other strings that must be preset as literals in the context include:
 
-  - `text/html`
-  - `text/plain`
-  - `application/json`
-  - `utf-8`
-  - `latin-1`
-  - `base64`
-  - `hex`
-  - All valid HTTP response codes, i.e. `200`, `404`, `500`, and all others.
+    -   `text/html`
+    -   `text/plain`
+    -   `application/json`
+    -   `utf-8`
+    -   `latin-1`
+    -   `base64`
+    -   `hex`
+    -   All valid HTTP response codes, i.e. `200`, `404`, `500`, and all others.
 
 #### Context Path Syntax
 
@@ -271,11 +270,11 @@ A context lookup resembles "dot lookup" notation in JavaSript or Python, though 
 
 Rules:
 
-- **Valid characters**: A context lookup may contain any UTF-8 characters except control characters, whitespace, or newlines. All characters that are not lookup operators must be treated as part of a property name. _For the sake of easier manipulation in common programming languages, it is a best to use context names which are legal identifiers in those languages.)_
-  - A context lookup cannot begin with a dot <kbd>.</kbd>, which is the lookup operator.
-- **Lookup operators**: The dot <kbd>.</kbd> denotes a property lookup on an object. A positive integer property name in a context lookup, such as `characters.0.name`, will perform array access by index. Array indices must be positive integers; they must be specified literally, just like the rest of a context lookup string, and cannot be dynamically evaluated.
-- A context lookup always starts with a **basename**. This may be any string that can be a valid YAML property name. The basename has special significance; when a top-level resolver completes resolution, it assigns a value to this name in the global context, which should trigger resolution of all paths beginning with that name.
-- **Behavior for undeclared properties**: Undeclared property lookup should silently fail, resolving the empty string. If the **basename** `foo` is assigned, but it is not an object or it does not contain the property `bar`, then the context lookup `foo.bar` should wait until `foo` is assigned, and then yield the empty string.
+-   **Valid characters**: A context lookup may contain any UTF-8 characters except control characters, whitespace, or newlines. All characters that are not lookup operators must be treated as part of a property name. _For the sake of easier manipulation in common programming languages, it is a best to use context names which are legal identifiers in those languages.)_
+    -   A context lookup cannot begin with a dot <kbd>.</kbd>, which is the lookup operator.
+-   **Lookup operators**: The dot <kbd>.</kbd> denotes a property lookup on an object. A positive integer property name in a context lookup, such as `characters.0.name`, will perform array access by index. Array indices must be positive integers; they must be specified literally, just like the rest of a context lookup string, and cannot be dynamically evaluated.
+-   A context lookup always starts with a **basename**. This may be any string that can be a valid YAML property name. The basename has special significance; when a top-level resolver completes resolution, it assigns a value to this name in the global context, which should trigger resolution of all paths beginning with that name.
+-   **Behavior for undeclared properties**: Undeclared property lookup should silently fail, resolving the empty string. If the **basename** `foo` is assigned, but it is not an object or it does not contain the property `bar`, then the context lookup `foo.bar` should wait until `foo` is assigned, and then yield the empty string.
 
 Parts of a context lookup:
 
@@ -313,7 +312,7 @@ uxbridges:
 
 The above definition would assign an [`HttpResponse`](#http-response) to the `uxbridges` basename once it has run. An HTTP response has no `characters` property, so the example context lookup would resolve to the empty string. However, an HTTP response does have a `body` property, so the lookup `uxbridges.body.characters.0.name` would resolve to `Kevin Uxbridge`.
 
-:information_source: _(Array and list handling is intentionally rudimentary in UPWARD, because of the potential for scope confusion, performance and security issues in iteration. The only recommended use case for list lookup is when a web service returns a list of items expected to have only one result, so that the result may be lifted out into a scalar value.)_
+:information*source: *(Array and list handling is intentionally rudimentary in UPWARD, because of the potential for scope confusion, performance and security issues in iteration. The only recommended use case for list lookup is when a web service returns a list of items expected to have only one result, so that the result may be lifted out into a scalar value.)\_
 
 Since arbitrary property lookups do not through exceptions and instead return a default empty string, use [pattern matching](#conditional-resolver) to test the success or failure of requests and responses:
 
@@ -501,15 +500,15 @@ When writing UPWARD definitions, no distinction needs to be made between "persis
 
 A Resolver is an object which describes how a value is obtained. There are five kinds of Resolver:
 
-- `InlineResolver` adds hardcoded values
-- `FileResolver` loads files from a filesystem
-- `ServiceResolver` places GraphQL queries and loads the result set
-- `TemplateResolver` renders a template string against the context
-- `ConditionalResolver` does branch logic using pattern matching on context values
-- `ProxyResolver` delegates request/response handling to a proxy
-- `DirectoryResolver` delegates request/response handling to a static file directory
-- `UrlResolver` builds a URL from strings and other URLs
-- `ComputedResolver` resolves to a PHP class to get data
+-   `InlineResolver` adds hardcoded values
+-   `FileResolver` loads files from a filesystem
+-   `ServiceResolver` places GraphQL queries and loads the result set
+-   `TemplateResolver` renders a template string against the context
+-   `ConditionalResolver` does branch logic using pattern matching on context values
+-   `ProxyResolver` delegates request/response handling to a proxy
+-   `DirectoryResolver` delegates request/response handling to a static file directory
+-   `UrlResolver` builds a URL from strings and other URLs
+-   `ComputedResolver` resolves to a PHP class to get data
 
 Each Resolver takes different configuration parameters. Like a context lookup string, a resolver represents an operation which will execute and then deliver its results upward in the tree, until all dependencies of the top-level `status`, `headers`, and `body` definitions are resolved.
 
@@ -525,8 +524,8 @@ The above expression uses `Hello world!` as a property name and tries to substit
 
 ```yaml
 body:
-  resolver: inline
-  inline: 'Hello world!'
+    resolver: inline
+    inline: 'Hello world!'
 ```
 
 The `inline` of an InlineResolver may be of any type; it may be a primitive value, a list, or an object of arbitrary depth. List values and Object properties may be context lookups or resolvers themselves, so when building lists or objects, make sure to use InlineResolvers again at every other level of depth. _(A consequence of this is that it is difficult and verbose to set a literal value resembling a resolver configuration, such as `{ "resolver": "inline" }`, but this seems to be a minor inconvenience.)_
@@ -543,13 +542,13 @@ Queries and templates are often large, and often reused by other systems. They c
 
 ```yaml
 query:
-  resolver: file
-  file:
-    resolver: inline
-    inline: './productDetail.graphql'
-  encoding:
-    resolver: inline
-    inline: 'utf-8'
+    resolver: file
+    file:
+        resolver: inline
+        inline: './productDetail.graphql'
+    encoding:
+        resolver: inline
+        inline: 'utf-8'
 ```
 
 The above expression loads the content of the file `./productDetail.graphql` and sets it as the property `query`. The file path is resolved relative to the location of the definition file. The `encoding` property is optional.
@@ -570,7 +569,7 @@ An UPWARD server must support pre-parsing of `graphql`, `json`, and `mustache` f
 
 If the file cannot be found or there were any other failures reading the file, the resolver must resolve an object with a single `errors` property instead of a string or a parsed value. Errors must be formatted like [GraphQL errors][graphql spec errors property].
 
-:information_source: _(File contents are not expected to change during server runtime, so an UPWARD-compliant server should cache file contents on startup.)_
+:information*source: *(File contents are not expected to change during server runtime, so an UPWARD-compliant server should cache file contents on startup.)\_
 
 #### FileResolver shorthand
 
@@ -578,10 +577,10 @@ Filenames are usually not variable; they will usually be specified as literals, 
 
 ```yaml
 query:
-  resolver: file
-  file:
-    resolver: inline
-    inline: './path/to/file.graphql'
+    resolver: file
+    file:
+        resolver: inline
+        inline: './path/to/file.graphql'
 ```
 
 The shorthand syntax should allow the following to be equivalent:
@@ -592,18 +591,19 @@ query: './path/to/file.graphql'
 
 An UPWARD-compliant server must treat a barestring as a literal filepath instead of a context lookup when:
 
-- The string is being argued to a configuration parameter that accepts a FileResolver for the implied type of the file after parsing
+-   The string is being argued to a configuration parameter that accepts a FileResolver for the implied type of the file after parsing
 
-  AND
+    AND
 
-- The string begins with one of the following prefixes:
-  - a relative path prefix, `./` and/or one or more `../`
-  - an absolute path prefix, `/` or `C:\` or any other Windows drive letter
-  - a file URI scheme, `file://`
+-   The string begins with one of the following prefixes:
 
-  AND
+    -   a relative path prefix, `./` and/or one or more `../`
+    -   an absolute path prefix, `/` or `C:\` or any other Windows drive letter
+    -   a file URI scheme, `file://`
 
-- Upon checking the filesystem, the string resolves to a [regular file][regular file] (not a symlink, device, or directory)
+    AND
+
+-   Upon checking the filesystem, the string resolves to a [regular file][regular file] (not a symlink, device, or directory)
 
 In the latter case, if the shorthand string neither resolves to a legal file, nor exists as a resolvable context value, an UPWARD-compliant server should raise a detailed error message explaining this.
 
@@ -653,18 +653,18 @@ documentResult:
       id: request.url.query.id
 ```
 
-:information_source: _(For the purposes of demonstration, the query here is resolved inline. The best practice is to store queries in files and use FileResolvers to obtain them.)_
+:information*source: *(For the purposes of demonstration, the query here is resolved inline. The best practice is to store queries in files and use FileResolvers to obtain them.)\_
 
 #### ServiceResolver Configuration Options
 
-| Property    | Type                              | Default                     | Description                                                                                                                                                                                                                              |
-| ----------- | --------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `endpoint`  | `Resolved<string>`                | `https://localhost/graphql` | _Required_. The URL of the service endpoint to call.                                                                                                                                                                                     |
-| `url`       | `Resolved<string>`                | `https://localhost/graphql` | :no_entry_sign: _**Deprecated**_. Synonymous with `endpoint`. Replaced with `endpoint` for readability. This parameter is still supported for now, but should be replaced with `endpoint`. If both are present, an error will be thrown. |
-| `method`    | `Resolved<string>`                | `POST`                      | The HTTP method to use. While GraphQL queries are typically POSTS, some services expose GraphQL over GET instead.                                                                                                                        |
-| `headers`   | `Resolved<Object<string,string>>` |                             | Additional HTTP headers to send with the GraphQL request. Some headers are set automatically, but the `headers` configuration can append to headers that can have multiple values.                                                       |
-| `query`     | `Resolved<Query\|string>`         |                             | _Required_. The GraphQL query object. Can either be a parsed query, or a string that can be parsed as a valid query.                                                                                                                     |
-| `variables` | `Resolved<Object<any>>`           | `{}`                        | Variables to use with the GraphQL query. Must resolve to an object with keys and values, almost always with an InlineResolver.                                                                                                           |
+| Property    | Type                              | Default                     | Description                                                                                                                                                                                                                                 |
+| ----------- | --------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `endpoint`  | `Resolved<string>`                | `https://localhost/graphql` | _Required_. The URL of the service endpoint to call.                                                                                                                                                                                        |
+| `url`       | `Resolved<string>`                | `https://localhost/graphql` | :no\*entry_sign: **\*Deprecated**\_. Synonymous with `endpoint`. Replaced with `endpoint` for readability. This parameter is still supported for now, but should be replaced with `endpoint`. If both are present, an error will be thrown. |
+| `method`    | `Resolved<string>`                | `POST`                      | The HTTP method to use. While GraphQL queries are typically POSTS, some services expose GraphQL over GET instead.                                                                                                                           |
+| `headers`   | `Resolved<Object<string,string>>` |                             | Additional HTTP headers to send with the GraphQL request. Some headers are set automatically, but the `headers` configuration can append to headers that can have multiple values.                                                          |
+| `query`     | `Resolved<Query\|string>`         |                             | _Required_. The GraphQL query object. Can either be a parsed query, or a string that can be parsed as a valid query.                                                                                                                        |
+| `variables` | `Resolved<Object<any>>`           | `{}`                        | Variables to use with the GraphQL query. Must resolve to an object with keys and values, almost always with an InlineResolver.                                                                                                              |
 
 **ServiceResolvers always use GraphQL.** To obtain data from a non-GraphQL service, an UPWARD server may implement client-side directives which change the behavior of a GraphQL query, such as [apollo-link-rest][apollo-link-rest], and place the directives in the query itself. This should be transparent to the UPWARD server itself, which delegates the service call to a GraphQL client. If an UPWARD server's GraphQL client has no implementation for such a directive, then it must pass the query unmodified to the backing service to handle the directive.
 
@@ -674,29 +674,29 @@ The below behavior is not standard or normative: it is an example of how one mig
 
 ```yaml
 documentResult:
-  resolver: service
-  url: env.REST_API_ENDPOINT
-  method:
-    resolver: inline
-    inline: GET
-  headers:
-    # In contrast to the template above, this assumes that en environment
-    # variable is already set with the "Bearer <token>" format.
-    inline:
-      authorization: env.BEARER_TOKEN_STRING
-  query: 'query getDocument($id: String!) {
-      document(id: $id) @rest(type: "Document", path: "/documents/{args.id}") {
+    resolver: service
+    url: env.REST_API_ENDPOINT
+    method:
+        resolver: inline
+        inline: GET
+    headers:
+        # In contrast to the template above, this assumes that en environment
+        # variable is already set with the "Bearer <token>" format.
+        inline:
+            authorization: env.BEARER_TOKEN_STRING
+    query: 'query getDocument($id: String!) {
+        document(id: $id) @rest(type: "Document", path: "/documents/{args.id}") {
         title
         contents
-      }
-      links(documentId: $id) {
+        }
+        links(documentId: $id) {
         name
         url
-      }
-    }'
-  variables:
-    inline:
-      id: request.url.query.id
+        }
+        }'
+    variables:
+        inline:
+            id: request.url.query.id
 ```
 
 #### Response Assignment
@@ -707,9 +707,9 @@ The GraphQL specification requires that a successful response to a GraphQL query
 
 The GraphQL specification [defines error behavior][graphql spec errors] clearly, and UPWARD servers should pass the `errors` collection from a GraphQL response as described above. Other errors can occur during resolution, such as:
 
-- Network errors: the URL is unresolvable or unresponsive
-- Parse errors: a dynamically supplied `query` could not be parsed
-- Validation errors: required variables were absent or the wrong type
+-   Network errors: the URL is unresolvable or unresponsive
+-   Parse errors: a dynamically supplied `query` could not be parsed
+-   Validation errors: required variables were absent or the wrong type
 
 An UPWARD server should format these errors the same way that GraphQL services do; it should return an object with an `errors` array containing all errors encountered.
 
@@ -719,45 +719,45 @@ Once the UPWARD server assembles the data for a response, it must turn that data
 
 ```yaml
 status:
-  resolver: inline
-  inline: 200
+    resolver: inline
+    inline: 200
 headers:
-  resolver: inline
-  inline:
-    'content-type':
-      resolver: inline
-      inline: 'text/html'
+    resolver: inline
+    inline:
+        'content-type':
+            resolver: inline
+            inline: 'text/html'
 body:
-  resolver: template
-  engine:
-    resolver: inline
-    inline: mustache
-  root: documentResult.data.document
-  template:
-    resolver: inline
-    inline: |
-      {{> headtag}}
-      {{> header}}
-      <div class="document">
-        <h1>{{title}}</h1>
-        <div class="document-body">
-          {{& contents}}
-        </div>
-      </div>
-      {{> footer}}
+    resolver: template
+    engine:
+        resolver: inline
+        inline: mustache
+    root: documentResult.data.document
+    template:
+        resolver: inline
+        inline: |
+            {{> headtag}}
+            {{> header}}
+            <div class="document">
+              <h1>{{title}}</h1>
+              <div class="document-body">
+                {{& contents}}
+              </div>
+            </div>
+            {{> footer}}
 ```
 
 The above configuration resolves into an HTML document displaying content from the `documentResult.data.document` context value. Its use of [Mustache partials][mustache partials] implies that additional files called `headtag.mst`, `header.mst`, and `footer.mst` exist in the directory containing the definition file. Attempting to include a missing partial should raise an error as soon as the template is resolved, ideally at server startup time.
 
-:information_source: _(For illustrative purposes, the above uses an InlineResolver where it would be more appropriate to use a FileResolver to obtain the template, as with the query in the ServiceResolver example.)_
+:information*source: *(For illustrative purposes, the above uses an InlineResolver where it would be more appropriate to use a FileResolver to obtain the template, as with the query in the ServiceResolver example.)\_
 
 #### TemplateResolver Configuration Options
 
-| Property   | Type                                 | Default | Description                                                                                                                                                                   |
-| ---------- | ------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `engine`   | `Resolved<string>`                   |         | _Required_. The label of the template engine to use.                                                                                                                          |
-| `provide`  | `Resolved<string[]\|object<string>>` |         | _Required._ A list, or an object mapping, of values to make available in the template. Passing the entire context to a template for evaluation can cause cyclic dependencies. |
-| `template` | `Resolved<Template\\|string>`        |         | The template to render.                                                                                                                                                       |
+| Property   | Type                                 | Default  | Description                                                                                                                                                                   |
+| ---------- | ------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `engine`   | `Resolved<string>`                   |          | _Required_. The label of the template engine to use.                                                                                                                          |
+| `provide`  | `Resolved<string[]\|object<string>>` |          | _Required._ A list, or an object mapping, of values to make available in the template. Passing the entire context to a template for evaluation can cause cyclic dependencies. |
+| `template` | `Resolved<Template\\                 | string>` |                                                                                                                                                                               | The template to render. |
 
 #### Template Context
 
@@ -767,8 +767,8 @@ The `provide` argument can be a list:
 
 ```yaml
 provide:
-  - env
-  - articleResult
+    - env
+    - articleResult
 ```
 
 The resulting template eval context might look like this:
@@ -786,14 +786,14 @@ The resulting template eval context might look like this:
 }
 ```
 
-*Lists may only inject "base" context properties.* The above `articleResult` could not be `articleResult.data.article` when using the list format.
+_Lists may only inject "base" context properties._ The above `articleResult` could not be `articleResult.data.article` when using the list format.
 
 The other, more powerful option for the `provide` argument is to provide a `mapping`, as a simple object. A mapping must resolve to a plain object of string keys and context values. It might appear as:
 
 ```yaml
 provide:
-  inline:
-    article: articleResult.data.article
+    inline:
+        article: articleResult.data.article
 ```
 
 This would give the template a single root property "article", thus flatting out the template tree and making templates more readable.
@@ -812,19 +812,19 @@ The `engine` property must resolve to a string labeling a supported template eng
 
 ```yaml
 body:
-  resolver: template
-  engine:
-    resolver: inline
-    inline: react
-  provide:
-    inline:
-      document: documentResult.data.document
-      query: request.url.query
-  template:
-    resolver: file
-    file:
-      resolver: inline
-      inline: './build/RootComponents/Document.js'
+    resolver: template
+    engine:
+        resolver: inline
+        inline: react
+    provide:
+        inline:
+            document: documentResult.data.document
+            query: request.url.query
+    template:
+        resolver: file
+        file:
+            resolver: inline
+            inline: './build/RootComponents/Document.js'
 ```
 
 The above configuration assumes support for a template engine labeled `react`. The underlying template engine could be a simple Node module:
@@ -833,8 +833,7 @@ The above configuration assumes support for a template engine labeled `react`. T
 const { createElement } = require('react');
 const { renderToString } = require('react-dom/server');
 
-module.exports = (props, component) =>
-  renderToString(createElement(require(component), props));
+module.exports = (props, component) => renderToString(createElement(require(component), props));
 ```
 
 Attaching such a template engine to a Resolver would be trivial.
@@ -853,42 +852,42 @@ The ConditionalResolver is the only branch logic operation available in the UPWA
 
 ```yaml
 monkey:
-  resolver: conditional
-  when:
-    # All values are coerced to strings for regex matching.
-    - matches: request.url.query.grab
-      pattern: '^(true|1)$'
-      use:
+    resolver: conditional
+    when:
+        # All values are coerced to strings for regex matching.
+        - matches: request.url.query.grab
+          pattern: '^(true|1)$'
+          use:
+              resolver: inline
+              inline: 'do anyway'
+        - matches: status
+          pattern: '^403$'
+          use:
+              resolver: inline
+              inline: 'see'
+    default:
         resolver: inline
-        inline: "do anyway"
-    - matches: status
-      pattern: '^403$'
-      use:
-        resolver: inline
-        inline: "see"
-  default:
-    resolver: inline
-    inline: "do"
+        inline: 'do'
 status:
-  resolver: inline
-  inline: 403
+    resolver: inline
+    inline: 403
 body:
-  resolver: template
-  engine:
-    resolver: inline
-    inline: mustache
-  template:
-    resolver: inline
-    inline: "<p>monkey <b>{{ monkey }}</b>.</p>"
+    resolver: template
+    engine:
+        resolver: inline
+        inline: mustache
+    template:
+        resolver: inline
+        inline: '<p>monkey <b>{{ monkey }}</b>.</p>'
 ```
 
 The above configuration uses a ConditionalResolver to create a context value `monkey`. The `when` list contains two matchers. They are executed in order. The first matcher tests if the request query string has a value `grab` matching the regular expression `^(true|1)$`, If the request query string contains `grab=true` or `grab=1`, this matcher succeeds and the ConditionalResolver yields to the resolver specified in the matcher's `use` property. The context now matches the object:
 
 ```json
 {
-  "status": 403,
-  "monkey": "do anyway",
-  "body": "<p>monkey <b>do anyway</b></p>"
+	"status": 403,
+	"monkey": "do anyway",
+	"body": "<p>monkey <b>do anyway</b></p>"
 }
 ```
 
@@ -896,26 +895,26 @@ If the request query string does not contain a qualifying `grab` property, the s
 
 ```json
 {
-  "status": 403,
-  "monkey": "see",
-  "body": "<p>monkey <b>see</b></p>"
+	"status": 403,
+	"monkey": "see",
+	"body": "<p>monkey <b>see</b></p>"
 }
 ```
 
-If some other configuration provides a different `status`, such as `200`, then neither matcher in the `when` list  succeeds, and the ConditionalResolver uses its `default` resolver. The context now matches the object:
+If some other configuration provides a different `status`, such as `200`, then neither matcher in the `when` list succeeds, and the ConditionalResolver uses its `default` resolver. The context now matches the object:
 
 ```json
 {
-  "status": 200,
-  "monkey": "do",
-  "body": "<p>monkey <b>do</b></p>"
+	"status": 200,
+	"monkey": "do",
+	"body": "<p>monkey <b>do</b></p>"
 }
 ```
 
 #### ConditionalResolver Configuration Options
 
 | Property  | Type            | Default | Description                                                     |
-| --------- | --------------- | ------- | --------------------------------------------------------------- |
+| --------- | --------------- | ------- | --------------------------------------------------------------- | --------------------------------------------------------- |
 | `when`    | `Matcher[]`     |         |                                                                 | _Required_. The list of matchers to test against context. |
 | `default` | `Resolved<any>` |         | _Required_. The default resolver to use if no matcher succeeds. |
 
@@ -933,24 +932,24 @@ A `Matcher` is an object which can only be used as an item in a ConditionalResol
 
 During the resolution of a matcher's `use` resolver, properties from the match object are temporarily added to the context. Using these temporary context values, resolvers can extract matching text, or capture groups, from the match itself.
 
-- `$match.$0` - The full text of the last matched value.
-- `$match.$1` - The string captured in the first backreference the regex declared.
+-   `$match.$0` - The full text of the last matched value.
+-   `$match.$1` - The string captured in the first backreference the regex declared.
 
 The `$match` object must have additional numbered properties for each backreference.
 
 #### ConditionalResolver notes
 
-- Matchers run in sequence, top to bottom. They do not "fall through"; the first
-  successful matcher will exit the conditional.
-- Matchers can only test against context properties; they cannot use a resolver as the `matches` value.
-- Each matcher can test only one context property against one pattern.
-  - However, the pattern can use regex alternation to achieve OR-type logic.
-  - Additionally, a list of matchers need not each test the same property.
-- The `default` resolver is required.
-- To achieve AND-like logic, nest ConditionalResolvers to arbitrary depth.
-- To achieve OR-like logic, repeat the same resolver configuration in several subsequent matchers.
-- If the conditional becomes verbose, consult [Reducing Boilerplate](#reducing-boilerplate) for ways to simplify it.
-- Though template engines with logical operators can be also be used to perform branch logic, this is not recommended; it can prevent static analysis of context value dependencies.
+-   Matchers run in sequence, top to bottom. They do not "fall through"; the first
+    successful matcher will exit the conditional.
+-   Matchers can only test against context properties; they cannot use a resolver as the `matches` value.
+-   Each matcher can test only one context property against one pattern.
+    -   However, the pattern can use regex alternation to achieve OR-type logic.
+    -   Additionally, a list of matchers need not each test the same property.
+-   The `default` resolver is required.
+-   To achieve AND-like logic, nest ConditionalResolvers to arbitrary depth.
+-   To achieve OR-like logic, repeat the same resolver configuration in several subsequent matchers.
+-   If the conditional becomes verbose, consult [Reducing Boilerplate](#reducing-boilerplate) for ways to simplify it.
+-   Though template engines with logical operators can be also be used to perform branch logic, this is not recommended; it can prevent static analysis of context value dependencies.
 
 ### ProxyResolver
 
@@ -962,14 +961,14 @@ A ProxyResolver is an important part of the UPWARD philosophy: a PWA's UPWARD fi
 
 ```yaml
 proxy:
-  target: env.MAGENTO_BACKEND_URL
-  ignoreSSLErrors: true
+    target: env.MAGENTO_BACKEND_URL
+    ignoreSSLErrors: true
 ```
 
 #### ProxyResolver Configuration Options
 
 | Property          | Type                | Default | Description                                                                                 |
-| ----------------- | ------------------- | ------- | ------------------------------------------------------------------------------------------- |
+| ----------------- | ------------------- | ------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------- |
 | `target`          | `Resolved<string>`  |         |                                                                                             | _Required_. The URL that receives proxied requess. |
 | `ignoreSSLErrors` | `Resolved<boolean>` | `false` | Ignore remnote SSL certificate errors (useful for internal communication among containers). |
 
@@ -985,9 +984,8 @@ Like the ProxyResolver, the DirectoryResolver delegates request and response han
 
 ```yaml
 static:
-  directory:
-    inline: './dist'
-
+    directory:
+        inline: './dist'
 ```
 
 #### DirectoryResolver Configuration Options
@@ -1014,26 +1012,26 @@ The following configuration defines a base URL for the REST API, and a URL to a 
 
 ```yaml
 adminRESTTokenRefresh:
-  baseUrl: adminRESTApiBase
-  pathname:
-    inline: adminToken
-  query:
-    refreshToken: env.ADMIN_REFRESH_TOKEN
-    role:
-      inline: owner
+    baseUrl: adminRESTApiBase
+    pathname:
+        inline: adminToken
+    query:
+        refreshToken: env.ADMIN_REFRESH_TOKEN
+        role:
+            inline: owner
 
 adminRESTApiBase:
-  baseUrl:
-    inline: https://admin.host/api/rest
-  port: env.ADMIN_PORT
-  pathname: apiVersion
+    baseUrl:
+        inline: https://admin.host/api/rest
+    port: env.ADMIN_PORT
+    pathname: apiVersion
 
 apiVersion:
-  engine: mustache
-  provide:
-    versionNumber: env.ADMIN_API_VERSION
-  template:
-    inline: 'v{{versionNumber}}'
+    engine: mustache
+    provide:
+        versionNumber: env.ADMIN_API_VERSION
+    template:
+        inline: 'v{{versionNumber}}'
 ```
 
 URLResolvers resolve to strings. The context value `adminRESTTokenRefresh` evaluates to:
@@ -1058,38 +1056,38 @@ https://admin.host:8081/api/rest/v1/adminToken?refreshToken=a1b2c3&role=owner
 
 #### UrlResolver Notes
 
-- If no base URL is required, either because the defined URL should be relative or the other parameters build an absolute URL, `baseUrl` must be explicitly set to `false`.
+-   If no base URL is required, either because the defined URL should be relative or the other parameters build an absolute URL, `baseUrl` must be explicitly set to `false`.
 
-- Pathnames must join based on leading and trailing slashes.
+-   Pathnames must join based on leading and trailing slashes.
 
-  - If a `pathname` has a _leading_ slash, it must _overwrite_ any pathname on the `baseUrl`.
+    -   If a `pathname` has a _leading_ slash, it must _overwrite_ any pathname on the `baseUrl`.
 
-  ```yaml
-  baseUrl: https://fleet.local/ships/hood/
-  pathname: /admiral
-  ```
+    ```yaml
+    baseUrl: https://fleet.local/ships/hood/
+    pathname: /admiral
+    ```
 
-  evaluates to `https://fleet.local/admiral`.
+    evaluates to `https://fleet.local/admiral`.
 
-  - If a `pathname` has no leading slash, and the pathname of the `baseUrl` has a _trailing_ slash, then the `pathname` must _append_ to the last segment of the `baseUrl` path.
+    -   If a `pathname` has no leading slash, and the pathname of the `baseUrl` has a _trailing_ slash, then the `pathname` must _append_ to the last segment of the `baseUrl` path.
 
-  ```yaml
-  baseUrl: https://fleet.local/ships/hood/
-  pathname: captain/name
-  ```
+    ```yaml
+    baseUrl: https://fleet.local/ships/hood/
+    pathname: captain/name
+    ```
 
-  evaluates to `https://fleet.local/ships/hood/captain/name`.
+    evaluates to `https://fleet.local/ships/hood/captain/name`.
 
-  - If a `pathname` has no leading slash, and the pathname of the `baseUrl` has no trailing slash, then a `pathname` must _replace_ the last segment of the `baseUrl` path.
+    -   If a `pathname` has no leading slash, and the pathname of the `baseUrl` has no trailing slash, then a `pathname` must _replace_ the last segment of the `baseUrl` path.
 
-  ```yaml
-  baseUrl: https://fleet.local/ships/hood
-  pathname: yamato/
-  ```
+    ```yaml
+    baseUrl: https://fleet.local/ships/hood
+    pathname: yamato/
+    ```
 
-  evaluates to `https://fleet.local/ships/yamato/`
+    evaluates to `https://fleet.local/ships/yamato/`
 
-- If both `search` and `query` are present, the parameters must be merged, giving preference to `query` where there are conflicts. _"Array" query parameters are not defined by this specification, since their behavior is inconsistent across platforms._
+-   If both `search` and `query` are present, the parameters must be merged, giving preference to `query` where there are conflicts. _"Array" query parameters are not defined by this specification, since their behavior is inconsistent across platforms._
 
 ### ComputedResolver
 
@@ -1101,26 +1099,26 @@ and its JS implementation is only to avoid crashing during build.**
 
 ```yaml
 someDataPoint:
-  resolver: computed
-  type:
-    resolver: inline
-    inline: typeKey
+    resolver: computed
+    type:
+        resolver: inline
+        inline: typeKey
 ```
 
 The ComputedResolver's resolved value can vary depending on the class used. The typeKey maps to a PHP class, who takes responsibility for returning a value.
 
 #### ComputedResolver Configuration Options
 
-| Property   | Type                        | Default  | Description                                                                                                                                                                                         |
-| ---------- | --------------------------- | -------- | -----------------------------------------------------------------------------------------------------------|
-| `type`     | `Resolved<string>`          |          | _Required_. This value is used to map to a PHP class that will return a value.                             |
-| `<other>`  | `Resolved<any>`             |          | Since this is essentially a way to add more resolvers, any data defined in the yaml is passed to the class |
+| Property  | Type               | Default | Description                                                                                                |
+| --------- | ------------------ | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `type`    | `Resolved<string>` |         | _Required_. This value is used to map to a PHP class that will return a value.                             |
+| `<other>` | `Resolved<any>`    |         | Since this is essentially a way to add more resolvers, any data defined in the yaml is passed to the class |
 
 #### ComputedResolver Notes
+
 In its PHP implementation, the definition and resolver is passed to the class, so any information the class needs can be passed in this manner. The type is mapped
 to a PHP class through the di.xml and the class has access to any Magento dependency injection it needs.
 The JS implementation is only present to not break when the resolver type is defined.
-
 
 ## Reducing boilerplate
 
@@ -1156,16 +1154,16 @@ Using the best practice of storing queries in separate files and storing reusabl
 ```yaml
 documentQuery: './queries/document.graphql'
 oauthHeaders:
-  resolver: inline
-  inline:
-    authorization: env.BEARER_TOKEN
+    resolver: inline
+    inline:
+        authorization: env.BEARER_TOKEN
 
 documentResult:
-  resolver: service
-  headers: oauthHeaders
-  query: documentQuery
-  variables:
-    id: request.url.query.id
+    resolver: service
+    headers: oauthHeaders
+    query: documentQuery
+    variables:
+        id: request.url.query.id
 ```
 
 ### Builtin constants
@@ -1177,26 +1175,26 @@ In the first example of a [TemplateResolver](#templateresolver) above, some inli
 ```yaml
 status: 200
 headers:
-  resolver: inline
-  inline:
-    'content-type': 'text/html'
-body:
-  resolver: template
-  engine: 'mustache'
-  provide:
-    model: documentResult.data.document
-  template:
     resolver: inline
-    inline: |
-      {{> headtag}}
-      {{> header}}
-      <div class="document">
-        <h1>{{model.title}}</h1>
-        <div class="document-body">
-          {{& contents}}
-        </div>
-      </div>
-      {{> footer}}
+    inline:
+        'content-type': 'text/html'
+body:
+    resolver: template
+    engine: 'mustache'
+    provide:
+        model: documentResult.data.document
+    template:
+        resolver: inline
+        inline: |
+            {{> headtag}}
+            {{> header}}
+            <div class="document">
+              <h1>{{model.title}}</h1>
+              <div class="document-body">
+                {{& contents}}
+              </div>
+            </div>
+            {{> footer}}
 ```
 
 ### Resolver type inference
@@ -1218,55 +1216,55 @@ Resolver type inference allows configuration to omit `resolver:` parameters, whi
 ```yaml
 status: 200
 headers:
-  inline:
-    'content-type': 'text/html'
+    inline:
+        'content-type': 'text/html'
 body:
-  engine: 'mustache'
-  root: documentResult.data.document
-  template:
-    inline: |
-      {{> headtag}}
-      {{> header}}
-      <div class="document">
-        <h1>{{title}}</h1>
-        <div class="document-body">
-          {{& contents}}
-        </div>
-      </div>
-      {{> footer}}
+    engine: 'mustache'
+    root: documentResult.data.document
+    template:
+        inline: |
+            {{> headtag}}
+            {{> header}}
+            <div class="document">
+              <h1>{{title}}</h1>
+              <div class="document-body">
+                {{& contents}}
+              </div>
+            </div>
+            {{> footer}}
 ```
 
 And the example optimized configuration in [Default parameters](#default-parameters) could be further reduced:
 
 ```yaml
 documentResult:
-  headers:
-    inline:
-      authorization: env.BEARER_TOKEN
-  query: './queries/document.graphql'
-  variables:
-    id: request.url.query.id
+    headers:
+        inline:
+            authorization: env.BEARER_TOKEN
+    query: './queries/document.graphql'
+    variables:
+        id: request.url.query.id
 ```
 
-:information_source: _(Note that the `variables` object cannot be a resolver, as specified in [ServiceResolver configuration options](#serviceresolver-configuration-options) &mdash; it must be an object whose keys are expected query variable names and whose values are resolvers, so there is no ambiguity if a GraphQL query expects a variable named, for example, `file`.)_
+:information*source: *(Note that the `variables` object cannot be a resolver, as specified in [ServiceResolver configuration options](#serviceresolver-configuration-options) &mdash; it must be an object whose keys are expected query variable names and whose values are resolvers, so there is no ambiguity if a GraphQL query expects a variable named, for example, `file`.)\_
 
 ### YAML anchors
 
 The YAML specificationsupports an [anchor and reference syntax][yaml anchors] which can also be used to shorten configuration files. While this can be used as part of legal YAML parsing, its use is discouraged by UPWARD files, since context resolution is clearer to the reader. Additionally, not all parsers support references in the same way, so the feature should be used with caution.
 
-[apollo-link-rest]: <https://www.apollographql.com/docs/link/links/rest.html>
-[application shell]: <https://developers.google.com/web/fundamentals/architecture/app-shell>
-[pwa def]: <https://developers.google.com/web/progressive-web-apps/>
-[js identifiers]: <https://developer.mozilla.org/en-US/docs/Glossary/Identifier>
-[npx]: <https://github.com/zkat/npx>
-[spec-shell-script]: <./test_upward_server.sh>
-[yaml anchors]: <https://learnxinyminutes.com/docs/yaml/>
-[pcre]: <https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions>
-[graphql spec data property]: <http://facebook.github.io/graphql/June2018/#sec-Data>
-[graphql spec errors property]: <http://facebook.github.io/graphql/June2018/#sec-Errors>
-[mustache spec]: <https://github.com/mustache/spec>
-[mustache partials]: <https://mustache.github.io/mustache.5.html#Partials>
-[react dom server]: <https://reactjs.org/docs/react-dom-server.html>
-[topological sorting]: <https://en.wikipedia.org/wiki/Topological_sorting>
-[url spec]: <https://url.spec.whatwg.org/#url-class>
-[regular file]: <http://www.livefirelabs.com/unix_tip_trick_shell_script/unix_operating_system_fundamentals/file-types-in-unix.htm>
+[apollo-link-rest]: https://www.apollographql.com/docs/link/links/rest.html
+[application shell]: https://developers.google.com/web/fundamentals/architecture/app-shell
+[pwa def]: https://developers.google.com/web/progressive-web-apps/
+[js identifiers]: https://developer.mozilla.org/en-US/docs/Glossary/Identifier
+[npx]: https://github.com/zkat/npx
+[spec-shell-script]: ./test_upward_server.sh
+[yaml anchors]: https://learnxinyminutes.com/docs/yaml/
+[pcre]: https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions
+[graphql spec data property]: http://facebook.github.io/graphql/June2018/#sec-Data
+[graphql spec errors property]: http://facebook.github.io/graphql/June2018/#sec-Errors
+[mustache spec]: https://github.com/mustache/spec
+[mustache partials]: https://mustache.github.io/mustache.5.html#Partials
+[react dom server]: https://reactjs.org/docs/react-dom-server.html
+[topological sorting]: https://en.wikipedia.org/wiki/Topological_sorting
+[url spec]: https://url.spec.whatwg.org/#url-class
+[regular file]: http://www.livefirelabs.com/unix_tip_trick_shell_script/unix_operating_system_fundamentals/file-types-in-unix.htm

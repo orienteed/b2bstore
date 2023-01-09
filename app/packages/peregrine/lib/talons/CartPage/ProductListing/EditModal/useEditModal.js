@@ -12,12 +12,12 @@ import { useState } from 'react';
  * import { useEditModal } from '@magento/peregrine/lib/talons/CartPage/ProductListing/EditModal/useEditModal';
  */
 export const useEditModal = () => {
-    const [variantPrice, setVariantPrice] = useState(null);
+	const [variantPrice, setVariantPrice] = useState(null);
 
-    return {
-        setVariantPrice,
-        variantPrice
-    };
+	return {
+		setVariantPrice,
+		variantPrice
+	};
 };
 
 /** JSDocs type definitions */

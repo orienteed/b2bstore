@@ -15,40 +15,35 @@ const isNonDefaultCategory = category => Boolean(category.parentId);
  * @returns {object}
  */
 export const useNoProductsFound = props => {
-    const { categoryId } = props;
-    const [{ categories }] = useCatalogContext();
+	const { categoryId } = props;
+	const [{ categories }] = useCatalogContext();
 
-    const recommendedCategories = useMemo(() => {
-        // We know this category is empty, don't recommend it.
-        const isNotSameCategory = category => category.id !== categoryId;
+	const recommendedCategories = useMemo(() => {
+		// We know this category is empty, don't recommend it.
+		const isNotSameCategory = category => category.id !== categoryId;
 
-        const filteredCategories = Object.values(categories)
-            .filter(isNonDefaultCategory)
-            .filter(isNotSameCategory);
+		const filteredCategories = Object.values(categories).filter(isNonDefaultCategory).filter(isNotSameCategory);
 
-        const numCategories = filteredCategories.length;
+		const numCategories = filteredCategories.length;
 
-        let categoriesToRecommend;
-        if (numCategories <= NUM_CATEGORIES_TO_SHOW) {
-            // Not enough categories to randomize, just take them all.
-            categoriesToRecommend = filteredCategories;
-        } else {
-            // We have more categories than we want to show.
-            // Randomly select a subset of them.
-            const maxStartIndex = numCategories - NUM_CATEGORIES_TO_SHOW + 1;
-            const startIndex = Math.floor(Math.random() * maxStartIndex);
-            const endIndex = startIndex + NUM_CATEGORIES_TO_SHOW;
+		let categoriesToRecommend;
+		if (numCategories <= NUM_CATEGORIES_TO_SHOW) {
+			// Not enough categories to randomize, just take them all.
+			categoriesToRecommend = filteredCategories;
+		} else {
+			// We have more categories than we want to show.
+			// Randomly select a subset of them.
+			const maxStartIndex = numCategories - NUM_CATEGORIES_TO_SHOW + 1;
+			const startIndex = Math.floor(Math.random() * maxStartIndex);
+			const endIndex = startIndex + NUM_CATEGORIES_TO_SHOW;
 
-            categoriesToRecommend = filteredCategories.slice(
-                startIndex,
-                endIndex
-            );
-        }
+			categoriesToRecommend = filteredCategories.slice(startIndex, endIndex);
+		}
 
-        return categoriesToRecommend;
-    }, [categoryId, categories]);
+		return categoriesToRecommend;
+	}, [categoryId, categories]);
 
-    return {
-        recommendedCategories
-    };
+	return {
+		recommendedCategories
+	};
 };

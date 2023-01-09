@@ -14,32 +14,22 @@ import DEFAULT_OPERATIONS from './giftOptionsSection.gql.js';
  * @return {GiftOptionsSectionProps}
  */
 export const useGiftOptionsSection = (props = {}) => {
-    const { getGiftOptionsConfigQuery } = mergeOperations(
-        DEFAULT_OPERATIONS,
-        props.operations
-    );
+	const { getGiftOptionsConfigQuery } = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const { data, loading } = useQuery(getGiftOptionsConfigQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+	const { data, loading } = useQuery(getGiftOptionsConfigQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const storeConfig = data?.storeConfig || {};
-    const {
-        allow_order = '0',
-        allow_gift_receipt = '0',
-        allow_printed_card = '0'
-    } = storeConfig;
-    const isVisible =
-        allow_order === '1' ||
-        allow_gift_receipt === '1' ||
-        allow_printed_card === '1';
+	const storeConfig = data?.storeConfig || {};
+	const { allow_order = '0', allow_gift_receipt = '0', allow_printed_card = '0' } = storeConfig;
+	const isVisible = allow_order === '1' || allow_gift_receipt === '1' || allow_printed_card === '1';
 
-    return {
-        giftOptionsConfigData: storeConfig,
-        isLoading: loading,
-        isVisible
-    };
+	return {
+		giftOptionsConfigData: storeConfig,
+		isLoading: loading,
+		isVisible
+	};
 };
 
 /**

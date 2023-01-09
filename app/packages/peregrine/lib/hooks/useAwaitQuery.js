@@ -17,15 +17,15 @@ import { useApolloClient } from '@apollo/client';
  * @returns {Function} callback that runs the query and returns a Promise
  */
 export const useAwaitQuery = query => {
-    const apolloClient = useApolloClient();
+	const apolloClient = useApolloClient();
 
-    return useCallback(
-        options => {
-            return apolloClient.query({
-                ...options,
-                query
-            });
-        },
-        [apolloClient, query]
-    );
+	return useCallback(
+		options => {
+			return apolloClient.query({
+				...options,
+				query
+			});
+		},
+		[apolloClient, query]
+	);
 };

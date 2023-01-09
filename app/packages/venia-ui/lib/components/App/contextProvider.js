@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-    PeregrineContextProvider as Peregrine,
-    ToastContextProvider,
-    WindowSizeContextProvider
+	PeregrineContextProvider as Peregrine,
+	ToastContextProvider,
+	WindowSizeContextProvider
 } from '@magento/peregrine';
 import LocaleProvider from './localeProvider';
 import { NoReorderProductProvider } from '../NoReorderProductProvider/noReorderProductProvider';
@@ -16,17 +16,17 @@ import { PrintPdfProvider } from '../CartPage/PrintPdfProvider/printPdfProvider'
 const contextProviders = [LocaleProvider, Peregrine, WindowSizeContextProvider, ToastContextProvider];
 
 const ContextProvider = ({ children }) => {
-    return contextProviders.reduceRight((memo, ContextProvider) => {
-        return (
-            <PrintPdfProvider>
-                <DownloadCsvProvider>
-                    <NoReorderProductProvider>
-                        <ContextProvider>{memo}</ContextProvider>
-                    </NoReorderProductProvider>
-                </DownloadCsvProvider>
-            </PrintPdfProvider>
-        );
-    }, children);
+	return contextProviders.reduceRight((memo, ContextProvider) => {
+		return (
+			<PrintPdfProvider>
+				<DownloadCsvProvider>
+					<NoReorderProductProvider>
+						<ContextProvider>{memo}</ContextProvider>
+					</NoReorderProductProvider>
+				</DownloadCsvProvider>
+			</PrintPdfProvider>
+		);
+	}, children);
 };
 
 export default ContextProvider;

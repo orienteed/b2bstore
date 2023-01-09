@@ -23,59 +23,59 @@ import { GET_CUSTOMER_DETAILS } from './accountChip.gql';
  *  not when the user is signed in but we don't have their details (name) yet.
  */
 const AccountChip = props => {
-    const { fallbackText, shouldIndicateLoading } = props;
+	const { fallbackText, shouldIndicateLoading } = props;
 
-    const talonProps = useAccountChip({
-        queries: {
-            getCustomerDetailsQuery: GET_CUSTOMER_DETAILS
-        }
-    });
-    const { currentUser, isLoadingUserName, isUserSignedIn } = talonProps;
+	const talonProps = useAccountChip({
+		queries: {
+			getCustomerDetailsQuery: GET_CUSTOMER_DETAILS
+		}
+	});
+	const { currentUser, isLoadingUserName, isUserSignedIn } = talonProps;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
+	const classes = useStyle(defaultClasses, props.classes);
+	const { formatMessage } = useIntl();
 
-    let chipText;
-    if (!isUserSignedIn) {
-        chipText = fallbackText;
-    } else {
-        if (!isLoadingUserName) {
-            chipText = formatMessage(
-                { id: 'accountChip.chipText', defaultMessage: 'Hi, {name}' },
-                { name: currentUser.firstname }
-            );
-        } else if (shouldIndicateLoading) {
-            chipText = <Icon classes={{ icon: classes.loader }} src={Loader} />;
-        } else {
-            chipText = fallbackText;
-        }
-    }
+	let chipText;
+	if (!isUserSignedIn) {
+		chipText = fallbackText;
+	} else {
+		if (!isLoadingUserName) {
+			chipText = formatMessage(
+				{ id: 'accountChip.chipText', defaultMessage: 'Hi, {name}' },
+				{ name: currentUser.firstname }
+			);
+		} else if (shouldIndicateLoading) {
+			chipText = <Icon classes={{ icon: classes.loader }} src={Loader} />;
+		} else {
+			chipText = fallbackText;
+		}
+	}
 
-    return (
-        <span className={classes.root}>
-            <Icon src={AccountIcon} />
-            <div className={classes.chipContainer}>
-                <span data-cy="AccountChip-text" className={classes.text}>
-                    {chipText}
-                </span>
-            </div>
-        </span>
-    );
+	return (
+		<span className={classes.root}>
+			<Icon src={AccountIcon} />
+			<div className={classes.chipContainer}>
+				<span data-cy="AccountChip-text" className={classes.text}>
+					{chipText}
+				</span>
+			</div>
+		</span>
+	);
 };
 
 export default AccountChip;
 
 AccountChip.propTypes = {
-    classes: shape({
-        root: string,
-        loader: string,
-        text: string
-    }),
-    fallbackText: string,
-    shouldIndicateLoading: bool
+	classes: shape({
+		root: string,
+		loader: string,
+		text: string
+	}),
+	fallbackText: string,
+	shouldIndicateLoading: bool
 };
 
 AccountChip.defaultProps = {
-    fallbackText: 'Account',
-    shouldIndicateLoading: false
+	fallbackText: 'Account',
+	shouldIndicateLoading: false
 };

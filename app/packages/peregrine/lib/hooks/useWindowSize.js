@@ -4,13 +4,13 @@ import { useEventListener } from './useEventListener';
 const WindowSizeContext = createContext();
 
 const getSize = () => {
-    // 1080x1920 is a common iPhone resolution
-    return {
-        innerHeight: globalThis.innerHeight || 1920,
-        innerWidth: globalThis.innerWidth || 1080,
-        outerHeight: globalThis.outerHeight || 1920,
-        outerWidth: globalThis.outerWidth || 1080
-    };
+	// 1080x1920 is a common iPhone resolution
+	return {
+		innerHeight: globalThis.innerHeight || 1920,
+		innerWidth: globalThis.innerWidth || 1080,
+		outerHeight: globalThis.outerHeight || 1920,
+		outerWidth: globalThis.outerWidth || 1080
+	};
 };
 
 /**
@@ -21,16 +21,16 @@ const getSize = () => {
  * @private
  */
 const useWindowSizeListener = () => {
-    const [windowSize, setWindowSize] = useState(getSize());
-    const element = globalThis.document ? window : null;
+	const [windowSize, setWindowSize] = useState(getSize());
+	const element = globalThis.document ? window : null;
 
-    const handleResize = useCallback(() => {
-        setWindowSize(getSize());
-    }, [setWindowSize]);
+	const handleResize = useCallback(() => {
+		setWindowSize(getSize());
+	}, [setWindowSize]);
 
-    useEventListener(element, 'resize', handleResize);
+	useEventListener(element, 'resize', handleResize);
 
-    return windowSize;
+	return windowSize;
 };
 
 /**
@@ -48,15 +48,11 @@ const useWindowSizeListener = () => {
  *
  */
 export const WindowSizeContextProvider = props => {
-    // This hook has side effects of adding listeners so we only want to create it
-    // once and store it in context for reference by components.
-    const windowSize = useWindowSizeListener();
+	// This hook has side effects of adding listeners so we only want to create it
+	// once and store it in context for reference by components.
+	const windowSize = useWindowSizeListener();
 
-    return (
-        <WindowSizeContext.Provider value={windowSize}>
-            {props.children}
-        </WindowSizeContext.Provider>
-    );
+	return <WindowSizeContext.Provider value={windowSize}>{props.children}</WindowSizeContext.Provider>;
 };
 
 /**

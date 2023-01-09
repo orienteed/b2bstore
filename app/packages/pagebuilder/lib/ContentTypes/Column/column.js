@@ -20,148 +20,148 @@ const { matchMedia } = globalThis;
  * @returns {React.Element} A React component that displays a Column.
  */
 const Column = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const [bgImageStyle, setBgImageStyle] = useState(null);
-    const columnElement = useRef(null);
-    const {
-        appearance,
-        backgroundAttachment,
-        backgroundColor,
-        backgroundPosition,
-        backgroundRepeat = 'repeat',
-        backgroundSize,
-        border,
-        borderColor,
-        borderRadius,
-        borderWidth,
-        children,
-        cssClasses = [],
-        desktopImage,
-        marginBottom,
-        marginLeft,
-        marginRight,
-        marginTop,
-        mediaQueries,
-        minHeight,
-        mobileImage,
-        paddingBottom,
-        paddingLeft,
-        paddingRight,
-        paddingTop,
-        textAlign,
-        verticalAlignment,
-        width
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const [bgImageStyle, setBgImageStyle] = useState(null);
+	const columnElement = useRef(null);
+	const {
+		appearance,
+		backgroundAttachment,
+		backgroundColor,
+		backgroundPosition,
+		backgroundRepeat = 'repeat',
+		backgroundSize,
+		border,
+		borderColor,
+		borderRadius,
+		borderWidth,
+		children,
+		cssClasses = [],
+		desktopImage,
+		marginBottom,
+		marginLeft,
+		marginRight,
+		marginTop,
+		mediaQueries,
+		minHeight,
+		mobileImage,
+		paddingBottom,
+		paddingLeft,
+		paddingRight,
+		paddingTop,
+		textAlign,
+		verticalAlignment,
+		width
+	} = props;
 
-    const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
+	const { styles: mediaQueryStyles } = useMediaQuery({ mediaQueries });
 
-    let image = desktopImage;
-    if (mobileImage && matchMedia && matchMedia('(max-width: 768px)').matches) {
-        image = mobileImage;
-    }
+	let image = desktopImage;
+	if (mobileImage && matchMedia && matchMedia('(max-width: 768px)').matches) {
+		image = mobileImage;
+	}
 
-    const flexDirection = 'column';
-    const display = 'flex';
+	const flexDirection = 'column';
+	const display = 'flex';
 
-    let alignSelf;
+	let alignSelf;
 
-    switch (appearance) {
-        case 'align-top':
-            alignSelf = 'flex-start';
-            break;
-        case 'align-center':
-            alignSelf = 'center';
-            break;
-        case 'align-bottom':
-            alignSelf = 'flex-end';
-            break;
-        case 'full-height':
-        default:
-            alignSelf = 'stretch';
-            break;
-    }
+	switch (appearance) {
+		case 'align-top':
+			alignSelf = 'flex-start';
+			break;
+		case 'align-center':
+			alignSelf = 'center';
+			break;
+		case 'align-bottom':
+			alignSelf = 'flex-end';
+			break;
+		case 'full-height':
+		default:
+			alignSelf = 'stretch';
+			break;
+	}
 
-    let justifyContent;
+	let justifyContent;
 
-    switch (verticalAlignment) {
-        case 'top':
-        default:
-            justifyContent = 'flex-start';
-            break;
-        case 'middle':
-            justifyContent = 'center';
-            break;
-        case 'bottom':
-            justifyContent = 'flex-end';
-            break;
-    }
+	switch (verticalAlignment) {
+		case 'top':
+		default:
+			justifyContent = 'flex-start';
+			break;
+		case 'middle':
+			justifyContent = 'center';
+			break;
+		case 'bottom':
+			justifyContent = 'flex-end';
+			break;
+	}
 
-    const dynamicStyles = {
-        alignSelf,
-        backgroundColor,
-        border,
-        borderColor,
-        borderRadius,
-        borderWidth,
-        display,
-        flexDirection,
-        justifyContent,
-        marginBottom,
-        marginLeft,
-        marginRight,
-        marginTop,
-        minHeight,
-        paddingBottom,
-        paddingLeft,
-        paddingRight,
-        paddingTop,
-        textAlign,
-        verticalAlignment,
-        width
-    };
+	const dynamicStyles = {
+		alignSelf,
+		backgroundColor,
+		border,
+		borderColor,
+		borderRadius,
+		borderWidth,
+		display,
+		flexDirection,
+		justifyContent,
+		marginBottom,
+		marginLeft,
+		marginRight,
+		marginTop,
+		minHeight,
+		paddingBottom,
+		paddingLeft,
+		paddingRight,
+		paddingTop,
+		textAlign,
+		verticalAlignment,
+		width
+	};
 
-    if (image) {
-        dynamicStyles.backgroundImage = bgImageStyle;
-        dynamicStyles.backgroundSize = backgroundSize;
-        dynamicStyles.backgroundPosition = backgroundPosition;
-        dynamicStyles.backgroundAttachment = backgroundAttachment;
-        dynamicStyles.backgroundRepeat = backgroundRepeat;
-    }
+	if (image) {
+		dynamicStyles.backgroundImage = bgImageStyle;
+		dynamicStyles.backgroundSize = backgroundSize;
+		dynamicStyles.backgroundPosition = backgroundPosition;
+		dynamicStyles.backgroundAttachment = backgroundAttachment;
+		dynamicStyles.backgroundRepeat = backgroundRepeat;
+	}
 
-    // Determine the containers width and optimize the image
-    useEffect(() => {
-        if (image && columnElement.current) {
-            if (backgroundSize === 'cover') {
-                setBgImageStyle(
-                    `url(${resourceUrl(image, {
-                        type: 'image-wysiwyg',
-                        width: columnElement.current.offsetWidth,
-                        height: columnElement.current.offsetHeight,
-                        quality: 85,
-                        crop: false,
-                        fit: 'cover'
-                    })})`
-                );
-            } else {
-                setBgImageStyle(
-                    `url(${resourceUrl(image, {
-                        type: 'image-wysiwyg',
-                        quality: 85
-                    })})`
-                );
-            }
-        }
-    }, [backgroundSize, image, setBgImageStyle]);
+	// Determine the containers width and optimize the image
+	useEffect(() => {
+		if (image && columnElement.current) {
+			if (backgroundSize === 'cover') {
+				setBgImageStyle(
+					`url(${resourceUrl(image, {
+						type: 'image-wysiwyg',
+						width: columnElement.current.offsetWidth,
+						height: columnElement.current.offsetHeight,
+						quality: 85,
+						crop: false,
+						fit: 'cover'
+					})})`
+				);
+			} else {
+				setBgImageStyle(
+					`url(${resourceUrl(image, {
+						type: 'image-wysiwyg',
+						quality: 85
+					})})`
+				);
+			}
+		}
+	}, [backgroundSize, image, setBgImageStyle]);
 
-    return (
-        <div
-            style={{ ...dynamicStyles, ...mediaQueryStyles }}
-            ref={columnElement}
-            className={[classes.root, ...cssClasses].join(' ')}
-        >
-            {children}
-        </div>
-    );
+	return (
+		<div
+			style={{ ...dynamicStyles, ...mediaQueryStyles }}
+			ref={columnElement}
+			className={[classes.root, ...cssClasses].join(' ')}
+		>
+			{children}
+		</div>
+	);
 };
 
 /**
@@ -200,44 +200,39 @@ const Column = props => {
  * @property {String} width CSS width property
  */
 Column.propTypes = {
-    appearance: oneOf([
-        'align-top',
-        'align-center',
-        'align-bottom',
-        'full-height'
-    ]),
-    backgroundAttachment: string,
-    backgroundColor: string,
-    backgroundPosition: string,
-    backgroundRepeat: string,
-    backgroundSize: string,
-    border: string,
-    borderColor: string,
-    borderRadius: string,
-    borderWidth: string,
-    classes: shape({
-        root: string
-    }),
-    cssClasses: arrayOf(string),
-    desktopImage: string,
-    marginBottom: string,
-    marginLeft: string,
-    marginRight: string,
-    marginTop: string,
-    mediaQueries: arrayOf(
-        shape({
-            media: string,
-            style: object
-        })
-    ),
-    minHeight: string,
-    mobileImage: string,
-    paddingBottom: string,
-    paddingRight: string,
-    paddingTop: string,
-    textAlign: string,
-    verticalAlignment: oneOf(['top', 'middle', 'bottom']),
-    width: string
+	appearance: oneOf(['align-top', 'align-center', 'align-bottom', 'full-height']),
+	backgroundAttachment: string,
+	backgroundColor: string,
+	backgroundPosition: string,
+	backgroundRepeat: string,
+	backgroundSize: string,
+	border: string,
+	borderColor: string,
+	borderRadius: string,
+	borderWidth: string,
+	classes: shape({
+		root: string
+	}),
+	cssClasses: arrayOf(string),
+	desktopImage: string,
+	marginBottom: string,
+	marginLeft: string,
+	marginRight: string,
+	marginTop: string,
+	mediaQueries: arrayOf(
+		shape({
+			media: string,
+			style: object
+		})
+	),
+	minHeight: string,
+	mobileImage: string,
+	paddingBottom: string,
+	paddingRight: string,
+	paddingTop: string,
+	textAlign: string,
+	verticalAlignment: oneOf(['top', 'middle', 'bottom']),
+	width: string
 };
 
 export default Column;

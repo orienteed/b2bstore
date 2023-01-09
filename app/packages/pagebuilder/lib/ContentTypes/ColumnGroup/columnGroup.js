@@ -16,17 +16,17 @@ import { shape, string } from 'prop-types';
  * @returns {React.Element} A React component that wraps {@link Column} components.
  */
 const ColumnGroup = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const { display, children } = props;
-    const dynamicStyles = {
-        display
-    };
+	const classes = useStyle(defaultClasses, props.classes);
+	const { display, children } = props;
+	const dynamicStyles = {
+		display
+	};
 
-    return (
-        <div style={dynamicStyles} className={classes.root}>
-            {children}
-        </div>
-    );
+	return (
+		<div style={dynamicStyles} className={classes.root}>
+			{children}
+		</div>
+	);
 };
 
 /**
@@ -39,10 +39,10 @@ const ColumnGroup = props => {
  * @property {String} display CSS display property
  */
 ColumnGroup.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    display: string
+	classes: shape({
+		root: string
+	}),
+	display: string
 };
 
 export default ColumnGroup;

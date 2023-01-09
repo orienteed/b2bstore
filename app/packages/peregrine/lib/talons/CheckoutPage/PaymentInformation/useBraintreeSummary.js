@@ -6,19 +6,19 @@ import mergeOperations from '../../../util/shallowMerge';
 import defaultOperations from './braintreeSummary.gql';
 
 const mapBillingAddressData = rawBillingAddressData => {
-    if (rawBillingAddressData) {
-        const { street, country, region } = rawBillingAddressData;
+	if (rawBillingAddressData) {
+		const { street, country, region } = rawBillingAddressData;
 
-        return {
-            ...rawBillingAddressData,
-            street1: street[0],
-            street2: street[1],
-            country: country.code,
-            state: region.label
-        };
-    } else {
-        return {};
-    }
+		return {
+			...rawBillingAddressData,
+			street1: street[0],
+			street2: street[1],
+			country: country.code,
+			state: region.label
+		};
+	} else {
+		return {};
+	}
 };
 
 /**
@@ -51,32 +51,25 @@ const mapBillingAddressData = rawBillingAddressData => {
  * }
  */
 export const useBraintreeSummary = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const { getBraintreeSummaryData } = operations.queries;
+	const operations = mergeOperations(defaultOperations, props.operations);
+	const { getBraintreeSummaryData } = operations.queries;
 
-    const [{ cartId }] = useCartContext();
-    const { data: summaryData, loading: isLoading } = useQuery(
-        getBraintreeSummaryData,
-        {
-            skip: !cartId,
-            variables: { cartId }
-        }
-    );
+	const [{ cartId }] = useCartContext();
+	const { data: summaryData, loading: isLoading } = useQuery(getBraintreeSummaryData, {
+		skip: !cartId,
+		variables: { cartId }
+	});
 
-    const billingAddress = summaryData
-        ? mapBillingAddressData(summaryData.cart.billingAddress)
-        : {};
+	const billingAddress = summaryData ? mapBillingAddressData(summaryData.cart.billingAddress) : {};
 
-    const isBillingAddressSame = summaryData
-        ? summaryData.cart.isBillingAddressSame
-        : true;
+	const isBillingAddressSame = summaryData ? summaryData.cart.isBillingAddressSame : true;
 
-    const paymentNonce = summaryData ? summaryData.cart.paymentNonce : null;
+	const paymentNonce = summaryData ? summaryData.cart.paymentNonce : null;
 
-    return {
-        billingAddress,
-        isBillingAddressSame,
-        isLoading,
-        paymentNonce
-    };
+	return {
+		billingAddress,
+		isBillingAddressSame,
+		isLoading,
+		paymentNonce
+	};
 };

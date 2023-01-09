@@ -9,21 +9,20 @@
  * `summaryPagePaymentTypes` target.
  */
 class SummaryPaymentTypes {
-    /** @hideconstructor */
-    constructor(venia) {
-        const registry = this;
-        this._methods = venia.esModuleObject({
-            module:
-                '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/summaryPaymentCollection.js',
-            publish(targets) {
-                targets.summaryPagePaymentTypes.call(registry);
-            }
-        });
-    }
+	/** @hideconstructor */
+	constructor(venia) {
+		const registry = this;
+		this._methods = venia.esModuleObject({
+			module: '@magento/venia-ui/lib/components/CheckoutPage/PaymentInformation/summaryPaymentCollection.js',
+			publish(targets) {
+				targets.summaryPagePaymentTypes.call(registry);
+			}
+		});
+	}
 
-    add({ paymentCode, importPath }) {
-        this._methods.add(`import ${paymentCode} from '${importPath}'`);
-    }
+	add({ paymentCode, importPath }) {
+		this._methods.add(`import ${paymentCode} from '${importPath}'`);
+	}
 }
 
 module.exports = SummaryPaymentTypes;

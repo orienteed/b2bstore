@@ -24,76 +24,72 @@ import DEFAULT_OPERATIONS from './shippingMethods.gql';
  * import { useShippingMethods } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingMethods';
  */
 export const useShippingMethods = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getShippingMethodsQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getShippingMethodsQuery } = operations;
 
-    const [{ cartId }] = useCartContext();
-    const { data } = useQuery(getShippingMethodsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
+	const [{ cartId }] = useCartContext();
+	const { data } = useQuery(getShippingMethodsQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first',
+		skip: !cartId,
+		variables: {
+			cartId
+		}
+	});
 
-    const [isShowingForm, setIsShowingForm] = useState(false);
-    const showForm = useCallback(() => setIsShowingForm(true), []);
+	const [isShowingForm, setIsShowingForm] = useState(false);
+	const showForm = useCallback(() => setIsShowingForm(true), []);
 
-    useEffect(() => {
-        if (data && data.cart.shipping_addresses.length) {
-            setIsShowingForm(true);
-        }
-    }, [data]);
+	useEffect(() => {
+		if (data && data.cart.shipping_addresses.length) {
+			setIsShowingForm(true);
+		}
+	}, [data]);
 
-    let formattedShippingMethods = [];
-    let selectedShippingMethod = null;
-    let selectedShippingFields = {
-        country: DEFAULT_COUNTRY_CODE,
-        region: '',
-        zip: ''
-    };
-    if (data) {
-        const { cart } = data;
-        const { shipping_addresses: shippingAddresses } = cart;
-        if (shippingAddresses.length) {
-            const primaryShippingAddress = shippingAddresses[0];
-            const {
-                available_shipping_methods: shippingMethods,
-                country,
-                postcode,
-                region,
-                selected_shipping_method: shippingMethod
-            } = primaryShippingAddress;
+	let formattedShippingMethods = [];
+	let selectedShippingMethod = null;
+	let selectedShippingFields = {
+		country: DEFAULT_COUNTRY_CODE,
+		region: '',
+		zip: ''
+	};
+	if (data) {
+		const { cart } = data;
+		const { shipping_addresses: shippingAddresses } = cart;
+		if (shippingAddresses.length) {
+			const primaryShippingAddress = shippingAddresses[0];
+			const {
+				available_shipping_methods: shippingMethods,
+				country,
+				postcode,
+				region,
+				selected_shipping_method: shippingMethod
+			} = primaryShippingAddress;
 
-            selectedShippingFields = {
-                country: country.code,
-                region: region.code,
-                zip: postcode
-            };
+			selectedShippingFields = {
+				country: country.code,
+				region: region.code,
+				zip: postcode
+			};
 
-            // GraphQL has some sort order problems when updating the cart.
-            // This ensures we're always ordering the result set by price.
-            formattedShippingMethods = [...shippingMethods].sort(
-                (a, b) => a.amount.value - b.amount.value
-            );
+			// GraphQL has some sort order problems when updating the cart.
+			// This ensures we're always ordering the result set by price.
+			formattedShippingMethods = [...shippingMethods].sort((a, b) => a.amount.value - b.amount.value);
 
-            if (shippingMethod) {
-                selectedShippingMethod = `${shippingMethod.carrier_code}|${
-                    shippingMethod.method_code
-                }`;
-            }
-        }
-    }
+			if (shippingMethod) {
+				selectedShippingMethod = `${shippingMethod.carrier_code}|${shippingMethod.method_code}`;
+			}
+		}
+	}
 
-    return {
-        hasMethods: formattedShippingMethods.length,
-        isShowingForm,
-        selectedShippingFields,
-        selectedShippingMethod,
-        shippingMethods: formattedShippingMethods,
-        showForm
-    };
+	return {
+		hasMethods: formattedShippingMethods.length,
+		isShowingForm,
+		selectedShippingFields,
+		selectedShippingMethod,
+		shippingMethods: formattedShippingMethods,
+		showForm
+	};
 };
 
 /** JSDocs type definitions */

@@ -12,56 +12,56 @@ import Text from './Text';
 import Textarea from './Textarea';
 
 const defaultTypeConfig = {
-    boolean: {
-        component: Boolean
-    },
-    date: {
-        component: Date
-    },
-    datetime: {
-        component: DateTime
-    },
-    multiselect: {
-        component: Multiselect
-    },
-    price: {
-        component: Price
-    },
-    select: {
-        component: Select
-    },
-    text: {
-        component: Text
-    },
-    textarea: {
-        component: Textarea
-    },
-    texteditor: {
-        component: Textarea
-    },
-    pagebuilder: {
-        component: Textarea
-    }
+	boolean: {
+		component: Boolean
+	},
+	date: {
+		component: Date
+	},
+	datetime: {
+		component: DateTime
+	},
+	multiselect: {
+		component: Multiselect
+	},
+	price: {
+		component: Price
+	},
+	select: {
+		component: Select
+	},
+	text: {
+		component: Text
+	},
+	textarea: {
+		component: Textarea
+	},
+	texteditor: {
+		component: Textarea
+	},
+	pagebuilder: {
+		component: Textarea
+	}
 };
 
 const AttributeType = props => {
-    const { data, ...rest } = props;
-    const { ui_input_type: type } = data?.attribute_metadata.ui_input || {};
+	const { data, ...rest } = props;
+	const { ui_input_type: type } = data?.attribute_metadata.ui_input || {};
 
-    const { getAttributeTypeConfig } = useAttributeType({
-        typeConfig: defaultTypeConfig
-    });
+	const { getAttributeTypeConfig } = useAttributeType({
+		typeConfig: defaultTypeConfig
+	});
 
-    if (type) {
-        const attributeTypeConfig = getAttributeTypeConfig(type.toLowerCase());
-        if (attributeTypeConfig && attributeTypeConfig.component) {
-            const Component = attributeTypeConfig.component;
+	if (type) {
+		const attributeTypeConfig = getAttributeTypeConfig(type.toLowerCase());
+		if (attributeTypeConfig && attributeTypeConfig.component) {
+			const Component = attributeTypeConfig.component;
 
-            return <Component {...data} {...rest} />;
-        }
-    }
+			return <Component {...data} {...rest} />;
+		}
+	}
 
-    return null;
+	return null;
 };
 
 export default AttributeType;

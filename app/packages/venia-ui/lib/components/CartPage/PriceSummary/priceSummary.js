@@ -27,107 +27,114 @@ import TaxSummary from './taxSummary';
  * import PriceSummary from "@magento/venia-ui/lib/components/CartPage/PriceSummary";
  */
 const PriceSummary = props => {
-    const { isUpdating } = props;
-    const classes = useStyle(defaultClasses, props.classes);
-    const talonProps = usePriceSummary();
+	const { isUpdating } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const talonProps = usePriceSummary();
 
-    const { handleProceedToCheckout, hasError, hasItems, isCheckout, isLoading, flatData } = talonProps;
-    const { formatMessage } = useIntl();
+	const { handleProceedToCheckout, hasError, hasItems, isCheckout, isLoading, flatData } = talonProps;
+	const { formatMessage } = useIntl();
 
-    if (hasError) {
-        return (
-            <div className={classes.root}>
-                <span className={classes.errorText}>
-                    <FormattedMessage
-                        id={'priceSummary.errorText'}
-                        defaultMessage={'Something went wrong. Please refresh and try again.'}
-                    />
-                </span>
-            </div>
-        );
-    } else if (!hasItems) {
-        return null;
-    }
+	if (hasError) {
+		return (
+			<div className={classes.root}>
+				<span className={classes.errorText}>
+					<FormattedMessage
+						id={'priceSummary.errorText'}
+						defaultMessage={'Something went wrong. Please refresh and try again.'}
+					/>
+				</span>
+			</div>
+		);
+	} else if (!hasItems) {
+		return null;
+	}
 
-    const { subtotal, total, discounts, giftCards, giftOptions, taxes, shipping } = flatData;
+	const { subtotal, total, discounts, giftCards, giftOptions, taxes, shipping } = flatData;
 
-    const isPriceUpdating = isUpdating || isLoading;
-    const priceClass = isPriceUpdating ? classes.priceUpdating : classes.price;
-    const totalPriceClass = isPriceUpdating ? classes.priceUpdating : classes.totalPrice;
+	const isPriceUpdating = isUpdating || isLoading;
+	const priceClass = isPriceUpdating ? classes.priceUpdating : classes.price;
+	const totalPriceClass = isPriceUpdating ? classes.priceUpdating : classes.totalPrice;
 
-    const totalPriceLabel = isCheckout
-        ? formatMessage({
-              id: 'priceSummary.total',
-              defaultMessage: 'Total'
-          })
-        : formatMessage({
-              id: 'priceSummary.estimatedTotal',
-              defaultMessage: 'Estimated Total'
-          });
+	const totalPriceLabel = isCheckout
+		? formatMessage({
+				id: 'priceSummary.total',
+				defaultMessage: 'Total'
+		  })
+		: formatMessage({
+				id: 'priceSummary.estimatedTotal',
+				defaultMessage: 'Estimated Total'
+		  });
 
-    const proceedToCheckoutButton = !isCheckout ? (
-        <div className={classes.checkoutButton_container}>
-            <Button disabled={isPriceUpdating} priority={'high'} onClick={handleProceedToCheckout} data-cy="PriceSummary-checkoutButton">
-                <FormattedMessage id={'priceSummary.checkoutButton'} defaultMessage={'Proceed to Checkout'} />
-            </Button>
-        </div>
-    ) : null;
+	const proceedToCheckoutButton = !isCheckout ? (
+		<div className={classes.checkoutButton_container}>
+			<Button
+				disabled={isPriceUpdating}
+				priority={'high'}
+				onClick={handleProceedToCheckout}
+				data-cy="PriceSummary-checkoutButton"
+			>
+				<FormattedMessage id={'priceSummary.checkoutButton'} defaultMessage={'Proceed to Checkout'} />
+			</Button>
+		</div>
+	) : null;
 
-    return (
-        <div className={classes.root} data-cy="PriceSummary-root">
-            <div className={classes.lineItems}>
-                <span data-cy="PriceSummary-lineItemLabel" className={classes.lineItemLabel}>
-                    <FormattedMessage id={'priceSummary.lineItemLabel'} defaultMessage={'Subtotal'} />
-                </span>
-                <span data-cy="PriceSummary-subtotalValue" className={priceClass}>
-                    <Price value={subtotal.value} currencyCode={subtotal.currency} />
-                </span>
-                <DiscountSummary
-                    classes={{
-                        lineItems: classes.lineItems,
-                        lineItemLabel: classes.lineItemLabel,
-                        price: priceClass
-                    }}
-                    data={discounts}
-                />
-                <GiftCardSummary
-                    classes={{
-                        lineItemLabel: classes.lineItemLabel,
-                        price: priceClass
-                    }}
-                    data={giftCards}
-                />
-                <GiftOptionsSummary
-                    classes={{
-                        lineItemLabel: classes.lineItemLabel,
-                        price: priceClass
-                    }}
-                    data={giftOptions}
-                />
-                <TaxSummary
-                    classes={{
-                        lineItemLabel: classes.lineItemLabel,
-                        price: priceClass
-                    }}
-                    data={taxes}
-                    isCheckout={isCheckout}
-                />
-                <ShippingSummary
-                    classes={{
-                        lineItemLabel: classes.lineItemLabel,
-                        price: priceClass
-                    }}
-                    data={shipping}
-                    isCheckout={isCheckout}
-                />
-                <span data-cy="PriceSummary-totalLabel" className={classes.totalLabel}>{totalPriceLabel}</span>
-                <span data-cy="PriceSummary-totalValue" className={totalPriceClass}>
-                    <Price value={total.value} currencyCode={total.currency} />
-                </span>
-            </div>
-            {proceedToCheckoutButton}
-        </div>
-    );
+	return (
+		<div className={classes.root} data-cy="PriceSummary-root">
+			<div className={classes.lineItems}>
+				<span data-cy="PriceSummary-lineItemLabel" className={classes.lineItemLabel}>
+					<FormattedMessage id={'priceSummary.lineItemLabel'} defaultMessage={'Subtotal'} />
+				</span>
+				<span data-cy="PriceSummary-subtotalValue" className={priceClass}>
+					<Price value={subtotal.value} currencyCode={subtotal.currency} />
+				</span>
+				<DiscountSummary
+					classes={{
+						lineItems: classes.lineItems,
+						lineItemLabel: classes.lineItemLabel,
+						price: priceClass
+					}}
+					data={discounts}
+				/>
+				<GiftCardSummary
+					classes={{
+						lineItemLabel: classes.lineItemLabel,
+						price: priceClass
+					}}
+					data={giftCards}
+				/>
+				<GiftOptionsSummary
+					classes={{
+						lineItemLabel: classes.lineItemLabel,
+						price: priceClass
+					}}
+					data={giftOptions}
+				/>
+				<TaxSummary
+					classes={{
+						lineItemLabel: classes.lineItemLabel,
+						price: priceClass
+					}}
+					data={taxes}
+					isCheckout={isCheckout}
+				/>
+				<ShippingSummary
+					classes={{
+						lineItemLabel: classes.lineItemLabel,
+						price: priceClass
+					}}
+					data={shipping}
+					isCheckout={isCheckout}
+				/>
+				<span data-cy="PriceSummary-totalLabel" className={classes.totalLabel}>
+					{totalPriceLabel}
+				</span>
+				<span data-cy="PriceSummary-totalValue" className={totalPriceClass}>
+					<Price value={total.value} currencyCode={total.currency} />
+				</span>
+			</div>
+			{proceedToCheckoutButton}
+		</div>
+	);
 };
 
 export default PriceSummary;

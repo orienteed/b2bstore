@@ -19,160 +19,160 @@ import DEFAULT_OPERATIONS from './megaMenu.gql';
  * @return {MegaMenuTalonProps}
  */
 export const useMegaMenu = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getMegaMenuQuery, getStoreConfigQuery, getIsRequiredLogin } = operations;
-    const location = useLocation();
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getMegaMenuQuery, getStoreConfigQuery, getIsRequiredLogin } = operations;
+	const location = useLocation();
 
-    const [{ isSignedIn }] = useUserContext();
+	const [{ isSignedIn }] = useUserContext();
 
-    const [activeCategoryId, setActiveCategoryId] = useState(null);
-    const [subMenuState, setSubMenuState] = useState(false);
-    const [disableFocus, setDisableFocus] = useState(false);
+	const [activeCategoryId, setActiveCategoryId] = useState(null);
+	const [subMenuState, setSubMenuState] = useState(false);
+	const [disableFocus, setDisableFocus] = useState(false);
 
-    const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+	const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const { data } = useQuery(getMegaMenuQuery);
+	const { data } = useQuery(getMegaMenuQuery);
 
-    const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+	const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const categoryUrlSuffix = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.category_url_suffix;
-        }
-    }, [storeConfigData]);
+	const categoryUrlSuffix = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.category_url_suffix;
+		}
+	}, [storeConfigData]);
 
-    /**
-     * Check if category should be visible on the storefront.
-     *
-     * @param {MegaMenuCategory} category
-     * @returns {boolean}
-     */
-    const shouldRenderMegaMenuItem = category => {
-        return !!category.include_in_menu;
-    };
+	/**
+	 * Check if category should be visible on the storefront.
+	 *
+	 * @param {MegaMenuCategory} category
+	 * @returns {boolean}
+	 */
+	const shouldRenderMegaMenuItem = category => {
+		return !!category.include_in_menu;
+	};
 
-    /**
-     * Check if category is the active category based on the current location.
-     *
-     * @param {MegaMenuCategory} category
-     * @returns {boolean}
-     */
+	/**
+	 * Check if category is the active category based on the current location.
+	 *
+	 * @param {MegaMenuCategory} category
+	 * @returns {boolean}
+	 */
 
-    const isActive = useCallback(
-        ({ url_path }) => {
-            if (!url_path) return false;
+	const isActive = useCallback(
+		({ url_path }) => {
+			if (!url_path) return false;
 
-            const categoryUrlPath = `/${url_path}${categoryUrlSuffix || ''}`;
+			const categoryUrlPath = `/${url_path}${categoryUrlSuffix || ''}`;
 
-            return location.pathname === categoryUrlPath;
-        },
-        [location.pathname, categoryUrlSuffix]
-    );
+			return location.pathname === categoryUrlPath;
+		},
+		[location.pathname, categoryUrlSuffix]
+	);
 
-    /**
-     * Recursively map data returned by GraphQL query.
-     *
-     * @param {MegaMenuCategory} category
-     * @param {array} - path from the given category to the first level category
-     * @param {boolean} isRoot - describes is category a root category
-     * @return {MegaMenuCategory}
-     */
-    const processData = useCallback(
-        (category, path = [], isRoot = true) => {
-            if (!category) {
-                return;
-            }
+	/**
+	 * Recursively map data returned by GraphQL query.
+	 *
+	 * @param {MegaMenuCategory} category
+	 * @param {array} - path from the given category to the first level category
+	 * @param {boolean} isRoot - describes is category a root category
+	 * @return {MegaMenuCategory}
+	 */
+	const processData = useCallback(
+		(category, path = [], isRoot = true) => {
+			if (!category) {
+				return;
+			}
 
-            const megaMenuCategory = Object.assign({}, category);
+			const megaMenuCategory = Object.assign({}, category);
 
-            if (!isRoot) {
-                megaMenuCategory.path = [...path, category.uid];
-            }
+			if (!isRoot) {
+				megaMenuCategory.path = [...path, category.uid];
+			}
 
-            megaMenuCategory.isActive = isActive(megaMenuCategory);
+			megaMenuCategory.isActive = isActive(megaMenuCategory);
 
-            if (megaMenuCategory.children) {
-                megaMenuCategory.children = [...megaMenuCategory.children]
-                    .filter(category => shouldRenderMegaMenuItem(category))
-                    .sort((a, b) => (a.position > b.position ? 1 : -1))
-                    .map(child => processData(child, megaMenuCategory.path, false));
-            }
+			if (megaMenuCategory.children) {
+				megaMenuCategory.children = [...megaMenuCategory.children]
+					.filter(category => shouldRenderMegaMenuItem(category))
+					.sort((a, b) => (a.position > b.position ? 1 : -1))
+					.map(child => processData(child, megaMenuCategory.path, false));
+			}
 
-            return megaMenuCategory;
-        },
-        [isActive]
-    );
+			return megaMenuCategory;
+		},
+		[isActive]
+	);
 
-    const megaMenuData = useMemo(() => {
-        let isRequiredLogin = false;
+	const megaMenuData = useMemo(() => {
+		let isRequiredLogin = false;
 
-        if (storeRequiredLogin) {
-            const { is_required_login } = storeRequiredLogin['storeConfig'];
-            isRequiredLogin = is_required_login === '1';
-        }
+		if (storeRequiredLogin) {
+			const { is_required_login } = storeRequiredLogin['storeConfig'];
+			isRequiredLogin = is_required_login === '1';
+		}
 
-        if (!isSignedIn && isRequiredLogin) return {};
-        return data ? processData(data.categoryList[0]) : {};
-    }, [data, processData, isSignedIn, storeRequiredLogin]);
+		if (!isSignedIn && isRequiredLogin) return {};
+		return data ? processData(data.categoryList[0]) : {};
+	}, [data, processData, isSignedIn, storeRequiredLogin]);
 
-    const findActiveCategory = useCallback(
-        (pathname, category) => {
-            if (isActive(category)) {
-                return category;
-            }
+	const findActiveCategory = useCallback(
+		(pathname, category) => {
+			if (isActive(category)) {
+				return category;
+			}
 
-            if (category.children) {
-                return category.children.find(category => findActiveCategory(pathname, category));
-            }
-        },
-        [isActive]
-    );
+			if (category.children) {
+				return category.children.find(category => findActiveCategory(pathname, category));
+			}
+		},
+		[isActive]
+	);
 
-    const handleClickOutside = e => {
-        if (!props.mainNavRef.current.contains(e.target)) {
-            setSubMenuState(false);
-            setDisableFocus(true);
-        }
-    };
+	const handleClickOutside = e => {
+		if (!props.mainNavRef.current.contains(e.target)) {
+			setSubMenuState(false);
+			setDisableFocus(true);
+		}
+	};
 
-    useEventListener(globalThis, 'keydown', handleClickOutside);
+	useEventListener(globalThis, 'keydown', handleClickOutside);
 
-    const handleSubMenuFocus = useCallback(() => {
-        setSubMenuState(true);
-    }, [setSubMenuState]);
+	const handleSubMenuFocus = useCallback(() => {
+		setSubMenuState(true);
+	}, [setSubMenuState]);
 
-    useEffect(() => {
-        const activeCategory = findActiveCategory(location.pathname, megaMenuData);
+	useEffect(() => {
+		const activeCategory = findActiveCategory(location.pathname, megaMenuData);
 
-        if (activeCategory) {
-            setActiveCategoryId(activeCategory.path[0]);
-        } else {
-            setActiveCategoryId(null);
-        }
-    }, [findActiveCategory, location.pathname, megaMenuData]);
+		if (activeCategory) {
+			setActiveCategoryId(activeCategory.path[0]);
+		} else {
+			setActiveCategoryId(null);
+		}
+	}, [findActiveCategory, location.pathname, megaMenuData]);
 
-    /**
-     * Sets next root component to show proper loading effect
-     *
-     * @returns {void}
-     */
-    const { setShimmerType } = useInternalLink('category');
+	/**
+	 * Sets next root component to show proper loading effect
+	 *
+	 * @returns {void}
+	 */
+	const { setShimmerType } = useInternalLink('category');
 
-    return {
-        megaMenuData,
-        activeCategoryId,
-        categoryUrlSuffix,
-        handleClickOutside,
-        subMenuState,
-        disableFocus,
-        handleSubMenuFocus,
-        handleNavigate: setShimmerType
-    };
+	return {
+		megaMenuData,
+		activeCategoryId,
+		categoryUrlSuffix,
+		handleClickOutside,
+		subMenuState,
+		disableFocus,
+		handleSubMenuFocus,
+		handleNavigate: setShimmerType
+	};
 };
 
 /** JSDocs type definitions */

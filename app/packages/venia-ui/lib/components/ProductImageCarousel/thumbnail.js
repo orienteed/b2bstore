@@ -24,51 +24,51 @@ const DEFAULT_THUMBNAIL_WIDTH = 135;
  * @returns {React.Element} React thumbnail component that displays product thumbnail
  */
 const Thumbnail = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const {
-        isActive,
-        item: { file, label },
-        onClickHandler,
-        carouselWidth,
-        itemIndex
-    } = props;
+	const {
+		isActive,
+		item: { file, label },
+		onClickHandler,
+		carouselWidth,
+		itemIndex
+	} = props;
 
-    const talonProps = useThumbnail({
-        onClickHandler,
-        itemIndex
-    });
-    const { handleClick } = talonProps;
+	const talonProps = useThumbnail({
+		onClickHandler,
+		itemIndex
+	});
+	const { handleClick } = talonProps;
 
-    const windowSize = useWindowSize();
-    const isDesktop = windowSize.innerWidth >= carouselWidth || 1023;
-    const thumbnailImage = useMemo(() => {
-        if (!isDesktop) {
-            return null;
-        }
-        return file ? (
-            <Image
-                alt={label}
-                classes={{ image: classes.image }}
-                height={DEFAULT_THUMBNAIL_HEIGHT}
-                resource={file}
-                width={DEFAULT_THUMBNAIL_WIDTH}
-            />
-        ) : (
-            <Image alt={label} classes={{ image: classes.image }} src={transparentPlaceholder} />
-        );
-    }, [file, isDesktop, label, classes.image]);
+	const windowSize = useWindowSize();
+	const isDesktop = windowSize.innerWidth >= carouselWidth || 1023;
+	const thumbnailImage = useMemo(() => {
+		if (!isDesktop) {
+			return null;
+		}
+		return file ? (
+			<Image
+				alt={label}
+				classes={{ image: classes.image }}
+				height={DEFAULT_THUMBNAIL_HEIGHT}
+				resource={file}
+				width={DEFAULT_THUMBNAIL_WIDTH}
+			/>
+		) : (
+			<Image alt={label} classes={{ image: classes.image }} src={transparentPlaceholder} />
+		);
+	}, [file, isDesktop, label, classes.image]);
 
-    return (
-        <span
-            className={isActive ? classes.rootSelected : classes.root}
-            onClick={handleClick}
-            role="button"
-            aria-hidden="true"
-        >
-            {thumbnailImage}
-        </span>
-    );
+	return (
+		<span
+			className={isActive ? classes.rootSelected : classes.root}
+			onClick={handleClick}
+			role="button"
+			aria-hidden="true"
+		>
+			{thumbnailImage}
+		</span>
+	);
 };
 
 /**
@@ -86,17 +86,17 @@ const Thumbnail = props => {
  * @property {func} onClickHandler A callback for handling click events on thumbnail
  */
 Thumbnail.propTypes = {
-    classes: shape({
-        root: string,
-        rootSelected: string
-    }),
-    isActive: bool,
-    item: shape({
-        label: string,
-        file: string.isRequired
-    }),
-    itemIndex: number,
-    onClickHandler: func.isRequired
+	classes: shape({
+		root: string,
+		rootSelected: string
+	}),
+	isActive: bool,
+	item: shape({
+		label: string,
+		file: string.isRequired
+	}),
+	itemIndex: number,
+	onClickHandler: func.isRequired
 };
 
 export default Thumbnail;

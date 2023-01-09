@@ -4,12 +4,12 @@
  * @param {number} length
  * @returns {Iterator}
  */
-const fixedObserver = function*(length) {
-    for (let i = 0; i < length; i++) {
-        yield;
-    }
+const fixedObserver = function* (length) {
+	for (let i = 0; i < length; i++) {
+		yield;
+	}
 
-    return;
+	return;
 };
 
 export default fixedObserver;

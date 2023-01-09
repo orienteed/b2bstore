@@ -52,7 +52,7 @@ export const registerMessageHandler = (type, handler) => {
 export const unRegisterMessageHandler = (type, handler) => {
     if (handlers[type]) {
         handlers[type] = handlers[type].filter(
-            handlerfn => handler !== handlerfn
+            (handlerfn) => handler !== handlerfn
         );
     }
 };
@@ -72,7 +72,7 @@ export const unRegisterMessageHandler = (type, handler) => {
 export const handleMessageFromClient = (type, payload, event) => {
     const handlerList = handlers[type];
     if (handlerList) {
-        handlerList.forEach(handler => {
+        handlerList.forEach((handler) => {
             handler(payload, event);
         });
     }
@@ -106,7 +106,7 @@ export const sendMessageToClient = (client, type, payload) =>
          */
 
         // Listening for a reply from the client
-        channel.port1.onmessage = event => {
+        channel.port1.onmessage = (event) => {
             if (event.data.error) {
                 reject(event.data.error);
             } else {
@@ -141,9 +141,9 @@ export const sendMessageToClient = (client, type, payload) =>
  */
 
 export const sendMessageToWindow = (type, payload) =>
-    clients.matchAll().then(clients => {
+    clients.matchAll().then((clients) => {
         const [windowClient] = clients.filter(
-            client => client.type === 'window'
+            (client) => client.type === 'window'
         );
         return sendMessageToClient(windowClient, type, payload);
     });

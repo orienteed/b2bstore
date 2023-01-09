@@ -8,8 +8,8 @@ See `List`.
 
 ## Props
 
-Prop Name | Required? | Description
---------- | :-------: | :----------
-`items` | ✅ | An iterable that yields `[key, item]` pairs, such as an ES2015 `Map`
-`renderItem` | ❌ | A [render prop](https://reactjs.org/docs/render-props.html). Also accepts a tagname (e.g., `"div"`)
-`selectionModel` | ❌ | A string specifying whether to use a `radio` or `checkbox` selection model
+| Prop Name        | Required? | Description                                                                                         |
+| ---------------- | :-------: | :-------------------------------------------------------------------------------------------------- |
+| `items`          |    ✅     | An iterable that yields `[key, item]` pairs, such as an ES2015 `Map`                                |
+| `renderItem`     |    ❌     | A [render prop](https://reactjs.org/docs/render-props.html). Also accepts a tagname (e.g., `"div"`) |
+| `selectionModel` |    ❌     | A string specifying whether to use a `radio` or `checkbox` selection model                          |

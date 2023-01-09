@@ -11,51 +11,51 @@ import { useSavedCart } from '@magento/peregrine/lib/talons/BuyLaterNotes/useSav
 import defaultClasses from './savedCartButton.module.css';
 
 const SavedCartButton = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const talonProps = useSavedCart();
+	const talonProps = useSavedCart();
 
-    const {
-        isShow,
-        buttonTitle,
-        isSaveCartLoading,
-        handleSaveCart,
-        isError,
-        errorMessage,
-        isDialogOpen,
-        handleCancelDialog,
-        handleSubmitDialog
-    } = talonProps;
+	const {
+		isShow,
+		buttonTitle,
+		isSaveCartLoading,
+		handleSaveCart,
+		isError,
+		errorMessage,
+		isDialogOpen,
+		handleCancelDialog,
+		handleSubmitDialog
+	} = talonProps;
 
-    const savedCartBtn = (
-        <Button onClick={handleSaveCart} priority={'normal'}>
-            <FormattedMessage id={'savedCartButton.saveCartBtn'} defaultMessage={buttonTitle} />
-        </Button>
-    );
+	const savedCartBtn = (
+		<Button onClick={handleSaveCart} priority={'normal'}>
+			<FormattedMessage id={'savedCartButton.saveCartBtn'} defaultMessage={buttonTitle} />
+		</Button>
+	);
 
-    if (!isShow) {
-        return null;
-    }
+	if (!isShow) {
+		return null;
+	}
 
-    return (
-        <div className={classes.root}>
-            {savedCartBtn}
-            <SavedCartPopup
-                isOpen={isDialogOpen}
-                onCancel={handleCancelDialog}
-                handleSubmit={handleSubmitDialog}
-                errorMessage={errorMessage}
-                isError={isError}
-                shouldDisableAllButtons={isSaveCartLoading}
-            />
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			{savedCartBtn}
+			<SavedCartPopup
+				isOpen={isDialogOpen}
+				onCancel={handleCancelDialog}
+				handleSubmit={handleSubmitDialog}
+				errorMessage={errorMessage}
+				isError={isError}
+				shouldDisableAllButtons={isSaveCartLoading}
+			/>
+		</div>
+	);
 };
 
 export default SavedCartButton;
 
 SavedCartButton.propTypes = {
-    classes: shape({
-        root: string
-    })
+	classes: shape({
+		root: string
+	})
 };

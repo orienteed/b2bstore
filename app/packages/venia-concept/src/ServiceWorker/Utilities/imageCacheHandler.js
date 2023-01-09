@@ -13,9 +13,9 @@ import { registerMessageHandler } from './messageHandler';
 
 const imageRegex = new RegExp(/\.(?:png|jpg|jpeg)$/);
 
-const getWidth = url => Number(new URLSearchParams(url.search).get('width'));
+const getWidth = (url) => Number(new URLSearchParams(url.search).get('width'));
 
-const isImage = url => imageRegex.test(url.pathname);
+const isImage = (url) => imageRegex.test(url.pathname);
 
 /**
  * isResizedImage is route checker for workbox
@@ -37,7 +37,7 @@ export const isResizedImage = ({ url }) =>
  * @returns {Promise | undefined} A promise that resolves to a valid response
  * object from cache or undefined if the a match could not be found.
  */
-export const findSameOrLargerImage = async url => {
+export const findSameOrLargerImage = async (url) => {
     const requestedWidth = getWidth(url);
     const requestedFilename = url.pathname.split('/').reverse()[0];
 
@@ -93,27 +93,23 @@ export const findSameOrLargerImage = async url => {
     if (best.candidate) {
         const bestCachedResponse = await cache.match(best.candidate);
         console.log(
-            `ServiceWorker responding to GET ${
-                url.pathname
-            } at ${requestedWidth}w with cached version ${
-                best.difference
-            }px larger: ${bestCachedResponse.url}`
+            `ServiceWorker responding to GET ${url.pathname} at ${requestedWidth}w with cached version ${best.difference}px larger: ${bestCachedResponse.url}`
         );
         return bestCachedResponse;
     }
 };
 
-const fetchAndCacheImage = imageURL =>
-    fetch(imageURL, { mode: 'no-cors' }).then(response =>
+const fetchAndCacheImage = (imageURL) =>
+    fetch(imageURL, { mode: 'no-cors' }).then((response) =>
         caches
             .open(IMAGES_CACHE_NAME)
-            .then(cache => cache.put(imageURL, response.clone()))
+            .then((cache) => cache.put(imageURL, response.clone()))
             .then(() => response)
     );
 
-const fetchIfNotCached = imageURL =>
-    new Promise(resolve => {
-        caches.match(imageURL).then(res => {
+const fetchIfNotCached = (imageURL) =>
+    new Promise((resolve) => {
+        caches.match(imageURL).then((res) => {
             res ? resolve(res) : resolve(fetchAndCacheImage(imageURL));
         });
     });
@@ -121,11 +117,11 @@ const fetchIfNotCached = imageURL =>
 const handleImagePreFetchRequest = (payload, event) => {
     if (isFastNetwork()) {
         return Promise.all(payload.urls.map(fetchIfNotCached))
-            .then(responses => {
+            .then((responses) => {
                 event.ports[0].postMessage({ status: 'done' });
                 return responses;
             })
-            .catch(err => {
+            .catch((err) => {
                 event.ports[0].postMessage({
                     status: 'error',
                     message: JSON.stringify(err)
@@ -135,9 +131,7 @@ const handleImagePreFetchRequest = (payload, event) => {
     } else {
         event.ports[0].postMessage({
             status: 'error',
-            message: `Slow Network detected. Not pre-fetching images. ${
-                payload.urls
-            }`
+            message: `Slow Network detected. Not pre-fetching images. ${payload.urls}`
         });
         return null;
     }

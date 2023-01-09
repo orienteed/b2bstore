@@ -22,7 +22,7 @@ import {
  *
  * @returns {void}
  */
-export default function() {
+export default function () {
     const imageCacheHandler = createImageCacheHandler();
 
     registerRoute(
@@ -37,7 +37,8 @@ export default function() {
         const sameOrLargerImagePromise = findSameOrLargerImage(url, request);
         event.waitUntil(sameOrLargerImagePromise);
         return sameOrLargerImagePromise.then(
-            response => response || imageCacheHandler.handle({ request, event })
+            (response) =>
+                response || imageCacheHandler.handle({ request, event })
         );
     });
 

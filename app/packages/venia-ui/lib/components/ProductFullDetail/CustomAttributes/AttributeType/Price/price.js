@@ -20,29 +20,26 @@ const storage = new BrowserPersistence();
  * @returns {React.Element} A React component that displays a Price Type Product Attribute.
  */
 const Price = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const { attribute_metadata = {}, entered_attribute_value = {} } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const { attribute_metadata = {}, entered_attribute_value = {} } = props;
 
-    // TODO: Get complete price data from GraphQl including currency
-    const storeCurrency = storage.getItem('store_view_currency') || 'USD';
-    const attributeLabel = attribute_metadata.label ? (
-        <div className={classes.label}>{attribute_metadata.label}</div>
-    ) : null;
-    const attributeContent = entered_attribute_value.value ? (
-        <div className={classes.attributeContent}>
-            <PriceComponent
-                value={parseInt(entered_attribute_value.value)}
-                currencyCode={storeCurrency}
-            />
-        </div>
-    ) : null;
+	// TODO: Get complete price data from GraphQl including currency
+	const storeCurrency = storage.getItem('store_view_currency') || 'USD';
+	const attributeLabel = attribute_metadata.label ? (
+		<div className={classes.label}>{attribute_metadata.label}</div>
+	) : null;
+	const attributeContent = entered_attribute_value.value ? (
+		<div className={classes.attributeContent}>
+			<PriceComponent value={parseInt(entered_attribute_value.value)} currencyCode={storeCurrency} />
+		</div>
+	) : null;
 
-    return (
-        <Fragment>
-            {attributeLabel}
-            {attributeContent}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			{attributeLabel}
+			{attributeContent}
+		</Fragment>
+	);
 };
 
 /**
@@ -59,16 +56,16 @@ const Price = props => {
  * @property {String} entered_attribute_value.value Attribute value
  */
 Price.propTypes = {
-    classes: shape({
-        label: string,
-        content: string
-    }),
-    attribute_metadata: shape({
-        label: string
-    }),
-    entered_attribute_value: shape({
-        value: string
-    })
+	classes: shape({
+		label: string,
+		content: string
+	}),
+	attribute_metadata: shape({
+		label: string
+	}),
+	entered_attribute_value: shape({
+		value: string
+	})
 };
 
 export default Price;

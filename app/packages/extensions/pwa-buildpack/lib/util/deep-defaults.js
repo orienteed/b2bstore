@@ -6,19 +6,16 @@
  */
 
 module.exports = (source, defaults) => {
-    const target = {};
-    Object.assign(target, source);
+	const target = {};
+	Object.assign(target, source);
 
-    // one extra layer of merge depth
-    for (const [section, defaultValue] of Object.entries(defaults)) {
-        if (!source.hasOwnProperty(section)) {
-            target[section] = defaultValue;
-        } else if (
-            typeof source[section] === 'object' &&
-            typeof defaultValue === 'object'
-        ) {
-            target[section] = Object.assign({}, defaultValue, source[section]);
-        }
-    }
-    return target;
+	// one extra layer of merge depth
+	for (const [section, defaultValue] of Object.entries(defaults)) {
+		if (!source.hasOwnProperty(section)) {
+			target[section] = defaultValue;
+		} else if (typeof source[section] === 'object' && typeof defaultValue === 'object') {
+			target[section] = Object.assign({}, defaultValue, source[section]);
+		}
+	}
+	return target;
 };

@@ -11,49 +11,49 @@ import Dialog from '@magento/venia-ui/lib/components/Dialog';
 import QuoteProductDetail from './quoteProductDetail';
 
 const QuoteProductForm = props => {
-    const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const dialogContent = (
-        <div>
-            <FormError
-                classes={{
-                    root: classes.errorContainer
-                }}
-            />
-            <QuoteProductDetail />
-            <Options
-                classes={{
-                    root: classes.optionRoot
-                }}
-            />
-            <h3 className={classes.quantityLabel}>
-                <FormattedMessage id={'productForm.quantity'} defaultMessage={'Quantity'} />
-            </h3>
-            <QuantityFields
-                classes={{
-                    root: classes.quantityRoot
-                }}
-            />
-        </div>
-    );
+	const dialogContent = (
+		<div>
+			<FormError
+				classes={{
+					root: classes.errorContainer
+				}}
+			/>
+			<QuoteProductDetail />
+			<Options
+				classes={{
+					root: classes.optionRoot
+				}}
+			/>
+			<h3 className={classes.quantityLabel}>
+				<FormattedMessage id={'productForm.quantity'} defaultMessage={'Quantity'} />
+			</h3>
+			<QuantityFields
+				classes={{
+					root: classes.quantityRoot
+				}}
+			/>
+		</div>
+	);
 
-    return (
-        <Fragment>
-            <Dialog
-                classes={{
-                    contents: classes.contents
-                }}
-                title={formatMessage({
-                    id: 'QuoteEditModal.headerText',
-                    defaultMessage: 'Edit Item'
-                })}
-            >
-                {dialogContent}
-            </Dialog>
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<Dialog
+				classes={{
+					contents: classes.contents
+				}}
+				title={formatMessage({
+					id: 'QuoteEditModal.headerText',
+					defaultMessage: 'Edit Item'
+				})}
+			>
+				{dialogContent}
+			</Dialog>
+		</Fragment>
+	);
 };
 
 export default QuoteProductForm;

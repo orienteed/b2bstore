@@ -28,17 +28,17 @@ const keyCache = new WeakMap();
  * @return string Key for use in inflight cache.
  */
 function requestToKey(req) {
-    let key = keyCache.get(req);
-    if (!key) {
-        const { method, body } = req.opts;
-        const parts = [method, req.resourceUrl];
-        if (body) {
-            parts.push(body);
-        }
-        key = parts.join('|||');
-        keyCache.set(req, key);
-    }
-    return key;
+	let key = keyCache.get(req);
+	if (!key) {
+		const { method, body } = req.opts;
+		const parts = [method, req.resourceUrl];
+		if (body) {
+			parts.push(body);
+		}
+		key = parts.join('|||');
+		keyCache.set(req, key);
+	}
+	return key;
 }
 
 /**
@@ -48,7 +48,7 @@ function requestToKey(req) {
  * @return {M2ApiRequest} A request with the same method, body, and resourceUrl..
  */
 export function match(req) {
-    return inflight.get(requestToKey(req));
+	return inflight.get(requestToKey(req));
 }
 /**
  * Store a request for potential future multicast.
@@ -56,14 +56,14 @@ export function match(req) {
  * @param {M2ApiRequest} req The request to store.
  */
 export function store(req) {
-    inflight.set(requestToKey(req), req);
+	inflight.set(requestToKey(req), req);
 }
 /**
  * Remove a request from cache if it exists there.
  * @param {M2ApiRequest} req
  */
 export function remove(req) {
-    if (match(req) === req) {
-        inflight.delete(requestToKey(req));
-    }
+	if (match(req) === req) {
+		inflight.delete(requestToKey(req));
+	}
 }

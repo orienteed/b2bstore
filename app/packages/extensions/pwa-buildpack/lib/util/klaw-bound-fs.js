@@ -9,20 +9,20 @@ const klaw = require('klaw');
 const methodNames = ['stat', 'lstat', 'readFile', 'readdir'];
 const methodsToBind = [];
 for (const method of methodNames) {
-    methodsToBind.push(method, method + 'Sync');
+	methodsToBind.push(method, method + 'Sync');
 }
 
 function bindFsMethodsForKlaw(fs) {
-    for (const methodName of methodsToBind) {
-        const method = fs[methodName];
-        fs[methodName] = (...args) => method.apply(fs, args);
-    }
-    return fs;
+	for (const methodName of methodsToBind) {
+		const method = fs[methodName];
+		fs[methodName] = (...args) => method.apply(fs, args);
+	}
+	return fs;
 }
 
 module.exports = function klawWithBoundFs(dir, options) {
-    if (options.fs) {
-        options.fs = bindFsMethodsForKlaw(options.fs);
-    }
-    return klaw(dir, options);
+	if (options.fs) {
+		options.fs = bindFsMethodsForKlaw(options.fs);
+	}
+	return klaw(dir, options);
 };

@@ -8,32 +8,30 @@ import { CartPageFragment } from '@magento/peregrine/lib/talons/CartPage/cartPag
 export { MiniCartFragment };
 
 export const MINI_CART_QUERY = gql`
-    query MiniCartQuery($cartId: String!) {
-        cart(cart_id: $cartId) {
-            id
-            ...MiniCartFragment
-        }
-    }
-    ${MiniCartFragment}
+	query MiniCartQuery($cartId: String!) {
+		cart(cart_id: $cartId) {
+			id
+			...MiniCartFragment
+		}
+	}
+	${MiniCartFragment}
 `;
 
 export const REMOVE_ITEM_MUTATION = gql`
-    mutation RemoveItemForMiniCart($cartId: String!, $itemId: ID!) {
-        removeItemFromCart(
-            input: { cart_id: $cartId, cart_item_uid: $itemId }
-        ) {
-            cart {
-                id
-                ...MiniCartFragment
-                ...CartPageFragment
-            }
-        }
-    }
-    ${MiniCartFragment}
-    ${CartPageFragment}
+	mutation RemoveItemForMiniCart($cartId: String!, $itemId: ID!) {
+		removeItemFromCart(input: { cart_id: $cartId, cart_item_uid: $itemId }) {
+			cart {
+				id
+				...MiniCartFragment
+				...CartPageFragment
+			}
+		}
+	}
+	${MiniCartFragment}
+	${CartPageFragment}
 `;
 
 export default {
-    miniCartQuery: MINI_CART_QUERY,
-    removeItemMutation: REMOVE_ITEM_MUTATION
+	miniCartQuery: MINI_CART_QUERY,
+	removeItemMutation: REMOVE_ITEM_MUTATION
 };

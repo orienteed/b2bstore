@@ -12,21 +12,20 @@
  * used to render the saved payment methods section in My Account.
  */
 class SavedPaymentTypes {
-    /** @hideconstructor */
-    constructor(venia) {
-        const registry = this;
-        this._methods = venia.esModuleObject({
-            module:
-                '@magento/venia-ui/lib/components/SavedPaymentsPage/savedPaymentTypes.js',
-            publish(targets) {
-                targets.savedPaymentTypes.call(registry);
-            }
-        });
-    }
+	/** @hideconstructor */
+	constructor(venia) {
+		const registry = this;
+		this._methods = venia.esModuleObject({
+			module: '@magento/venia-ui/lib/components/SavedPaymentsPage/savedPaymentTypes.js',
+			publish(targets) {
+				targets.savedPaymentTypes.call(registry);
+			}
+		});
+	}
 
-    add({ paymentCode, importPath }) {
-        this._methods.add(`import ${paymentCode} from '${importPath}'`);
-    }
+	add({ paymentCode, importPath }) {
+		this._methods.add(`import ${paymentCode} from '${importPath}'`);
+	}
 }
 
 module.exports = SavedPaymentTypes;

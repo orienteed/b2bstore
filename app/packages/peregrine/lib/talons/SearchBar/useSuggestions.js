@@ -10,34 +10,27 @@ import { useCallback } from 'react';
  * @param {Boolean} props.visible - whether the component is visible
  */
 export const useSuggestions = props => {
-    const { displayResult, filters, items, setVisible, visible } = props;
+	const { displayResult, filters, items, setVisible, visible } = props;
 
-    // hide after navigating to a suggested product
-    const onNavigate = useCallback(() => {
-        setVisible(false);
-    }, [setVisible]);
+	// hide after navigating to a suggested product
+	const onNavigate = useCallback(() => {
+		setVisible(false);
+	}, [setVisible]);
 
-    // avoid rendering if data is empty
-    const shouldRender = !!(
-        visible &&
-        displayResult &&
-        filters &&
-        items &&
-        items.length
-    );
-    let categories = null;
+	// avoid rendering if data is empty
+	const shouldRender = !!(visible && displayResult && filters && items && items.length);
+	let categories = null;
 
-    // find categories, but only if the component is going to render
-    if (shouldRender) {
-        const categoryFilter =
-            filters.find(({ label }) => label === 'Category') || {};
+	// find categories, but only if the component is going to render
+	if (shouldRender) {
+		const categoryFilter = filters.find(({ label }) => label === 'Category') || {};
 
-        categories = categoryFilter.options || [];
-    }
+		categories = categoryFilter.options || [];
+	}
 
-    return {
-        categories,
-        onNavigate,
-        shouldRender
-    };
+	return {
+		categories,
+		onNavigate,
+		shouldRender
+	};
 };

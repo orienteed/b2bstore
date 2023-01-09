@@ -6,12 +6,9 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 const validCreateAccountParams = ['email', 'firstName', 'lastName'];
 
 const getCreateAccountInitialValues = search => {
-    const params = new URLSearchParams(search);
+	const params = new URLSearchParams(search);
 
-    return validCreateAccountParams.reduce(
-        (values, param) => ({ ...values, [param]: params.get(param) }),
-        {}
-    );
+	return validCreateAccountParams.reduce((values, param) => ({ ...values, [param]: params.get(param) }), {});
 };
 
 /**
@@ -25,44 +22,42 @@ const getCreateAccountInitialValues = search => {
  * }}
  */
 export const useCreateAccountPage = props => {
-    const { signedInRedirectUrl, signInPageUrl } = props;
-    const history = useHistory();
-    const [{ isSignedIn }] = useUserContext();
-    const { search } = useLocation();
+	const { signedInRedirectUrl, signInPageUrl } = props;
+	const history = useHistory();
+	const [{ isSignedIn }] = useUserContext();
+	const { search } = useLocation();
 
-    // Keep location state in memory when pushing history and redirect to
-    // the `from` url instead when creating an account
-    const historyState = useMemo(() => {
-        return history && history.location.state ? history.location.state : {};
-    }, [history]);
-    const fromRedirectUrl = historyState.from || null;
+	// Keep location state in memory when pushing history and redirect to
+	// the `from` url instead when creating an account
+	const historyState = useMemo(() => {
+		return history && history.location.state ? history.location.state : {};
+	}, [history]);
+	const fromRedirectUrl = historyState.from || null;
 
-    // Redirect if user is signed in
-    useEffect(() => {
-        if (isSignedIn) {
-            if (fromRedirectUrl || signedInRedirectUrl) {
-                history.push(fromRedirectUrl || signedInRedirectUrl);
-            }
-        }
-    }, [fromRedirectUrl, history, isSignedIn, signedInRedirectUrl]);
+	// Redirect if user is signed in
+	useEffect(() => {
+		if (isSignedIn) {
+			if (fromRedirectUrl || signedInRedirectUrl) {
+				history.push(fromRedirectUrl || signedInRedirectUrl);
+			}
+		}
+	}, [fromRedirectUrl, history, isSignedIn, signedInRedirectUrl]);
 
-    const handleOnCancel = useCallback(() => {
-        if (signInPageUrl) {
-            history.push(signInPageUrl, historyState);
-        }
-    }, [history, historyState, signInPageUrl]);
+	const handleOnCancel = useCallback(() => {
+		if (signInPageUrl) {
+			history.push(signInPageUrl, historyState);
+		}
+	}, [history, historyState, signInPageUrl]);
 
-    const initialValues = useMemo(() => getCreateAccountInitialValues(search), [
-        search
-    ]);
+	const initialValues = useMemo(() => getCreateAccountInitialValues(search), [search]);
 
-    const createAccountProps = {
-        initialValues,
-        isCancelButtonHidden: false,
-        onCancel: handleOnCancel
-    };
+	const createAccountProps = {
+		initialValues,
+		isCancelButtonHidden: false,
+		onCancel: handleOnCancel
+	};
 
-    return {
-        createAccountProps
-    };
+	return {
+		createAccountProps
+	};
 };

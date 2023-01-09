@@ -13,16 +13,16 @@ import { useCallback } from 'react';
  * @returns {Boolean}   result.isTopLevelMenu - Whether the current view is the top-most in the view tree.
  */
 export const useNavigationHeader = props => {
-    const { isTopLevel, onBack, view } = props;
+	const { isTopLevel, onBack, view } = props;
 
-    const isTopLevelMenu = isTopLevel && view === 'MENU';
+	const isTopLevelMenu = isTopLevel && view === 'MENU';
 
-    const handleBack = useCallback(() => {
-        onBack();
-    }, [onBack]);
+	const handleBack = useCallback(() => {
+		onBack();
+	}, [onBack]);
 
-    return {
-        handleBack,
-        isTopLevelMenu
-    };
+	return {
+		handleBack,
+		isTopLevelMenu
+	};
 };

@@ -9,13 +9,13 @@ import { useEventingContext } from '../../context/eventing';
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
 import { ADD_CONFIGURABLE_MUTATION } from '../ProductFullDetail/productFullDetail.gql.ce';
 const mergeSupportedProductTypes = (supportedProductTypes = []) => {
-    const newSupportedProductTypes = [...SUPPORTED_PRODUCT_TYPES];
+	const newSupportedProductTypes = [...SUPPORTED_PRODUCT_TYPES];
 
-    if (supportedProductTypes) {
-        newSupportedProductTypes.push(...supportedProductTypes);
-    }
+	if (supportedProductTypes) {
+		newSupportedProductTypes.push(...supportedProductTypes);
+	}
 
-    return newSupportedProductTypes;
+	return newSupportedProductTypes;
 };
 
 /**
@@ -28,258 +28,207 @@ const mergeSupportedProductTypes = (supportedProductTypes = []) => {
  * @returns {WishlistItemProps}
  */
 export const useWishlistItem = props => {
-    const { item, onOpenAddToCartDialog, wishlistId } = props;
-    const [addConfigurableProductToCart] = useMutation(
-        ADD_CONFIGURABLE_MUTATION
-    );
-    const [, { dispatch }] = useEventingContext();
+	const { item, onOpenAddToCartDialog, wishlistId } = props;
+	const [addConfigurableProductToCart] = useMutation(ADD_CONFIGURABLE_MUTATION);
+	const [, { dispatch }] = useEventingContext();
 
-    const {
-        configurable_options: selectedConfigurableOptions = [],
-        id: itemId,
-        product
-    } = item;
+	const { configurable_options: selectedConfigurableOptions = [], id: itemId, product } = item;
 
-    const {
-        configurable_options: configurableOptions = [],
-        __typename: productType,
-        image,
-        sku,
-        stock_status: stockStatus
-    } = product;
-    const { label: imageLabel, url: imageURL } = image;
+	const {
+		configurable_options: configurableOptions = [],
+		__typename: productType,
+		image,
+		sku,
+		stock_status: stockStatus
+	} = product;
+	const { label: imageLabel, url: imageURL } = image;
 
-    const isSupportedProductType = useMemo(
-        () =>
-            mergeSupportedProductTypes(props.supportedProductTypes).includes(
-                productType
-            ),
-        [props.supportedProductTypes, productType]
-    );
+	const isSupportedProductType = useMemo(
+		() => mergeSupportedProductTypes(props.supportedProductTypes).includes(productType),
+		[props.supportedProductTypes, productType]
+	);
 
-    const addProductType = item.product.__typename;
+	const addProductType = item.product.__typename;
 
-    const supportedProductType = SUPPORTED_PRODUCT_TYPES.includes(
-        addProductType
-    );
+	const supportedProductType = SUPPORTED_PRODUCT_TYPES.includes(addProductType);
 
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const {
-        addWishlistItemToCartMutation,
-        removeProductsFromWishlistMutation
-    } = operations;
+	const operations = mergeOperations(defaultOperations, props.operations);
+	const { addWishlistItemToCartMutation, removeProductsFromWishlistMutation } = operations;
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
+	const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
 
-    const [
-        removeProductFromWishlistError,
-        setRemoveProductFromWishlistError
-    ] = useState(null);
+	const [removeProductFromWishlistError, setRemoveProductFromWishlistError] = useState(null);
 
-    const cartItem = useMemo(() => {
-        const item = {
-            quantity: 1,
-            sku
-        };
+	const cartItem = useMemo(() => {
+		const item = {
+			quantity: 1,
+			sku
+		};
 
-        // Merge in additional input variables for configurable items
-        if (
-            selectedConfigurableOptions.length &&
-            selectedConfigurableOptions.length === configurableOptions.length
-        ) {
-            const selectedOptionsArray = selectedConfigurableOptions.map(
-                selectedOption => {
-                    // TODO: Use configurable_product_option_uid for ConfigurableWishlistItem when available in 2.4.5
-                    const {
-                        id: attributeId,
-                        value_id: selectedValueId
-                    } = selectedOption;
-                    const configurableOption = configurableOptions.find(
-                        option => option.attribute_id_v2 === attributeId
-                    );
-                    const configurableOptionValue = configurableOption.values.find(
-                        optionValue =>
-                            optionValue.value_index === selectedValueId
-                    );
+		// Merge in additional input variables for configurable items
+		if (selectedConfigurableOptions.length && selectedConfigurableOptions.length === configurableOptions.length) {
+			const selectedOptionsArray = selectedConfigurableOptions.map(selectedOption => {
+				// TODO: Use configurable_product_option_uid for ConfigurableWishlistItem when available in 2.4.5
+				const { id: attributeId, value_id: selectedValueId } = selectedOption;
+				const configurableOption = configurableOptions.find(option => option.attribute_id_v2 === attributeId);
+				const configurableOptionValue = configurableOption.values.find(
+					optionValue => optionValue.value_index === selectedValueId
+				);
 
-                    return configurableOptionValue.uid;
-                }
-            );
+				return configurableOptionValue.uid;
+			});
 
-            Object.assign(item, {
-                selected_options: selectedOptionsArray
-            });
-        }
+			Object.assign(item, {
+				selected_options: selectedOptionsArray
+			});
+		}
 
-        return item;
-    }, [configurableOptions, selectedConfigurableOptions, sku]);
+		return item;
+	}, [configurableOptions, selectedConfigurableOptions, sku]);
 
-    const [
-        addWishlistItemToCart,
-        {
-            error: addWishlistItemToCartError,
-            loading: addWishlistItemToCartLoading
-        }
-    ] = useMutation(addWishlistItemToCartMutation, {
-        variables: {
-            cartId,
-            cartItem
-        }
-    });
+	const [addWishlistItemToCart, { error: addWishlistItemToCartError, loading: addWishlistItemToCartLoading }] =
+		useMutation(addWishlistItemToCartMutation, {
+			variables: {
+				cartId,
+				cartItem
+			}
+		});
 
-    const [removeProductsFromWishlist] = useMutation(
-        removeProductsFromWishlistMutation,
-        {
-            update: cache => {
-                // clean up for cache fav product on category page
-                cache.modify({
-                    id: 'ROOT_QUERY',
-                    fields: {
-                        customerWishlistProducts: cachedProducts =>
-                            cachedProducts.filter(
-                                productSku => productSku !== sku
-                            )
-                    }
-                });
+	const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
+		update: cache => {
+			// clean up for cache fav product on category page
+			cache.modify({
+				id: 'ROOT_QUERY',
+				fields: {
+					customerWishlistProducts: cachedProducts => cachedProducts.filter(productSku => productSku !== sku)
+				}
+			});
 
-                cache.modify({
-                    id: `CustomerWishlist:${wishlistId}`,
-                    fields: {
-                        items_v2: (cachedItems, { readField, Remove }) => {
-                            for (var i = 0; i < cachedItems.items.length; i++) {
-                                if (readField('id', item) === itemId) {
-                                    return Remove;
-                                }
-                            }
+			cache.modify({
+				id: `CustomerWishlist:${wishlistId}`,
+				fields: {
+					items_v2: (cachedItems, { readField, Remove }) => {
+						for (var i = 0; i < cachedItems.items.length; i++) {
+							if (readField('id', item) === itemId) {
+								return Remove;
+							}
+						}
 
-                            return cachedItems;
-                        }
-                    }
-                });
-            },
-            variables: {
-                wishlistId: wishlistId,
-                wishlistItemsId: [itemId]
-            }
-        }
-    );
+						return cachedItems;
+					}
+				}
+			});
+		},
+		variables: {
+			wishlistId: wishlistId,
+			wishlistItemsId: [itemId]
+		}
+	});
 
-    const handleAddToCart = useCallback(async () => {
-        if (
-            configurableOptions.length === 0 ||
-            selectedConfigurableOptions.length === configurableOptions.length
-        ) {
-            try {
-                
-                const payload = {
-                    item: item.product,
-                    addProductType,
-                    quantity: 1
-                };
-                if (supportedProductType) {
-                    const variables = {
-                        cartId,
-                        parentSku: payload.item.orParentSku,
-                        product: payload.item,
-                        quantity: payload.quantity,
-                        sku: payload.item.sku
-                    };
-                    if (addProductType === 'SimpleProduct') {
-                        try {
-                            await addConfigurableProductToCart({
-                                variables
-                            });
-                        } catch {
-                            return;
-                        }
-                    } else if (addProductType === 'ConfigurableProduct') {
-                        return;
-                    }
-                } else {
-                    console.error(
-                        'Unsupported product type. Cannot add to cart.'
-                    );
-                }
-                dispatch({
-                    type: 'CART_ADD_ITEM',
-                    payload: {
-                        cartId,
-                        sku: item.product.sku,
-                        name: item.product.name,
-                        priceTotal:
-                            item.product.price_range.maximum_price.final_price
-                                .value,
-                        currencyCode:
-                            item.product.price_range.maximum_price.final_price
-                                .currency,
-                        discountAmount:
-                            item.product.price_range.maximum_price.discount
-                                .amount_off,
-                        selectedOptions: selectedOptionsLabels,
-                        quantity: 1
-                    }
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            onOpenAddToCartDialog(item);
-        }
-    }, [
-        addWishlistItemToCart,
-        addConfigurableProductToCart,
-        addProductType,
-        cartId,
-        configurableOptions.length,
-        dispatch,
-        item,
-        onOpenAddToCartDialog,
-        selectedConfigurableOptions.length,
-        supportedProductType
-    ]);
+	const handleAddToCart = useCallback(async () => {
+		if (configurableOptions.length === 0 || selectedConfigurableOptions.length === configurableOptions.length) {
+			try {
+				const payload = {
+					item: item.product,
+					addProductType,
+					quantity: 1
+				};
+				if (supportedProductType) {
+					const variables = {
+						cartId,
+						parentSku: payload.item.orParentSku,
+						product: payload.item,
+						quantity: payload.quantity,
+						sku: payload.item.sku
+					};
+					if (addProductType === 'SimpleProduct') {
+						try {
+							await addConfigurableProductToCart({
+								variables
+							});
+						} catch {
+							return;
+						}
+					} else if (addProductType === 'ConfigurableProduct') {
+						return;
+					}
+				} else {
+					console.error('Unsupported product type. Cannot add to cart.');
+				}
+				dispatch({
+					type: 'CART_ADD_ITEM',
+					payload: {
+						cartId,
+						sku: item.product.sku,
+						name: item.product.name,
+						priceTotal: item.product.price_range.maximum_price.final_price.value,
+						currencyCode: item.product.price_range.maximum_price.final_price.currency,
+						discountAmount: item.product.price_range.maximum_price.discount.amount_off,
+						selectedOptions: selectedOptionsLabels,
+						quantity: 1
+					}
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		} else {
+			onOpenAddToCartDialog(item);
+		}
+	}, [
+		addWishlistItemToCart,
+		addConfigurableProductToCart,
+		addProductType,
+		cartId,
+		configurableOptions.length,
+		dispatch,
+		item,
+		onOpenAddToCartDialog,
+		selectedConfigurableOptions.length,
+		supportedProductType
+	]);
 
-    const handleRemoveProductFromWishlist = useCallback(async () => {
-        try {
-            setIsRemovalInProgress(true);
-            await removeProductsFromWishlist();
-        } catch (e) {
-            setIsRemovalInProgress(false);
-            console.error(e);
-            setRemoveProductFromWishlistError(e);
-            if (process.env.NODE_ENV !== 'production') {
-                console.error(e);
-            }
-        }
-    }, [removeProductsFromWishlist, setRemoveProductFromWishlistError]);
+	const handleRemoveProductFromWishlist = useCallback(async () => {
+		try {
+			setIsRemovalInProgress(true);
+			await removeProductsFromWishlist();
+		} catch (e) {
+			setIsRemovalInProgress(false);
+			console.error(e);
+			setRemoveProductFromWishlistError(e);
+			if (process.env.NODE_ENV !== 'production') {
+				console.error(e);
+			}
+		}
+	}, [removeProductsFromWishlist, setRemoveProductFromWishlistError]);
 
-    const isInStock = stockStatus !== 'OUT_OF_STOCK';
-    const addToCartButtonProps = useMemo(() => {
-        return {
-            disabled: addWishlistItemToCartLoading || !isInStock,
-            onClick: handleAddToCart
-        };
-    }, [addWishlistItemToCartLoading, handleAddToCart, isInStock]);
+	const isInStock = stockStatus !== 'OUT_OF_STOCK';
+	const addToCartButtonProps = useMemo(() => {
+		return {
+			disabled: addWishlistItemToCartLoading || !isInStock,
+			onClick: handleAddToCart
+		};
+	}, [addWishlistItemToCartLoading, handleAddToCart, isInStock]);
 
-    const imageProps = useMemo(() => {
-        return {
-            alt: imageLabel,
-            src: imageURL,
-            width: 400
-        };
-    }, [imageLabel, imageURL]);
+	const imageProps = useMemo(() => {
+		return {
+			alt: imageLabel,
+			src: imageURL,
+			width: 400
+		};
+	}, [imageLabel, imageURL]);
 
-    return {
-        addToCartButtonProps,
-        isRemovalInProgress,
-        handleRemoveProductFromWishlist,
-        hasError: !!addWishlistItemToCartError,
-        hasRemoveProductFromWishlistError: !!removeProductFromWishlistError,
-        imageProps,
-        isSupportedProductType,
-        isInStock
-    };
+	return {
+		addToCartButtonProps,
+		isRemovalInProgress,
+		handleRemoveProductFromWishlist,
+		hasError: !!addWishlistItemToCartError,
+		hasRemoveProductFromWishlistError: !!removeProductFromWishlistError,
+		imageProps,
+		isSupportedProductType,
+		isInStock
+	};
 };
 
 /**

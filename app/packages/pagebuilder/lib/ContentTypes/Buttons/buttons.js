@@ -16,90 +16,84 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
  * @returns {React.Element} A React component that wraps {@link ButtonItem} components.
  */
 const Buttons = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const {
-        appearance,
-        isSameWidth,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        children,
-        cssClasses = []
-    } = props;
+	const {
+		appearance,
+		isSameWidth,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		children,
+		cssClasses = []
+	} = props;
 
-    const appearanceClassName = classes[`${appearance}`];
+	const appearanceClassName = classes[`${appearance}`];
 
-    const ref = useRef(null);
-    const [minWidth, setMinWidth] = React.useState(0);
+	const ref = useRef(null);
+	const [minWidth, setMinWidth] = React.useState(0);
 
-    const cssCustomProps = {
-        '--buttonMinWidth': minWidth ? minWidth + 'px' : null
-    };
+	const cssCustomProps = {
+		'--buttonMinWidth': minWidth ? minWidth + 'px' : null
+	};
 
-    const dynamicStyles = {
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        ...cssCustomProps
-    };
+	const dynamicStyles = {
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		...cssCustomProps
+	};
 
-    useLayoutEffect(() => {
-        if (!isSameWidth) {
-            return;
-        }
+	useLayoutEffect(() => {
+		if (!isSameWidth) {
+			return;
+		}
 
-        const { current: el } = ref;
-        let min = 0;
-        for (const button of el.querySelectorAll('button')) {
-            const { offsetWidth } = button;
-            if (offsetWidth > min) min = offsetWidth;
-        }
-        setMinWidth(min);
-    }, [isSameWidth]);
+		const { current: el } = ref;
+		let min = 0;
+		for (const button of el.querySelectorAll('button')) {
+			const { offsetWidth } = button;
+			if (offsetWidth > min) min = offsetWidth;
+		}
+		setMinWidth(min);
+	}, [isSameWidth]);
 
-    const justifyMap = {
-        left: 'flex-start',
-        center: 'center',
-        right: 'flex-end'
-    };
+	const justifyMap = {
+		left: 'flex-start',
+		center: 'center',
+		right: 'flex-end'
+	};
 
-    dynamicStyles.justifyContent = 'flex-start';
-    if (textAlign) {
-        dynamicStyles.justifyContent = justifyMap[textAlign] || 'flex-start';
-        dynamicStyles.textAlign = textAlign;
-    }
+	dynamicStyles.justifyContent = 'flex-start';
+	if (textAlign) {
+		dynamicStyles.justifyContent = justifyMap[textAlign] || 'flex-start';
+		dynamicStyles.textAlign = textAlign;
+	}
 
-    return (
-        <div
-            ref={ref}
-            style={dynamicStyles}
-            className={[classes.root, appearanceClassName, ...cssClasses].join(
-                ' '
-            )}
-        >
-            {children}
-        </div>
-    );
+	return (
+		<div ref={ref} style={dynamicStyles} className={[classes.root, appearanceClassName, ...cssClasses].join(' ')}>
+			{children}
+		</div>
+	);
 };
 
 /**
@@ -129,27 +123,27 @@ const Buttons = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Buttons.propTypes = {
-    appearance: oneOf(['inline', 'stacked']),
-    classes: shape({
-        root: string,
-        stacked: string,
-        inline: string
-    }),
-    isSameWidth: bool,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string)
+	appearance: oneOf(['inline', 'stacked']),
+	classes: shape({
+		root: string,
+		stacked: string,
+		inline: string
+	}),
+	isSameWidth: bool,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Buttons;

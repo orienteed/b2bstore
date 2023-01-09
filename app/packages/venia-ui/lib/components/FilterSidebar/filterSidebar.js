@@ -17,117 +17,110 @@ const SCROLL_OFFSET = 150;
  * @param {Object} props.filters - filters to display
  */
 const FilterSidebar = props => {
-    const { filters, filterCountToOpen, setfilterState } = props;
-    const talonProps = useFilterSidebar({ filters });
-    const {
-        filterApi,
-        filterItems,
-        filterNames,
-        filterFrontendInput,
-        filterState,
-        handleApply,
-        handleReset
-    } = talonProps;
+	const { filters, filterCountToOpen, setfilterState } = props;
+	const talonProps = useFilterSidebar({ filters });
+	const { filterApi, filterItems, filterNames, filterFrontendInput, filterState, handleApply, handleReset } =
+		talonProps;
 
-    const filterRef = useRef();
-    const classes = useStyle(defaultClasses, props.classes);
-    useEffect(() => {
-        if (setfilterState) setfilterState(filterState);
-    }, [filterState, setfilterState]);
+	const filterRef = useRef();
+	const classes = useStyle(defaultClasses, props.classes);
+	useEffect(() => {
+		if (setfilterState) setfilterState(filterState);
+	}, [filterState, setfilterState]);
 
-    const handleApplyFilter = useCallback(
-        (...args) => {
-            const filterElement = filterRef.current;
-            if (filterElement && typeof filterElement.getBoundingClientRect === 'function') {
-                const filterTop = filterElement.getBoundingClientRect().top;
-                const windowScrollY = window.scrollY + filterTop - SCROLL_OFFSET;
-                window.scrollTo(0, windowScrollY);
-            }
+	const handleApplyFilter = useCallback(
+		(...args) => {
+			const filterElement = filterRef.current;
+			if (filterElement && typeof filterElement.getBoundingClientRect === 'function') {
+				const filterTop = filterElement.getBoundingClientRect().top;
+				const windowScrollY = window.scrollY + filterTop - SCROLL_OFFSET;
+				window.scrollTo(0, windowScrollY);
+			}
 
-            handleApply(...args);
-        },
-        [handleApply, filterRef]
-    );
+			handleApply(...args);
+		},
+		[handleApply, filterRef]
+	);
 
-    const filtersList = useMemo(
-        () =>
-            Array.from(filterItems, ([group, items], iteration) => {
-                const blockState = filterState.get(group);
-                const groupName = filterNames.get(group);
-                const frontendInput = filterFrontendInput.get(group);
-                return (
-                    <FilterBlock
-                        key={group}
-                        filterApi={filterApi}
-                        filterState={blockState}
-                        filterFrontendInput={frontendInput}
-                        group={group}
-                        items={items}
-                        name={groupName}
-                        onApply={handleApplyFilter}
-                        initialOpen={iteration < filterCountToOpen}
-                    />
-                );
-            }),
-        [filterApi, filterItems, filterNames, filterFrontendInput, filterState, filterCountToOpen, handleApplyFilter]
-    );
+	const filtersList = useMemo(
+		() =>
+			Array.from(filterItems, ([group, items], iteration) => {
+				const blockState = filterState.get(group);
+				const groupName = filterNames.get(group);
+				const frontendInput = filterFrontendInput.get(group);
+				return (
+					<FilterBlock
+						key={group}
+						filterApi={filterApi}
+						filterState={blockState}
+						filterFrontendInput={frontendInput}
+						group={group}
+						items={items}
+						name={groupName}
+						onApply={handleApplyFilter}
+						initialOpen={iteration < filterCountToOpen}
+					/>
+				);
+			}),
+		[filterApi, filterItems, filterNames, filterFrontendInput, filterState, filterCountToOpen, handleApplyFilter]
+	);
 
-    const clearAll = filterState.size ? (
-        <div className={classes.action}>
-            <LinkButton type="button" onClick={handleReset} data-cy="FilterSidebar-clearButton">
-                <FormattedMessage id={'filterModal.action'} defaultMessage={'Clear all'} />
-            </LinkButton>
-        </div>
-    ) : null;
+	const clearAll = filterState.size ? (
+		<div className={classes.action}>
+			<LinkButton type="button" onClick={handleReset} data-cy="FilterSidebar-clearButton">
+				<FormattedMessage id={'filterModal.action'} defaultMessage={'Clear all'} />
+			</LinkButton>
+		</div>
+	) : null;
 
-    return (
-        <aside
-            className={classes.root}
-            ref={filterRef}
-            data-cy="FilterSidebar-root"
-            aria-live="polite"
-            aria-busy="false"
-        >
-            <div className={classes.body}>
-                <div className={classes.header}>
-                    <h2 data-cy="FilterSidebar-headerTitle" className={classes.headerTitle}>
-                        <FormattedMessage id={'filterModal.headerTitle'} defaultMessage={'Filters'} />
-                    </h2>
-                </div>
-                <CurrentFilters
-                    filterApi={filterApi}
-                    filterNames={filterNames}
-                    filterState={filterState}
-                    onRemove={handleApplyFilter}
-                />
-                {clearAll}
-                <ul className={classes.blocks}>{filtersList}</ul>
-            </div>
-        </aside>
-    );
+	return (
+		<aside
+			className={classes.root}
+			ref={filterRef}
+			data-cy="FilterSidebar-root"
+			aria-live="polite"
+			aria-busy="false"
+		>
+			<div className={classes.body}>
+				<div className={classes.header}>
+					<h2 data-cy="FilterSidebar-headerTitle" className={classes.headerTitle}>
+						<FormattedMessage id={'filterModal.headerTitle'} defaultMessage={'Filters'} />
+					</h2>
+				</div>
+				<CurrentFilters
+					filterApi={filterApi}
+					filterNames={filterNames}
+					filterState={filterState}
+					onRemove={handleApplyFilter}
+				/>
+				{clearAll}
+				<ul className={classes.blocks}>{filtersList}</ul>
+			</div>
+		</aside>
+	);
 };
 
 FilterSidebar.defaultProps = {
-    filterCountToOpen: 3
+	filterCountToOpen: 3
 };
 
 FilterSidebar.propTypes = {
-    classes: shape({
-        action: string,
-        blocks: string,
-        body: string,
-        header: string,
-        headerTitle: string,
-        root: string,
-        root_open: string
-    }),
-    filters: arrayOf(
-        shape({
-            attribute_code: string,
-            items: array
-        })
-    ),
-    filterCountToOpen: number
+	classes: shape({
+		action: string,
+		blocks: string,
+		body: string,
+		header: string,
+		headerTitle: string,
+		root: string,
+		root_open: string
+	}),
+	filters: arrayOf(
+		shape({
+			attribute_code: string,
+			items: array
+		})
+	),
+	filterCountToOpen: number
 };
 
 export default FilterSidebar;

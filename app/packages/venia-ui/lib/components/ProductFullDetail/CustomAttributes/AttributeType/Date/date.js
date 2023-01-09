@@ -17,40 +17,32 @@ import defaultClasses from './date.module.css';
  * @returns {React.Element} A React component that displays a Date Type Product Attribute.
  */
 const Date = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const { attribute_metadata = {}, entered_attribute_value = {} } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const { attribute_metadata = {}, entered_attribute_value = {} } = props;
 
-    const attributeLabel = attribute_metadata.label ? (
-        <div className={classes.label}>{attribute_metadata.label}</div>
-    ) : null;
-    let attributeContent;
+	const attributeLabel = attribute_metadata.label ? (
+		<div className={classes.label}>{attribute_metadata.label}</div>
+	) : null;
+	let attributeContent;
 
-    // TODO: Get correct data from GraphQl based on config time zone
-    if (entered_attribute_value.value) {
-        // Convert date to ISO-8601 format so Safari can also parse it
-        const isoFormattedDate = entered_attribute_value.value.replace(
-            ' ',
-            'T'
-        );
+	// TODO: Get correct data from GraphQl based on config time zone
+	if (entered_attribute_value.value) {
+		// Convert date to ISO-8601 format so Safari can also parse it
+		const isoFormattedDate = entered_attribute_value.value.replace(' ', 'T');
 
-        attributeContent = (
-            <div className={classes.content}>
-                <FormattedDate
-                    value={isoFormattedDate}
-                    year="numeric"
-                    month="short"
-                    day="2-digit"
-                />
-            </div>
-        );
-    }
+		attributeContent = (
+			<div className={classes.content}>
+				<FormattedDate value={isoFormattedDate} year="numeric" month="short" day="2-digit" />
+			</div>
+		);
+	}
 
-    return (
-        <Fragment>
-            {attributeLabel}
-            {attributeContent}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			{attributeLabel}
+			{attributeContent}
+		</Fragment>
+	);
 };
 
 /**
@@ -67,16 +59,16 @@ const Date = props => {
  * @property {String} entered_attribute_value.value Attribute value
  */
 Date.propTypes = {
-    classes: shape({
-        label: string,
-        content: string
-    }),
-    attribute_metadata: shape({
-        label: string
-    }),
-    entered_attribute_value: shape({
-        value: string
-    })
+	classes: shape({
+		label: string,
+		content: string
+	}),
+	attribute_metadata: shape({
+		label: string
+	}),
+	entered_attribute_value: shape({
+		value: string
+	})
 };
 
 export default Date;

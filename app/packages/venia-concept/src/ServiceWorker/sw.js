@@ -9,7 +9,7 @@ registerRoutes();
 
 registerMessageHandlers();
 
-self.addEventListener('message', e => {
+self.addEventListener('message', (e) => {
     const { type, payload } = e.data;
 
     handleMessageFromClient(type, payload, e);

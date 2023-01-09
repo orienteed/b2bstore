@@ -25,61 +25,61 @@ import DEFAULT_OPERATIONS from './categoryTree.gql';
  * @return {{ childCategories: Map<number, CategoryNode> }}
  */
 export const useCategoryTree = props => {
-    const { categoryId, updateCategories } = props;
+	const { categoryId, updateCategories } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getNavigationMenuQuery, getCategoryUrlSuffixQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getNavigationMenuQuery, getCategoryUrlSuffixQuery } = operations;
 
-    const [runQuery, queryResult] = useLazyQuery(getNavigationMenuQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-    const { data } = queryResult;
+	const [runQuery, queryResult] = useLazyQuery(getNavigationMenuQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
+	const { data } = queryResult;
 
-    const { data: categoryUrlData } = useQuery(getCategoryUrlSuffixQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+	const { data: categoryUrlData } = useQuery(getCategoryUrlSuffixQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const categoryUrlSuffix = categoryUrlData?.storeConfig?.category_url_suffix;
+	const categoryUrlSuffix = categoryUrlData?.storeConfig?.category_url_suffix;
 
-    // fetch categories
-    useEffect(() => {
-        if (categoryId != null) {
-            runQuery({ variables: { id: categoryId } });
-        }
-    }, [categoryId, runQuery]);
+	// fetch categories
+	useEffect(() => {
+		if (categoryId != null) {
+			runQuery({ variables: { id: categoryId } });
+		}
+	}, [categoryId, runQuery]);
 
-    // update redux with fetched categories
-    useEffect(() => {
-        if (data && data.categories.items[0]) {
-            updateCategories(data.categories.items[0]);
-        }
-    }, [data, updateCategories]);
+	// update redux with fetched categories
+	useEffect(() => {
+		if (data && data.categories.items[0]) {
+			updateCategories(data.categories.items[0]);
+		}
+	}, [data, updateCategories]);
 
-    const rootCategory = data && data.categories.items[0];
+	const rootCategory = data && data.categories.items[0];
 
-    const { children = [] } = rootCategory || {};
+	const { children = [] } = rootCategory || {};
 
-    const childCategories = useMemo(() => {
-        const childCategories = new Map();
+	const childCategories = useMemo(() => {
+		const childCategories = new Map();
 
-        // Add the root category when appropriate.
-        if (rootCategory && rootCategory.include_in_menu && rootCategory.url_path) {
-            childCategories.set(rootCategory.uid, {
-                category: rootCategory,
-                isLeaf: true
-            });
-        }
+		// Add the root category when appropriate.
+		if (rootCategory && rootCategory.include_in_menu && rootCategory.url_path) {
+			childCategories.set(rootCategory.uid, {
+				category: rootCategory,
+				isLeaf: true
+			});
+		}
 
-        children.map(category => {
-            if (category.include_in_menu) {
-                const isLeaf = !parseInt(category.children_count);
-                childCategories.set(category.uid, { category, isLeaf });
-            }
-        });
+		children.map(category => {
+			if (category.include_in_menu) {
+				const isLeaf = !parseInt(category.children_count);
+				childCategories.set(category.uid, { category, isLeaf });
+			}
+		});
 
-        return childCategories;
-    }, [children, rootCategory]);
+		return childCategories;
+	}, [children, rootCategory]);
 
-    return { childCategories, data, categoryUrlSuffix };
+	return { childCategories, data, categoryUrlSuffix };
 };

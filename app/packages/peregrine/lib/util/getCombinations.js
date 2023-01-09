@@ -5,8 +5,6 @@
  * @return {Array}
  */
 export function getCombinations(array, k, prefix = []) {
-    if (k == 0) return [prefix];
-    return array.flatMap((value, index) =>
-        getCombinations(array.slice(index + 1), k - 1, [...prefix, value])
-    );
+	if (k == 0) return [prefix];
+	return array.flatMap((value, index) => getCombinations(array.slice(index + 1), k - 1, [...prefix, value]));
 }

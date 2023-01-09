@@ -13,87 +13,64 @@ import resourceUrl from '../../util/makeUrl';
  * @param {Function} props.onNavigate - callback to fire on link click
  */
 export const useSuggestedProduct = props => {
-    const [, { dispatch }] = useEventingContext();
-    const {
-        name,
-        price,
-        price_range,
-        onNavigate,
-        url_key,
-        url_suffix,
-        sku
-    } = props;
+	const [, { dispatch }] = useEventingContext();
+	const { name, price, price_range, onNavigate, url_key, url_suffix, sku } = props;
 
-    const finalPrice = price_range?.maximum_price?.final_price?.value;
-    const discountAmount = price_range?.maximum_price?.discount?.amount_off;
-    const currencyCode = price_range?.maximum_price?.final_price?.currency;
+	const finalPrice = price_range?.maximum_price?.final_price?.value;
+	const discountAmount = price_range?.maximum_price?.discount?.amount_off;
+	const currencyCode = price_range?.maximum_price?.final_price?.currency;
 
-    const handleClick = useCallback(() => {
-        dispatch({
-            type: 'PRODUCT_CLICK',
-            payload: {
-                name,
-                sku,
-                priceTotal: finalPrice,
-                discountAmount,
-                currencyCode,
-                selectedOptions: null
-            }
-        });
-        if (typeof onNavigate === 'function') {
-            onNavigate();
-        }
-    }, [
-        name,
-        currencyCode,
-        discountAmount,
-        dispatch,
-        finalPrice,
-        onNavigate,
-        sku
-    ]);
+	const handleClick = useCallback(() => {
+		dispatch({
+			type: 'PRODUCT_CLICK',
+			payload: {
+				name,
+				sku,
+				priceTotal: finalPrice,
+				discountAmount,
+				currencyCode,
+				selectedOptions: null
+			}
+		});
+		if (typeof onNavigate === 'function') {
+			onNavigate();
+		}
+	}, [name, currencyCode, discountAmount, dispatch, finalPrice, onNavigate, sku]);
 
-    useEffect(() => {
-        if (sku !== null) {
-            dispatch({
-                type: 'PRODUCT_IMPRESSION',
-                payload: {
-                    name,
-                    sku,
-                    priceTotal: finalPrice,
-                    discountAmount,
-                    currencyCode,
-                    selectedOptions: null
-                }
-            });
-        }
-    }, [name, currencyCode, discountAmount, dispatch, finalPrice, sku]);
+	useEffect(() => {
+		if (sku !== null) {
+			dispatch({
+				type: 'PRODUCT_IMPRESSION',
+				payload: {
+					name,
+					sku,
+					priceTotal: finalPrice,
+					discountAmount,
+					currencyCode,
+					selectedOptions: null
+				}
+			});
+		}
+	}, [name, currencyCode, discountAmount, dispatch, finalPrice, sku]);
 
-    // fall back to deprecated field if price range is unavailable
-    const priceProps = useMemo(() => {
-        return {
-            currencyCode:
-                price_range?.maximum_price?.final_price?.currency ||
-                price.regularPrice.amount.currency,
-            value:
-                price_range?.maximum_price?.final_price?.value ||
-                price.regularPrice.amount.value
-        };
-    }, [
-        price.regularPrice.amount.currency,
-        price.regularPrice.amount.value,
-        price_range?.maximum_price?.final_price?.currency,
-        price_range?.maximum_price?.final_price?.value
-    ]);
+	// fall back to deprecated field if price range is unavailable
+	const priceProps = useMemo(() => {
+		return {
+			currencyCode: price_range?.maximum_price?.final_price?.currency || price.regularPrice.amount.currency,
+			value: price_range?.maximum_price?.final_price?.value || price.regularPrice.amount.value
+		};
+	}, [
+		price.regularPrice.amount.currency,
+		price.regularPrice.amount.value,
+		price_range?.maximum_price?.final_price?.currency,
+		price_range?.maximum_price?.final_price?.value
+	]);
 
-    const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [
-        url_key,
-        url_suffix
-    ]);
+	const uri = useMemo(() => resourceUrl(`/${url_key}${url_suffix || ''}`), [url_key, url_suffix]);
 
-    return {
-        priceProps,
-        handleClick,
-        uri
-    };
+	return {
+		priceProps,
+		handleClick,
+		uri
+	};
 };

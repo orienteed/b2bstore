@@ -18,17 +18,17 @@ import { useEffect } from 'react';
  * @param  {...any} rest Any other arguments to pass to the addEventListener() function
  */
 export const useEventListener = (target, type, listener, ...rest) => {
-    useEffect(() => {
-        // in a Node environment, exit early
-        if (!target || typeof target.addEventListener !== 'function') {
-            return;
-        }
+	useEffect(() => {
+		// in a Node environment, exit early
+		if (!target || typeof target.addEventListener !== 'function') {
+			return;
+		}
 
-        target.addEventListener(type, listener, ...rest);
+		target.addEventListener(type, listener, ...rest);
 
-        // return a callback, which is called on unmount
-        return () => {
-            target.removeEventListener(type, listener, ...rest);
-        };
-    }, [listener, rest, target, type]);
+		// return a callback, which is called on unmount
+		return () => {
+			target.removeEventListener(type, listener, ...rest);
+		};
+	}, [listener, rest, target, type]);
 };

@@ -1,43 +1,43 @@
 .errorText {
-    line-height: var(--venia-global-lineHeight-300);
-    composes: text-error from global;
+	line-height: var(--venia-global-lineHeight-300);
+	composes: text-error from global;
 }
 
 .lineItems {
-    composes: gap-3 from global;
-    composes: grid from global;
-    composes: grid-cols-autoLast from global;
-    composes: leading-normal from global;
+	composes: gap-3 from global;
+	composes: grid from global;
+	composes: grid-cols-autoLast from global;
+	composes: leading-normal from global;
 }
 
 .lineItemLabel {
-    composes: justify-self-start from global;
+	composes: justify-self-start from global;
 }
 
 .price {
-    composes: justify-self-end from global;
-    /* composes: self-center from global; */
+	composes: justify-self-end from global;
+	/* composes: self-center from global; */
 }
 
 .totalLabel {
-    composes: lineItemLabel;
-    composes: font-semibold from global;
+	composes: lineItemLabel;
+	composes: font-semibold from global;
 }
 
 .totalPrice {
-    composes: price;
-    composes: font-semibold from global;
+	composes: price;
+	composes: font-semibold from global;
 }
 
 .priceUpdating {
-    composes: price;
-    composes: opacity-0 from global;
+	composes: price;
+	composes: opacity-0 from global;
 }
 
 .checkoutButton_container {
-    composes: items-center from global;
-    composes: inline-flex from global;
-    composes: justify-center from global;
-    composes: w-full from global;
-    min-height: 5.5rem;
+	composes: items-center from global;
+	composes: inline-flex from global;
+	composes: justify-center from global;
+	composes: w-full from global;
+	min-height: 5.5rem;
 }

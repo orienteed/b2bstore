@@ -13,10 +13,7 @@ export { useSearchParam } from './hooks/useSearchParam';
 export { useSort } from './hooks/useSort';
 export { useTypePolicies } from './hooks/useTypePolicies';
 
-export {
-    WindowSizeContextProvider,
-    useWindowSize
-} from './hooks/useWindowSize';
+export { WindowSizeContextProvider, useWindowSize } from './hooks/useWindowSize';
 export { getToastId, useToasts, ToastContextProvider } from './Toasts';
 
 // store
@@ -27,9 +24,7 @@ export { default as ContainerChild } from './ContainerChild';
 export { default as List, Items, Item } from './List';
 export { default as Price } from './Price';
 export { default as Router } from './Router';
-export {
-    default as PeregrineContextProvider
-} from './PeregrineContextProvider';
+export { default as PeregrineContextProvider } from './PeregrineContextProvider';
 
 // misc
 export { RestApi };

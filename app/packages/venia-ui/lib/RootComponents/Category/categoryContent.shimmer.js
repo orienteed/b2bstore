@@ -12,63 +12,63 @@ import { SortedByContainerShimmer } from '../../components/SortedByContainer';
 import defaultClasses from './category.module.css';
 
 const CategoryContentShimmer = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const placeholderItems = Array.from({ length: 6 }).fill(null);
+	const placeholderItems = Array.from({ length: 6 }).fill(null);
 
-    return (
-        <Fragment>
-            <BreadcrumbsShimmer />
-            <article className={classes.root}>
-                <div className={classes.categoryHeader}>
-                    <h1 className={classes.title}>
-                        <div className={classes.categoryTitle}>
-                            <Shimmer width={5} />
-                        </div>
-                    </h1>
-                </div>
-                <div className={classes.contentWrapper}>
-                    <div className={classes.sidebar}>
-                        <FilterSidebarShimmer />
-                    </div>
-                    <div className={classes.categoryContent}>
-                        <div className={classes.heading}>
-                            <div className={classes.categoryInfo}>
-                                <Shimmer width={5} />
-                            </div>
-                            <div className={classes.headerButtons}>
-                                <FilterModalOpenButtonShimmer />
-                                <ProductSortShimmer />
-                            </div>
-                            <SortedByContainerShimmer />
-                        </div>
-                        <section className={classes.gallery}>
-                            <GalleryShimmer items={placeholderItems} />
-                        </section>
-                    </div>
-                </div>
-            </article>
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<BreadcrumbsShimmer />
+			<article className={classes.root}>
+				<div className={classes.categoryHeader}>
+					<h1 className={classes.title}>
+						<div className={classes.categoryTitle}>
+							<Shimmer width={5} />
+						</div>
+					</h1>
+				</div>
+				<div className={classes.contentWrapper}>
+					<div className={classes.sidebar}>
+						<FilterSidebarShimmer />
+					</div>
+					<div className={classes.categoryContent}>
+						<div className={classes.heading}>
+							<div className={classes.categoryInfo}>
+								<Shimmer width={5} />
+							</div>
+							<div className={classes.headerButtons}>
+								<FilterModalOpenButtonShimmer />
+								<ProductSortShimmer />
+							</div>
+							<SortedByContainerShimmer />
+						</div>
+						<section className={classes.gallery}>
+							<GalleryShimmer items={placeholderItems} />
+						</section>
+					</div>
+				</div>
+			</article>
+		</Fragment>
+	);
 };
 
 CategoryContentShimmer.defaultProps = {
-    classes: {}
+	classes: {}
 };
 
 CategoryContentShimmer.propTypes = {
-    classes: shape({
-        root: string,
-        categoryHeader: string,
-        title: string,
-        categoryTitle: string,
-        sidebar: string,
-        categoryContent: string,
-        heading: string,
-        categoryInfo: string,
-        headerButtons: string,
-        gallery: string
-    })
+	classes: shape({
+		root: string,
+		categoryHeader: string,
+		title: string,
+		categoryTitle: string,
+		sidebar: string,
+		categoryContent: string,
+		heading: string,
+		categoryInfo: string,
+		headerButtons: string,
+		gallery: string
+	})
 };
 
 export default CategoryContentShimmer;

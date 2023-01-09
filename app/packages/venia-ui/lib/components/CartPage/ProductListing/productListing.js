@@ -25,57 +25,57 @@ const EditModal = React.lazy(() => import('./EditModal'));
  * import ProductListing from "@magento/venia-ui/lib/components/CartPage/ProductListing";
  */
 const ProductListing = props => {
-    const { onAddToWishlistSuccess, setIsCartUpdating, fetchCartDetails } = props;
-    const { setCartItem } = usePrintPdfContext();
- 
-    const talonProps = useProductListing();
+	const { onAddToWishlistSuccess, setIsCartUpdating, fetchCartDetails } = props;
+	const { setCartItem } = usePrintPdfContext();
 
-    const { activeEditItem, isLoading, items, setActiveEditItem, wishlistConfig } = talonProps;
+	const talonProps = useProductListing();
 
-    useEffect(() => {
-        if (items.length) setCartItem([...items]);
-    }, [items]);
+	const { activeEditItem, isLoading, items, setActiveEditItem, wishlistConfig } = talonProps;
 
-    const classes = useStyle(defaultClasses, props.classes);
+	useEffect(() => {
+		if (items.length) setCartItem([...items]);
+	}, [items]);
 
-    if (isLoading) {
-        return (
-            <LoadingIndicator>
-                <FormattedMessage id={'productListing.loading'} defaultMessage={'Fetching Cart...'} />
-            </LoadingIndicator>
-        );
-    }
+	const classes = useStyle(defaultClasses, props.classes);
 
-    if (items.length) {
-        const productComponents = items.map(product => (
-            <Product
-                item={product}
-                key={product.id}
-                setActiveEditItem={setActiveEditItem}
-                setIsCartUpdating={setIsCartUpdating}
-                onAddToWishlistSuccess={onAddToWishlistSuccess}
-                fetchCartDetails={fetchCartDetails}
-                wishlistConfig={wishlistConfig}
-            />
-        ));
+	if (isLoading) {
+		return (
+			<LoadingIndicator>
+				<FormattedMessage id={'productListing.loading'} defaultMessage={'Fetching Cart...'} />
+			</LoadingIndicator>
+		);
+	}
 
-        return (
-            <Fragment>
-                <ul className={classes.root} data-cy="ProductListing-root">
-                    {productComponents}
-                </ul>
-                <Suspense fallback={null}>
-                    <EditModal
-                        item={activeEditItem}
-                        setIsCartUpdating={setIsCartUpdating}
-                        setActiveEditItem={setActiveEditItem}
-                    />
-                </Suspense>
-            </Fragment>
-        );
-    }
+	if (items.length) {
+		const productComponents = items.map(product => (
+			<Product
+				item={product}
+				key={product.id}
+				setActiveEditItem={setActiveEditItem}
+				setIsCartUpdating={setIsCartUpdating}
+				onAddToWishlistSuccess={onAddToWishlistSuccess}
+				fetchCartDetails={fetchCartDetails}
+				wishlistConfig={wishlistConfig}
+			/>
+		));
 
-    return null;
+		return (
+			<Fragment>
+				<ul className={classes.root} data-cy="ProductListing-root">
+					{productComponents}
+				</ul>
+				<Suspense fallback={null}>
+					<EditModal
+						item={activeEditItem}
+						setIsCartUpdating={setIsCartUpdating}
+						setActiveEditItem={setActiveEditItem}
+					/>
+				</Suspense>
+			</Fragment>
+		);
+	}
+
+	return null;
 };
 
 export default ProductListing;

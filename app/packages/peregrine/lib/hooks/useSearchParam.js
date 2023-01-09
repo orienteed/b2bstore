@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const getSearchParam = (parameter = '', location = {}) => {
-    const params = new URLSearchParams(location.search);
+	const params = new URLSearchParams(location.search);
 
-    return params.get(parameter) || '';
+	return params.get(parameter) || '';
 };
 
 /**
@@ -19,11 +19,11 @@ export const getSearchParam = (parameter = '', location = {}) => {
  * @param {Function} props.setValue A setter function that is passed the parameter value found in the URL
  */
 export const useSearchParam = props => {
-    const location = useLocation();
-    const { parameter, setValue } = props;
-    const value = getSearchParam(parameter, location);
+	const location = useLocation();
+	const { parameter, setValue } = props;
+	const value = getSearchParam(parameter, location);
 
-    useEffect(() => {
-        setValue(value);
-    }, [setValue, value]);
+	useEffect(() => {
+		setValue(value);
+	}, [setValue, value]);
 };

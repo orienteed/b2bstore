@@ -18,27 +18,27 @@ const getRootClassName = (priority, negative) => `root_${priority}Priority${nega
  * @returns {React.Element} A React component that displays a single button.
  */
 const Button = props => {
-    const { children, classes: propClasses, priority, negative, disabled, onPress, ...restProps } = props;
+	const { children, classes: propClasses, priority, negative, disabled, onPress, ...restProps } = props;
 
-    const buttonRef = useRef();
+	const buttonRef = useRef();
 
-    const { buttonProps } = useButton(
-        {
-            isDisabled: disabled,
-            onPress,
-            ...restProps
-        },
-        buttonRef
-    );
+	const { buttonProps } = useButton(
+		{
+			isDisabled: disabled,
+			onPress,
+			...restProps
+		},
+		buttonRef
+	);
 
-    const classes = useStyle(defaultClasses, propClasses);
-    const rootClassName = classes[getRootClassName(priority, negative)];
+	const classes = useStyle(defaultClasses, propClasses);
+	const rootClassName = classes[getRootClassName(priority, negative)];
 
-    return (
-        <button ref={buttonRef} className={rootClassName} {...buttonProps} {...restProps}>
-            <span className={classes.content}>{children}</span>
-        </button>
-    );
+	return (
+		<button ref={buttonRef} className={rootClassName} {...buttonProps} {...restProps}>
+			<span className={classes.content}>{children}</span>
+		</button>
+	);
 };
 
 /**
@@ -62,24 +62,24 @@ const Button = props => {
  * @property {bool} disabled is the button disabled
  */
 Button.propTypes = {
-    classes: shape({
-        content: string,
-        root: string,
-        root_highPriority: string,
-        root_lowPriority: string,
-        root_normalPriority: string
-    }),
-    priority: oneOf(['high', 'low', 'normal']).isRequired,
-    type: oneOf(['button', 'reset', 'submit']).isRequired,
-    negative: bool,
-    disabled: bool
+	classes: shape({
+		content: string,
+		root: string,
+		root_highPriority: string,
+		root_lowPriority: string,
+		root_normalPriority: string
+	}),
+	priority: oneOf(['high', 'low', 'normal']).isRequired,
+	type: oneOf(['button', 'reset', 'submit']).isRequired,
+	negative: bool,
+	disabled: bool
 };
 
 Button.defaultProps = {
-    priority: 'normal',
-    type: 'button',
-    negative: false,
-    disabled: false
+	priority: 'normal',
+	type: 'button',
+	negative: false,
+	disabled: false
 };
 
 export default Button;

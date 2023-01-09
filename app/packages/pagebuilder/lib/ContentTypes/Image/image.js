@@ -19,125 +19,119 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
  * @returns {React.Element} A React component that displays an Image.
  */
 const Image = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        desktopImage,
-        mobileImage,
-        altText,
-        title,
-        link,
-        openInNewTab,
-        caption,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		desktopImage,
+		mobileImage,
+		altText,
+		title,
+		link,
+		openInNewTab,
+		caption,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
 
-    const figureStyles = {
-        textAlign,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
-    const imageStyles = {
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius
-    };
+	const figureStyles = {
+		textAlign,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
+	const imageStyles = {
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius
+	};
 
-    // Don't render anything if there is no image to be rendered
-    if (!desktopImage && !mobileImage) {
-        return null;
-    }
+	// Don't render anything if there is no image to be rendered
+	if (!desktopImage && !mobileImage) {
+		return null;
+	}
 
-    const MobileSourceFragment = mobileImage ? (
-        <source
-            media="(max-width: 48rem)"
-            srcSet={resourceUrl(mobileImage.src, {
-                type: 'image-wysiwyg',
-                quality: 85
-            })}
-        />
-    ) : (
-        ''
-    );
+	const MobileSourceFragment = mobileImage ? (
+		<source
+			media="(max-width: 48rem)"
+			srcSet={resourceUrl(mobileImage.src, {
+				type: 'image-wysiwyg',
+				quality: 85
+			})}
+		/>
+	) : (
+		''
+	);
 
-    const imgSrc = desktopImage
-        ? resourceUrl(desktopImage.src, {
-              type: 'image-wysiwyg',
-              quality: 85
-          })
-        : '';
+	const imgSrc = desktopImage
+		? resourceUrl(desktopImage.src, {
+				type: 'image-wysiwyg',
+				quality: 85
+		  })
+		: '';
 
-    const imgClassName =
-        mobileImage && !desktopImage
-            ? [classes.img, classes.mobileOnly].join(' ')
-            : classes.img;
+	const imgClassName = mobileImage && !desktopImage ? [classes.img, classes.mobileOnly].join(' ') : classes.img;
 
-    const PictureFragment = (
-        <>
-            <picture>
-                {MobileSourceFragment}
-                <img
-                    className={imgClassName}
-                    srcSet={`${imgSrc} 1x`}
-                    src={imgSrc}
-                    title={title}
-                    alt={altText}
-                    style={imageStyles}
-                    loading="lazy"
-                />
-            </picture>
-            {caption ? <figcaption>{caption}</figcaption> : ''}
-        </>
-    );
+	const PictureFragment = (
+		<>
+			<picture>
+				{MobileSourceFragment}
+				<img
+					className={imgClassName}
+					srcSet={`${imgSrc} 1x`}
+					src={imgSrc}
+					title={title}
+					alt={altText}
+					style={imageStyles}
+					loading="lazy"
+				/>
+			</picture>
+			{caption ? <figcaption>{caption}</figcaption> : ''}
+		</>
+	);
 
-    if (typeof link === 'string') {
-        const linkProps = resolveLinkProps(link);
-        const LinkComponent = linkProps.to ? Link : 'a';
+	if (typeof link === 'string') {
+		const linkProps = resolveLinkProps(link);
+		const LinkComponent = linkProps.to ? Link : 'a';
 
-        return (
-            <figure
-                data-cy="PageBuilder-Image-root"
-                style={figureStyles}
-                className={[classes.root, ...cssClasses].join(' ')}
-            >
-                <LinkComponent
-                    {...linkProps}
-                    {...(openInNewTab ? { target: '_blank' } : '')}
-                >
-                    {PictureFragment}
-                </LinkComponent>
-            </figure>
-        );
-    } else {
-        return (
-            <figure
-                data-cy="PageBuilder-Image-root"
-                style={figureStyles}
-                className={[classes.root, ...cssClasses].join(' ')}
-            >
-                {PictureFragment}
-            </figure>
-        );
-    }
+		return (
+			<figure
+				data-cy="PageBuilder-Image-root"
+				style={figureStyles}
+				className={[classes.root, ...cssClasses].join(' ')}
+			>
+				<LinkComponent {...linkProps} {...(openInNewTab ? { target: '_blank' } : '')}>
+					{PictureFragment}
+				</LinkComponent>
+			</figure>
+		);
+	} else {
+		return (
+			<figure
+				data-cy="PageBuilder-Image-root"
+				style={figureStyles}
+				className={[classes.root, ...cssClasses].join(' ')}
+			>
+				{PictureFragment}
+			</figure>
+		);
+	}
 };
 
 /**
@@ -171,46 +165,46 @@ const Image = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Image.propTypes = {
-    classes: shape({
-        root: string,
-        img: string,
-        mobileOnly: string
-    }),
-    desktopImage: shape({
-        src: string,
-        dimensions: shape({
-            height: number,
-            ratio: number,
-            width: number
-        })
-    }),
-    mobileImage: shape({
-        src: string,
-        dimensions: shape({
-            height: number,
-            ratio: number,
-            width: number
-        })
-    }),
-    altText: string,
-    title: string,
-    link: string,
-    linkType: oneOf(['default', 'category', 'product', 'page']),
-    openInNewTab: bool,
-    caption: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		root: string,
+		img: string,
+		mobileOnly: string
+	}),
+	desktopImage: shape({
+		src: string,
+		dimensions: shape({
+			height: number,
+			ratio: number,
+			width: number
+		})
+	}),
+	mobileImage: shape({
+		src: string,
+		dimensions: shape({
+			height: number,
+			ratio: number,
+			width: number
+		})
+	}),
+	altText: string,
+	title: string,
+	link: string,
+	linkType: oneOf(['default', 'category', 'product', 'page']),
+	openInNewTab: bool,
+	caption: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Image;

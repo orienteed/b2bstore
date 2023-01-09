@@ -4,22 +4,22 @@ import { fullPageLoadingIndicator } from '../../LoadingIndicator';
 import { useShareCartPage } from '@magento/peregrine/lib/talons/BuyLaterNotes/useShareCartPage';
 
 const ShareCartPage = () => {
-    const talonProps = useShareCartPage();
-    const { isLoading } = talonProps;
+	const talonProps = useShareCartPage();
+	const { isLoading } = talonProps;
 
-    if (isLoading) {
-        return fullPageLoadingIndicator;
-    }
+	if (isLoading) {
+		return fullPageLoadingIndicator;
+	}
 
-    return null;
+	return null;
 };
 
 export default ShareCartPage;
 
 ShareCartPage.propTypes = {
-    classes: shape({
-        root: string,
-        heading: string,
-        content: string
-    })
+	classes: shape({
+		root: string,
+		heading: string,
+		content: string
+	})
 };

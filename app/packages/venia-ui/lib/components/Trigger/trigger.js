@@ -15,27 +15,15 @@ import defaultClasses from './trigger.module.css';
  * @returns {React.Element} A React component that when triggered invokes the action.
  */
 const Trigger = props => {
-    const {
-        action,
-        children,
-        ariaLabel,
-        classes: propClasses,
-        ...restProps
-    } = props;
+	const { action, children, ariaLabel, classes: propClasses, ...restProps } = props;
 
-    const classes = useStyle(defaultClasses, propClasses);
+	const classes = useStyle(defaultClasses, propClasses);
 
-    return (
-        <button
-            className={classes.root}
-            type="button"
-            onClick={action}
-            aria-label={ariaLabel}
-            {...restProps}
-        >
-            {children}
-        </button>
-    );
+	return (
+		<button className={classes.root} type="button" onClick={action} aria-label={ariaLabel} {...restProps}>
+			{children}
+		</button>
+	);
 };
 
 /**
@@ -52,11 +40,11 @@ const Trigger = props => {
  * @property {string} classes.root classes for root container
  */
 Trigger.propTypes = {
-    action: func.isRequired,
-    children: node,
-    classes: shape({
-        root: string
-    })
+	action: func.isRequired,
+	children: node,
+	classes: shape({
+		root: string
+	})
 };
 
 export default Trigger;

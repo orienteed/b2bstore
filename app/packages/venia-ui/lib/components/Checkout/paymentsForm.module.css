@@ -2,35 +2,35 @@
 }
 
 .heading {
-    composes: heading from './flow.module.css';
+	composes: heading from './flow.module.css';
 }
 
 .body {
-    composes: body from './flow.module.css';
+	composes: body from './flow.module.css';
 
-    composes: h-[30rem] from global;
+	composes: h-[30rem] from global;
 }
 
 .footer {
-    composes: footer from './flow.module.css';
+	composes: footer from './flow.module.css';
 }
 
 .textInput {
-    composes: bg-white from global;
-    composes: border from global;
-    composes: border-solid from global;
-    composes: border-input from global;
-    composes: flex-textInput from global;
-    composes: h-[2.25rem] from global;
-    composes: inline-flex from global;
-    composes: rounded-sm from global;
-    composes: text-colorDefault from global;
-    composes: text-sm from global;
-    composes: w-full from global;
-    padding: calc(0.375rem - 1px) calc(0.625rem - 1px); /* TODO @TW: review */
+	composes: bg-white from global;
+	composes: border from global;
+	composes: border-solid from global;
+	composes: border-input from global;
+	composes: flex-textInput from global;
+	composes: h-[2.25rem] from global;
+	composes: inline-flex from global;
+	composes: rounded-sm from global;
+	composes: text-colorDefault from global;
+	composes: text-sm from global;
+	composes: w-full from global;
+	padding: calc(0.375rem - 1px) calc(0.625rem - 1px); /* TODO @TW: review */
 
-    composes: focus_border-strong from global;
-    composes: focus_outline-none from global;
+	composes: focus_border-strong from global;
+	composes: focus_outline-none from global;
 }
 
 /* Fields. */
@@ -38,28 +38,28 @@
 .city,
 .postcode,
 .region_code {
-    composes: col-end-span1 from global;
+	composes: col-end-span1 from global;
 }
 
 .address_check,
 .email,
 .braintree,
 .street0 {
-    composes: col-end-span2 from global;
+	composes: col-end-span2 from global;
 }
 
 .postcode {
-    composes: mb-1.5 from global;
+	composes: mb-1.5 from global;
 }
 
 .braintree {
-    min-height: 356px;
+	min-height: 356px;
 }
 
 .validation {
-    composes: col-end-span2 from global;
-    composes: text-error from global;
-    composes: text-sm from global;
+	composes: col-end-span2 from global;
+	composes: text-error from global;
+	composes: text-sm from global;
 }
 
 /* Braintree-specific styles. */
@@ -75,10 +75,10 @@
  * to scroll behind the legacy minicart heading, as intended.
  */
 [data-braintree-id='upper-container'] {
-    z-index: unset;
+	z-index: unset;
 }
 
 /* TODO @TW: cannot compose */
 :global .braintree-placeholder {
-    display: none;
+	display: none;
 }

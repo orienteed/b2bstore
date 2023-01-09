@@ -16,19 +16,15 @@ import { node, object } from 'prop-types';
  * @returns {React.ReactPortal} The React portal.
  */
 const Portal = ({ children, container }) => {
-    const isServer = !globalThis.document;
+	const isServer = !globalThis.document;
 
-    // a component must always call the same hooks, so no early returns
-    const target = useMemo(() => {
-        return isServer
-            ? null
-            : container instanceof HTMLElement
-            ? container
-            : document.getElementById('root');
-    }, [container, isServer]);
+	// a component must always call the same hooks, so no early returns
+	const target = useMemo(() => {
+		return isServer ? null : container instanceof HTMLElement ? container : document.getElementById('root');
+	}, [container, isServer]);
 
-    // TODO: replace direct usage of Portal with something SSR-compatible
-    return isServer ? null : createPortal(children, target);
+	// TODO: replace direct usage of Portal with something SSR-compatible
+	return isServer ? null : createPortal(children, target);
 };
 
 export default Portal;
@@ -44,6 +40,6 @@ export default Portal;
  * where the children will be rendered.
  */
 Portal.propTypes = {
-    children: node,
-    container: object
+	children: node,
+	container: object
 };

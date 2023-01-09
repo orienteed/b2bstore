@@ -11,72 +11,72 @@ import defaultClasses from './megaMenu.module.css';
  * The MegaMenu component displays menu with categories on desktop devices
  */
 const MegaMenu = props => {
-    const mainNavRef = useRef(null);
+	const mainNavRef = useRef(null);
 
-    const {
-        megaMenuData,
-        activeCategoryId,
-        subMenuState,
-        disableFocus,
-        handleSubMenuFocus,
-        categoryUrlSuffix,
-        handleNavigate,
-        handleClickOutside
-    } = useMegaMenu({ mainNavRef });
+	const {
+		megaMenuData,
+		activeCategoryId,
+		subMenuState,
+		disableFocus,
+		handleSubMenuFocus,
+		categoryUrlSuffix,
+		handleNavigate,
+		handleClickOutside
+	} = useMegaMenu({ mainNavRef });
 
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    const [mainNavWidth, setMainNavWidth] = useState(0);
-    const shouldRenderItems = useIsInViewport({
-        elementRef: mainNavRef
-    });
+	const [mainNavWidth, setMainNavWidth] = useState(0);
+	const shouldRenderItems = useIsInViewport({
+		elementRef: mainNavRef
+	});
 
-    useEffect(() => {
-        const handleResize = () => {
-            const navWidth = mainNavRef.current ? mainNavRef.current.offsetWidth : null;
+	useEffect(() => {
+		const handleResize = () => {
+			const navWidth = mainNavRef.current ? mainNavRef.current.offsetWidth : null;
 
-            setMainNavWidth(navWidth);
-        };
+			setMainNavWidth(navWidth);
+		};
 
-        window.addEventListener('resize', handleResize);
+		window.addEventListener('resize', handleResize);
 
-        handleResize();
+		handleResize();
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    });
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	});
 
-    const items = megaMenuData.children
-        ? megaMenuData.children.map(category => {
-              return (
-                  <MegaMenuItem
-                      category={category}
-                      activeCategoryId={activeCategoryId}
-                      categoryUrlSuffix={categoryUrlSuffix}
-                      mainNavWidth={mainNavWidth}
-                      onNavigate={handleNavigate}
-                      key={category.uid}
-                      subMenuState={subMenuState}
-                      disableFocus={disableFocus}
-                      handleSubMenuFocus={handleSubMenuFocus}
-                      handleClickOutside={handleClickOutside}
-                  />
-              );
-          })
-        : null;
+	const items = megaMenuData.children
+		? megaMenuData.children.map(category => {
+				return (
+					<MegaMenuItem
+						category={category}
+						activeCategoryId={activeCategoryId}
+						categoryUrlSuffix={categoryUrlSuffix}
+						mainNavWidth={mainNavWidth}
+						onNavigate={handleNavigate}
+						key={category.uid}
+						subMenuState={subMenuState}
+						disableFocus={disableFocus}
+						handleSubMenuFocus={handleSubMenuFocus}
+						handleClickOutside={handleClickOutside}
+					/>
+				);
+		  })
+		: null;
 
-    return (
-        <nav
-            ref={mainNavRef}
-            className={classes.megaMenu}
-            data-cy="MegaMenu-megaMenu"
-            role="navigation"
-            onFocus={handleSubMenuFocus}
-        >
-            {shouldRenderItems ? items : null}
-        </nav>
-    );
+	return (
+		<nav
+			ref={mainNavRef}
+			className={classes.megaMenu}
+			data-cy="MegaMenu-megaMenu"
+			role="navigation"
+			onFocus={handleSubMenuFocus}
+		>
+			{shouldRenderItems ? items : null}
+		</nav>
+	);
 };
 
 export default MegaMenu;

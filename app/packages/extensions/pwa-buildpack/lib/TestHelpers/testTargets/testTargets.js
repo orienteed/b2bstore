@@ -6,9 +6,7 @@ const TargetProvider = require('../../BuildBus/TargetProvider');
 const MockedBuildBus = require('./MockedBuildBus');
 
 const unimplementedTargetFac = (requestor, requestedName) => {
-    throw new Error(`${requestor.constructor.name} received request from "${
-        requestor.name
-    }" for external targets "${requestedName}", but no function was supplied for getting external targets.
+	throw new Error(`${requestor.constructor.name} received request from "${requestor.name}" for external targets "${requestedName}", but no function was supplied for getting external targets.
 
     More details at https://twitter.com/JamesZetlen/status/1244680319267147783`);
 };
@@ -34,12 +32,8 @@ const unimplementedTargetFac = (requestor, requestedName) => {
  * @param {Function} [loggingParent=() => {}] Will be called with detailed logging information.
  * @returns {TargetProvider}
  */
-function mockTargetProvider(
-    name,
-    getExternalTargets = unimplementedTargetFac,
-    loggingParent = () => {}
-) {
-    return new TargetProvider(loggingParent, name, getExternalTargets);
+function mockTargetProvider(name, getExternalTargets = unimplementedTargetFac, loggingParent = () => {}) {
+	return new TargetProvider(loggingParent, name, getExternalTargets);
 }
 
 /**
@@ -64,10 +58,10 @@ function mockTargetProvider(
 
 const INVOKE_FLAG = Symbol.for('FORCE_BUILDBUS_CREATE_FACTORY');
 function mockBuildBus({ context, dependencies }) {
-    return new MockedBuildBus(INVOKE_FLAG, context, dependencies);
+	return new MockedBuildBus(INVOKE_FLAG, context, dependencies);
 }
 
 module.exports = {
-    mockBuildBus,
-    mockTargetProvider
+	mockBuildBus,
+	mockTargetProvider
 };

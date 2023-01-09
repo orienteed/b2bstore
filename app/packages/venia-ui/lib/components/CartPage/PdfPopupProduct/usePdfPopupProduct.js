@@ -31,146 +31,142 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  */
 
 export const usePdfPopupProduct = props => {
-    const { item, wishlistConfig } = props;
+	const { item, wishlistConfig } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeItemMutation, updateItemQuantityMutation, getStoreConfigQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { removeItemMutation, updateItemQuantityMutation, getStoreConfigQuery } = operations;
 
-    const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 
-    const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+	const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const configurableThumbnailSource = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.configurable_thumbnail_source;
-        }
-    }, [storeConfigData]);
+	const configurableThumbnailSource = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.configurable_thumbnail_source;
+		}
+	}, [storeConfigData]);
 
-    const storeUrlSuffix = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.product_url_suffix;
-        }
-    }, [storeConfigData]);
+	const storeUrlSuffix = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.product_url_suffix;
+		}
+	}, [storeConfigData]);
 
-    const flatProduct = flattenProduct(item, configurableThumbnailSource, storeUrlSuffix);
+	const flatProduct = flattenProduct(item, configurableThumbnailSource, storeUrlSuffix);
 
-    const [
-        removeItemFromCart,
-        { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }
-    ] = useMutation(removeItemMutation);
+	const [removeItemFromCart, { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }] =
+		useMutation(removeItemMutation);
 
-    const [
-        updateItemQuantity,
-        { loading: updateItemLoading, error: updateError, called: updateItemCalled }
-    ] = useMutation(updateItemQuantityMutation);
+	const [updateItemQuantity, { loading: updateItemLoading, error: updateError, called: updateItemCalled }] =
+		useMutation(updateItemQuantityMutation);
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    // Use local state to determine whether to display errors or not.
-    // Could be replaced by a "reset mutation" function from apollo client.
-    // https://github.com/apollographql/apollo-feature-requests/issues/170
-    const [displayError, setDisplayError] = useState(false);
+	// Use local state to determine whether to display errors or not.
+	// Could be replaced by a "reset mutation" function from apollo client.
+	// https://github.com/apollographql/apollo-feature-requests/issues/170
+	const [displayError, setDisplayError] = useState(false);
 
-    const isProductUpdating = useMemo(() => {
-        if (updateItemCalled || removeItemCalled) {
-            return removeItemLoading || updateItemLoading;
-        } else {
-            return false;
-        }
-    }, [updateItemCalled, removeItemCalled, removeItemLoading, updateItemLoading]);
+	const isProductUpdating = useMemo(() => {
+		if (updateItemCalled || removeItemCalled) {
+			return removeItemLoading || updateItemLoading;
+		} else {
+			return false;
+		}
+	}, [updateItemCalled, removeItemCalled, removeItemLoading, updateItemLoading]);
 
-    const derivedErrorMessage = useMemo(() => {
-        return (displayError && deriveErrorMessage([updateError, removeItemError])) || '';
-    }, [displayError, removeItemError, updateError]);
+	const derivedErrorMessage = useMemo(() => {
+		return (displayError && deriveErrorMessage([updateError, removeItemError])) || '';
+	}, [displayError, removeItemError, updateError]);
 
-    const handleRemoveFromCart = useCallback(async () => {
-        try {
-            await removeItemFromCart({
-                variables: {
-                    cartId,
-                    itemId: item.uid
-                }
-            });
-        } catch (err) {
-            // Make sure any errors from the mutation are displayed.
-            setDisplayError(true);
-        }
-    }, [cartId, item.uid, removeItemFromCart]);
+	const handleRemoveFromCart = useCallback(async () => {
+		try {
+			await removeItemFromCart({
+				variables: {
+					cartId,
+					itemId: item.uid
+				}
+			});
+		} catch (err) {
+			// Make sure any errors from the mutation are displayed.
+			setDisplayError(true);
+		}
+	}, [cartId, item.uid, removeItemFromCart]);
 
-    const handleUpdateItemQuantity = useCallback(
-        async quantity => {
-            try {
-                await updateItemQuantity({
-                    variables: {
-                        cartId,
-                        itemId: item.uid,
-                        quantity
-                    }
-                });
-            } catch (err) {
-                // Make sure any errors from the mutation are displayed.
-                setDisplayError(true);
-            }
-        },
-        [cartId, item.uid, updateItemQuantity]
-    );
+	const handleUpdateItemQuantity = useCallback(
+		async quantity => {
+			try {
+				await updateItemQuantity({
+					variables: {
+						cartId,
+						itemId: item.uid,
+						quantity
+					}
+				});
+			} catch (err) {
+				// Make sure any errors from the mutation are displayed.
+				setDisplayError(true);
+			}
+		},
+		[cartId, item.uid, updateItemQuantity]
+	);
 
-    const addToWishlistProps = {
-        afterAdd: handleRemoveFromCart,
-        buttonText: () =>
-            formatMessage({
-                id: 'product.saveForLater',
-                defaultMessage: 'Save for later'
-            }),
-        item: {
-            quantity: item.quantity,
-            selected_options: item.configurable_options
-                ? item.configurable_options.map(option => option.configurable_product_option_value_uid)
-                : [],
-            sku: item.product.sku
-        },
-        storeConfig: wishlistConfig
-    };
+	const addToWishlistProps = {
+		afterAdd: handleRemoveFromCart,
+		buttonText: () =>
+			formatMessage({
+				id: 'product.saveForLater',
+				defaultMessage: 'Save for later'
+			}),
+		item: {
+			quantity: item.quantity,
+			selected_options: item.configurable_options
+				? item.configurable_options.map(option => option.configurable_product_option_value_uid)
+				: [],
+			sku: item.product.sku
+		},
+		storeConfig: wishlistConfig
+	};
 
-    return {
-        addToWishlistProps,
-        errorMessage: derivedErrorMessage,
-        handleRemoveFromCart,
-        handleUpdateItemQuantity,
-        isEditable: !!flatProduct.options.length,
-        product: flatProduct,
-        isProductUpdating
-    };
+	return {
+		addToWishlistProps,
+		errorMessage: derivedErrorMessage,
+		handleRemoveFromCart,
+		handleUpdateItemQuantity,
+		isEditable: !!flatProduct.options.length,
+		product: flatProduct,
+		isProductUpdating
+	};
 };
 
 const flattenProduct = (item, configurableThumbnailSource, storeUrlSuffix) => {
-    // const { cartImage, setCartImage } = useCustomContext();
-    const { configurable_options: options = [], prices, product, quantity } = item;
+	// const { cartImage, setCartImage } = useCustomContext();
+	const { configurable_options: options = [], prices, product, quantity } = item;
 
-    const configured_variant = configuredVariant(options, product);
-    // setCartImage(configured_variant)
-    // console.log("world", cartImage)
-    const { price } = prices;
-    const { value: unitPrice, currency } = price;
+	const configured_variant = configuredVariant(options, product);
+	// setCartImage(configured_variant)
+	// console.log("world", cartImage)
+	const { price } = prices;
+	const { value: unitPrice, currency } = price;
 
-    const { name, small_image, stock_status: stockStatus, url_key: urlKey } = product;
+	const { name, small_image, stock_status: stockStatus, url_key: urlKey } = product;
 
-    const { url: image } =
-        configurableThumbnailSource === 'itself' && configured_variant ? configured_variant.small_image : small_image;
+	const { url: image } =
+		configurableThumbnailSource === 'itself' && configured_variant ? configured_variant.small_image : small_image;
 
-    return {
-        currency,
-        image,
-        name,
-        options,
-        quantity,
-        stockStatus,
-        unitPrice,
-        urlKey,
-        urlSuffix: storeUrlSuffix
-    };
+	return {
+		currency,
+		image,
+		name,
+		options,
+		quantity,
+		stockStatus,
+		unitPrice,
+		urlKey,
+		urlSuffix: storeUrlSuffix
+	};
 };
 
 /** JSDocs type definitions */

@@ -1,4 +1,4 @@
 # Additional client field for storing selected currency
 extend type Currency {
-    current_currency_code: String!
+	current_currency_code: String!
 }

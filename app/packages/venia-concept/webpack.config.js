@@ -14,8 +14,8 @@ const {
 const { DefinePlugin } = webpack;
 // const { LimitChunkCountPlugin } = webpack.optimize;
 
-const getCleanTemplate = templateFile => {
-    return new Promise(resolve => {
+const getCleanTemplate = (templateFile) => {
+    return new Promise((resolve) => {
         fs.readFile(templateFile, 'utf8', (err, data) => {
             resolve(
                 data.replace(
@@ -27,7 +27,7 @@ const getCleanTemplate = templateFile => {
     });
 };
 
-module.exports = async env => {
+module.exports = async (env) => {
     /**
      * configureWebpack() returns a regular Webpack configuration object.
      * You can customize the build by mutating the object here, as in

@@ -25,47 +25,44 @@ import DEFAULT_OPERATIONS from './productListing.gql';
  * import { useProductListing } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useProductListing';
  */
 export const useProductListing = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getWishlistConfigQuery, getProductListingQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getWishlistConfigQuery, getProductListingQuery } = operations;
 
-    const [{ cartId }] = useCartContext();
-    const [activeEditItem, setActiveEditItem] = useState(null);
+	const [{ cartId }] = useCartContext();
+	const [activeEditItem, setActiveEditItem] = useState(null);
 
-    const [
-        fetchProductListing,
-        { called, data, error, loading }
-    ] = useLazyQuery(getProductListingQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+	const [fetchProductListing, { called, data, error, loading }] = useLazyQuery(getProductListingQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const { data: storeConfigData } = useQuery(getWishlistConfigQuery);
+	const { data: storeConfigData } = useQuery(getWishlistConfigQuery);
 
-    const wishlistConfig = storeConfigData ? storeConfigData.storeConfig : {};
+	const wishlistConfig = storeConfigData ? storeConfigData.storeConfig : {};
 
-    useEffect(() => {
-        if (cartId) {
-            fetchProductListing({
-                variables: {
-                    cartId
-                }
-            });
-        }
-    }, [cartId, fetchProductListing]);
+	useEffect(() => {
+		if (cartId) {
+			fetchProductListing({
+				variables: {
+					cartId
+				}
+			});
+		}
+	}, [cartId, fetchProductListing]);
 
-    let items = [];
-    if (called && !loading) {
-        items = data?.cart?.items || [];
-    }
+	let items = [];
+	if (called && !loading) {
+		items = data?.cart?.items || [];
+	}
 
-    return {
-        activeEditItem,
-        isLoading: !!loading,
-        error,
-        items,
-        setActiveEditItem,
-        wishlistConfig
-    };
+	return {
+		activeEditItem,
+		isLoading: !!loading,
+		error,
+		items,
+		setActiveEditItem,
+		wishlistConfig
+	};
 };
 
 /** JSDocs type definitions */

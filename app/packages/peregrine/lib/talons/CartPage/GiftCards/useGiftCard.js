@@ -15,15 +15,15 @@ import { useCallback } from 'react';
  * import { useGiftCard } from '@magento/peregrine/lib/talons/CartPage/GiftCards/useGiftCard';
  */
 export const useGiftCard = props => {
-    const { code, removeGiftCard } = props;
+	const { code, removeGiftCard } = props;
 
-    const removeGiftCardWithCode = useCallback(() => {
-        removeGiftCard(code);
-    }, [code, removeGiftCard]);
+	const removeGiftCardWithCode = useCallback(() => {
+		removeGiftCard(code);
+	}, [code, removeGiftCard]);
 
-    return {
-        removeGiftCardWithCode
-    };
+	return {
+		removeGiftCardWithCode
+	};
 };
 
 /** JSDoc type definitions */

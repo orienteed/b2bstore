@@ -20,57 +20,57 @@ const toHTML = str => ({ __html: str });
  * @returns {React.Element} A React component that renders HTML with optional styling properties.
  */
 const Html = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        html,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		html,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
 
-    const dynamicStyles = {
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
+	const dynamicStyles = {
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
 
-    const history = useHistory();
+	const history = useHistory();
 
-    const clickHandler = event => {
-        handleHtmlContentClick(history, event);
-    };
+	const clickHandler = event => {
+		handleHtmlContentClick(history, event);
+	};
 
-    return (
-        <div
-            style={dynamicStyles}
-            className={[classes.root, ...cssClasses].join(' ')}
-            dangerouslySetInnerHTML={toHTML(html)}
-            onClick={clickHandler}
-            onKeyDown={clickHandler}
-            role="presentation"
-        />
-    );
+	return (
+		<div
+			style={dynamicStyles}
+			className={[classes.root, ...cssClasses].join(' ')}
+			dangerouslySetInnerHTML={toHTML(html)}
+			onClick={clickHandler}
+			onKeyDown={clickHandler}
+			role="presentation"
+		/>
+	);
 };
 
 /**
@@ -97,23 +97,23 @@ const Html = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Html.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    html: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		root: string
+	}),
+	html: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Html;

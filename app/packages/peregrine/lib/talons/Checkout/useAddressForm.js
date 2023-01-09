@@ -17,72 +17,54 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  * }}
  */
 export const useAddressForm = props => {
-    const {
-        countries,
-        fields,
-        onCancel,
-        onSubmit,
-        setGuestEmailMutation,
-        setShippingAddressOnCartMutation
-    } = props;
+	const { countries, fields, onCancel, onSubmit, setGuestEmailMutation, setShippingAddressOnCartMutation } = props;
 
-    const [
-        { shippingAddress, shippingAddressError },
-        { submitShippingAddress }
-    ] = useCheckoutContext();
+	const [{ shippingAddress, shippingAddressError }, { submitShippingAddress }] = useCheckoutContext();
 
-    const [{ isSignedIn }] = useUserContext();
+	const [{ isSignedIn }] = useUserContext();
 
-    const [setGuestEmail] = useMutation(setGuestEmailMutation, {
-        // For security, never cache this mutation or the mutation results.
-        fetchPolicy: 'no-cache'
-    });
+	const [setGuestEmail] = useMutation(setGuestEmailMutation, {
+		// For security, never cache this mutation or the mutation results.
+		fetchPolicy: 'no-cache'
+	});
 
-    const [setShippingAddressOnCart] = useMutation(
-        setShippingAddressOnCartMutation
-    );
+	const [setShippingAddressOnCart] = useMutation(setShippingAddressOnCartMutation);
 
-    const values = useMemo(
-        () =>
-            fields.reduce((acc, key) => {
-                acc[key] = shippingAddress[key];
-                return acc;
-            }, {}),
-        [fields, shippingAddress]
-    );
+	const values = useMemo(
+		() =>
+			fields.reduce((acc, key) => {
+				acc[key] = shippingAddress[key];
+				return acc;
+			}, {}),
+		[fields, shippingAddress]
+	);
 
-    const handleCancel = useCallback(() => {
-        onCancel();
-    }, [onCancel]);
+	const handleCancel = useCallback(() => {
+		onCancel();
+	}, [onCancel]);
 
-    const handleSubmit = useCallback(
-        async addressFormValues => {
-            try {
-                await submitShippingAddress({
-                    formValues: addressFormValues,
-                    countries,
-                    setGuestEmail,
-                    setShippingAddressOnCart
-                });
-                onSubmit();
-            } catch (error) {
-                console.error(error);
-            }
-        },
-        [
-            countries,
-            onSubmit,
-            setGuestEmail,
-            setShippingAddressOnCart,
-            submitShippingAddress
-        ]
-    );
+	const handleSubmit = useCallback(
+		async addressFormValues => {
+			try {
+				await submitShippingAddress({
+					formValues: addressFormValues,
+					countries,
+					setGuestEmail,
+					setShippingAddressOnCart
+				});
+				onSubmit();
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		[countries, onSubmit, setGuestEmail, setShippingAddressOnCart, submitShippingAddress]
+	);
 
-    return {
-        error: shippingAddressError,
-        handleCancel,
-        handleSubmit,
-        isSignedIn,
-        initialValues: values
-    };
+	return {
+		error: shippingAddressError,
+		handleCancel,
+		handleSubmit,
+		isSignedIn,
+		initialValues: values
+	};
 };

@@ -8,13 +8,13 @@ import { useCallback } from 'react';
  * @return {{ handleClick: function }}
  */
 export const useCategoryLeaf = props => {
-    const { onNavigate } = props;
+	const { onNavigate } = props;
 
-    const handleClick = useCallback(() => {
-        onNavigate();
-    }, [onNavigate]);
+	const handleClick = useCallback(() => {
+		onNavigate();
+	}, [onNavigate]);
 
-    return {
-        handleClick
-    };
+	return {
+		handleClick
+	};
 };

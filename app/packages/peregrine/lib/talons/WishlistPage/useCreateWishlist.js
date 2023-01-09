@@ -12,94 +12,76 @@ import WISHLIST_PAGE_OPERATIONS from './wishlistPage.gql';
  * @returns {CreateWishListProps}
  */
 export const useCreateWishlist = (props = { numberOfWishlists: 1 }) => {
-    const { numberOfWishlists } = props;
-    const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
-        WISHLIST_PAGE_OPERATIONS,
-        props.operations
-    );
-    const {
-        createWishlistMutation,
-        getCustomerWishlistQuery,
-        getMultipleWishlistsEnabledQuery
-    } = operations;
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [displayError, setDisplayError] = useState(false);
-    const [
-        createWishlist,
-        { error: createWishlistError, loading }
-    ] = useMutation(createWishlistMutation);
+	const { numberOfWishlists } = props;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, WISHLIST_PAGE_OPERATIONS, props.operations);
+	const { createWishlistMutation, getCustomerWishlistQuery, getMultipleWishlistsEnabledQuery } = operations;
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [displayError, setDisplayError] = useState(false);
+	const [createWishlist, { error: createWishlistError, loading }] = useMutation(createWishlistMutation);
 
-    const { data: storeConfigData } = useQuery(
-        getMultipleWishlistsEnabledQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first'
-        }
-    );
+	const { data: storeConfigData } = useQuery(getMultipleWishlistsEnabledQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const shouldRender = useMemo(() => {
-        return (
-            (storeConfigData &&
-                storeConfigData.storeConfig.enable_multiple_wishlists === '1' &&
-                numberOfWishlists <
-                    storeConfigData.storeConfig.maximum_number_of_wishlists) ||
-            false
-        );
-    }, [storeConfigData, numberOfWishlists]);
+	const shouldRender = useMemo(() => {
+		return (
+			(storeConfigData &&
+				storeConfigData.storeConfig.enable_multiple_wishlists === '1' &&
+				numberOfWishlists < storeConfigData.storeConfig.maximum_number_of_wishlists) ||
+			false
+		);
+	}, [storeConfigData, numberOfWishlists]);
 
-    const handleShowModal = useCallback(() => {
-        setIsModalOpen(true);
-        setDisplayError(false);
-    }, []);
+	const handleShowModal = useCallback(() => {
+		setIsModalOpen(true);
+		setDisplayError(false);
+	}, []);
 
-    const handleHideModal = useCallback(() => {
-        setIsModalOpen(false);
-    }, []);
+	const handleHideModal = useCallback(() => {
+		setIsModalOpen(false);
+	}, []);
 
-    const handleCreateList = useCallback(
-        async data => {
-            // add private visibility because is required field
-            if (data && !data.visibility) {
-                data.visibility = 'PRIVATE';
-            }
+	const handleCreateList = useCallback(
+		async data => {
+			// add private visibility because is required field
+			if (data && !data.visibility) {
+				data.visibility = 'PRIVATE';
+			}
 
-            try {
-                await createWishlist({
-                    variables: {
-                        input: data
-                    },
-                    refetchQueries: [{ query: getCustomerWishlistQuery }],
-                    awaitRefetchQueries: true
-                });
-                setIsModalOpen(false);
-            } catch (error) {
-                setDisplayError(true);
-                if (process.env.NODE_ENV !== 'production') {
-                    console.error(error);
-                }
-            }
-        },
-        [createWishlist, setIsModalOpen, getCustomerWishlistQuery]
-    );
+			try {
+				await createWishlist({
+					variables: {
+						input: data
+					},
+					refetchQueries: [{ query: getCustomerWishlistQuery }],
+					awaitRefetchQueries: true
+				});
+				setIsModalOpen(false);
+			} catch (error) {
+				setDisplayError(true);
+				if (process.env.NODE_ENV !== 'production') {
+					console.error(error);
+				}
+			}
+		},
+		[createWishlist, setIsModalOpen, getCustomerWishlistQuery]
+	);
 
-    const errors = useMemo(
-        () =>
-            displayError
-                ? new Map([['createWishlistMutation', createWishlistError]])
-                : new Map(),
-        [createWishlistError, displayError]
-    );
+	const errors = useMemo(
+		() => (displayError ? new Map([['createWishlistMutation', createWishlistError]]) : new Map()),
+		[createWishlistError, displayError]
+	);
 
-    return {
-        handleCreateList,
-        handleHideModal,
-        handleShowModal,
-        isModalOpen,
-        formErrors: errors,
-        loading,
-        shouldRender
-    };
+	return {
+		handleCreateList,
+		handleHideModal,
+		handleShowModal,
+		isModalOpen,
+		formErrors: errors,
+		loading,
+		shouldRender
+	};
 };
 
 /**

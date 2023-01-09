@@ -16,19 +16,14 @@ import Button from '../Button';
  * @returns {React.Element} A React component that displays a single link button.
  */
 const LinkButton = props => {
-    const { children, classes: propClasses, type, ...restProps } = props;
-    const classes = useStyle(defaultClasses, propClasses);
+	const { children, classes: propClasses, type, ...restProps } = props;
+	const classes = useStyle(defaultClasses, propClasses);
 
-    return (
-        <Button
-            priority={'normal'}
-            classes={{ root_normalPriority: classes.root }}
-            type={type}
-            {...restProps}
-        >
-            {children}
-        </Button>
-    );
+	return (
+		<Button priority={'normal'} classes={{ root_normalPriority: classes.root }} type={type} {...restProps}>
+			{children}
+		</Button>
+	);
 };
 
 /**
@@ -42,14 +37,14 @@ const LinkButton = props => {
  * @property {string} type the type of the Button
  */
 LinkButton.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    type: oneOf(['button', 'reset', 'submit']).isRequired
+	classes: shape({
+		root: string
+	}),
+	type: oneOf(['button', 'reset', 'submit']).isRequired
 };
 
 LinkButton.defaultProps = {
-    type: 'button'
+	type: 'button'
 };
 
 export default LinkButton;

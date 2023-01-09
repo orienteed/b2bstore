@@ -16,52 +16,52 @@ import { arrayOf, shape, string } from 'prop-types';
  * @returns {React.Element} A React component that displays a Divider.
  */
 const Divider = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        width,
-        color,
-        thickness,
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = []
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		width,
+		color,
+		thickness,
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = []
+	} = props;
 
-    const dynamicStyles = {
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
-    const hrStyles = {
-        width,
-        borderColor: color,
-        borderWidth: thickness
-    };
-    return (
-        <div style={dynamicStyles} className={cssClasses.join(' ')}>
-            <hr style={hrStyles} className={classes.hr} />
-        </div>
-    );
+	const dynamicStyles = {
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
+	const hrStyles = {
+		width,
+		borderColor: color,
+		borderWidth: thickness
+	};
+	return (
+		<div style={dynamicStyles} className={cssClasses.join(' ')}>
+			<hr style={hrStyles} className={classes.hr} />
+		</div>
+	);
 };
 
 /**
@@ -90,25 +90,25 @@ const Divider = props => {
  * @property {Array} cssClasses List of CSS classes to be applied to the component
  */
 Divider.propTypes = {
-    classes: shape({
-        hr: string
-    }),
-    width: string,
-    color: string,
-    thickness: string,
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    cssClasses: arrayOf(string)
+	classes: shape({
+		hr: string
+	}),
+	width: string,
+	color: string,
+	thickness: string,
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	cssClasses: arrayOf(string)
 };
 
 export default Divider;

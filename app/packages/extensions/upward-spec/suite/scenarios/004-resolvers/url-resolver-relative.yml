@@ -1,19 +1,19 @@
 status: 200
 headers:
-  inline:
-    content-type: text/plain
+    inline:
+        content-type: text/plain
 body: rewrittenUrl
 
 rewrittenUrl:
-  baseUrl: documentBase
-  pathname: request.url.query.id
+    baseUrl: documentBase
+    pathname: request.url.query.id
 
 documentBase:
-  baseUrl: rootUrl
-  pathname:
-    inline: document/
+    baseUrl: rootUrl
+    pathname:
+        inline: document/
 
 rootUrl:
-  baseUrl: false
-  pathname:
-    inline: scope/
+    baseUrl: false
+    pathname:
+        inline: scope/

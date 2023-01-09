@@ -17,45 +17,35 @@ import defaultClasses from './textarea.module.css';
  * @returns {React.Element} A React component that displays a Textarea Type Product Attribute.
  */
 const Textarea = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        attribute_metadata = {},
-        entered_attribute_value = {},
-        showLabels = true
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const { attribute_metadata = {}, entered_attribute_value = {}, showLabels = true } = props;
 
-    const attributeLabel =
-        attribute_metadata.label && showLabels ? (
-            <div className={classes.label}>{attribute_metadata.label}</div>
-        ) : null;
-    let attributeContent;
+	const attributeLabel =
+		attribute_metadata.label && showLabels ? <div className={classes.label}>{attribute_metadata.label}</div> : null;
+	let attributeContent;
 
-    if (entered_attribute_value.value) {
-        const { is_html_allowed: isHtml } = attribute_metadata.ui_input;
+	if (entered_attribute_value.value) {
+		const { is_html_allowed: isHtml } = attribute_metadata.ui_input;
 
-        if (isHtml) {
-            // TODO: Get decoded wysiwyg widgets from GraphQl
+		if (isHtml) {
+			// TODO: Get decoded wysiwyg widgets from GraphQl
 
-            attributeContent = (
-                <div className={classes.contentHtml}>
-                    <RichContent html={entered_attribute_value.value} />
-                </div>
-            );
-        } else {
-            attributeContent = (
-                <div className={classes.content}>
-                    {entered_attribute_value.value}
-                </div>
-            );
-        }
-    }
+			attributeContent = (
+				<div className={classes.contentHtml}>
+					<RichContent html={entered_attribute_value.value} />
+				</div>
+			);
+		} else {
+			attributeContent = <div className={classes.content}>{entered_attribute_value.value}</div>;
+		}
+	}
 
-    return (
-        <Fragment>
-            {attributeLabel}
-            {attributeContent}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			{attributeLabel}
+			{attributeContent}
+		</Fragment>
+	);
 };
 
 /**
@@ -75,20 +65,20 @@ const Textarea = props => {
  * @property {String} entered_attribute_value.value Attribute value
  */
 Textarea.propTypes = {
-    classes: shape({
-        label: string,
-        content: string,
-        contentHtml: string
-    }),
-    attribute_metadata: shape({
-        label: string,
-        ui_input: shape({
-            is_html_allowed: bool
-        })
-    }),
-    entered_attribute_value: shape({
-        value: string
-    })
+	classes: shape({
+		label: string,
+		content: string,
+		contentHtml: string
+	}),
+	attribute_metadata: shape({
+		label: string,
+		ui_input: shape({
+			is_html_allowed: bool
+		})
+	}),
+	entered_attribute_value: shape({
+		value: string
+	})
 };
 
 export default Textarea;

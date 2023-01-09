@@ -8,9 +8,9 @@ const dismissers = new WeakMap();
 
 // Memoize dismisser funcs to reduce re-renders from func identity change.
 const getErrorDismisser = (error, onDismissError) => {
-    return dismissers.has(error)
-        ? dismissers.get(error)
-        : dismissers.set(error, () => onDismissError(error)).get(error);
+	return dismissers.has(error)
+		? dismissers.get(error)
+		: dismissers.set(error, () => onDismissError(error)).get(error);
 };
 
 /**
@@ -31,74 +31,52 @@ const getErrorDismisser = (error, onDismissError) => {
  * }}
  */
 export const useApp = props => {
-    const {
-        handleError,
-        handleIsOffline,
-        handleIsOnline,
-        markErrorHandled,
-        renderError,
-        unhandledErrors
-    } = props;
-    const history = useHistory();
+	const { handleError, handleIsOffline, handleIsOnline, markErrorHandled, renderError, unhandledErrors } = props;
+	const history = useHistory();
 
-    const reload = useCallback(() => {
-        if (process.env.NODE_ENV !== 'development') {
-            history.go(0);
-        }
-    }, [history]);
+	const reload = useCallback(() => {
+		if (process.env.NODE_ENV !== 'development') {
+			history.go(0);
+		}
+	}, [history]);
 
-    const renderErrors = useMemo(
-        () =>
-            renderError
-                ? [
-                      errorRecord(
-                          renderError,
-                          globalThis,
-                          useApp,
-                          renderError.stack
-                      )
-                  ]
-                : [],
-        [renderError]
-    );
+	const renderErrors = useMemo(
+		() => (renderError ? [errorRecord(renderError, globalThis, useApp, renderError.stack)] : []),
+		[renderError]
+	);
 
-    const errors = renderError ? renderErrors : unhandledErrors;
-    const handleDismissError = renderError ? reload : markErrorHandled;
+	const errors = renderError ? renderErrors : unhandledErrors;
+	const handleDismissError = renderError ? reload : markErrorHandled;
 
-    // Only add toasts for errors if the errors list changes. Since `addToast`
-    // and `toasts` changes each render we cannot add it as an effect dependency
-    // otherwise we infinitely loop.
-    useEffect(() => {
-        for (const { error, id, loc } of errors) {
-            handleError(
-                error,
-                id,
-                loc,
-                getErrorDismisser(error, handleDismissError)
-            );
-        }
-    }, [errors, handleDismissError, handleError]);
+	// Only add toasts for errors if the errors list changes. Since `addToast`
+	// and `toasts` changes each render we cannot add it as an effect dependency
+	// otherwise we infinitely loop.
+	useEffect(() => {
+		for (const { error, id, loc } of errors) {
+			handleError(error, id, loc, getErrorDismisser(error, handleDismissError));
+		}
+	}, [errors, handleDismissError, handleError]);
 
-    const [appState, appApi] = useAppContext();
-    const { closeDrawer } = appApi;
-    const { hasBeenOffline, isOnline, overlay } = appState;
+	const [appState, appApi] = useAppContext();
+	const { closeDrawer } = appApi;
+	const { hasBeenOffline, isOnline, overlay } = appState;
 
-    useEffect(() => {
-        if (hasBeenOffline) {
-            if (isOnline) {
-                handleIsOnline();
-            } else {
-                handleIsOffline();
-            }
-        }
-    }, [handleIsOnline, handleIsOffline, hasBeenOffline, isOnline]);
+	useEffect(() => {
+		if (hasBeenOffline) {
+			if (isOnline) {
+				handleIsOnline();
+			} else {
+				handleIsOffline();
+			}
+		}
+	}, [handleIsOnline, handleIsOffline, hasBeenOffline, isOnline]);
 
-    const handleCloseDrawer = useCallback(() => {
-        closeDrawer();
-    }, [closeDrawer]);
+	const handleCloseDrawer = useCallback(() => {
+		closeDrawer();
+	}, [closeDrawer]);
 
-    return {
-        hasOverlay: !!overlay,
-        handleCloseDrawer
-    };
+	return {
+		hasOverlay: !!overlay,
+		handleCloseDrawer
+	};
 };

@@ -8,17 +8,14 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import defaultOperations from './savedPaymentsPage.gql';
 
 export const normalizeTokens = responseData => {
-    const paymentTokens =
-        (responseData && responseData.customerPaymentTokens.items) || [];
+	const paymentTokens = (responseData && responseData.customerPaymentTokens.items) || [];
 
-    return paymentTokens.map(
-        ({ details, public_hash, payment_method_code }) => ({
-            // details is a stringified object.
-            details: JSON.parse(details),
-            public_hash,
-            payment_method_code
-        })
-    );
+	return paymentTokens.map(({ details, public_hash, payment_method_code }) => ({
+		// details is a stringified object.
+		details: JSON.parse(details),
+		public_hash,
+		payment_method_code
+	}));
 };
 /**
  * This talon contains logic for a saved payment page component.
@@ -35,37 +32,34 @@ export const normalizeTokens = responseData => {
  * import { useSavedPayments } from '@magento/peregrine/lib/talons/SavedPaymentsPage/useSavedPaymentsPage';
  */
 export const useSavedPaymentsPage = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const { getSavedPaymentsQuery } = operations;
+	const operations = mergeOperations(defaultOperations, props.operations);
+	const { getSavedPaymentsQuery } = operations;
 
-    const [
-        ,
-        {
-            actions: { setPageLoading }
-        }
-    ] = useAppContext();
-    const [{ isSignedIn }] = useUserContext();
+	const [
+		,
+		{
+			actions: { setPageLoading }
+		}
+	] = useAppContext();
+	const [{ isSignedIn }] = useUserContext();
 
-    const { data: savedPaymentsData, loading } = useQuery(
-        getSavedPaymentsQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            skip: !isSignedIn
-        }
-    );
+	const { data: savedPaymentsData, loading } = useQuery(getSavedPaymentsQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first',
+		skip: !isSignedIn
+	});
 
-    // Update the page indicator if the GraphQL query is in flight.
-    useEffect(() => {
-        setPageLoading(loading);
-    }, [loading, setPageLoading]);
+	// Update the page indicator if the GraphQL query is in flight.
+	useEffect(() => {
+		setPageLoading(loading);
+	}, [loading, setPageLoading]);
 
-    const savedPayments = normalizeTokens(savedPaymentsData);
+	const savedPayments = normalizeTokens(savedPaymentsData);
 
-    return {
-        isLoading: loading,
-        savedPayments
-    };
+	return {
+		isLoading: loading,
+		savedPayments
+	};
 };
 
 /** JSDoc type definitions */

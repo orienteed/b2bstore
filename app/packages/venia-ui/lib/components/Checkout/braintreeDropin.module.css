@@ -2,5 +2,5 @@
 }
 
 .error {
-    composes: text-error from global;
+	composes: text-error from global;
 }

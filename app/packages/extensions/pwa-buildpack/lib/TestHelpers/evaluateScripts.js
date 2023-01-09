@@ -12,16 +12,16 @@ const { JSDOM } = require('jsdom');
  * @private
  */
 const getExports = sandbox => {
-    if (sandbox.exports.default) {
-        const defaultType = typeof sandbox.exports.default;
-        if (defaultType === 'function' || defaultType === 'object') {
-            return Object.assign(sandbox.exports.default, sandbox.exports);
-        } else {
-            return sandbox.exports.default;
-        }
-    } else {
-        return sandbox.exports;
-    }
+	if (sandbox.exports.default) {
+		const defaultType = typeof sandbox.exports.default;
+		if (defaultType === 'function' || defaultType === 'object') {
+			return Object.assign(sandbox.exports.default, sandbox.exports);
+		} else {
+			return sandbox.exports.default;
+		}
+	} else {
+		return sandbox.exports;
+	}
 };
 
 /**
@@ -37,9 +37,9 @@ const getExports = sandbox => {
  * @returns The `exports` from the source code sandbox.
  */
 function evalScript(source, requireFn) {
-    const sandbox = { require: requireFn, exports: {} };
-    vm.runInNewContext(source, sandbox);
-    return getExports(sandbox);
+	const sandbox = { require: requireFn, exports: {} };
+	vm.runInNewContext(source, sandbox);
+	return getExports(sandbox);
 }
 
 /**
@@ -59,17 +59,14 @@ function evalScript(source, requireFn) {
  * @returns Exported module.
  */
 function evalEsModule(source, require, babelOptions = {}) {
-    if (!babelOptions.filename) {
-        babelOptions.filename = path.resolve(
-            __dirname,
-            'evaluated-es6-module.js' // For debugging
-        );
-    }
-    const out = evalScript(
-        babel.transformSync(source, babelOptions).code,
-        require
-    );
-    return out.exports || out;
+	if (!babelOptions.filename) {
+		babelOptions.filename = path.resolve(
+			__dirname,
+			'evaluated-es6-module.js' // For debugging
+		);
+	}
+	const out = evalScript(babel.transformSync(source, babelOptions).code, require);
+	return out.exports || out;
 }
 
 /**
@@ -87,19 +84,19 @@ function evalEsModule(source, require, babelOptions = {}) {
  * @returns The `exports` from the DOM sandbox.
  */
 function evalInDom(content, require, jsDomOptions) {
-    const options = Object.assign(
-        {
-            url: 'https://localhost',
-            runScripts: 'outside-only'
-        },
-        jsDomOptions
-    );
-    const dom = new JSDOM('', options);
-    const sandbox = dom.getInternalVMContext();
-    sandbox.require = require;
-    sandbox.exports = {};
-    vm.runInContext(content, sandbox);
-    return getExports(sandbox);
+	const options = Object.assign(
+		{
+			url: 'https://localhost',
+			runScripts: 'outside-only'
+		},
+		jsDomOptions
+	);
+	const dom = new JSDOM('', options);
+	const sandbox = dom.getInternalVMContext();
+	sandbox.require = require;
+	sandbox.exports = {};
+	vm.runInContext(content, sandbox);
+	return getExports(sandbox);
 }
 
 module.exports = { evalEsModule, evalInDom, evalScript };

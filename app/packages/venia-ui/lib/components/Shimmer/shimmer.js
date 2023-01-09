@@ -16,42 +16,39 @@ import defaultClasses from './shimmer.module.css';
  * @param {node} children Children to output within the Shimmer. Useful for setting image placeholders.
  */
 const Shimmer = props => {
-    const {
-        classes: propClasses,
-        borderRadius,
-        height,
-        width,
-        style: customStyles,
-        type,
-        children,
-        ...restProps
-    } = props;
-    const classes = useStyle(defaultClasses, propClasses);
+	const {
+		classes: propClasses,
+		borderRadius,
+		height,
+		width,
+		style: customStyles,
+		type,
+		children,
+		...restProps
+	} = props;
+	const classes = useStyle(defaultClasses, propClasses);
 
-    const style = useMemo(() => {
-        const combinedStyles = {
-            ...customStyles
-        };
+	const style = useMemo(() => {
+		const combinedStyles = {
+			...customStyles
+		};
 
-        Object.entries({ borderRadius, height, width }).forEach(
-            ([type, value]) => {
-                if (typeof value !== 'undefined') {
-                    combinedStyles[type] =
-                        typeof value === 'number' ? `${value}rem` : value;
-                }
-            }
-        );
+		Object.entries({ borderRadius, height, width }).forEach(([type, value]) => {
+			if (typeof value !== 'undefined') {
+				combinedStyles[type] = typeof value === 'number' ? `${value}rem` : value;
+			}
+		});
 
-        return combinedStyles;
-    }, [customStyles, borderRadius, height, width]);
+		return combinedStyles;
+	}, [customStyles, borderRadius, height, width]);
 
-    const rootClass = `root_${type}`;
+	const rootClass = `root_${type}`;
 
-    return (
-        <div className={classes[rootClass]} style={style} {...restProps}>
-            {children}
-        </div>
-    );
+	return (
+		<div className={classes[rootClass]} style={style} {...restProps}>
+			{children}
+		</div>
+	);
 };
 
 /**
@@ -78,33 +75,26 @@ const Shimmer = props => {
  * @property {node} children are the children of the Shimmer
  */
 Shimmer.propTypes = {
-    classes: shape({
-        root: string,
-        root_rectangle: string,
-        root_button: string,
-        root_checkbox: string,
-        root_radio: string,
-        root_textArea: string,
-        root_textInput: string
-    }),
-    borderRadius: oneOfType([number, string]),
-    height: oneOfType([number, string]),
-    width: oneOfType([number, string]),
-    style: shape({}),
-    type: oneOf([
-        'rectangle',
-        'button',
-        'checkbox',
-        'radio',
-        'textArea',
-        'textInput'
-    ]),
-    children: node
+	classes: shape({
+		root: string,
+		root_rectangle: string,
+		root_button: string,
+		root_checkbox: string,
+		root_radio: string,
+		root_textArea: string,
+		root_textInput: string
+	}),
+	borderRadius: oneOfType([number, string]),
+	height: oneOfType([number, string]),
+	width: oneOfType([number, string]),
+	style: shape({}),
+	type: oneOf(['rectangle', 'button', 'checkbox', 'radio', 'textArea', 'textInput']),
+	children: node
 };
 
 Shimmer.defaultProps = {
-    style: {},
-    type: 'rectangle'
+	style: {},
+	type: 'rectangle'
 };
 
 export default Shimmer;

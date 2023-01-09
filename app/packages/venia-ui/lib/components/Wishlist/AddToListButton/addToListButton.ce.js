@@ -12,43 +12,36 @@ import { useCommonToasts } from './useCommonToasts';
 const StarIcon = <Icon size={20} src={Star} />;
 
 const AddToListButton = props => {
-    const talonProps = useAddToListButton(props);
-    const buttonRef = useRef();
+	const talonProps = useAddToListButton(props);
+	const buttonRef = useRef();
 
-    const {
-        buttonProps,
-        buttonText,
-        errorToastProps,
-        isSelected,
-        loginToastProps,
-        successToastProps
-    } = talonProps;
+	const { buttonProps, buttonText, errorToastProps, isSelected, loginToastProps, successToastProps } = talonProps;
 
-    useCommonToasts({ errorToastProps, loginToastProps, successToastProps });
-    const { buttonProps: ariaButtonProps } = useButton(buttonProps, buttonRef);
+	useCommonToasts({ errorToastProps, loginToastProps, successToastProps });
+	const { buttonProps: ariaButtonProps } = useButton(buttonProps, buttonRef);
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const buttonClass = isSelected ? classes.root_selected : classes.root;
+	const classes = useStyle(defaultClasses, props.classes);
+	const buttonClass = isSelected ? classes.root_selected : classes.root;
 
-    return (
-        <button ref={buttonRef} className={buttonClass} {...ariaButtonProps}>
-            {props.icon} {buttonText}
-        </button>
-    );
+	return (
+		<button ref={buttonRef} className={buttonClass} {...ariaButtonProps}>
+			{props.icon} {buttonText}
+		</button>
+	);
 };
 
 export default AddToListButton;
 
 AddToListButton.defaultProps = {
-    icon: StarIcon
+	icon: StarIcon
 };
 
 AddToListButton.propTypes = {
-    afterAdd: func,
-    beforeAdd: func,
-    classes: shape({
-        root: string,
-        root_selected: string
-    }),
-    icon: element
+	afterAdd: func,
+	beforeAdd: func,
+	classes: shape({
+		root: string,
+		root_selected: string
+	}),
+	icon: element
 };

@@ -23,66 +23,66 @@ import DEFAULT_OPERATIONS from './cartPage.gql';
  * import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
  */
 export const useCartPage = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCartDetailsQuery } = operations;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getCartDetailsQuery } = operations;
 
-    const [{ cartId }] = useCartContext();
+	const [{ cartId }] = useCartContext();
 
-    const [isCartUpdating, setIsCartUpdating] = useState(false);
-    const [wishlistSuccessProps, setWishlistSuccessProps] = useState(null);
+	const [isCartUpdating, setIsCartUpdating] = useState(false);
+	const [wishlistSuccessProps, setWishlistSuccessProps] = useState(null);
 
-    const [fetchCartDetails, { called, data, loading }] = useLazyQuery(getCartDetailsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-        // errorPolicy: 'all'
-    });
+	const [fetchCartDetails, { called, data, loading }] = useLazyQuery(getCartDetailsQuery, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+		// errorPolicy: 'all'
+	});
 
-    const hasItems = !!(data && data.cart.total_quantity);
-    const shouldShowLoadingIndicator = called && loading && !hasItems;
+	const hasItems = !!(data && data.cart.total_quantity);
+	const shouldShowLoadingIndicator = called && loading && !hasItems;
 
-    const cartItems = useMemo(() => {
-        return (data && data.cart.items) || [];
-    }, [data]);
+	const cartItems = useMemo(() => {
+		return (data && data.cart.items) || [];
+	}, [data]);
 
-    const onAddToWishlistSuccess = useCallback(successToastProps => {
-        setWishlistSuccessProps(successToastProps);
-    }, []);
+	const onAddToWishlistSuccess = useCallback(successToastProps => {
+		setWishlistSuccessProps(successToastProps);
+	}, []);
 
-    useEffect(() => {
-        if (!called && cartId) {
-            fetchCartDetails({ variables: { cartId } });
-        }
+	useEffect(() => {
+		if (!called && cartId) {
+			fetchCartDetails({ variables: { cartId } });
+		}
 
-        // Let the cart page know it is updating while we're waiting on network data.
-        setIsCartUpdating(loading);
-    }, [fetchCartDetails, called, cartId, loading]);
+		// Let the cart page know it is updating while we're waiting on network data.
+		setIsCartUpdating(loading);
+	}, [fetchCartDetails, called, cartId, loading]);
 
-    const [csvErrorType, setCsvErrorType] = useState('');
-    const [csvSkuErrorList, setCsvSkuErrorList] = useState([]);
+	const [csvErrorType, setCsvErrorType] = useState('');
+	const [csvSkuErrorList, setCsvSkuErrorList] = useState([]);
 
-    const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
+	const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
 
-    const handleCancelCsvDialog = useCallback(() => {
-        setIsCsvDialogOpen(false);
-    }, []);
+	const handleCancelCsvDialog = useCallback(() => {
+		setIsCsvDialogOpen(false);
+	}, []);
 
-    return {
-        cartItems,
-        hasItems,
-        isCartUpdating,
-        fetchCartDetails,
-        onAddToWishlistSuccess,
-        setIsCartUpdating,
-        shouldShowLoadingIndicator,
-        wishlistSuccessProps,
-        csvErrorType,
-        setCsvErrorType,
-        csvSkuErrorList,
-        setCsvSkuErrorList,
-        isCsvDialogOpen,
-        setIsCsvDialogOpen,
-        handleCancelCsvDialog
-    };
+	return {
+		cartItems,
+		hasItems,
+		isCartUpdating,
+		fetchCartDetails,
+		onAddToWishlistSuccess,
+		setIsCartUpdating,
+		shouldShowLoadingIndicator,
+		wishlistSuccessProps,
+		csvErrorType,
+		setCsvErrorType,
+		csvSkuErrorList,
+		setCsvSkuErrorList,
+		isCsvDialogOpen,
+		setIsCsvDialogOpen,
+		handleCancelCsvDialog
+	};
 };
 
 /** JSDoc type definitions */

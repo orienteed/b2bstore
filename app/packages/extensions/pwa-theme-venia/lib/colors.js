@@ -12,19 +12,19 @@ const PREFIX = '--color';
  * @returns {object} a generated list of color definitions based on the data
  */
 const declareColors = (data = COLORS, prefix = PREFIX) => {
-    const declarations = {};
+	const declarations = {};
 
-    for (const [color, definition] of Object.entries(data)) {
-        if (typeof definition === 'string') {
-            declarations[`${prefix}-${color}`] = definition;
-        } else {
-            for (const [weight, value] of Object.entries(definition)) {
-                declarations[`${prefix}-${color}-${weight}`] = value;
-            }
-        }
-    }
+	for (const [color, definition] of Object.entries(data)) {
+		if (typeof definition === 'string') {
+			declarations[`${prefix}-${color}`] = definition;
+		} else {
+			for (const [weight, value] of Object.entries(definition)) {
+				declarations[`${prefix}-${color}-${weight}`] = value;
+			}
+		}
+	}
 
-    return declarations;
+	return declarations;
 };
 
 /**
@@ -37,24 +37,24 @@ const declareColors = (data = COLORS, prefix = PREFIX) => {
  * @returns {object} color configuration data for tailwind
  */
 const getColors = (data = COLORS, prefix = PREFIX) => {
-    const colors = {};
+	const colors = {};
 
-    for (const [color, definition] of Object.entries(data)) {
-        if (typeof definition === 'string') {
-            const property = `${prefix}-${color}`;
-            colors[color] = getPropertyValueFunction(property);
-        } else {
-            const functions = {};
+	for (const [color, definition] of Object.entries(data)) {
+		if (typeof definition === 'string') {
+			const property = `${prefix}-${color}`;
+			colors[color] = getPropertyValueFunction(property);
+		} else {
+			const functions = {};
 
-            for (const [weight] of Object.entries(definition)) {
-                const property = `${prefix}-${color}-${weight}`;
-                functions[weight] = getPropertyValueFunction(property);
-            }
-            colors[color] = functions;
-        }
-    }
+			for (const [weight] of Object.entries(definition)) {
+				const property = `${prefix}-${color}-${weight}`;
+				functions[weight] = getPropertyValueFunction(property);
+			}
+			colors[color] = functions;
+		}
+	}
 
-    return colors;
+	return colors;
 };
 
 /**
@@ -68,15 +68,15 @@ const getColors = (data = COLORS, prefix = PREFIX) => {
  * @returns {function} a function that generates the correct property value for a color entry
  */
 const getPropertyValueFunction = property => {
-    return opacityArgs => {
-        const { opacityVariable, opacityValue } = opacityArgs;
+	return opacityArgs => {
+		const { opacityVariable, opacityValue } = opacityArgs;
 
-        return opacityValue != null
-            ? `rgb(var(${property}) / ${opacityValue})`
-            : opacityVariable != null
-            ? `rgb(var(${property}) / var(${opacityVariable}, 1))`
-            : `rgb(var(${property}))`;
-    };
+		return opacityValue != null
+			? `rgb(var(${property}) / ${opacityValue})`
+			: opacityVariable != null
+			? `rgb(var(${property}) / var(${opacityVariable}, 1))`
+			: `rgb(var(${property}))`;
+	};
 };
 
 module.exports = { declareColors, getColors };

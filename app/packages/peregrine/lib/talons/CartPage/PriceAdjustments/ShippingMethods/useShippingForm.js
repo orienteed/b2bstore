@@ -16,11 +16,11 @@ import DEFAULT_OPERATIONS from './shippingMethods.gql';
  * @ignore
  */
 export const MOCKED_ADDRESS = {
-    city: 'city',
-    firstname: 'firstname',
-    lastname: 'lastname',
-    street: ['street'],
-    telephone: 'telephone'
+	city: 'city',
+	firstname: 'firstname',
+	lastname: 'lastname',
+	street: ['street'],
+	telephone: 'telephone'
 };
 
 /**
@@ -45,112 +45,103 @@ export const MOCKED_ADDRESS = {
  * import { useShippingForm } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
  */
 export const useShippingForm = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { setShippingAddressMutation, getShippingMethodsQuery } = operations;
-    const { selectedValues, setIsCartUpdating } = props;
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { setShippingAddressMutation, getShippingMethodsQuery } = operations;
+	const { selectedValues, setIsCartUpdating } = props;
 
-    const [{ cartId }] = useCartContext();
-    const apolloClient = useApolloClient();
+	const [{ cartId }] = useCartContext();
+	const apolloClient = useApolloClient();
 
-    const [
-        setShippingAddress,
-        {
-            called: isSetShippingAddressCalled,
-            error: errorSettingShippingAddress,
-            loading: isSetShippingLoading
-        }
-    ] = useMutation(setShippingAddressMutation);
+	const [
+		setShippingAddress,
+		{ called: isSetShippingAddressCalled, error: errorSettingShippingAddress, loading: isSetShippingLoading }
+	] = useMutation(setShippingAddressMutation);
 
-    useEffect(() => {
-        if (isSetShippingAddressCalled) {
-            setIsCartUpdating(isSetShippingLoading);
-        }
-    }, [isSetShippingLoading, isSetShippingAddressCalled, setIsCartUpdating]);
+	useEffect(() => {
+		if (isSetShippingAddressCalled) {
+			setIsCartUpdating(isSetShippingLoading);
+		}
+	}, [isSetShippingLoading, isSetShippingAddressCalled, setIsCartUpdating]);
 
-    /**
-     * @ignore
-     *
-     * When the zip value is changed, go ahead and manually wipe out that
-     * portion of the cache, which will cause the components subscribed to
-     * that state to re-render. Ideally we would send a mutation to clear the
-     * shipping address set on the cart, to keep those states in sync, but the
-     * GraphQL API does not currently supported clearing addresses.
-     */
-    const handleZipChange = useCallback(
-        zip => {
-            if (zip !== selectedValues.zip) {
-                const data = apolloClient.readQuery({
-                    query: getShippingMethodsQuery,
-                    variables: {
-                        cartId
-                    }
-                });
+	/**
+	 * @ignore
+	 *
+	 * When the zip value is changed, go ahead and manually wipe out that
+	 * portion of the cache, which will cause the components subscribed to
+	 * that state to re-render. Ideally we would send a mutation to clear the
+	 * shipping address set on the cart, to keep those states in sync, but the
+	 * GraphQL API does not currently supported clearing addresses.
+	 */
+	const handleZipChange = useCallback(
+		zip => {
+			if (zip !== selectedValues.zip) {
+				const data = apolloClient.readQuery({
+					query: getShippingMethodsQuery,
+					variables: {
+						cartId
+					}
+				});
 
-                const { cart } = data;
-                const { shipping_addresses: shippingAddresses } = cart;
+				const { cart } = data;
+				const { shipping_addresses: shippingAddresses } = cart;
 
-                if (shippingAddresses.length) {
-                    const primaryAddress = shippingAddresses[0];
-                    const {
-                        available_shipping_methods: availableMethods
-                    } = primaryAddress;
-                    if (availableMethods.length) {
-                        apolloClient.writeQuery({
-                            query: getShippingMethodsQuery,
-                            data: {
-                                cart: {
-                                    ...cart,
-                                    shipping_addresses: [
-                                        {
-                                            // TODO: we're losing addresses here, we only ever put the first one back in
-                                            ...primaryAddress,
-                                            available_shipping_methods: []
-                                        }
-                                    ]
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        },
-        [apolloClient, cartId, selectedValues.zip, getShippingMethodsQuery]
-    );
+				if (shippingAddresses.length) {
+					const primaryAddress = shippingAddresses[0];
+					const { available_shipping_methods: availableMethods } = primaryAddress;
+					if (availableMethods.length) {
+						apolloClient.writeQuery({
+							query: getShippingMethodsQuery,
+							data: {
+								cart: {
+									...cart,
+									shipping_addresses: [
+										{
+											// TODO: we're losing addresses here, we only ever put the first one back in
+											...primaryAddress,
+											available_shipping_methods: []
+										}
+									]
+								}
+							}
+						});
+					}
+				}
+			}
+		},
+		[apolloClient, cartId, selectedValues.zip, getShippingMethodsQuery]
+	);
 
-    const handleOnSubmit = useCallback(
-        formValues => {
-            const { country, region, zip } = formValues;
-            if (country && region && zip) {
-                setShippingAddress({
-                    variables: {
-                        cartId,
-                        address: {
-                            ...MOCKED_ADDRESS,
-                            country_code: country,
-                            postcode: zip,
-                            region
-                        }
-                    }
-                });
-            }
-        },
-        [cartId, setShippingAddress]
-    );
+	const handleOnSubmit = useCallback(
+		formValues => {
+			const { country, region, zip } = formValues;
+			if (country && region && zip) {
+				setShippingAddress({
+					variables: {
+						cartId,
+						address: {
+							...MOCKED_ADDRESS,
+							country_code: country,
+							postcode: zip,
+							region
+						}
+					}
+				});
+			}
+		},
+		[cartId, setShippingAddress]
+	);
 
-    const errors = useMemo(
-        () =>
-            new Map([
-                ['setShippingAddressMutation', errorSettingShippingAddress]
-            ]),
-        [errorSettingShippingAddress]
-    );
+	const errors = useMemo(
+		() => new Map([['setShippingAddressMutation', errorSettingShippingAddress]]),
+		[errorSettingShippingAddress]
+	);
 
-    return {
-        errors,
-        handleOnSubmit,
-        handleZipChange,
-        isSetShippingLoading
-    };
+	return {
+		errors,
+		handleOnSubmit,
+		handleZipChange,
+		isSetShippingLoading
+	};
 };
 
 /** JSDocs type definitions */

@@ -12,52 +12,43 @@ import { usePaymentsForm } from '@magento/peregrine/lib/talons/Checkout/usePayme
  * the submission state as well as prepare/set initial values.
  */
 const PaymentsForm = props => {
-    const {
-        handleSubmit,
-        initialValues,
-        isSubmitting,
-        setIsSubmitting
-    } = usePaymentsForm({
-        initialValues: props.initialValues || {}
-    });
+	const { handleSubmit, initialValues, isSubmitting, setIsSubmitting } = usePaymentsForm({
+		initialValues: props.initialValues || {}
+	});
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const formChildrenProps = {
-        ...props,
-        classes,
-        isSubmitting,
-        setIsSubmitting
-    };
+	const classes = useStyle(defaultClasses, props.classes);
+	const formChildrenProps = {
+		...props,
+		classes,
+		isSubmitting,
+		setIsSubmitting
+	};
 
-    return (
-        <Form
-            className={classes.root}
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-        >
-            <PaymentsFormItems {...formChildrenProps} />
-        </Form>
-    );
+	return (
+		<Form className={classes.root} initialValues={initialValues} onSubmit={handleSubmit}>
+			<PaymentsFormItems {...formChildrenProps} />
+		</Form>
+	);
 };
 
 PaymentsForm.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    initialValues: shape({
-        firstname: string,
-        lastname: string,
-        telephone: string,
-        city: string,
-        postcode: string,
-        region_code: string,
-        sameAsShippingAddress: bool,
-        street0: array
-    })
+	classes: shape({
+		root: string
+	}),
+	initialValues: shape({
+		firstname: string,
+		lastname: string,
+		telephone: string,
+		city: string,
+		postcode: string,
+		region_code: string,
+		sameAsShippingAddress: bool,
+		street0: array
+	})
 };
 
 PaymentsForm.defaultProps = {
-    initialValues: {}
+	initialValues: {}
 };
 
 export default PaymentsForm;

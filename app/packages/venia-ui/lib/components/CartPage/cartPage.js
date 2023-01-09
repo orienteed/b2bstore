@@ -38,105 +38,105 @@ const CheckIcon = <Icon size={20} src={Check} />;
  * import CartPage from "@magento/venia-ui/lib/components/CartPage";
  */
 const CartPage = props => {
-    const talonProps = useCartPage();
-    const [openPopup, setOpenPopup] = useState(false);
+	const talonProps = useCartPage();
+	const [openPopup, setOpenPopup] = useState(false);
 
-    const componentRef = useRef();
+	const componentRef = useRef();
 
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current
-    });
-    const {
-        cartItems,
-        hasItems,
-        isCartUpdating,
-        fetchCartDetails,
-        onAddToWishlistSuccess,
-        setIsCartUpdating,
-        shouldShowLoadingIndicator,
-        wishlistSuccessProps
-    } = talonProps;
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current
+	});
+	const {
+		cartItems,
+		hasItems,
+		isCartUpdating,
+		fetchCartDetails,
+		onAddToWishlistSuccess,
+		setIsCartUpdating,
+		shouldShowLoadingIndicator,
+		wishlistSuccessProps
+	} = talonProps;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const { formatMessage } = useIntl();
-    const [, { addToast }] = useToasts();
-    const isPremium = process.env.B2BSTORE_VERSION === 'PREMIUM';
+	const classes = useStyle(defaultClasses, props.classes);
+	const { formatMessage } = useIntl();
+	const [, { addToast }] = useToasts();
+	const isPremium = process.env.B2BSTORE_VERSION === 'PREMIUM';
 
-    useEffect(() => {
-        if (wishlistSuccessProps) {
-            addToast({ ...wishlistSuccessProps, icon: CheckIcon });
-        }
-    }, [addToast, wishlistSuccessProps]);
+	useEffect(() => {
+		if (wishlistSuccessProps) {
+			addToast({ ...wishlistSuccessProps, icon: CheckIcon });
+		}
+	}, [addToast, wishlistSuccessProps]);
 
-    if (shouldShowLoadingIndicator) {
-        return fullPageLoadingIndicator;
-    }
+	if (shouldShowLoadingIndicator) {
+		return fullPageLoadingIndicator;
+	}
 
-    const productListing = hasItems ? (
-        <ProductListing
-            onAddToWishlistSuccess={onAddToWishlistSuccess}
-            setIsCartUpdating={setIsCartUpdating}
-            fetchCartDetails={fetchCartDetails}
-        />
-    ) : (
-        <h3>
-            <FormattedMessage id={'cartPage.emptyCart'} defaultMessage={'There are no items in your cart.'} />
-        </h3>
-    );
+	const productListing = hasItems ? (
+		<ProductListing
+			onAddToWishlistSuccess={onAddToWishlistSuccess}
+			setIsCartUpdating={setIsCartUpdating}
+			fetchCartDetails={fetchCartDetails}
+		/>
+	) : (
+		<h3>
+			<FormattedMessage id={'cartPage.emptyCart'} defaultMessage={'There are no items in your cart.'} />
+		</h3>
+	);
 
-    const priceAdjustments = hasItems ? <PriceAdjustments setIsCartUpdating={setIsCartUpdating} /> : null;
+	const priceAdjustments = hasItems ? <PriceAdjustments setIsCartUpdating={setIsCartUpdating} /> : null;
 
-    const priceSummary = hasItems ? <PriceSummary isUpdating={isCartUpdating} /> : null;
-    const handleOpenPopup = () => {
-        setOpenPopup(true);
-    };
+	const priceSummary = hasItems ? <PriceSummary isUpdating={isCartUpdating} /> : null;
+	const handleOpenPopup = () => {
+		setOpenPopup(true);
+	};
 
-    const handleClosePopup = () => {
-        setOpenPopup(false);
-    };
+	const handleClosePopup = () => {
+		setOpenPopup(false);
+	};
 
-    const printPdfButton = (
-        <Button priority={'normal'} onClick={handleOpenPopup}>
-            <FormattedMessage id={'priceSummary.printPdfButton'} defaultMessage={'Print Pdf'} />
-        </Button>
-    );
-    return (
-        <div className={classes.root} data-cy="CartPage-root">
-            <StoreTitle>
-                {formatMessage({
-                    id: 'cartPage.title',
-                    defaultMessage: 'Cart'
-                })}
-            </StoreTitle>
-            <div className={classes.heading_container}>
-                <h1 data-cy="CartPage-heading" className={classes.heading}>
-                    <FormattedMessage id={'cartPage.heading'} defaultMessage={'Cart'} />
-                </h1>
-                <div className={classes.stockStatusMessageContainer}>
-                    <StockStatusMessage cartItems={cartItems} />
-                </div>
-            </div>
-            <div className={classes.body}>
-                <div className={classes.items_container}>{productListing}</div>
-                <div className={classes.price_adjustments_container}>{priceAdjustments}</div>
-                <div className={classes.summary_container}>
-                    <div className={classes.summary_contents}>
-                        {priceSummary}
-                        <div className={classes.additionalOptionsContainer}>
-                            {hasItems && isPremium ? <SavedCartButton /> : null}
-                            {hasItems ? printPdfButton : null}
-                        </div>
-                    </div>
-                </div>
-                <PrintPdfPopup
-                    ref={componentRef}
-                    openPopup={openPopup}
-                    handleClosePopup={handleClosePopup}
-                    handlePrint={handlePrint}
-                />
-            </div>
-        </div>
-    );
+	const printPdfButton = (
+		<Button priority={'normal'} onClick={handleOpenPopup}>
+			<FormattedMessage id={'priceSummary.printPdfButton'} defaultMessage={'Print Pdf'} />
+		</Button>
+	);
+	return (
+		<div className={classes.root} data-cy="CartPage-root">
+			<StoreTitle>
+				{formatMessage({
+					id: 'cartPage.title',
+					defaultMessage: 'Cart'
+				})}
+			</StoreTitle>
+			<div className={classes.heading_container}>
+				<h1 data-cy="CartPage-heading" className={classes.heading}>
+					<FormattedMessage id={'cartPage.heading'} defaultMessage={'Cart'} />
+				</h1>
+				<div className={classes.stockStatusMessageContainer}>
+					<StockStatusMessage cartItems={cartItems} />
+				</div>
+			</div>
+			<div className={classes.body}>
+				<div className={classes.items_container}>{productListing}</div>
+				<div className={classes.price_adjustments_container}>{priceAdjustments}</div>
+				<div className={classes.summary_container}>
+					<div className={classes.summary_contents}>
+						{priceSummary}
+						<div className={classes.additionalOptionsContainer}>
+							{hasItems && isPremium ? <SavedCartButton /> : null}
+							{hasItems ? printPdfButton : null}
+						</div>
+					</div>
+				</div>
+				<PrintPdfPopup
+					ref={componentRef}
+					openPopup={openPopup}
+					handleClosePopup={handleClosePopup}
+					handlePrint={handlePrint}
+				/>
+			</div>
+		</div>
+	);
 };
 
 export default CartPage;

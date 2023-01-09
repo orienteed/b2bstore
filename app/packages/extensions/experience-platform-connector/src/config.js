@@ -14,18 +14,18 @@ import { default as startCheckoutHandler } from './handlers/startCheckout';
 import { default as signInHandler } from './handlers/signIn';
 
 export default [
-    addToCartHandler,
-    categoryPageViewHandler,
-    completeCheckoutHandler,
-    createAccountHandler,
-    editAccountHandler,
-    pageViewHandler,
-    placeOrderHandler,
-    productPageViewHandler,
-    searchRequestSentHandler,
-    searchResponseReceivedHandler,
-    shoppingCartPageViewHandler,
-    shoppingMiniCartViewHandler,
-    startCheckoutHandler,
-    signInHandler
+	addToCartHandler,
+	categoryPageViewHandler,
+	completeCheckoutHandler,
+	createAccountHandler,
+	editAccountHandler,
+	pageViewHandler,
+	placeOrderHandler,
+	productPageViewHandler,
+	searchRequestSentHandler,
+	searchResponseReceivedHandler,
+	shoppingCartPageViewHandler,
+	shoppingMiniCartViewHandler,
+	startCheckoutHandler,
+	signInHandler
 ];

@@ -27,170 +27,158 @@ const authorization = process.env.CHECKOUT_BRAINTREE_TOKEN;
  * 2) On submission (triggered by a parent), request the payment nonce.
  */
 const BraintreeDropin = props => {
-    const {
-        onError,
-        onReady,
-        onSuccess,
-        shouldRequestPaymentNonce,
-        containerId = 'braintree-container',
-        shouldTeardownDropin,
-        resetShouldTeardownDropin
-    } = props;
-    const classes = useStyle(defaultClasses, props.classes);
-    const [isError, setIsError] = useState(false);
-    const [dropinInstance, setDropinInstance] = useState();
-    const { formatMessage } = useIntl();
+	const {
+		onError,
+		onReady,
+		onSuccess,
+		shouldRequestPaymentNonce,
+		containerId = 'braintree-container',
+		shouldTeardownDropin,
+		resetShouldTeardownDropin
+	} = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const [isError, setIsError] = useState(false);
+	const [dropinInstance, setDropinInstance] = useState();
+	const { formatMessage } = useIntl();
 
-    const createDropinInstance = useCallback(async () => {
-        const { default: dropIn } = await import('braintree-web-drop-in');
-        const dropinInstance = await dropIn.create({
-            authorization,
-            container: `#${containerId}`,
-            card: {
-                cardholderName: {
-                    required: true
-                },
-                overrides: {
-                    fields: {
-                        number: {
-                            placeholder: formatMessage({
-                                id: 'checkoutPage.cardPlaceholder',
-                                defaultMessage: '16-Digit Number'
-                            }),
-                            maskInput: {
-                                // Only show last four digits on blur.
-                                showLastFour: true
-                            }
-                        }
-                    }
-                }
-            }
-        });
+	const createDropinInstance = useCallback(async () => {
+		const { default: dropIn } = await import('braintree-web-drop-in');
+		const dropinInstance = await dropIn.create({
+			authorization,
+			container: `#${containerId}`,
+			card: {
+				cardholderName: {
+					required: true
+				},
+				overrides: {
+					fields: {
+						number: {
+							placeholder: formatMessage({
+								id: 'checkoutPage.cardPlaceholder',
+								defaultMessage: '16-Digit Number'
+							}),
+							maskInput: {
+								// Only show last four digits on blur.
+								showLastFour: true
+							}
+						}
+					}
+				}
+			}
+		});
 
-        return dropinInstance;
-    }, [containerId, formatMessage]);
+		return dropinInstance;
+	}, [containerId, formatMessage]);
 
-    useEffect(() => {
-        let unmounted = false;
+	useEffect(() => {
+		let unmounted = false;
 
-        const renderDropin = async () => {
-            try {
-                const instance = await createDropinInstance();
+		const renderDropin = async () => {
+			try {
+				const instance = await createDropinInstance();
 
-                if (!unmounted) {
-                    setDropinInstance(instance);
-                    onReady(true);
-                } else {
-                    /**
-                     * Component has been unmounted, tear down the instance.
-                     */
-                    instance.teardown();
-                }
-            } catch (err) {
-                if (process.env.NODE_ENV !== 'production') {
-                    // This error can be common because of the async nature of
-                    // the checkout page. If the problem is due to a missing
-                    // container it is likely that the component was
-                    // intentionally unmounted.
-                    console.error(
-                        `Unable to initialize Credit Card form (Braintree). \n${err}`
-                    );
-                }
-                if (!unmounted) {
-                    setIsError(true);
-                }
-            }
-        };
+				if (!unmounted) {
+					setDropinInstance(instance);
+					onReady(true);
+				} else {
+					/**
+					 * Component has been unmounted, tear down the instance.
+					 */
+					instance.teardown();
+				}
+			} catch (err) {
+				if (process.env.NODE_ENV !== 'production') {
+					// This error can be common because of the async nature of
+					// the checkout page. If the problem is due to a missing
+					// container it is likely that the component was
+					// intentionally unmounted.
+					console.error(`Unable to initialize Credit Card form (Braintree). \n${err}`);
+				}
+				if (!unmounted) {
+					setIsError(true);
+				}
+			}
+		};
 
-        renderDropin();
+		renderDropin();
 
-        return () => {
-            unmounted = true;
-        };
-    }, [createDropinInstance, onReady]);
+		return () => {
+			unmounted = true;
+		};
+	}, [createDropinInstance, onReady]);
 
-    useEffect(() => {
-        async function requestPaymentNonce() {
-            try {
-                const paymentNonce = await dropinInstance.requestPaymentMethod();
-                onSuccess(paymentNonce);
-            } catch (e) {
-                // An error occurred. BrainTree will update the UI with error
-                // messaging, but we should signal that there was an error.
-                console.error(`Invalid Payment Details. \n${e}`);
-                onError();
-            }
-        }
+	useEffect(() => {
+		async function requestPaymentNonce() {
+			try {
+				const paymentNonce = await dropinInstance.requestPaymentMethod();
+				onSuccess(paymentNonce);
+			} catch (e) {
+				// An error occurred. BrainTree will update the UI with error
+				// messaging, but we should signal that there was an error.
+				console.error(`Invalid Payment Details. \n${e}`);
+				onError();
+			}
+		}
 
-        if (shouldRequestPaymentNonce) {
-            requestPaymentNonce();
-        }
-    }, [dropinInstance, onError, onSuccess, shouldRequestPaymentNonce]);
+		if (shouldRequestPaymentNonce) {
+			requestPaymentNonce();
+		}
+	}, [dropinInstance, onError, onSuccess, shouldRequestPaymentNonce]);
 
-    /**
-     * This useEffect handles tearing down and re-creating the dropin
-     * in case the parent component needs it to.
-     *
-     * The parent component does this by setting `shouldTeardownDropin` `true`.
-     */
-    useEffect(() => {
-        const teardownAndRenderDropin = async () => {
-            try {
-                dropinInstance.teardown();
-                resetShouldTeardownDropin();
+	/**
+	 * This useEffect handles tearing down and re-creating the dropin
+	 * in case the parent component needs it to.
+	 *
+	 * The parent component does this by setting `shouldTeardownDropin` `true`.
+	 */
+	useEffect(() => {
+		const teardownAndRenderDropin = async () => {
+			try {
+				dropinInstance.teardown();
+				resetShouldTeardownDropin();
 
-                const instance = await createDropinInstance();
+				const instance = await createDropinInstance();
 
-                setDropinInstance(instance);
-                onReady(true);
-            } catch (err) {
-                console.error(
-                    `Unable to tear down and re-initialize Credit Card form (Braintree). \n${err}`
-                );
-            }
-        };
+				setDropinInstance(instance);
+				onReady(true);
+			} catch (err) {
+				console.error(`Unable to tear down and re-initialize Credit Card form (Braintree). \n${err}`);
+			}
+		};
 
-        if (shouldTeardownDropin) {
-            teardownAndRenderDropin();
-        }
-    }, [
-        shouldTeardownDropin,
-        dropinInstance,
-        resetShouldTeardownDropin,
-        createDropinInstance,
-        onReady
-    ]);
+		if (shouldTeardownDropin) {
+			teardownAndRenderDropin();
+		}
+	}, [shouldTeardownDropin, dropinInstance, resetShouldTeardownDropin, createDropinInstance, onReady]);
 
-    if (isError) {
-        return (
-            <span className={classes.error}>
-                <FormattedMessage
-                    id={'checkoutPage.errorLoadingPayment'}
-                    defaultMessage={
-                        'There was an error loading payment options. Please try again later.'
-                    }
-                />
-            </span>
-        );
-    }
+	if (isError) {
+		return (
+			<span className={classes.error}>
+				<FormattedMessage
+					id={'checkoutPage.errorLoadingPayment'}
+					defaultMessage={'There was an error loading payment options. Please try again later.'}
+				/>
+			</span>
+		);
+	}
 
-    return (
-        <div className={classes.root}>
-            <div id={containerId} />
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			<div id={containerId} />
+		</div>
+	);
 };
 
 export default BraintreeDropin;
 
 BraintreeDropin.propTypes = {
-    classes: shape({
-        root: string,
-        error: string
-    }),
-    containerId: string,
-    onError: func.isRequired,
-    onReady: func.isRequired,
-    onSuccess: func.isRequired,
-    shouldRequestPaymentNonce: bool.isRequired
+	classes: shape({
+		root: string,
+		error: string
+	}),
+	containerId: string,
+	onError: func.isRequired,
+	onReady: func.isRequired,
+	onSuccess: func.isRequired,
+	shouldRequestPaymentNonce: bool.isRequired
 };

@@ -13,24 +13,24 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 
 const MyComponent = props => {
-    const { loading, error, data } = useQuery(MY_QUERY);
+	const { loading, error, data } = useQuery(MY_QUERY);
 
-    if (error) {
-        message = 'An error occurred while fetching results.';
-    } else if (loading) {
-        message = 'Fetching results...';
-    } else if (!data.items) {
-        message = 'No results were found.';
-    } else {
-        message = `${data.items.length} items`;
-    }
+	if (error) {
+		message = 'An error occurred while fetching results.';
+	} else if (loading) {
+		message = 'Fetching results...';
+	} else if (!data.items) {
+		message = 'No results were found.';
+	} else {
+		message = `${data.items.length} items`;
+	}
 
-    return (
-        <div>
-            <div>{message}</div>
-            <div>{data ? data.items : 'No data'}</div>
-        </div>
-    );
+	return (
+		<div>
+			<div>{message}</div>
+			<div>{data ? data.items : 'No data'}</div>
+		</div>
+	);
 };
 ```
 
@@ -41,13 +41,13 @@ import React from 'react';
 import { useMyComponent } from '@magento/peregrine/lib/talons/MyComponent';
 
 const MyComponent = props => {
-    const { data, message } = useMyComponent(props);
+	const { data, message } = useMyComponent(props);
 
-    return (
-        <div>
-            <div>{message}</div>
-            <div>{data ? data.items : 'No data'}</div>
-        </div>
-    );
+	return (
+		<div>
+			<div>{message}</div>
+			<div>{data ? data.items : 'No data'}</div>
+		</div>
+	);
 };
 ```

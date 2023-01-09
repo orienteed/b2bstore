@@ -1,13 +1,5 @@
 import React from 'react';
-import PropTypes, {
-    bool,
-    func,
-    instanceOf,
-    number,
-    oneOfType,
-    shape,
-    string
-} from 'prop-types';
+import PropTypes, { bool, func, instanceOf, number, oneOfType, shape, string } from 'prop-types';
 import { useImage } from '@magento/peregrine/lib/talons/Image/useImage';
 import { DEFAULT_WIDTH_TO_HEIGHT_RATIO } from '@magento/peregrine/lib/util/imageUtils';
 
@@ -34,135 +26,135 @@ import defaultClasses from './image.module.css';
  * @param {Map}      props.widths a map of breakpoints to possible widths used to create the img's sizes attribute.
  */
 const Image = props => {
-    const {
-        alt,
-        classes: propsClasses,
-        displayPlaceholder,
-        height,
-        onError,
-        onLoad,
-        placeholder,
-        resource,
-        src,
-        type,
-        width,
-        widths,
-        ratio,
-        ...rest
-    } = props;
+	const {
+		alt,
+		classes: propsClasses,
+		displayPlaceholder,
+		height,
+		onError,
+		onLoad,
+		placeholder,
+		resource,
+		src,
+		type,
+		width,
+		widths,
+		ratio,
+		...rest
+	} = props;
 
-    const talonProps = useImage({
-        onError,
-        onLoad,
-        width,
-        widths,
-        height,
-        ratio
-    });
+	const talonProps = useImage({
+		onError,
+		onLoad,
+		width,
+		widths,
+		height,
+		ratio
+	});
 
-    const {
-        handleError,
-        handleImageLoad,
-        hasError,
-        isLoaded,
-        resourceWidth: talonResourceWidth,
-        resourceHeight: talonResourceHeight
-    } = talonProps;
+	const {
+		handleError,
+		handleImageLoad,
+		hasError,
+		isLoaded,
+		resourceWidth: talonResourceWidth,
+		resourceHeight: talonResourceHeight
+	} = talonProps;
 
-    const classes = useStyle(defaultClasses, propsClasses);
-    const containerClass = `${classes.root} ${classes.container}`;
-    const isLoadedClass = isLoaded ? classes.loaded : classes.notLoaded;
-    const imageClass = `${classes.image} ${isLoadedClass}`;
+	const classes = useStyle(defaultClasses, propsClasses);
+	const containerClass = `${classes.root} ${classes.container}`;
+	const isLoadedClass = isLoaded ? classes.loaded : classes.notLoaded;
+	const imageClass = `${classes.image} ${isLoadedClass}`;
 
-    // If we have a src, use it directly. If not, assume this is a resource image.
-    const actualImage = src ? (
-        <SimpleImage
-            alt={alt}
-            className={imageClass}
-            handleError={handleError}
-            handleLoad={handleImageLoad}
-            height={talonResourceHeight}
-            src={src}
-            width={width}
-            {...rest}
-        />
-    ) : (
-        <ResourceImage
-            alt={alt}
-            className={imageClass}
-            handleError={handleError}
-            handleLoad={handleImageLoad}
-            height={talonResourceHeight}
-            resource={resource}
-            type={type}
-            width={talonResourceWidth}
-            widths={widths}
-            ratio={ratio}
-            {...rest}
-        />
-    );
+	// If we have a src, use it directly. If not, assume this is a resource image.
+	const actualImage = src ? (
+		<SimpleImage
+			alt={alt}
+			className={imageClass}
+			handleError={handleError}
+			handleLoad={handleImageLoad}
+			height={talonResourceHeight}
+			src={src}
+			width={width}
+			{...rest}
+		/>
+	) : (
+		<ResourceImage
+			alt={alt}
+			className={imageClass}
+			handleError={handleError}
+			handleLoad={handleImageLoad}
+			height={talonResourceHeight}
+			resource={resource}
+			type={type}
+			width={talonResourceWidth}
+			widths={widths}
+			ratio={ratio}
+			{...rest}
+		/>
+	);
 
-    return (
-        <div className={containerClass}>
-            <PlaceholderImage
-                alt={alt}
-                classes={classes}
-                displayPlaceholder={displayPlaceholder}
-                height={height}
-                imageHasError={hasError}
-                imageIsLoaded={isLoaded}
-                src={placeholder}
-                width={talonResourceWidth}
-                {...rest}
-            />
-            {actualImage}
-        </div>
-    );
+	return (
+		<div className={containerClass}>
+			<PlaceholderImage
+				alt={alt}
+				classes={classes}
+				displayPlaceholder={displayPlaceholder}
+				height={height}
+				imageHasError={hasError}
+				imageIsLoaded={isLoaded}
+				src={placeholder}
+				width={talonResourceWidth}
+				{...rest}
+			/>
+			{actualImage}
+		</div>
+	);
 };
 
 const conditionallyRequiredString = (props, propName, componentName) => {
-    // This component needs one of src or resource to be provided.
-    if (!props.src && !props.resource) {
-        return new Error(
-            `Missing both 'src' and 'resource' props in ${componentName}. ${componentName} needs at least one of these to be provided.`
-        );
-    }
+	// This component needs one of src or resource to be provided.
+	if (!props.src && !props.resource) {
+		return new Error(
+			`Missing both 'src' and 'resource' props in ${componentName}. ${componentName} needs at least one of these to be provided.`
+		);
+	}
 
-    return PropTypes.checkPropTypes(
-        {
-            resource: string,
-            src: string
-        },
-        props,
-        propName,
-        componentName
-    );
+	return PropTypes.checkPropTypes(
+		{
+			resource: string,
+			src: string
+		},
+		props,
+		propName,
+		componentName
+	);
 };
 
 Image.propTypes = {
-    alt: string.isRequired,
-    classes: shape({
-        container: string,
-        loaded: string,
-        notLoaded: string,
-        root: string
-    }),
-    displayPlaceholder: bool,
-    height: oneOfType([number, string]),
-    onError: func,
-    onLoad: func,
-    placeholder: string,
-    resource: conditionallyRequiredString,
-    src: conditionallyRequiredString,
-    type: string,
-    width: oneOfType([number, string]),
-    widths: instanceOf(Map),
-    ratio: number
+	alt: string.isRequired,
+	classes: shape({
+		container: string,
+		loaded: string,
+		notLoaded: string,
+		root: string
+	}),
+	displayPlaceholder: bool,
+	height: oneOfType([number, string]),
+	onError: func,
+	onLoad: func,
+	placeholder: string,
+	resource: conditionallyRequiredString,
+	src: conditionallyRequiredString,
+	type: string,
+	width: oneOfType([number, string]),
+	widths: instanceOf(Map),
+	ratio: number
 };
 
 Image.defaultProps = {
-    displayPlaceholder: true,
-    ratio: DEFAULT_WIDTH_TO_HEIGHT_RATIO
+	displayPlaceholder: true,
+	ratio: DEFAULT_WIDTH_TO_HEIGHT_RATIO
 };
 
 export default Image;

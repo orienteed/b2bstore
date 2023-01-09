@@ -1,10 +1,7 @@
 import React from 'react';
 import { func, instanceOf, number, oneOfType, string } from 'prop-types';
 import { useResourceImage } from '@magento/peregrine/lib/talons/Image/useResourceImage';
-import {
-    generateSrcset,
-    generateUrl
-} from '@magento/peregrine/lib/util/imageUtils';
+import { generateSrcset, generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 
 /**
  * Renders a Magento resource image.
@@ -21,71 +18,59 @@ import {
  * @param {number}   props.ratio is the image width to height ratio. Defaults to 4/5.
  */
 const ResourceImage = props => {
-    const {
-        alt,
-        className,
-        handleError,
-        handleLoad,
-        height,
-        resource,
-        type,
-        width,
-        widths,
-        ratio,
-        ...rest
-    } = props;
+	const { alt, className, handleError, handleLoad, height, resource, type, width, widths, ratio, ...rest } = props;
 
-    const talonProps = useResourceImage({
-        generateSrcset,
-        generateUrl,
-        height,
-        resource,
-        type,
-        width,
-        widths,
-        ratio
-    });
+	const talonProps = useResourceImage({
+		generateSrcset,
+		generateUrl,
+		height,
+		resource,
+		type,
+		width,
+		widths,
+		ratio
+	});
 
-    const { sizes, src, srcSet } = talonProps;
-    const dimensionAttributes = {};
-    if (typeof height !== 'undefined') {
-        dimensionAttributes['--height'] = height + 'px';
-    }
-    if (typeof width !== 'undefined') {
-        dimensionAttributes['--width'] = width + 'px';
-    }
-    // Note: Attributes that are allowed to be overridden must appear before the spread of `rest`.
-    return (
-        <img
-            loading="lazy"
-            style={dimensionAttributes}
-            {...rest}
-            alt={alt}
-            className={className}
-            onError={handleError}
-            onLoad={handleLoad}
-            sizes={sizes}
-            src={src}
-            srcSet={srcSet}
-            width={width}
-        />
-    );
+	const { sizes, src, srcSet } = talonProps;
+	const dimensionAttributes = {};
+	if (typeof height !== 'undefined') {
+		dimensionAttributes['--height'] = height + 'px';
+	}
+	if (typeof width !== 'undefined') {
+		dimensionAttributes['--width'] = width + 'px';
+	}
+	// Note: Attributes that are allowed to be overridden must appear before the spread of `rest`.
+	return (
+		<img
+			loading="lazy"
+			style={dimensionAttributes}
+			{...rest}
+			alt={alt}
+			className={className}
+			onError={handleError}
+			onLoad={handleLoad}
+			sizes={sizes}
+			src={src}
+			srcSet={srcSet}
+			width={width}
+		/>
+	);
 };
 
 ResourceImage.propTypes = {
-    alt: string.isRequired,
-    className: string,
-    handleError: func,
-    handleLoad: func,
-    resource: string.isRequired,
-    height: oneOfType([number, string]),
-    type: string,
-    width: oneOfType([number, string]),
-    widths: instanceOf(Map)
+	alt: string.isRequired,
+	className: string,
+	handleError: func,
+	handleLoad: func,
+	resource: string.isRequired,
+	height: oneOfType([number, string]),
+	type: string,
+	width: oneOfType([number, string]),
+	widths: instanceOf(Map)
 };
 
 ResourceImage.defaultProps = {
-    type: 'image-product'
+	type: 'image-product'
 };
 
 export default ResourceImage;

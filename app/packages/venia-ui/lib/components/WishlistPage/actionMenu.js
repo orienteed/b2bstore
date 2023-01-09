@@ -3,5 +3,5 @@
  * Here in MOS, don't render the Action Menu at all.
  */
 export default () => {
-    return null;
+	return null;
 };

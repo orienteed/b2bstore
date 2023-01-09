@@ -6,16 +6,16 @@ import { PriceSummaryFragment } from '@magento/peregrine/lib/talons/CartPage/Pri
 import { AppliedCouponsFragment } from './PriceAdjustments/CouponCode/couponCodeFragments.gql';
 
 export const CartPageFragment = gql`
-    fragment CartPageFragment on Cart {
-        id
-        total_quantity
-        ...AppliedCouponsFragment
-        ...GiftCardFragment
-        ...ProductListingFragment
-        ...PriceSummaryFragment
-    }
-    ${AppliedCouponsFragment}
-    ${GiftCardFragment}
-    ${ProductListingFragment}
-    ${PriceSummaryFragment}
+	fragment CartPageFragment on Cart {
+		id
+		total_quantity
+		...AppliedCouponsFragment
+		...GiftCardFragment
+		...ProductListingFragment
+		...PriceSummaryFragment
+	}
+	${AppliedCouponsFragment}
+	${GiftCardFragment}
+	${ProductListingFragment}
+	${PriceSummaryFragment}
 `;

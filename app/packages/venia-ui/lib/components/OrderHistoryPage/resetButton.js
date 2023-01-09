@@ -9,22 +9,22 @@ import Trigger from '../Trigger';
 const clearIcon = <Icon src={ClearIcon} size={24} />;
 
 const ResetButton = props => {
-    const { onReset } = props;
-    const formApi = useFormApi();
+	const { onReset } = props;
+	const formApi = useFormApi();
 
-    const handleReset = () => {
-        formApi.reset();
+	const handleReset = () => {
+		formApi.reset();
 
-        if (onReset) {
-            onReset();
-        }
-    };
+		if (onReset) {
+			onReset();
+		}
+	};
 
-    return <Trigger action={handleReset}>{clearIcon}</Trigger>;
+	return <Trigger action={handleReset}>{clearIcon}</Trigger>;
 };
 
 export default ResetButton;
 
 ResetButton.propTypes = {
-    onReset: func
+	onReset: func
 };

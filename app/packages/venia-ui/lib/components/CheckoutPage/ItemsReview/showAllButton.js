@@ -8,31 +8,28 @@ import { useStyle } from '../../../classify';
 import defaultClasses from './showAllButton.module.css';
 
 const ShowAllButton = props => {
-    const { onClick } = props;
-    const classes = useStyle(defaultClasses, props.classes || {});
+	const { onClick } = props;
+	const classes = useStyle(defaultClasses, props.classes || {});
 
-    const handleClick = useCallback(() => {
-        onClick();
-    }, [onClick]);
+	const handleClick = useCallback(() => {
+		onClick();
+	}, [onClick]);
 
-    return (
-        <button className={classes.root} onClick={handleClick}>
-            <span className={classes.content}>
-                <span className={classes.text}>
-                    <FormattedMessage
-                        id={'checkoutPage.showAllItems'}
-                        defaultMessage={'SHOW ALL ITEMS'}
-                    />
-                </span>
-                <Icon
-                    src={ArrowDown}
-                    classes={{
-                        root: classes.arrowDown
-                    }}
-                />
-            </span>
-        </button>
-    );
+	return (
+		<button className={classes.root} onClick={handleClick}>
+			<span className={classes.content}>
+				<span className={classes.text}>
+					<FormattedMessage id={'checkoutPage.showAllItems'} defaultMessage={'SHOW ALL ITEMS'} />
+				</span>
+				<Icon
+					src={ArrowDown}
+					classes={{
+						root: classes.arrowDown
+					}}
+				/>
+			</span>
+		</button>
+	);
 };
 
 export default ShowAllButton;

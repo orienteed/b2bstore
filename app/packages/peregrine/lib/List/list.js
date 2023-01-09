@@ -1,13 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import {
-    array,
-    func,
-    object,
-    oneOf,
-    oneOfType,
-    shape,
-    string
-} from 'prop-types';
+import { array, func, object, oneOf, oneOfType, shape, string } from 'prop-types';
 
 import fromRenderProp from '../util/fromRenderProp';
 import iterable from '../validators/iterable';
@@ -25,55 +17,52 @@ import Items from './items';
  * @returns{React.Element} A React component that displays list data.
  */
 const List = props => {
-    const {
-        classes,
-        getItemKey,
-        initialSelection,
-        items,
-        render,
-        renderItem,
-        onSelectionChange,
-        selectionModel,
-        ...restProps
-    } = props;
+	const {
+		classes,
+		getItemKey,
+		initialSelection,
+		items,
+		render,
+		renderItem,
+		onSelectionChange,
+		selectionModel,
+		...restProps
+	} = props;
 
-    const customProps = useMemo(
-        () => ({
-            classes,
-            getItemKey,
-            items,
-            onSelectionChange,
-            selectionModel
-        }),
-        [classes, getItemKey, items, onSelectionChange, selectionModel]
-    );
+	const customProps = useMemo(
+		() => ({
+			classes,
+			getItemKey,
+			items,
+			onSelectionChange,
+			selectionModel
+		}),
+		[classes, getItemKey, items, onSelectionChange, selectionModel]
+	);
 
-    const handleSelectionChange = useCallback(
-        selection => {
-            if (onSelectionChange) {
-                onSelectionChange(selection);
-            }
-        },
-        [onSelectionChange]
-    );
+	const handleSelectionChange = useCallback(
+		selection => {
+			if (onSelectionChange) {
+				onSelectionChange(selection);
+			}
+		},
+		[onSelectionChange]
+	);
 
-    const Root = useMemo(
-        () => fromRenderProp(render, Object.keys(customProps)),
-        [render, customProps]
-    );
+	const Root = useMemo(() => fromRenderProp(render, Object.keys(customProps)), [render, customProps]);
 
-    return (
-        <Root className={classes.root} {...customProps} {...restProps}>
-            <Items
-                getItemKey={getItemKey}
-                initialSelection={initialSelection}
-                items={items}
-                renderItem={renderItem}
-                selectionModel={selectionModel}
-                onSelectionChange={handleSelectionChange}
-            />
-        </Root>
-    );
+	return (
+		<Root className={classes.root} {...customProps} {...restProps}>
+			<Items
+				getItemKey={getItemKey}
+				initialSelection={initialSelection}
+				items={items}
+				renderItem={renderItem}
+				selectionModel={selectionModel}
+				onSelectionChange={handleSelectionChange}
+			/>
+		</Root>
+	);
 };
 
 /**
@@ -92,16 +81,16 @@ const List = props => {
  * @property {checkbox | radio} selectionModel A string corresponding to a selection model
  */
 List.propTypes = {
-    classes: shape({
-        root: string
-    }),
-    getItemKey: func.isRequired,
-    initialSelection: oneOfType([array, object]),
-    items: iterable.isRequired,
-    render: oneOfType([func, string]).isRequired,
-    renderItem: oneOfType([func, string]),
-    onSelectionChange: func,
-    selectionModel: oneOf(['checkbox', 'radio'])
+	classes: shape({
+		root: string
+	}),
+	getItemKey: func.isRequired,
+	initialSelection: oneOfType([array, object]),
+	items: iterable.isRequired,
+	render: oneOfType([func, string]).isRequired,
+	renderItem: oneOfType([func, string]),
+	onSelectionChange: func,
+	selectionModel: oneOf(['checkbox', 'radio'])
 };
 
 /**
@@ -110,12 +99,12 @@ List.propTypes = {
  * @typedef defaultProps
  */
 List.defaultProps = {
-    classes: {},
-    getItemKey: ({ id }) => id,
-    items: [],
-    render: 'div',
-    renderItem: 'div',
-    selectionModel: 'radio'
+	classes: {},
+	getItemKey: ({ id }) => id,
+	items: [],
+	render: 'div',
+	renderItem: 'div',
+	selectionModel: 'radio'
 };
 
 export default List;

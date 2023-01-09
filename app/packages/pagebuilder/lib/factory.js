@@ -6,18 +6,18 @@ import customContentTypes from './ContentTypes/customContentTypes';
  *  add custom content types
  */
 const addCustomContentTypes = contentTypes => {
-    for (const ContentType of contentTypes) {
-        const { component, configAggregator } = ContentType;
-        if (!ContentType.name) {
-            ContentType.name = component.name;
-        }
-        if (ContentType.name && component && configAggregator) {
-            setContentTypeConfig(ContentType.name, {
-                component,
-                configAggregator
-            });
-        }
-    }
+	for (const ContentType of contentTypes) {
+		const { component, configAggregator } = ContentType;
+		if (!ContentType.name) {
+			ContentType.name = component.name;
+		}
+		if (ContentType.name && component && configAggregator) {
+			setContentTypeConfig(ContentType.name, {
+				component,
+				configAggregator
+			});
+		}
+	}
 };
 
 addCustomContentTypes(customContentTypes);
@@ -30,13 +30,13 @@ addCustomContentTypes(customContentTypes);
  * @returns {*}
  */
 const renderContentType = (Component, data) => {
-    return (
-        <Component {...data}>
-            {data.children.map((childTreeItem, i) => (
-                <ContentTypeFactory key={i} data={childTreeItem} />
-            ))}
-        </Component>
-    );
+	return (
+		<Component {...data}>
+			{data.children.map((childTreeItem, i) => (
+				<ContentTypeFactory key={i} data={childTreeItem} />
+			))}
+		</Component>
+	);
 };
 
 /**
@@ -47,23 +47,23 @@ const renderContentType = (Component, data) => {
  * @constructor
  */
 const ContentTypeFactory = ({ data }) => {
-    const { isHidden, ...props } = data;
+	const { isHidden, ...props } = data;
 
-    if (isHidden) {
-        return null;
-    }
+	if (isHidden) {
+		return null;
+	}
 
-    const contentTypeConfig = getContentTypeConfig(props.contentType);
-    if (contentTypeConfig && contentTypeConfig.component) {
-        const Component = renderContentType(contentTypeConfig.component, props);
-        const ComponentShimmer = contentTypeConfig.componentShimmer
-            ? renderContentType(contentTypeConfig.componentShimmer, props)
-            : '';
+	const contentTypeConfig = getContentTypeConfig(props.contentType);
+	if (contentTypeConfig && contentTypeConfig.component) {
+		const Component = renderContentType(contentTypeConfig.component, props);
+		const ComponentShimmer = contentTypeConfig.componentShimmer
+			? renderContentType(contentTypeConfig.componentShimmer, props)
+			: '';
 
-        return <Suspense fallback={ComponentShimmer}>{Component}</Suspense>;
-    }
+		return <Suspense fallback={ComponentShimmer}>{Component}</Suspense>;
+	}
 
-    return null;
+	return null;
 };
 
 export default ContentTypeFactory;

@@ -18,61 +18,61 @@ import defaultClasses from './price.module.css';
  */
 
 const Price = props => {
-    const { locale } = useIntl();
-    const { value, currencyCode, classes } = props;
+	const { locale } = useIntl();
+	const { value, currencyCode, classes } = props;
 
-    const cssClasses = useStyle(defaultClasses, {});
+	const cssClasses = useStyle(defaultClasses, {});
 
-    const parts = patches.toParts.call(
-        new Intl.NumberFormat(locale, {
-            style: 'currency',
-            currency: currencyCode
-        }),
-        value
-    );
+	const parts = patches.toParts.call(
+		new Intl.NumberFormat(locale, {
+			style: 'currency',
+			currency: currencyCode
+		}),
+		value
+	);
 
-    const children = parts.map((part, i) => {
-        const partClass = classes[part.type];
-        const key = `${i}-${part.value}`;
+	const children = parts.map((part, i) => {
+		const partClass = classes[part.type];
+		const key = `${i}-${part.value}`;
 
-        return (
-            <span key={key} className={partClass}>
-                {part.value}
-            </span>
-        );
-    });
+		return (
+			<span key={key} className={partClass}>
+				{part.value}
+			</span>
+		);
+	});
 
-    const signInBtn = (
-        <Link to={'/sign-in'}>
-            <p className={cssClasses.link}>Sign In to see prices</p>
-        </Link>
-    );
+	const signInBtn = (
+		<Link to={'/sign-in'}>
+			<p className={cssClasses.link}>Sign In to see prices</p>
+		</Link>
+	);
 
-    return <Fragment>{value === -1 ? signInBtn : children}</Fragment>;
+	return <Fragment>{value === -1 ? signInBtn : children}</Fragment>;
 };
 
 Price.propTypes = {
-    /**
-     * Class names to use when styling this component
-     */
-    classes: shape({
-        currency: string,
-        integer: string,
-        decimal: string,
-        fraction: string
-    }),
-    /**
-     * The numeric price
-     */
-    value: number.isRequired,
-    /**
-     * A string with any of the currency code supported by Intl.NumberFormat
-     */
-    currencyCode: string.isRequired
+	/**
+	 * Class names to use when styling this component
+	 */
+	classes: shape({
+		currency: string,
+		integer: string,
+		decimal: string,
+		fraction: string
+	}),
+	/**
+	 * The numeric price
+	 */
+	value: number.isRequired,
+	/**
+	 * A string with any of the currency code supported by Intl.NumberFormat
+	 */
+	currencyCode: string.isRequired
 };
 
 Price.defaultProps = {
-    classes: {}
+	classes: {}
 };
 
 export default Price;

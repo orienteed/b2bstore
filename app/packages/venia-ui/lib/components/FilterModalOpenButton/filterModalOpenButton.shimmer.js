@@ -6,22 +6,22 @@ import Shimmer from '../Shimmer';
 import defaultClasses from './filterModalOpenButton.shimmer.module.css';
 
 const FilterModalOpenButtonShimmer = props => {
-    const classes = useStyle(defaultClasses, props.classes);
+	const classes = useStyle(defaultClasses, props.classes);
 
-    return (
-        <Shimmer
-            classes={{ root_button: classes.filterButtonShimmer }}
-            type="button"
-            aria-live="polite"
-            aria-busy="true"
-        />
-    );
+	return (
+		<Shimmer
+			classes={{ root_button: classes.filterButtonShimmer }}
+			type="button"
+			aria-live="polite"
+			aria-busy="true"
+		/>
+	);
 };
 
 FilterModalOpenButtonShimmer.propTypes = {
-    classes: shape({
-        filterButtonShimmer: string
-    })
+	classes: shape({
+		filterButtonShimmer: string
+	})
 };
 
 export default FilterModalOpenButtonShimmer;

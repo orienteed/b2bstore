@@ -14,67 +14,67 @@ import { useStyle } from '../../classify';
  * @deprecated - use component/MiniCart instead
  */
 const LegacyMiniCart = props => {
-    const {
-        cartItems,
-        cartState,
-        currencyCode,
-        handleBeginEditItem,
-        handleDismiss,
-        handleEndEditItem,
-        handleClose,
-        isEditingItem,
-        isLoading,
-        isMiniCartMaskOpen,
-        isOpen,
-        isUpdatingItem,
-        numItems,
-        setStep,
-        shouldShowFooter,
-        step,
-        subtotal
-    } = useLegacyMiniCart();
+	const {
+		cartItems,
+		cartState,
+		currencyCode,
+		handleBeginEditItem,
+		handleDismiss,
+		handleEndEditItem,
+		handleClose,
+		isEditingItem,
+		isLoading,
+		isMiniCartMaskOpen,
+		isOpen,
+		isUpdatingItem,
+		numItems,
+		setStep,
+		shouldShowFooter,
+		step,
+		subtotal
+	} = useLegacyMiniCart();
 
-    const footer = shouldShowFooter ? (
-        <Footer
-            currencyCode={currencyCode}
-            isMiniCartMaskOpen={isMiniCartMaskOpen}
-            numItems={numItems}
-            setStep={setStep}
-            step={step}
-            subtotal={subtotal}
-        />
-    ) : null;
+	const footer = shouldShowFooter ? (
+		<Footer
+			currencyCode={currencyCode}
+			isMiniCartMaskOpen={isMiniCartMaskOpen}
+			numItems={numItems}
+			setStep={setStep}
+			step={step}
+			subtotal={subtotal}
+		/>
+	) : null;
 
-    const classes = useStyle(defaultClasses, props.classes);
-    const rootClass = isOpen ? classes.root_open : classes.root;
+	const classes = useStyle(defaultClasses, props.classes);
+	const rootClass = isOpen ? classes.root_open : classes.root;
 
-    return (
-        <aside className={rootClass}>
-            <Header closeDrawer={handleClose} isEditingItem={isEditingItem} />
-            <Body
-                beginEditItem={handleBeginEditItem}
-                cartItems={cartItems}
-                closeDrawer={handleClose}
-                currencyCode={currencyCode}
-                endEditItem={handleEndEditItem}
-                isCartEmpty={cartState.isEmpty}
-                isEditingItem={isEditingItem}
-                isLoading={isLoading}
-                isUpdatingItem={isUpdatingItem}
-            />
-            <Mask isActive={isMiniCartMaskOpen} dismiss={handleDismiss} />
-            {footer}
-        </aside>
-    );
+	return (
+		<aside className={rootClass}>
+			<Header closeDrawer={handleClose} isEditingItem={isEditingItem} />
+			<Body
+				beginEditItem={handleBeginEditItem}
+				cartItems={cartItems}
+				closeDrawer={handleClose}
+				currencyCode={currencyCode}
+				endEditItem={handleEndEditItem}
+				isCartEmpty={cartState.isEmpty}
+				isEditingItem={isEditingItem}
+				isLoading={isLoading}
+				isUpdatingItem={isUpdatingItem}
+			/>
+			<Mask isActive={isMiniCartMaskOpen} dismiss={handleDismiss} />
+			{footer}
+		</aside>
+	);
 };
 
 LegacyMiniCart.propTypes = {
-    classes: shape({
-        header: string,
-        root: string,
-        root_open: string,
-        title: string
-    })
+	classes: shape({
+		header: string,
+		root: string,
+		root_open: string,
+		title: string
+	})
 };
 
 export default LegacyMiniCart;

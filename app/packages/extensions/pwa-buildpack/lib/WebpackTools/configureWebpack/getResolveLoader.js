@@ -11,11 +11,11 @@ const path = require('path');
  * @returns {Object} Loader resolve configuration.
  */
 function getResolveLoader() {
-    return {
-        modules: [path.resolve(__dirname, '../loaders'), 'node_modules'],
-        extensions: ['.js'],
-        mainFields: ['loader', 'main']
-    };
+	return {
+		modules: [path.resolve(__dirname, '../loaders'), 'node_modules'],
+		extensions: ['.js'],
+		mainFields: ['loader', 'main']
+	};
 }
 
 module.exports = getResolveLoader;

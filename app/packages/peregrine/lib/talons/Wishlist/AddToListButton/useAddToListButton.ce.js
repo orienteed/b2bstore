@@ -1,3 +1,1 @@
-export {
-    useSingleWishlist as useAddToListButton
-} from './helpers/useSingleWishlist';
+export { useSingleWishlist as useAddToListButton } from './helpers/useSingleWishlist';
