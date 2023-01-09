@@ -7,6 +7,7 @@ import defaultClasses from './DetailsPopUp.module.css';
 import TextArea from '../../TextArea';
 
 import DropzonePrevisualizer from '../DropzonePrevisualizer';
+import ProductDetailsTable from './ProductDetailsTable';
 
 const DetailsPopUp = ({ openPopup, handleClosePopup, item }) => {
     const classes = useStyle(defaultClasses);
@@ -46,6 +47,10 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item }) => {
         id: 'shippingReturnMessage',
         defaultMessage: 'There is no shipping label for this request'
     });
+    const rmaInformationTitle = formatMessage({
+        id: 'rmaInformationTitle',
+        defaultMessage: 'RMA Information'
+    });
     const commentSection = formatMessage({
         id: 'commentSection',
         defaultMessage: 'Comment'
@@ -81,6 +86,15 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item }) => {
                     <hr />
                     <div className={classes.returnShippingInformation}>
                         {returnShippingInformationArray.length > 0 ? 'Info' : shippingReturnMessage}
+                    </div>
+                </div>
+
+                <div className={classes.rmaInformationContainer}>
+                    <h3>{rmaInformationTitle}</h3>
+                    <hr />
+
+                    <div className={classes.rmaInformation}>
+                        <ProductDetailsTable />
                     </div>
                 </div>
 
