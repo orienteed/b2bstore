@@ -521,7 +521,8 @@ export const useProductFullDetail = props => {
                 amount: productPriceMinimal
             }
         },
-        sku: product.sku
+        sku: product.sku,
+        mp_attachments:product.mp_attachments
     };
 
     const derivedErrorMessage = useMemo(

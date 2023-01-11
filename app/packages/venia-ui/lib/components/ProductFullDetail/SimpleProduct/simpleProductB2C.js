@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment, Suspense, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -24,12 +24,29 @@ const SimpleProductB2C = props => {
         handleQuantityChange
     } = props;
 
+    const { mp_attachments } = simpleProductData;
+
     const cartCallToActionText =
         simpleProductData.stock_status === 'IN_STOCK' ? (
             <FormattedMessage id="productFullDetail.addItemToCart" defaultMessage="Add to Cart" />
         ) : (
             <FormattedMessage id="productFullDetail.itemOutOfStock" defaultMessage="Out of Stock" />
         );
+
+    const productAttachments = useMemo(
+        () =>
+            mp_attachments.map(att => (
+                <>
+                    <a key={att.file_name} href={att.url_file} target="blank">
+                        <span>
+                            <img width="20" src={att.file_icon} alt={att.name} />
+                            {att.file_name}
+                        </span>
+                    </a>
+                </>
+            )),
+        [mp_attachments]
+    );
 
     return (
         <Fragment>
@@ -90,6 +107,7 @@ const SimpleProductB2C = props => {
                     </span>
                     <RichContent html={simpleProductData.description.html} />
                 </section>
+                <div className={classes.attachmentWrapper}>{productAttachments}</div>
                 <section className={classes.details}>
                     <span className={classes.detailsTitle}>
                         <FormattedMessage id={'global.sku'} defaultMessage={'SKU'} />

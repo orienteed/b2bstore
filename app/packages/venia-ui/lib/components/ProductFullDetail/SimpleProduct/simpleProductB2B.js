@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import ItemsTable from './ItemsTable';
 import RichText from '@magento/venia-ui/lib/components/RichText';
@@ -32,7 +32,23 @@ const SimpleProductB2B = props => {
         tempTotalPrice,
         handleQuantityChange
     } = props;
+    
+    const { mp_attachments } = simpleProductData;
 
+    const productAttachments = useMemo(
+        () =>
+            mp_attachments.map(att => (
+                <>
+                    <a key={att.file_name} href={att.url_file} target="blank">
+                        <span>
+                            <img width="20" src={att.file_icon} alt={att.name} />
+                            {att.file_name}
+                        </span>
+                    </a>
+                </>
+            )),
+        [mp_attachments]
+    );
     return (
         <main>
             <Breadcrumbs categoryId={simpleProductData.categories[0].uid} currentProduct={simpleProductData.name} />
@@ -61,6 +77,7 @@ const SimpleProductB2B = props => {
                     </h2>
                     <RichText content={simpleProductData.description.html} />
                 </section>
+                <div className={classes.attachmentWrapper}>{productAttachments}</div>
                 <section className={classes.favoritesButton}>
                     {' '}
                     <Suspense fallback={null}>{wishlistButton}</Suspense>

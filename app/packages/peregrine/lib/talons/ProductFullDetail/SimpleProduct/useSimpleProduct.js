@@ -18,6 +18,7 @@ export const useSimpleProduct = (props = {}) => {
     const { addConfigurableProductToCartMutation, productQuantity } = props;
 
     const { data, loading, error } = useQuery(GET_SIMPLE_PRODUCT, {
+        fetchPolicy: 'no-cache',
         variables: { sku: sku }
     });
 
@@ -49,21 +50,15 @@ export const useSimpleProduct = (props = {}) => {
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };
 
-    const productType =
-        loading || !data
-            ? 'Simple product'
-            : data.products.items[0].__typename || 'Simple product';
+    const productType = loading || !data ? 'Simple product' : data.products.items[0].__typename || 'Simple product';
 
-    const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(
-        productType
-    );
+    const isSupportedProductType = SUPPORTED_PRODUCT_TYPES.includes(productType);
 
     const [{ cartId }] = useCartContext();
 
-    const [
-        addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct }
-    ] = useMutation(addConfigurableProductToCartMutation);
+    const [addConfigurableProductToCart, { error: errorAddingConfigurableProduct }] = useMutation(
+        addConfigurableProductToCartMutation
+    );
 
     const handleAddToCart = useCallback(
         async formValues => {
@@ -77,10 +72,7 @@ export const useSimpleProduct = (props = {}) => {
             if (isSupportedProductType) {
                 const variables = {
                     cartId,
-                    parentSku:
-                        payload.item.length < 1
-                            ? 'No sku'
-                            : payload.item.orParentSku,
+                    parentSku: payload.item.length < 1 ? 'No sku' : payload.item.orParentSku,
                     product: payload.item,
                     quantity: payload.quantity,
                     sku: payload.item.length < 1 ? 'No sku' : payload.item.sku
@@ -101,21 +93,12 @@ export const useSimpleProduct = (props = {}) => {
                 console.error('Unsupported product type. Cannot add to cart.');
             }
         },
-        [
-            addConfigurableProductToCart,
-            cartId,
-            isSupportedProductType,
-            data,
-            loading,
-            productType,
-            productQuantity
-        ]
+        [addConfigurableProductToCart, cartId, isSupportedProductType, data, loading, productType, productQuantity]
     );
 
-    const derivedErrorMessage = useMemo(
-        () => deriveErrorMessage([errorAddingConfigurableProduct]),
-        [errorAddingConfigurableProduct]
-    );
+    const derivedErrorMessage = useMemo(() => deriveErrorMessage([errorAddingConfigurableProduct]), [
+        errorAddingConfigurableProduct
+    ]);
 
     return {
         wishlistButtonProps,

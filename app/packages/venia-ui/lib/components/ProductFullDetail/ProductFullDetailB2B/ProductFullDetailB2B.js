@@ -44,7 +44,8 @@ const ProductFullDetailB2B = props => {
     } = props;
     const [selectedFilter, setSelectedFilter] = useState([]);
     const [selectedFilterCategory, setSelectedFilterCategory] = useState([]);
-
+    const { mp_attachments } = productDetails;
+    
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
 
@@ -53,6 +54,21 @@ const ProductFullDetailB2B = props => {
             return attribute.value_index;
         });
     };
+
+    const productAttachments = useMemo(
+        () =>
+            mp_attachments?.map(att => (
+                <>
+                    <a key={att.file_name} href={att.url_file} target="blank">
+                        <span>
+                            <img width="20" src={att.file_icon} alt={att.name} />
+                            {att.file_name}
+                        </span>
+                    </a>
+                </>
+            )),
+        [mp_attachments]
+    );
 
     const selectedVariants = variants => {
         const items = [];
@@ -271,6 +287,7 @@ const ProductFullDetailB2B = props => {
                     </h2>
                     <RichText content={productDetails.description} />
                 </section>
+                <section className={classes.attachmentWrapper}>{productAttachments}</section>
                 <section className={classes.favoritesButton}>
                     <Suspense fallback={null}>
                         <WishlistButton {...wishlistButtonProps} />

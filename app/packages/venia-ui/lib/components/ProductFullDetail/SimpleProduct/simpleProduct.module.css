@@ -330,6 +330,16 @@ header .productName {
     color: '#666666';
 }
 
+
+.attachmentWrapper a  {
+   color: var(--b2bstore-global-color-orange);
+}
+.attachmentWrapper a span {
+   margin-bottom: .8rem;
+   display: flex;
+    gap: 0.5rem;
+}
+
 @media (max-device-width: 580px) {
     .imageCarousel div {
         height: 450px;
@@ -364,4 +374,19 @@ header .productName {
     .title {
         margin-top: 8rem;
     }
+}
+
+attachmentWrapper {
+    grid-column: 1 / span 1;
+    grid-row: none/ span 1;
+    padding: 0.5rem 1.5rem;
+}
+
+.attachmentWrapper a {
+    color: var(--b2bstore-global-color-orange);
+}
+.attachmentWrapper a span {
+    margin-bottom: 0.8rem;
+    display: flex;
+    gap: 0.5rem;
 }
