@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, Suspense, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
@@ -12,7 +13,12 @@ import CustomAttributes from '@magento/venia-ui/lib/components/ProductFullDetail
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
 import defaultClasses from './ProductFullDetailB2C.module.css';
-import noImage from './icons/product-package-cancelled.svg';
+import { Download as DownloadIcon, Eye } from 'react-feather';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+
+const downloadIcon = <Icon src={DownloadIcon} size={20} />;
+const previewIcon = <Icon src={Eye} size={20} />;
 
 const ProductFullDetailB2C = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -31,23 +37,36 @@ const ProductFullDetailB2C = props => {
         handleQuantityChange,
         tempTotalPrice,
         cartActionContent,
-        customAttributes
+        customAttributes,
+        downloadClick
     } = props;
+
+    const [{ isSignedIn }] = useUserContext();
     const { mp_attachments } = productDetails;
 
     const productAttachments = useMemo(
         () =>
             mp_attachments?.map(att => (
                 <>
-                    <a key={att.file_name} href={att.url_file} target="blank">
-                        <span>
-                            <img width="20" src={att.file_icon} alt={att.name} />
-                            {att.file_name}
-                        </span>
-                    </a>
+                    <span>
+                        <img height="20px" width="20" src={att.file_icon} alt={att.name} />
+
+                        <button
+                            onClick={() => downloadClick(att.url_file, att.file_name)}
+                            // download
+                            // href=""
+                            target={'_blank'}
+                        >
+                            {downloadIcon}
+                        </button>
+                        <a key={att.file_name} href={att.url_file} target="blank">
+                            {previewIcon}
+                        </a>
+                        {att.file_name}
+                    </span>
                 </>
             )),
-        [mp_attachments]
+        [mp_attachments, isSignedIn]
     );
 
     const customAttributesDetails = useMemo(() => {

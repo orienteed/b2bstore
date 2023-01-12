@@ -62,7 +62,8 @@ const ProductFullDetail = props => {
         isAddConfigurableLoading,
         cartId,
         customAttributes,
-        setOptionSelections
+        setOptionSelections,
+        downloadClick
     } = talonProps;
 
     const { formatMessage } = useIntl();
@@ -319,6 +320,7 @@ const ProductFullDetail = props => {
             product={product}
             productDetails={productDetails}
             wishlistButtonProps={wishlistButtonProps}
+            downloadClick={downloadClick}
         />
     ) : (
         <ProductFullDetailB2C
@@ -335,6 +337,7 @@ const ProductFullDetail = props => {
             tempTotalPrice={tempTotalPrice}
             wishlistButtonProps={wishlistButtonProps}
             customAttributes={customAttributes}
+            downloadClick={downloadClick}
         />
     );
 };

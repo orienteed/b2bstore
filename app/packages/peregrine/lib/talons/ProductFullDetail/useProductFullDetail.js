@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
@@ -14,10 +14,16 @@ import defaultOperations from './productFullDetail.gql';
 import { useEventingContext } from '../../context/eventing';
 import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 
+import { useToasts } from '@magento/peregrine';
+import { AlertTriangle } from 'react-feather';
+import Icon from '@magento/venia-ui/lib/components/Icon';
 const INITIAL_OPTION_CODES = new Map();
 const INITIAL_OPTION_SELECTIONS = new Map();
 const OUT_OF_STOCK_CODE = 'OUT_OF_STOCK';
 const IN_STOCK_CODE = 'IN_STOCK';
+
+const OfflineIcon = <Icon src={AlertTriangle} attrs={{ width: 18 }} />;
+
 const deriveOptionCodesFromProduct = product => {
     // If this is a simple product it has no option codes.
     if (!isProductConfigurable(product)) {
@@ -248,6 +254,7 @@ export const useProductFullDetail = props => {
     const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, product } = props;
     const [, { dispatch }] = useEventingContext();
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
+    const [, { addToast }] = useToasts();
 
     const operations = mergeOperations(defaultOperations, props.operations);
 
@@ -522,7 +529,7 @@ export const useProductFullDetail = props => {
             }
         },
         sku: product.sku,
-        mp_attachments:product.mp_attachments
+        mp_attachments: product.mp_attachments
     };
 
     const derivedErrorMessage = useMemo(
@@ -558,6 +565,34 @@ export const useProductFullDetail = props => {
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };
 
+    const downloadClick = (attLink, name) => {
+        if (!isSignedIn) {
+            addToast({
+                icon: OfflineIcon,
+                type: 'error',
+                message: formatMessage({
+                    id: 'productAttachemts.loginRequired',
+                    defaultMessage: 'Login required'
+                }),
+                timeout: 3000
+            });
+        } else {
+            // const fileType = attLink.split('.')[attLink.split('.').length - 1];
+            // console.log(fileType, 'fileType ');
+            // const file = new Blob([attLink], { type: 'image/png' });
+            // const link = document.createElement('a');
+            // link.href = URL.createObjectURL(file);
+            // link.download = '' + name + '';
+            // document.body.appendChild(link);
+            // link.click();
+            // document.body.removeChild(link);
+            const link = document.createElement('a');
+            link.href = attLink;
+            link.download = name;
+            link.click();
+        }
+    };
+
     return {
         breadcrumbCategoryId,
         errorMessage: derivedErrorMessage,
@@ -586,6 +621,7 @@ export const useProductFullDetail = props => {
         addConfigurableProductToCart,
         isAddConfigurableLoading,
         cartId,
-        derivedOptionSelectionsKey
+        derivedOptionSelectionsKey,
+        downloadClick
     };
 };
