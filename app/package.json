@@ -22,10 +22,10 @@
 		"clean:dist": "yarn workspaces run clean",
 		"coveralls": "cat ./coverage/lcov.info | coveralls",
 		"danger": "danger-ci",
-		"lint": "eslint . --fix",
+		"lint": "eslint --max-warnings 0",
 		"postbuild": "rimraf \"./packages/*/dist/{,**/}__*__\"",
 		"prepare": "node scripts/monorepo-introduction.js",
-		"prettier": "prettier --loglevel warn --write '**/*.@(css|graphql|js|json|svg|md)'",
+		"prettier": "prettier --loglevel warn --write '**/*.@(css|graphql|js|json)'",
 		"prettier:check": "prettier --list-different '@(packages|venia-integration-tests|scripts)/**/*.@(css|graphql|js)' '*.js'",
 		"stage:venia": "yarn venia start",
 		"stats:venia": "yarn venia run build:analyze && yarn venia run stats",
@@ -116,7 +116,9 @@
 			"maxSize": "100 kB"
 		}
 	],
-	"lint-staged": [
-		"npm run prettier"
-	]
+	"lint-staged": {
+		"*": [
+			"npm run prettier"
+		]
+	}
 }
