@@ -1,5 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useQuery, useMutation } from '@apollo/client';
+import { MP_RMA_CONFIG, MP_RMA_REQUEST } from './RMA.gql';
+
 const useRMA = () => {
     const { push } = useHistory();
     const formApiRef = useRef(null);
@@ -11,10 +14,14 @@ const useRMA = () => {
     const [filesUploaded, setFilesUploaded] = useState([]);
     const [formAddress] = useState();
 
+    const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
+    const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
+
     const formProps = {
         initialValues: formAddress
     };
     const handleSubmit = useCallback(async apiValue => {
+        // createMpRmaRequest({ variables: { type: input.value } });
         console.log(apiValue, 'apiValue');
     }, []);
     const handleClose = file => {
@@ -54,7 +61,8 @@ const useRMA = () => {
         userRMARequests,
         handleRedirectCreateRMA,
         returnType,
-        handleCancel
+        handleCancel,
+        reasonSolutionAdditionalFieldData
     };
 };
 
