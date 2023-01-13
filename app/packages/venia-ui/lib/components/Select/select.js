@@ -1,10 +1,6 @@
 import React, { Fragment } from 'react';
 import { arrayOf, node, number, oneOfType, shape, string } from 'prop-types';
-import {
-    Option as InformedOption,
-    Select as InformedSelect,
-    useFieldState
-} from 'informed';
+import { Option as InformedOption, Select as InformedSelect, useFieldState } from 'informed';
 
 import { useStyle } from '../../classify';
 import { FieldIcons, Message } from '../Field';
@@ -15,30 +11,16 @@ import { ChevronDown as ChevronDownIcon } from 'react-feather';
 const arrow = <Icon src={ChevronDownIcon} size={24} />;
 
 const Select = props => {
-    const {
-        before,
-        classes: propClasses,
-        field,
-        items,
-        message,
-        ...rest
-    } = props;
+    const { before, classes: propClasses, field, items, message, ...rest } = props;
     const fieldState = useFieldState(field);
     const classes = useStyle(defaultClasses, propClasses);
     const inputClass = fieldState.error ? classes.input_error : classes.input;
 
-    const options = items.map(
-        ({ disabled = null, hidden = null, label, value, key = value }) => (
-            <InformedOption
-                key={key}
-                disabled={disabled}
-                hidden={hidden}
-                value={value}
-            >
-                {label || (value != null ? value : '')}
-            </InformedOption>
-        )
-    );
+    const options = items.map(({ disabled = null, hidden = null, label, value, key = value, content }) => (
+        <InformedOption key={key} disabled={disabled} hidden={hidden} value={value}>
+            {content || label || (value != null ? value : '')}
+        </InformedOption>
+    ));
 
     return (
         <Fragment>
