@@ -1,14 +1,6 @@
 import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-    arrayOf,
-    func,
-    number,
-    object,
-    oneOfType,
-    shape,
-    string
-} from 'prop-types';
+import { arrayOf, func, number, object, oneOfType, shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import getOptionType from './getOptionType';
@@ -36,30 +28,24 @@ const Option = props => {
         selectedValue,
         values,
         isEverythingOutOfStock,
-        outOfStockVariants
+        outOfStockVariants,
+        isFirstOption,
+        selected
     } = props;
-
     const talonProps = useOption({
         attribute_id,
         label,
         onSelectionChange,
         selectedValue,
-        values
+        values,
+        isFirstOption,
+        selected
     });
+    const { handleSelectionChange, initialSelection, selectedValueDescription } = talonProps;
 
-    const {
-        handleSelectionChange,
-        initialSelection,
-        selectedValueDescription
-    } = talonProps;
-
-    const ValueList = useMemo(() => getListComponent(attribute_code, values), [
-        attribute_code,
-        values
-    ]);
+    const ValueList = useMemo(() => getListComponent(attribute_code, values), [attribute_code, values]);
 
     const classes = useStyle(defaultClasses, props.classes);
-
     return (
         <div className={classes.root} data-cy="ProductOptions-Option-root">
             <span className={classes.title}>{label}</span>
@@ -70,12 +56,10 @@ const Option = props => {
                 onSelectionChange={handleSelectionChange}
                 isEverythingOutOfStock={isEverythingOutOfStock}
                 outOfStockVariants={outOfStockVariants}
+                isFirstOption={isFirstOption}
             />
             <dl className={classes.selection}>
-                <dt
-                    data-cy="ProductOptions-Option-selectedLabel"
-                    className={classes.selectionLabel}
-                >
+                <dt data-cy="ProductOptions-Option-selectedLabel" className={classes.selectionLabel}>
                     <FormattedMessage
                         id="productOptions.selectedLabel"
                         defaultMessage="Selected {label}:"

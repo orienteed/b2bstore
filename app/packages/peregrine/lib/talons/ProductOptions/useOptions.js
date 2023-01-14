@@ -17,7 +17,7 @@ export const useOptions = props => {
     for (const { id, value_label } of selectedValues) {
         const option_label = options.find(
             option => option.attribute_id === String(id)
-        ).label;
+        )?.label;
         selectedValueMap.set(option_label, value_label);
     }
     return {

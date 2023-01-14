@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { array, func } from 'prop-types';
 
@@ -11,7 +12,8 @@ const Options = props => {
         options,
         selectedValues = [],
         isEverythingOutOfStock,
-        outOfStockVariants
+        outOfStockVariants,
+        selected
     } = props;
 
     const talonProps = useOptions({
@@ -19,18 +21,15 @@ const Options = props => {
         selectedValues,
         options
     });
-
     const { handleSelectionChange, selectedValueMap } = talonProps;
-
     const ATTRIBUTE_ID = options[0].attribute_id;
     const VALUE_INDEX = options[0].values[0].value_index;
-
     useEffect(() => {
         handleSelectionChange(ATTRIBUTE_ID, VALUE_INDEX);
     }, []);
 
     // Render a list of options passing in any pre-selected values.
-    return options.map(option => (
+    return options.map((option, index) => (
         <Option
             {...option}
             classes={classes}
@@ -39,6 +38,8 @@ const Options = props => {
             selectedValue={selectedValueMap.get(option.label)}
             isEverythingOutOfStock={isEverythingOutOfStock}
             outOfStockVariants={outOfStockVariants}
+            isFirstOption={index === 0}
+            selected={option.values?.find(ele => ele?.value_index === selected.get(option.attribute_id))?.label}
         />
     ));
 };

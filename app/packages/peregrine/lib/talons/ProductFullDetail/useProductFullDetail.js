@@ -486,12 +486,28 @@ export const useProductFullDetail = props => {
             }
             // We must create a new Map here so that React knows that the value
             // of optionSelections has changed.
-            const nextOptionSelections = new Map([...optionSelections]);
-            nextOptionSelections.set(optionId, selection);
-            setOptionSelections(nextOptionSelections);
-            // Create a new Map to keep track of single selections with key as String
+            let nextOptionSelections = new Map([...optionSelections]);
             const nextSingleOptionSelection = new Map();
-            nextSingleOptionSelection.set(optionId, selection);
+
+            if (optionSelectionsKeys1.indexOf(optionId) === 0) {
+                nextOptionSelections = new Map([...derivedOptionSelections]);
+                nextOptionSelections.set(optionId, selection);
+                nextSingleOptionSelection.set(optionId, selection);
+            } else {
+                if (nextOptionSelections.get(optionId) === selection) {
+                    nextOptionSelections.set(optionId, undefined);
+                    const prevIndex = optionSelectionsKeys1.findIndex(option => option === optionId) - 1;
+                    nextSingleOptionSelection.set(
+                        optionSelectionsKeys1[prevIndex],
+                        nextOptionSelections.get(prevIndex)
+                    );
+                } else {
+                    nextSingleOptionSelection.set(optionId, selection);
+                    nextOptionSelections.set(optionId, selection);
+                }
+            }
+
+            setOptionSelections(nextOptionSelections);
             setSingleOptionSelection(nextSingleOptionSelection);
         },
         [optionSelections, derivedOptionSelections]
@@ -585,6 +601,7 @@ export const useProductFullDetail = props => {
         addConfigurableProductToCart,
         isAddConfigurableLoading,
         cartId,
-        derivedOptionSelectionsKey
+        derivedOptionSelectionsKey,
+        optionSelections
     };
 };

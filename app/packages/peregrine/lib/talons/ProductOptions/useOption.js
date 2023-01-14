@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useMemo, useState, useEffect } from 'react';
 
 /**
  * Talon for Option.
@@ -9,36 +10,46 @@ import { useCallback, useMemo, useState } from 'react';
  * @param {array} props.values an array containing possible values
  */
 export const useOption = props => {
-    const { attribute_id, onSelectionChange, selectedValue, values } = props;
-    const [selection, setSelection] = useState(null);
+    const { attribute_id, onSelectionChange, selectedValue, values, isFirstOption, selected } = props;
+    const [selection, setSelection] = useState(selected);
+    useEffect(() => {
+        setSelection(selected);
+    }, [selected]);
+
     const initialSelection = useMemo(() => {
         let initialSelection = {};
-        const searchValue = selection || selectedValue;
+        const searchValue = selected || selection || selectedValue;
         if (searchValue) {
-            initialSelection =
-                values.find(value => value.default_label === searchValue) || {};
+            initialSelection = values.find(value => value.default_label === searchValue) || {};
         }
         return initialSelection;
     }, [selectedValue, selection, values]);
 
     const valuesMap = useMemo(() => {
-        return new Map(
-            values.map(value => [value.value_index, value.store_label])
-        );
+        return new Map(values.map(value => [value.value_index, value.store_label]));
     }, [values]);
 
-    const selectedValueDescription =
-        selection || initialSelection.default_label || 'None';
+    useEffect(() => {
+        if (isFirstOption) {
+            const [firstKey] = valuesMap.keys();
+            setSelection(valuesMap.get(firstKey));
+        }
+    }, []);
+    const selectedValueDescription = selection || initialSelection.default_label || 'None';
 
     const handleSelectionChange = useCallback(
-        selection => {
-            setSelection(valuesMap.get(selection));
+        selected => {
+            if (isFirstOption) {
+                setSelection(valuesMap.get(selected));
+            } else {
+                setSelection(valuesMap.get(selected) === selection ? undefined : valuesMap.get(selected));
+            }
 
             if (onSelectionChange) {
-                onSelectionChange(attribute_id, selection);
+                onSelectionChange(attribute_id, selected);
             }
         },
-        [attribute_id, onSelectionChange, valuesMap]
+        [attribute_id, onSelectionChange, valuesMap, selection, isFirstOption]
     );
     return {
         handleSelectionChange,
