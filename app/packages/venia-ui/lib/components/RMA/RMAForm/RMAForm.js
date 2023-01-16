@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-literals */
 import React, { Suspense } from 'react';
 import Field from '../../Field';
 import TextInput from '../../TextInput';
@@ -29,15 +30,14 @@ const RMAForm = props => {
         handleReturnChange,
         formProps,
         returnType,
-        reasons,
         handleReasonChange,
-        order,
-        reasonSolutionAdditionalFieldData
+        reasonSolutionAdditionalFieldData,
+        customerOrderIds,
+        orderId,
+        setOrderId,
+        flattenOrderItems
     } = talonProps;
 
-    // if(reasonSolutionAdditionalFieldData){
-
-    // }
     const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason;
     const solutionsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution;
     const orderInformationTitle = formatMessage({
@@ -48,14 +48,6 @@ const RMAForm = props => {
         id: 'rmaRequestForm.rmaInformation',
         defaultMessage: 'RMA Information'
     });
-
-    const mockArray = [
-        { value: 'select1' },
-        { value: 'select2' },
-        { value: 'select3' },
-        { value: 'select4' },
-        { value: 'select5' }
-    ];
 
     const orderIdTitle = formatMessage({
         id: 'rmaRequestForm.orderIdTitle',
@@ -79,12 +71,15 @@ const RMAForm = props => {
                     <div className={classes.orderInformationInputs}>
                         <div className={classes.orderIdTitle}>{orderIdTitle}</div>
                         <div className={classes.productsSelect}>
-                            <Select
-                                initialValue={'Item'}
-                                field="selection"
-                                items={mockArray}
-                                // onChange={onChangeVariant}
-                            />
+                            {customerOrderIds && (
+                                <Select
+                                    initialValue={'Item'}
+                                    field="selection"
+                                    items={customerOrderIds}
+                                    value={orderId}
+                                    onChange={e => setOrderId(e.target.value)}
+                                />
+                            )}
                         </div>
                         <Field
                             id="rmaRequestFormBillingName"
@@ -190,13 +185,13 @@ const RMAForm = props => {
                             </div>
                         ) : (
                             <>
-                                {order?.products?.map(item => (
+                                {flattenOrderItems?.map(item => (
                                     <div className={classes.item}>
                                         <Accordion canOpenMultiple={true}>
                                             <Section
                                                 data-cy="PriceAdjustments-couponCodeSection"
-                                                id={item.sku}
-                                                title={item.name + ' ' + item.SKU}
+                                                id={item?.sku}
+                                                title={item?.name + ' ' + item?.SKU}
                                             >
                                                 <Suspense fallback={<LoadingIndicator />}>
                                                     <>
@@ -208,17 +203,18 @@ const RMAForm = props => {
                                                                     defaultMessage={'Price'}
                                                                 />
                                                             </span>
-                                                            <span>{item.price}</span>
+                                                            <span>{`${item?.price?.value}  ${
+                                                                item?.price?.currency
+                                                            }`}</span>
                                                         </div>
                                                         <div className={classes.flexDisplay}>
                                                             <span>
-                                                                {' '}
                                                                 <FormattedMessage
                                                                     id={'global.qty'}
                                                                     defaultMessage={'Quantity'}
                                                                 />
                                                             </span>
-                                                            <span>{item.qty}</span>
+                                                            <span>{item?.qty}</span>
                                                         </div>
                                                         <Field
                                                             id="rmaRequestFormreturnType"

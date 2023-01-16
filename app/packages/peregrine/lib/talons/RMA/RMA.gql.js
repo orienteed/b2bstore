@@ -99,7 +99,10 @@ export const GET_CUSTOMER_ORDERS = gql`
                     items {
                         id
                         product_name
-
+                        product_sale_price {
+                            currency
+                            value
+                        }
                         product_sku
                         quantity_ordered
                     }
