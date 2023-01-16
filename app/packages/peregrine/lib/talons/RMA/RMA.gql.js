@@ -1,14 +1,5 @@
 import { gql } from '@apollo/client';
 
-// export const GET_STORE_CONFIG_DATA = gql`
-//     query getStoreConfigData {
-//         storeConfig {
-//             store_code
-//             product_url_suffix
-//         }
-//     }
-// `;
-
 export const MP_RMA_CONFIG = gql`
     query mpRMAConfig {
         mpRMAConfig {

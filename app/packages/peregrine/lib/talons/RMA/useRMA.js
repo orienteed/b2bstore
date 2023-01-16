@@ -17,13 +17,13 @@ const useRMA = () => {
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
     const { data: requestsList } = useQuery(RMA_REQUEST_LIST);
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
-
-    console.log(customersOrders, 'customersOrders');
+    console.log('customersOrders', customersOrders);
     const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
     const formProps = {
         initialValues: formAddress
     };
+
     const handleSubmit = useCallback(async apiValue => {
         // createMpRmaRequest({ variables: { type: input.value } });
         console.log(apiValue, 'apiValue');

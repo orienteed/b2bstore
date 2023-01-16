@@ -35,8 +35,11 @@ const RMAForm = props => {
         reasonSolutionAdditionalFieldData
     } = talonProps;
 
-    const reasonsData = [...reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason];
-    const solutionsData = [...reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution];
+    // if(reasonSolutionAdditionalFieldData){
+
+    // }
+    const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason;
+    const solutionsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution;
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
@@ -161,7 +164,13 @@ const RMAForm = props => {
                                         defaultMessage: 'Reason'
                                     })}
                                 >
-                                    <Select field="reason" onChange={e => handleReasonChange(e)} items={reasonsData} />
+                                    {reasonsData && (
+                                        <Select
+                                            field="reason"
+                                            onChange={e => handleReasonChange(e)}
+                                            items={reasonsData}
+                                        />
+                                    )}
                                 </Field>
                                 <Field
                                     id="rmaRequestFormreturnType"
@@ -170,16 +179,18 @@ const RMAForm = props => {
                                         defaultMessage: 'Solution'
                                     })}
                                 >
-                                    <Select
-                                        field={'soluation'}
-                                        onChange={e => handleReasonChange(e)}
-                                        items={solutionsData}
-                                    />
+                                    {solutionsData && (
+                                        <Select
+                                            field={'soluation'}
+                                            onChange={e => handleReasonChange(e)}
+                                            items={solutionsData}
+                                        />
+                                    )}
                                 </Field>
                             </div>
                         ) : (
                             <>
-                                {order.products.map(item => (
+                                {order?.products?.map(item => (
                                     <div className={classes.item}>
                                         <Accordion canOpenMultiple={true}>
                                             <Section
@@ -216,11 +227,15 @@ const RMAForm = props => {
                                                                 defaultMessage: 'Reason'
                                                             })}
                                                         >
-                                                            <Select
-                                                                field="reason"
-                                                                onChange={e => handleReasonChange(e, item, returnType)}
-                                                                items={reasonsData}
-                                                            />
+                                                            {reasonsData && (
+                                                                <Select
+                                                                    field="reason"
+                                                                    onChange={e =>
+                                                                        handleReasonChange(e, item, returnType)
+                                                                    }
+                                                                    items={reasonsData}
+                                                                />
+                                                            )}
                                                         </Field>
                                                         <Field
                                                             id="rmaRequestFormreturnType"
@@ -229,11 +244,15 @@ const RMAForm = props => {
                                                                 defaultMessage: 'Solution'
                                                             })}
                                                         >
-                                                            <Select
-                                                                field={'soluation'}
-                                                                onChange={e => handleReasonChange(e, item, returnType)}
-                                                                items={solutionsData}
-                                                            />
+                                                            {solutionsData && (
+                                                                <Select
+                                                                    field={'soluation'}
+                                                                    onChange={e =>
+                                                                        handleReasonChange(e, item, returnType)
+                                                                    }
+                                                                    items={solutionsData}
+                                                                />
+                                                            )}
                                                         </Field>
                                                     </>
                                                 </Suspense>
