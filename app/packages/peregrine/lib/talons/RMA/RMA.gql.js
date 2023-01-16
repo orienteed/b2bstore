@@ -10,16 +10,53 @@ import { gql } from '@apollo/client';
 // `;
 
 export const MP_RMA_CONFIG = gql`
-    query mpRMAConfig($storeId: Int) {
-        mpRMAConfig(storeId: $storeId) {
-            additional_field {
-                content
-            }
+    query mpRMAConfig {
+        mpRMAConfig {
             reason {
                 content
+                value
+            }
+            additional_field {
+                content
+                is_require
+                type
+                sort
+                value
             }
             solution {
                 content
+                value
+            }
+        }
+    }
+`;
+
+export const RMA_REQUEST_LIST = gql`
+    query {
+        customer {
+            mp_rma {
+                total_count
+                __typename
+                items {
+                    updated_at
+                    status_id
+                    comment
+                    created_at
+                    customer_email
+                    increment_id
+                    order_id
+                    order_increment_id
+                    request_id
+                    request_item {
+                        additional_fields
+                        price
+                        qty_rma
+                        solution
+                        reason
+                        sku
+                        name
+                    }
+                }
             }
         }
     }
@@ -49,5 +86,44 @@ export const MP_RMA_REQUEST = gql`
             comment
             customer_email
         }
+    }
+`;
+
+export const GET_CUSTOMER_ORDERS = gql`
+    query GetCustomerOrders {
+        customer {
+            id
+            orders {
+                items {
+                    id
+                    store_id
+                    billing_address {
+                        city
+                        country_code
+                        firstname
+                        lastname
+                        region
+                        street
+                    }
+                    items {
+                        id
+                        product_name
+
+                        product_sku
+                        quantity_ordered
+                    }
+                    number
+                    order_date
+                    status
+                }
+                total_count
+            }
+        }
+    }
+`;
+
+export const MPCANCEL_RMA_REQUEST = gql`
+    mutation mpRMARequestCancel($request_id: Int!) {
+        mpRMARequestCancel(request_id: $request_id)
     }
 `;

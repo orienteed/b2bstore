@@ -11,7 +11,7 @@ import DetailsPopUp from './RMAFrontPageDetails';
 const RMAFrontPage = () => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses);
-    const { userRMARequests, handleRedirectCreateRMA, handleCancel } = useRMA({});
+    const { userRMARequests, handleRedirectCreateRMA, handleCancel, requestsList } = useRMA({});
     const { handleOpenPopup, handleClosePopup, openPopup } = useRMAFrontPage();
 
     const tableHeader = [
@@ -22,8 +22,9 @@ const RMAFrontPage = () => {
         <FormattedMessage id={'rmaPage.updatedDate'} defaultMessage={'Updated Date'} />,
         <FormattedMessage id={'rmaPage.actions'} defaultMessage={'Actions'} />
     ];
+    console.log({ requestsList: requestsList?.items });
 
-    const tableRows = userRMARequests.map(req => {
+    const tableRows = requestsList?.items?.map(req => {
         return [
             {
                 dataLable: formatMessage({
@@ -91,8 +92,8 @@ const RMAFrontPage = () => {
                 </Button>
             </div>
             <Table headers={tableHeader} tableRows={tableRows} />
-            {userRMARequests.length > 0 &&
-                userRMARequests.map(item => {
+            {requestsList?.items?.length > 0 &&
+                requestsList?.items?.map(item => {
                     return (
                         <DetailsPopUp
                             key={item.request_id}

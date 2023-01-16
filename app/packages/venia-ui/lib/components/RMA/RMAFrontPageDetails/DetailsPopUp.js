@@ -94,7 +94,7 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item }) => {
                     <hr />
 
                     <div className={classes.rmaInformation}>
-                        <ProductDetailsTable />
+                        <ProductDetailsTable item={item} />
                     </div>
                 </div>
 

@@ -2,7 +2,9 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Table from '../Table/Table';
 
-const ProductDetailsTable = () => {
+const ProductDetailsTable = props => {
+    const { item } = props;
+    console.log(item?.request_item);
     const { formatMessage } = useIntl();
     const userRMARequests = [
         {
@@ -36,56 +38,56 @@ const ProductDetailsTable = () => {
         <FormattedMessage id={'rmaPage.qty'} defaultMessage={'Qty'} />
     ];
 
-    const tableRows = userRMARequests.map(req => {
+    const tableRows = item?.request_item.map(req => {
         return [
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.productName',
                     defaultMessage: 'Product Name'
                 }),
-                value: 'Mock product'
+                value: req.name
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.sku',
                     defaultMessage: 'SKU'
                 }),
-                value: 'Mock sku'
+                value: req.sku
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.price',
                     defaultMessage: 'Price'
                 }),
-                value: 'mock price'
+                value: req.price
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.reason',
                     defaultMessage: 'Reason'
                 }),
-                value: 'Mock reason'
+                value: req.reason
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.solution',
                     defaultMessage: 'Solution'
                 }),
-                value: 'Mock solution'
+                value: req.solution
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.additionalField',
                     defaultMessage: 'Additional Field'
                 }),
-                value: 'Mock additional field'
+                // value: req.additional_fields
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.qty',
                     defaultMessage: 'Qty'
                 }),
-                value: 'Mock qty'
+                value: req.qty_rma
             }
         ];
     });

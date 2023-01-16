@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { MP_RMA_CONFIG, MP_RMA_REQUEST } from './RMA.gql';
+import { MP_RMA_CONFIG, MP_RMA_REQUEST, RMA_REQUEST_LIST, GET_CUSTOMER_ORDERS, MPCANCEL_RMA_REQUEST } from './RMA.gql';
 
 const useRMA = () => {
     const { push } = useHistory();
@@ -15,8 +15,12 @@ const useRMA = () => {
     const [formAddress] = useState();
 
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
-    const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
+    const { data: requestsList } = useQuery(RMA_REQUEST_LIST);
+    const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
 
+    console.log(customersOrders, 'customersOrders');
+    const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
+    const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
     const formProps = {
         initialValues: formAddress
     };
@@ -35,6 +39,35 @@ const useRMA = () => {
         console.log(e.target, product, type, '(e, product, type) ');
     };
 
+    const submitRmaRequest = async data => {
+        try {
+            const { order_increment_id, comment, upload, request_item, reason, solution } = data;
+            await createMpRmaRequest({
+                variables: {
+                    order_increment_id,
+                    comment,
+                    upload,
+                    reason,
+                    solution
+                }
+            });
+        } catch {
+            throw 'error';
+        }
+    };
+
+    const submitCancelRmaRequest = async data => {
+        try {
+            const { request_id } = data;
+            await cancelMpRmaRequest({
+                variables: {
+                    request_id
+                }
+            });
+        } catch {
+            throw 'error';
+        }
+    };
     const handleRedirectCreateRMA = () => push('/rma/form');
 
     const handleCancel = req => console.log(req);
@@ -58,11 +91,12 @@ const useRMA = () => {
         soluations,
         order,
         handleReasonChange,
-        userRMARequests,
         handleRedirectCreateRMA,
         returnType,
         handleCancel,
-        reasonSolutionAdditionalFieldData
+        reasonSolutionAdditionalFieldData,
+        requestsList: requestsList?.customer?.mp_rma,
+        customersOrders
     };
 };
 
@@ -108,46 +142,3 @@ const order = {
         }
     ]
 };
-
-const userRMARequests = [
-    {
-        request_id: '000000075',
-        order_id: '000000095',
-        order_increment_id: '0000055',
-        status_id: 'Pendeing',
-        is_canceled: 0,
-        updated_at: '1 / 4 / 23',
-        created_at: '1 / 4 / 23',
-        increment_id: 2
-    },
-    {
-        request_id: '00000058',
-        order_id: '000000097',
-        order_increment_id: '00000242',
-        status_id: 'Pendeing',
-        is_canceled: 0,
-        updated_at: '1 / 5 / 23',
-        created_at: '1 / 5 / 23',
-        increment_id: 552
-    },
-    {
-        request_id: '00000058',
-        order_id: '000000097',
-        order_increment_id: '00000242',
-        status_id: 'Pendeing',
-        is_canceled: 0,
-        updated_at: '1 / 5 / 23',
-        created_at: '1 / 5 / 23',
-        increment_id: 552
-    },
-    {
-        request_id: '00000058',
-        order_id: '000000097',
-        order_increment_id: '00000242',
-        status_id: 'Pendeing',
-        is_canceled: 0,
-        updated_at: '1 / 5 / 23',
-        created_at: '1 / 5 / 23',
-        increment_id: 552
-    }
-];
