@@ -79,13 +79,12 @@ const ProductImageCarousel = props => {
     let image;
     if (currentImage.file) {
         image =
-            screen.width > 960 ? (
-                <ReactImageZoom zoomWidth={screen.width < 1200 ? 300 : 500} img={src} zoomStyle={'z-index: 1'} />
+            screen.width > 1200 ? (
+                <ReactImageZoom zoomWidth={500} img={src} zoomStyle={'z-index: 1'} />
             ) : (
                 <Image
                     alt={altText}
                     classes={{
-                        image: classes.currentImage,
                         root: classes.imageContainer
                     }}
                     resource={currentImage.file}
