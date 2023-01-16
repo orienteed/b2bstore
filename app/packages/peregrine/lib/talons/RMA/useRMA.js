@@ -15,10 +15,9 @@ const useRMA = () => {
     const [formAddress] = useState();
 
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
-    const { data: requestsList } = useQuery(RMA_REQUEST_LIST);
+    const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST);
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
 
-    console.log(customersOrders, 'customersOrders');
     const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
     const formProps = {
@@ -57,20 +56,21 @@ const useRMA = () => {
     };
 
     const submitCancelRmaRequest = async data => {
+        console.log(data, 'request_id');
         try {
-            const { request_id } = data;
             await cancelMpRmaRequest({
                 variables: {
-                    request_id
+                    request_id: data
                 }
             });
-        } catch {
-            throw 'error';
+            refetch();
+        } catch (err) {
+            console.log({ err }, 'err');
         }
     };
     const handleRedirectCreateRMA = () => push('/rma/form');
 
-    const handleCancel = req => console.log(req);
+    const handleCancel = ({ request_id }) => submitCancelRmaRequest(request_id);
 
     return {
         handleSubmit,
