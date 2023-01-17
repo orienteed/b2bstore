@@ -42,9 +42,10 @@ const useRMA = () => {
             const orderItems = customerOrderItems?.map(item => {
                 return item?.items?.map(p => {
                     return {
+                        product_id: p.id,
                         name: p.product_name,
                         SKU: p.product_sku,
-                        qty: p.quantity_ordered,
+                        qty_rma: p.quantity_ordered,
                         price: p.product_sale_price
                     };
                 });

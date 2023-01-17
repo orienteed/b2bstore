@@ -220,7 +220,7 @@ const RMAForm = props => {
                                                                     defaultMessage={'Quantity'}
                                                                 />
                                                             </span>
-                                                            <span>{item?.qty}</span>
+                                                            <span>{item?.qty_rma}</span>
                                                         </div>
                                                         <Field
                                                             id="rmaRequestFormreturnType"
