@@ -231,9 +231,11 @@ const RMAForm = props => {
                                                         >
                                                             {infoReasonsData && (
                                                                 <Select
-                                                                    field="reason"
-                                                                    onChange={e => handleReasonChange(e.target.value)}
-                                                                    value={infoReasonsData}
+                                                                    field={`reason ${item.product_id}`}
+                                                                    onChange={e =>
+                                                                        handleReasonChange(e, item.product_id, 'reason')
+                                                                    }
+                                                                    // value={infoReasonsData}
                                                                     items={infoReasonsData}
                                                                 />
                                                             )}
@@ -249,7 +251,7 @@ const RMAForm = props => {
                                                                 <Select
                                                                     field={'solution'}
                                                                     onChange={e => handleReasonChange(e.target.value)}
-                                                                    value={infoSolutionData}
+                                                                    // value={infoSolutionData}
                                                                     items={infoSolutionData}
                                                                 />
                                                             )}

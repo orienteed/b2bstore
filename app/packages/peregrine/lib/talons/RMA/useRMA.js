@@ -75,6 +75,14 @@ const useRMA = () => {
             return [...prev, item];
         });
     }, []);
+
+    const handleReasonChange = (e, productId, type) => {
+        const newSelectedItems = [...selectedItems];
+        newSelectedItems.find(a => a.id === productId)[type] = e.target.value;
+        setSelectedItems(newSelectedItems);
+        console.log('e', e.target.value);
+    };
+
     console.log('selectedItems', selectedItems);
     const infoReasonsData = useMemo(() => {
         const handleInfoReasonsData = () => {
@@ -130,10 +138,6 @@ const useRMA = () => {
     };
 
     const handleReturnChange = e => setReturnType(e.target.value);
-
-    const handleReasonChange = (e, product, type) => {
-        console.log('e', e);
-    };
 
     const submitCancelRmaRequest = async data => {
         console.log(data, 'request_id');
