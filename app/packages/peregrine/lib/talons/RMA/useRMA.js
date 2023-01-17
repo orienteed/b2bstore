@@ -26,7 +26,8 @@ const useRMA = () => {
                     value: item.number
                 };
             });
-            return orderIds;
+
+            if (orderIds) return [{ value: 'Select' }, ...orderIds];
         };
         return handleCustomerOrderIds();
     }, [customersOrders?.customer?.orders?.items]);
@@ -36,8 +37,6 @@ const useRMA = () => {
     const customerOrders = useMemo(() => {
         const handleCustomerOrderItem = () => {
             const customerOrderItems = customersOrders?.customer?.orders?.items.filter(item => {
-                if (!orderId) return item.number === customerOrderIds?.[0].value;
-
                 return item.number === orderId;
             });
             const orderItems = customerOrderItems?.map(item => {
@@ -55,7 +54,7 @@ const useRMA = () => {
             return flattenOrderItems;
         };
         return handleCustomerOrderItem();
-    }, [customerOrderIds, customersOrders?.customer?.orders?.items, orderId]);
+    }, [customersOrders?.customer?.orders?.items, orderId]);
 
     const [selectedItems, setSelectedItems] = useState([]);
 
@@ -75,8 +74,32 @@ const useRMA = () => {
             return [...prev, item];
         });
     }, []);
+    console.log('selectedItems', selectedItems);
+    const infoReasonsData = useMemo(() => {
+        const handleInfoReasonsData = () => {
+            const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason.map(a => {
+                return {
+                    content: a.content,
+                    value: a.value
+                };
+            });
+            if (reasonsData) return [{ value: 'Select' }, ...reasonsData];
+        };
+        return handleInfoReasonsData();
+    }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason]);
 
-    console.log('uploaded', filesUploaded);
+    const infoSolutionData = useMemo(() => {
+        const handleInfoSolutionData = () => {
+            const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution.map(a => {
+                return {
+                    content: a.content,
+                    value: a.value
+                };
+            });
+            if (reasonsData) return [{ value: 'Select' }, ...reasonsData];
+        };
+        return handleInfoSolutionData();
+    }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution]);
 
     const handleSubmit = useCallback(
         async apiValue => {
@@ -84,7 +107,7 @@ const useRMA = () => {
             try {
                 createMpRmaRequest({
                     variables: {
-                        order_increment_id: orderId,
+                        order_increment_id: apiValue.selection,
                         comment: apiValue.comment,
                         statusId: 1,
                         upload: filesUploaded,
@@ -98,7 +121,7 @@ const useRMA = () => {
                 throw new Error('Something went wrong');
             }
         },
-        [createMpRmaRequest, customerOrders, filesUploaded, orderId, returnType, selectedItems]
+        [createMpRmaRequest, customerOrders, filesUploaded, returnType, selectedItems]
     );
     const handleClose = file => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
@@ -108,7 +131,7 @@ const useRMA = () => {
     const handleReturnChange = e => setReturnType(e.target.value);
 
     const handleReasonChange = (e, product, type) => {
-        console.log(e.target, product, type, '(e, product, type) ');
+        console.log('e', e);
     };
 
     const submitCancelRmaRequest = async data => {
@@ -143,14 +166,11 @@ const useRMA = () => {
         returnTypes,
         handleReturnChange,
         setFormApi,
-        reasons,
-        soluations,
         order,
         handleReasonChange,
         handleRedirectCreateRMA,
         returnType,
         handleCancel,
-        reasonSolutionAdditionalFieldData,
         requestsList: requestsList?.customer?.mp_rma,
         customersOrders,
         orderId,
@@ -159,7 +179,9 @@ const useRMA = () => {
         customerOrders,
         selectedItems,
         setSelectedItems,
-        handleSelectItem
+        handleSelectItem,
+        infoReasonsData,
+        infoSolutionData
     };
 };
 
@@ -171,22 +193,6 @@ const returnTypes = [
         value: 'allItems'
     },
     { label: 'Each Items', value: 'eachItems' }
-];
-
-const reasons = [
-    {
-        label: 'I order the wronge item',
-        value: 'wrongeItem'
-    },
-    { label: 'I am concernd about privacy', value: 'privacy' }
-];
-
-const soluations = [
-    {
-        label: 'We will review you request',
-        value: 'request'
-    },
-    { label: 'Change the shipping address in edit', value: 'shippingAddress' }
 ];
 
 const order = {

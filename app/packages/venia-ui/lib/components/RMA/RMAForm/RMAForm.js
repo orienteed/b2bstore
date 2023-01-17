@@ -33,20 +33,17 @@ const RMAForm = props => {
         formProps,
         returnType,
         handleReasonChange,
-        reasonSolutionAdditionalFieldData,
         customerOrderIds,
         orderId,
         setOrderId,
         customerOrders,
-        selectedItems,
-        setSelectedItems,
         filesUploaded,
         setFilesUploaded,
-        handleSelectItem
+        handleSelectItem,
+        infoReasonsData,
+        infoSolutionData
     } = talonProps;
 
-    const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason;
-    const solutionsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution;
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
@@ -166,12 +163,12 @@ const RMAForm = props => {
                                         defaultMessage: 'Reason'
                                     })}
                                 >
-                                    {reasonsData && (
+                                    {infoReasonsData && (
                                         <Select
                                             field="reason"
-                                            onChange={e => handleReasonChange(e)}
-                                            value={reasonsData}
-                                            items={reasonsData}
+                                            onChange={e => handleReasonChange(e.target.value)}
+                                            value={infoReasonsData}
+                                            items={infoReasonsData}
                                         />
                                     )}
                                 </Field>
@@ -182,12 +179,12 @@ const RMAForm = props => {
                                         defaultMessage: 'Solution'
                                     })}
                                 >
-                                    {solutionsData && (
+                                    {infoSolutionData && (
                                         <Select
                                             field={'solution'}
-                                            onChange={e => handleReasonChange(e)}
-                                            value={solutionsData}
-                                            items={solutionsData}
+                                            onChange={e => handleReasonChange(e.target.value)}
+                                            value={infoSolutionData}
+                                            items={infoSolutionData}
                                         />
                                     )}
                                 </Field>
@@ -232,14 +229,12 @@ const RMAForm = props => {
                                                                 defaultMessage: 'Reason'
                                                             })}
                                                         >
-                                                            {reasonsData && (
+                                                            {infoReasonsData && (
                                                                 <Select
                                                                     field="reason"
-                                                                    onChange={e =>
-                                                                        handleReasonChange(e, item, returnType)
-                                                                    }
-                                                                    value={reasonsData}
-                                                                    items={reasonsData}
+                                                                    onChange={e => handleReasonChange(e.target.value)}
+                                                                    value={infoReasonsData}
+                                                                    items={infoReasonsData}
                                                                 />
                                                             )}
                                                         </Field>
@@ -250,14 +245,12 @@ const RMAForm = props => {
                                                                 defaultMessage: 'Solution'
                                                             })}
                                                         >
-                                                            {solutionsData && (
+                                                            {infoSolutionData && (
                                                                 <Select
                                                                     field={'solution'}
-                                                                    onChange={e =>
-                                                                        handleReasonChange(e, item, returnType)
-                                                                    }
-                                                                    value={solutionsData}
-                                                                    items={solutionsData}
+                                                                    onChange={e => handleReasonChange(e.target.value)}
+                                                                    value={infoSolutionData}
+                                                                    items={infoSolutionData}
                                                                 />
                                                             )}
                                                         </Field>
