@@ -76,14 +76,12 @@ const useRMA = () => {
         });
     }, []);
 
-    const handleReasonChange = (e, productId, type) => {
+    const handleEachItemChange = (e, productId, type) => {
         const newSelectedItems = [...selectedItems];
-        newSelectedItems.find(a => a.id === productId)[type] = e.target.value;
+        newSelectedItems.find(a => a.product_id === productId)[type] = e.target.value;
         setSelectedItems(newSelectedItems);
-        console.log('e', e.target.value);
     };
 
-    console.log('selectedItems', selectedItems);
     const infoReasonsData = useMemo(() => {
         const handleInfoReasonsData = () => {
             const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason.map(a => {
@@ -172,7 +170,7 @@ const useRMA = () => {
         handleReturnChange,
         setFormApi,
         order,
-        handleReasonChange,
+        handleEachItemChange,
         handleRedirectCreateRMA,
         returnType,
         handleCancel,

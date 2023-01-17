@@ -32,7 +32,7 @@ const RMAForm = props => {
         handleReturnChange,
         formProps,
         returnType,
-        handleReasonChange,
+        handleEachItemChange,
         customerOrderIds,
         orderId,
         setOrderId,
@@ -166,7 +166,7 @@ const RMAForm = props => {
                                     {infoReasonsData && (
                                         <Select
                                             field="reason"
-                                            onChange={e => handleReasonChange(e.target.value)}
+                                            // onChange={e => handleReasonChange(e.target.value)}
                                             value={infoReasonsData}
                                             items={infoReasonsData}
                                         />
@@ -182,7 +182,7 @@ const RMAForm = props => {
                                     {infoSolutionData && (
                                         <Select
                                             field={'solution'}
-                                            onChange={e => handleReasonChange(e.target.value)}
+                                            // onChange={e => handleReasonChange(e.target.value)}
                                             value={infoSolutionData}
                                             items={infoSolutionData}
                                         />
@@ -233,7 +233,11 @@ const RMAForm = props => {
                                                                 <Select
                                                                     field={`reason ${item.product_id}`}
                                                                     onChange={e =>
-                                                                        handleReasonChange(e, item.product_id, 'reason')
+                                                                        handleEachItemChange(
+                                                                            e,
+                                                                            item.product_id,
+                                                                            'reason'
+                                                                        )
                                                                     }
                                                                     // value={infoReasonsData}
                                                                     items={infoReasonsData}
@@ -249,8 +253,14 @@ const RMAForm = props => {
                                                         >
                                                             {infoSolutionData && (
                                                                 <Select
-                                                                    field={'solution'}
-                                                                    onChange={e => handleReasonChange(e.target.value)}
+                                                                    field={`solution ${item.product_id}`}
+                                                                    onChange={e =>
+                                                                        handleEachItemChange(
+                                                                            e,
+                                                                            item.product_id,
+                                                                            'solution'
+                                                                        )
+                                                                    }
                                                                     // value={infoSolutionData}
                                                                     items={infoSolutionData}
                                                                 />
