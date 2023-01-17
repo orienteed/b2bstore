@@ -10,7 +10,7 @@ import Icon from '../../Icon';
 import { Smile as EmojiPickerIcon } from 'react-feather';
 
 const DropzonePrevisualizer = props => {
-    const [filesUploaded, setFilesUploaded] = useState([]);
+    const { filesUploaded, setFilesUploaded } = props;
     const [dropzoneError, setDropzoneError] = useState('');
     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
     const classes = useStyle(defaultClasses, props.classes);

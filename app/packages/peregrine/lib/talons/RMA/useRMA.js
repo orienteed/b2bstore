@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { MP_RMA_CONFIG, MP_RMA_REQUEST, RMA_REQUEST_LIST, GET_CUSTOMER_ORDERS, MPCANCEL_RMA_REQUEST } from './RMA.gql';
@@ -18,38 +18,88 @@ const useRMA = () => {
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
     const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST);
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
-    const customerOrderIds = customersOrders?.customer?.orders?.items.map(item => {
-        return {
-            value: item.number
+
+    const customerOrderIds = useMemo(() => {
+        const handleCustomerOrderIds = () => {
+            const orderIds = customersOrders?.customer?.orders?.items.map(item => {
+                return {
+                    value: item.number
+                };
+            });
+            return orderIds;
         };
-    });
+        return handleCustomerOrderIds();
+    }, [customersOrders?.customer?.orders?.items]);
 
-    const [orderId, setOrderId] = useState(customerOrderIds?.[0].value);
-    const customerOrderItems = customersOrders?.customer?.orders?.items.filter(item => item.number === orderId);
+    const [orderId, setOrderId] = useState('');
 
-    const orderItems = customerOrderItems?.map(item => {
-        return item?.items?.map(p => {
-            return {
-                name: p.product_name,
-                SKU: p.product_sku,
-                qty: p.quantity_ordered,
-                price: p.product_sale_price
-            };
-        });
-    });
+    const customerOrders = useMemo(() => {
+        const handleCustomerOrderItem = () => {
+            const customerOrderItems = customersOrders?.customer?.orders?.items.filter(item => {
+                if (!orderId) return item.number === customerOrderIds?.[0].value;
 
-    const flattenOrderItems = orderItems?.flat();
-    console.log('flattenOrderItems', flattenOrderItems);
+                return item.number === orderId;
+            });
+            const orderItems = customerOrderItems?.map(item => {
+                return item?.items?.map(p => {
+                    return {
+                        name: p.product_name,
+                        SKU: p.product_sku,
+                        qty: p.quantity_ordered,
+                        price: p.product_sale_price
+                    };
+                });
+            });
+
+            const flattenOrderItems = orderItems?.flat();
+            return flattenOrderItems;
+        };
+        return handleCustomerOrderItem();
+    }, [customerOrderIds, customersOrders?.customer?.orders?.items, orderId]);
+
+    const [selectedItems, setSelectedItems] = useState([]);
+
     const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
     const formProps = {
         initialValues: formAddress
     };
+    const handleSelectItem = useCallback(item => {
+        setSelectedItems(prev => {
+            if (prev.length > 0) {
+                const existingItem = prev.find(a => a.SKU === item.SKU);
 
-    const handleSubmit = useCallback(async apiValue => {
-        createMpRmaRequest({ variables: { order_increment_id: orderId, comment: comment, upload: filesUploaded } });
-        console.log(apiValue, 'apiValue');
+                if (existingItem) setSelectedItems(prev => prev.filter(b => b.SKU !== item.SKU));
+            }
+
+            return [...prev, item];
+        });
     }, []);
+
+    console.log('uploaded', filesUploaded);
+
+    const handleSubmit = useCallback(
+        async apiValue => {
+            console.log(apiValue, 'apiValue');
+            try {
+                createMpRmaRequest({
+                    variables: {
+                        order_increment_id: orderId,
+                        comment: apiValue.comment,
+                        statusId: 1,
+                        upload: filesUploaded,
+                        request_item: returnType === 'allItems' ? customerOrders : selectedItems,
+                        reason: apiValue.reason,
+                        solution: apiValue.solution,
+                        additional_fields: []
+                    }
+                });
+            } catch (error) {
+                throw new Error('Something went wrong');
+            }
+        },
+        [createMpRmaRequest, customerOrders, filesUploaded, orderId, returnType, selectedItems]
+    );
     const handleClose = file => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
         setFilesUploaded(newFilesUploaded);
@@ -59,23 +109,6 @@ const useRMA = () => {
 
     const handleReasonChange = (e, product, type) => {
         console.log(e.target, product, type, '(e, product, type) ');
-    };
-
-    const submitRmaRequest = async data => {
-        try {
-            const { order_increment_id, comment, upload, request_item, reason, solution } = data;
-            await createMpRmaRequest({
-                variables: {
-                    order_increment_id,
-                    comment,
-                    upload,
-                    reason,
-                    solution
-                }
-            });
-        } catch {
-            throw 'error';
-        }
     };
 
     const submitCancelRmaRequest = async data => {
@@ -123,7 +156,10 @@ const useRMA = () => {
         orderId,
         setOrderId,
         customerOrderIds,
-        flattenOrderItems
+        customerOrders,
+        selectedItems,
+        setSelectedItems,
+        handleSelectItem
     };
 };
 

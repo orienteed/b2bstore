@@ -13,7 +13,7 @@ const ImagesList = props => {
     const imageRef = useRef();
     const thumbs = filesUploaded?.map(file => (
         <div className={classes.imageWrap} key={file.name} ref={imageRef}>
-            <img className={classes.previewImg} src={file.content} alt={file.name} />
+            <img className={classes.previewImg} src={file.base64_encoded_data} alt={file.name} />
             <Button classes={classes.deleteBtn} priority={'high'} onClick={() => handleClose(file)}>
                 <Icon classes={classes.deleteIcon} src={CloseIcon} />
             </Button>

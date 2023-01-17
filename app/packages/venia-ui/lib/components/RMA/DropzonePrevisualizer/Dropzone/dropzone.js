@@ -102,9 +102,9 @@ const Dropzone = props => {
                                 ...prevFilesUploaded,
                                 {
                                     name: file.name,
-                                    size: file.size,
-                                    mimeType: file.type,
-                                    content: e.target.result
+                                    // size: file.size,
+                                    // mimeType: file.type,
+                                    base64_encoded_data: e.target.result
                                 }
                             ]);
                         }

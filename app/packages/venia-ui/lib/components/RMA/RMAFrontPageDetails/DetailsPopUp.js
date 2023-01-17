@@ -9,7 +9,7 @@ import TextArea from '../../TextArea';
 import DropzonePrevisualizer from '../DropzonePrevisualizer';
 import ProductDetailsTable from './ProductDetailsTable';
 
-const DetailsPopUp = ({ openPopup, handleClosePopup, item }) => {
+const DetailsPopUp = ({ openPopup, handleClosePopup, item, filesUploaded, setFilesUploaded }) => {
     const classes = useStyle(defaultClasses);
     const dialogButtonsArray = [];
     const [comment, setComment] = useState('');
@@ -111,7 +111,7 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item }) => {
                     <hr />
 
                     <div className={classes.conversationDropzone}>
-                        <DropzonePrevisualizer />
+                        <DropzonePrevisualizer filesUploaded={filesUploaded} setFilesUploaded={setFilesUploaded} />
                     </div>
                 </div>
             </main>

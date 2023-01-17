@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/jsx-no-literals */
 import React, { Suspense } from 'react';
 import Field from '../../Field';
@@ -13,6 +14,7 @@ import { isRequired } from '../../../util/formValidators';
 import Select from '../../Select';
 import { Accordion, Section } from '../../Accordion';
 import CustomCheckbox from './CustomCheckbox';
+import Checkbox from '../../Checkbox';
 import LoadingIndicator from '../../LoadingIndicator';
 import DropzonePrevisualizer from '../DropzonePrevisualizer';
 
@@ -35,7 +37,12 @@ const RMAForm = props => {
         customerOrderIds,
         orderId,
         setOrderId,
-        flattenOrderItems
+        customerOrders,
+        selectedItems,
+        setSelectedItems,
+        filesUploaded,
+        setFilesUploaded,
+        handleSelectItem
     } = talonProps;
 
     const reasonsData = reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason;
@@ -134,7 +141,7 @@ const RMAForm = props => {
                                 validate={isRequired}
                             />
                         </div>
-                        <DropzonePrevisualizer />
+                        <DropzonePrevisualizer filesUploaded={filesUploaded} setFilesUploaded={setFilesUploaded} />
                     </div>
                 </div>
                 <div className={classes.rmaInformationContainer}>
@@ -163,6 +170,7 @@ const RMAForm = props => {
                                         <Select
                                             field="reason"
                                             onChange={e => handleReasonChange(e)}
+                                            value={reasonsData}
                                             items={reasonsData}
                                         />
                                     )}
@@ -176,8 +184,9 @@ const RMAForm = props => {
                                 >
                                     {solutionsData && (
                                         <Select
-                                            field={'soluation'}
+                                            field={'solution'}
                                             onChange={e => handleReasonChange(e)}
+                                            value={solutionsData}
                                             items={solutionsData}
                                         />
                                     )}
@@ -185,9 +194,10 @@ const RMAForm = props => {
                             </div>
                         ) : (
                             <>
-                                {flattenOrderItems?.map(item => (
+                                {customerOrders?.map(item => (
                                     <div className={classes.item}>
                                         <Accordion canOpenMultiple={true}>
+                                            <Checkbox onChange={() => handleSelectItem(item)} field={item.SKU} />
                                             <Section
                                                 data-cy="PriceAdjustments-couponCodeSection"
                                                 id={item?.sku}
@@ -197,7 +207,6 @@ const RMAForm = props => {
                                                     <>
                                                         <div className={classes.flexDisplay}>
                                                             <span>
-                                                                {' '}
                                                                 <FormattedMessage
                                                                     id={'global.price'}
                                                                     defaultMessage={'Price'}
@@ -229,6 +238,7 @@ const RMAForm = props => {
                                                                     onChange={e =>
                                                                         handleReasonChange(e, item, returnType)
                                                                     }
+                                                                    value={reasonsData}
                                                                     items={reasonsData}
                                                                 />
                                                             )}
@@ -242,10 +252,11 @@ const RMAForm = props => {
                                                         >
                                                             {solutionsData && (
                                                                 <Select
-                                                                    field={'soluation'}
+                                                                    field={'solution'}
                                                                     onChange={e =>
                                                                         handleReasonChange(e, item, returnType)
                                                                     }
+                                                                    value={solutionsData}
                                                                     items={solutionsData}
                                                                 />
                                                             )}

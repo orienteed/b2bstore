@@ -11,7 +11,7 @@ import DetailsPopUp from './RMAFrontPageDetails';
 const RMAFrontPage = () => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses);
-    const { userRMARequests, handleRedirectCreateRMA, handleCancel, requestsList } = useRMA({});
+    const { handleRedirectCreateRMA, handleCancel, requestsList, filesUploaded, setFilesUploaded } = useRMA({});
     const { handleOpenPopup, handleClosePopup, openPopup } = useRMAFrontPage();
 
     const tableHeader = [
@@ -100,6 +100,8 @@ const RMAFrontPage = () => {
                             openPopup={openPopup}
                             handleClosePopup={handleClosePopup}
                             item={item}
+                            filesUploaded={filesUploaded}
+                            setFilesUploaded={setFilesUploaded}
                         />
                     );
                 })}
