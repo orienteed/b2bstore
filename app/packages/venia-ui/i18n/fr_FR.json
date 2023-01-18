@@ -971,5 +971,19 @@
     "wishlistPage.disabledMessage": "Désolé, cette fonctionnalité a été désactivée.",
     "wishlistPage.fetchErrorMessage": "Un problème est survenu. Veuillez actualiser et réessayer.",
     "wishlistPage.headingText": "Listes de favoris",
-    "wishlistPage.wishlistDisabledMessage": "La liste de souhaits n'est pas disponible actuellement."
+    "wishlistPage.wishlistDisabledMessage": "La liste de souhaits n'est pas disponible actuellement.",
+    "companyAccount.ViewOrderLabel": "Voir les commandes",
+    "companyAccount.companyInformation": "Informations sur l'entreprise",
+    "companyAccount.ManageUsers": "Gérer les utilisateurs",
+    "companyAccount.ManageOrders": "Gérer les commandes",
+    "companyAccount.ManageRoles": "Gérer les règles",
+    "companyAccount.editUserRole": "Modifier le rôle de l'utilisateur",
+    "companyAccount.quantityLabel": "Limite de quantité de commande par utilisateur",
+    "companyAccount.roleAmount": "Limite de montant par commande",
+    "companyAccount.roleInformation": "Informations sur le rôle",
+    "companyAccount.roleResource": "Rôle Ressource",
+    "companyAccount.ResourceAccess": "Accès à toutes les ressources",
+    "companyAccount.additionalPermissions": "Autorisations supplémentaires",
+    "companyAccount.roleName": "Nom du rôle",
+    "companyAccount.ManageRules": "Gérer les règles"
 }

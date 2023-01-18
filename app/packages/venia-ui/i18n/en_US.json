@@ -976,5 +976,19 @@
     "wishlistPage.disabledMessage": "Sorry, this feature has been disabled.",
     "wishlistPage.fetchErrorMessage": "Something went wrong. Please refresh and try again.",
     "wishlistPage.headingText": "{count, plural, one {Favorites List} other {Favorites Lists}}",
-    "wishlistPage.wishlistDisabledMessage": "The wishlist is not currently available."
+    "wishlistPage.wishlistDisabledMessage": "The wishlist is not currently available.",
+    "companyAccount.ViewOrderLabel": "View Orders",
+    "companyAccount.companyInformation": "Company Information",
+    "companyAccount.ManageUsers": "Manage Users",
+    "companyAccount.ManageOrders": "Manage Orders",
+    "companyAccount.ManageRoles": "Manage Rules",
+    "companyAccount.editUserRole": "Edit user Role",
+    "companyAccount.quantityLabel": "Order Quantity Limit per User",
+    "companyAccount.roleAmount": "Amount Limit Per Order",
+    "companyAccount.roleInformation": "Role Information",
+    "companyAccount.roleResource": "Role Resource",
+    "companyAccount.ResourceAccess": "All Resource Access",
+    "companyAccount.additionalPermissions": "Additional Permissions",
+    "companyAccount.ManageRules": "Manage Rules",
+    "companyAccount.rleName": "Role Name"
 }

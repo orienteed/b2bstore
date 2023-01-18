@@ -971,5 +971,19 @@
     "wishlistPage.disabledMessage": "Lo sentimos, esta funcionalidad ha sido deshabilitada",
     "wishlistPage.fetchErrorMessage": "Algo ha salido mal. Por favor refresca la página e inténtalo de nuevo.",
     "wishlistPage.headingText": "Listas de favoritos",
-    "wishlistPage.wishlistDisabledMessage": "La lista de deseos no está disponible en este momento"
+    "wishlistPage.wishlistDisabledMessage": "La lista de deseos no está disponible en este momento",
+    "companyAccount.ViewOrderLabel": "Ver pedidos",
+    "companyAccount.companyInformation": "Información de la empresa",
+    "companyAccount.ManageUsers": "Gestionar usuarios",
+    "companyAccount.ManageOrders": "Gestionar pedidos",
+    "companyAccount.ManageRoles": "Gestionar reglas",
+    "companyAccount.editUserRole": "Editar el rol del usuario",
+    "companyAccount.quantityLabel": "Límite de cantidad de pedidos por usuario",
+    "companyAccount.roleAmount": "Límite de importe por pedido",
+    "companyAccount.roleInformation": "Información sobre el papel",
+    "companyAccount.roleResource": "Recurso del papel",
+    "companyAccount.ResourceAccess": "Acceso a todos los recursos",
+    "companyAccount.additionalPermissions": "Permisos adicionales",
+    "companyAccount.roleName": "Nombre del rol",
+    "companyAccount.ManageRules": "Gestionar reglas"
 }
