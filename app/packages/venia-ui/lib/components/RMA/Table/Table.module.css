@@ -4,13 +4,14 @@ th {
     font-size: 15px;
     color: #373737;
     height: 56px;
-    text-align: left;
+    text-align: center;
 }
 
 td {
     font-weight: 400;
     height: 56px;
     font-size: 16px;
+    text-align: center;
 }
 
 @media only screen and (max-width: 960px), (min-device-width: 968px) and (max-device-width: 1024px) {
@@ -57,5 +58,9 @@ td {
         font-size: 15px;
         color: #373737;
         content: attr(data-label);
+    }
+
+    td {
+        text-align: left;
     }
 }

@@ -189,7 +189,6 @@ const useRMA = () => {
         returnTypes,
         handleReturnChange,
         setFormApi,
-        order,
         handleEachItemChange,
         handleRedirectCreateRMA,
         returnType,

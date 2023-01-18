@@ -1,0 +1,20 @@
+.productSkuContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.productSkuContainer img {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+
+.productSkuContainer a:hover {
+    color: var(--orienteed-primary-color-base1);
+    font-weight: bold;
+}
+.copiedText {
+    color: var(--orienteed-primary-color-base1);
+    font-weight: bold;
+}

@@ -1,44 +1,56 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/jsx-no-literals */
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Table from '../Table/Table';
+import useCopy from 'use-copy';
+import copyToClipboard from './icons/copyToClipboard.png';
+import { useStyle } from '../../../classify';
+import defaultClasses from './ProductDetailsTable.module.css';
 
 const ProductDetailsTable = props => {
     const { item } = props;
-    console.log(item?.request_item);
+    const classes = useStyle(defaultClasses);
+
     const { formatMessage } = useIntl();
-    const userRMARequests = [
-        {
-            product: 'Scarf',
-            sku: '000000095',
-            order_increment_id: '0000055',
-            status_id: 'Pendeing',
-            is_canceled: 0,
-            updated_at: '1 / 4 / 23',
-            created_at: '1 / 4 / 23',
-            increment_id: 2
-        },
-        {
-            request_id: '00000058',
-            order_id: '000000097',
-            order_increment_id: '00000242',
-            status_id: 'Pendeing',
-            is_canceled: 0,
-            updated_at: '1 / 5 / 23',
-            created_at: '1 / 5 / 23',
-            increment_id: 552
-        }
-    ];
+
     const tableHeader = [
         <FormattedMessage id={'rmaPage.productName'} defaultMessage={'Product Name'} />,
         <FormattedMessage id={'rmaPage.sku'} defaultMessage={'SKU'} />,
         <FormattedMessage id={'rmaPage.price'} defaultMessage={'Price'} />,
         <FormattedMessage id={'rmaPage.reason'} defaultMessage={'Reason'} />,
         <FormattedMessage id={'rmaPage.solution'} defaultMessage={'Solution'} />,
-        <FormattedMessage id={'rmaPage.additionalField'} defaultMessage={'Additional Field'} />,
+        // <FormattedMessage id={'rmaPage.additionalField'} defaultMessage={'Additional Field'} />,
         <FormattedMessage id={'rmaPage.qty'} defaultMessage={'Qty'} />
     ];
 
+    const [copied, copy, setCopied] = useCopy(item.sku);
+    const copyTextSku = () => {
+        copy();
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    };
+
     const tableRows = item?.request_item.map(req => {
+        const productSku = (
+            <div className={classes.indexMobileSku}>
+                {' '}
+                {copied ? (
+                    <div className={classes.copiedText}>
+                        <FormattedMessage id={'productFullDetailB2B.copiedText'} defaultMessage={'Copied'} />
+                    </div>
+                ) : (
+                    <div className={classes.productSkuContainer}>
+                        <span onClick={copyTextSku}>{`..${req.sku.substring(req.sku.length - 5)}`}</span>
+                        <img src={copyToClipboard} alt="copyToClipboard" onClick={copyTextSku} />
+                    </div>
+                )}
+            </div>
+        );
         return [
             {
                 dataLable: formatMessage({
@@ -52,14 +64,14 @@ const ProductDetailsTable = props => {
                     id: 'rmaPage.sku',
                     defaultMessage: 'SKU'
                 }),
-                value: req.sku
+                value: productSku
             },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.price',
                     defaultMessage: 'Price'
                 }),
-                value: req.price
+                value: `${req.price}`
             },
             {
                 dataLable: formatMessage({
@@ -75,13 +87,13 @@ const ProductDetailsTable = props => {
                 }),
                 value: req.solution
             },
-            {
-                dataLable: formatMessage({
-                    id: 'rmaPage.additionalField',
-                    defaultMessage: 'Additional Field'
-                }),
-                // value: req.additional_fields
-            },
+            // {
+            //     dataLable: formatMessage({
+            //         id: 'rmaPage.additionalField',
+            //         defaultMessage: 'Additional Field'
+            //     })
+
+            // },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.qty',

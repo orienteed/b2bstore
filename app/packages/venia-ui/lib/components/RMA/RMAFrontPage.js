@@ -7,6 +7,7 @@ import Button from '../Button';
 import Table from './Table/Table';
 import useRMAFrontPage from '@magento/peregrine/lib/talons/RMA/useRMAFrontPage.js';
 import DetailsPopUp from './RMAFrontPageDetails';
+import LoadingIndicator from '../LoadingIndicator';
 
 const RMAFrontPage = () => {
     const { formatMessage } = useIntl();
@@ -23,6 +24,11 @@ const RMAFrontPage = () => {
         <FormattedMessage id={'rmaPage.actions'} defaultMessage={'Actions'} />
     ];
     console.log({ requestsList: requestsList?.items });
+
+    const noRequestsMessage = formatMessage({
+        id: 'rmaPage.noRequestsMessage',
+        defaultMessage: 'There are no requests yet'
+    });
 
     const tableRows = requestsList?.items?.map(req => {
         return [
@@ -80,6 +86,7 @@ const RMAFrontPage = () => {
             }
         ];
     });
+    if (!requestsList) return <LoadingIndicator />;
 
     return (
         <div className={classes.root}>
@@ -92,7 +99,7 @@ const RMAFrontPage = () => {
                 </Button>
             </div>
             <Table headers={tableHeader} tableRows={tableRows} />
-            {requestsList?.items?.length > 0 &&
+            {requestsList?.items?.length > 0 ? (
                 requestsList?.items?.map(item => {
                     return (
                         <DetailsPopUp
@@ -104,7 +111,10 @@ const RMAFrontPage = () => {
                             setFilesUploaded={setFilesUploaded}
                         />
                     );
-                })}
+                })
+            ) : (
+                <p> {noRequestsMessage}</p>
+            )}
         </div>
     );
 };
