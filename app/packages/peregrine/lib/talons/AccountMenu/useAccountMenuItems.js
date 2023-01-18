@@ -1,6 +1,8 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import doCsrLogout from '@magento/peregrine/lib/RestApi/Csr/auth/logout';
 import doLmsLogout from '@magento/peregrine/lib/RestApi/Lms/auth/logout';
+
+import { useCompanyAccountInfo } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountInfo';
 
 /**
  * @param {Object}      props
@@ -17,6 +19,32 @@ export const useAccountMenuItems = props => {
         process.env.LMS_ENABLED === 'true' && doLmsLogout();
         onSignOut();
     }, [onSignOut]);
+
+    const { companyInfo } = useCompanyAccountInfo({});
+
+    const companyLinks = useMemo(() => {
+        if (companyInfo) {
+            return [
+                {
+                    name: 'Account Information',
+                    id: 'accountMenu.accountInfoLink',
+                    url: '/account-information'
+                },
+                {
+                    name: 'My Company',
+                    id: 'companyAccount.myCompany',
+                    url: '/company-account/information'
+                }
+            ];
+        }
+        return [
+            {
+                name: 'Account Information',
+                id: 'accountMenu.accountInfoLink',
+                url: '/account-information'
+            }
+        ];
+    }, [companyInfo]);
 
     const MENU_ITEMS_BASIC = [
         {
@@ -42,11 +70,7 @@ export const useAccountMenuItems = props => {
     ];
 
     const MENU_ITEMS_PREMIUM = [
-        {
-            name: 'Account Information',
-            id: 'accountMenu.accountInfoLink',
-            url: '/account-information'
-        },
+        ...companyLinks,
         {
             name: 'Address Book',
             id: 'accountMenu.addressBookLink',
@@ -96,10 +120,7 @@ export const useAccountMenuItems = props => {
 
     return {
         handleSignOut,
-        menuItems:
-            process.env.B2BSTORE_VERSION === 'BASIC'
-                ? MENU_ITEMS_BASIC
-                : MENU_ITEMS_PREMIUM
+        menuItems: process.env.B2BSTORE_VERSION === 'BASIC' ? MENU_ITEMS_BASIC : MENU_ITEMS_PREMIUM
     };
 };
 
