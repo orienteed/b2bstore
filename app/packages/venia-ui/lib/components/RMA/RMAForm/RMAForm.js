@@ -36,10 +36,10 @@ const RMAForm = props => {
         customerOrderIds,
         orderId,
         setOrderId,
-        customerOrders,
         filesUploaded,
         setFilesUploaded,
         handleSelectItem,
+        customerOrders,
         infoReasonsData,
         infoSolutionData
     } = talonProps;
@@ -61,6 +61,8 @@ const RMAForm = props => {
         id: 'rmaRequestForm.termsAndConditions',
         defaultMessage: 'By clicking submit you agree to the Terms and Conditions.'
     });
+
+    if (!customerOrders && !infoReasonsData && !infoSolutionData) return <LoadingIndicator />;
     return (
         <div>
             <Form
