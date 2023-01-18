@@ -41,7 +41,9 @@ const RMAForm = props => {
         handleSelectItem,
         customerOrders,
         infoReasonsData,
-        infoSolutionData
+        infoSolutionData,
+        customerData,
+        handleReasonSolutionChange
     } = talonProps;
 
     const orderInformationTitle = formatMessage({
@@ -62,7 +64,8 @@ const RMAForm = props => {
         defaultMessage: 'By clicking submit you agree to the Terms and Conditions.'
     });
 
-    if (!customerOrders && !infoReasonsData && !infoSolutionData) return <LoadingIndicator />;
+    if (!customerOrders && !infoReasonsData && !infoSolutionData && !customerData) return <LoadingIndicator />;
+
     return (
         <div>
             <Form
@@ -97,9 +100,9 @@ const RMAForm = props => {
                             <TextInput
                                 id="rmaRequestFormBillingName"
                                 data-cy="RMARequestForm-name"
-                                autoComplete="name"
                                 field="name"
-                                validate={isRequired}
+                                placeholder={customerData?.customer?.firstname}
+                                disabled
                             />
                         </Field>
                         <Field
@@ -112,9 +115,9 @@ const RMAForm = props => {
                             <TextInput
                                 id="rmaRequestFormEmail"
                                 data-cy="rmaRequestFormEmail-email"
-                                autoComplete="email"
                                 field="email"
-                                validate={isRequired}
+                                placeholder={customerData?.customer?.email}
+                                disabled
                             />
                         </Field>
 
@@ -143,7 +146,7 @@ const RMAForm = props => {
                         <DropzonePrevisualizer filesUploaded={filesUploaded} setFilesUploaded={setFilesUploaded} />
                     </div>
                 </div>
-                <div className={classes.rmaInformationContainer}>
+                <div className={orderId ? classes.rmaInformationContainer : classes.rmaInformationContainerHidden}>
                     <div className={classes.orderInformationTitle}>{rmaInformation}</div>
                     <hr />
                     <div className={classes.rmaInformationInputs}>
@@ -168,7 +171,7 @@ const RMAForm = props => {
                                     {infoReasonsData && (
                                         <Select
                                             field="reason"
-                                            // onChange={e => handleReasonChange(e.target.value)}
+                                            onChange={e => handleReasonSolutionChange(e)}
                                             value={infoReasonsData}
                                             items={infoReasonsData}
                                         />
@@ -184,7 +187,7 @@ const RMAForm = props => {
                                     {infoSolutionData && (
                                         <Select
                                             field={'solution'}
-                                            // onChange={e => handleReasonChange(e.target.value)}
+                                            onChange={e => handleReasonSolutionChange(e)}
                                             value={infoSolutionData}
                                             items={infoSolutionData}
                                         />
@@ -241,7 +244,6 @@ const RMAForm = props => {
                                                                             'reason'
                                                                         )
                                                                     }
-                                                                    // value={infoReasonsData}
                                                                     items={infoReasonsData}
                                                                 />
                                                             )}
@@ -263,7 +265,6 @@ const RMAForm = props => {
                                                                             'solution'
                                                                         )
                                                                     }
-                                                                    // value={infoSolutionData}
                                                                     items={infoSolutionData}
                                                                 />
                                                             )}

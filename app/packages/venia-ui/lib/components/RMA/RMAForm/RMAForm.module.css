@@ -83,3 +83,7 @@
     font-size: 1.25rem;
     justify-content: space-between;
 }
+
+.rmaInformationContainerHidden {
+    display: none;
+}

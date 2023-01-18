@@ -1,5 +1,15 @@
 import { gql } from '@apollo/client';
 
+export const GET_CUSTOMER = gql`
+    query GetCustomerForCheckout {
+        # eslint-disable-next-line @graphql-eslint/require-id-when-available
+        customer {
+            firstname
+            email
+        }
+    }
+`;
+
 export const MP_RMA_CONFIG = gql`
     query mpRMAConfig {
         mpRMAConfig {

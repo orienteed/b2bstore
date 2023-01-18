@@ -1,13 +1,22 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { MP_RMA_CONFIG, MP_RMA_REQUEST, RMA_REQUEST_LIST, GET_CUSTOMER_ORDERS, MPCANCEL_RMA_REQUEST } from './RMA.gql';
+import { FormattedMessage, useIntl } from 'react-intl';
+import {
+    MP_RMA_CONFIG,
+    MP_RMA_REQUEST,
+    RMA_REQUEST_LIST,
+    GET_CUSTOMER_ORDERS,
+    MPCANCEL_RMA_REQUEST,
+    GET_CUSTOMER
+} from './RMA.gql';
 
 const useRMA = () => {
     const { push } = useHistory();
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);
     const [dropzoneError, setDropzoneError] = useState('');
+    const { formatMessage } = useIntl();
 
     const [comment, setComment] = useState('');
     const [returnType, setReturnType] = useState('allItems');
@@ -18,6 +27,12 @@ const useRMA = () => {
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
     const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST);
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
+    const { data: customerData } = useQuery(GET_CUSTOMER);
+
+    const selectTitle = formatMessage({
+        id: 'rmaRequestForm.select',
+        defaultMessage: 'Select'
+    });
 
     const customerOrderIds = useMemo(() => {
         const handleCustomerOrderIds = () => {
@@ -27,10 +42,10 @@ const useRMA = () => {
                 };
             });
 
-            if (orderIds) return [{ value: 'Select' }, ...orderIds];
+            if (orderIds) return [{ value: selectTitle }, ...orderIds];
         };
         return handleCustomerOrderIds();
-    }, [customersOrders?.customer?.orders?.items]);
+    }, [customersOrders?.customer?.orders?.items, selectTitle]);
 
     const [orderId, setOrderId] = useState('');
 
@@ -58,7 +73,7 @@ const useRMA = () => {
     }, [customersOrders?.customer?.orders?.items, orderId]);
 
     const [selectedItems, setSelectedItems] = useState([]);
-
+    console.log('selectedItem', selectedItems);
     const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
     const formProps = {
@@ -77,9 +92,17 @@ const useRMA = () => {
     }, []);
 
     const handleEachItemChange = (e, productId, type) => {
-        const newSelectedItems = [...selectedItems];
-        newSelectedItems.find(a => a.product_id === productId)[type] = e.target.value;
-        setSelectedItems(newSelectedItems);
+        if (selectedItems.length > 0) {
+            const newSelectedItems = [...selectedItems];
+            newSelectedItems.find(a => a.product_id === productId)[type] = e.target.value;
+
+            setSelectedItems(newSelectedItems);
+        }
+        return e.target.value;
+    };
+
+    const handleReasonSolutionChange = e => {
+        return e.target.value;
     };
 
     const infoReasonsData = useMemo(() => {
@@ -90,10 +113,10 @@ const useRMA = () => {
                     value: a.value
                 };
             });
-            if (reasonsData) return [{ value: 'Select' }, ...reasonsData];
+            if (reasonsData) return [{ value: selectTitle }, ...reasonsData];
         };
         return handleInfoReasonsData();
-    }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason]);
+    }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.reason, selectTitle]);
 
     const infoSolutionData = useMemo(() => {
         const handleInfoSolutionData = () => {
@@ -103,33 +126,30 @@ const useRMA = () => {
                     value: a.value
                 };
             });
-            if (reasonsData) return [{ value: 'Select' }, ...reasonsData];
+            if (reasonsData) return [{ value: selectTitle }, ...reasonsData];
         };
         return handleInfoSolutionData();
-    }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution]);
+    }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution, selectTitle]);
 
-    const handleSubmit = useCallback(
-        async apiValue => {
-            console.log(apiValue, 'apiValue');
-            try {
-                createMpRmaRequest({
-                    variables: {
-                        order_increment_id: apiValue.selection,
-                        comment: apiValue.comment,
-                        statusId: 1,
-                        upload: filesUploaded,
-                        request_item: returnType === 'allItems' ? customerOrders : selectedItems,
-                        reason: apiValue.reason,
-                        solution: apiValue.solution,
-                        additional_fields: []
-                    }
-                });
-            } catch (error) {
-                throw new Error('Something went wrong');
-            }
-        },
-        [createMpRmaRequest, customerOrders, filesUploaded, returnType, selectedItems]
-    );
+    const handleSubmit = useCallback(async apiValue => {
+        console.log(apiValue, 'apiValue');
+        // try {
+        //     createMpRmaRequest({
+        //         variables: {
+        //             order_increment_id: apiValue.selection,
+        //             comment: apiValue.comment,
+        //             statusId: 1,
+        //             upload: filesUploaded,
+        //             request_item: returnType === 'allItems' ? customerOrders : selectedItems,
+        //             reason: apiValue.reason,
+        //             solution: apiValue.solution,
+        //             additional_fields: []
+        //         }
+        //     });
+        // } catch (error) {
+        //     throw new Error('Something went wrong');
+        // }
+    }, []);
     const handleClose = file => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
         setFilesUploaded(newFilesUploaded);
@@ -184,7 +204,9 @@ const useRMA = () => {
         setSelectedItems,
         handleSelectItem,
         infoReasonsData,
-        infoSolutionData
+        infoSolutionData,
+        customerData,
+        handleReasonSolutionChange
     };
 };
 
@@ -197,20 +219,3 @@ const returnTypes = [
     },
     { label: 'Each Items', value: 'eachItems' }
 ];
-
-const order = {
-    products: [
-        {
-            name: 'Table',
-            SKU: 'Table',
-            price: 22.3,
-            qty: 2
-        },
-        {
-            name: 'Chair',
-            SKU: 'Chair',
-            price: 50.3,
-            qty: 2
-        }
-    ]
-};
