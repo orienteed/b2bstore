@@ -34,7 +34,6 @@ const Tile = props => {
         .map(([key]) => Number(key));
     let maxSelectedKey;
     if (selectedKeys.length > 0) maxSelectedKey = Math.max(...selectedKeys);
-    console.log({ maxSelectedKey, attribute_id });
 
     const talonProps = useTile({
         onClick,
