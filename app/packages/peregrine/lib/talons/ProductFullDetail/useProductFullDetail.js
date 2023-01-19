@@ -585,6 +585,7 @@ export const useProductFullDetail = props => {
         addConfigurableProductToCart,
         isAddConfigurableLoading,
         cartId,
+        optionSelections,
         derivedOptionSelectionsKey
     };
 };

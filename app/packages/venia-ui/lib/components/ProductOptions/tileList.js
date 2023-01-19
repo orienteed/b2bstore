@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
 import Tile from './tile';
@@ -12,7 +13,9 @@ const TileList = props => {
         items,
         onSelectionChange,
         isEverythingOutOfStock,
-        outOfStockVariants
+        outOfStockVariants,
+        selectedValues,
+        attribute_id
     } = props;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -24,9 +27,7 @@ const TileList = props => {
                 let isOptionOutOfStock;
                 if (outOfStockVariants && outOfStockVariants.length > 0) {
                     const flatOutOfStockArray = outOfStockVariants.flat();
-                    isOptionOutOfStock = flatOutOfStockArray.includes(
-                        item.value_index
-                    );
+                    isOptionOutOfStock = flatOutOfStockArray.includes(item.value_index);
                 }
 
                 return (
@@ -37,17 +38,12 @@ const TileList = props => {
                         onClick={onSelectionChange}
                         isEverythingOutOfStock={isEverythingOutOfStock}
                         isOptionOutOfStock={isOptionOutOfStock}
+                        selectedValues={selectedValues}
+                        attribute_id={attribute_id}
                     />
                 );
             }),
-        [
-            getItemKey,
-            selectedValue.label,
-            items,
-            onSelectionChange,
-            isEverythingOutOfStock,
-            outOfStockVariants
-        ]
+        [getItemKey, selectedValue.label, items, onSelectionChange, isEverythingOutOfStock, outOfStockVariants]
     );
 
     return <div className={classes.root}>{tiles}</div>;

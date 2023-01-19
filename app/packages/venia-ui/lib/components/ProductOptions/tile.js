@@ -10,10 +10,12 @@ const getClassName = (
     isSelected,
     hasFocus,
     isOptionOutOfStock,
-    isEverythingOutOfStock
+    isEverythingOutOfStock,
+    attribute_id,
+    maxSelectedKey
 ) =>
     `${name}${isSelected ? '_selected' : ''}${hasFocus ? '_focused' : ''}${
-        isEverythingOutOfStock || isOptionOutOfStock ? '_outOfStock' : ''
+        attribute_id > maxSelectedKey && (isEverythingOutOfStock || isOptionOutOfStock) ? '_outOfStock' : ''
     }`;
 
 const Tile = props => {
@@ -23,8 +25,16 @@ const Tile = props => {
         item: { label, value_index },
         onClick,
         isEverythingOutOfStock,
-        isOptionOutOfStock
+        isOptionOutOfStock,
+        selectedValues,
+        attribute_id
     } = props;
+    const selectedKeys = [...selectedValues?.entries()]
+        .filter(([, value]) => value !== undefined)
+        .map(([key]) => Number(key));
+    let maxSelectedKey;
+    if (selectedKeys.length > 0) maxSelectedKey = Math.max(...selectedKeys);
+    console.log({ maxSelectedKey, attribute_id });
 
     const talonProps = useTile({
         onClick,
@@ -40,7 +50,9 @@ const Tile = props => {
                 isSelected,
                 hasFocus,
                 isOptionOutOfStock,
-                isEverythingOutOfStock
+                isEverythingOutOfStock,
+                attribute_id,
+                maxSelectedKey
             )
         ];
 
@@ -51,7 +63,7 @@ const Tile = props => {
             title={label}
             type="button"
             data-cy="Tile-button"
-            disabled={isEverythingOutOfStock || isOptionOutOfStock}
+            disabled={attribute_id > maxSelectedKey && (isEverythingOutOfStock || isOptionOutOfStock)}
         >
             <span>{label}</span>
         </button>

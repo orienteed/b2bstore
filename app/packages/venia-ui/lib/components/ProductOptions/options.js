@@ -11,7 +11,8 @@ const Options = props => {
         options,
         selectedValues = [],
         isEverythingOutOfStock,
-        outOfStockVariants
+        outOfStockVariants,
+        selected
     } = props;
 
     const talonProps = useOptions({
@@ -28,7 +29,6 @@ const Options = props => {
     useEffect(() => {
         handleSelectionChange(ATTRIBUTE_ID, VALUE_INDEX);
     }, []);
-
     // Render a list of options passing in any pre-selected values.
     return options.map(option => (
         <Option
@@ -39,6 +39,8 @@ const Options = props => {
             selectedValue={selectedValueMap.get(option.label)}
             isEverythingOutOfStock={isEverythingOutOfStock}
             outOfStockVariants={outOfStockVariants}
+            attribute_id={option.attribute_id}
+            selectedValues={selected}
         />
     ));
 };

@@ -1,14 +1,6 @@
 import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-    arrayOf,
-    func,
-    number,
-    object,
-    oneOfType,
-    shape,
-    string
-} from 'prop-types';
+import { arrayOf, func, number, object, oneOfType, shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import getOptionType from './getOptionType';
@@ -36,9 +28,9 @@ const Option = props => {
         selectedValue,
         values,
         isEverythingOutOfStock,
-        outOfStockVariants
+        outOfStockVariants,
+        selectedValues
     } = props;
-
     const talonProps = useOption({
         attribute_id,
         label,
@@ -47,16 +39,9 @@ const Option = props => {
         values
     });
 
-    const {
-        handleSelectionChange,
-        initialSelection,
-        selectedValueDescription
-    } = talonProps;
+    const { handleSelectionChange, initialSelection, selectedValueDescription } = talonProps;
 
-    const ValueList = useMemo(() => getListComponent(attribute_code, values), [
-        attribute_code,
-        values
-    ]);
+    const ValueList = useMemo(() => getListComponent(attribute_code, values), [attribute_code, values]);
 
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -70,12 +55,11 @@ const Option = props => {
                 onSelectionChange={handleSelectionChange}
                 isEverythingOutOfStock={isEverythingOutOfStock}
                 outOfStockVariants={outOfStockVariants}
+                attribute_id={attribute_id}
+                selectedValues={selectedValues}
             />
             <dl className={classes.selection}>
-                <dt
-                    data-cy="ProductOptions-Option-selectedLabel"
-                    className={classes.selectionLabel}
-                >
+                <dt data-cy="ProductOptions-Option-selectedLabel" className={classes.selectionLabel}>
                     <FormattedMessage
                         id="productOptions.selectedLabel"
                         defaultMessage="Selected {label}:"
