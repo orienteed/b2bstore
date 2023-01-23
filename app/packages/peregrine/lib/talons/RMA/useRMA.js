@@ -25,7 +25,7 @@ const useRMA = () => {
     const [formAddress] = useState();
 
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
-    const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST);
+    const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST, { fetchPolicy: 'no-cache' });
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
     const { data: customerData } = useQuery(GET_CUSTOMER);
 
@@ -33,7 +33,7 @@ const useRMA = () => {
         id: 'rmaRequestForm.select',
         defaultMessage: 'Select'
     });
-
+    console.log({ requestsList ,customersOrders });
     const customerOrderIds = useMemo(() => {
         const handleCustomerOrderIds = () => {
             const orderIds = customersOrders?.customer?.orders?.items.map(item => {
@@ -71,9 +71,7 @@ const useRMA = () => {
         };
         return handleCustomerOrderItem();
     }, [customersOrders?.customer?.orders?.items, orderId]);
-
     const [selectedItems, setSelectedItems] = useState([]);
-    console.log('selectedItem', selectedItems);
     const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
     const formProps = {
@@ -131,25 +129,49 @@ const useRMA = () => {
         return handleInfoSolutionData();
     }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution, selectTitle]);
 
-    const handleSubmit = useCallback(async apiValue => {
-        console.log(apiValue, 'apiValue');
-        // try {
-        //     createMpRmaRequest({
-        //         variables: {
-        //             order_increment_id: apiValue.selection,
-        //             comment: apiValue.comment,
-        //             statusId: 1,
-        //             upload: filesUploaded,
-        //             request_item: returnType === 'allItems' ? customerOrders : selectedItems,
-        //             reason: apiValue.reason,
-        //             solution: apiValue.solution,
-        //             additional_fields: []
-        //         }
-        //     });
-        // } catch (error) {
-        //     throw new Error('Something went wrong');
-        // }
-    }, []);
+    const handleSubmit = useCallback(
+        async apiValue => {
+            try {
+                const items = (returnType === 'allItems' ? customerOrders : selectedItems).map(
+                    ({ product_id, qty_rma }) => {
+                        return {
+                            product_id: Number('17'),
+                            qty_rma,
+                            reason: apiValue.reason,
+                            solution: apiValue.solution
+                            // additional_fields: [
+                            //     {
+                            //         value: 'comment',
+                            //         content: 'dssss'
+                            //     },
+                            //     {
+                            //         value: 'email',
+                            //         content: 'dssss'
+                            //     }
+                            // ]
+                        };
+                    }
+                );
+                console.log(apiValue, 'apiValue', { items });
+                createMpRmaRequest({
+                    variables: {
+                        order_increment_id: apiValue.selection,
+                        // comment: apiValue.comment,
+                        // statusId: 1,
+                        // upload: filesUploaded,
+                        request_item: items,
+                        reason: apiValue.reason,
+                        solution: apiValue.solution
+                        // additional_fields: []
+                    }
+                });
+            } catch (error) {
+                console.log({ error });
+                // throw new Error('Something went wrong');
+            }
+        },
+        [customerOrders,returnType,createMpRmaRequest,selectedItems]
+    );
     const handleClose = file => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
         setFilesUploaded(newFilesUploaded);
@@ -158,7 +180,6 @@ const useRMA = () => {
     const handleReturnChange = e => setReturnType(e.target.value);
 
     const submitCancelRmaRequest = async data => {
-        console.log(data, 'request_id');
         try {
             await cancelMpRmaRequest({
                 variables: {

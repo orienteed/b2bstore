@@ -20,8 +20,9 @@ export const MP_RMA_CONFIG = gql`
             additional_field {
                 content
                 is_require
-                type
                 sort
+                type
+                validation
                 value
             }
             solution {
@@ -57,6 +58,12 @@ export const RMA_REQUEST_LIST = gql`
                         sku
                         name
                     }
+                    files
+                    is_canceled
+                    request_shipping_label {
+                        shipping_label_id
+                        request_id
+                    }
                 }
             }
         }
@@ -68,21 +75,21 @@ export const MP_RMA_REQUEST = gql`
         $order_increment_id: String!
         $comment: String
         $status_id: Int
-        $upload: MpRmaUploadInput
-        $request_item: MpRmaRequestItemsInput
+        $upload: [MpRmaUploadInput]
+        $request_item: [MpRmaRequestItemsInput]
         $reason: String
         $solution: String
-        $additional_fields: MpRmaAdditionalFieldsInput
+        $additional_fields: [MpRmaAdditionalFieldsInput]
     ) {
-        mpRMAConfig(
+        mpRMARequest(
             order_increment_id: $order_increment_id
             comment: $comment
             status_id: $status_id
-            upload: [$upload]
-            request_item: [$request_item]
+            upload: $upload
+            request_item: $request_item
             reason: $reason
             solution: $solution
-            additional_fields: [$additional_fields]
+            additional_fields: $additional_fields
         ) {
             comment
             customer_email

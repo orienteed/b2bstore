@@ -23,7 +23,6 @@ const RMAFrontPage = () => {
         <FormattedMessage id={'rmaPage.updatedDate'} defaultMessage={'Updated Date'} />,
         <FormattedMessage id={'rmaPage.actions'} defaultMessage={'Actions'} />
     ];
-    console.log({ requestsList: requestsList?.items });
 
     const noRequestsMessage = formatMessage({
         id: 'rmaPage.noRequestsMessage',
@@ -75,9 +74,11 @@ const RMAFrontPage = () => {
                 classes: classes.actionsWrapper,
                 value: (
                     <>
-                        <a href className={classes.actionBtn} onClick={() => handleCancel(req)}>
-                            <FormattedMessage id={'rmaPage.cancel'} defaultMessage={'Cancel'} />
-                        </a>
+                        {req.is_canceled === 0 && (
+                            <a href className={classes.actionBtn} onClick={() => handleCancel(req)}>
+                                <FormattedMessage id={'rmaPage.cancel'} defaultMessage={'Cancel'} />
+                            </a>
+                        )}
                         <a href className={classes.actionBtn} onClick={handleOpenPopup}>
                             <FormattedMessage id={'global.seeDetails'} defaultMessage={'See Details'} />
                         </a>
