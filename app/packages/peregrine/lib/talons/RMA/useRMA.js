@@ -98,7 +98,7 @@ const useRMA = () => {
         }
         return e.target.value;
     };
-
+    console.log('selectedItems', selectedItems);
     const handleReasonSolutionChange = e => {
         return e.target.value;
     };
@@ -226,7 +226,8 @@ const useRMA = () => {
         infoReasonsData,
         infoSolutionData,
         customerData,
-        handleReasonSolutionChange
+        handleReasonSolutionChange,
+        reasonSolutionAdditionalFieldData
     };
 };
 

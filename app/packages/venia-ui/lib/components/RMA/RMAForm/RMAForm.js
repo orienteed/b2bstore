@@ -43,9 +43,10 @@ const RMAForm = props => {
         infoReasonsData,
         infoSolutionData,
         customerData,
-        handleReasonSolutionChange
+        handleReasonSolutionChange,
+        reasonSolutionAdditionalFieldData
     } = talonProps;
-
+    console.log('reasonSolutionAdditionalFieldData', reasonSolutionAdditionalFieldData);
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
@@ -193,6 +194,31 @@ const RMAForm = props => {
                                         />
                                     )}
                                 </Field>
+                                <Field
+                                    id="rmaRequestAdditionalField"
+                                    label={formatMessage({
+                                        id: 'rmaRequestForm.additionalField',
+                                        defaultMessage: 'Additional Field'
+                                    })}
+                                />
+                                {reasonSolutionAdditionalFieldData &&
+                                    reasonSolutionAdditionalFieldData.mpRMAConfig.additional_field.map(field => {
+                                        return (
+                                            <Field
+                                                id="rmaRequestAdditionalField"
+                                                label={formatMessage({
+                                                    id: 'rmaRequestForm.additionalField',
+                                                    defaultMessage: field.content
+                                                })}
+                                            >
+                                                <TextInput
+                                                    id="rmaRequestAdditionalField"
+                                                    data-cy="rmaRequestAdditionalField"
+                                                    field={field.content}
+                                                />
+                                            </Field>
+                                        );
+                                    })}
                             </div>
                         ) : (
                             <>
@@ -269,6 +295,33 @@ const RMAForm = props => {
                                                                 />
                                                             )}
                                                         </Field>
+                                                        {reasonSolutionAdditionalFieldData &&
+                                                            reasonSolutionAdditionalFieldData.mpRMAConfig.additional_field.map(
+                                                                field => {
+                                                                    return (
+                                                                        <Field
+                                                                            id="rmaRequestAdditionalField"
+                                                                            label={formatMessage({
+                                                                                id: 'rmaRequestForm.additionalField',
+                                                                                defaultMessage: field.content
+                                                                            })}
+                                                                        >
+                                                                            <TextInput
+                                                                                id="rmaRequestAdditionalField"
+                                                                                data-cy="rmaRequestAdditionalField"
+                                                                                field={`additional ${field.content}`}
+                                                                                onChange={e =>
+                                                                                    handleEachItemChange(
+                                                                                        e,
+                                                                                        item.product_id,
+                                                                                        field.content
+                                                                                    )
+                                                                                }
+                                                                            />
+                                                                        </Field>
+                                                                    );
+                                                                }
+                                                            )}
                                                     </>
                                                 </Suspense>
                                             </Section>
