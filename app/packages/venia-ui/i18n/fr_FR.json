@@ -996,5 +996,6 @@
     "rmaPage.cancel": "Annuler",
     "rmaPage.seeDetails": "Voir les détails",
     "rmaPage.RMAReuests": "Demandes de RMA",
-    "rmaPage.createRMAReq": "Créer une demande de RMA"
+    "rmaPage.createRMAReq": "Créer une demande de RMA",
+    "rmaPage.noRequestsMessage": "Aucune demande pour le moment"
 }

@@ -1001,5 +1001,6 @@
     "rmaPage.cancel": "Cancel",
     "rmaPage.seeDetails": "See Details",
     "rmaPage.RMAReuests": "RMA Requests",
-    "rmaPage.createRMAReq": "Create RMA Request"
+    "rmaPage.createRMAReq": "Create RMA Request",
+    "rmaPage.noRequestsMessage": "There are no requests yet"
 }

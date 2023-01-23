@@ -30,10 +30,10 @@ const useRMA = () => {
     const { data: customerData } = useQuery(GET_CUSTOMER);
 
     const selectTitle = formatMessage({
-        id: 'rmaRequestForm.select',
-        defaultMessage: 'Select'
+        id: '"deliveryDate.pleaseSelect',
+        defaultMessage: 'Please select one'
     });
-    console.log({ requestsList ,customersOrders });
+    console.log({ requestsList, customersOrders });
     const customerOrderIds = useMemo(() => {
         const handleCustomerOrderIds = () => {
             const orderIds = customersOrders?.customer?.orders?.items.map(item => {
@@ -170,7 +170,7 @@ const useRMA = () => {
                 // throw new Error('Something went wrong');
             }
         },
-        [customerOrders,returnType,createMpRmaRequest,selectedItems]
+        [customerOrders, returnType, createMpRmaRequest, selectedItems]
     );
     const handleClose = file => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
