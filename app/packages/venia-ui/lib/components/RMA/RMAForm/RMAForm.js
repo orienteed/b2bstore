@@ -176,6 +176,7 @@ const RMAForm = props => {
                                             onChange={e => handleReasonSolutionChange(e)}
                                             value={infoReasonsData}
                                             items={infoReasonsData}
+                                            validate={isRequired}
                                         />
                                     )}
                                 </Field>
@@ -192,6 +193,7 @@ const RMAForm = props => {
                                             onChange={e => handleReasonSolutionChange(e)}
                                             value={infoSolutionData}
                                             items={infoSolutionData}
+                                            validate={isRequired}
                                         />
                                     )}
                                 </Field>
@@ -276,6 +278,7 @@ const RMAForm = props => {
                                                                         )
                                                                     }
                                                                     items={infoReasonsData}
+                                                                    validate={isRequired}
                                                                 />
                                                             )}
                                                         </Field>
@@ -297,6 +300,7 @@ const RMAForm = props => {
                                                                         )
                                                                     }
                                                                     items={infoSolutionData}
+                                                                    validate={isRequired}
                                                                 />
                                                             )}
                                                         </Field>

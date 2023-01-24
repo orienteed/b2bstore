@@ -66,7 +66,7 @@ const useRMA = () => {
                         SKU: p.product_sku,
                         qty_rma: p.quantity_ordered,
                         price: p.product_sale_price,
-                        additional_fields: [{}]
+                        additional_fields: []
                     };
                 });
             });
@@ -110,6 +110,7 @@ const useRMA = () => {
         }
         return e.target.value;
     };
+    console.log('selectedItems', selectedItems);
     const handleAdditionalFieldChange = (e, keyContent, addFieldValue) => {
         const newAdditionalField = [...additionalField];
 
@@ -170,9 +171,12 @@ const useRMA = () => {
                         if (data.length === 0) return null;
                         await items.push({
                             product_id: data?.data.products?.items[0].id,
+                            reason: returnType === 'allItems' ? apiValue.reason : null,
+                            solution: returnType === 'allItems' ? apiValue.solution : null,
                             ...rest
                         });
                     });
+                    console.log('items', items);
                     if ((returnType === 'allItems' ? customerOrders : selectedItems).length - 1 === index) {
                         createMpRmaRequest({
                             variables: {
@@ -189,6 +193,10 @@ const useRMA = () => {
                     }
                 }
             );
+            // .push({
+            //     reason: apiValue.reason,
+            //     solution: apiValue.solution,
+            // });
             // } catch (error) {
             //     console.log({ error });
             //     // throw new Error('Something went wrong');
