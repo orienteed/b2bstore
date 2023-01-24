@@ -22,6 +22,7 @@ const useRMA = () => {
     const [returnType, setReturnType] = useState('allItems');
     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
     const [filesUploaded, setFilesUploaded] = useState([]);
+    const [additionalField, setAdditionalField] = useState([]);
     const [formAddress] = useState();
 
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
@@ -61,7 +62,8 @@ const useRMA = () => {
                         name: p.product_name,
                         SKU: p.product_sku,
                         qty_rma: p.quantity_ordered,
-                        price: p.product_sale_price
+                        price: p.product_sale_price,
+                        additional_fields: [{}]
                     };
                 });
             });
@@ -89,16 +91,32 @@ const useRMA = () => {
         });
     }, []);
 
-    const handleEachItemChange = (e, productId, type) => {
+    const handleEachItemChange = (e, productId, type, addFieldValue) => {
         if (selectedItems.length > 0) {
             const newSelectedItems = [...selectedItems];
             newSelectedItems.find(a => a.product_id === productId)[type] = e.target.value;
 
             setSelectedItems(newSelectedItems);
+
+            if (type !== 'solution' && type !== 'reason') {
+                newSelectedItems.find(a => a.product_id === productId).additional_fields[0][type] = e.target.value;
+                newSelectedItems.find(a => a.product_id === productId).additional_fields[0]['value'] = addFieldValue;
+                setSelectedItems(newSelectedItems);
+            }
         }
         return e.target.value;
     };
-    console.log('selectedItems', selectedItems);
+    const handleAdditionalFieldChange = (e, keyContent, addFieldValue) => {
+        const newAdditionalField = [...additionalField];
+
+        if (newAdditionalField.find(a => a.value === addFieldValue)) {
+            newAdditionalField.find(a => a.value === addFieldValue)['content'] = e.target.value;
+            setAdditionalField(newAdditionalField);
+        } else {
+            setAdditionalField(prev => [...prev, { content: e.target.value, value: addFieldValue }]);
+        }
+    };
+
     const handleReasonSolutionChange = e => {
         return e.target.value;
     };
@@ -139,6 +157,7 @@ const useRMA = () => {
                             qty_rma,
                             reason: apiValue.reason,
                             solution: apiValue.solution
+
                             // additional_fields: [
                             //     {
                             //         value: 'comment',
@@ -161,8 +180,8 @@ const useRMA = () => {
                         // upload: filesUploaded,
                         request_item: items,
                         reason: apiValue.reason,
-                        solution: apiValue.solution
-                        // additional_fields: []
+                        solution: apiValue.solution,
+                        additional_fields: additionalField
                     }
                 });
             } catch (error) {
@@ -227,7 +246,8 @@ const useRMA = () => {
         infoSolutionData,
         customerData,
         handleReasonSolutionChange,
-        reasonSolutionAdditionalFieldData
+        reasonSolutionAdditionalFieldData,
+        handleAdditionalFieldChange
     };
 };
 

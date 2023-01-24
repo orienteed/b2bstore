@@ -44,7 +44,8 @@ const RMAForm = props => {
         infoSolutionData,
         customerData,
         handleReasonSolutionChange,
-        reasonSolutionAdditionalFieldData
+        reasonSolutionAdditionalFieldData,
+        handleAdditionalFieldChange
     } = talonProps;
     console.log('reasonSolutionAdditionalFieldData', reasonSolutionAdditionalFieldData);
     const orderInformationTitle = formatMessage({
@@ -203,6 +204,7 @@ const RMAForm = props => {
                                 />
                                 {reasonSolutionAdditionalFieldData &&
                                     reasonSolutionAdditionalFieldData.mpRMAConfig.additional_field.map(field => {
+                                        console.log('field', field.value);
                                         return (
                                             <Field
                                                 id="rmaRequestAdditionalField"
@@ -214,7 +216,11 @@ const RMAForm = props => {
                                                 <TextInput
                                                     id="rmaRequestAdditionalField"
                                                     data-cy="rmaRequestAdditionalField"
+                                                    onChange={e =>
+                                                        handleAdditionalFieldChange(e, field.content, field.value)
+                                                    }
                                                     field={field.content}
+                                                    // value={field.value}
                                                 />
                                             </Field>
                                         );
@@ -314,7 +320,8 @@ const RMAForm = props => {
                                                                                     handleEachItemChange(
                                                                                         e,
                                                                                         item.product_id,
-                                                                                        field.content
+                                                                                        'content',
+                                                                                        field.value
                                                                                     )
                                                                                 }
                                                                             />
