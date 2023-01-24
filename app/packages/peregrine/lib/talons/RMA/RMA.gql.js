@@ -140,8 +140,8 @@ export const MPCANCEL_RMA_REQUEST = gql`
 `;
 
 export const GET_PRODUCT_ID = gql`
-    query productDetailBySku($sku: String) {
-        products(filter: { sku: { eq: $sku } }) {
+    query productDetailBySku($inputText: String!) {
+        products(search: $inputText, currentPage: 1, pageSize: 3, filter: { sku: { eq: $inputText } }) {
             items {
                 name
                 id

@@ -47,7 +47,7 @@ const RMAForm = props => {
         reasonSolutionAdditionalFieldData,
         handleAdditionalFieldChange
     } = talonProps;
-    console.log('reasonSolutionAdditionalFieldData', reasonSolutionAdditionalFieldData);
+
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
@@ -204,7 +204,6 @@ const RMAForm = props => {
                                 />
                                 {reasonSolutionAdditionalFieldData &&
                                     reasonSolutionAdditionalFieldData.mpRMAConfig.additional_field.map(field => {
-                                        console.log('field', field.value);
                                         return (
                                             <Field
                                                 id="rmaRequestAdditionalField"

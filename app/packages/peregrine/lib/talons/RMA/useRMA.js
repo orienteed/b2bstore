@@ -76,6 +76,7 @@ const useRMA = () => {
         };
         return handleCustomerOrderItem();
     }, [customersOrders?.customer?.orders?.items, orderId]);
+    console.log('customerOrders', customerOrders);
     const [selectedItems, setSelectedItems] = useState([]);
     const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
@@ -153,7 +154,7 @@ const useRMA = () => {
     const getproductId = async sku => {
         return await getProductBySku({
             variables: {
-                sku
+                inputText: sku
             },
             fetchPolicy: 'no-cache'
         });
@@ -166,6 +167,7 @@ const useRMA = () => {
             (returnType === 'allItems' ? customerOrders : selectedItems).map(
                 async ({ content, product_id, price, name, SKU, ...rest }, index) => {
                     await getproductId(SKU).then(async data => {
+                        if (data.length === 0) return null;
                         await items.push({
                             product_id: data?.data.products?.items[0].id,
                             ...rest
