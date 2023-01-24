@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import {
     MP_RMA_CONFIG,
     MP_RMA_REQUEST,
     RMA_REQUEST_LIST,
     GET_CUSTOMER_ORDERS,
     MPCANCEL_RMA_REQUEST,
-    GET_CUSTOMER
+    GET_CUSTOMER,
+    GET_PRODUCT_ID
 } from './RMA.gql';
 
 const useRMA = () => {
@@ -25,16 +28,16 @@ const useRMA = () => {
     const [additionalField, setAdditionalField] = useState([]);
     const [formAddress] = useState();
 
-    const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG);
+    const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG, { fetchPolicy: 'no-cache' });
     const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST, { fetchPolicy: 'no-cache' });
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
     const { data: customerData } = useQuery(GET_CUSTOMER);
+    const getProductBySku = useAwaitQuery(GET_PRODUCT_ID);
 
     const selectTitle = formatMessage({
         id: '"deliveryDate.pleaseSelect',
         defaultMessage: 'Please select one'
     });
-    console.log({ requestsList, customersOrders });
     const customerOrderIds = useMemo(() => {
         const handleCustomerOrderIds = () => {
             const orderIds = customersOrders?.customer?.orders?.items.map(item => {
@@ -147,47 +150,47 @@ const useRMA = () => {
         return handleInfoSolutionData();
     }, [reasonSolutionAdditionalFieldData?.mpRMAConfig?.solution, selectTitle]);
 
+    const getproductId = async sku => {
+        return await getProductBySku({
+            variables: {
+                sku
+            },
+            fetchPolicy: 'no-cache'
+        });
+    };
+
     const handleSubmit = useCallback(
         async apiValue => {
-            try {
-                const items = (returnType === 'allItems' ? customerOrders : selectedItems).map(
-                    ({ product_id, qty_rma }) => {
-                        return {
-                            product_id: Number('17'),
-                            qty_rma,
-                            reason: apiValue.reason,
-                            solution: apiValue.solution
-
-                            // additional_fields: [
-                            //     {
-                            //         value: 'comment',
-                            //         content: 'dssss'
-                            //     },
-                            //     {
-                            //         value: 'email',
-                            //         content: 'dssss'
-                            //     }
-                            // ]
-                        };
+            // try {
+            const items = [];
+            (returnType === 'allItems' ? customerOrders : selectedItems).map(
+                async ({ content, product_id, price, name, SKU, ...rest }, index) => {
+                    await getproductId(SKU).then(async data => {
+                        await items.push({
+                            product_id: data?.data.products?.items[0].id,
+                            ...rest
+                        });
+                    });
+                    if ((returnType === 'allItems' ? customerOrders : selectedItems).length - 1 === index) {
+                        createMpRmaRequest({
+                            variables: {
+                                order_increment_id: apiValue.selection,
+                                comment: apiValue.comment,
+                                // statusId: 1,
+                                // upload: filesUploaded,
+                                request_item: items,
+                                reason: apiValue.reason,
+                                solution: apiValue.solution,
+                                additional_fields: additionalField
+                            }
+                        });
                     }
-                );
-                console.log(apiValue, 'apiValue', { items });
-                createMpRmaRequest({
-                    variables: {
-                        order_increment_id: apiValue.selection,
-                        // comment: apiValue.comment,
-                        // statusId: 1,
-                        // upload: filesUploaded,
-                        request_item: items,
-                        reason: apiValue.reason,
-                        solution: apiValue.solution,
-                        additional_fields: additionalField
-                    }
-                });
-            } catch (error) {
-                console.log({ error });
-                // throw new Error('Something went wrong');
-            }
+                }
+            );
+            // } catch (error) {
+            //     console.log({ error });
+            //     // throw new Error('Something went wrong');
+            // }
         },
         [customerOrders, returnType, createMpRmaRequest, selectedItems]
     );

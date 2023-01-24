@@ -138,3 +138,15 @@ export const MPCANCEL_RMA_REQUEST = gql`
         mpRMARequestCancel(request_id: $request_id)
     }
 `;
+
+export const GET_PRODUCT_ID = gql`
+    query productDetailBySku($sku: String) {
+        products(filter: { sku: { eq: $sku } }) {
+            items {
+                name
+                id
+                uid
+            }
+        }
+    }
+`;
