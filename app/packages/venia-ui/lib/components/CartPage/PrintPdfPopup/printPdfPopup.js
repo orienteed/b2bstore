@@ -55,7 +55,10 @@ const PrintPdfPopup = React.forwardRef((props, ref) => {
             isOpen={openPopup}
             shouldUseButtonsArray={true}
             buttonsArray={dialogButtonsArray}
-            onCancel={handleClosePopup}
+            onCancel={() => {
+                handleClosePopup();
+                setTooglePrice(false);
+            }}
         >
             <Dropzone />
             <main ref={ref}>

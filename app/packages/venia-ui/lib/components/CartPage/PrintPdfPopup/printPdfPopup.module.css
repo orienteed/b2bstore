@@ -57,7 +57,7 @@
     font-size: 15px;
 }
 
-@media only screen and (min-width: 992px) {
+@media (min-width: 992px) {
     .titlesContainer {
         display: flex;
         align-items: center;
@@ -69,7 +69,7 @@
     }
 }
 
-@media only screen and (max-width: 1200px) {
+@media (max-width: 1200px) {
     .companyData {
         display: flex;
         flex-direction: column;
