@@ -4,15 +4,26 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Dialog from '../../Dialog';
 import { useStyle } from '../../../classify';
 import defaultClasses from './DetailsPopUp.module.css';
+import moment from 'moment';
 import TextArea from '../../TextArea';
+import { Download } from 'react-feather';
 
 import DropzonePrevisualizer from '../DropzonePrevisualizer';
 import ProductDetailsTable from './ProductDetailsTable';
+import Icon from '../../Icon';
+import Button from '../../Button';
 
-const DetailsPopUp = ({ openPopup, handleClosePopup, item, filesUploaded, setFilesUploaded }) => {
+const DetailsPopUp = ({
+    openPopup,
+    handleClosePopup,
+    item,
+    filesUploaded,
+    setFilesUploaded,
+    onConfirm,
+    setComment
+}) => {
     const classes = useStyle(defaultClasses);
     const dialogButtonsArray = [];
-    const [comment, setComment] = useState('');
 
     const { formatMessage } = useIntl();
 
@@ -61,7 +72,7 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item, filesUploaded, setFil
         defaultMessage: 'Conversation'
     });
     const returnShippingInformationArray = [];
-
+    console.log(item.request_reply);
     return (
         <Dialog
             title={detailsTitle}
@@ -75,10 +86,14 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item, filesUploaded, setFil
                     <h3>{orderRequestInformationTitle}</h3>
                     <hr />
                     <div className={classes.orderRequestInformation}>
-                        <p>{`${requestID} : ${item.request_id}`}</p>
-                        <p>{`${orderID} : ${item.order_id}`}</p>
-                        <p>{`${orderIncrementID} : ${item.order_increment_id}`}</p>
-                        <p>{`${createdAt} : ${item.created_at}`}</p>
+                        <span className={classes.orderIdSpan}>{requestID}</span> <span>{`: ${item.request_id}`}</span>
+                        <br />
+                        <span className={classes.orderIdSpan}>{orderID}</span> <span>{`: ${item.order_id}`}</span>
+                        <br />
+                        <span className={classes.orderIdSpan}>{orderIncrementID}</span>{' '}
+                        <span>{`: ${item.order_increment_id}`}</span>
+                        <br />
+                        <span className={classes.orderIdSpan}>{createdAt}</span> <span>{`: ${item.created_at}`}</span>
                     </div>
                 </div>
                 <div className={classes.returnShippingInformationContainer}>
@@ -97,21 +112,51 @@ const DetailsPopUp = ({ openPopup, handleClosePopup, item, filesUploaded, setFil
                         <ProductDetailsTable item={item} />
                     </div>
                 </div>
-
-                <div className={classes.commentContainer}>
-                    <h3>{commentSection}</h3>
-                    <hr />
-                    <div className={classes.commentArea}>
-                        <TextArea id="rmaRequestFormComment" field="comment" value={comment} maxLength={10000} />
-                    </div>
-                </div>
-
                 <div className={classes.conversationContainer}>
-                    <h3>{conversation}</h3>
-                    <hr />
+                    <div className={classes.commentContainer}>
+                        <h3>{commentSection}</h3>
+                        <hr />
+                        <div className={classes.commentArea}>
+                            <TextArea
+                                onChange={e => setComment(e.target.value)}
+                                id="rmaRequestFormComment"
+                                field="comment"
+                                maxLength={10000}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <h3>{conversation}</h3>
+                        <hr />
 
-                    <div className={classes.conversationDropzone}>
-                        <DropzonePrevisualizer filesUploaded={filesUploaded} setFilesUploaded={setFilesUploaded} />
+                        <div className={classes.conversationDropzone}>
+                            <DropzonePrevisualizer filesUploaded={filesUploaded} setFilesUploaded={setFilesUploaded} />
+                        </div>
+                        <div className={classes.submitBtn} >
+                            <Button priority="high" onClick={onConfirm}>
+                                <FormattedMessage id={'submitButtonText'} defaultMessage={'Submit'} />
+                            </Button>
+                        </div>
+                        {item.request_reply?.map(reply => (
+                            <div className={classes.conversationBox}>
+                                <div className={classes.header}>
+                                    <span>
+                                        <span className={classes.auther}>{reply.author_name + '  '}</span>
+                                        {moment(new Date(reply.created_at)).format('LLLL')}
+                                    </span>
+                                </div>
+                                <div className={classes.content}>{reply.content}</div>
+                                {reply.files && (
+                                    <div className={classes.files}>
+                                        {reply.files?.map(link => (
+                                            <a target="blank" key={link} download href={link}>
+                                                <Icon src={Download} size={20} />
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </main>

@@ -1002,5 +1002,6 @@
     "rmaPage.seeDetails": "See Details",
     "rmaPage.RMAReuests": "RMA Requests",
     "rmaPage.createRMAReq": "Create RMA Request",
-    "rmaPage.noRequestsMessage": "There are no requests yet"
+    "rmaPage.noRequestsMessage": "There are no requests yet",
+    "rmaRequestForm.addedSuccessfully": "Item successfully added to your RMA list"
 }

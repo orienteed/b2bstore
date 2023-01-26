@@ -18,3 +18,7 @@
     color: var(--orienteed-primary-color-base1);
     font-weight: bold;
 }
+
+.tableContainer td {
+    font-size: 12px;
+}

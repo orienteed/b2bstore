@@ -35,7 +35,7 @@ const RMAForm = props => {
         handleEachItemChange,
         customerOrderIds,
         orderId,
-        setOrderId,
+        handleChangeOrderId,
         filesUploaded,
         setFilesUploaded,
         handleSelectItem,
@@ -88,7 +88,7 @@ const RMAForm = props => {
                                     field="selection"
                                     items={customerOrderIds}
                                     value={orderId}
-                                    onChange={e => setOrderId(e.target.value)}
+                                    onChange={e => handleChangeOrderId(e.target.value)}
                                 />
                             )}
                         </div>

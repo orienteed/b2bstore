@@ -12,3 +12,58 @@ div h3 {
 .rmaInformation {
     margin-top: 2rem;
 }
+.orderIdSpan {
+    font-weight: 700;
+    font-size: 15px;
+}
+.conversationBox {
+    background-color: #dde2e7;
+    border: solid 1px #ebeff3;
+    cursor: default;
+    border-radius: 3px;
+    margin-bottom: 13px;
+    display: inline-block;
+    width: 100%;
+}
+
+.header span {
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.header {
+    padding: 12px 24px;
+    border-bottom: solid 1px #ebeff3;
+}
+
+.auther {
+    font-weight: bold !important;
+    font-size: large !important;
+}
+
+.content,
+.files {
+    padding: 12px 25px 7px;
+}
+
+.content p {
+    margin: 1rem 0;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.submitBtn {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 1rem 0 0;
+}
+
+.submitBtn {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 ;
+}
+
+.submitBtn button {
+    width: 200px;
+}

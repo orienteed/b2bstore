@@ -2,8 +2,10 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
+import { useToasts } from '@magento/peregrine';
 import { useIntl } from 'react-intl';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+
 import {
     MP_RMA_CONFIG,
     MP_RMA_REQUEST,
@@ -20,6 +22,7 @@ const useRMA = () => {
     const setFormApi = useCallback(api => (formApiRef.current = api), []);
     const [dropzoneError, setDropzoneError] = useState('');
     const { formatMessage } = useIntl();
+    const [, { addToast }] = useToasts();
 
     const [comment, setComment] = useState('');
     const [returnType, setReturnType] = useState('allItems');
@@ -27,17 +30,26 @@ const useRMA = () => {
     const [filesUploaded, setFilesUploaded] = useState([]);
     const [additionalField, setAdditionalField] = useState([]);
     const [formAddress] = useState();
+    const [orderId, setOrderId] = useState('');
+    const [selectedItems, setSelectedItems] = useState([]);
 
     const { data: reasonSolutionAdditionalFieldData } = useQuery(MP_RMA_CONFIG, { fetchPolicy: 'no-cache' });
     const { data: requestsList, refetch } = useQuery(RMA_REQUEST_LIST, { fetchPolicy: 'no-cache' });
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
     const { data: customerData } = useQuery(GET_CUSTOMER);
     const getProductBySku = useAwaitQuery(GET_PRODUCT_ID);
+    const [createMpRmaRequest, { loading }] = useMutation(MP_RMA_REQUEST);
+    const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
+
+    const formProps = {
+        initialValues: formAddress
+    };
 
     const selectTitle = formatMessage({
         id: '"deliveryDate.pleaseSelect',
         defaultMessage: 'Please select one'
     });
+
     const customerOrderIds = useMemo(() => {
         const handleCustomerOrderIds = () => {
             const orderIds = customersOrders?.customer?.orders?.items.map(item => {
@@ -50,8 +62,6 @@ const useRMA = () => {
         };
         return handleCustomerOrderIds();
     }, [customersOrders?.customer?.orders?.items, selectTitle]);
-
-    const [orderId, setOrderId] = useState('');
 
     const customerOrders = useMemo(() => {
         const handleCustomerOrderItem = () => {
@@ -76,13 +86,12 @@ const useRMA = () => {
         };
         return handleCustomerOrderItem();
     }, [customersOrders?.customer?.orders?.items, orderId]);
-    console.log('customerOrders', customerOrders);
-    const [selectedItems, setSelectedItems] = useState([]);
-    const [createMpRmaRequest, { data, loading, error }] = useMutation(MP_RMA_REQUEST);
-    const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
-    const formProps = {
-        initialValues: formAddress
+
+    const handleChangeOrderId = val => {
+        setOrderId(val);
+        setSelectedItems([]);
     };
+
     const handleSelectItem = useCallback(item => {
         setSelectedItems(prev => {
             if (prev.length > 0) {
@@ -98,19 +107,34 @@ const useRMA = () => {
     const handleEachItemChange = (e, productId, type, addFieldValue) => {
         if (selectedItems.length > 0) {
             const newSelectedItems = [...selectedItems];
+            console.log({ productId, newSelectedItems }, newSelectedItems.find(a => a.product_id === productId));
             newSelectedItems.find(a => a.product_id === productId)[type] = e.target.value;
-
             setSelectedItems(newSelectedItems);
 
             if (type !== 'solution' && type !== 'reason') {
-                newSelectedItems.find(a => a.product_id === productId).additional_fields[0][type] = e.target.value;
-                newSelectedItems.find(a => a.product_id === productId).additional_fields[0]['value'] = addFieldValue;
+                let newSelectedAdditionalFields = newSelectedItems.find(a => a.product_id === productId)
+                    .additional_fields;
+                if (newSelectedAdditionalFields.find(field => field.value === addFieldValue)) {
+                    newSelectedAdditionalFields.find(field => field.value === addFieldValue)[type] = e.target.value;
+                } else {
+                    newSelectedAdditionalFields = [
+                        ...newSelectedAdditionalFields,
+                        {
+                            value: addFieldValue,
+                            content: e.target.value
+                        }
+                    ];
+                }
+                newSelectedItems.find(a => a.product_id === productId).additional_fields = [
+                    ...newSelectedAdditionalFields
+                ];
                 setSelectedItems(newSelectedItems);
             }
         }
         return e.target.value;
     };
     console.log('selectedItems', selectedItems);
+
     const handleAdditionalFieldChange = (e, keyContent, addFieldValue) => {
         const newAdditionalField = [...additionalField];
 
@@ -163,47 +187,50 @@ const useRMA = () => {
 
     const handleSubmit = useCallback(
         async apiValue => {
-            // try {
-            const items = [];
-            (returnType === 'allItems' ? customerOrders : selectedItems).map(
-                async ({ content, product_id, price, name, SKU, ...rest }, index) => {
-                    await getproductId(SKU).then(async data => {
-                        if (data.length === 0) return null;
-                        await items.push({
-                            product_id: data?.data.products?.items[0].id,
-                            reason: returnType === 'allItems' ? apiValue.reason : null,
-                            solution: returnType === 'allItems' ? apiValue.solution : null,
-                            ...rest
+            try {
+                const items = [];
+                (returnType === 'allItems' ? customerOrders : selectedItems).map(
+                    async ({ content, product_id, price, name, qty_rma, SKU, ...rest }, index) => {
+                        await getproductId(SKU).then(async data => {
+                            if (data.length === 0) return null;
+                            await items.push({
+                                product_id: data?.data.products?.items[0].id,
+                                reason: returnType === 'allItems' ? apiValue.reason : null,
+                                solution: returnType === 'allItems' ? apiValue.solution : null,
+                                ...rest
+                            });
                         });
-                    });
-                    console.log('items', items);
-                    if ((returnType === 'allItems' ? customerOrders : selectedItems).length - 1 === index) {
-                        createMpRmaRequest({
-                            variables: {
-                                order_increment_id: apiValue.selection,
-                                comment: apiValue.comment,
-                                // statusId: 1,
-                                // upload: filesUploaded,
-                                request_item: items,
-                                reason: apiValue.reason,
-                                solution: apiValue.solution,
-                                additional_fields: additionalField
-                            }
-                        });
+                        if ((returnType === 'allItems' ? customerOrders : selectedItems).length - 1 === index) {
+                            createMpRmaRequest({
+                                variables: {
+                                    order_increment_id: apiValue.selection,
+                                    comment: apiValue.comment,
+                                    // statusId: 1,
+                                    // upload: filesUploaded,
+                                    request_item: items,
+                                    reason: apiValue.reason,
+                                    solution: apiValue.solution,
+                                    additional_fields: additionalField
+                                }
+                            });
+                            addToast({
+                                type: 'success',
+                                message: formatMessage({
+                                    id: 'rmaRequestForm.addedSuccessfully',
+                                    defaultMessage: 'Item successfully added to your RMA list'
+                                }),
+                                timeout: 7000
+                            });
+                        }
                     }
-                }
-            );
-            // .push({
-            //     reason: apiValue.reason,
-            //     solution: apiValue.solution,
-            // });
-            // } catch (error) {
-            //     console.log({ error });
-            //     // throw new Error('Something went wrong');
-            // }
+                );
+            } catch (error) {
+                console.log({ error });
+            }
         },
-        [customerOrders, returnType, createMpRmaRequest, selectedItems]
+        [customerOrders, returnType, createMpRmaRequest, selectedItems, additionalField]
     );
+
     const handleClose = file => {
         const newFilesUploaded = [...filesUploaded].filter(({ name }) => name != file.name);
         setFilesUploaded(newFilesUploaded);
@@ -249,7 +276,7 @@ const useRMA = () => {
         requestsList: requestsList?.customer?.mp_rma,
         customersOrders,
         orderId,
-        setOrderId,
+        handleChangeOrderId,
         customerOrderIds,
         customerOrders,
         selectedItems,
@@ -260,7 +287,8 @@ const useRMA = () => {
         customerData,
         handleReasonSolutionChange,
         reasonSolutionAdditionalFieldData,
-        handleAdditionalFieldChange
+        handleAdditionalFieldChange,
+        refetchRequest: refetch
     };
 };
 

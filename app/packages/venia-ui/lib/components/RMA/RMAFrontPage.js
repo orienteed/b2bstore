@@ -12,8 +12,17 @@ import LoadingIndicator from '../LoadingIndicator';
 const RMAFrontPage = () => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses);
-    const { handleRedirectCreateRMA, handleCancel, requestsList, filesUploaded, setFilesUploaded } = useRMA({});
-    const { handleOpenPopup, handleClosePopup, openPopup } = useRMAFrontPage();
+    const { handleRedirectCreateRMA, handleCancel, requestsList, refetchRequest } = useRMA({});
+    const {
+        handleOpenPopup,
+        handleClosePopup,
+        openPopup,
+        selectedItem,
+        filesUploaded,
+        setFilesUploaded,
+        handleSubmitConversation,
+        setComment
+    } = useRMAFrontPage({ refetchRequest });
 
     const tableHeader = [
         <FormattedMessage id={'rmaPage.requestId'} defaultMessage={'Request ID'} />,
@@ -79,7 +88,7 @@ const RMAFrontPage = () => {
                                 <FormattedMessage id={'rmaPage.cancel'} defaultMessage={'Cancel'} />
                             </a>
                         )}
-                        <a href className={classes.actionBtn} onClick={handleOpenPopup}>
+                        <a href className={classes.actionBtn} onClick={() => handleOpenPopup(req)}>
                             <FormattedMessage id={'global.seeDetails'} defaultMessage={'See Details'} />
                         </a>
                     </>
@@ -100,22 +109,19 @@ const RMAFrontPage = () => {
                 </Button>
             </div>
             <Table headers={tableHeader} tableRows={tableRows} />
-            {requestsList?.items?.length > 0 ? (
-                requestsList?.items?.map(item => {
-                    return (
-                        <DetailsPopUp
-                            key={item.request_id}
-                            openPopup={openPopup}
-                            handleClosePopup={handleClosePopup}
-                            item={item}
-                            filesUploaded={filesUploaded}
-                            setFilesUploaded={setFilesUploaded}
-                        />
-                    );
-                })
-            ) : (
-                <p> {noRequestsMessage}</p>
+            {openPopup && (
+                <DetailsPopUp
+                    setComment={setComment}
+                    key={selectedItem?.request_id}
+                    openPopup={openPopup}
+                    handleClosePopup={handleClosePopup}
+                    item={selectedItem}
+                    filesUploaded={filesUploaded}
+                    onConfirm={handleSubmitConversation}
+                    setFilesUploaded={setFilesUploaded}
+                />
             )}
+            {/* <p> {noRequestsMessage}</p> */}
         </div>
     );
 };

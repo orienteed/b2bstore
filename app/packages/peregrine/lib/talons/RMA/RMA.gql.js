@@ -64,6 +64,18 @@ export const RMA_REQUEST_LIST = gql`
                         shipping_label_id
                         request_id
                     }
+                    request_reply {
+                        author_name
+                        content
+                        created_at
+                        files
+                        is_customer_notified
+                        is_visible_on_front
+                        reply_id
+                        request_id
+                        type
+                        __typename
+                    }
                 }
             }
         }
@@ -147,6 +159,25 @@ export const GET_PRODUCT_ID = gql`
                 id
                 uid
             }
+        }
+    }
+`;
+
+
+export const REQUEST_CONVERSATION = gql`
+    mutation mpRMARequestConversation(
+        $request_id: String!
+        $upload: [MpRmaUploadInput]
+        $content: String
+    ) {
+        mpRMARequestConversation(
+            request_id: $request_id
+            content: $content
+            upload: $upload
+       
+        ) {
+            comment
+            customer_email
         }
     }
 `;

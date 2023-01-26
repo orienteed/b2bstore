@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 services:
   pwa:
     image: node:14.18.1
@@ -11,5 +11,9 @@ services:
     ports:
       - 10000:10000
 
-    extra_hosts:
-      local.magento.com: 192.168.3.7
+    networks:
+      - magento
+networks:
+  magento:
+    name: magento_network
+    driver: bridge

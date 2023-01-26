@@ -22,7 +22,7 @@ const ProductDetailsTable = props => {
         <FormattedMessage id={'rmaPage.price'} defaultMessage={'Price'} />,
         <FormattedMessage id={'rmaPage.reason'} defaultMessage={'Reason'} />,
         <FormattedMessage id={'rmaPage.solution'} defaultMessage={'Solution'} />,
-        // <FormattedMessage id={'rmaPage.additionalField'} defaultMessage={'Additional Field'} />,
+        <FormattedMessage id={'rmaPage.additionalField'} defaultMessage={'Additional Field'} />,
         <FormattedMessage id={'rmaPage.qty'} defaultMessage={'Qty'} />
     ];
 
@@ -87,13 +87,23 @@ const ProductDetailsTable = props => {
                 }),
                 value: req.solution
             },
-            // {
-            //     dataLable: formatMessage({
-            //         id: 'rmaPage.additionalField',
-            //         defaultMessage: 'Additional Field'
-            //     })
-
-            // },
+            {
+                dataLable: formatMessage({
+                    id: 'rmaPage.additionalField',
+                    defaultMessage: 'Additional Field'
+                }),
+                value: (
+                    <>
+                        {JSON.parse(req.additional_fields).map(field => (
+                            <>
+                                <span>{field.label+': '}</span>
+                                <span>{field.content}</span>
+                                <br />
+                            </>
+                        ))}
+                    </>
+                )
+            },
             {
                 dataLable: formatMessage({
                     id: 'rmaPage.qty',
@@ -104,7 +114,7 @@ const ProductDetailsTable = props => {
         ];
     });
     return (
-        <div>
+        <div className={classes.tableContainer} >
             <Table headers={tableHeader} tableRows={tableRows} />
         </div>
     );
