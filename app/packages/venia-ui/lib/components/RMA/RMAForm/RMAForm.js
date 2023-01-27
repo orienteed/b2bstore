@@ -242,7 +242,6 @@ const RMAForm = props => {
                                                         handleAdditionalFieldChange(e, field.content, field.value)
                                                     }
                                                     field={field.content}
-                                                    // value={field.value}
                                                 />
                                             </Field>
                                         );

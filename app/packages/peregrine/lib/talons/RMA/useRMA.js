@@ -305,11 +305,3 @@ const useRMA = () => {
 };
 
 export default useRMA;
-
-// const returnTypes = [
-//     {
-//         label: 'All Items',
-//         value: 'allItems'
-//     },
-//     { label: 'Each Items', value: 'eachItems' }
-// ];
