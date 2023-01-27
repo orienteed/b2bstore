@@ -17,8 +17,15 @@ import CustomCheckbox from './CustomCheckbox';
 import Checkbox from '../../Checkbox';
 import LoadingIndicator from '../../LoadingIndicator';
 import DropzonePrevisualizer from '../DropzonePrevisualizer';
+import { ArrowLeft } from 'react-feather';
+import Icon from '../../Icon';
+import { useHistory } from 'react-router-dom';
 
 const RMAForm = props => {
+    const history = useHistory();
+    const handleBackPage = () => {
+        history.push('/rma');
+    };
     const talonProps = useRMA({
         initialValues: props.initialValues || {}
     });
@@ -45,7 +52,8 @@ const RMAForm = props => {
         customerData,
         handleReasonSolutionChange,
         reasonSolutionAdditionalFieldData,
-        handleAdditionalFieldChange
+        handleAdditionalFieldChange,
+        selectedItems
     } = talonProps;
 
     const orderInformationTitle = formatMessage({
@@ -66,10 +74,21 @@ const RMAForm = props => {
         defaultMessage: 'By clicking submit you agree to the Terms and Conditions.'
     });
 
+    const goToRequestList = formatMessage({
+        id: 'rmaRequestForm.GoToRequestList',
+        defaultMessage: 'Go to request list'
+    });
+
     if (!customerOrders && !infoReasonsData && !infoSolutionData && !customerData) return <LoadingIndicator />;
 
     return (
         <div>
+            <div className={classes.goToRequestListTitle} onClick={handleBackPage}>
+                <div>
+                    <Icon src={ArrowLeft} />
+                </div>
+                <p>{goToRequestList}</p>
+            </div>
             <Form
                 className={classes.form}
                 onSubmit={handleSubmit}
@@ -232,7 +251,18 @@ const RMAForm = props => {
                                 {customerOrders?.map(item => (
                                     <div className={classes.item}>
                                         <Accordion canOpenMultiple={true}>
-                                            <Checkbox onChange={() => handleSelectItem(item)} field={item.SKU} />
+                                            <input
+                                                style={{ color: 'blue', lineHeight: 10, padding: 20 }}
+                                                type="checkbox"
+                                                onChange={() => handleSelectItem(item)}
+                                                checked={selectedItems.length === 0 ? false : null}
+                                                className={classes.itemCheckbox}
+                                            />
+                                            {/* <Checkbox
+                                                onChange={() => handleSelectItem(item)}
+                                                field={item.SKU}
+                                                checked={selectedItems.length > 0}
+                                            /> */}
                                             <Section
                                                 data-cy="PriceAdjustments-couponCodeSection"
                                                 id={item?.sku}
@@ -341,7 +371,12 @@ const RMAForm = props => {
                             </>
                         )}
                     </div>
-                    <Button priority="high" type="submit" data-cy="RMARequestForm-root_highPriority">
+                    <Button
+                        priority="high"
+                        type="submit"
+                        data-cy="RMARequestForm-root_highPriority"
+                        disabled={selectedItems.length === 0}
+                    >
                         <FormattedMessage id={'rmaRequestForm.rmaRequestFormText'} defaultMessage={'Request'} />
                     </Button>
                 </div>

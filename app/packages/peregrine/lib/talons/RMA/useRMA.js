@@ -26,6 +26,13 @@ const useRMA = () => {
 
     const [comment, setComment] = useState('');
     const [returnType, setReturnType] = useState('allItems');
+    const [returnTypes, setReturnTypes] = useState([
+        {
+            label: 'All Items',
+            value: 'allItems'
+        },
+        { label: 'Each Items', value: 'eachItems' }
+    ]);
     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
     const [filesUploaded, setFilesUploaded] = useState([]);
     const [additionalField, setAdditionalField] = useState([]);
@@ -40,7 +47,7 @@ const useRMA = () => {
     const getProductBySku = useAwaitQuery(GET_PRODUCT_ID);
     const [createMpRmaRequest, { loading }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
-
+    console.log('selectedItems', selectedItems);
     const formProps = {
         initialValues: formAddress
     };
@@ -89,6 +96,7 @@ const useRMA = () => {
 
     const handleChangeOrderId = val => {
         setOrderId(val);
+        setSelectedItems([]);
         setSelectedItems([]);
     };
 
@@ -294,10 +302,10 @@ const useRMA = () => {
 
 export default useRMA;
 
-const returnTypes = [
-    {
-        label: 'All Items',
-        value: 'allItems'
-    },
-    { label: 'Each Items', value: 'eachItems' }
-];
+// const returnTypes = [
+//     {
+//         label: 'All Items',
+//         value: 'allItems'
+//     },
+//     { label: 'Each Items', value: 'eachItems' }
+// ];
