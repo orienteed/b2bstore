@@ -303,7 +303,7 @@ const RMAForm = props => {
                                                                         )
                                                                     }
                                                                     items={infoReasonsData}
-                                                                    validate={isRequired}
+                                                                    validate={selectedItems.length > 0 && isRequired}
                                                                 />
                                                             )}
                                                         </Field>
@@ -325,7 +325,7 @@ const RMAForm = props => {
                                                                         )
                                                                     }
                                                                     items={infoSolutionData}
-                                                                    validate={isRequired}
+                                                                    validate={selectedItems.length > 0 && isRequired}
                                                                 />
                                                             )}
                                                         </Field>

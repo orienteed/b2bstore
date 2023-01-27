@@ -99,7 +99,7 @@ const useRMA = () => {
         setSelectedItems([]);
         if (formApiRef.current) {
             formApiRef.current.reset();
-            formApiRef.current.setValue('selection',val);
+            formApiRef.current.setValue('selection', val);
         }
         setOrderId(val);
     };
@@ -300,8 +300,7 @@ const useRMA = () => {
         handleReasonSolutionChange,
         reasonSolutionAdditionalFieldData,
         handleAdditionalFieldChange,
-        refetchRequest: refetch,
-        
+        refetchRequest: refetch
     };
 };
 

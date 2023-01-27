@@ -98,10 +98,3 @@
 .goToRequestListTitle p {
     cursor: pointer;
 }
-
-/* .itemCheckbox input[type='checkbox' i]:after {
-    border-color: #b3b3b3 #dcddde #dcddde #b3b3b3;
-    content: '';
-    background-image: linear-gradient(135deg, #b1b6be 0%, #fff 100%);
-    color: var(--b2bstore-global-color-orange);
-} */
