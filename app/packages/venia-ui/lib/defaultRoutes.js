@@ -71,13 +71,17 @@ module.exports = [
         name: 'RMA',
         pattern: '/rma',
         exact: true,
-        path: '../RMA'
+        authed: true,
+        path: '../RMA',
+        redirectTo: '/sign-in'
     },
     {
         name: 'RMA',
         pattern: '/rma/form',
         exact: true,
-        path: '../RMA/RMAForm'
+        authed: true,
+        path: '../RMA/RMAForm',
+        redirectTo: '/sign-in'
     },
     {
         name: 'SavedPayments',
