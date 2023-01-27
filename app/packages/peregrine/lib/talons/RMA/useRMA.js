@@ -95,9 +95,13 @@ const useRMA = () => {
     }, [customersOrders?.customer?.orders?.items, orderId]);
 
     const handleChangeOrderId = val => {
+        setSelectedItems([]);
+        setSelectedItems([]);
+        if (formApiRef.current) {
+            formApiRef.current.reset();
+            formApiRef.current.setValue('selection',val);
+        }
         setOrderId(val);
-        setSelectedItems([]);
-        setSelectedItems([]);
     };
 
     const handleSelectItem = useCallback(item => {
@@ -296,7 +300,8 @@ const useRMA = () => {
         handleReasonSolutionChange,
         reasonSolutionAdditionalFieldData,
         handleAdditionalFieldChange,
-        refetchRequest: refetch
+        refetchRequest: refetch,
+        
     };
 };
 

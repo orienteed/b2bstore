@@ -53,7 +53,8 @@ const RMAForm = props => {
         handleReasonSolutionChange,
         reasonSolutionAdditionalFieldData,
         handleAdditionalFieldChange,
-        selectedItems
+        selectedItems,
+        setFormApi
     } = talonProps;
 
     const orderInformationTitle = formatMessage({
@@ -90,6 +91,7 @@ const RMAForm = props => {
                 <p>{goToRequestList}</p>
             </div>
             <Form
+                getApi={setFormApi}
                 className={classes.form}
                 onSubmit={handleSubmit}
                 data-cy="RMARequestForm-form"
@@ -251,18 +253,11 @@ const RMAForm = props => {
                                 {customerOrders?.map(item => (
                                     <div className={classes.item}>
                                         <Accordion canOpenMultiple={true}>
-                                            <input
-                                                style={{ color: 'blue', lineHeight: 10, padding: 20 }}
-                                                type="checkbox"
-                                                onChange={() => handleSelectItem(item)}
-                                                checked={selectedItems.length === 0 ? false : null}
-                                                className={classes.itemCheckbox}
-                                            />
-                                            {/* <Checkbox
+                                            <Checkbox
                                                 onChange={() => handleSelectItem(item)}
                                                 field={item.SKU}
                                                 checked={selectedItems.length > 0}
-                                            /> */}
+                                            />
                                             <Section
                                                 data-cy="PriceAdjustments-couponCodeSection"
                                                 id={item?.sku}
