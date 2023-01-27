@@ -21,7 +21,7 @@ div h3 {
     border: solid 1px #ebeff3;
     cursor: default;
     border-radius: 3px;
-    margin-bottom: 13px;
+    margin: 13px 0;
     display: inline-block;
     width: 100%;
 }
@@ -61,9 +61,18 @@ div h3 {
 .submitBtn {
     display: flex;
     justify-content: center;
-    margin: 1rem 0 ;
+    margin: 1rem 0 0;
 }
 
 .submitBtn button {
-    width: 200px;
+    width: 160px;
+}
+
+.commentArea {
+    composes: input from '../../Field/field.module.css';
+    composes: h-auto from global;
+    composes: max-w-full from global;
+    composes: min-w-full from global;
+    composes: px-xs from global;
+    composes: py-3 from global;
 }

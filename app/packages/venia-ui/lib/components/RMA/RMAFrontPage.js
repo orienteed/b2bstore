@@ -21,8 +21,10 @@ const RMAFrontPage = () => {
         filesUploaded,
         setFilesUploaded,
         handleSubmitConversation,
-        setComment
-    } = useRMAFrontPage({ refetchRequest });
+        setComment,
+        comment,
+        isSubmit,
+    } = useRMAFrontPage({ refetchRequest, requestsList });
 
     const tableHeader = [
         <FormattedMessage id={'rmaPage.requestId'} defaultMessage={'Request ID'} />,
@@ -108,17 +110,23 @@ const RMAFrontPage = () => {
                     <FormattedMessage id={'rmaPage.createRMAReq'} defaultMessage={'Create RMA Request'} />
                 </Button>
             </div>
-            <Table headers={tableHeader} tableRows={tableRows} />
+            {requestsList?.items.length > 0 ? (
+                <Table headers={tableHeader} tableRows={tableRows} />
+            ) : (
+                <span>{noRequestsMessage}</span>
+            )}
             {openPopup && (
                 <DetailsPopUp
                     setComment={setComment}
                     key={selectedItem?.request_id}
                     openPopup={openPopup}
                     handleClosePopup={handleClosePopup}
-                    item={selectedItem}
+                    item={requestsList.items.find(ele => ele.request_id === selectedItem.request_id)}
                     filesUploaded={filesUploaded}
                     onConfirm={handleSubmitConversation}
                     setFilesUploaded={setFilesUploaded}
+                    comment={comment}
+                    isSubmit={isSubmit}
                 />
             )}
             {/* <p> {noRequestsMessage}</p> */}

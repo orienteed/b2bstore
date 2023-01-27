@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-no-literals */
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Dialog from '../../Dialog';
 import { useStyle } from '../../../classify';
 import defaultClasses from './DetailsPopUp.module.css';
 import moment from 'moment';
-import TextArea from '../../TextArea';
 import { Download } from 'react-feather';
 
 import DropzonePrevisualizer from '../DropzonePrevisualizer';
@@ -20,7 +19,10 @@ const DetailsPopUp = ({
     filesUploaded,
     setFilesUploaded,
     onConfirm,
-    setComment
+    isSubmit,
+    setComment,
+
+    comment
 }) => {
     const classes = useStyle(defaultClasses);
     const dialogButtonsArray = [];
@@ -72,7 +74,6 @@ const DetailsPopUp = ({
         defaultMessage: 'Conversation'
     });
     const returnShippingInformationArray = [];
-    console.log(item.request_reply);
     return (
         <Dialog
             title={detailsTitle}
@@ -116,27 +117,24 @@ const DetailsPopUp = ({
                     <div className={classes.commentContainer}>
                         <h3>{commentSection}</h3>
                         <hr />
-                        <div className={classes.commentArea}>
-                            <TextArea
-                                onChange={e => setComment(e.target.value)}
-                                id="rmaRequestFormComment"
-                                field="comment"
-                                maxLength={10000}
-                            />
-                        </div>
+                        <textarea
+                            className={classes.commentArea}
+                            value={comment}
+                            onChange={e => setComment(e.target.value)}
+                        />
                     </div>
                     <div>
-                        <h3>{conversation}</h3>
                         <hr />
-
                         <div className={classes.conversationDropzone}>
                             <DropzonePrevisualizer filesUploaded={filesUploaded} setFilesUploaded={setFilesUploaded} />
                         </div>
-                        <div className={classes.submitBtn} >
-                            <Button priority="high" onClick={onConfirm}>
+                        <div className={classes.submitBtn}>
+                            <Button disabled={isSubmit} priority="high" onClick={() => onConfirm(item.request_id)}>
                                 <FormattedMessage id={'submitButtonText'} defaultMessage={'Submit'} />
                             </Button>
                         </div>
+                        {item.request_reply?.length > 0 && <h3>{conversation}</h3>}
+
                         {item.request_reply?.map(reply => (
                             <div className={classes.conversationBox}>
                                 <div className={classes.header}>

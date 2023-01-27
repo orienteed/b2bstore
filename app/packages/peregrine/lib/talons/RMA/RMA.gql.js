@@ -163,21 +163,11 @@ export const GET_PRODUCT_ID = gql`
     }
 `;
 
-
 export const REQUEST_CONVERSATION = gql`
-    mutation mpRMARequestConversation(
-        $request_id: String!
-        $upload: [MpRmaUploadInput]
-        $content: String
-    ) {
-        mpRMARequestConversation(
-            request_id: $request_id
-            content: $content
-            upload: $upload
-       
-        ) {
-            comment
-            customer_email
+    mutation mpRMARequestConversation($request_id: Int!, $upload: [MpRmaUploadInput], $content: String) {
+        mpRMARequestConversation(request_id: $request_id, content: $content, upload: $upload) {
+            author_name
+            content
         }
     }
 `;

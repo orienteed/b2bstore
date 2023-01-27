@@ -7,7 +7,6 @@ import { useStyle } from '@magento/venia-ui/lib/classify.js';
 import { Message } from '../../../Field';
 import { CheckSquare, Square } from 'react-feather';
 import defaultClasses from './customCheckbox.module.css';
-import { Link } from 'react-router-dom';
 /* TODO: change lint config to use `label-has-associated-control` */
 /* eslint-disable jsx-a11y/label-has-for */
 
@@ -44,10 +43,7 @@ const CustomCheckbox = props => {
                     </label>
                 </div>
                 <div className={classes.dataPoliticsContainer}>
-                    {/* <span className={classes.label}>{accept} </span> */}
-                    <Link to="/">
                         <span className={classes.dataPolitics}>{termsAndConditions}</span>
-                    </Link>
                 </div>
             </div>
             <Message fieldState={fieldState}>{message}</Message>
