@@ -3,7 +3,6 @@
     composes: gap-y-xs from global;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    padding: 5rem;
 }
 .orderInformationTitle {
     font-weight: bold;
@@ -67,13 +66,13 @@
 .orderIdTitle {
     font-weight: bold;
     margin: 0 1rem 0.5rem 0.1rem;
+    padding: 0.625rem 0;
 }
 .checkboxContainer {
     margin: 2rem 0rem 2rem 0rem;
 }
 
-.item,
-.allItemsSection {
+.item {
     margin: 1rem 0;
 }
 
@@ -91,7 +90,7 @@
 .goToRequestListTitle {
     font-weight: bold;
     margin-bottom: 0.5rem;
-    padding: 5rem 5rem 0 5rem;
+    padding: 2rem 0 1rem;
     display: flex;
 }
 
