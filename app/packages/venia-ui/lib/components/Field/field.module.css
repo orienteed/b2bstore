@@ -36,7 +36,7 @@
 }
 
 .input:disabled {
-    background: rgba(var(--b2bstore-global-color-orange-alpha));
+    background: rgba(var(--b2bstore-background-color));
     border-color: rgb(var(--venia-global-color-gray-400));
     color: rgb(var(--venia-global-color-gray-darker));
 }
