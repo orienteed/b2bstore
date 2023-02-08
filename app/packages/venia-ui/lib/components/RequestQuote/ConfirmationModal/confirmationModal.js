@@ -13,7 +13,7 @@ const ConfirmationModal = props => {
 
     // Translations
     const modalTitleText = formatMessage({ id: 'csr.confirmationModalTitle', defaultMessage: 'Confirmation' });
-
+    
     const confirmationTitleText =
         formatMessage({
             id: 'galleryItem.youAreAboutToReq',
@@ -24,7 +24,7 @@ const ConfirmationModal = props => {
             id: 'galleryItem.unitsOfProducts',
             defaultMessage: ' units of the product '
         }) +
-        product?.product.name;
+        product?.product?.name;
 
         const confirmationBodyText = formatMessage(
             {

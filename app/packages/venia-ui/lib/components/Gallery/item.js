@@ -369,14 +369,16 @@ const GalleryItem = props => {
                 <button className={classes.compareIcon} onClick={addToCompare}>
                     <img src={CompareIcon} alt="compare icon" />
                 </button>
-                <ConfirmationModal
-                    isOpen={isOpen}
-                    onCancel={() => setIsOpen(false)}
-                    onConfirm={confirmRequestQuote}
-                    product={selectedVeriant}
-                    quantity={quantity}
-                    setQuantity={val => setQuantity(val)}
-                />
+                {isOpen && (
+                    <ConfirmationModal
+                        isOpen={isOpen}
+                        onCancel={() => setIsOpen(false)}
+                        onConfirm={confirmRequestQuote}
+                        product={selectedVeriant}
+                        quantity={quantity}
+                        setQuantity={val => setQuantity(val)}
+                    />
+                )}
                 {/* {!isHomePage && wishlistButton} */}
             </div>
         </div>
