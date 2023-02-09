@@ -23,6 +23,9 @@ import { useToasts } from '@magento/peregrine';
 
 const EditModal = React.lazy(() => import('./editModal'));
 
+import { useCompanyAccountInfo } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountInfo';
+const CreateCompanyModal = React.lazy(() => import('../CompanyAccount/CreateCompanyModal'));
+
 const AccountInformationPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
@@ -81,6 +84,13 @@ const AccountInformationPage = props => {
         isDisabledSubscribeToNewsletter
     } = talonProps;
 
+    const {
+        setCreateModal,
+        createModal,
+        submitCreateCompanyAccount,
+        formCreateModal,
+        companyInfo
+    } = useCompanyAccountInfo({ createCompanyData: { email: initialValues?.customer.email } });
     const validateIfBillingAddressExist = useMemo(() => {
         return customerAddresses?.filter(address => {
             return address.default_billing === true;
@@ -143,7 +153,7 @@ const AccountInformationPage = props => {
     } else {
         const { customer } = initialValues;
         const customerName = `${customer.firstname}`;
-        const customerTaxVatId = `${customer.taxvat}`;
+        // const customerTaxVatId = `${customer.taxvat}`;
         const passwordValue = '***********';
 
         pageContent = (
@@ -168,12 +178,6 @@ const AccountInformationPage = props => {
                                     <FormattedMessage id={'global.companyName'} defaultMessage={'Company Name'} />
                                 </article>
                                 <article className={classes.nameValue}>{customerName}</article>
-                            </section>
-                            <section className={classes.titleContainer}>
-                                <article className={classes.title}>
-                                    <FormattedMessage id={'global.taxVatId'} defaultMessage={'Tax/Vat Id'} />
-                                </article>
-                                <article className={classes.nameValue}>{customerTaxVatId}</article>
                             </section>
                             <section className={classes.titleContainer}>
                                 <span className={classes.title}>
@@ -225,6 +229,14 @@ const AccountInformationPage = props => {
                                 </span>
                             </LinkButton>
                         )}
+                        {!companyInfo && (
+                            <Button onClick={() => setCreateModal(true)} priority="high">
+                                <FormattedMessage
+                                    id={'companyAccount.addYouCompany'}
+                                    defaultMessage={'Add your company'}
+                                />
+                            </Button>
+                        )}
                     </section>
                     <AddEditDialogCompanyInfo
                         formErrors={formErrorsCustomerAddress}
@@ -247,6 +259,13 @@ const AccountInformationPage = props => {
                         onSubmit={handleSubmit}
                         shouldShowNewPassword={shouldShowNewPassword}
                         recaptchaWidgetProps={recaptchaWidgetProps}
+                    />
+
+                    <CreateCompanyModal
+                        isOpen={createModal}
+                        onCancel={() => setCreateModal(false)}
+                        onConfirm={submitCreateCompanyAccount}
+                        formProps={formCreateModal}
                     />
                 </Suspense>
             </Fragment>

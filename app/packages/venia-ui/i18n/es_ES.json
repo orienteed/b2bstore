@@ -985,5 +985,7 @@
     "companyAccount.ResourceAccess": "Acceso a todos los recursos",
     "companyAccount.additionalPermissions": "Permisos adicionales",
     "companyAccount.roleName": "Nombre del rol",
-    "companyAccount.ManageRules": "Gestionar reglas"
+    "companyAccount.ManageRules": "Gestionar reglas",
+    "companyAccount.addYouCompany": "Añada su empresa",
+    "companyAccount.added": "Su solicitud ha sido recibida"
 }

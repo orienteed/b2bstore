@@ -21,9 +21,8 @@ export const useAccountMenuItems = props => {
     }, [onSignOut]);
 
     const { companyInfo } = useCompanyAccountInfo({});
-
     const companyLinks = useMemo(() => {
-        if (companyInfo) {
+        if (companyInfo && companyInfo?.mpCompanyAccounts?.status) {
             return [
                 {
                     name: 'Account Information',

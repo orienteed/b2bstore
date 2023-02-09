@@ -12,18 +12,23 @@ const COMPANY_DATA = gql`
 
 const REGISTER_COMPANY = gql`
     mutation registerMpCompany(
-        $city: String!
-        $country_id: String!
-        $email: String!
         $name: String!
+        $legal_name: String
+        $email: String!
+        $vat_id: String
+        $reseller_id: String
+        $city: String!
+        $region: String
+        $region_id: Int
+        $country_id: String!
         $street: String!
         $telephone: String!
         $postcode: String!
-        $region_id: Int!
     ) {
         registerMpCompany(
             input: {
                 city: $city
+                legal_name: $legal_name
                 country_id: $country_id
                 email: $email
                 name: $name
@@ -31,6 +36,9 @@ const REGISTER_COMPANY = gql`
                 street: $street
                 telephone: $telephone
                 region_id: $region_id
+                region: $region
+                reseller_id: $reseller_id
+                vat_id: $vat_id
             }
         ) {
             ...CompanyOutput
@@ -48,6 +56,7 @@ const UPDATE_COMPONY_INFO = gql`
         $street: String!
         $telephone: String!
         $postcode: String!
+        $region: String
         $region_id: Int
         $legal_name: String
         $vat_id: String
@@ -63,6 +72,7 @@ const UPDATE_COMPONY_INFO = gql`
                 postcode: $postcode
                 street: $street
                 telephone: $telephone
+                region: $region
                 region_id: $region_id
                 reseller_id: $reseller_id
                 vat_id: $vat_id

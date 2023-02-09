@@ -84,7 +84,7 @@
 }
 
 .addButton {
-    height: 12rem;
+    height: 9.2rem;
     width: 15rem;
     border: 2px dashed rgb(var(--venia-global-color-gray-400));
     border-radius: 0.375rem;
@@ -113,6 +113,16 @@
 .form {
     display: flex;
     align-items: flex-end;
+}
+
+.addButtonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.addButtonContainer button {
+    width: inherit;
 }
 
 @media (max-width: 961px) {

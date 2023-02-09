@@ -56,11 +56,13 @@ export const useCompanyAccountUserRoles = () => {
                                 name,
                                 order_amount,
                                 order_quantity,
-                                user_rules: permissions
+                                user_rules: allow_all ? Allrules : permissions
                             }
                         }
                     });
+                    setTimeout(() => {
                         refetch();
+                    }, 2000);
                     setOpenAddUserModal();
                 } catch (error) {
                     addToast({
@@ -82,13 +84,13 @@ export const useCompanyAccountUserRoles = () => {
                                 name,
                                 order_amount,
                                 order_quantity,
-                                user_rules: permissions
+                                user_rules: allow_all ? Allrules : permissions
                             }
                         }
                     });
                     setTimeout(() => {
                         refetch();
-                    }, 500);
+                    }, 2000);
                     setOpenAddUserModal();
                 } catch (error) {
                     addToast({
@@ -170,3 +172,17 @@ export const useCompanyAccountUserRoles = () => {
         handleEditUser
     };
 };
+
+const Allrules = [
+    { resource_id: 'Mageplaza_CompanyAccounts::info_view', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::info_edit', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::user_view', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::user_add', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::user_edit', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::user_delete', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::view_orders', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::role_view', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::role_add', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::role_edit', permission: 'allow' },
+    { resource_id: 'Mageplaza_CompanyAccounts::role_delete', permission: 'allow' }
+];

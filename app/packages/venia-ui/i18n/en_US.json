@@ -990,5 +990,7 @@
     "companyAccount.ResourceAccess": "All Resource Access",
     "companyAccount.additionalPermissions": "Additional Permissions",
     "companyAccount.ManageRules": "Manage Rules",
-    "companyAccount.rleName": "Role Name"
+    "companyAccount.rleName": "Role Name",
+    "companyAccount.addYouCompany": "Add your company",
+    "companyAccount.added": "Your request has been received"
 }
