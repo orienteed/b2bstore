@@ -165,21 +165,29 @@ module.exports = [
     {
         name: 'Company Account Information',
         pattern: '/company-account/information',
-        path: '../CompanyAccount/CompanyInfo/companyInfo'
+        path: '../CompanyAccount/CompanyInfo/companyInfo',
+        authed: true,
+        redirectTo: '/sign-in'
     },
     {
         name: 'Company Account Users',
         pattern: '/company-account/users',
-        path: '../CompanyAccount/CompanyUsers/companyUsers'
+        path: '../CompanyAccount/CompanyUsers/companyUsers',
+        authed: true,
+        redirectTo: '/sign-in'
     },
     {
         name: 'Company Account Orders',
         pattern: '/company-account/orders',
-        path: '../CompanyAccount/CompanyOrders/companyOrders'
+        path: '../CompanyAccount/CompanyOrders/companyOrders',
+        authed: true,
+        redirectTo: '/sign-in'
     },
     {
         name: 'Company Account User Roles',
         pattern: '/company-account/userRoles',
-        path: '../CompanyAccount/UserRoles/userRoles'
+        path: '../CompanyAccount/UserRoles/userRoles',
+        authed: true,
+        redirectTo: '/sign-in'
     }
 ];
