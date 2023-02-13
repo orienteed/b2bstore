@@ -119,10 +119,10 @@
 	],
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": [
-			"eslint . --fix"
+			"eslint --fix"
 		],
 		"*": [
-			"prettier . --write --ignore-unknown --loglevel error"
+			"prettier --write --ignore-unknown --loglevel error"
 		]
 	}
 }
