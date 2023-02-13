@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 import { FormattedMessage } from 'react-intl';
+
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 
 function DropzoneComponent(props) {
 	const { setFiles } = usePrintPdfContext();
 
 	const onDrop = useCallback(acceptedFiles => {
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsDataURL(acceptedFiles[0]);
 		reader.onload = function (e) {
 			setFiles(
@@ -22,7 +23,7 @@ function DropzoneComponent(props) {
 
 	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
 		onDrop,
-		accept: 'image/*'
+		accept: { 'image/jpeg': ['.jpg', '.jpeg'], 'image/png': ['.png'] }
 	});
 
 	const style = useMemo(
@@ -48,6 +49,7 @@ function DropzoneComponent(props) {
 export default DropzoneComponent;
 
 const baseStyle = {
+	cursor: 'pointer',
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'center',

@@ -1,19 +1,15 @@
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import { useEventingContext } from '../../context/eventing';
-
-import { useUserContext } from '../../context/user';
-import { useCartContext } from '../../context/cart';
-
-import mergeOperations from '../../util/shallowMerge';
-
-import DEFAULT_OPERATIONS from './checkoutPage.gql.js';
-
-import CheckoutError from './CheckoutError';
-import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
-
-import ReactGA from 'react-ga';
 import { useNoReorderProductContext } from '@magento/venia-ui/lib/components/NoReorderProductProvider/noReorderProductProvider.js';
+import { useCallback, useEffect, useMemo, useRef,useState } from 'react';
+import ReactGA from 'react-ga';
+
+import { useCartContext } from '../../context/cart';
+import { useEventingContext } from '../../context/eventing';
+import { useUserContext } from '../../context/user';
+import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
+import mergeOperations from '../../util/shallowMerge';
+import CheckoutError from './CheckoutError';
+import DEFAULT_OPERATIONS from './checkoutPage.gql.js';
 
 export const CHECKOUT_STEP = {
 	SHIPPING_ADDRESS: 1,
@@ -182,7 +178,7 @@ export const useCheckoutPage = props => {
 		ReactGA.event({
 			category: 'Checkout page',
 			action: 'Review order clicked',
-			label: `Checkout page- Review order clicked`
+			label: 'Checkout page- Review order clicked'
 		});
 		setReviewOrderButtonClicked(true);
 	};
@@ -252,7 +248,7 @@ export const useCheckoutPage = props => {
 		ReactGA.event({
 			category: 'Checkout page',
 			action: 'Place order clicked',
-			label: `Checkout page- Place order clicked`
+			label: 'Checkout page- Place order clicked'
 		});
 	}, [cartId, getOrderDetails, setNoProduct]);
 
@@ -283,8 +279,13 @@ export const useCheckoutPage = props => {
 					id: orderId,
 					revenue: cart.prices.subtotal_excluding_tax.value,
 					quantity: String(cart.total_quantity),
-					shipping: cart.shipping_addresses[0].selected_shipping_method.amount.value,
-					tax: cart.prices.applied_taxes.reduce((acc, tax) => acc + tax.amount.value, 0)
+					shipping: cart.shipping_addresses[0]?.selected_shipping_method?.amount.value,
+					tax: cart.prices.applied_taxes.reduce((acc, tax) => {
+						if (tax && tax?.amount) {
+							return acc + tax.amount.value;
+						}
+						return acc;
+					}, 0)
 				});
 				cart?.items.map(product => {
 					ReactGA.plugin.execute('ecommerce', 'addItem', {

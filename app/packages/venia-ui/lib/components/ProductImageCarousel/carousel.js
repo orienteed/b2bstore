@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react';
+import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
+import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
+import { generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
+import React, { useMemo } from 'react';
 import {
+	ChevronDown as ChevronDownIcon,
 	ChevronLeft as ChevronLeftIcon,
 	ChevronRight as ChevronRightIcon,
-	ChevronUp as ChevronUpIcon,
-	ChevronDown as ChevronDownIcon
-} from 'react-feather';
-import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
-import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
+	ChevronUp as ChevronUpIcon} from 'react-feather';
+import ReactImageZoom from 'react-image-zoom';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import AriaButton from '../AriaButton';
@@ -16,8 +17,6 @@ import Icon from '../Icon';
 import Image from '../Image';
 import defaultClasses from './carousel.module.css';
 import Thumbnail from './thumbnail';
-import ReactImageZoom from 'react-image-zoom';
-import { generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 const IMAGE_WIDTH = 640;
 
 /**
@@ -76,11 +75,38 @@ const ProductImageCarousel = props => {
 			return generateUrl(currentImage.file, 'image-product')(IMAGE_WIDTH, 800);
 		}
 	}, [generateUrl, currentImage, IMAGE_WIDTH]);
+
 	let image;
 	if (currentImage.file) {
 		image = <ReactImageZoom zoomWidth={500} img={src} zoomStyle={'z-index: 1'} />;
 	} else {
 		image = (
+			<Image
+				alt={altText}
+				classes={{
+					image: classes.currentImage_placeholder,
+					root: classes.imageContainer
+				}}
+				src={transparentPlaceholder}
+			/>
+		);
+	}
+
+	let imageNoZoom;
+	if (currentImage.file) {
+		imageNoZoom = (
+			<Image
+				alt={altText}
+				classes={{
+					image: classes.currentImage,
+					root: classes.imageContainer
+				}}
+				resource={currentImage.file}
+				width={IMAGE_WIDTH}
+			/>
+		);
+	} else {
+		imageNoZoom = (
 			<Image
 				alt={altText}
 				classes={{
@@ -115,7 +141,10 @@ const ProductImageCarousel = props => {
 				>
 					<Icon classes={chevronClasses} src={ChevronLeftIcon} size={40} />
 				</AriaButton>
-				{image}
+				<div className={classes.imageZoomContainer}>{image}</div>
+
+				<div className={classes.imageNoZoomContainer}>{imageNoZoom}</div>
+
 				<AriaButton
 					className={classes.nextButton}
 					onPress={activeItemIndex >= sortedImages.length - 1 ? null : handleNext}

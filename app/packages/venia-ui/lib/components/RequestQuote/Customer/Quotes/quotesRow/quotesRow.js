@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useQuotes } from '@magento/peregrine/lib/talons/RequestQuote/useQuotes';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Price from '@magento/venia-ui/lib/components/Price';
+import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import QuotesView from '../quotesView';
 import defaultClasses from './quotesRow.module.css';
 export const DATE_FORMAT = {
@@ -26,12 +27,12 @@ const QuotesTable = props => {
 	const contentClass = isOpen ? classes.content : classes.content_collapsed;
 
 	// Format Date
-	const createdAt = new Date(created_at).toLocaleDateString(undefined, DATE_FORMAT);
+	const createdAt = new Date(created_at?.replace(/-/g, '/')).toLocaleDateString(undefined, DATE_FORMAT);
 	let expiredAt;
 	if (expired_at == undefined || expired_at == null || expired_at == '') {
 		expiredAt = null;
 	} else {
-		expiredAt = new Date(expired_at).toLocaleDateString(undefined, DATE_FORMAT);
+		expiredAt = new Date(expired_at?.replace(/-/g, '/')).toLocaleDateString(undefined, DATE_FORMAT);
 	}
 
 	const entityId = useMemo(() => {

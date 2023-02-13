@@ -3,13 +3,14 @@
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import React, { useCallback, useEffect,useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
 import Button from '../../../Button';
 import Icon from '../../../Icon';
 import Image from '../../../Image';
+import PlaceholderImage from '../../../Image/placeholderImage';
 import Price from '../../../Price';
 import QuantityStepper from '../../../QuantityStepper';
 import ConfirmationModal from '../../../RequestQuote/ConfirmationModal';
@@ -96,11 +97,17 @@ const ProductItem = props => {
 
 	const imageIcon = widthSize => (
 		<div className={classes.indexFixedImage}>
-			<Image
-				resource={variant.product.media_gallery_entries[0].file}
-				width={widthSize}
-				alt={variant.product.sku}
-			/>
+			{variant.product?.media_gallery_entries.length > 0 ? (
+				<Image
+					resource={variant.product?.media_gallery_entries[0]?.file}
+					width={widthSize}
+					alt={variant.product.sku}
+				/>
+			) : (
+				<div className={classes.placeholderContainer}>
+					<PlaceholderImage alt={variant.product.name} classes={classes} width={widthSize} height="120" />
+				</div>
+			)}
 		</div>
 	);
 

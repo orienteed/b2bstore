@@ -1,15 +1,13 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { shape, string } from 'prop-types';
-
-import Price from '../../Price';
-import SavedCartsView from './savedCartsView';
-
 import { DATE_FORMAT } from '@magento/peregrine/lib/talons/BuyLaterNotes/config';
 import { useSavedCartsTable } from '@magento/peregrine/lib/talons/BuyLaterNotes/useSavedCartsTable';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React, { useEffect,useMemo, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
+import Price from '../../Price';
 import defaultClasses from './savedCartsTable.module.css';
+import SavedCartsView from './savedCartsView';
 
 const SavedCartTable = props => {
 	const { cart, handleIsLoading, getSavedCarts, showCopyUrl } = props;
@@ -71,7 +69,7 @@ const SavedCartTable = props => {
 	);
 
 	// Format Date
-	const formattedDate = new Date(created_at).toLocaleDateString(undefined, DATE_FORMAT);
+	const formattedDate = new Date(created_at.replace(/-/g, '/')).toLocaleDateString(undefined, DATE_FORMAT);
 
 	const cartItems = useMemo(() => {
 		return items.map(item => {

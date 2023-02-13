@@ -1,15 +1,14 @@
+import { useOrderHistoryContext } from '@magento/peregrine/lib/talons/OrderHistoryPage/orderHistoryContext';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf,number, shape, string } from 'prop-types';
 import React, { useMemo } from 'react';
-import { shape, string, number, arrayOf } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { useOrderHistoryContext } from '@magento/peregrine/lib/talons/OrderHistoryPage/orderHistoryContext';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import Image from '../../Image';
+import PlaceholderImage from '../../Image/placeholderImage';
 import Price from '../../Price';
 import defaultClasses from './item.module.css';
-import PlaceholderImage from '../../Image/placeholderImage';
 const Item = props => {
 	const { index, product_name, product_sale_price, product_url_key, quantity_ordered, selected_options, thumbnail } =
 		props;
@@ -44,7 +43,11 @@ const Item = props => {
 						</span>
 					</Link>
 				</td>
-				<td>{mappedOptions[0]}</td>
+				<td>
+					{selected_options.map(option => (
+						<p key={option.label}>{`${option.label}: ${option.value}`}</p>
+					))}
+				</td>
 				<td>
 					{quantity_ordered + ' '}
 					<FormattedMessage id="orderDetails.items" defaultMessage="items" />

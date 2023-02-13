@@ -2,7 +2,7 @@
 import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddProductsByCSV';
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
 import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
-import React, { useEffect, useMemo,useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { ArrowDown, Download, PlusCircle, XCircle } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -87,7 +87,7 @@ const QuickOrderForm = props => {
 	}, [products]);
 
 	const csvBtn = useMemo(() => {
-		if (csvData.length) {
+		if (csvData.length && csvData[0]?.sku) {
 			return (
 				<CSVLink filename={'quick-order-file.csv'} data={csvData}>
 					<Button className={classes.downloadBtn}>
@@ -100,15 +100,7 @@ const QuickOrderForm = props => {
 				</CSVLink>
 			);
 		} else {
-			return (
-				<Button disabled={true} className={classes.downloadBtn}>
-					<Icon src={Download} alt="download-icon" />
-					<FormattedMessage
-						id="quickOrder.DownloadYourSampleFile"
-						defaultMessage="Download your sample file"
-					/>
-				</Button>
-			);
+			return;
 		}
 	}, [csvData, classes]);
 

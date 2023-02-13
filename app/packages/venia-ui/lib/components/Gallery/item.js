@@ -7,7 +7,7 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Price from '@magento/venia-ui/lib/components/Price';
 import Tippy from '@tippyjs/react';
-import { number, shape,string } from 'prop-types';
+import { number, shape, string } from 'prop-types';
 import React, { useState } from 'react';
 import { Info } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -196,8 +196,10 @@ const GalleryItem = props => {
 	const onChangeQty = value => setQuantity(value);
 
 	const getCategoriesValuesNameByVariant = variant => {
-		return variant.attributes.map((attribute, i) => {
-			return item.configurable_options[i].values.find(value => value.value_index == attribute.value_index).label;
+		return variant.attributes.map(attribute => {
+			return item.configurable_options
+				?.find(({ attribute_code }) => attribute_code === attribute?.code)
+				.values.find(value => value.value_index == attribute.value_index)?.label;
 		});
 	};
 
@@ -351,7 +353,6 @@ const GalleryItem = props => {
 							</div>
 							<div className={classes.productsSelect}>
 								<Select
-									initialValue={'Item'}
 									field={`veriants ${item.sku}`}
 									items={[{ value: 'Item' }, ...getProductsInstance()]}
 									onChange={onChangeVariant}

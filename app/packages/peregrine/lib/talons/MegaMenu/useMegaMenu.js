@@ -1,11 +1,10 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import useInternalLink from '../../hooks/useInternalLink';
-
 import { useQuery } from '@apollo/client';
-import { useEventListener } from '../../hooks/useEventListener';
-import { useUserContext } from '../../context/user';
+import { useCallback, useEffect,useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
+import { useUserContext } from '../../context/user';
+import { useEventListener } from '../../hooks/useEventListener';
+import useInternalLink from '../../hooks/useInternalLink';
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './megaMenu.gql';
 
@@ -33,7 +32,7 @@ export const useMegaMenu = (props = {}) => {
 		fetchPolicy: 'cache-and-network'
 	});
 
-	const { data } = useQuery(getMegaMenuQuery);
+	const { data, refetch } = useQuery(getMegaMenuQuery);
 
 	const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
 		fetchPolicy: 'cache-and-network',
@@ -45,6 +44,10 @@ export const useMegaMenu = (props = {}) => {
 			return storeConfigData.storeConfig.category_url_suffix;
 		}
 	}, [storeConfigData]);
+
+	useEffect(() => {
+		if (isSignedIn) refetch();
+	}, [isSignedIn]);
 
 	/**
 	 * Check if category should be visible on the storefront.

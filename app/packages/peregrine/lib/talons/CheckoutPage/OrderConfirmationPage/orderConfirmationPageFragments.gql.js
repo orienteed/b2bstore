@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { ItemsReviewFragment } from '../ItemsReview/itemsReviewFragments.gql';
 
 export const OrderConfirmationPageFragment = gql`
@@ -32,9 +33,20 @@ export const OrderConfirmationPageFragment = gql`
 			title
 		}
 		prices {
+			applied_taxes {
+				amount {
+					currency
+					value
+				}
+				label
+			}
 			grand_total {
 				value
 				currency
+			}
+			subtotal_excluding_tax {
+				currency
+				value
 			}
 			discounts {
 				amount {
