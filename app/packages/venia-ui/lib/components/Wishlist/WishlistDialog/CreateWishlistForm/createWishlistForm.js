@@ -1,17 +1,15 @@
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-
 import { useCreateWishlistForm } from '@magento/peregrine/lib/talons/Wishlist/WishlistDialog/CreateWishlistForm/useCreateWishlistForm';
-
-import Button from '@magento/venia-ui/lib/components/Button';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
-
-import defaultClasses from './createWishlistForm.module.css';
-import FormError from '../../../FormError';
 import { bool, func, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { useIntl } from 'react-intl';
+
+import FormError from '../../../FormError';
+import defaultClasses from './createWishlistForm.module.css';
 
 const CreateWishlistForm = props => {
 	const classes = useStyle(defaultClasses, props.classes);

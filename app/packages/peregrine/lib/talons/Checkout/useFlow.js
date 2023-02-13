@@ -1,9 +1,8 @@
-import { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
-
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
 import isObjectEmpty from '@magento/peregrine/lib/util/isObjectEmpty';
+import { useCallback } from 'react';
 
 const isCheckoutReady = checkout => {
 	const { billingAddress, paymentData, shippingAddress, shippingMethod } = checkout;

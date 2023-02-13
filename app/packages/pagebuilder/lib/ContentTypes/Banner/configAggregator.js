@@ -1,12 +1,12 @@
 import {
-	getMargin,
 	getBackgroundImages,
 	getBorder,
-	getPadding,
-	getTextAlign,
 	getCssClasses,
 	getIsHidden,
-	getMediaQueries
+	getMargin,
+	getMediaQueries,
+	getPadding,
+	getTextAlign
 } from '../../utils';
 
 /**

@@ -1,9 +1,10 @@
-import React, { Children, useRef, useEffect, useCallback, useState } from 'react';
-import { Tabs as TabWrapper, TabList, Tab as TabHeader, TabPanel } from 'react-tabs';
-import defaultClasses from './tabs.module.css';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
-import { arrayOf, number, oneOf, shape, string, object } from 'prop-types';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, number, object, oneOf, shape, string } from 'prop-types';
+import React, { Children, useCallback, useEffect, useRef, useState } from 'react';
+import { Tab as TabHeader, TabList, TabPanel, Tabs as TabWrapper } from 'react-tabs';
+
+import defaultClasses from './tabs.module.css';
 
 /**
  * Upper case the first letter of a string

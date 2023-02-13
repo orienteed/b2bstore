@@ -1,9 +1,9 @@
 import React from 'react';
-
-import defaultClasses from './indicator.module.css';
-import { useStyle } from '../../classify';
 import { Loader as LoaderIcon } from 'react-feather';
+
+import { useStyle } from '../../classify';
 import Icon from '../Icon';
+import defaultClasses from './indicator.module.css';
 
 const LoadingIndicator = props => {
 	const classes = useStyle(defaultClasses, props.classes);

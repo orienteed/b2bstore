@@ -1,9 +1,9 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { Accordion, Section } from '@magento/venia-ui/lib/components/Accordion';
+import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import React, { Suspense } from 'react';
 import { useIntl } from 'react-intl';
 
-import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { Accordion, Section } from '@magento/venia-ui/lib/components/Accordion';
 import defaultClasses from './quotePriceAdjustments.module.css';
 
 const QuoteConversation = React.lazy(() => import('./QuoteConversation'));

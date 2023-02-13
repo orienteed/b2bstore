@@ -1,13 +1,13 @@
+import { useOption } from '@magento/peregrine/lib/talons/ProductOptions/useOption';
+import { arrayOf, func, number, object, oneOfType, shape, string } from 'prop-types';
 import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { arrayOf, func, number, object, oneOfType, shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import getOptionType from './getOptionType';
+import defaultClasses from './option.module.css';
 import SwatchList from './swatchList';
 import TileList from './tileList';
-import defaultClasses from './option.module.css';
-import { useOption } from '@magento/peregrine/lib/talons/ProductOptions/useOption';
 
 const getItemKey = ({ value_index }) => value_index;
 

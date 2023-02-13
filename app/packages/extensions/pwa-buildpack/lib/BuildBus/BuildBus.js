@@ -77,7 +77,7 @@ class BuildBus extends Trackable {
 		super();
 		if (invoker !== INVOKE_FLAG) {
 			throw new Error(
-				`BuildBus must not be created with its constructor. Use the static factory method BuildBus.for(context) instead.`
+				'BuildBus must not be created with its constructor. Use the static factory method BuildBus.for(context) instead.'
 			);
 		}
 		this._requestTargets = this._requestTargets.bind(this);

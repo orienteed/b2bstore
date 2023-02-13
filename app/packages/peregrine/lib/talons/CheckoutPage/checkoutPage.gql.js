@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { CheckoutPageFragment } from './checkoutPageFragments.gql';
 import { OrderConfirmationPageFragment } from './OrderConfirmationPage/orderConfirmationPageFragments.gql';
 

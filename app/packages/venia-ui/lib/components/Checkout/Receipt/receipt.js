@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
-import { func, shape, string } from 'prop-types';
-
 import { useReceipt } from '@magento/peregrine/lib/talons/Checkout/Receipt/useReceipt';
+import { func, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
 import { useStyle } from '../../../classify';
 import Button from '../../Button';

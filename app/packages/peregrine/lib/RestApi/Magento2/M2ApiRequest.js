@@ -1,6 +1,6 @@
+import { BrowserPersistence } from '../../util/';
 import M2ApiResponseError from './M2ApiResponseError';
 import * as MulticastCache from './MulticastCache';
-import { BrowserPersistence } from '../../util/';
 
 // TODO: headers are locked right now, add configurability
 const withDefaultHeaders = headerAdditions => {

@@ -1,8 +1,9 @@
-import { useMemo, useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
-import { useMutation, useLazyQuery } from '@apollo/client';
-import { CREATE_COMPARE_LIST, GET_COMPARE_LIST_CUSTOMER, DELETE_PRODUCTS_FROM_LIST } from './compareRequest.gql';
+import { useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
+
+import { CREATE_COMPARE_LIST, DELETE_PRODUCTS_FROM_LIST, GET_COMPARE_LIST_CUSTOMER } from './compareRequest.gql';
 
 const useCompareProduct = () => {
 	const { formatMessage } = useIntl();

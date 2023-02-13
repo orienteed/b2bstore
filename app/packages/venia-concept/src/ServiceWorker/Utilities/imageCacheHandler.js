@@ -1,15 +1,15 @@
-import { CacheableResponsePlugin } from 'workbox-cacheable-response';
-import { CacheFirst } from 'workbox-strategies';
-import { ExpirationPlugin } from 'workbox-expiration';
 import { MESSAGE_TYPES } from '@magento/peregrine/lib/util/swUtils';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { ExpirationPlugin } from 'workbox-expiration';
+import { CacheFirst } from 'workbox-strategies';
 
-import { isFastNetwork } from './networkUtils';
 import {
-    THIRTY_DAYS,
     IMAGES_CACHE_NAME,
-    MAX_NUM_OF_IMAGES_TO_CACHE
+    MAX_NUM_OF_IMAGES_TO_CACHE,
+    THIRTY_DAYS
 } from '../defaults';
 import { registerMessageHandler } from './messageHandler';
+import { isFastNetwork } from './networkUtils';
 
 const imageRegex = new RegExp(/\.(?:png|jpg|jpeg)$/);
 

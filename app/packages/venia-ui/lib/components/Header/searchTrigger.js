@@ -1,13 +1,12 @@
-import React from 'react';
+import { useSearchTrigger } from '@magento/peregrine/lib/talons/Header/useSearchTrigger';
 import { shape, string } from 'prop-types';
+import React from 'react';
 import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import Icon from '../Icon';
-
 import { useStyle } from '../../classify';
+import Icon from '../Icon';
 import defaultClasses from './searchTrigger.module.css';
-import { useSearchTrigger } from '@magento/peregrine/lib/talons/Header/useSearchTrigger';
 
 const SearchTrigger = React.forwardRef((props, ref) => {
 	const { active, onClick } = props;

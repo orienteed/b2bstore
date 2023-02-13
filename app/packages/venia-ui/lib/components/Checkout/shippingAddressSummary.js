@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
-import { array, bool, shape, string } from 'prop-types';
-
 import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
 import isObjectEmpty from '@magento/peregrine/lib/util/isObjectEmpty';
+import { array, bool, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
 const ShippingAddressSummary = props => {
 	const { classes } = props;

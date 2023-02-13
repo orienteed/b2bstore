@@ -1,9 +1,8 @@
-import { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
+import { useMemo } from 'react';
+
 import useInternalLink from '../../hooks/useInternalLink';
-
 import mergeOperations from '../../util/shallowMerge';
-
 import DEFAULT_OPERATIONS from './breadcrumbs.gql';
 
 // Just incase the data is unsorted, lets sort it.

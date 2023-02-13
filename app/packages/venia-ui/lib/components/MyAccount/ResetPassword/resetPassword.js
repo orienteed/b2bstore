@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { shape, string } from 'prop-types';
-import { Form } from 'informed';
-
 import { useToasts } from '@magento/peregrine';
 import { useResetPassword } from '@magento/peregrine/lib/talons/MyAccount/useResetPassword';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
+import React, { useEffect } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
@@ -15,8 +14,8 @@ import GoogleReCaptcha from '../../GoogleReCaptcha';
 import { StoreTitle } from '../../Head';
 import Password from '../../Password';
 import TextInput from '../../TextInput';
-import defaultClasses from './resetPassword.module.css';
 import resetPasswordOperations from './resetPassword.gql';
+import defaultClasses from './resetPassword.module.css';
 
 const ResetPassword = props => {
 	const { classes: propClasses } = props;

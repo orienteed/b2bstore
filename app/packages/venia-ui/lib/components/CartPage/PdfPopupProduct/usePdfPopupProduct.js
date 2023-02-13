@@ -1,12 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
-
-import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CartPage/ProductListing/product.gql';
+import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
+import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 
 /**
  * This talon contains logic for a product component used in a product listing component.

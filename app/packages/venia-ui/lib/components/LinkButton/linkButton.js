@@ -1,9 +1,9 @@
-import React from 'react';
 import { oneOf, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
-import defaultClasses from './linkButton.module.css';
 import Button from '../Button';
+import defaultClasses from './linkButton.module.css';
 
 /**
  * A component for link buttons.

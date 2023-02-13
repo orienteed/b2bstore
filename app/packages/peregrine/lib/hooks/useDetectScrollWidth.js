@@ -1,5 +1,5 @@
-import { useLayoutEffect } from 'react';
 import { makeVar } from '@apollo/client';
+import { useLayoutEffect } from 'react';
 
 /**
  * A hook that will detect if there is a scrollbar will be added to the viewport and

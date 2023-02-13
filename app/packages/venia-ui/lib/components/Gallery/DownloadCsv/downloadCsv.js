@@ -1,9 +1,10 @@
-import React from 'react';
-import Button from '../../Button';
-import { FormattedMessage } from 'react-intl';
 import { useDownloadCsvContext } from '@magento/venia-ui/lib/components/Gallery/DownloadCsvProvider/downloadCsvProvider.js';
-import defaultClasses from './downloadCsv.module.css';
+import React from 'react';
 import { CSVLink } from 'react-csv';
+import { FormattedMessage } from 'react-intl';
+
+import Button from '../../Button';
+import defaultClasses from './downloadCsv.module.css';
 
 const DownloadCsv = () => {
 	const { galleryItem } = useDownloadCsvContext();

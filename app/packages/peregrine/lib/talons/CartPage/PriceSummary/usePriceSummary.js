@@ -1,10 +1,11 @@
+import { useQuery } from '@apollo/client';
+import { usePrintPdfContext } from '@magento/venia-ui/lib/components/CartPage/PrintPdfProvider/printPdfProvider';
 import { useCallback, useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+
 import { useCartContext } from '../../../context/cart';
 import mergeOperations from '../../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './priceSummary.gql';
-import { usePrintPdfContext } from '@magento/venia-ui/lib/components/CartPage/PrintPdfProvider/printPdfProvider';
 
 /**
  * @ignore

@@ -1,6 +1,6 @@
+import { arrayOf, number, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { arrayOf, number, shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import Select from '../Select';

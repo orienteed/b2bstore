@@ -1,17 +1,17 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-	GET_CONFIG_DETAILS,
-	GET_MP_QUOTE_LIST,
-	DELETE_SUBMITTED_MP_QUOTE,
-	CANCEL_MP_QUOTE,
-	DUPLICATE_MP_QUOTE,
-	ADD_MP_QUOTE_TO_CART
-} from '../RequestQuote/requestQuote.gql';
-import { AFTER_UPDATE_MY_REQUEST_QUOTE } from './useQuoteCartTrigger';
 
+import {
+	ADD_MP_QUOTE_TO_CART,
+	CANCEL_MP_QUOTE,
+	DELETE_SUBMITTED_MP_QUOTE,
+	DUPLICATE_MP_QUOTE,
+	GET_CONFIG_DETAILS,
+	GET_MP_QUOTE_LIST
+} from '../RequestQuote/requestQuote.gql';
 import { setQuoteId } from '../RequestQuote/Store';
+import { AFTER_UPDATE_MY_REQUEST_QUOTE } from './useQuoteCartTrigger';
 
 const DEFAULT_PAGE_SIZE = 5;
 const DEFAULT_CURRENT_PAGE = 1;

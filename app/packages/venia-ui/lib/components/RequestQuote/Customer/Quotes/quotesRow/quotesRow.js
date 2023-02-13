@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useQuotes } from '@magento/peregrine/lib/talons/RequestQuote/useQuotes';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import Price from '@magento/venia-ui/lib/components/Price';
+import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import QuotesView from '../quotesView';
 import defaultClasses from './quotesRow.module.css';
 export const DATE_FORMAT = {

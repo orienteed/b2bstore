@@ -1,13 +1,13 @@
+import { useCountry } from '@magento/peregrine/lib/talons/Country/useCountry';
+import { func, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { func, shape, string } from 'prop-types';
-import { useCountry } from '@magento/peregrine/lib/talons/Country/useCountry';
 
 import { useStyle } from '../../classify';
 import Field from '../Field';
 import Select from '../Select';
-import defaultClasses from './country.module.css';
 import { GET_COUNTRIES_QUERY } from './country.gql';
+import defaultClasses from './country.module.css';
 
 const Country = props => {
 	const talonProps = useCountry({

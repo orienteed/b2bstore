@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
-import { AccountInformationPageFragment } from './accountInformationPageFragment.gql';
 import { CustomerAddressBookAddressFragment } from '@magento/peregrine/lib/talons/AddressBookPage/addressBookFragments.gql';
+
+import { AccountInformationPageFragment } from './accountInformationPageFragment.gql';
 
 export const SET_CUSTOMER_INFORMATION = gql`
 	mutation SetCustomerInformation($customerInput: CustomerInput!) {

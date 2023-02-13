@@ -1,11 +1,12 @@
+import { shape, string } from 'prop-types';
 import React, { Fragment, useMemo } from 'react';
-import { string, shape } from 'prop-types';
-import Shimmer from '../../components/Shimmer';
+
+import { useStyle } from '../../classify';
 import { BreadcrumbShimmer } from '../../components/Breadcrumbs';
 import defaultClasses from '../../components/ProductFullDetail/productFullDetail.module.css';
 import CarouselShimmer from '../../components/ProductImageCarousel/carousel.shimmer';
 import { ProductOptionsShimmer } from '../../components/ProductOptions';
-import { useStyle } from '../../classify';
+import Shimmer from '../../components/Shimmer';
 
 const ProductShimmer = props => {
 	const { productType } = props;

@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
 import { arrayOf, node, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
 import Button from './button';

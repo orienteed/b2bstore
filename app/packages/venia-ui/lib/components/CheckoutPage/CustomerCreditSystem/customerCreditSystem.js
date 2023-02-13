@@ -1,17 +1,14 @@
+import { useQuery } from '@apollo/client';
+import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CartPage/PriceSummary/priceSummary.gql';
+import { useCustomerCreditSystem } from '@magento/peregrine/lib/talons/CheckoutPage/CustomerCreditSystem/useCustomerCreditSystem';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { shape, string, bool, func } from 'prop-types';
 
 import LoadingIndicator from '../../LoadingIndicator';
 import Price from '../../Price';
-
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useCustomerCreditSystem } from '@magento/peregrine/lib/talons/CheckoutPage/CustomerCreditSystem/useCustomerCreditSystem';
-import { useQuery } from '@apollo/client';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CartPage/PriceSummary/priceSummary.gql';
-
 import defaultClasses from './customerCreditSystem.module.css';
 
 const CustomerCreditSystem = props => {

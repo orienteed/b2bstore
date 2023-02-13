@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
-import { array, shape, string } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { array, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import AttributeType from './AttributeType';
 import defaultClasses from './customAttributes.module.css';

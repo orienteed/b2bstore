@@ -1,19 +1,16 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { PlusSquare } from 'react-feather';
-
 import { useCreateWishlist } from '@magento/peregrine/lib/talons/WishlistPage/useCreateWishlist';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { PlusSquare } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
+import { useStyle } from '../../classify';
+import { isRequired } from '../../util/formValidators';
 import Dialog from '../Dialog';
 import Field from '../Field';
-import Icon from '../Icon';
-import { isRequired } from '../../util/formValidators';
-import { useStyle } from '../../classify';
-
-import TextInput from '../TextInput';
 import FormError from '../FormError/formError';
-
+import Icon from '../Icon';
+import TextInput from '../TextInput';
 import defaultClasses from './createWishlist.module.css';
 
 const CreateWishlist = props => {

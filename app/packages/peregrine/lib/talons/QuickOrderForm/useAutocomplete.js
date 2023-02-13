@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
+import { useEffect, useMemo } from 'react';
 
 /**
  * @typedef { import("graphql").DocumentNode } DocumentNode

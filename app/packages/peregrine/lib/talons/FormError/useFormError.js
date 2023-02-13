@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 import { useIntl } from 'react-intl';
+
+import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 
 export const useFormError = props => {
 	const { errors, allowErrorMessages } = props;

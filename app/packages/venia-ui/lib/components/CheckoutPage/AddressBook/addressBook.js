@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect, useMemo, Suspense } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { shape, string, func } from 'prop-types';
-import { PlusSquare, AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useToasts } from '@magento/peregrine';
 import { useAddressBook } from '@magento/peregrine/lib/talons/CheckoutPage/AddressBook/useAddressBook';
+import { func, shape, string } from 'prop-types';
+import React, { Fragment, Suspense, useEffect, useMemo } from 'react';
+import { AlertCircle as AlertCircleIcon, PlusSquare } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import Button from '../../Button';
-import defaultClasses from './addressBook.module.css';
-import AddressCard from './addressCard';
 import Icon from '../../Icon';
 import LinkButton from '../../LinkButton';
+import defaultClasses from './addressBook.module.css';
+import AddressCard from './addressCard';
 
 const EditModal = React.lazy(() => import('../ShippingInformation/editModal'));
 

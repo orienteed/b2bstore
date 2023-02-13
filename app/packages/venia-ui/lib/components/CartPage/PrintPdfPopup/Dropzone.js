@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 import { FormattedMessage } from 'react-intl';
+
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
 
 function DropzoneComponent(props) {
 	const { setFiles } = usePrintPdfContext();
 
 	const onDrop = useCallback(acceptedFiles => {
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsDataURL(acceptedFiles[0]);
 		reader.onload = function (e) {
 			setFiles(

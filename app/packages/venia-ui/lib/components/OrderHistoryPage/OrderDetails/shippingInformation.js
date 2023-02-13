@@ -1,12 +1,10 @@
-import React from 'react';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { arrayOf, shape, string } from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './shippingInformation.module.css';
-
-import { useUserContext } from '@magento/peregrine/lib/context/user';
 const ShippingInformation = props => {
 	const { data, classes: propsClasses, orderAttributes } = props;
 	const classes = useStyle(defaultClasses, propsClasses);

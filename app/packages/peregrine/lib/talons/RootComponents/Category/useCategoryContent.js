@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
+import { useEffect } from 'react';
 
-import mergeOperations from '../../../util/shallowMerge';
 import { useEventingContext } from '../../../context/eventing';
-
+import mergeOperations from '../../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './categoryContent.gql';
 
 /**

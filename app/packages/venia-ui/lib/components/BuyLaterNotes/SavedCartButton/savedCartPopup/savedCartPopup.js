@@ -1,15 +1,13 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { bool, func, shape, string } from 'prop-types';
 
 import Dialog from '../../../Dialog';
 import Field from '../../../Field';
 import TextArea from '../../../TextArea';
 import TextInput from '../../../TextInput';
-
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './savedCartPopup.module.css';
 
 const SavedCartPopup = props => {

@@ -1,25 +1,22 @@
-import React, { useMemo, useEffect } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { Search as SearchIcon, AlertCircle as AlertCircleIcon, ArrowRight as SubmitIcon, X } from 'react-feather';
-import { shape, string } from 'prop-types';
-import { Form } from 'informed';
-
-import { useToasts } from '@magento/peregrine/lib/Toasts';
 import OrderHistoryContextProvider from '@magento/peregrine/lib/talons/OrderHistoryPage/orderHistoryContext';
 import { useOrderHistoryPage } from '@magento/peregrine/lib/talons/OrderHistoryPage/useOrderHistoryPage.js';
+import { useToasts } from '@magento/peregrine/lib/Toasts';
+import gql from 'graphql-tag';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
+import React, { useEffect, useMemo } from 'react';
+import { AlertCircle as AlertCircleIcon, ArrowRight as SubmitIcon, Search as SearchIcon, X } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Button from '../Button';
+import { StoreTitle } from '../Head';
 import Icon from '../Icon';
 import LoadingIndicator from '../LoadingIndicator';
-import { StoreTitle } from '../Head';
+import { useNoReorderProductContext } from '../NoReorderProductProvider/noReorderProductProvider';
 import TextInput from '../TextInput';
-
 import defaultClasses from './orderHistoryPage.module.css';
 import OrderRow from './orderRow';
-import gql from 'graphql-tag';
-import { useNoReorderProductContext } from '../NoReorderProductProvider/noReorderProductProvider';
-
 import ResetButton from './resetButton';
 
 const errorIcon = (

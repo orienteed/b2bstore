@@ -1,13 +1,13 @@
-import React from 'react';
-import { bool, shape, string } from 'prop-types';
-import { Form } from 'informed';
 import { useSearchBar } from '@magento/peregrine/lib/talons/SearchBar';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/searchBar.module.css';
+import { Form } from 'informed';
+import { bool, shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 import Autocomplete from './autocomplete';
 import SearchField from './searchField';
-import defaultClasses from '@magento/venia-ui/lib/components/SearchBar/searchBar.module.css';
-import { useIntl } from 'react-intl';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 
 const SearchBar = React.forwardRef((props, ref) => {
 	const { isOpen, handleSearchClick, value, setSearchText, searchText } = props;

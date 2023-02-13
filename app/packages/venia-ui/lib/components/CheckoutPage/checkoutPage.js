@@ -1,44 +1,38 @@
-import React, { Fragment, useEffect } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
-import { Link } from 'react-router-dom';
-
-import { useWindowSize, useToasts } from '@magento/peregrine';
+import { useToasts, useWindowSize } from '@magento/peregrine';
+import { useDeliveryDate } from '@magento/peregrine/lib/talons/CheckoutPage/DeliveryDate/useDeliveryDate';
+import { useOrderAttributes } from '@magento/peregrine/lib/talons/CheckoutPage/OrderAttributes/useOrderAttributes';
 import { CHECKOUT_STEP, useCheckoutPage } from '@magento/peregrine/lib/talons/CheckoutPage/useCheckoutPage';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
+import React, { Fragment, useEffect } from 'react';
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import { useStyle } from '../../classify';
 import Button from '../Button';
+import FormError from '../FormError';
+import GoogleReCaptcha from '../GoogleReCaptcha';
 import { StoreTitle } from '../Head';
 import Icon from '../Icon';
 import { fullPageLoadingIndicator } from '../LoadingIndicator';
+import { useNoReorderProductContext } from '../NoReorderProductProvider/noReorderProductProvider';
+import ScrollAnchor from '../ScrollAnchor/scrollAnchor';
 import StockStatusMessage from '../StockStatusMessage';
-import FormError from '../FormError';
 import AddressBook from './AddressBook';
+import BillingAddress from './BillingAddress';
+import defaultClasses from './checkoutPage.module.css';
+import DeliveryDate from './DeliveryDate/deliveryDateForm';
 import GuestSignIn from './GuestSignIn';
+import ItemsReview from './ItemsReview';
+import OrderAttributes from './OrderAttributes/orderAttributesForm';
+import OrderConfirmationPage from './OrderConfirmationPage';
 import OrderSummary from './OrderSummary';
 import PaymentInformation from './PaymentInformation';
 import payments from './PaymentInformation/paymentMethodCollection';
 import PriceAdjustments from './PriceAdjustments';
-import ShippingMethod from './ShippingMethod';
 import ShippingInformation from './ShippingInformation';
-import OrderConfirmationPage from './OrderConfirmationPage';
-import ItemsReview from './ItemsReview';
-import GoogleReCaptcha from '../GoogleReCaptcha';
-
-import defaultClasses from './checkoutPage.module.css';
-import ScrollAnchor from '../ScrollAnchor/scrollAnchor';
-
-import { useNoReorderProductContext } from '../NoReorderProductProvider/noReorderProductProvider';
-
-import DeliveryDate from './DeliveryDate/deliveryDateForm';
-import { useDeliveryDate } from '@magento/peregrine/lib/talons/CheckoutPage/DeliveryDate/useDeliveryDate';
-
-import BillingAddress from './BillingAddress';
-import { Form } from 'informed';
-
-import OrderAttributes from './OrderAttributes/orderAttributesForm';
-import { useOrderAttributes } from '@magento/peregrine/lib/talons/CheckoutPage/OrderAttributes/useOrderAttributes';
+import ShippingMethod from './ShippingMethod';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 

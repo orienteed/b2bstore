@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useEffect } from 'react';
 import { useEventingContext } from '@magento/peregrine/lib/context/eventing';
+import { useCallback, useEffect, useMemo } from 'react';
+
 import resourceUrl from '../../util/makeUrl';
 
 /**

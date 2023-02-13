@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './quotesView.module.css';
 import Price from '@magento/venia-ui/lib/components/Price';
+import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import QuotesViewTableRow from '../quotesViewTableRow';
+import defaultClasses from './quotesView.module.css';
 
 const DATE_FORMAT = {
 	month: 'short',

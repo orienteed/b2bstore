@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { useMemo } from 'react';
 
 export const useCmsBlock = props => {
 	const { cmsBlockIdentifiers = [] } = props;

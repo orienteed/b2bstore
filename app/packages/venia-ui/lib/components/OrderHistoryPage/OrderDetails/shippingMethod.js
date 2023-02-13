@@ -1,10 +1,8 @@
-import React from 'react';
-import { arrayOf, shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import moment from 'moment';
+import { arrayOf, shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import defaultClasses from './shippingMethod.module.css';
 

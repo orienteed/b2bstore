@@ -1,11 +1,10 @@
+import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import ProductOptions from '../../LegacyMiniCart/productOptions';
-import Image from '../../Image';
 import { useStyle } from '../../../classify';
-import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
-
+import Image from '../../Image';
+import ProductOptions from '../../LegacyMiniCart/productOptions';
 import defaultClasses from './item.module.css';
 
 const Item = props => {

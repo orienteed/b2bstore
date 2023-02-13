@@ -1,14 +1,13 @@
-import React from 'react';
+import { useShippingForm } from '@magento/peregrine/lib/talons/Checkout/useShippingForm';
 import { Form } from 'informed';
 import { array, bool, func, shape, string } from 'prop-types';
-
-import Button from '../Button';
-import Label from './label';
-import Select from '../Select';
+import React from 'react';
 
 import { useStyle } from '../../classify';
+import Button from '../Button';
+import Select from '../Select';
+import Label from './label';
 import defaultClasses from './shippingForm.module.css';
-import { useShippingForm } from '@magento/peregrine/lib/talons/Checkout/useShippingForm';
 
 const ShippingForm = props => {
 	const { availableShippingMethods, isSubmitting, onCancel, onSubmit, shippingMethod } = props;

@@ -1,10 +1,11 @@
-import React from 'react';
-import { verticalAlignmentToFlex } from '../../utils';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, object, oneOf, shape, string } from 'prop-types';
+import React from 'react';
+
+import { verticalAlignmentToFlex } from '../../utils';
 import defaultClasses from './tabItem.module.css';
-import { arrayOf, oneOf, shape, string, object } from 'prop-types';
 
 const { matchMedia } = globalThis;
 

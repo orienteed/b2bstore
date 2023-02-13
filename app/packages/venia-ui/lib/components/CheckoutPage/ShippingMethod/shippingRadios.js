@@ -1,10 +1,10 @@
+import { arrayOf, bool, number, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { arrayOf, bool, number, shape, string } from 'prop-types';
 
 import { useStyle } from '../../../classify';
-import RadioGroup from '../../RadioGroup';
 import ShippingRadio from '../../CartPage/PriceAdjustments/ShippingMethods/shippingRadio';
+import RadioGroup from '../../RadioGroup';
 import defaultClasses from './shippingRadios.module.css';
 
 const ShippingRadios = props => {

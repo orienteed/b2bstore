@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { array, func, number, shape, string } from 'prop-types';
-
-import Price from '@magento/venia-ui/lib/components/Price';
+import { gql } from '@apollo/client';
 import { useProduct } from '@magento/peregrine/lib/talons/LegacyMiniCart/useProduct';
 import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
+import Price from '@magento/venia-ui/lib/components/Price';
+import { array, func, number, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
 import Image from '../Image';
@@ -12,7 +12,6 @@ import Kebab from './kebab';
 import defaultClasses from './product.module.css';
 import ProductOptions from './productOptions';
 import Section from './section';
-import { gql } from '@apollo/client';
 
 const QUANTITY_OPERATOR = '×';
 

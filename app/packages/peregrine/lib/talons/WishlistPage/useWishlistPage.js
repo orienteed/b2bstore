@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useMemo } from 'react';
 
 import defaultOperations from './wishlistPage.gql';
 

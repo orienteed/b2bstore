@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { MiniCartFragment } from '../MiniCart/miniCartFragments.gql';
 
 const ADD_ITEM = gql`

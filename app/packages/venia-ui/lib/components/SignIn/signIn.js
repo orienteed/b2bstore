@@ -1,21 +1,21 @@
+import { useSignIn } from '@magento/peregrine/lib/talons/SignIn/useSignIn';
+import { Form } from 'informed';
+import { func, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { func, shape, string } from 'prop-types';
-import { Form } from 'informed';
-import { useSignIn } from '@magento/peregrine/lib/talons/SignIn/useSignIn';
 
-import LoadingIndicator from '../LoadingIndicator';
 import { useStyle } from '../../classify';
 import { isRequired } from '../../util/formValidators';
 import Button from '../Button';
 import Field from '../Field';
-import TextInput from '../TextInput';
-import defaultClasses from './signIn.module.css';
-import { GET_CART_DETAILS_QUERY } from './signIn.gql';
-import LinkButton from '../LinkButton';
-import Password from '../Password';
 import FormError from '../FormError/formError';
 import GoogleRecaptcha from '../GoogleReCaptcha';
+import LinkButton from '../LinkButton';
+import LoadingIndicator from '../LoadingIndicator';
+import Password from '../Password';
+import TextInput from '../TextInput';
+import { GET_CART_DETAILS_QUERY } from './signIn.gql';
+import defaultClasses from './signIn.module.css';
 
 const SignIn = props => {
 	const classes = useStyle(defaultClasses, props.classes);

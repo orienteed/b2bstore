@@ -1,6 +1,6 @@
-import React from 'react';
-import { func, shape, string } from 'prop-types';
 import { useAuthModal } from '@magento/peregrine/lib/talons/AuthModal/useAuthModal';
+import { func, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import CreateAccount from '../CreateAccount';

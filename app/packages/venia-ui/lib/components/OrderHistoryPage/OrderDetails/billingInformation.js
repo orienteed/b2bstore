@@ -1,8 +1,7 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import defaultClasses from './billingInformation.module.css';
 

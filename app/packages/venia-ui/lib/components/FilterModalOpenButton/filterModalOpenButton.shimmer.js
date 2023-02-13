@@ -1,7 +1,7 @@
-import React from 'react';
 import { shape, string } from 'prop-types';
-import { useStyle } from '../../classify';
+import React from 'react';
 
+import { useStyle } from '../../classify';
 import Shimmer from '../Shimmer';
 import defaultClasses from './filterModalOpenButton.shimmer.module.css';
 

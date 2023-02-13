@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
 import { node, string } from 'prop-types';
+import React, { useRef } from 'react';
 import { useButton } from 'react-aria';
 
 /**

@@ -1,9 +1,9 @@
+import { useSuggestions } from '@magento/peregrine/lib/talons/SearchBar';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { arrayOf, bool, func, shape, string } from 'prop-types';
-import { useSuggestions } from '@magento/peregrine/lib/talons/SearchBar';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import SuggestedProducts from './suggestedProducts';
 import defaultClasses from './suggestions.module.css';
 

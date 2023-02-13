@@ -1,6 +1,7 @@
-import React from 'react';
 import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
+import React from 'react';
+
 import QuantityStepper from '../../QuantityStepper';
 
 const Quantity = props => {

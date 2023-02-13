@@ -1,5 +1,5 @@
 import { shape, string } from 'prop-types';
-import React, { Fragment, forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { forwardRef, Fragment, useImperativeHandle, useRef } from 'react';
 
 import classes from './scrollAnchor.module.css';
 

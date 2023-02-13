@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
-import Swatch from './swatch';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
+import Swatch from './swatch';
 import defaultClasses from './swatchList.module.css';
 
 const SwatchList = props => {

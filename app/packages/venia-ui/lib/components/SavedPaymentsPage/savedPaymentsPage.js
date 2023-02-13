@@ -1,13 +1,11 @@
+import { useSavedPaymentsPage } from '@magento/peregrine/lib/talons/SavedPaymentsPage/useSavedPaymentsPage';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
-import { useSavedPaymentsPage } from '@magento/peregrine/lib/talons/SavedPaymentsPage/useSavedPaymentsPage';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import { StoreTitle } from '../Head';
-import PaymentCard from './paymentCard';
 import { fullPageLoadingIndicator } from '../LoadingIndicator';
-
+import PaymentCard from './paymentCard';
 import defaultClasses from './savedPaymentsPage.module.css';
 
 const SavedPaymentsPage = props => {

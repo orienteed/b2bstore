@@ -1,11 +1,10 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
-
 import { useForgotPasswordPage } from '@magento/peregrine/lib/talons/ForgotPasswordPage/useForgotPasswordPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import ForgotPassword from '@magento/venia-ui/lib/components/ForgotPassword';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 import defaultClasses from './forgotPasswordPage.module.css';
 

@@ -1,21 +1,20 @@
-import React, { useMemo, useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { bool, func, shape, string } from 'prop-types';
 import { useCreditCard } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/useCreditCard';
+import { bool, func, shape, string } from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
+import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
 import Country from '../../Country';
-import Region from '../../Region';
-import Postcode from '../../Postcode';
 import Field from '../../Field';
-import TextInput from '../../TextInput';
-import BrainTreeDropin from './brainTreeDropIn';
-import LoadingIndicator from '../../LoadingIndicator';
-import { useStyle } from '../../../classify';
-
-import defaultClasses from './creditCard.module.css';
 import FormError from '../../FormError';
 import GoogleReCaptcha from '../../GoogleReCaptcha';
+import LoadingIndicator from '../../LoadingIndicator';
+import Postcode from '../../Postcode';
+import Region from '../../Region';
+import TextInput from '../../TextInput';
+import BrainTreeDropin from './brainTreeDropIn';
+import defaultClasses from './creditCard.module.css';
 
 const STEP_DESCRIPTIONS = [
 	{ defaultMessage: 'Loading Payment', id: 'checkoutPage.step0' },

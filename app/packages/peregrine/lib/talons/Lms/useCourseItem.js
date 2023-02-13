@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import getCoursePreviewMedia from '@magento/peregrine/lib/RestApi/Lms/media/getCoursePreviewMedia';
+import { useEffect, useState } from 'react';
 
 export const useCourseItem = props => {
 	const { courseImageUri, courseModuleMimetype } = props;

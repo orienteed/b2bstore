@@ -1,34 +1,35 @@
 import React from 'react';
-import ButtonItem from './ContentTypes/ButtonItem';
-import Column from './ContentTypes/Column';
-import ColumnGroup from './ContentTypes/ColumnGroup';
-import Heading from './ContentTypes/Heading';
-import Row from './ContentTypes/Row';
-import Text from './ContentTypes/Text';
+
+import { BannerShimmer } from './ContentTypes/Banner';
 import bannerConfigAggregator from './ContentTypes/Banner/configAggregator';
 import blockConfigAggregator from './ContentTypes/Block/configAggregator';
+import ButtonItem from './ContentTypes/ButtonItem';
 import buttonItemConfigAggregator from './ContentTypes/ButtonItem/configAggregator';
 import buttonsConfigAggregator from './ContentTypes/Buttons/configAggregator';
+import Column from './ContentTypes/Column';
 import columnConfigAggregator from './ContentTypes/Column/configAggregator';
+import ColumnGroup from './ContentTypes/ColumnGroup';
 import columnGroupConfigAggregator from './ContentTypes/ColumnGroup/configAggregator';
 import courseSliderConfigAggregator from './ContentTypes/CourseSlider/configAggregator';
 import dividerConfigAggregator from './ContentTypes/Divider/configAggregator';
+import { DynamicBlockShimmer } from './ContentTypes/DynamicBlock';
 import dynamicBlockConfigAggregator from './ContentTypes/DynamicBlock/configAggregator';
+import Heading from './ContentTypes/Heading';
 import headingConfigAggregator from './ContentTypes/Heading/configAggregator';
 import htmlConfigAggregator from './ContentTypes/Html/configAggregator';
+import { ImageShimmer } from './ContentTypes/Image';
 import imageConfigAggregator from './ContentTypes/Image/configAggregator';
 import mapConfigAggregator from './ContentTypes/Map/configAggregator';
 import productsConfigAggregator from './ContentTypes/Products/configAggregator';
+import Row from './ContentTypes/Row';
 import rowConfigAggregator from './ContentTypes/Row/configAggregator';
+import { SliderShimmer } from './ContentTypes/Slider';
 import sliderConfigAggregator from './ContentTypes/Slider/configAggregator';
 import tabItemConfigAggregator from './ContentTypes/TabItem/configAggregator';
 import tabsConfigAggregator from './ContentTypes/Tabs/configAggregator';
+import Text from './ContentTypes/Text';
 import textConfigAggregator from './ContentTypes/Text/configAggregator';
 import videoConfigAggregator from './ContentTypes/Video/configAggregator';
-import { BannerShimmer } from './ContentTypes/Banner';
-import { DynamicBlockShimmer } from './ContentTypes/DynamicBlock';
-import { ImageShimmer } from './ContentTypes/Image';
-import { SliderShimmer } from './ContentTypes/Slider';
 
 /* istanbul ignore next */
 const contentTypesConfig = {

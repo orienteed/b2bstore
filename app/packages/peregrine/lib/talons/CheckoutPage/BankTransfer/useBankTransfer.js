@@ -1,7 +1,6 @@
-import { useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect } from 'react';
 
 import DEFAULT_OPERATIONS from './bankTransfer.gql';
 

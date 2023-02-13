@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
+
 import { useEventListener } from './useEventListener';
 
 const WindowSizeContext = createContext();

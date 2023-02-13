@@ -1,18 +1,15 @@
+import { useWishlistDialog } from '@magento/peregrine/lib/talons/Wishlist/WishlistDialog/useWishlistDialog';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Dialog from '@magento/venia-ui/lib/components/Dialog';
+import FormError from '@magento/venia-ui/lib/components/FormError';
+import { Relevant } from 'informed';
+import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import React, { Fragment, useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
-import { Relevant } from 'informed';
-
-import { useWishlistDialog } from '@magento/peregrine/lib/talons/Wishlist/WishlistDialog/useWishlistDialog';
-
-import Dialog from '@magento/venia-ui/lib/components/Dialog';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import FormError from '@magento/venia-ui/lib/components/FormError';
 
 import CreateWishlistForm from './CreateWishlistForm';
-import WishlistLineItem from './WishlistLineItem';
-
 import defaultClasses from './wishlistDialog.module.css';
-import { arrayOf, bool, func, number, shape, string } from 'prop-types';
+import WishlistLineItem from './WishlistLineItem';
 
 const WishlistDialog = props => {
 	const { isOpen, itemOptions, onClose, onSuccess } = props;

@@ -1,7 +1,7 @@
+import Price from '@magento/venia-ui/lib/components/Price';
+import { number, shape, string } from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { number, string, shape } from 'prop-types';
-import Price from '@magento/venia-ui/lib/components/Price';
 
 import { useStyle } from '../../../../classify';
 import defaultClasses from './shippingRadio.module.css';

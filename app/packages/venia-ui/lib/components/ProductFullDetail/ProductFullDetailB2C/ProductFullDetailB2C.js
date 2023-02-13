@@ -1,18 +1,17 @@
-import React, { Fragment, Suspense, useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import RichContent from '@magento/venia-ui/lib/components/RichContent';
+import CustomAttributes from '@magento/venia-ui/lib/components/ProductFullDetail/CustomAttributes';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
-import CustomAttributes from '@magento/venia-ui/lib/components/ProductFullDetail/CustomAttributes';
+import RichContent from '@magento/venia-ui/lib/components/RichContent';
+import { Form } from 'informed';
+import React, { Fragment, Suspense, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
-import defaultClasses from './ProductFullDetailB2C.module.css';
 import noImage from './icons/product-package-cancelled.svg';
+import defaultClasses from './ProductFullDetailB2C.module.css';
 
 const ProductFullDetailB2C = props => {
 	const classes = useStyle(defaultClasses, props.classes);

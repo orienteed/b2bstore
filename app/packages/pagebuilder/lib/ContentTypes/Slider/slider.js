@@ -1,10 +1,11 @@
-import React, { Children } from 'react';
-import { arrayOf, bool, number, oneOf, shape, string, object } from 'prop-types';
-import SlickSlider from 'react-slick';
-import defaultClasses from './slider.module.css';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { jarallax } from 'jarallax';
+import { arrayOf, bool, number, object, oneOf, shape, string } from 'prop-types';
+import React, { Children } from 'react';
+import SlickSlider from 'react-slick';
+
+import defaultClasses from './slider.module.css';
 
 /**
  * Page Builder Slider component.

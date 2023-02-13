@@ -29,7 +29,7 @@ class ResolverVisitor {
 			return zipObject(contextNames, values);
 		} catch (e) {
 			if (e.message === 'PASSED_MIDDLEWARE') {
-				debug(`returning middleware from visitor.downward() instead of object`);
+				debug('returning middleware from visitor.downward() instead of object');
 				return passedMiddleware;
 			} else {
 				throw e;

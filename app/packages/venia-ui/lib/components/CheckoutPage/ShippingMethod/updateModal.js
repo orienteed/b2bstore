@@ -1,6 +1,6 @@
+import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 
 import { useStyle } from '../../../classify';
 import Dialog from '../../Dialog';

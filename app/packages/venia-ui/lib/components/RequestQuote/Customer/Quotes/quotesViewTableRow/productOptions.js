@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
-import { arrayOf, shape, string } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import defaultClasses from './productOptions.module.css';
 

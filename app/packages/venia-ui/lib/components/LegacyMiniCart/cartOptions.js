@@ -1,19 +1,18 @@
-import React, { Suspense } from 'react';
-import { array, bool, func, number, shape, string } from 'prop-types';
-import { Form } from 'informed';
-
-import Price from '@magento/venia-ui/lib/components/Price';
-import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
+import { gql } from '@apollo/client';
 import { useCartOptions } from '@magento/peregrine/lib/talons/LegacyMiniCart/useCartOptions';
+import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
+import Price from '@magento/venia-ui/lib/components/Price';
+import { Form } from 'informed';
+import { array, bool, func, number, shape, string } from 'prop-types';
+import React, { Suspense } from 'react';
 
 import { useStyle } from '../../classify';
-import LoadingIndicator from '../LoadingIndicator';
 import Button from '../Button';
-import Quantity from '../ProductQuantity';
+import LoadingIndicator from '../LoadingIndicator';
 import { ADD_CONFIGURABLE_MUTATION, ADD_SIMPLE_MUTATION } from '../ProductFullDetail/productFullDetail.gql';
-import defaultClasses from './cartOptions.module.css';
+import Quantity from '../ProductQuantity';
 import { REMOVE_ITEM_MUTATION, UPDATE_ITEM_MUTATION } from './cartOptions.gql';
-import { gql } from '@apollo/client';
+import defaultClasses from './cartOptions.module.css';
 
 const Options = React.lazy(() => import('../ProductOptions'));
 

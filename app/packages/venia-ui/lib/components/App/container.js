@@ -1,5 +1,5 @@
-import React from 'react';
 import { useErrorContext } from '@magento/peregrine/lib/context/unhandledErrors';
+import React from 'react';
 
 import App from './app';
 import { useErrorBoundary } from './useErrorBoundary';

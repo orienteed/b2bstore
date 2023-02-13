@@ -1,7 +1,6 @@
-import { useCallback, useState } from 'react';
 import { useMutation } from '@apollo/client';
-
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
+import { useCallback, useState } from 'react';
 
 /**
  * Returns props necessary to render a ForgotPassword form.

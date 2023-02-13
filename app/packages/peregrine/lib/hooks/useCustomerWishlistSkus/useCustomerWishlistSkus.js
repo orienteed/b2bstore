@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useState } from 'react';
+
 import { useUserContext } from '../../context/user';
 import mergeOperations from '../../util/shallowMerge';
-
 import defaultOperations from './customerWishlist.gql.ee';
 
 /**

@@ -1,11 +1,9 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { shape, string, bool, func, object } from 'prop-types';
-
-import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-
 import { useBankTransfer } from '@magento/peregrine/lib/talons/CheckoutPage/BankTransfer/useBankTransfer';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
+import { bool, func, object, shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import defaultClasses from './bankTransfer.module.css';
 

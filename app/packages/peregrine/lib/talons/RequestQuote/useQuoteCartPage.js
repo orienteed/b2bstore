@@ -1,14 +1,15 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
+
 import {
-	MP_QUOTE,
 	DELETE_CURRENT_QUOTE,
-	SUBMIT_CURRENT_QUOTE,
-	GET_CONFIG_DETAILS
+	GET_CONFIG_DETAILS,
+	MP_QUOTE,
+	SUBMIT_CURRENT_QUOTE
 } from '../RequestQuote/requestQuote.gql';
-import { AFTER_UPDATE_MY_REQUEST_QUOTE } from './useQuoteCartTrigger';
 import { deleteQuoteId } from '../RequestQuote/Store';
+import { AFTER_UPDATE_MY_REQUEST_QUOTE } from './useQuoteCartTrigger';
 
 export const useQuoteCartPage = props => {
 	const { getQuoteId } = props;

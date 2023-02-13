@@ -1,15 +1,14 @@
-import { useCallback, useMemo, useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
+import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
+import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useAppContext } from '../../context/app';
+import { useEventingContext } from '../../context/eventing';
 import { useUserContext } from '../../context/user';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
-import { useEventingContext } from '../../context/eventing';
-import { useAppContext } from '../../context/app';
-
-import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
-import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
-
-import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from '../../talons/CommunicationsPage/communicationsPage.gql.js';
+import mergeOperations from '../../util/shallowMerge';
 
 export const useAccountInformationPage = props => {
 	const {

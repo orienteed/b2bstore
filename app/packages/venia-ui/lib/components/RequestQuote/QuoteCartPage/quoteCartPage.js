@@ -1,15 +1,16 @@
-import React from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { shape, string } from 'prop-types';
-import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
+import { getConfigData, getQuoteId } from '@magento/peregrine/lib/talons/RequestQuote/Store';
+import { useQuoteCartPage } from '@magento/peregrine/lib/talons/RequestQuote/useQuoteCartPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import QuoteProductListing from './QuoteProductListing';
-import QuotePriceSummary from './QuotePriceSummary';
+import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
+import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import AddProductBySku from './AddProductBySku';
 import defaultClasses from './quoteCartPage.module.css';
-import { useQuoteCartPage } from '@magento/peregrine/lib/talons/RequestQuote/useQuoteCartPage';
-import { getConfigData, getQuoteId } from '@magento/peregrine/lib/talons/RequestQuote/Store';
+import QuotePriceSummary from './QuotePriceSummary';
+import QuoteProductListing from './QuoteProductListing';
 
 const QuoteCartPage = props => {
 	const { loading, myQuote, setActiveEditItem, setIsCartUpdating, handleDeleteQuote, handleSubmitQuoteBtn } =

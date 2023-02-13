@@ -1,14 +1,14 @@
+import { useRegion } from '@magento/peregrine/lib/talons/Region/useRegion';
+import { func, number, oneOfType, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { func, number, oneOfType, shape, string } from 'prop-types';
-import { useRegion } from '@magento/peregrine/lib/talons/Region/useRegion';
 
 import { useStyle } from '../../classify';
 import Field from '../Field';
 import Select from '../Select';
 import TextInput from '../TextInput';
-import defaultClasses from './region.module.css';
 import { GET_REGIONS_QUERY } from './region.gql';
+import defaultClasses from './region.module.css';
 
 /**
  * Form component for Region that is seeded with backend data.

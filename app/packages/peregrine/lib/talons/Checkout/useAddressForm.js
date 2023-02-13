@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react';
-import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
 import { useMutation } from '@apollo/client';
+import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useCallback, useMemo } from 'react';
 
 /**
  * Returns values used to render an AddressForm component.

@@ -1,5 +1,4 @@
 import { createHttpLink } from '@apollo/client';
-
 import createAuthLink from '@magento/peregrine/lib/Apollo/links/authLink';
 import createErrorLink from '@magento/peregrine/lib/Apollo/links/errorLink';
 import createGqlCacheLink from '@magento/peregrine/lib/Apollo/links/gqlCacheLink';

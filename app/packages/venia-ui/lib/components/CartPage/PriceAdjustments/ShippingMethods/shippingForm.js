@@ -1,17 +1,16 @@
-import React, { Fragment } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useShippingForm } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
 import { Form } from 'informed';
 import { func, shape, string } from 'prop-types';
-import { useShippingForm } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
+import React, { Fragment } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../../../classify';
 import { isRequired } from '../../../../util/formValidators';
 import Button from '../../../Button';
-
 import Country from '../../../Country';
 import FormError from '../../../FormError';
-import Region from '../../../Region';
 import Postcode from '../../../Postcode';
+import Region from '../../../Region';
 import defaultClasses from './shippingForm.module.css';
 
 const ShippingForm = props => {

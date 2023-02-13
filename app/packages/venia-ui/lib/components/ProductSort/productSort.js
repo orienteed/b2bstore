@@ -1,14 +1,14 @@
-import React, { useMemo, useCallback } from 'react';
+import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
+import { array, arrayOf, shape, string } from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { array, arrayOf, shape, string } from 'prop-types';
-import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 
 import { useStyle } from '../../classify';
-import SortItem from './sortItem';
-import defaultClasses from './productSort.module.css';
 import Button from '../Button';
 import Icon from '../Icon';
+import defaultClasses from './productSort.module.css';
+import SortItem from './sortItem';
 
 const ProductSort = props => {
 	const classes = useStyle(defaultClasses, props.classes);

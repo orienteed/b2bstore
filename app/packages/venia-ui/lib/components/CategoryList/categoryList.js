@@ -1,13 +1,13 @@
 /* Deprecated in PWA-12.1.0*/
 
+import { useCategoryList } from '@magento/peregrine/lib/talons/CategoryList/useCategoryList';
+import ErrorView from '@magento/venia-ui/lib/components/ErrorView';
+import { shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { string, shape } from 'prop-types';
-import { useCategoryList } from '@magento/peregrine/lib/talons/CategoryList/useCategoryList';
 
 import { useStyle } from '../../classify';
 import { fullPageLoadingIndicator } from '../LoadingIndicator';
-import ErrorView from '@magento/venia-ui/lib/components/ErrorView';
 import defaultClasses from './categoryList.module.css';
 import CategoryTile from './categoryTile';
 

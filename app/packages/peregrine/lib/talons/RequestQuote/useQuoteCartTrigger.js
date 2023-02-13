@@ -1,13 +1,13 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
+import { useMutation, useQuery } from '@apollo/client';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const DENIED_MINI_CART_ROUTES = ['/checkout'];
 export const AFTER_UPDATE_MY_REQUEST_QUOTE = 'after_update_my_request_quote';
 
-import { MP_QUOTE, DELETE_ITEM_FROM_MP_QUOTE, GET_CUSTOMER } from '../RequestQuote/requestQuote.gql';
+import { DELETE_ITEM_FROM_MP_QUOTE, GET_CUSTOMER, MP_QUOTE } from '../RequestQuote/requestQuote.gql';
 
 export const useQuoteCartTrigger = props => {
 	const { getConfigData, getQuoteId, setQuoteId } = props;

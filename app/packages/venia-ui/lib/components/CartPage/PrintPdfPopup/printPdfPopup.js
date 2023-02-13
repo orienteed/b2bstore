@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
-import defaultClasses from './printPdfPopup.module.css';
-import ItemCard from './itemCard';
-
-import { FormattedMessage, useIntl } from 'react-intl';
-import ItemSummaryCard from './itemSummaryCard';
-import Dropzone from './Dropzone';
-import TextArea from '../../TextArea';
-import ImagesList from './imagesList';
 import Button from '@magento/venia-ui/lib/components/Button';
+import React, { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import Dialog from '../../Dialog';
+import TextArea from '../../TextArea';
+import { usePrintPdfContext } from '../PrintPdfProvider/printPdfProvider';
+import Dropzone from './Dropzone';
+import ImagesList from './imagesList';
+import ItemCard from './itemCard';
+import ItemSummaryCard from './itemSummaryCard';
+import defaultClasses from './printPdfPopup.module.css';
 const PrintPdfPopup = React.forwardRef((props, ref) => {
 	const { openPopup, handleClosePopup, handlePrint } = props;
 	const { priceSummary, cartItem } = usePrintPdfContext();

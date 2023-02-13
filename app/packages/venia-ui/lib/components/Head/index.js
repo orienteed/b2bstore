@@ -1,5 +1,5 @@
+import { gql, useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import { useQuery, gql } from '@apollo/client';
 export { default as HeadProvider } from './headProvider';
 import { Helmet } from 'react-helmet-async';
 Helmet.defaultProps.defer = false;

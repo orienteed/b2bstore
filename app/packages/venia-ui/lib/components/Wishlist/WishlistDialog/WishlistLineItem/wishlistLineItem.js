@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { bool, func, number } from 'prop-types';
+import React, { useCallback } from 'react';
 
 import defaultClasses from './wishlistLineItem.module.css';
-import { bool, func, number } from 'prop-types';
 
 const WishlistLineItem = props => {
 	const { id, isDisabled, onClick } = props;

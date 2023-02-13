@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { ChevronDown as ArrowDown } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
-import Icon from '../../Icon';
 import { useStyle } from '../../../classify';
-
+import Icon from '../../Icon';
 import defaultClasses from './showAllButton.module.css';
 
 const ShowAllButton = props => {

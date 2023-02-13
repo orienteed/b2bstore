@@ -1,14 +1,15 @@
-import React, { Suspense } from 'react';
-import { FormattedMessage } from 'react-intl';
-import ItemsTable from './ItemsTable';
+import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
+import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
+import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import RichText from '@magento/venia-ui/lib/components/RichText';
 import { Form } from 'informed';
-import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
-import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+import React, { Suspense } from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import ItemsTable from './ItemsTable';
 import defaultClasses from './simpleProduct.module.css';
-import CmsBlock from '@magento/venia-ui/lib/components/CmsBlock/block';
-import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
 
 const SimpleProductB2B = props => {
 	const { cmsBlocks } = useCmsBlock({

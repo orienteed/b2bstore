@@ -1,7 +1,7 @@
+import { func, shape, string } from 'prop-types';
 import React, { useCallback } from 'react';
-import { useIntl } from 'react-intl';
-import { shape, string, func } from 'prop-types';
 import { X as Remove } from 'react-feather';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import Icon from '../../Icon';

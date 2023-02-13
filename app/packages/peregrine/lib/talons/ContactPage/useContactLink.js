@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useMemo } from 'react';
+
 import DEFAULT_OPERATIONS from './contactUs.gql';
 
 export default (props = {}) => {

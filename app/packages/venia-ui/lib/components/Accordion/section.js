@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
 import { ChevronDown as ArrowDown, ChevronUp as ArrowUp } from 'react-feather';
 
-import { useAccordionContext } from './accordion';
-import Icon from '../Icon';
-
 import { useStyle } from '../../classify';
+import Icon from '../Icon';
+import { useAccordionContext } from './accordion';
 import defaultClasses from './section.module.css';
 
 const Section = props => {

@@ -1,13 +1,13 @@
+import { useBraintreeSummary } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/useBraintreeSummary';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useStyle } from '../../../classify';
-import { shape, string, func, bool } from 'prop-types';
 import { Edit2 as EditIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+
+import { useStyle } from '../../../classify';
 import Icon from '../../Icon';
 import LinkButton from '../../LinkButton';
 import LoadingIndicator from '../../LoadingIndicator';
-
-import { useBraintreeSummary } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/useBraintreeSummary';
 import defaultClasses from './braintreeSummary.module.css';
 
 const BraintreeSummary = props => {

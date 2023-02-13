@@ -1,6 +1,7 @@
-import { useCallback, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { UPDATE_MP_QUOTE, DELETE_ITEM_FROM_MP_QUOTE } from '../requestQuote.gql';
+import { useCallback, useEffect } from 'react';
+
+import { DELETE_ITEM_FROM_MP_QUOTE, UPDATE_MP_QUOTE } from '../requestQuote.gql';
 import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '../useQuoteCartTrigger';
 
 export const useQuoteProduct = props => {

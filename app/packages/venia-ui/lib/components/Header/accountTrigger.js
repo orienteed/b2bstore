@@ -1,12 +1,10 @@
-import React, { Fragment, Suspense } from 'react';
-import { useIntl } from 'react-intl';
-import { shape, string } from 'prop-types';
-
 import { useAccountTrigger } from '@magento/peregrine/lib/talons/Header/useAccountTrigger';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React, { Fragment, Suspense } from 'react';
+import { useIntl } from 'react-intl';
 
 import AccountChip from '../AccountChip';
-
 import defaultClasses from './accountTrigger.module.css';
 
 const AccountMenu = React.lazy(() => import('../AccountMenu'));

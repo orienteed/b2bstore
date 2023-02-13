@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import { Square, CheckSquare } from 'react-feather';
-import { bool, func, shape, string } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';
+import { bool, func, shape, string } from 'prop-types';
+import React, { useCallback } from 'react';
+import { CheckSquare, Square } from 'react-feather';
+
 import defaultClasses from './filterItem.module.css';
 
 const FilterItem = props => {

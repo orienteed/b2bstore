@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
-
+import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import { useAppContext } from '@magento/peregrine/lib/context/app';
+import { useCallback, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const useReceipt = props => {
 	const { onClose } = props;

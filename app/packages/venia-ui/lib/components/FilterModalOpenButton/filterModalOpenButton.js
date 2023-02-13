@@ -1,10 +1,11 @@
-import React from 'react';
-import { shape, string, array } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import Button from '../Button';
-import { useStyle } from '../../classify';
-import defaultClasses from './filterModalOpenButton.module.css';
 import { useFilterModal } from '@magento/peregrine/lib/talons/FilterModal';
+import { array, shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import { useStyle } from '../../classify';
+import Button from '../Button';
+import defaultClasses from './filterModalOpenButton.module.css';
 
 const FilterModalOpenButton = props => {
 	const { filters, classes: propsClasses } = props;

@@ -1,14 +1,13 @@
-import React from 'react';
-import { useIntl } from 'react-intl';
-import { bool, shape, string } from 'prop-types';
-import { Loader, User as AccountIcon } from 'react-feather';
-
 import { useAccountChip } from '@magento/peregrine/lib/talons/AccountChip/useAccountChip';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { bool, shape, string } from 'prop-types';
+import React from 'react';
+import { Loader, User as AccountIcon } from 'react-feather';
+import { useIntl } from 'react-intl';
 
 import Icon from '../Icon';
-import defaultClasses from './accountChip.module.css';
 import { GET_CUSTOMER_DETAILS } from './accountChip.gql';
+import defaultClasses from './accountChip.module.css';
 
 /**
  * The AccountChip component shows an icon next to some text.

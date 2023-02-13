@@ -1,13 +1,14 @@
+import { useMegaMenuItem } from '@magento/peregrine/lib/talons/MegaMenu/useMegaMenuItem';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
-import { useMegaMenuItem } from '@magento/peregrine/lib/talons/MegaMenu/useMegaMenuItem';
+
 import { useStyle } from '../../classify';
+import Icon from '../Icon';
 import defaultClasses from './megaMenuItem.module.css';
 import Submenu from './submenu';
-import Icon from '../Icon';
 
 /**
  * The MegaMenuItem component displays mega menu item

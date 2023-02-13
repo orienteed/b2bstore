@@ -1,21 +1,20 @@
-import React, { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { bool, func, shape, string } from 'prop-types';
-import { Form } from 'informed';
-
 import {
 	displayStates,
 	useShippingMethod
 } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingMethod/useShippingMethod';
+import { Form } from 'informed';
+import { bool, func, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import Button from '../../Button';
 import FormError from '../../FormError';
 import LoadingIndicator from '../../LoadingIndicator';
 import CompletedView from './completedView';
+import defaultClasses from './shippingMethod.module.css';
 import ShippingRadios from './shippingRadios';
 import UpdateModal from './updateModal';
-import defaultClasses from './shippingMethod.module.css';
 
 const initializingContents = (
 	<LoadingIndicator>

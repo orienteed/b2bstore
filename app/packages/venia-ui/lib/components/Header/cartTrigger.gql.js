@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-
 import { CartTriggerFragment } from '@magento/peregrine/lib/talons/Header/cartTriggerFragments.gql';
 
 export const GET_ITEM_COUNT_QUERY = gql`

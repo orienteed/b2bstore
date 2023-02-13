@@ -1,12 +1,12 @@
-import React from 'react';
-import { bool, shape, string } from 'prop-types';
-import { Form } from 'informed';
 import { useSearchBar } from '@magento/peregrine/lib/talons/SearchBar';
+import { Form } from 'informed';
+import { bool, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import Autocomplete from './autocomplete';
-import SearchField from './searchField';
 import defaultClasses from './searchBar.module.css';
+import SearchField from './searchField';
 
 const SearchBar = React.forwardRef((props, ref) => {
 	const { isOpen } = props;

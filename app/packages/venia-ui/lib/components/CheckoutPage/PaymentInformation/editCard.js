@@ -1,8 +1,9 @@
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
-import { shape, string, bool, func } from 'prop-types';
-import defaultClasses from './editCard.module.css';
+
 import { useStyle } from '../../../classify';
 import CreditCard from './creditCard';
+import defaultClasses from './editCard.module.css';
 
 /**
  * The edit view for the Braintree payment method.

@@ -1,12 +1,10 @@
-import React from 'react';
-import { shape, arrayOf, string, number } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, number, shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import Item from './item';
-
 import defaultClasses from './items.module.css';
-import { FormattedMessage } from 'react-intl';
 
 const Items = props => {
 	const { items, imagesData } = props.data;

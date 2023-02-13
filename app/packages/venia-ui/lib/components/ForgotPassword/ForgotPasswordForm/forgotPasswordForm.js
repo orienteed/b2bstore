@@ -1,7 +1,7 @@
+import { Form } from 'informed';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { bool, func, shape, string } from 'prop-types';
-import { Form } from 'informed';
 
 import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';

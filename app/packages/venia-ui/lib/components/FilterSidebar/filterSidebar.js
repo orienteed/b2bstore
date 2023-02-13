@@ -1,12 +1,12 @@
-import React, { useMemo, useCallback, useRef, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { array, arrayOf, shape, string, number } from 'prop-types';
 import { useFilterSidebar } from '@magento/peregrine/lib/talons/FilterSidebar';
+import { array, arrayOf, number, shape, string } from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '../../classify';
-import LinkButton from '../LinkButton';
 import CurrentFilters from '../FilterModal/CurrentFilters';
 import FilterBlock from '../FilterModal/filterBlock';
+import LinkButton from '../LinkButton';
 import defaultClasses from './filterSidebar.module.css';
 
 const SCROLL_OFFSET = 150;

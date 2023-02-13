@@ -1,15 +1,16 @@
-import React, { Fragment, Suspense } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import RichContent from '@magento/venia-ui/lib/components/RichContent';
 import Carousel from '@magento/venia-ui/lib/components/ProductImageCarousel';
 import QuantityStepper from '@magento/venia-ui/lib/components/QuantityStepper';
-import defaultClasses from './simpleProductB2C.module.css';
-import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
-import Options from '../CustomProductOptions/options';
+import RichContent from '@magento/venia-ui/lib/components/RichContent';
+import { Form } from 'informed';
+import React, { Fragment, Suspense } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import Button from '../../Button';
+import Options from '../CustomProductOptions/options';
+import defaultClasses from './simpleProductB2C.module.css';
 
 const SimpleProductB2C = props => {
 	const classes = useStyle(defaultClasses, props.classes);

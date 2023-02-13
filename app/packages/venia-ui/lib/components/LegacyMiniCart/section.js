@@ -1,12 +1,11 @@
-import React, { useRef } from 'react';
 import { bool, func, oneOf, shape, string } from 'prop-types';
+import React, { useRef } from 'react';
+import { useButton } from 'react-aria';
 import { Edit2 as Edit2Icon, Heart as HeartIcon, Trash as TrashIcon } from 'react-feather';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
-
 import defaultClasses from './section.module.css';
-import { useButton } from 'react-aria';
 
 const icons = new Map().set('Heart', HeartIcon).set('Edit2', Edit2Icon).set('Trash', TrashIcon);
 

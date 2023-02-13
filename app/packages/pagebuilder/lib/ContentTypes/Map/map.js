@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { arrayOf, string, bool, number, object, shape } from 'prop-types';
-import loadGoogleMapsApi from 'load-google-maps-api';
-import defaultClasses from './map.module.css';
-import escape from 'lodash.escape';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import loadGoogleMapsApi from 'load-google-maps-api';
+import escape from 'lodash.escape';
+import { arrayOf, bool, number, object, shape, string } from 'prop-types';
+import React, { useEffect, useRef } from 'react';
+
 import { mapDefaultProps } from './configAggregator';
+import defaultClasses from './map.module.css';
 
 const getLocationFormattedAsHtml = location => {
 	const name = location.name ? `<h3>${escape(location.name)}</h3>` : '';

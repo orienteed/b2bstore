@@ -1,8 +1,9 @@
+import usePageLoadingIndicator from '@magento/peregrine/lib/talons/PageLoadingIndicator/usePageLoadingIndicator';
+import { bool, shape, string } from 'prop-types';
 import React from 'react';
-import { shape, string, bool } from 'prop-types';
+
 import { useStyle } from '../../classify';
 import defaultClasses from './pageLoadingIndicator.module.css';
-import usePageLoadingIndicator from '@magento/peregrine/lib/talons/PageLoadingIndicator/usePageLoadingIndicator';
 
 const PageLoadingIndicator = props => {
 	const classes = useStyle(defaultClasses, props.classes);

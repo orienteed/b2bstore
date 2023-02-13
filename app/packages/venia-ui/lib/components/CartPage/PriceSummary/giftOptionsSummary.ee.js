@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Price from '@magento/venia-ui/lib/components/Price';
+import React, { Fragment } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * A component that renders the gift options summary line item.

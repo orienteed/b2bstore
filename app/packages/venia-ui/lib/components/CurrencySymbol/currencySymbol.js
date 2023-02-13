@@ -1,7 +1,7 @@
-import React from 'react';
-import { string, shape } from 'prop-types';
-import { useIntl } from 'react-intl';
 import patches from '@magento/peregrine/lib/util/intlPatches';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 /**
  * The CurrencySymbol component is used to extract currency symbol from Intl.NumberFormat.

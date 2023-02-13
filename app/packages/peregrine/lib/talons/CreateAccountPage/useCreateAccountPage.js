@@ -1,7 +1,6 @@
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-
-import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 const validCreateAccountParams = ['email', 'firstName', 'lastName'];
 

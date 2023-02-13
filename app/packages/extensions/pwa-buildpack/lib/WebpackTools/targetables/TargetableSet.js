@@ -150,8 +150,8 @@ class TargetableSet {
 		const config =
 			typeof firstArg === 'string'
 				? {
-						module: firstArg,
-						publish: (secondArg && secondArg.publish) || secondArg
+					module: firstArg,
+					publish: (secondArg && secondArg.publish) || secondArg
 				  }
 				: firstArg;
 		return config;

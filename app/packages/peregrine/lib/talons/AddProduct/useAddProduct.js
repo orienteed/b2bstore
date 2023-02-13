@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useCallback } from 'react';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 

@@ -1,14 +1,13 @@
-import React, { Fragment } from 'react';
-import { shape, string } from 'prop-types';
-
-import CMSPageShimmer from './cms.shimmer';
 import { useCmsPage } from '@magento/peregrine/lib/talons/Cms/useCmsPage';
-import RichContent from '../../components/RichContent';
-import { Meta, StoreTitle } from '../../components/Head';
-import { useStyle } from '../../classify';
-import { toCamelCase } from '../../util/toCamelCase';
+import { shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
+import { useStyle } from '../../classify';
+import { Meta, StoreTitle } from '../../components/Head';
+import RichContent from '../../components/RichContent';
+import { toCamelCase } from '../../util/toCamelCase';
 import defaultClasses from './cms.module.css';
+import CMSPageShimmer from './cms.shimmer';
 
 const CMSPage = props => {
 	const { identifier } = props;

@@ -1,4 +1,4 @@
-import { getAdvanced, getBackgroundImages, getVerticalAlignment, getIsHidden, getMediaQueries } from '../../utils';
+import { getAdvanced, getBackgroundImages, getIsHidden, getMediaQueries, getVerticalAlignment } from '../../utils';
 
 export default (node, props) => {
 	// Determine which node holds the data for the appearance

@@ -1,8 +1,9 @@
 import React from 'react';
-import { useStyle } from '../../classify';
-import ProductsCard from './ProductCard';
-import RichText from '../RichText';
 import { FormattedMessage } from 'react-intl';
+
+import { useStyle } from '../../classify';
+import RichText from '../RichText';
+import ProductsCard from './ProductCard';
 import defaultClasses from './ProductsTable.module.css';
 const ProductsTable = ({ productsItems, deleteProduct }) => {
 	const classes = useStyle(defaultClasses);

@@ -1,5 +1,5 @@
-import acOperations from '../gallery.gql.ee';
 import mosOperations from '../gallery.gql.ce';
+import acOperations from '../gallery.gql.ee';
 
 export const mockGetStoreConfigAC = {
 	request: {

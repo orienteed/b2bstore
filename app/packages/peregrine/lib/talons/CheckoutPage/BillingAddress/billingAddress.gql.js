@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
 
+import { CustomerAddressBookAddressFragment } from '../../AddressBookPage/addressBookFragments.gql';
 import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 import { AvailablePaymentMethodsFragment } from '../PaymentInformation/paymentInformation.gql';
-
-import { CustomerAddressBookAddressFragment } from '../../AddressBookPage/addressBookFragments.gql';
 
 export const GET_IS_BILLING_ADDRESS_SAME = gql`
 	query getIsBillingAddressSame($cartId: String!) {

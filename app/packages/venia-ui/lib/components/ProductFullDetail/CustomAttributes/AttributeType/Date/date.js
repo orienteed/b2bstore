@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedDate } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { FormattedDate } from 'react-intl';
 
 import defaultClasses from './date.module.css';
 

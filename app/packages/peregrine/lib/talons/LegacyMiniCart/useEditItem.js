@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import { useEffect } from 'react';
 
 export const useEditItem = props => {
 	const { item, query } = props;

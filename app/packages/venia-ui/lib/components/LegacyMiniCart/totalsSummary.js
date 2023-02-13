@@ -1,10 +1,8 @@
-import React from 'react';
-import { number, shape, string } from 'prop-types';
-
 import Price from '@magento/venia-ui/lib/components/Price';
+import { number, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
-
 import defaultClasses from './totalsSummary.module.css';
 
 const cartTotalString = 'Cart Total : ';

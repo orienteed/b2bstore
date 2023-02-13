@@ -10,12 +10,12 @@
  *   https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#requestPaymentMethod.
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { bool, func, shape, string } from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
-import defaultClasses from './braintreeDropin.module.css';
 import { useStyle } from '../../../classify';
+import defaultClasses from './braintreeDropin.module.css';
 
 const authorization = process.env.CHECKOUT_BRAINTREE_TOKEN;
 

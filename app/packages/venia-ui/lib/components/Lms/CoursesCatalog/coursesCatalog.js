@@ -1,10 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { BrowserRouter, Link } from 'react-router-dom';
 
 import CourseItem from '../CourseItem';
 import defaultClasses from './coursesCatalog.module.css';

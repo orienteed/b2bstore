@@ -1,12 +1,12 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
-import DEFAULT_OPERATIONS from './paymentInformation.gql';
+import { useApolloClient, useMutation, useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useCartContext } from '../../../context/cart';
-import CheckoutError from '../CheckoutError';
 import { useEventingContext } from '../../../context/eventing';
+import CheckoutError from '../CheckoutError';
 import { CHECKOUT_STEP } from '../useCheckoutPage';
+import DEFAULT_OPERATIONS from './paymentInformation.gql';
 
 /**
  *

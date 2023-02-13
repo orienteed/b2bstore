@@ -1,12 +1,11 @@
-import React from 'react';
+import { useKebab } from '@magento/peregrine/lib/talons/LegacyMiniCart/useKebab';
 import { node, shape, string } from 'prop-types';
+import React from 'react';
 import { MoreVertical as MoreVerticalIcon } from 'react-feather';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
-
 import defaultClasses from './kebab.module.css';
-import { useKebab } from '@magento/peregrine/lib/talons/LegacyMiniCart/useKebab';
 
 const Kebab = props => {
 	const { handleKebabClick, isOpen, kebabRef } = useKebab();

@@ -1,4 +1,4 @@
-import { getAdvanced, getBackgroundImages, getVerticalAlignment, getMediaQueries } from '../../utils';
+import { getAdvanced, getBackgroundImages, getMediaQueries, getVerticalAlignment } from '../../utils';
 
 export default node => {
 	return {

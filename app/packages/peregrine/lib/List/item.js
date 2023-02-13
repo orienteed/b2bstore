@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
 import { any, bool, func, number, oneOfType, shape, string } from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
 
 import fromRenderProp from '../util/fromRenderProp';
 

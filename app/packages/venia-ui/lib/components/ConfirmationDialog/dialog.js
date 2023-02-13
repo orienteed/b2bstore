@@ -1,11 +1,10 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { bool, func, shape, string, object, node } from 'prop-types';
-import { Form } from 'informed';
-import { X as CloseIcon } from 'react-feather';
-
 import { useScrollLock } from '@magento/peregrine';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { Form } from 'informed';
+import { bool, func, node, object, shape, string } from 'prop-types';
+import React from 'react';
+import { X as CloseIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 import Button from '../Button';
 import Icon from '../Icon';

@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import { Form } from 'informed';
-import { func, number, string } from 'prop-types';
-import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
 import { useQuantity } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantity';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { Message } from '@magento/venia-ui/lib/components/Field';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
-import { Message } from '@magento/venia-ui/lib/components/Field';
+import { Form } from 'informed';
+import { func, number, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
+import { useIntl } from 'react-intl';
+
 import defaultClasses from './quoteQuantity.module.css';
 
 export const QuantityFields = props => {

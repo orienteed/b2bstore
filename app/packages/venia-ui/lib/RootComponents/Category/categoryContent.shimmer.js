@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
 import { useStyle } from '../../classify';
 import BreadcrumbsShimmer from '../../components/Breadcrumbs/breadcrumbs.shimmer';

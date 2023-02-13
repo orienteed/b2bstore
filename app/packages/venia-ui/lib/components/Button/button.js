@@ -1,6 +1,6 @@
+import { bool, oneOf, shape, string } from 'prop-types';
 import React, { useRef } from 'react';
 import { useButton } from 'react-aria';
-import { oneOf, shape, string, bool } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './button.module.css';

@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
+import { useEffect } from 'react';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { useEventingContext } from '../../context/eventing';
-
+import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './cmsPage.gql';
 
 /**

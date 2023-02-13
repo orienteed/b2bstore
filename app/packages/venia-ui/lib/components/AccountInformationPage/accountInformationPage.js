@@ -1,25 +1,23 @@
-import React, { Fragment, Suspense, useMemo, useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useToasts } from '@magento/peregrine';
 import { useAccountInformationPage } from '@magento/peregrine/lib/talons/AccountInformationPage/useAccountInformationPage';
-import { PlusSquare } from 'react-feather';
 import { Form } from 'informed';
+import React, { Fragment, Suspense, useCallback, useMemo } from 'react';
+import { PlusSquare } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
+import AddressCard from '../AddressBookPage/addressCard';
 import Button from '../Button';
+import Checkbox from '../Checkbox';
 import Field, { Message } from '../Field';
+import FormError from '../FormError';
 import { StoreTitle } from '../Head';
-import { fullPageLoadingIndicator } from '../LoadingIndicator';
-
-import defaultClasses from './accountInformationPage.module.css';
-import AccountInformationPageOperations from './accountInformationPage.gql.js';
-
 import Icon from '../Icon';
 import LinkButton from '../LinkButton';
-import AddressCard from '../AddressBookPage/addressCard';
-import FormError from '../FormError';
-import Checkbox from '../Checkbox';
+import { fullPageLoadingIndicator } from '../LoadingIndicator';
+import AccountInformationPageOperations from './accountInformationPage.gql.js';
+import defaultClasses from './accountInformationPage.module.css';
 import AddEditDialogCompanyInfo from './AddEditDialogCompanyInfo/addEditDialogCompanyInfo';
-import { useToasts } from '@magento/peregrine';
 
 const EditModal = React.lazy(() => import('./editModal'));
 

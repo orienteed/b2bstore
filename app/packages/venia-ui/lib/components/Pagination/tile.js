@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
 import { bool, func, number, shape, string } from 'prop-types';
+import React, { useCallback } from 'react';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './tile.module.css';

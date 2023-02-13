@@ -1,8 +1,7 @@
+import Shimmer from '@magento/venia-ui/lib/components/Shimmer/shimmer.js';
 import React from 'react';
 
-import Shimmer from '@magento/venia-ui/lib/components/Shimmer/shimmer.js';
 import { useStyle } from '../../classify';
-
 import defaultClasses from './cms.module.css';
 
 const CMSPageShimmer = props => {

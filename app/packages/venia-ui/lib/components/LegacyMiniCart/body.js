@@ -1,14 +1,13 @@
-import React from 'react';
+import { useBody } from '@magento/peregrine/lib/talons/LegacyMiniCart/useBody';
 import { array, bool, func, object, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import LoadingIndicator from '../LoadingIndicator';
-
 import defaultClasses from './body.module.css';
 import EditItem from './editItem';
 import EmptyMiniCartBody from './emptyMiniCartBody';
 import ProductList from './productList';
-import { useBody } from '@magento/peregrine/lib/talons/LegacyMiniCart/useBody';
 
 const UPDATING_TEXT = 'Updating Cart...';
 const LOADING_TEXT = 'Fetching Cart...';

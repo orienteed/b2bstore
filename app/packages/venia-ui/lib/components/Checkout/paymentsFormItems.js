@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useRef } from 'react';
-import { array, bool, func, shape, string } from 'prop-types';
 import { usePaymentsFormItems } from '@magento/peregrine/lib/talons/Checkout/usePaymentsFormItems';
+import { array, bool, func, shape, string } from 'prop-types';
+import React, { Fragment, useEffect, useRef } from 'react';
 
 import combine from '../../util/combineValidators';
 import { hasLengthExactly, isRequired, validateRegionCode } from '../../util/formValidators';

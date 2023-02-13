@@ -1,6 +1,6 @@
+import { shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { shape, string } from 'prop-types';
 
 import { useStyle } from '../../../classify';
 import defaultClasses from './formSubmissionSuccessful.module.css';

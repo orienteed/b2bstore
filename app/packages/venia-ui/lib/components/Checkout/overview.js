@@ -1,13 +1,13 @@
+import { useOverview } from '@magento/peregrine/lib/talons/Checkout/useOverview';
+import Price from '@magento/venia-ui/lib/components/Price';
+import { array, bool, func, number, object, shape, string } from 'prop-types';
 import React, { Fragment } from 'react';
-import { bool, func, number, object, shape, string, array } from 'prop-types';
 
+import Button from '../Button';
 import PaymentMethodSummary from './paymentMethodSummary';
+import Section from './section';
 import ShippingAddressSummary from './shippingAddressSummary';
 import ShippingMethodSummary from './shippingMethodSummary';
-import Section from './section';
-import Button from '../Button';
-import Price from '@magento/venia-ui/lib/components/Price';
-import { useOverview } from '@magento/peregrine/lib/talons/Checkout/useOverview';
 
 /**
  * The Overview component renders summaries for each section of the editable

@@ -1,14 +1,16 @@
-import React, { useMemo } from 'react';
+import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
+import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
+import { generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
+import React, { useMemo } from 'react';
 import {
+	ChevronDown as ChevronDownIcon,
 	ChevronLeft as ChevronLeftIcon,
 	ChevronRight as ChevronRightIcon,
-	ChevronUp as ChevronUpIcon,
-	ChevronDown as ChevronDownIcon
+	ChevronUp as ChevronUpIcon
 } from 'react-feather';
-import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
-import { useProductImageCarousel } from '@magento/peregrine/lib/talons/ProductImageCarousel/useProductImageCarousel';
+import ReactImageZoom from 'react-image-zoom';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import AriaButton from '../AriaButton';
@@ -16,8 +18,6 @@ import Icon from '../Icon';
 import Image from '../Image';
 import defaultClasses from './carousel.module.css';
 import Thumbnail from './thumbnail';
-import ReactImageZoom from 'react-image-zoom';
-import { generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 const IMAGE_WIDTH = 640;
 
 /**

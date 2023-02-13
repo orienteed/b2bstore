@@ -1,10 +1,9 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import debounce from 'lodash.debounce';
-
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import debounce from 'lodash.debounce';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import DEFAULT_OPERATIONS from './giftOptions.gql';
 

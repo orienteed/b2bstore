@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+
 import { UNCONSTRAINED_SIZE_KEY } from './useImage';
 
 /**

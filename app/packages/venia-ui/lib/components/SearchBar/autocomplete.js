@@ -1,11 +1,11 @@
-import React from 'react';
 import { gql } from '@apollo/client';
-import { bool, func, shape, string } from 'prop-types';
 import { useAutocomplete } from '@magento/peregrine/lib/talons/SearchBar';
+import { bool, func, shape, string } from 'prop-types';
+import React from 'react';
 import { useIntl } from 'react-intl';
 
-import defaultClasses from './autocomplete.module.css';
 import { useStyle } from '../../classify';
+import defaultClasses from './autocomplete.module.css';
 import Suggestions from './suggestions';
 
 const GET_AUTOCOMPLETE_RESULTS = gql`

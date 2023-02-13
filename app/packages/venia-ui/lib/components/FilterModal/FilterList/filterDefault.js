@@ -1,9 +1,9 @@
+import { bool, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { bool, shape, string } from 'prop-types';
 
-import Checkbox from '../../Checkbox';
 import { useStyle } from '../../../classify';
+import Checkbox from '../../Checkbox';
 import defaultClasses from './filterDefault.module.css';
 
 const FilterDefault = props => {

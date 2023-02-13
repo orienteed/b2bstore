@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './addressBook.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
 import { useUserContext } from '../../../context/user';
 import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
+import DEFAULT_OPERATIONS from './addressBook.gql';
 
 export const useAddressBook = props => {
 	const { toggleActiveContent, onSuccess } = props;

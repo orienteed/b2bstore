@@ -1,13 +1,11 @@
-import React, { useMemo } from 'react';
-import { bool, func, number, shape, string } from 'prop-types';
-
-import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useWindowSize } from '@magento/peregrine';
 import { useThumbnail } from '@magento/peregrine/lib/talons/ProductImageCarousel/useThumbnail';
-
+import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from '@magento/venia-ui/lib/components/ProductImageCarousel/thumbnail.module.css';
 import Image from '@magento/venia-ui/lib/components/Image';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductImageCarousel/thumbnail.module.css';
+import { bool, func, number, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 const DEFAULT_THUMBNAIL_HEIGHT = 170;
 const DEFAULT_THUMBNAIL_WIDTH = 135;

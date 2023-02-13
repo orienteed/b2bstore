@@ -1,10 +1,10 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
 import React, { Fragment, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import Button from '@magento/venia-ui/lib/components/Button';
-import defaultClasses from './quoteProductListing.module.css';
 import QuoteProduct from './quoteProduct';
+import defaultClasses from './quoteProductListing.module.css';
 
 const QuoteProductListing = props => {
 	const { items, setActiveEditItem, setIsCartUpdating, handleDeleteQuote } = props;

@@ -1,16 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
-import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
 import { useWishlistItem } from '@magento/peregrine/lib/talons/WishlistPage/useWishlistItem';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import React, { useEffect, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Image from '../Image';
 import Price from '../Price';
-
-import defaultClasses from './wishlistItem.module.css';
 import orangeThrashCan from './assets/orangeThrashCan.svg';
 import ShareIcon from './assets/share.svg';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import defaultClasses from './wishlistItem.module.css';
 
 const WishlistItem = props => {
 	const { item } = props;

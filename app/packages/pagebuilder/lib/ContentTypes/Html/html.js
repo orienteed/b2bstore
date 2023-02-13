@@ -1,9 +1,10 @@
-import React from 'react';
-import defaultClasses from './html.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { arrayOf, shape, string } from 'prop-types';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
+
 import handleHtmlContentClick from '../../handleHtmlContentClick';
+import defaultClasses from './html.module.css';
 
 const toHTML = str => ({ __html: str });
 

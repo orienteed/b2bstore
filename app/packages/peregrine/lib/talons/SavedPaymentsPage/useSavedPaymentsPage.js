@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useEffect } from 'react';
 
 import defaultOperations from './savedPaymentsPage.gql';
 

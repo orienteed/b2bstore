@@ -1,25 +1,23 @@
-import React, { Fragment, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { shape, string } from 'prop-types';
-import { Form } from 'informed';
-
 import { useToasts } from '@magento/peregrine';
 import { useContactPage } from '@magento/peregrine/lib/talons/ContactPage';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
+import React, { Fragment, useEffect } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import { isRequired } from '../../util/formValidators';
-
 import Button from '../Button';
 import CmsBlock from '../CmsBlock/block';
-import { Meta, StoreTitle } from '../Head';
-import FormError from '../FormError';
-import Field from '../Field';
-import TextInput from '../TextInput';
-import TextArea from '../TextArea';
-import LoadingIndicator from '../LoadingIndicator';
 import ErrorView from '../ErrorView';
-import ContactPageShimmer from './contactPage.shimmer';
+import Field from '../Field';
+import FormError from '../FormError';
+import { Meta, StoreTitle } from '../Head';
+import LoadingIndicator from '../LoadingIndicator';
+import TextArea from '../TextArea';
+import TextInput from '../TextInput';
 import defaultClasses from './contactPage.module.css';
+import ContactPageShimmer from './contactPage.shimmer';
 
 const BANNER_IDENTIFIER = 'contact-us-banner';
 const SIDEBAR_IDENTIFIER = 'contact-us-sidebar';
@@ -123,7 +121,7 @@ const ContactPage = props => {
 						<p className={classes.subtitle}>
 							<FormattedMessage
 								id={'contactPage.infoText'}
-								defaultMessage={`Drop us a line and we'll get back to you as soon as possible.`}
+								defaultMessage={"Drop us a line and we'll get back to you as soon as possible."}
 							/>
 						</p>
 						<FormError allowErrorMessages errors={Array.from(errors.values())} />
@@ -195,7 +193,7 @@ const ContactPage = props => {
 									validate={isRequired}
 									placeholder={formatMessage({
 										id: 'contactPage.commentPlaceholder',
-										defaultMessage: `Tell us what's on your mind`
+										defaultMessage: "Tell us what's on your mind"
 									})}
 									data-cy="comment"
 								/>

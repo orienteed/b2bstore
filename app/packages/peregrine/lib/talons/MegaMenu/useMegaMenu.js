@@ -1,11 +1,10 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import useInternalLink from '../../hooks/useInternalLink';
-
 import { useQuery } from '@apollo/client';
-import { useEventListener } from '../../hooks/useEventListener';
-import { useUserContext } from '../../context/user';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
+import { useUserContext } from '../../context/user';
+import { useEventListener } from '../../hooks/useEventListener';
+import useInternalLink from '../../hooks/useInternalLink';
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './megaMenu.gql';
 

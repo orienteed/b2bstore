@@ -1,7 +1,8 @@
+import { gql, useQuery } from '@apollo/client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
+
 import { fromReactIntl, toReactIntl } from '../../util/formatLocale';
-import { gql, useQuery } from '@apollo/client';
 
 const GET_LOCALE = gql`
 	query getLocale {

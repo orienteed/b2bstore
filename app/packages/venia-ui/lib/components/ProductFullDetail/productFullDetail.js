@@ -1,25 +1,24 @@
-import React, { useMemo, Fragment, Suspense, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { arrayOf, bool, number, shape, string } from 'prop-types';
-import { Form } from 'informed';
-import { Info } from 'react-feather';
-
-import { ProductOptionsShimmer } from '../ProductOptions';
-import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { useProductFullDetail } from '@magento/peregrine/lib/talons/ProductFullDetail/useProductFullDetail';
-import { useStyle } from '../../classify';
+import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
+import Price from '@magento/venia-ui/lib/components/Price';
+import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
+import { Form } from 'informed';
+import { arrayOf, bool, number, shape, string } from 'prop-types';
+import React, { Fragment, Suspense, useMemo, useState } from 'react';
+import { Info } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
+import { useStyle } from '../../classify';
 import Breadcrumbs from '../Breadcrumbs';
 import Button from '../Button';
-import Carousel from '../ProductImageCarousel';
 import FormError from '../FormError';
+import Carousel from '../ProductImageCarousel';
+import { ProductOptionsShimmer } from '../ProductOptions';
 import QuantityStepper from '../QuantityStepper';
 import RichContent from '../RichContent/richContent';
-import Price from '@magento/venia-ui/lib/components/Price';
+import CustomAttributes from './CustomAttributes';
 import ProductFullDetailB2B from './ProductFullDetailB2B/ProductFullDetailB2B';
 import ProductFullDetailB2C from './ProductFullDetailB2C/ProductFullDetailB2C';
-import CustomAttributes from './CustomAttributes';
-import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
 
 const WishlistButton = React.lazy(() => import('../Wishlist/AddToListButton'));
 const Options = React.lazy(() => import('@magento/venia-ui/lib/components/ProductOptions'));

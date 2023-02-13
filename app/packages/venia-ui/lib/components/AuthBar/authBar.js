@@ -1,9 +1,8 @@
-import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { bool, func, shape, string } from 'prop-types';
-import { ArrowRight as ArrowRightIcon } from 'react-feather';
-
 import { useAuthBar } from '@magento/peregrine/lib/talons/AuthBar/useAuthBar';
+import { bool, func, shape, string } from 'prop-types';
+import React from 'react';
+import { ArrowRight as ArrowRightIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import AccountChip from '../AccountChip';

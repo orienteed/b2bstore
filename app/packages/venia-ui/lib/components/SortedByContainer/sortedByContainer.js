@@ -1,6 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
+
 import { useStyle } from '../../classify';
 import defaultClasses from './sortedByContainer.module.css';
 

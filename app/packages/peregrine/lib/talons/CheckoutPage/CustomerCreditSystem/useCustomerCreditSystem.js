@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
-import { useIntl } from 'react-intl';
-
-import Icon from '@magento/venia-ui/lib/components/Icon';
-
 import { useQuery } from '@apollo/client';
 import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import React, { useCallback, useEffect, useState } from 'react';
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { useIntl } from 'react-intl';
 
 import { GET_PAYMENT_CREDIT_SYSTEM_CONFIG } from './customerCreditSystem.gql';
 

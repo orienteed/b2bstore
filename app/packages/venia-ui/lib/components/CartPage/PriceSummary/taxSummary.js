@@ -1,6 +1,6 @@
+import Price from '@magento/venia-ui/lib/components/Price';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Price from '@magento/venia-ui/lib/components/Price';
 
 import { useStyle } from '../../../classify';
 /**

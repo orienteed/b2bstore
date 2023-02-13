@@ -1,7 +1,7 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
 import { usePostcode } from '@magento/peregrine/lib/talons/Postcode/usePostcode';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Field from '../Field';

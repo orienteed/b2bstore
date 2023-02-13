@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { bool, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
 const PaymentMethodSummary = props => {
 	const { classes, hasPaymentMethod, paymentData } = props;

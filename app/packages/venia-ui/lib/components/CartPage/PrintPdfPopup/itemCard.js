@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-
-import defaultClasses from './itemCard.module.css';
-import { usePdfPopupProduct } from '../PdfPopupProduct/usePdfPopupProduct';
 import { gql } from '@apollo/client';
-
 import { CartPageFragment } from '@magento/peregrine/lib/talons/CartPage/cartPageFragments.gql.js';
 import { AvailableShippingMethodsCartFragment } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/shippingMethodsFragments.gql.js';
+import React, { useState } from 'react';
+
+import { usePdfPopupProduct } from '../PdfPopupProduct/usePdfPopupProduct';
+import defaultClasses from './itemCard.module.css';
 
 const ItemCard = props => {
 	const { item, tooglePrice } = props;

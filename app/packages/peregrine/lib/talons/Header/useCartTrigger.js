@@ -1,9 +1,8 @@
-import { useCallback, useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { useHistory, useLocation } from 'react-router-dom';
-
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
+import { useCallback, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 /**
  * Routes to hide the mini cart on.

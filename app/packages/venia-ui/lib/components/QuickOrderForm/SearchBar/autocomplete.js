@@ -1,12 +1,12 @@
-import React from 'react';
 import { gql } from '@apollo/client';
-import { bool, func, shape, string } from 'prop-types';
 import { useAutocomplete } from '@magento/peregrine/lib/talons/QuickOrderForm/useAutocomplete';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { bool, func, shape, string } from 'prop-types';
+import React from 'react';
 import { useIntl } from 'react-intl';
 
 import defaultClasses from './autocomplete.module.css';
 import Suggestions from './suggestions';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 
 const GET_AUTOCOMPLETE_RESULTS = gql`
 	query getAutocompleteResults($inputText: String!) {

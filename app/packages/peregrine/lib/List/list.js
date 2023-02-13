@@ -1,5 +1,5 @@
-import React, { useMemo, useCallback } from 'react';
 import { array, func, object, oneOf, oneOfType, shape, string } from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
 
 import fromRenderProp from '../util/fromRenderProp';
 import iterable from '../validators/iterable';

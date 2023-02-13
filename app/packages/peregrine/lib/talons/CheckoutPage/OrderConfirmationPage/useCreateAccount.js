@@ -1,14 +1,13 @@
-import { useCallback, useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useCallback, useMemo, useState } from 'react';
 
-import mergeOperations from '../../../util/shallowMerge';
-import { useUserContext } from '../../../context/user';
 import { useCartContext } from '../../../context/cart';
+import { useEventingContext } from '../../../context/eventing';
+import { useUserContext } from '../../../context/user';
 import { useAwaitQuery } from '../../../hooks/useAwaitQuery';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
-
+import mergeOperations from '../../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './createAccount.gql';
-import { useEventingContext } from '../../../context/eventing';
 
 /**
  * Returns props necessary to render CreateAccount component. In particular this

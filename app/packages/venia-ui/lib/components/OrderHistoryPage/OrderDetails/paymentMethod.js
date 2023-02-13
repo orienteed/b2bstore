@@ -1,12 +1,11 @@
-import React from 'react';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Price from '@magento/venia-ui/lib/components/Price';
 import { arrayOf, shape, string } from 'prop-types';
+import React from 'react';
+import { CreditCard } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './paymentMethod.module.css';
-import Price from '@magento/venia-ui/lib/components/Price';
-import { CreditCard } from 'react-feather';
 const PaymentMethod = props => {
 	const { data, total, classes: propsClasses } = props;
 	const classes = useStyle(defaultClasses, propsClasses);

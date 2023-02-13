@@ -17,7 +17,7 @@ function makePromise(observable) {
 		observable.subscribe({
 			next: data => {
 				if (completed) {
-					debug(`Promise Wrapper does not support multiple results from Observable`);
+					debug('Promise Wrapper does not support multiple results from Observable');
 				} else {
 					completed = true;
 					resolve(data);
@@ -77,7 +77,7 @@ class ServiceResolver extends AbstractResolver {
 		const [endpoint, query, method, headers, variables] = await Promise.all(toResolve);
 
 		if (variables && !isPlainObject(variables)) {
-			die(`Variables must resolve to a plain object.`);
+			die('Variables must resolve to a plain object.');
 		}
 
 		debug('url retrieved: "%s", query resolved, creating link', endpoint);
@@ -96,7 +96,7 @@ class ServiceResolver extends AbstractResolver {
 		} else if (query instanceof GraphQLDocument) {
 			parsedQuery = query;
 		} else {
-			throw new Error(`Unknown type passed to 'query'.`);
+			throw new Error("Unknown type passed to 'query'.");
 		}
 
 		debug('running query with %o', variables);

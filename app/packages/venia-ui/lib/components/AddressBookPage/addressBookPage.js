@@ -1,17 +1,16 @@
-import React, { useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { PlusSquare } from 'react-feather';
-
 import { useAddressBookPage } from '@magento/peregrine/lib/talons/AddressBookPage/useAddressBookPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import LinkButton from '@magento/venia-ui/lib/components/LinkButton';
 import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
+import React, { useMemo } from 'react';
+import { PlusSquare } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
-import AddressCard from './addressCard';
 import AddEditDialog from './addEditDialog';
 import defaultClasses from './addressBookPage.module.css';
+import AddressCard from './addressCard';
 
 const AddressBookPage = props => {
 	const talonProps = useAddressBookPage();

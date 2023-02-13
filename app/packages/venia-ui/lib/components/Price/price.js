@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
-import { number, string, shape } from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import { useStyle } from '../../classify';
 import patches from '@magento/peregrine/lib/util/intlPatches';
+import { number, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
+
+import { useStyle } from '../../classify';
 import defaultClasses from './price.module.css';
 
 /**

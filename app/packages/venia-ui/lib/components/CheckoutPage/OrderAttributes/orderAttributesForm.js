@@ -1,14 +1,12 @@
-import React, { Suspense, useMemo } from 'react';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { Form } from 'informed';
+import React, { Suspense, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { Accordion, Section } from '../../Accordion';
 import LoadingIndicator from '../../LoadingIndicator';
 import TextArea from '../../TextArea';
 import TextInput from '../../TextInput';
-import { Accordion, Section } from '../../Accordion';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './orderAttributesForm.module.css';
 
 const OrderAttributesForm = props => {

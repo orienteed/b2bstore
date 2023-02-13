@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
 import { func, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../../classify';

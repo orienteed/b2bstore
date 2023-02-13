@@ -1,15 +1,14 @@
+import { shape, string } from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
+import combine from '../../util/combineValidators';
+import { hasLengthAtLeast, isNotEqualToField, isRequired, validatePassword } from '../../util/formValidators';
 import Field from '../Field';
 import LinkButton from '../LinkButton';
 import Password from '../Password';
 import TextInput from '../TextInput';
-
-import { isRequired, hasLengthAtLeast, validatePassword, isNotEqualToField } from '../../util/formValidators';
-import combine from '../../util/combineValidators';
 import defaultClasses from './editForm.module.css';
 
 const EditForm = props => {

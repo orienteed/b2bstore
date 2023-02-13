@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
-import { connect } from 'react-redux';
 import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import gql from 'graphql-tag';
+import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
+import { connect } from 'react-redux';
+
+import { useEventListener } from '../hooks/useEventListener';
 import actions from '../store/actions/cart/actions';
 import * as asyncActions from '../store/actions/cart/asyncActions';
 import bindActionCreators from '../util/bindActionCreators';
-import { useEventListener } from '../hooks/useEventListener';
 import BrowserPersistence from '../util/simplePersistence';
 
 const CartContext = createContext();

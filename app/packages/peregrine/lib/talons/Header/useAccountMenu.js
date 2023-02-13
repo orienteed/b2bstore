@@ -1,12 +1,11 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
+import { useCallback, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import mergeOperations from '../../util/shallowMerge';
-import { useUserContext } from '../../context/user';
-
-import DEFAULT_OPERATIONS from './accountMenu.gql';
 import { useEventingContext } from '../../context/eventing';
+import { useUserContext } from '../../context/user';
+import mergeOperations from '../../util/shallowMerge';
+import DEFAULT_OPERATIONS from './accountMenu.gql';
 
 /**
  * The useAccountMenu talon complements the AccountMenu component.

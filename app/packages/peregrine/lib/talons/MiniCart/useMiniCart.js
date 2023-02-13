@@ -1,12 +1,12 @@
+import { useMutation, useQuery } from '@apollo/client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
 
 import { useCartContext } from '../../context/cart';
+import { useEventingContext } from '../../context/eventing';
 import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './miniCart.gql';
-import { useEventingContext } from '../../context/eventing';
 
 /**
  *

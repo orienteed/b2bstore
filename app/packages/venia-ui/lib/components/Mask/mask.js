@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useStyle } from '../../classify';
 import defaultClasses from './mask.module.css';
 

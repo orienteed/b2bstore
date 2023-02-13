@@ -1,5 +1,5 @@
-import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
+import React from 'react';
 import { ChevronRight, Edit2 } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 

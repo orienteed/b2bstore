@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
 
 import { useCustomerWishlistSkus } from '../../hooks/useCustomerWishlistSkus/useCustomerWishlistSkus';
-
 import mergeOperations from '../../util/shallowMerge';
 import defaultOperations from './gallery.gql';
 

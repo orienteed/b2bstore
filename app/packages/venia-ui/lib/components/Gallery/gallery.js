@@ -1,16 +1,14 @@
-import React, { useMemo, useEffect } from 'react';
+import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
+import { array, shape, string } from 'prop-types';
+import React, { useEffect, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { string, shape, array } from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
+import { useStyle } from '../../classify';
+import { useDownloadCsvContext } from './DownloadCsvProvider/downloadCsvProvider';
+import defaultClasses from './gallery.module.css';
 import GalleryItem from './item';
 import GalleryItemShimmer from './item.shimmer';
-
-import { useDownloadCsvContext } from './DownloadCsvProvider/downloadCsvProvider';
-import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
-import { useHistory } from 'react-router-dom';
-import { useStyle } from '../../classify';
-
-import defaultClasses from './gallery.module.css';
 
 /**
  * Renders a Gallery of items. If items is an array of nulls Gallery will render

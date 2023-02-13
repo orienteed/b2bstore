@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
-import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 
-import { ShippingInformationFragment } from './shippingInformationFragments.gql';
-import { ShippingMethodsCheckoutFragment } from '../ShippingMethod/shippingMethodFragments.gql';
+import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 import { AvailablePaymentMethodsFragment } from '../PaymentInformation/paymentInformation.gql';
+import { ShippingMethodsCheckoutFragment } from '../ShippingMethod/shippingMethodFragments.gql';
+import { ShippingInformationFragment } from './shippingInformationFragments.gql';
 
 export const GET_SHIPPING_INFORMATION = gql`
 	query GetShippingInformation($cartId: String!) {

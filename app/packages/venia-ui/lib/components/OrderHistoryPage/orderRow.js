@@ -1,24 +1,21 @@
-import React from 'react';
+import { useOrderRow } from '@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow';
+import Button from '@magento/venia-ui/lib/components/Button';
+import Image from '@magento/venia-ui/lib/components/Image';
+import Price from '@magento/venia-ui/lib/components/Price';
 import { arrayOf, number, shape, string } from 'prop-types';
+import React from 'react';
 import { ChevronDown, ChevronUp } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import Button from '@magento/venia-ui/lib/components/Button';
-import Icon from '../Icon';
-import Image from '@magento/venia-ui/lib/components/Image';
-import OrderDetails from './OrderDetails';
-import OrderIncidencesModal from '../Csr/OrderIncidencesModal';
-import OrderProgressBar from './orderProgressBar';
-import Price from '@magento/venia-ui/lib/components/Price';
-import ReOrderBtn from './ReOrderBtn';
-
-import { useOrderRow } from '@magento/peregrine/lib/talons/OrderHistoryPage/useOrderRow';
 import { useStyle } from '../../classify';
-
-import defaultClasses from './orderRow.module.css';
-import reOrderBtnClasses from './ReOrderBtn/reOrderBtn.module.css';
-
+import OrderIncidencesModal from '../Csr/OrderIncidencesModal';
+import Icon from '../Icon';
 import IncidencesIcon from './Icons/incidences.svg';
+import OrderDetails from './OrderDetails';
+import OrderProgressBar from './orderProgressBar';
+import defaultClasses from './orderRow.module.css';
+import ReOrderBtn from './ReOrderBtn';
+import reOrderBtnClasses from './ReOrderBtn/reOrderBtn.module.css';
 
 const OrderRow = props => {
 	const { order, config, address, setSuccessToast, setErrorToast } = props;

@@ -1,5 +1,6 @@
-import React from 'react';
 import { shape, string } from 'prop-types';
+import React from 'react';
+
 import { useStyle } from '../../classify';
 import Shimmer from '../Shimmer';
 import defaultClasses from './contactPage.module.css';

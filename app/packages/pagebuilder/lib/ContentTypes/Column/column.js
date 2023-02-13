@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import defaultClasses from './column.module.css';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { arrayOf, oneOf, shape, string, object } from 'prop-types';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, object, oneOf, shape, string } from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+
+import defaultClasses from './column.module.css';
 
 const { matchMedia } = globalThis;
 

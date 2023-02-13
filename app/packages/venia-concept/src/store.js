@@ -1,5 +1,5 @@
-import { combineReducers, createStore } from 'redux';
 import { enhancer, reducers } from '@magento/peregrine';
+import { combineReducers, createStore } from 'redux';
 
 // This is the connective layer between the Peregrine store and the
 // venia-concept UI. You can add your own reducers/enhancers here and combine

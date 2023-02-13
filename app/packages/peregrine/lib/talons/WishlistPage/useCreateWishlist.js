@@ -1,7 +1,7 @@
-import { useState, useCallback, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import mergeOperations from '../../util/shallowMerge';
+import { useCallback, useMemo, useState } from 'react';
 
+import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './createWishlist.gql';
 import WISHLIST_PAGE_OPERATIONS from './wishlistPage.gql';
 

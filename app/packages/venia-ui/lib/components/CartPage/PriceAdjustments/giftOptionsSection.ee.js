@@ -1,9 +1,8 @@
+import { useGiftOptionsSection } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/useGiftOptionsSection';
+import { Section } from '@magento/venia-ui/lib/components/Accordion';
+import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import React, { Suspense } from 'react';
 import { useIntl } from 'react-intl';
-
-import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { Section } from '@magento/venia-ui/lib/components/Accordion';
-import { useGiftOptionsSection } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/useGiftOptionsSection';
 
 const GiftOptions = React.lazy(() => import('./GiftOptions'));
 

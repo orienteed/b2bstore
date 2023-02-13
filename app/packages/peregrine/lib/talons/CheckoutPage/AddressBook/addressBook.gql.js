@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 import { SET_CUSTOMER_ADDRESS_ON_CART } from '../ShippingInformation/shippingInformation.gql';
-import { CustomerAddressFragment } from './addressBookFragments.gql';
 import { ShippingInformationFragment } from '../ShippingInformation/shippingInformationFragments.gql';
+import { CustomerAddressFragment } from './addressBookFragments.gql';
 
 export const GET_CUSTOMER_ADDRESSES = gql`
 	query GetCustomerAddresses {

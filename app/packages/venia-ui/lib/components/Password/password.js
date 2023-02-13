@@ -1,15 +1,13 @@
+import { usePassword } from '@magento/peregrine/lib/talons/Password/usePassword';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
-import { string, bool, shape, func } from 'prop-types';
 import { Eye, EyeOff } from 'react-feather';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { usePassword } from '@magento/peregrine/lib/talons/Password/usePassword';
-
+import { isRequired } from '../../util/formValidators';
 import Button from '../Button';
 import Field from '../Field';
 import TextInput from '../TextInput';
-import { isRequired } from '../../util/formValidators';
-
 import defaultClasses from './password.module.css';
 
 const Password = props => {

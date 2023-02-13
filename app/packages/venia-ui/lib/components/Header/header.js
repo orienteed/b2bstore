@@ -1,28 +1,26 @@
-import React, { Fragment, Suspense } from 'react';
-import { shape, string } from 'prop-types';
-import { Link, Route } from 'react-router-dom';
-
-import Logo from '../Logo';
-import AccountTrigger from './accountTrigger';
-import CartTrigger from './cartTrigger';
-import NavTrigger from './navTrigger';
-import SearchTrigger from './searchTrigger';
-import OnlineIndicator from './onlineIndicator';
-import QuickOrderForm from '../QuickOrderForm';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
 import { useHeader } from '@magento/peregrine/lib/talons/Header/useHeader';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { shape, string } from 'prop-types';
+import React, { Fragment, Suspense } from 'react';
+import { useIntl } from 'react-intl';
+import { Link, Route } from 'react-router-dom';
 
 import { useStyle } from '../../classify';
-import defaultClasses from './header.module.css';
-import StoreSwitcher from './storeSwitcher';
-import CurrencySwitcher from './currencySwitcher';
+import Logo from '../Logo';
 import MegaMenu from '../MegaMenu';
 import PageLoadingIndicator from '../PageLoadingIndicator';
-import { useIntl } from 'react-intl';
-
-import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
+import QuickOrderForm from '../QuickOrderForm';
+import AccountTrigger from './accountTrigger';
+import CartTrigger from './cartTrigger';
+import CurrencySwitcher from './currencySwitcher';
+import defaultClasses from './header.module.css';
 import CompareIcon from './icons/compare.svg';
+import NavTrigger from './navTrigger';
+import OnlineIndicator from './onlineIndicator';
+import SearchTrigger from './searchTrigger';
+import StoreSwitcher from './storeSwitcher';
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 

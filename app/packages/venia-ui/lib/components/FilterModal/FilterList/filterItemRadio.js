@@ -1,9 +1,10 @@
+import { func, instanceOf, number, oneOfType, shape, string } from 'prop-types';
 import React, { useCallback } from 'react';
-import { func, number, oneOfType, shape, string, instanceOf } from 'prop-types';
+import { useIntl } from 'react-intl';
+
+import { useStyle } from '../../../classify';
 import Radio from '../../RadioGroup/radio';
 import defaultClasses from './filterItemRadio.module.css';
-import { useStyle } from '../../../classify';
-import { useIntl } from 'react-intl';
 
 const FilterItemRadio = props => {
 	const { filterApi, group, item, onApply, labels } = props;

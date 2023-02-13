@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './editModal.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import { useEventingContext } from '../../../context/eventing';
+import { useCallback, useState } from 'react';
 
 import { useCartContext } from '../../../context/cart';
+import { useEventingContext } from '../../../context/eventing';
+import DEFAULT_OPERATIONS from './editModal.gql';
 
 /**
  * Talon to handle checkout page's payment information edit modal.

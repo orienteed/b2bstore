@@ -1,24 +1,21 @@
-import React, { useCallback, useEffect } from 'react';
-import { useIntl } from 'react-intl';
-import { array, func, shape, string } from 'prop-types';
-
 import { useToasts } from '@magento/peregrine';
 import useDelayedTransition from '@magento/peregrine/lib/hooks/useDelayedTransition';
 import { useApp } from '@magento/peregrine/lib/talons/App/useApp';
+import { array, func, shape, string } from 'prop-types';
+import React, { useCallback, useEffect } from 'react';
+import ReactGA from 'react-ga';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 
 import globalCSS from '../../index.module.css';
+import CookiesConsent from '../CookiesConsent';
 import { HeadProvider, StoreTitle } from '../Head';
+import Icon from '../Icon';
 import Main from '../Main';
 import Mask from '../Mask';
 import Navigation from '../Navigation';
 import Routes from '../Routes';
 import ToastContainer from '../ToastContainer';
-import Icon from '../Icon';
-
-import { useHistory } from 'react-router-dom';
-import ReactGA from 'react-ga';
-
-import CookiesConsent from '../CookiesConsent';
 
 ReactGA.initialize('UA-158777378-4');
 ReactGA.plugin.require('ecommerce');

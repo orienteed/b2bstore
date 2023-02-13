@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
 import { useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useNoReorderProductContext } from '@magento/venia-ui/lib/components/NoReorderProductProvider/noReorderProductProvider.js';
+import { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const useReOrderItems = ({ order, addConfigurableProductToCartMutation }) => {
 	const history = useHistory();

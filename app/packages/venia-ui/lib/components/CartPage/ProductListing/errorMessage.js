@@ -1,5 +1,6 @@
-import React from 'react';
 import { shape, string } from 'prop-types';
+import React from 'react';
+
 import { useStyle } from '../../../classify';
 import defaultClasses from './errorMessage.module.css';
 

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { useFieldApi } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
+import { useFieldApi } from 'informed';
+import { useEffect, useRef } from 'react';
 
 /**
  * The usePostcode talon handles logic for resetting the postcode field value when the country changes.

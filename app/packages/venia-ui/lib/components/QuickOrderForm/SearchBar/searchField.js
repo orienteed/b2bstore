@@ -1,9 +1,9 @@
-import React from 'react';
-import { func } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './searchField.module.css';
+import { func } from 'prop-types';
+import React from 'react';
 import { useIntl } from 'react-intl';
+
+import defaultClasses from './searchField.module.css';
 
 const SearchField = props => {
 	const classes = useStyle(defaultClasses);

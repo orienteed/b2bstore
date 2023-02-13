@@ -1,15 +1,14 @@
+import { useOrderConfirmationPage } from '@magento/peregrine/lib/talons/CheckoutPage/OrderConfirmationPage/useOrderConfirmationPage';
+import moment from 'moment';
+import { object, shape, string } from 'prop-types';
 import React, { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { object, shape, string } from 'prop-types';
-import { useOrderConfirmationPage } from '@magento/peregrine/lib/talons/CheckoutPage/OrderConfirmationPage/useOrderConfirmationPage';
 
 import { useStyle } from '../../../classify';
 import { StoreTitle } from '../../../components/Head';
-import CreateAccount from './createAccount';
 import ItemsReview from '../ItemsReview';
+import CreateAccount from './createAccount';
 import defaultClasses from './orderConfirmationPage.module.css';
-
-import moment from 'moment';
 const OrderConfirmationPage = props => {
 	const classes = useStyle(defaultClasses, props.classes);
 	const { data, orderNumber, deliveryDateData, local, orderAttributesData, orderAttributesIsActivated } = props;

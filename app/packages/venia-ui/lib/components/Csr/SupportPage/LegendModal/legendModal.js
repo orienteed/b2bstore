@@ -1,14 +1,12 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import Dialog from '../../../ConfirmationDialog';
-
-import defaultClasses from './legendModal.module.css';
-
-import supportIcon from '../Icons/supportIcon.svg';
 import enhancementIcon from '../Icons/enhancementIcon.svg';
 import orderIcon from '../Icons/orderIcon.svg';
+import supportIcon from '../Icons/supportIcon.svg';
+import defaultClasses from './legendModal.module.css';
 
 const LegendModal = props => {
 	const { isOpen, onConfirm } = props;

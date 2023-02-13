@@ -1,10 +1,9 @@
 /* Deprecated in PWA-12.1.0*/
 
-import React, { useMemo } from 'react';
-import { arrayOf, string, shape } from 'prop-types';
-import { Link } from 'react-router-dom';
-
 import { useCategoryTile } from '@magento/peregrine/lib/talons/CategoryList/useCategoryTile';
+import { arrayOf, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useStyle } from '../../classify';
 import Image from '../Image';
