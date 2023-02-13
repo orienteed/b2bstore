@@ -1,5 +1,4 @@
 const config = {
-    parser: 'babel-eslint',
     extends: ['@magento'],
     rules: {
         'no-prototype-builtins': 'off',

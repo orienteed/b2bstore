@@ -1,18 +1,20 @@
-/* eslint-disable react/jsx-no-literals */
-import React, { useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { Form } from 'informed';
-import Price from '@magento/venia-ui/lib/components/Price';
-import Image from '@magento/venia-ui/lib/components/Image';
 import Icon from '@magento/venia-ui/lib/components/Icon';
-import defaultClasses from './itemsTable.module.css';
+import Image from '@magento/venia-ui/lib/components/Image';
+import Price from '@magento/venia-ui/lib/components/Price';
+import { Form } from 'informed';
+import React, { useEffect,useState } from 'react';
+import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
+
 import Button from '../../../Button';
+import QuantityStepper from '../../../QuantityStepper';
+import copyToClipboard from '../icons/copyToClipboard.png';
 import inStock from '../icons/inStock.svg';
 import outOfStock from '../icons/outOfStock.svg';
-import copyToClipboard from '../icons/copyToClipboard.png';
-import QuantityStepper from '../../../QuantityStepper';
+import defaultClasses from './itemsTable.module.css';
 
 const ItemsTable = props => {
 	const classes = useStyle(defaultClasses, props.classes);

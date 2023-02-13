@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useState, useMemo } from 'react';
-import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
+import { useApolloClient, useMutation,useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useFormApi,useFormState } from 'informed';
+import { useCallback, useEffect, useMemo,useState } from 'react';
 
-import DEFAULT_OPERATIONS from './creditCard.gql';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
+import DEFAULT_OPERATIONS from './creditCard.gql';
 
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
@@ -194,11 +193,7 @@ export const useCreditCard = props => {
 		 */
 		if (billingAddressData && !isBillingAddressDefault) {
 			if (billingAddressData.cart.billingAddress) {
-				const {
-					// eslint-disable-next-line no-unused-vars
-					__typename,
-					...rawBillingAddress
-				} = billingAddressData.cart.billingAddress;
+				const { __typename, ...rawBillingAddress } = billingAddressData.cart.billingAddress;
 				billingAddress = mapAddressData(rawBillingAddress);
 			}
 		}

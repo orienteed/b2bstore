@@ -1,9 +1,10 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './quotesToolbar.module.css';
 import Pagination from '@magento/venia-ui/lib/components/Pagination';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import defaultClasses from './quotesToolbar.module.css';
 
 const QuotesToolbar = props => {
 	const { pageSize, handlePageSize, handleCurrentPage, currentPage, totalPage } = props;
@@ -28,6 +29,7 @@ const QuotesToolbar = props => {
 			<span className={classes.limiterLabel}>
 				<FormattedMessage id={'quotesToolbar.quotesShowText'} defaultMessage={'Show'} />
 			</span>
+			{/*eslint-disable-next-line jsx-a11y/no-onchange*/}
 			<select id="limiter" className={classes.limiterOptions} onChange={handlePageSize}>
 				<option value="5" selected={pageSize == 5}>
 					{'5'}

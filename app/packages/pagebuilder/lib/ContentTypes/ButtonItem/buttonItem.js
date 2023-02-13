@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import { arrayOf, oneOf, string, bool } from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import resolveLinkProps from '@magento/peregrine/lib/util/resolveLinkProps';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button/button';
+import { arrayOf, bool,oneOf, string } from 'prop-types';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import resolveLinkProps from '@magento/peregrine/lib/util/resolveLinkProps';
 import defaultClasses from './buttonItem.module.css';
 
 /**
@@ -85,7 +85,7 @@ const ButtonItem = props => {
 		} else {
 			globalThis.location.assign(url);
 		}
-	}, [openInNewTab, url, linkProps.to]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [openInNewTab, url, linkProps.to]); 
 
 	const justifyMap = {
 		left: 'flex-start',

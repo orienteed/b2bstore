@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-
 import getCourseContent from '@magento/peregrine/lib/RestApi/Lms/courses/getCourseContent';
 import getCourseDetails from '@magento/peregrine/lib/RestApi/Lms/courses/getCourseDetails';
 import enrollUser from '@magento/peregrine/lib/RestApi/Lms/enrollment/enrollUser';
 import unEnrollUser from '@magento/peregrine/lib/RestApi/Lms/enrollment/unEnrollUser';
+import { useEffect,useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const useCourseContent = props => {
 	const { userCoursesIdList, setUserCoursesIdList, courseId, isEnrolled } = props;
@@ -27,7 +26,6 @@ export const useCourseContent = props => {
 				? setCourseContent([...reply])
 				: reply.hasOwnProperty('errorcode') && reply.errorcode === 'invalidrecord' && setCourseNotFound(true)
 		);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [courseId]);
 
 	useEffect(() => {

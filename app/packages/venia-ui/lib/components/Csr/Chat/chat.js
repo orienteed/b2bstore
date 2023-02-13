@@ -1,33 +1,27 @@
-/* eslint-disable react/jsx-no-literals */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
-import { useIntl } from 'react-intl';
+import { useChat } from '@magento/peregrine/lib/talons/Csr/useChat';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import EmojiPicker, { Categories } from 'emoji-picker-react';
 import { Form } from 'informed';
+import React from 'react';
+import { Smile as EmojiPickerIcon } from 'react-feather';
+import { useIntl } from 'react-intl';
 
-import Attachment from './Attachment/attachment';
-import AttachmentModal from './AttachmentModal/attachmentModal';
 import Button from '../../Button';
-import Dropzone from './Dropzone/dropzone';
 import Icon from '../../Icon';
+import emptyAttachmentsIcon from '../../Lms/CoursesCatalog/Icons/noCourses.svg';
 import LoadingIndicator from '../../LoadingIndicator';
 import TextInput from '../../TextInput';
 import Trigger from '../../Trigger';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import { useChat } from '@magento/peregrine/lib/talons/Csr/useChat';
-
+import Attachment from './Attachment/attachment';
+import AttachmentModal from './AttachmentModal/attachmentModal';
 import defaultClasses from './chat.module.css';
-
-import emptyAttachmentsIcon from '../../Lms/CoursesCatalog/Icons/noCourses.svg';
-import doubleCheckUnread from './Icons/doubleCheckUnread.svg';
+import Dropzone from './Dropzone/dropzone';
+import closeIcon from './Icons/close.svg';
 import doubleCkeckRead from './Icons/doubleCheckRead.svg';
+import doubleCheckUnread from './Icons/doubleCheckUnread.svg';
 import optionsIcon from './Icons/optionsIcon.svg';
 import sendCommentIcon from './Icons/sendCommentIcon.svg';
-import closeIcon from './Icons/close.svg';
-import { Smile as EmojiPickerIcon } from 'react-feather';
-
-import EmojiPicker, { Categories } from 'emoji-picker-react';
 
 const Chat = props => {
 	const { ticketId, isTicketClosed } = props;

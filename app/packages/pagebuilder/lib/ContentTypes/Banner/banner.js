@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import defaultClasses from './banner.module.css';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { arrayOf, bool, oneOf, shape, string, func, object } from 'prop-types';
-import Button from '@magento/venia-ui/lib/components/Button/button';
-import resolveLinkProps from '@magento/peregrine/lib/util/resolveLinkProps';
-import { Link, useHistory } from 'react-router-dom';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import useIntersectionObserver from '@magento/peregrine/lib/hooks/useIntersectionObserver';
 import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import resolveLinkProps from '@magento/peregrine/lib/util/resolveLinkProps';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button/button';
+import { arrayOf, bool, func, object,oneOf, shape, string } from 'prop-types';
+import React, { useCallback,useEffect, useRef, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
 import handleHtmlContentClick from '../../handleHtmlContentClick';
+import defaultClasses from './banner.module.css';
 
 const { matchMedia } = globalThis;
 const toHTML = str => ({ __html: str });
@@ -108,7 +109,7 @@ const Banner = props => {
 	};
 
 	// Initiate jarallax for background video
-	/* eslint-disable react-hooks/exhaustive-deps */
+
 	useEffect(() => {
 		let parallaxElement;
 		let jarallax;
@@ -119,8 +120,8 @@ const Banner = props => {
 				speed: 1,
 				imgSrc: videoFallbackSrc
 					? resourceUrl(videoFallbackSrc, {
-							type: 'image-wysiwyg',
-							quality: 85
+						type: 'image-wysiwyg',
+						quality: 85
 					  })
 					: null,
 				elementInViewport: viewportElement.current,

@@ -1,11 +1,11 @@
+import { useLazyQuery } from '@apollo/client';
 import { useCallback, useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
-import { useRootComponents } from '../../context/rootComponents';
-import mergeOperations from '../../util/shallowMerge';
-import { getComponentData } from '../../util/magentoRouteData';
-import { useAppContext } from '../../context/app';
 
+import { useAppContext } from '../../context/app';
+import { useRootComponents } from '../../context/rootComponents';
+import { getComponentData } from '../../util/magentoRouteData';
+import mergeOperations from '../../util/shallowMerge';
 import { getRootComponent, isRedirect } from './helpers';
 import DEFAULT_OPERATIONS from './magentoRoute.gql';
 
@@ -55,7 +55,7 @@ export const useMagentoRoute = (props = {}) => {
 			});
 			fetchedPathname.current = pathname;
 		}
-	}, [initialized, pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [initialized, pathname]);
 
 	useEffect(() => {
 		if (component) {
@@ -86,7 +86,7 @@ export const useMagentoRoute = (props = {}) => {
 				setComponent(pathname, error);
 			}
 		})();
-	}, [route]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [route]);
 
 	const { id, identifier, uid, redirect_code, relative_url, type } = route || {};
 
@@ -148,7 +148,7 @@ export const useMagentoRoute = (props = {}) => {
 			// Unmount
 			resetInlinedPageData();
 		};
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []);
 
 	// perform a redirect if necesssary
 	useEffect(() => {

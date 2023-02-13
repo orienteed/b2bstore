@@ -1,11 +1,9 @@
-import React from 'react';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { shape, string } from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Pagination from '../../Pagination';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './savedCartsToolbar.module.css';
 
 const SavedCartsToolbar = props => {
@@ -31,6 +29,7 @@ const SavedCartsToolbar = props => {
 			<span className={classes.limiterLabel}>
 				<FormattedMessage id={'savedCartsToolbar.cartShowText'} defaultMessage={'Show'} />
 			</span>
+			{/* eslint-disable-next-line jsx-a11y/no-onchange */}
 			<select id="limiter" className={classes.limiterOptions} onChange={handlePageSize}>
 				<option value="5">{'5'}</option>
 				<option value="10">{'10'}</option>

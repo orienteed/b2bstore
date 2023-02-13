@@ -1,6 +1,6 @@
+import { BrowserPersistence } from '@magento/peregrine/lib/util';
 import { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { BrowserPersistence } from '@magento/peregrine/lib/util';
 
 const storage = new BrowserPersistence();
 
@@ -28,7 +28,7 @@ const StoreCodeRoute = () => {
 
 	// Find the store code in the url. This will always be the first path.
 	// ie `https://example.com/fr/foo/baz.html` => `fr`.
-	const regex = new RegExp(`^\/(${storeCodes.join('|')})`, 'g');
+	const regex = new RegExp(`^/(${storeCodes.join('|')})`, 'g');
 	const { location } = globalThis;
 	const match = location && location.pathname.match(regex);
 	const storeCodeInUrl = match && match[0].replace(/\//g, '');

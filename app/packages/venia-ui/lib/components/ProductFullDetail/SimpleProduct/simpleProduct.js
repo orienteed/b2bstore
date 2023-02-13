@@ -1,14 +1,14 @@
-/* eslint-disable react/jsx-no-literals */
-import React, { useState } from 'react';
-import defaultClasses from './simpleProduct.module.css';
+import { ADD_CONFIGURABLE_MUTATION } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
+import { useSimpleProduct } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/useSimpleProduct';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Price from '@magento/venia-ui/lib/components/Price';
-import { FormattedMessage } from 'react-intl';
-import { useSimpleProduct } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/useSimpleProduct';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
-import { ADD_CONFIGURABLE_MUTATION } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
+import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import ErrorView from '../../ErrorView/errorView';
+import defaultClasses from './simpleProduct.module.css';
 import SimpleProductB2B from './simpleProductB2B';
 import SimpleProductB2C from './simpleProductB2C';
 

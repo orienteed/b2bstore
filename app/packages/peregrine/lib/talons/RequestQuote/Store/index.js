@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from '@apollo/client';
-import { GET_CONFIG_DETAILS, MP_QUOTE } from '../requestQuote.gql';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { useEffect, useState } from 'react';
+
+import { GET_CONFIG_DETAILS, MP_QUOTE } from '../requestQuote.gql';
 const storage = new BrowserPersistence();
 const MP_REQUEST_QUOTE_ID = 'mp_request_quote_id';
 

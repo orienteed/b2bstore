@@ -1,39 +1,34 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import React from 'react';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+import getJWT from '@magento/peregrine/lib/RestApi/Csr/auth/getJWT';
+import { useFilterTicket } from '@magento/peregrine/lib/talons/Csr/useFilterTicket.js';
+import { useSortTicket } from '@magento/peregrine/lib/talons/Csr/useSortTicket.js';
+import { useSupportPage } from '@magento/peregrine/lib/talons/Csr/useSupportPage';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import emptyTicketsIcon from '@magento/venia-ui/lib/components/Lms/CoursesCatalog/Icons/noCourses.svg';
 import { Form } from 'informed';
-import { BrowserRouter, Link } from 'react-router-dom';
+import React from 'react';
+import { ArrowRight as SubmitIcon,Search as SearchIcon } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Search as SearchIcon, ArrowRight as SubmitIcon } from 'react-feather';
+import { BrowserRouter, Link } from 'react-router-dom';
 
 import Button from '../../Button';
-import CreateTicketModal from '../CreateTicketModal/createTicketModal';
 import Icon from '../../Icon';
-import LegendModal from './LegendModal/legendModal';
 import LoadingIndicator from '../../LoadingIndicator';
 import ResetButton from '../../OrderHistoryPage/resetButton';
 import TextInput from '../../TextInput';
-import TicketItem from '../TicketItem/ticketItem';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useSupportPage } from '@magento/peregrine/lib/talons/Csr/useSupportPage';
-import { useSortTicket } from '@magento/peregrine/lib/talons/Csr/useSortTicket.js';
-import { useFilterTicket } from '@magento/peregrine/lib/talons/Csr/useFilterTicket.js';
-import { useUserContext } from '@magento/peregrine/lib/context/user';
-
-import defaultClasses from './supportPage.module.css';
-
+import CreateTicketModal from '../CreateTicketModal/createTicketModal';
 import closeIcon from '../CreateTicketModal/Dropzone/Icons/close.svg';
+import TicketFilter from '../TicketFilter/ticketFilter';
+import TicketItem from '../TicketItem/ticketItem';
+import TicketSort from '../TicketSort/ticketSort';
 import enhancementIcon from './Icons/enhancementIcon.svg';
 import infoIcon from './Icons/infoIcon.svg';
-import emptyTicketsIcon from '@magento/venia-ui/lib/components/Lms/CoursesCatalog/Icons/noCourses.svg';
 import orderIcon from './Icons/orderIcon.svg';
 import supportIcon from './Icons/supportIcon.svg';
-import TicketSort from '../TicketSort/ticketSort';
-import TicketFilter from '../TicketFilter/ticketFilter';
-
-import getJWT from '@magento/peregrine/lib/RestApi/Csr/auth/getJWT';
+import LegendModal from './LegendModal/legendModal';
+import defaultClasses from './supportPage.module.css';
 
 const DELIMITER = '/';
 const PAGE_SIZE = 8;

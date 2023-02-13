@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
-import Tippy from '@tippyjs/react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Info } from 'react-feather';
-import { Link, useHistory } from 'react-router-dom';
-import { string, number, shape } from 'prop-types';
-
-import AddToCartButton from './addToCartButton';
-import Button from '@magento/venia-ui/lib/components/Button';
-import ConfirmationModal from '../RequestQuote/ConfirmationModal';
-import GalleryItemShimmer from './item.shimmer';
-import Image from '../Image';
-import Price from '@magento/venia-ui/lib/components/Price';
-import QuantityStepper from './QuantityStepper/quantity';
-import Select from './SelectField/select';
-import WishlistGalleryButton from '../Wishlist/AddToListButton';
-
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { useToasts } from '@magento/peregrine';
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
+import { useGalleryItem } from '@magento/peregrine/lib/talons/Gallery/useGalleryItem';
 import { UNCONSTRAINED_SIZE_KEY } from '@magento/peregrine/lib/talons/Image/useImage';
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote.js';
-import { useGalleryItem } from '@magento/peregrine/lib/talons/Gallery/useGalleryItem';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import Button from '@magento/venia-ui/lib/components/Button';
+import Price from '@magento/venia-ui/lib/components/Price';
+import Tippy from '@tippyjs/react';
+import { number, shape,string } from 'prop-types';
+import React, { useState } from 'react';
+import { Info } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Link, useHistory } from 'react-router-dom';
+
 import { useStyle } from '../../classify';
-import { useToasts } from '@magento/peregrine';
-
-import defaultClasses from './item.module.css';
-
+import Image from '../Image';
+import ConfirmationModal from '../RequestQuote/ConfirmationModal';
+import WishlistGalleryButton from '../Wishlist/AddToListButton';
+import AddToCartButton from './addToCartButton';
 import CompareIcon from './Icons/compare.svg';
-import InStockIcon from './Icons/inStock.svg';
 import InfoIcon from './Icons/info.svg';
+import InStockIcon from './Icons/inStock.svg';
 import OutStockIcon from './Icons/outStock.svg';
 import ShareIcon from './Icons/share.svg';
+import defaultClasses from './item.module.css';
+import GalleryItemShimmer from './item.shimmer';
+import QuantityStepper from './QuantityStepper/quantity';
+import Select from './SelectField/select';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -125,8 +122,8 @@ const GalleryItem = props => {
 			item={
 				selectedVeriant
 					? {
-							...selectedVeriant.product,
-							parentSku: selectedVeriant.parentSku
+						...selectedVeriant.product,
+						parentSku: selectedVeriant.parentSku
 					  }
 					: item
 			}
@@ -162,7 +159,7 @@ const GalleryItem = props => {
 						</ul>
 					}
 				>
-					<img className={classes.attributeInfoIcon} src={InfoIcon} />
+					<img className={classes.attributeInfoIcon} src={InfoIcon} alt="attribute info" />
 				</Tippy>
 			</div>
 		);
@@ -208,9 +205,9 @@ const GalleryItem = props => {
 
 	const getProductsInstance = () => {
 		const instanceItem = { ...item };
-		let variants = [...instanceItem?.variants];
-		const filterKeys = filterState && [...filterState?.keys()];
-		const filterValues = filterState && [...filterState?.values()];
+		let variants = instanceItem && [...instanceItem.variants];
+		const filterKeys = filterState && [...filterState.keys()];
+		const filterValues = filterState && [...filterState.values()];
 		const filterValuesArray = filterValues?.map(filValue => {
 			const valueArr = [];
 			for (const valueObject of filValue) {
@@ -247,6 +244,7 @@ const GalleryItem = props => {
 			let labelValue = selected_attribute_options.attribute_option[0].label;
 			labelValue.length > 15 ? (labelValue = labelValue.slice(0, 15) + '...') : labelValue;
 			return (
+				// eslint-disable-next-line react/jsx-key
 				<div className={classes.customAttributes}>
 					<span>{attribute_metadata.label}:</span>
 					<span>{labelValue}</span>
@@ -307,7 +305,8 @@ const GalleryItem = props => {
 					</div>
 				) : null}
 				<div className={classes.favIcon}>{wishlistButton}</div>
-				<div onClick={shareClick} className={classes.shareIcon}>
+				{/*eslint-disable-next-line jsx-a11y/click-events-have-key-events*/}
+				<div role="button" onClick={shareClick} className={classes.shareIcon} tabIndex={0}>
 					<img src={ShareIcon} alt="share icon" />
 				</div>
 				<div className={classes.stockIcon}>

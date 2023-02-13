@@ -47,7 +47,7 @@ const alreadyProvisioned = hostname => {
 function getCert(hostname) {
 	// Manually create a Promise here to obtain a "reject" function in closure,
 	// so we can use a setTimeout to reject the promise after 30 seconds.
-	// eslint-disable-next-line no-async-promise-executor
+
 	return new Promise(async (resolve, reject) => {
 		const timeout = setTimeout(
 			() => reject(new Error('Timed out waiting for SSL certificate generation and trust.')),
@@ -107,11 +107,10 @@ function getUniqueDomainAndPorts(directory, customName, addUniqueHash) {
 		debug('try getting package name from pkgDir.sync(%s), which is %s', directory, packageDir);
 		const pkgLoc = join(packageDir, 'package.json');
 		try {
-			// eslint-disable-next-line node/no-missing-require
 			const pkg = require(pkgLoc);
 			debug('retrieved %s: %O', pkgLoc, pkg);
 			if (!pkg.name || typeof pkg.name !== 'string') {
-				throw new Error(`package.json does not have a usable "name" field!`);
+				throw new Error('package.json does not have a usable "name" field!');
 			}
 			name = pkg.name;
 			debug('retrieved project name %s from %s', name, pkgLoc);

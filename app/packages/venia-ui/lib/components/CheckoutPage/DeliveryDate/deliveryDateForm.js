@@ -1,19 +1,19 @@
-import React, { useState, useMemo, Suspense } from 'react';
-import moment from 'moment';
+/* eslint-disable no-unsafe-optional-chaining */
+import 'react-datepicker/dist/react-datepicker.css';
+
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import { Form } from 'informed';
+import moment from 'moment';
+import React, { Suspense,useMemo, useState } from 'react';
+import DatePicker from 'react-datepicker';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import DatePicker from 'react-datepicker';
+import { Accordion, Section } from '../../Accordion';
 import LoadingIndicator from '../../LoadingIndicator';
 import Select from '../../Select';
 import TextArea from '../../TextArea';
 import TextInput from '../../TextInput';
-import { Accordion, Section } from '../../Accordion';
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import 'react-datepicker/dist/react-datepicker.css';
 import defaultClasses from './deliveryDateForm.module.css';
 
 const DeliveryDateForm = props => {

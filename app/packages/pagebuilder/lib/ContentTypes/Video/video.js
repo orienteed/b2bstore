@@ -1,7 +1,8 @@
-import React from 'react';
-import defaultClasses from './video.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { arrayOf, shape, string, bool } from 'prop-types';
+import { arrayOf, bool, shape, string } from 'prop-types';
+import React from 'react';
+
+import defaultClasses from './video.module.css';
 
 /**
  * Page Builder Video component.
@@ -83,7 +84,6 @@ const Video = props => {
 			</div>
 		);
 	} else if (url && url.length) {
-		/* eslint-disable jsx-a11y/media-has-caption */
 		Video = (
 			<div className={classes.container}>
 				<video

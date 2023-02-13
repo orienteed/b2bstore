@@ -1,15 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/jsx-no-literals */
+
+import getTicketAttachment from '@magento/peregrine/lib/RestApi/Csr/tickets/ticket_attachment/getTicketAttachment';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import getTicketAttachment from '@magento/peregrine/lib/RestApi/Csr/tickets/ticket_attachment/getTicketAttachment';
-
 import defaultClasses from './attachment.module.css';
-
 import audioIcon from './Icons/audio.svg';
 import csvIcon from './Icons/csv.svg';
 import fileIcon from './Icons/file.svg';

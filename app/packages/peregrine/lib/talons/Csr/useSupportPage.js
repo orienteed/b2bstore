@@ -1,10 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-
-import getTickets from '@magento/peregrine/lib/RestApi/Csr/tickets/getTickets';
 import getGroups from '@magento/peregrine/lib/RestApi/Csr/groups/getGroups';
+import getTickets from '@magento/peregrine/lib/RestApi/Csr/tickets/getTickets';
 import getStates from '@magento/peregrine/lib/RestApi/Csr/tickets/ticket_states/getStates';
+import { useCallback,useEffect, useState } from 'react';
 
 export const useSupportPage = () => {
 	const [{ isSignedIn }] = useUserContext();
@@ -58,7 +56,7 @@ export const useSupportPage = () => {
 				});
 			});
 		}
-	}, [isSignedIn, numPage, filterByStatus, filterByType]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [isSignedIn, numPage, filterByStatus, filterByType]);
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {

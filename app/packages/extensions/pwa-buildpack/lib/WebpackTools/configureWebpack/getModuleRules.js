@@ -16,16 +16,13 @@ const path = require('path');
  */
 function getLocalIdent(loaderContext, localIdentName, localName, options) {
 	if (!options.context) {
-		// eslint-disable-next-line no-param-reassign
 		options.context = loaderContext.rootContext;
 	}
 
 	const request = path.relative(options.context, loaderContext.resourcePath).replace(/\\/g, '/');
 
-	// eslint-disable-next-line no-param-reassign
 	options.content = `${options.hashPrefix + request}+${localName}`;
 
-	// eslint-disable-next-line no-param-reassign
 	localIdentName = localIdentName.replace(/\[local\]/gi, localName);
 
 	const hash = loaderUtils.interpolateName(loaderContext, localIdentName, options);
@@ -136,7 +133,7 @@ getModuleRules.css = async ({ hasFlag, mode }) => ({
 						importLoaders: 1,
 						modules: {
 							getLocalIdent,
-							localIdentName: `[name]-[local]-[hash:base64:3]`
+							localIdentName: '[name]-[local]-[hash:base64:3]'
 						},
 						sourceMap: mode === 'development'
 					}

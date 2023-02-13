@@ -1,6 +1,7 @@
-import React, { Suspense } from 'react';
-import { shape, string } from 'prop-types';
 import { useNavigation } from '@magento/peregrine/lib/talons/Navigation/useNavigation';
+import { shape, string } from 'prop-types';
+import React, { Suspense } from 'react';
+import { FocusScope } from 'react-aria';
 
 import { useStyle } from '../../classify';
 import AuthBar from '../AuthBar';
@@ -8,10 +9,9 @@ import CategoryTree from '../CategoryTree';
 import CurrencySwitcher from '../Header/currencySwitcher';
 import StoreSwitcher from '../Header/storeSwitcher';
 import LoadingIndicator from '../LoadingIndicator';
+import { Portal } from '../Portal';
 import NavHeader from './navHeader';
 import defaultClasses from './navigation.module.css';
-import { FocusScope } from 'react-aria';
-import { Portal } from '../Portal';
 const AuthModal = React.lazy(() => import('../AuthModal'));
 
 const Navigation = props => {
@@ -55,9 +55,7 @@ const Navigation = props => {
 
 	return (
 		<Portal>
-			{/* eslint-disable-next-line jsx-a11y/no-autofocus */}
 			<FocusScope contain={isOpen} restoreFocus autoFocus>
-				{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
 				<aside className={rootClassName}>
 					<header className={classes.header}>
 						<NavHeader isTopLevel={isTopLevel} onBack={handleBack} view={view} />

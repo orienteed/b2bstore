@@ -1,15 +1,15 @@
-/* eslint-disable no-unused-vars */
-import React, { useCallback, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
+import React, { useCallback, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import {
-	ADD_SIMPLE_PRODUCT_TO_MP_QUOTE,
 	ADD_CONFIG_PRODUCT_TO_MP_QUOTE,
+	ADD_SIMPLE_PRODUCT_TO_MP_QUOTE,
 	SUBMIT_CURRENT_QUOTE
 } from '../RequestQuote/requestQuote.gql';
-import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '../RequestQuote/useQuoteCartTrigger';
 import { setQuoteId } from '../RequestQuote/Store';
+import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '../RequestQuote/useQuoteCartTrigger';
 
 export const useAddToQuote = () => {
 	const [, { addToast }] = useToasts();

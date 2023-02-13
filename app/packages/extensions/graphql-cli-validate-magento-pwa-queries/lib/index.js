@@ -195,7 +195,7 @@ function getValidator({ clients, project, schemaPath }) {
 	];
 
 	const linterConfiguration = {
-		parser: 'babel-eslint',
+		parser: '@babel/eslint-parser',
 		plugins: ['graphql'],
 		rules: {
 			'graphql/capitalized-type-name': error,

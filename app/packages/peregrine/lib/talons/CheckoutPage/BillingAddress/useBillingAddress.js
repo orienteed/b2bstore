@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
+import { useApolloClient, useLazyQuery,useMutation, useQuery } from '@apollo/client';
+import { useToasts } from '@magento/peregrine';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import DEFAULT_OPERATIONS from './billingAddress.gql';
-
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import { useFormApi,useFormState } from 'informed';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
-import { useToasts } from '@magento/peregrine';
-import Icon from '@magento/venia-ui/lib/components/Icon';
+
+import DEFAULT_OPERATIONS from './billingAddress.gql';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 /**
@@ -160,11 +159,7 @@ export const useBillingAddress = props => {
 		 */
 		if (billingAddressData && !isBillingAddressDefault) {
 			if (billingAddressData.cart.billingAddress) {
-				const {
-					// eslint-disable-next-line no-unused-vars
-					__typename,
-					...rawBillingAddress
-				} = billingAddressData.cart.billingAddress;
+				const { __typename, ...rawBillingAddress } = billingAddressData.cart.billingAddress;
 				billingAddress = mapAddressData(rawBillingAddress);
 			}
 		}
@@ -177,6 +172,7 @@ export const useBillingAddress = props => {
 	}, [billingAddressData, defaultBillingAddressObject, isBillingAddressDefault]);
 
 	const locationLabel = useMemo(() => {
+		// eslint-disable-next-line no-unsafe-optional-chaining
 		const { ...rawBillingAddress } = billingAddressData?.cart?.billingAddress;
 		const { region, country } = rawBillingAddress;
 		return {

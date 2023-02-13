@@ -1,13 +1,12 @@
+import { Radio as InformedRadio } from 'informed';
+import { node, shape, string } from 'prop-types';
 import React from 'react';
 import { Circle } from 'react-feather';
-import { node, shape, string } from 'prop-types';
-import { Radio as InformedRadio } from 'informed';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './radio.module.css';
 
 /* TODO: change lint config to use `label-has-associated-control` */
-/* eslint-disable jsx-a11y/label-has-for */
 
 const RadioOption = props => {
 	const { ariaLabel, classes: propClasses, id, label, value, ...rest } = props;

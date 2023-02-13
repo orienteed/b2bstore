@@ -1,17 +1,15 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import React, { useMemo, useCallback } from 'react';
-import { useIntl } from 'react-intl';
-import { arrayOf, shape, string } from 'prop-types';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
-import orderByIcon from './Icons/orderByIcon.svg';
-
+import { useTicketSort } from '@magento/peregrine/lib/talons/Csr/useTicketSort';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, shape, string } from 'prop-types';
+import React, { useCallback,useMemo } from 'react';
+import { useIntl } from 'react-intl';
+
+import orderByIcon from './Icons/orderByIcon.svg';
 import SortItem from './sortItem';
 import defaultClasses from './ticketSort.module.css';
-
-import { useTicketSort } from '@magento/peregrine/lib/talons/Csr/useTicketSort';
 
 const TicketSort = props => {
 	const classes = useStyle(defaultClasses, props.classes);

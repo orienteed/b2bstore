@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedDate, FormattedTime } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { FormattedDate, FormattedTime } from 'react-intl';
 
 import defaultClasses from './dateTime.module.css';
 
@@ -33,7 +32,6 @@ const DateTime = props => {
 		attributeContent = (
 			<div className={classes.content}>
 				<FormattedDate value={isoFormattedDate} year="numeric" month="short" day="2-digit" />
-				{/* eslint-disable-next-line react/jsx-no-literals */}
 				{', '}
 				<FormattedTime value={isoFormattedDate} />
 			</div>

@@ -48,7 +48,7 @@ class IOAdapter {
 	 * @param {string} [encoding] Character set, e.g. 'utf-8'.
 	 * @return {Promise<string|Buffer>} Promise for file contents.
 	 */
-	async readFile(filePath, encoding) {} //eslint-disable-line no-unused-vars
+	async readFile(filePath, encoding) {}
 
 	/**
 	 * Works like `node-fetch`. (Injected for testability.)
@@ -56,7 +56,7 @@ class IOAdapter {
 	 * @param {object} options Fetch options, see node-fetch docs.
 	 * @return {Promise<Response>}
 	 */
-	async networkFetch(url, options) {} //eslint-disable-line no-unused-vars
+	async networkFetch(url, options) {}
 }
 
 module.exports = IOAdapter;

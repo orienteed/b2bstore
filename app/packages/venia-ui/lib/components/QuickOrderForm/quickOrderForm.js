@@ -1,23 +1,21 @@
-import React, { useState, useEffect, useMemo } from 'react';
+/* eslint-disable react/jsx-key */
+import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddProductsByCSV';
+import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
+import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
+import React, { useEffect, useMemo,useState } from 'react';
 import { CSVLink } from 'react-csv';
-import { Download, PlusCircle, ArrowDown, XCircle } from 'react-feather';
+import { ArrowDown, Download, PlusCircle, XCircle } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 
+import { useStyle } from '../../classify';
 import Button from '../Button';
 import Dialog from '../Dialog';
 import Icon from '../Icon';
 import QuantityStepper from '../QuantityStepper';
-import SearchBar from './SearchBar';
-
-import { useStyle } from '../../classify';
-import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
-import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddProductsByCSV';
-import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
-
-import defaultClasses from './quickOrderForm.module.css';
-
 import fastCart from './Icons/fastCart.svg';
+import defaultClasses from './quickOrderForm.module.css';
+import SearchBar from './SearchBar';
 
 const initialArray = [{ name: '', quantity: 1 }];
 

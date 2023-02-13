@@ -1,13 +1,12 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-
 import { useStoreSwitcher } from '@magento/peregrine/lib/talons/Header/useStoreSwitcher';
 import { availableRoutes } from '@magento/venia-ui/lib/components/Routes/routes';
+import { shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './storeSwitcher.module.css';
-import SwitcherItem from './switcherItem';
 import Shimmer from './storeSwitcher.shimmer';
+import SwitcherItem from './switcherItem';
 
 const StoreSwitcher = props => {
 	const {
@@ -78,7 +77,6 @@ const StoreSwitcher = props => {
 				aria-label={currentStoreName}
 				onClick={handleTriggerClick}
 				ref={storeMenuTriggerRef}
-				data-cy="StoreSwitcher-trigger"
 				aria-expanded={storeMenuIsOpen}
 			>
 				{triggerLabel}

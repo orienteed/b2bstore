@@ -15,7 +15,7 @@ module.exports.handler = async function buildpackCli({ directory, coreDevMode },
 	const { error, envFilePresent } = await require('../Utilities/loadEnvironment')(directory);
 	if (!envFilePresent) {
 		if (coreDevMode) {
-			prettyLogger.warn(`Creating new .env file using example values`);
+			prettyLogger.warn('Creating new .env file using example values');
 			require('./create-env-file').handler({
 				directory,
 				useExamples: true
@@ -31,7 +31,7 @@ module.exports.handler = async function buildpackCli({ directory, coreDevMode },
 		// yargs doesn't propagate async errors to its global fail command
 		// so we inject process for testability and call exit on it directly
 		// https://github.com/yargs/yargs/issues/1102
-		// eslint-disable-next-line no-process-exit
+
 		proc.exit(1);
 	}
 };

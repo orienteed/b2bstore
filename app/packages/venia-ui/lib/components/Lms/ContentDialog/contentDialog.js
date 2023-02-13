@@ -1,13 +1,10 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Dialog from '@magento/venia-ui/lib/components/Dialog';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import Dialog from '@magento/venia-ui/lib/components/Dialog';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import OpenIcon from './Icons/open.svg';
-
 import defaultClasses from './contentDialog.module.css';
+import OpenIcon from './Icons/open.svg';
 
 const ContentDialog = props => {
 	const { dialogName, url, contentFile, isModalOpen, handleClosePopUp, handleDownload } = props;
@@ -21,7 +18,7 @@ const ContentDialog = props => {
 	});
 	const iframeObject = (
 		<div className={classes.frameContainer}>
-			<a className={classes.openTabButton} href={url} target="_blank">
+			<a className={classes.openTabButton} href={url} target="_blank" rel="noreferrer">
 				<img src={OpenIcon} className={classes.openTabIcon} alt="Open icon" />
 				{openMessage}
 			</a>

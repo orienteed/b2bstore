@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { FocusScope } from 'react-aria';
-import { array, arrayOf, shape, string } from 'prop-types';
-import { X as CloseIcon } from 'react-feather';
 import { useFilterModal } from '@magento/peregrine/lib/talons/FilterModal';
+import { array, arrayOf, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FocusScope } from 'react-aria';
+import { X as CloseIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
@@ -94,9 +94,7 @@ const FilterModal = props => {
 
 	return (
 		<Portal>
-			{/* eslint-disable-next-line jsx-a11y/no-autofocus */}
 			<FocusScope contain restoreFocus autoFocus>
-				{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
 				<aside className={modalClass} onKeyDown={handleKeyDownActions} data-cy="FilterModal-root">
 					<div className={classes.body}>
 						<div className={classes.header}>

@@ -1,22 +1,24 @@
-/* eslint-disable react/jsx-no-literals */
-import React, { Fragment, useState, Suspense, useEffect, useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Form } from 'informed';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+/* eslint-disable react/jsx-key */
 
-import RichText from '../../RichText';
-import Carousel from '../../ProductImageCarousel';
+import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { Form } from 'informed';
+import React, { Fragment, Suspense, useEffect, useMemo,useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import CmsBlock from '../../CmsBlock/block';
 import CurrentFilter from '../../FilterModal/CurrentFilters/currentFilter';
-import ProductItem from './ProductItem/ProductItem';
+import Carousel from '../../ProductImageCarousel';
+import RichText from '../../RichText';
 import CategoryFilter from './CategoryFilter/CategoryFilter';
 import defaultClasses from './ProductFullDetailB2B.module.css';
-import CmsBlock from '../../CmsBlock/block';
-import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
+import ProductItem from './ProductItem/ProductItem';
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
-import gql from 'graphql-tag';
 import { useLazyQuery } from '@apollo/client';
+import gql from 'graphql-tag';
+
 import Breadcrumbs from '../../Breadcrumbs';
 import Pagination from '../../Pagination';
 

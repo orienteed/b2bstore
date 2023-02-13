@@ -1,26 +1,24 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { func, number, shape, string } from 'prop-types';
-import { Link } from 'react-router-dom';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
-import Price from '../Price';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import Icon from '../Icon';
-import Image from '../Image';
-import defaultClasses from './suggestedProduct.module.css';
-
-import Button from '@magento/venia-ui/lib/components/Button';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useAddProduct } from '@magento/peregrine/lib/talons/AddProduct/useAddProduct';
 import {
 	ADD_CONFIGURABLE_MUTATION,
 	ADD_SIMPLE_MUTATION
 } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
-
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
+import { func, number, shape, string } from 'prop-types';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ShoppingBag as ShoppingCartIcon } from 'react-feather';
-
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
+import Icon from '../Icon';
+import Image from '../Image';
+import Price from '../Price';
 import copyToClipboard from './Icons/copyToClipboard.png';
+import defaultClasses from './suggestedProduct.module.css';
 
 const IMAGE_WIDTH = 60;
 
@@ -80,7 +78,9 @@ const SuggestedProduct = props => {
 					</span>
 				) : (
 					<div className={classes.productSkuContainer}>
-						<a onClick={copyText}>{sku.length > 6 ? '...' + sku.substring(sku.length - 6) : sku}</a>
+						<a onClick={copyText} role="button" tabIndex={0}>
+							{sku.length > 6 ? '...' + sku.substring(sku.length - 6) : sku}
+						</a>
 						<img src={copyToClipboard} alt="copyToClipboard" onClick={copyText} />
 					</div>
 				)}

@@ -1,13 +1,11 @@
-import React, { useMemo } from 'react';
+import { DATE_FORMAT } from '@magento/peregrine/lib/talons/BuyLaterNotes/config';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Price from '../../Price';
 import SavedCartViewTableItems from '../SavedCartViewTableItems';
-
-import { DATE_FORMAT } from '@magento/peregrine/lib/talons/BuyLaterNotes/config';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './savedCartsView.module.css';
 
 const SavedCartsView = props => {
@@ -118,6 +116,7 @@ const SavedCartsView = props => {
 		<div className={classes.tableContent}>
 			<div className={classes.savedCartViewTable}>
 				{/*savedCartViewTableHead*/}
+				{/*eslint-disable-next-line jsx-a11y/label-has-associated-control*/}
 				<label className={classes.itemsTitle}>Items</label>
 				{savedCartViewTableItems}
 				<div className={classes.footer}>

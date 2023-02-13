@@ -44,19 +44,16 @@ const typePolicies = {
 		keyFields: () => 'Cart',
 		fields: {
 			applied_gift_cards: {
-				// eslint-disable-next-line no-unused-vars
 				merge(existing, incoming) {
 					return incoming;
 				}
 			},
 			available_payment_methods: {
-				// eslint-disable-next-line no-unused-vars
 				merge(existing, incoming) {
 					return incoming;
 				}
 			},
 			items: {
-				// eslint-disable-next-line no-unused-vars
 				merge(existing, incoming) {
 					return incoming;
 				}
@@ -134,7 +131,6 @@ const typePolicies = {
 	CustomerAddress: {
 		fields: {
 			street: {
-				// eslint-disable-next-line no-unused-vars
 				merge(existing, incoming) {
 					return incoming;
 				}
@@ -145,7 +141,6 @@ const typePolicies = {
 		keyFields: () => 'CustomerPaymentTokens',
 		fields: {
 			items: {
-				// eslint-disable-next-line no-unused-vars
 				merge(existing, incoming) {
 					return incoming;
 				}

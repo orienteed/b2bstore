@@ -1,15 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable react/jsx-no-literals */
-
-import React, { useCallback, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDropzone } from 'react-dropzone';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { useIntl } from 'react-intl';
 
 import defaultClasses from './dropzone.module.css';
-
 import attachFilesIcon from './Icons/attachFiles.svg';
 
 const MAX_FILE_SIZE = 10000000;

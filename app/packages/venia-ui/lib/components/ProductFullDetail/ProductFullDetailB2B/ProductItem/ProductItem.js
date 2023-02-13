@@ -1,20 +1,22 @@
-/* eslint-disable react/jsx-no-literals */
-import React, { useCallback, useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
-import QuantityStepper from '../../../QuantityStepper';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import Price from '../../../Price';
-import Image from '../../../Image';
-import Icon from '../../../Icon';
-import Button from '../../../Button';
-import defaultClasses from './ProductItem.module.css';
-import inStock from '../icons/inStock.svg';
-import outOfStock from '../icons/outOfStock.svg';
-import copyToClipboard from '../icons/copyToClipboard.png';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import React, { useCallback, useEffect,useState } from 'react';
+import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
+
+import Button from '../../../Button';
+import Icon from '../../../Icon';
+import Image from '../../../Image';
+import Price from '../../../Price';
+import QuantityStepper from '../../../QuantityStepper';
 import ConfirmationModal from '../../../RequestQuote/ConfirmationModal';
+import copyToClipboard from '../icons/copyToClipboard.png';
+import inStock from '../icons/inStock.svg';
+import outOfStock from '../icons/outOfStock.svg';
+import defaultClasses from './ProductItem.module.css';
 
 const ProductItem = props => {
 	const classes = useStyle(defaultClasses, props.classes);
@@ -179,7 +181,9 @@ const ProductItem = props => {
 						</div>
 					) : (
 						<div className={classes.productSkuContainer}>
-							<a onClick={copyText}>...{lastDigitsOfSku}</a>
+							<a onClick={copyText} role="button" tabIndex={0}>
+								...{lastDigitsOfSku}
+							</a>
 							<img src={copyToClipboard} alt="copyToClipboard" onClick={copyText} />
 						</div>
 					)}
@@ -238,7 +242,7 @@ const ProductItem = props => {
 				<div className={classes.productItemBodyInformation}>
 					{categoriesKeyValue().map(row => {
 						return (
-							<div className={classes.productItemBodyInformationRow}>
+							<div className={classes.productItemBodyInformationRow} key={row.categoryName}>
 								<p className={classes.mobileCategoryName}>{row[0]} </p>
 								<p className={classes.mobileCategoryValue}>{row[1]}</p>
 							</div>

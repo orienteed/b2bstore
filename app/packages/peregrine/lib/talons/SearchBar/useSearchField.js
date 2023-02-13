@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { useFormApi } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
-
 import { getSearchParam } from '@magento/peregrine/lib/hooks/useSearchParam';
+import { useFormApi } from 'informed';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  * Returns props necessary to render a SearchField component.
@@ -27,7 +26,6 @@ export const useSearchField = props => {
 
 	// Pre-populate the search field with the search term from the URL.
 	// We purposefully only ever run this effect on initial mount.
-	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		const urlTerm = getSearchParam('query', location);
 

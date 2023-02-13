@@ -1,17 +1,15 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import React, { useMemo, useCallback } from 'react';
-import { useIntl } from 'react-intl';
-import { arrayOf, shape, string } from 'prop-types';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
-import filterByIcon from './Icons/filterByIcon.svg';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import FilterItem from './filterItem';
-import defaultClasses from './ticketFilter.module.css';
-
 import { useTicketFilter } from '@magento/peregrine/lib/talons/Csr/useTicketFilter';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, shape, string } from 'prop-types';
+import React, { useCallback,useMemo } from 'react';
+import { useIntl } from 'react-intl';
+
+import FilterItem from './filterItem';
+import filterByIcon from './Icons/filterByIcon.svg';
+import defaultClasses from './ticketFilter.module.css';
 
 const TicketFilter = props => {
 	const classes = useStyle(defaultClasses, props.classes);

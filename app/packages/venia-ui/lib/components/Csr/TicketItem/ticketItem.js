@@ -1,23 +1,18 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useTicketItem } from '@magento/peregrine/lib/talons/Csr/useTicketItem.js';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
 import Chat from '../Chat';
-import ConfirmationModal from './ConfirmationModal/confirmationModal';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import defaultClasses from './ticketItem.module.css';
-
-import supportIcon from '../SupportPage/Icons/supportIcon.svg';
 import enhancementIcon from '../SupportPage/Icons/enhancementIcon.svg';
 import orderIcon from '../SupportPage/Icons/orderIcon.svg';
-import messageIcon from './Icons/messageIcon.svg';
+import supportIcon from '../SupportPage/Icons/supportIcon.svg';
+import ConfirmationModal from './ConfirmationModal/confirmationModal';
 import closeIcon from './Icons/closeIcon.svg';
-
-import { useTicketItem } from '@magento/peregrine/lib/talons/Csr/useTicketItem.js';
+import messageIcon from './Icons/messageIcon.svg';
+import defaultClasses from './ticketItem.module.css';
 
 const TicketItem = props => {
 	const { groups, states, ticket, setTickets, openedChat, setOpenedChat } = props;

@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './customerForm.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useMemo } from 'react';
+
 import { useEventingContext } from '../../../../context/eventing';
+import DEFAULT_OPERATIONS from './customerForm.gql';
 
 export const useCustomerForm = props => {
 	const { afterSubmit, onCancel, onSuccess, shippingData } = props;
@@ -94,7 +95,6 @@ export const useCustomerForm = props => {
 
 	const handleSubmit = useCallback(
 		async formValues => {
-			// eslint-disable-next-line no-unused-vars
 			const { country, email, ...address } = formValues;
 			try {
 				const customerAddress = {

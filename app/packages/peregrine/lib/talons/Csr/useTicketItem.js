@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useRef, useState, useEffect } from 'react';
+import { useEffect,useRef, useState } from 'react';
+
 import updateTicket from '../../RestApi/Csr/tickets/updateTicket';
 
 export const useTicketItem = props => {

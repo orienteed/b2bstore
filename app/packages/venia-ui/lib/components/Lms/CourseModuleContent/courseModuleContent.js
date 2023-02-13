@@ -1,16 +1,12 @@
+import markAsDone from '@magento/peregrine/lib/RestApi/Lms/completion/markAsDone';
+import { useCourseModuleContent } from '@magento/peregrine/lib/talons/Lms/useCourseModuleContent';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import ContentDialog from '../ContentDialog';
 import ConfirmationModal from './ConfirmationModal';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useCourseModuleContent } from '@magento/peregrine/lib/talons/Lms/useCourseModuleContent';
-
 import defaultClasses from './courseModuleContent.module.css';
-
-import markAsDone from '@magento/peregrine/lib/RestApi/Lms/completion/markAsDone';
-
 import audioIcon from './Icons/audio.svg';
 import checkFillIcon from './Icons/checkFill.svg';
 import checkNoFillIcon from './Icons/checkNoFill.svg';
@@ -138,6 +134,7 @@ const CourseModuleContent = props => {
 								className={classes.actionIcons}
 								href={contentFile.fileurl}
 								target="_blank"
+								rel="noreferrer"
 							>
 								<img src={viewIcon} alt="Visit" />
 							</a>
