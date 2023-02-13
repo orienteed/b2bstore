@@ -5,7 +5,7 @@ import Icon from '@magento/venia-ui/lib/components/Icon';
 import Image from '@magento/venia-ui/lib/components/Image';
 import Price from '@magento/venia-ui/lib/components/Price';
 import { Form } from 'informed';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 

@@ -3,7 +3,7 @@
 
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import React, { useCallback, useEffect,useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 

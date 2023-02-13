@@ -4,8 +4,8 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import resolveLinkProps from '@magento/peregrine/lib/util/resolveLinkProps';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button/button';
-import { arrayOf, bool, func, object,oneOf, shape, string } from 'prop-types';
-import React, { useCallback,useEffect, useRef, useState } from 'react';
+import { arrayOf, bool, func, object, oneOf, shape, string } from 'prop-types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import handleHtmlContentClick from '../../handleHtmlContentClick';
@@ -120,8 +120,8 @@ const Banner = props => {
 				speed: 1,
 				imgSrc: videoFallbackSrc
 					? resourceUrl(videoFallbackSrc, {
-						type: 'image-wysiwyg',
-						quality: 85
+							type: 'image-wysiwyg',
+							quality: 85
 					  })
 					: null,
 				elementInViewport: viewportElement.current,

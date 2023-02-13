@@ -2,7 +2,7 @@
 import { useAddProductsByCSV } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddProductsByCSV';
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
 import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
-import React, { useEffect, useMemo,useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { ArrowDown, Download, PlusCircle, XCircle } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';

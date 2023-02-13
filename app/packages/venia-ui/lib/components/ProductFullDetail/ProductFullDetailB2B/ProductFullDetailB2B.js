@@ -3,7 +3,7 @@
 import { useCmsBlock } from '@magento/peregrine/lib/hooks/useCmsBlocks';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { Form } from 'informed';
-import React, { Fragment, Suspense, useEffect, useMemo,useState } from 'react';
+import React, { Fragment, Suspense, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import CmsBlock from '../../CmsBlock/block';

@@ -2,7 +2,7 @@ import getCourseContent from '@magento/peregrine/lib/RestApi/Lms/courses/getCour
 import getCourseDetails from '@magento/peregrine/lib/RestApi/Lms/courses/getCourseDetails';
 import enrollUser from '@magento/peregrine/lib/RestApi/Lms/enrollment/enrollUser';
 import unEnrollUser from '@magento/peregrine/lib/RestApi/Lms/enrollment/unEnrollUser';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export const useCourseContent = props => {

@@ -1,7 +1,7 @@
 import resolveLinkProps from '@magento/peregrine/lib/util/resolveLinkProps';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button/button';
-import { arrayOf, bool,oneOf, string } from 'prop-types';
+import { arrayOf, bool, oneOf, string } from 'prop-types';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -85,7 +85,7 @@ const ButtonItem = props => {
 		} else {
 			globalThis.location.assign(url);
 		}
-	}, [openInNewTab, url, linkProps.to]); 
+	}, [openInNewTab, url, linkProps.to]);
 
 	const justifyMap = {
 		left: 'flex-start',

@@ -7,7 +7,7 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Price from '@magento/venia-ui/lib/components/Price';
 import Tippy from '@tippyjs/react';
-import { number, shape,string } from 'prop-types';
+import { number, shape, string } from 'prop-types';
 import React, { useState } from 'react';
 import { Info } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -122,8 +122,8 @@ const GalleryItem = props => {
 			item={
 				selectedVeriant
 					? {
-						...selectedVeriant.product,
-						parentSku: selectedVeriant.parentSku
+							...selectedVeriant.product,
+							parentSku: selectedVeriant.parentSku
 					  }
 					: item
 			}

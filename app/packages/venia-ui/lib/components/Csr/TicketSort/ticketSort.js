@@ -4,7 +4,7 @@ import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useTicketSort } from '@magento/peregrine/lib/talons/Csr/useTicketSort';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { arrayOf, shape, string } from 'prop-types';
-import React, { useCallback,useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import orderByIcon from './Icons/orderByIcon.svg';
