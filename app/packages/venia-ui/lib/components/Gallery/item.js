@@ -123,7 +123,7 @@ const GalleryItem = props => {
     const addButton = isSupportedProductType ? (
         <AddToCartButton
             item={
-                selectedVeriant
+                selectedVeriant && selectedVeriant?.product?.sku
                     ? {
                           ...selectedVeriant.product,
                           parentSku: selectedVeriant.parentSku
