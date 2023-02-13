@@ -7,7 +7,8 @@ import {
 	ChevronDown as ChevronDownIcon,
 	ChevronLeft as ChevronLeftIcon,
 	ChevronRight as ChevronRightIcon,
-	ChevronUp as ChevronUpIcon} from 'react-feather';
+	ChevronUp as ChevronUpIcon
+} from 'react-feather';
 import ReactImageZoom from 'react-image-zoom';
 import { useIntl } from 'react-intl';
 

@@ -1,7 +1,7 @@
-import { useCallback, useState, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useMemo, useState } from 'react';
+
 import DEFAULT_OPERATIONS from './orderRow.gql';
 
 /**

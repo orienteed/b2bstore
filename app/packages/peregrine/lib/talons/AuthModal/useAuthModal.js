@@ -1,11 +1,11 @@
+import { useMutation } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 
-import mergeOperations from '../../util/shallowMerge';
-import { useUserContext } from '../../context/user';
-import DEFAULT_OPERATIONS from './authModal.gql';
 import { useEventingContext } from '../../context/eventing';
+import { useUserContext } from '../../context/user';
+import mergeOperations from '../../util/shallowMerge';
+import DEFAULT_OPERATIONS from './authModal.gql';
 
 const UNAUTHED_ONLY = ['CREATE_ACCOUNT', 'FORGOT_PASSWORD', 'SIGN_IN'];
 

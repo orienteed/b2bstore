@@ -1,13 +1,13 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { arrayOf, bool, func, shape, string } from 'prop-types';
-import { Trash2 as TrashIcon, Edit2 as EditIcon } from 'react-feather';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
-import defaultClasses from './addressCard.module.css';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
+import React from 'react';
+import { Edit2 as EditIcon, Trash2 as TrashIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
+
 import LinkButton from '../LinkButton';
+import defaultClasses from './addressCard.module.css';
 
 const AddressCard = props => {
 	const {

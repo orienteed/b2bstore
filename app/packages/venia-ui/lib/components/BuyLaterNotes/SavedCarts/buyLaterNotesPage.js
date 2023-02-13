@@ -1,16 +1,14 @@
-import React, { useMemo } from 'react';
-import { shape, string } from 'prop-types';
-import { useIntl, FormattedMessage } from 'react-intl';
-
-import SavedCartsTable from './savedCartsTable';
-import SavedCartsToolbar from './savedCartsToolbar';
-import { StoreTitle } from '../../Head';
-import { fullPageLoadingIndicator } from '../../LoadingIndicator';
-
 import { useBuyLaterNotesPage } from '@magento/peregrine/lib/talons/BuyLaterNotes/useBuyLaterNotesPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
+import { StoreTitle } from '../../Head';
+import { fullPageLoadingIndicator } from '../../LoadingIndicator';
 import defaultClasses from './buyLaterNotesPage.module.css';
+import SavedCartsTable from './savedCartsTable';
+import SavedCartsToolbar from './savedCartsToolbar';
 
 const BuyLaterNotesPage = props => {
 	const talonProps = useBuyLaterNotesPage();

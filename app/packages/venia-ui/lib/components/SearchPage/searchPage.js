@@ -1,19 +1,18 @@
+import { useSearchPage } from '@magento/peregrine/lib/talons/SearchPage/useSearchPage';
+import { shape, string } from 'prop-types';
 import React, { Fragment, Suspense, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { shape, string } from 'prop-types';
-
-import { useSearchPage } from '@magento/peregrine/lib/talons/SearchPage/useSearchPage';
 
 import { useStyle } from '../../classify';
 import Pagination from '../../components/Pagination';
-import Gallery, { GalleryShimmer } from '../Gallery';
-import ProductSort, { ProductSortShimmer } from '../ProductSort';
-import defaultClasses from './searchPage.module.css';
-import SortedByContainer, { SortedByContainerShimmer } from '../SortedByContainer';
 import FilterModalOpenButton, { FilterModalOpenButtonShimmer } from '../FilterModalOpenButton';
 import { FilterSidebarShimmer } from '../FilterSidebar';
-import Shimmer from '../Shimmer';
+import Gallery, { GalleryShimmer } from '../Gallery';
 import { Meta, Title } from '../Head';
+import ProductSort, { ProductSortShimmer } from '../ProductSort';
+import Shimmer from '../Shimmer';
+import SortedByContainer, { SortedByContainerShimmer } from '../SortedByContainer';
+import defaultClasses from './searchPage.module.css';
 
 const FilterModal = React.lazy(() => import('../FilterModal'));
 const FilterSidebar = React.lazy(() => import('../FilterSidebar'));

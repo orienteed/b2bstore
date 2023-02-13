@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './shippingMethod.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { useEventingContext } from '../../../context/eventing';
+import DEFAULT_OPERATIONS from './shippingMethod.gql';
 
 export const displayStates = {
 	DONE: 'done',

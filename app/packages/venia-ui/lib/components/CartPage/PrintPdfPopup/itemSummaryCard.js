@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import defaultClasses from './itemSummaryCard.module.css';
 import { FormattedMessage } from 'react-intl';
+
+import defaultClasses from './itemSummaryCard.module.css';
 
 const ItemSummaryCard = props => {
 	const { priceSummary, tooglePrice } = props;

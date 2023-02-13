@@ -10,8 +10,8 @@ import { default as searchRequestSentHandler } from './handlers/searchRequestSen
 import { default as searchResponseReceivedHandler } from './handlers/searchResponseReceived';
 import { default as shoppingCartPageViewHandler } from './handlers/shoppingCartPageView';
 import { default as shoppingMiniCartViewHandler } from './handlers/shoppingMiniCartView';
-import { default as startCheckoutHandler } from './handlers/startCheckout';
 import { default as signInHandler } from './handlers/signIn';
+import { default as startCheckoutHandler } from './handlers/startCheckout';
 
 export default [
 	addToCartHandler,

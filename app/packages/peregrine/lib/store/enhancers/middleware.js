@@ -2,8 +2,8 @@ import { applyMiddleware } from 'redux';
 
 import auth from '../middleware/auth';
 import log from '../middleware/log';
-import thunk from '../middleware/thunk';
 import restrictedAuthPage from '../middleware/restrictedAuthPage';
+import thunk from '../middleware/thunk';
 
 const middleware = [thunk, auth, restrictedAuthPage];
 

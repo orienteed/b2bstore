@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
 import { node, number, oneOf, oneOfType, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './shimmer.module.css';

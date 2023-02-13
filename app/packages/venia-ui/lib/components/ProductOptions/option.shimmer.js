@@ -1,6 +1,7 @@
 import React from 'react';
-import Shimmer from '../Shimmer';
+
 import { useStyle } from '../../classify';
+import Shimmer from '../Shimmer';
 import defaultClasses from './option.module.css';
 import TileListShimmer from './tileList.shimmer';
 

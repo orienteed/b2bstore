@@ -1,12 +1,11 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
+import Price from '@magento/venia-ui/lib/components/Price';
+import { arrayOf, number, shape, string } from 'prop-types';
 import React, { useMemo } from 'react';
-import { arrayOf, string, shape, number } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import Price from '@magento/venia-ui/lib/components/Price';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from './orderTotal.module.css';
-import Button from '@magento/venia-ui/lib/components/Button';
 
 const OrderTotal = props => {
 	const { classes: propClasses, data, items } = props;

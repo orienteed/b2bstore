@@ -1,7 +1,7 @@
-import React from 'react';
-import { bool, number, oneOfType, shape, string } from 'prop-types';
-import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { usePlaceholderImage } from '@magento/peregrine/lib/talons/Image/usePlaceholderImage';
+import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
+import { bool, number, oneOfType, shape, string } from 'prop-types';
+import React from 'react';
 
 import SimpleImage from './simpleImage';
 

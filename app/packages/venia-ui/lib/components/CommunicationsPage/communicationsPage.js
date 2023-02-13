@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
 import { useToasts } from '@magento/peregrine';
 import { useCommunicationsPage } from '@magento/peregrine/lib/talons/CommunicationsPage/useCommunicationsPage';
+import { Form } from 'informed';
+import React, { useCallback } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Button from '../Button';
@@ -77,12 +77,12 @@ const CommunicationsPage = props => {
 					<Button disabled={isDisabled} type="submit" priority="high">
 						{isDisabled
 							? formatMessage({
-									id: 'communicationsPage.savingText',
-									defaultMessage: 'Saving'
+								id: 'communicationsPage.savingText',
+								defaultMessage: 'Saving'
 							  })
 							: formatMessage({
-									id: 'communicationsPage.changesText',
-									defaultMessage: 'Save Changes'
+								id: 'communicationsPage.changesText',
+								defaultMessage: 'Save Changes'
 							  })}
 					</Button>
 				</div>

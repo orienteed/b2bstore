@@ -1,11 +1,10 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
-
 import { useCreateAccountPage } from '@magento/peregrine/lib/talons/CreateAccountPage/useCreateAccountPage';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import CreateAccount from '@magento/venia-ui/lib/components/CreateAccount';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 import defaultClasses from './createAccountPage.module.css';
 

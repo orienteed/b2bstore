@@ -1,8 +1,7 @@
-import React from 'react';
-import { node, string } from 'prop-types';
-import { Redirect, Route, useLocation } from 'react-router-dom';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { node, string } from 'prop-types';
+import React from 'react';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 
 const AuthRoute = props => {
 	const { redirectTo, children, ...rest } = props;

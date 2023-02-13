@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
-import Tile from './tile';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
+import Tile from './tile';
 import defaultClasses from './tileList.module.css';
 
 const TileList = props => {

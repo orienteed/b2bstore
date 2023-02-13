@@ -1,14 +1,12 @@
-import React, { useMemo } from 'react';
+import { useSwatch } from '@magento/peregrine/lib/talons/ProductOptions/useSwatch';
 import { generateUrl } from '@magento/peregrine/lib/util/imageUtils';
 import { bool, func, number, object, oneOfType, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { Check as CheckIcon } from 'react-feather';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
-import { Check as CheckIcon } from 'react-feather';
-
 import defaultClasses from './swatch.module.css';
-
-import { useSwatch } from '@magento/peregrine/lib/talons/ProductOptions/useSwatch';
 
 const getClassName = (name, isSelected, hasFocus, isOptionOutOfStock, isEverythingOutOfStock) =>
 	`${name}${isSelected ? '_selected' : ''}${hasFocus ? '_focused' : ''}${

@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import { useEffect, useRef } from 'react';
+
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import resourceUrl from '../../util/makeUrl';
 import mergeOperations from '../../util/shallowMerge';

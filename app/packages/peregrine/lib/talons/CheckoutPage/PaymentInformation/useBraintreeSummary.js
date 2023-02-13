@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '../../../context/cart';
-
 import mergeOperations from '../../../util/shallowMerge';
 import defaultOperations from './braintreeSummary.gql';
 

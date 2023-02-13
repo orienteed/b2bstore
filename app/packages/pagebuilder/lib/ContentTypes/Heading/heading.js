@@ -1,5 +1,5 @@
-import React from 'react';
 import { arrayOf, string } from 'prop-types';
+import React from 'react';
 
 /**
  * Page Builder Heading component.

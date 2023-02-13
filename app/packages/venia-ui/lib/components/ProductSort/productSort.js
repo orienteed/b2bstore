@@ -1,6 +1,6 @@
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { array, arrayOf, shape, string } from 'prop-types';
-import React, { useCallback,useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ChevronDown as ArrowDown } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -30,18 +30,18 @@ const ProductSort = props => {
 
 	const sortMethodsFromConfig = availableSortMethods
 		? availableSortMethods
-			.map(method => {
-				const { value, label } = method;
-				if (value !== 'price' && value !== 'position') {
-					return {
-						id: `sortItem.${value}`,
-						text: label,
-						attribute: value,
-						sortDirection: 'ASC'
-					};
-				}
-			})
-			.filter(method => !!method)
+				.map(method => {
+					const { value, label } = method;
+					if (value !== 'price' && value !== 'position') {
+						return {
+							id: `sortItem.${value}`,
+							text: label,
+							attribute: value,
+							sortDirection: 'ASC'
+						};
+					}
+				})
+				.filter(method => !!method)
 		: null;
 
 	// click event for menu items

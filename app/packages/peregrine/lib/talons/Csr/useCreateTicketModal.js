@@ -1,11 +1,9 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
-import { getOrderPrice } from '../../util/orderPrice';
-
 import createTicket from '../../RestApi/Csr/tickets/createTicket';
-
+import { getOrderPrice } from '../../util/orderPrice';
 import { GET_CUSTOMER_ORDERS, GET_IMAGE_BY_SKU } from './createTicketModal.gql';
 
 export const useCreateTicketModal = props => {

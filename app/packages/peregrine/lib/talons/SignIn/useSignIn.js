@@ -1,18 +1,16 @@
-import { useCallback, useRef, useState, useMemo } from 'react';
 import { useApolloClient, useMutation } from '@apollo/client';
-
-import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha/useGoogleReCaptcha';
-import mergeOperations from '../../util/shallowMerge';
-import { useCartContext } from '../../context/cart';
-import { useUserContext } from '../../context/user';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
-import { retrieveCartId } from '../../store/actions/cart';
-
-import DEFAULT_OPERATIONS from './signIn.gql';
-import { useEventingContext } from '../../context/eventing';
-
 import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
 import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login.js';
+import { useCallback, useMemo, useRef, useState } from 'react';
+
+import { useCartContext } from '../../context/cart';
+import { useEventingContext } from '../../context/eventing';
+import { useUserContext } from '../../context/user';
+import { useAwaitQuery } from '../../hooks/useAwaitQuery';
+import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha/useGoogleReCaptcha';
+import { retrieveCartId } from '../../store/actions/cart';
+import mergeOperations from '../../util/shallowMerge';
+import DEFAULT_OPERATIONS from './signIn.gql';
 
 export const useSignIn = props => {
 	const { getCartDetailsQuery, setDefaultUsername, showCreateAccount, showForgotPassword } = props;

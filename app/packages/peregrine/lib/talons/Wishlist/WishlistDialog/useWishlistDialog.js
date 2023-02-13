@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useMemo, useState } from 'react';
 
 import DEFAULT_OPERATIONS from './wishlistDialog.gql';
 

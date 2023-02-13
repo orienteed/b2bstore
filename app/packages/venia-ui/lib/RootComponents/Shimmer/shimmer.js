@@ -1,5 +1,6 @@
-import React from 'react';
 import { string } from 'prop-types';
+import React from 'react';
+
 import { fullPageLoadingIndicator } from '../../components/LoadingIndicator';
 import TYPES from './types';
 

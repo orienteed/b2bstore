@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { CartPageFragment } from './cartPageFragments.gql';
 
 const GET_CART_DETAILS = gql`

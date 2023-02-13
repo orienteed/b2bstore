@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 
 export const AvailablePaymentMethodsFragment = gql`

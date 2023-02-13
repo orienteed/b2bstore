@@ -1,10 +1,11 @@
-import React, { useMemo, useEffect } from 'react';
-import { arrayOf, func, number, oneOfType, shape, string, instanceOf } from 'prop-types';
+import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
 import setValidator from '@magento/peregrine/lib/validators/set';
+import { useFieldApi } from 'informed';
+import { arrayOf, func, instanceOf, number, oneOfType, shape, string } from 'prop-types';
+import React, { useEffect, useMemo } from 'react';
+
 import RadioGroup from '../../RadioGroup';
 import FilterItemRadio from './filterItemRadio';
-import { useFieldApi } from 'informed';
-import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
 
 const FilterItemRadioGroup = props => {
 	const { filterApi, filterState, group, items, onApply, labels } = props;

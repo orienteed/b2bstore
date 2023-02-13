@@ -7,10 +7,10 @@ const handle = (sdk, event) => {
 
 	const configurableOptions = selectedOptions
 		? [
-				{
-					optionLabel: selectedOptions.attribute,
-					valueLabel: selectedOptions.value
-				}
+			{
+				optionLabel: selectedOptions.attribute,
+				valueLabel: selectedOptions.value
+			}
 		  ]
 		: null;
 

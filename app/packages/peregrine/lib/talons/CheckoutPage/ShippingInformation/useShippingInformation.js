@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './shippingInformation.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
+import { useEventingContext } from '../../../context/eventing';
 import { useUserContext } from '../../../context/user';
 import { MOCKED_ADDRESS } from '../../CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
-import { useEventingContext } from '../../../context/eventing';
+import DEFAULT_OPERATIONS from './shippingInformation.gql';
 
 export const useShippingInformation = props => {
 	const { onSave, toggleActiveContent } = props;

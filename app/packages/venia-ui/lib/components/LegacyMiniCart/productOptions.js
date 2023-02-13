@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react';
 import { arrayOf, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
-
 import defaultClasses from './productOptions.module.css';
 
 const ProductOptions = props => {

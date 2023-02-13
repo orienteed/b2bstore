@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
+import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useStyle } from '../../classify';
 
-import defaultClasses from './compareProducts.module.css';
+import { useStyle } from '../../classify';
 import LoadingIndicator from '../LoadingIndicator';
+import defaultClasses from './compareProducts.module.css';
 import ProductsTable from './ProductsTable';
 const CompareProducts = () => {
 	const talonProps = useCompareProduct();

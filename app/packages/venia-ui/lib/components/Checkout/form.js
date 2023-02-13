@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { func, shape, string } from 'prop-types';
 import { gql } from '@apollo/client';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
-
 import { useToasts } from '@magento/peregrine';
 import { useForm } from '@magento/peregrine/lib/talons/Checkout/useForm';
+import { func, shape, string } from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
 import LoadingIndicator from '../LoadingIndicator';
 import EditableForm from './editableForm';
-import Overview from './overview';
 import defaultClasses from './form.module.css';
+import Overview from './overview';
 
 const ErrorIcon = <Icon src={AlertCircleIcon} attrs={{ width: 18 }} />;
 const loadingText = 'Loading Checkout...';

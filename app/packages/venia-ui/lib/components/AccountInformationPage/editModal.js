@@ -1,12 +1,12 @@
+import { array, bool, func, object, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { shape, string, bool, array, func, object } from 'prop-types';
 
 import { useStyle } from '../../classify';
-import EditForm from './editForm';
-import FormError from '../FormError';
 import Dialog from '../Dialog';
+import FormError from '../FormError';
 import GoogleReCaptcha from '../GoogleReCaptcha';
+import EditForm from './editForm';
 import defaultClasses from './editModal.module.css';
 
 const EditModal = props => {

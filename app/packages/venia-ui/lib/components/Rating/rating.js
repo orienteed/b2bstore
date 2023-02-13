@@ -1,8 +1,9 @@
+import { number, shape, string } from 'prop-types';
 import React from 'react';
-import { string, number, shape } from 'prop-types';
 import { Star } from 'react-feather';
-import Icon from '../Icon';
+
 import { useStyle } from '../../classify';
+import Icon from '../Icon';
 import defaultClasses from './rating.module.css';
 
 const Rating = props => {

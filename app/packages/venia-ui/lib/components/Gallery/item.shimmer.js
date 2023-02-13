@@ -1,10 +1,10 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
 import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
-import { useStyle } from '../../classify';
+import { shape, string } from 'prop-types';
+import React from 'react';
 
-import Shimmer from '../Shimmer';
+import { useStyle } from '../../classify';
 import Image from '../Image';
+import Shimmer from '../Shimmer';
 import defaultClasses from './item.module.css';
 
 const GalleryItemShimmer = props => {

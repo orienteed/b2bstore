@@ -1,6 +1,7 @@
-import { useMemo, useState, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
+import { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { GET_CONFIG_DETAILS, GET_SAVED_CARTS } from './buyLaterNotes.gql';
 
 const DEFAULT_PAGE_SIZE = 5;

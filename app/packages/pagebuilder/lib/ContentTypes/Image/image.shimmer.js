@@ -1,8 +1,9 @@
-import React, { useMemo, useRef, useEffect } from 'react';
-import { arrayOf, shape, string, number } from 'prop-types';
-import defaultClasses from './image.shimmer.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Shimmer from '@magento/venia-ui/lib/components/Shimmer';
+import { arrayOf, number, shape, string } from 'prop-types';
+import React, { useEffect, useMemo, useRef } from 'react';
+
+import defaultClasses from './image.shimmer.module.css';
 
 /**
  * Page Builder Image Shimmer component.

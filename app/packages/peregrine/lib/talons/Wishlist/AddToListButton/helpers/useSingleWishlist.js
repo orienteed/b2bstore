@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 
 import defaultOperations from '../addToListButton.gql';
 

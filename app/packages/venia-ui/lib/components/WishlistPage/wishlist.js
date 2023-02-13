@@ -1,24 +1,23 @@
-import React, { Fragment, useState, useCallback, useRef } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { ChevronDown, ChevronUp, Printer } from 'react-feather';
-import { useWishlist } from '@magento/peregrine/lib/talons/WishlistPage/useWishlist';
-import { bool, shape, string, int } from 'prop-types';
-
-import { useStyle } from '../../classify';
-import LoadingIndicator from '../LoadingIndicator';
-import Icon from '../Icon';
-import WishlistItems from './wishlistItems';
-import Button from '../Button';
-import defaultClasses from './wishlist.module.css';
-import ActionMenu from './actionMenu';
-
-import ShareIcon from './assets/shareWithBorder.svg';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import defaultOperations from '@magento/peregrine/lib/talons/WishlistPage/wishlistItem.gql';
 import { useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
-import orangeThrashCan from './assets/orangeThrashCan.svg';
+import { useWishlist } from '@magento/peregrine/lib/talons/WishlistPage/useWishlist';
+import defaultOperations from '@magento/peregrine/lib/talons/WishlistPage/wishlistItem.gql';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { bool, int, shape, string } from 'prop-types';
+import React, { Fragment, useCallback, useRef, useState } from 'react';
+import { ChevronDown, ChevronUp, Printer } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useReactToPrint } from 'react-to-print';
+
+import { useStyle } from '../../classify';
+import Button from '../Button';
+import Icon from '../Icon';
+import LoadingIndicator from '../LoadingIndicator';
+import ActionMenu from './actionMenu';
+import orangeThrashCan from './assets/orangeThrashCan.svg';
+import ShareIcon from './assets/shareWithBorder.svg';
+import defaultClasses from './wishlist.module.css';
+import WishlistItems from './wishlistItems';
 /**
  * A single wishlist container.
  *

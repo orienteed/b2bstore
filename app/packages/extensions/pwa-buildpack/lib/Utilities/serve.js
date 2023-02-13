@@ -71,12 +71,12 @@ module.exports = async function serve(dirname) {
 	}
 
 	if (config.isProd) {
-		prettyLogger.info(`NODE_ENV=production, will not attempt to use custom host or port`);
+		prettyLogger.info('NODE_ENV=production, will not attempt to use custom host or port');
 
 		if (envPort) {
 			upwardServerOptions.port = envPort;
 		} else {
-			prettyLogger.warn(`No port set. Binding to OS-assigned port`);
+			prettyLogger.warn('No port set. Binding to OS-assigned port');
 			upwardServerOptions.port = 0;
 		}
 	} else {

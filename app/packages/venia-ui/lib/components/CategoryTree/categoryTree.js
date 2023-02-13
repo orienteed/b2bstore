@@ -1,12 +1,11 @@
-import React from 'react';
-import { func, shape, string } from 'prop-types';
 import { useCategoryTree } from '@magento/peregrine/lib/talons/CategoryTree';
+import { func, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
-
-import defaultClasses from './categoryTree.module.css';
 import Branch from './categoryBranch';
 import Leaf from './categoryLeaf';
+import defaultClasses from './categoryTree.module.css';
 
 const Tree = props => {
 	const { categoryId, onNavigate, setCategoryId, updateCategories } = props;
@@ -22,8 +21,8 @@ const Tree = props => {
 	// otherwise render a branch
 	const branches = data
 		? Array.from(childCategories, childCategory => {
-				const [id, { category, isLeaf }] = childCategory;
-				return isLeaf ? (
+			const [id, { category, isLeaf }] = childCategory;
+			return isLeaf ? (
 					<Leaf key={id} category={category} onNavigate={onNavigate} categoryUrlSuffix={categoryUrlSuffix} />
 				) : (
 					<Branch key={id} category={category} setCategoryId={setCategoryId} />

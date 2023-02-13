@@ -1,14 +1,14 @@
-import React from 'react';
 import { array, bool, func, object, shape, string } from 'prop-types';
+import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
-import Dialog from '../Dialog';
-import defaultClasses from './wishlistEditFavoritesListDialog.module.css';
-import TextInput from '../TextInput';
 import { isRequired } from '../../util/formValidators';
+import Dialog from '../Dialog';
 import Field from '../Field';
 import FormError from '../FormError';
+import TextInput from '../TextInput';
+import defaultClasses from './wishlistEditFavoritesListDialog.module.css';
 
 const WishlistEditFavoritesListDialog = props => {
 	const { formErrors, formProps, isOpen, isEditInProgress, onCancel, onConfirm } = props;

@@ -1,21 +1,20 @@
-import React, { Fragment } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Form, Text } from 'informed';
-import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import { useCustomerForm } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingInformation/AddressForm/useCustomerForm';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
+import defaultClasses from '@magento/venia-ui/lib/components/CheckoutPage/ShippingInformation/AddressForm/customerForm.module.css';
 import Country from '@magento/venia-ui/lib/components/Country';
 import Field, { Message } from '@magento/venia-ui/lib/components/Field';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import Region from '@magento/venia-ui/lib/components/Region';
-import Postcode from '@magento/venia-ui/lib/components/Postcode';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
-import defaultClasses from '@magento/venia-ui/lib/components/CheckoutPage/ShippingInformation/AddressForm/customerForm.module.css';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
+import Postcode from '@magento/venia-ui/lib/components/Postcode';
+import Region from '@magento/venia-ui/lib/components/Region';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { Form, Text } from 'informed';
+import { arrayOf, bool, func, number, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const CustomerForm = props => {
 	const { afterSubmit, classes: propClasses, onCancel, onSuccess, shippingData } = props;
@@ -75,17 +74,17 @@ const CustomerForm = props => {
 
 	const submitButtonText = !hasDefaultShipping
 		? formatMessage({
-				id: 'global.saveAndContinueButton',
-				defaultMessage: 'Save and Continue'
+			id: 'global.saveAndContinueButton',
+			defaultMessage: 'Save and Continue'
 		  })
 		: isUpdate
 		? formatMessage({
-				id: 'global.updateButton',
-				defaultMessage: 'Update'
+			id: 'global.updateButton',
+			defaultMessage: 'Update'
 		  })
 		: formatMessage({
-				id: 'global.addButton',
-				defaultMessage: 'Add'
+			id: 'global.addButton',
+			defaultMessage: 'Add'
 		  });
 	const submitButtonProps = {
 		disabled: isSaving,

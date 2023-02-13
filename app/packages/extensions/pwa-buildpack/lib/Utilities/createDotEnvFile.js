@@ -40,7 +40,7 @@ module.exports = async function printEnvFile(dirOrEnv, options = {}) {
 	const { env, error } = await loadEnvironment(dirOrEnv, logger, definitions);
 	if (error && !useExamples) {
 		logger.warn(
-			`The current environment is not yet valid; please set any missing variables to build the project before generating a .env file.`
+			'The current environment is not yet valid; please set any missing variables to build the project before generating a .env file.'
 		);
 	}
 	let contents = startSection('PWA Studio Environment Variables', 8);

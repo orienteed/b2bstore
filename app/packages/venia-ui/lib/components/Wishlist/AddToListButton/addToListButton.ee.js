@@ -1,10 +1,10 @@
-import React, { Fragment, useRef } from 'react';
-import { element, func, shape, string } from 'prop-types';
-import { Star } from 'react-feather';
 import { useAddToListButton } from '@magento/peregrine/lib/talons/Wishlist/AddToListButton/useAddToListButton';
-import { useButton } from 'react-aria';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { element, func, shape, string } from 'prop-types';
+import React, { Fragment, useRef } from 'react';
+import { useButton } from 'react-aria';
+import { Star } from 'react-feather';
+
 import Icon from '../../Icon';
 import WishlistDialog from '../WishlistDialog';
 import defaultClasses from './addToListButton.module.css';

@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react';
-import { number, string, shape } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
 import { useNoProductsFound } from '@magento/peregrine/lib/talons/RootComponents/Category';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { number, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import Image from '../../../components/Image';
 import { useStyle } from '../../../classify';
-import noProductsFound from './noProductsFound.png';
+import Image from '../../../components/Image';
 import defaultClasses from './noProductsFound.module.css';
+import noProductsFound from './noProductsFound.png';
 
 const NoProductsFound = props => {
 	const { categoryId } = props;

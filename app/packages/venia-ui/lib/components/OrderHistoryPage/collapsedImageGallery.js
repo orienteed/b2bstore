@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
 import { arrayOf, object, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+
 import { useStyle } from '../../classify';
 import Image from '../Image';
-
 import defaultClasses from './collapsedImageGallery.module.css';
 
 const DISPLAY_COUNT = 4;

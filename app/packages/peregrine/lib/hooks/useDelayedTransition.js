@@ -1,16 +1,15 @@
+import { useApolloClient } from '@apollo/client';
+import { availableRoutes } from '@magento/venia-ui/lib/components/Routes/routes';
 import { useEffect, useRef } from 'react';
 import { matchPath } from 'react-router';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useApolloClient } from '@apollo/client';
-
-import { availableRoutes } from '@magento/venia-ui/lib/components/Routes/routes';
 
 import { useAppContext } from '../context/app';
 import { useRootComponents } from '../context/rootComponents';
-import mergeOperations from '../util/shallowMerge';
-import { getComponentData } from '../util/magentoRouteData';
-import DEFAULT_OPERATIONS from '../talons/MagentoRoute/magentoRoute.gql';
 import { getRootComponent } from '../talons/MagentoRoute/helpers';
+import DEFAULT_OPERATIONS from '../talons/MagentoRoute/magentoRoute.gql';
+import { getComponentData } from '../util/magentoRouteData';
+import mergeOperations from '../util/shallowMerge';
 
 const DELAY_MESSAGE_PREFIX = 'DELAY:';
 

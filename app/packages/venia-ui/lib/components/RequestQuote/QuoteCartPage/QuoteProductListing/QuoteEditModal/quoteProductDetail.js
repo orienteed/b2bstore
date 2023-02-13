@@ -1,8 +1,8 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Image from '@magento/venia-ui/lib/components/Image';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import Image from '@magento/venia-ui/lib/components/Image';
 import defaultClasses from './quoteProductDetail.module.css';
 import productImage from './vt12-kh_main.jpg';
 const IMAGE_SIZE = 240;

@@ -1,22 +1,21 @@
+import { useToasts } from '@magento/peregrine';
+import { useNewsletter } from '@magento/peregrine/lib/talons/Newsletter/useNewsletter';
+import FormError from '@magento/venia-ui/lib/components/FormError';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
 import React, { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
 import { Link } from 'react-router-dom';
-import { shape, string } from 'prop-types';
 
-import { useNewsletter } from '@magento/peregrine/lib/talons/Newsletter/useNewsletter';
-import { useToasts } from '@magento/peregrine';
-
-import { isRequired } from '../../util/formValidators';
 import { useStyle } from '../../classify';
-import FormError from '@magento/venia-ui/lib/components/FormError';
+import { isRequired } from '../../util/formValidators';
+import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Field from '../Field';
 import LoadingIndicator from '../LoadingIndicator';
 import TextInput from '../TextInput';
-import Button from '../Button';
-import Shimmer from './newsletter.shimmer';
 import defaultClasses from './newsletter.module.css';
+import Shimmer from './newsletter.shimmer';
 
 const Newsletter = props => {
 	const { formatMessage } = useIntl();
@@ -58,13 +57,13 @@ const Newsletter = props => {
 	const personalDataTreatment = (
 		<div className={classes.dataPoliticsContainer}>
 			<span className={classes.label}>
-				<FormattedMessage id={'footer.accept'} defaultMessage={`I accept `} />
+				<FormattedMessage id={'footer.accept'} defaultMessage={'I accept '} />
 			</span>
 			<Link to="/">
 				<span className={classes.dataPolitics}>
 					<FormattedMessage
 						id={'footer.personalDataTreatment'}
-						defaultMessage={`the personal data treatment.`}
+						defaultMessage={'the personal data treatment.'}
 					/>
 				</span>
 			</Link>

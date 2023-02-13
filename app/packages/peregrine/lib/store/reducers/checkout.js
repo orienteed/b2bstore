@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+
 import actions from '../actions/checkout';
 
 export const name = 'checkout';

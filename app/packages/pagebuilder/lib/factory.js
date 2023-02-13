@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+
 import { getContentTypeConfig, setContentTypeConfig } from './config';
 import customContentTypes from './ContentTypes/customContentTypes';
 

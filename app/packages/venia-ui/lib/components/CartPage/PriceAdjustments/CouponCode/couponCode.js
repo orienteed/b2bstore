@@ -1,19 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useToasts } from '@magento/peregrine';
-import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import { useCouponCode } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/CouponCode/useCouponCode';
+import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
+import { Form } from 'informed';
+import React, { Fragment, useEffect } from 'react';
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../../../classify';
-
 import Button from '../../../Button';
-import { Form } from 'informed';
 import Field from '../../../Field';
 import Icon from '../../../Icon';
 import LinkButton from '../../../LinkButton';
 import TextInput from '../../../TextInput';
-
 import defaultClasses from './couponCode.module.css';
 
 const errorIcon = (

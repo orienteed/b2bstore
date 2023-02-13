@@ -1,9 +1,6 @@
 import { ApolloLink } from '@apollo/client';
 import { InMemoryCache } from '@apollo/client/cache';
 import { ApolloClient } from '@apollo/client/core';
-import { CachePersistor } from 'apollo-cache-persist';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
 import attachClient from '@magento/peregrine/lib/Apollo/attachClientToStore';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
 import { clearCustomerDataFromCache } from '@magento/peregrine/lib/Apollo/clearCustomerDataFromCache';
@@ -11,6 +8,8 @@ import { CACHE_PERSIST_PREFIX } from '@magento/peregrine/lib/Apollo/constants';
 import getLinks from '@magento/peregrine/lib/Apollo/links';
 import typePolicies from '@magento/peregrine/lib/Apollo/policies';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { CachePersistor } from 'apollo-cache-persist';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const isServer = !globalThis.document;
 const storage = new BrowserPersistence();
@@ -46,10 +45,10 @@ export const useAdapter = props => {
 		return isServer
 			? null
 			: new CachePersistor({
-					key: `${CACHE_PERSIST_PREFIX}-${storeCode}`,
-					cache,
-					storage: globalThis.localStorage,
-					debug: process.env.NODE_ENV === 'development'
+				key: `${CACHE_PERSIST_PREFIX}-${storeCode}`,
+				cache,
+				storage: globalThis.localStorage,
+				debug: process.env.NODE_ENV === 'development'
 			  });
 	}, []);
 

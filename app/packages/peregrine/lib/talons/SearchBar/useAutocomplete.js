@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from 'react';
-import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
 import { useLazyQuery } from '@apollo/client';
+import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
 import debounce from 'lodash.debounce';
+import { useEffect, useMemo } from 'react';
+
 import { useEventingContext } from '../../context/eventing';
 
 /**

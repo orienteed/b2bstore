@@ -1,16 +1,15 @@
-import React from 'react';
-import { array, oneOf, oneOfType, string } from 'prop-types';
-
 import { useCmsDynamicBlock } from '@magento/peregrine/lib/talons/CmsDynamicBlock/useCmsDynamicBlock';
 import ErrorView from '@magento/venia-ui/lib/components/ErrorView';
+import { array, oneOf, oneOfType, string } from 'prop-types';
+import React from 'react';
 
 import {
-	DISPLAY_MODE_FIXED_TYPE,
-	DYNAMIC_BLOCK_FIXED_TYPE,
-	DISPLAY_MODE_SALES_RULE_TYPE,
-	DYNAMIC_BLOCK_SALES_RULE_TYPE,
 	DISPLAY_MODE_CATALOG_RULE_TYPE,
-	DYNAMIC_BLOCK_CATALOG_RULE_TYPE
+	DISPLAY_MODE_FIXED_TYPE,
+	DISPLAY_MODE_SALES_RULE_TYPE,
+	DYNAMIC_BLOCK_CATALOG_RULE_TYPE,
+	DYNAMIC_BLOCK_FIXED_TYPE,
+	DYNAMIC_BLOCK_SALES_RULE_TYPE
 } from './constants';
 import DynamicBlock from './dynamicBlock';
 

@@ -3,7 +3,7 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CartPage/PriceSummary/priceSummary.gql';
 import { useCustomerCreditSystem } from '@magento/peregrine/lib/talons/CheckoutPage/CustomerCreditSystem/useCustomerCreditSystem';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { bool, func,shape, string } from 'prop-types';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 

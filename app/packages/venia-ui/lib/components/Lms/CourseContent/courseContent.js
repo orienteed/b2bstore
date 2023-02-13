@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useCourseContent } from '@magento/peregrine/lib/talons/Lms/useCourseContent';
+import { useCourseItem } from '@magento/peregrine/lib/talons/Lms/useCourseItem';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { BrowserRouter, Link, useHistory } from 'react-router-dom';
 
-import Button from '@magento/venia-ui/lib/components/Button';
-import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useCourseContent } from '@magento/peregrine/lib/talons/Lms/useCourseContent';
-import { useCourseItem } from '@magento/peregrine/lib/talons/Lms/useCourseItem';
-
-import defaultClasses from './courseContent.module.css';
-
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
+import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
 import noCoursesImage from '../CoursesCatalog/Icons/noCourses.svg';
 import ConfirmationModal from './ConfirmationModal/confirmationModal';
+import defaultClasses from './courseContent.module.css';
 
 const DELIMITER = '/';
 

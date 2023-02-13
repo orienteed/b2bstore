@@ -1,10 +1,9 @@
+import { useMutation } from '@apollo/client';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useMemo, useReducer } from 'react';
 
 import { useCartContext } from '../../../context/cart';
-import { useMutation } from '@apollo/client';
-
 import DEFAULT_OPERATIONS from './orderAttributes.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 const orderAttributesData = {
 	comment: null,

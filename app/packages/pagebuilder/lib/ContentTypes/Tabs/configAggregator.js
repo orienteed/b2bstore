@@ -3,10 +3,10 @@ import {
 	getCssClasses,
 	getIsHidden,
 	getMargin,
+	getMediaQueries,
 	getPadding,
 	getTextAlign,
-	getVerticalAlignment,
-	getMediaQueries
+	getVerticalAlignment
 } from '../../utils';
 
 export default node => {

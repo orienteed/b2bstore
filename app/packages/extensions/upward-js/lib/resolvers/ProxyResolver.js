@@ -41,15 +41,15 @@ class ProxyResolver extends AbstractResolver {
 				agent = globalAgent;
 				if (ignoreSSLErrors) {
 					debug(
-						`target "%s" uses HTTPS and ignoreSSLErrors=true, creating HTTPSAgent({ rejectUnauthorized: false })`
+						'target "%s" uses HTTPS and ignoreSSLErrors=true, creating HTTPSAgent({ rejectUnauthorized: false })'
 					);
 					agent = new HTTPSAgent({ rejectUnauthorized: false });
 				} else {
-					debug(`target "%s" uses HTTPS, using global https agent`);
+					debug('target "%s" uses HTTPS, using global https agent');
 					agent = globalAgent;
 				}
 			} else {
-				debug(`target "%s" uses unsecure http`);
+				debug('target "%s" uses unsecure http');
 				agent = null;
 			}
 			const opts = {
@@ -61,7 +61,7 @@ class ProxyResolver extends AbstractResolver {
 				xfwd: true
 			};
 			if (target.username) {
-				debug(`target URL contains a username, adding auth to proxy`);
+				debug('target URL contains a username, adding auth to proxy');
 				opts.auth = [target.username, target.password].join(':');
 			}
 			server = proxyMiddleware(opts);

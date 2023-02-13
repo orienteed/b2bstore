@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+
 import OptionShimmer from './option.shimmer';
 
 const OPTION_COUNT = 2;

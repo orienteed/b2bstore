@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { node, shape, string } from 'prop-types';
-import { Text as InformedText } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
+import { Text as InformedText } from 'informed';
+import { node, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
 import { useStyle } from '../../classify';
 import { FieldIcons, Message } from '../Field';

@@ -1,8 +1,7 @@
-import { useEffect, useMemo } from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
+import { useEffect, useMemo } from 'react';
 
 import mergeOperations from '../../util/shallowMerge';
-
 import DEFAULT_OPERATIONS from './categoryTree.gql';
 
 /**

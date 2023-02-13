@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
-import { element, func, shape, string } from 'prop-types';
-import { Star } from 'react-feather';
 import { useAddToListButton } from '@magento/peregrine/lib/talons/Wishlist/AddToListButton/useAddToListButton';
+import { element, func, shape, string } from 'prop-types';
+import React, { useRef } from 'react';
 import { useButton } from 'react-aria';
+import { Star } from 'react-feather';
 
 import { useStyle } from '../../../classify';
 import Icon from '../../Icon';

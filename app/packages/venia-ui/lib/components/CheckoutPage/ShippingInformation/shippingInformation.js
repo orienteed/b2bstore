@@ -1,16 +1,16 @@
-import React, { Fragment, Suspense } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { func, string, shape } from 'prop-types';
-import { Edit2 as EditIcon } from 'react-feather';
 import { useShippingInformation } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingInformation/useShippingInformation';
+import { func, shape, string } from 'prop-types';
+import React, { Fragment, Suspense } from 'react';
+import { Edit2 as EditIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import Icon from '../../Icon';
+import LinkButton from '../../LinkButton';
 import LoadingIndicator from '../../LoadingIndicator';
 import AddressForm from './AddressForm';
 import Card from './card';
 import defaultClasses from './shippingInformation.module.css';
-import LinkButton from '../../LinkButton';
 
 const EditModal = React.lazy(() => import('./editModal'));
 

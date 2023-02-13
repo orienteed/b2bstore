@@ -1,8 +1,8 @@
+import { useCreateAccount } from '@magento/peregrine/lib/talons/CreateAccount/useCreateAccount';
+import { Form } from 'informed';
+import { bool, func, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
-import { func, shape, string, bool } from 'prop-types';
-import { useCreateAccount } from '@magento/peregrine/lib/talons/CreateAccount/useCreateAccount';
 
 import { useStyle } from '../../classify';
 import combine from '../../util/combineValidators';
@@ -10,11 +10,11 @@ import { hasLengthAtLeast, isRequired, validatePassword } from '../../util/formV
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Field from '../Field';
+import FormError from '../FormError';
+import GoogleRecaptcha from '../GoogleReCaptcha';
+import Password from '../Password';
 import TextInput from '../TextInput';
 import defaultClasses from './createAccount.module.css';
-import FormError from '../FormError';
-import Password from '../Password';
-import GoogleRecaptcha from '../GoogleReCaptcha';
 
 const CreateAccount = props => {
 	const talonProps = useCreateAccount({

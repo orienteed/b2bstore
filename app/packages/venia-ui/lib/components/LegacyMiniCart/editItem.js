@@ -1,7 +1,7 @@
-import React from 'react';
-import { bool, func, object, string } from 'prop-types';
 import { gql } from '@apollo/client';
 import { useEditItem } from '@magento/peregrine/lib/talons/LegacyMiniCart/useEditItem';
+import { bool, func, object, string } from 'prop-types';
+import React from 'react';
 
 import LoadingIndicator from '../LoadingIndicator';
 import CartOptions from './cartOptions';

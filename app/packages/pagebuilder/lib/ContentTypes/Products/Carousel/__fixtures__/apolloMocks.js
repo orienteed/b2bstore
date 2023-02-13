@@ -1,5 +1,5 @@
-import eeOperations from '../carousel.gql.ee';
 import ceOperations from '../carousel.gql.ce';
+import eeOperations from '../carousel.gql.ee';
 
 export const mockGetStoreConfigEE = {
 	request: {

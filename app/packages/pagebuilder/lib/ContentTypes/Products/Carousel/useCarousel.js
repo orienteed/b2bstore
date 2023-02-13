@@ -1,8 +1,7 @@
 import { useQuery } from '@apollo/client';
-
 import { useCustomerWishlistSkus } from '@magento/peregrine/lib/hooks/useCustomerWishlistSkus/useCustomerWishlistSkus';
-
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+
 import defaultOperations from './carousel.gql';
 
 /**

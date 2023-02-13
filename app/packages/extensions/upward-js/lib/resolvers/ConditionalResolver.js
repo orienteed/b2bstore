@@ -10,10 +10,10 @@ class ConditionalResolver extends AbstractResolver {
 	}
 	async resolve(definition) {
 		if (!definition.when || !Array.isArray(definition.when) || definition.when.length === 0) {
-			throw new Error(`ConditionalResolver must a 'when' list, with at least one matcher.`);
+			throw new Error("ConditionalResolver must a 'when' list, with at least one matcher.");
 		}
 		if (!definition.default) {
-			throw new Error(`ConditionalResolver must have a 'default' condition.`);
+			throw new Error("ConditionalResolver must have a 'default' condition.");
 		}
 		this.default = definition.default;
 

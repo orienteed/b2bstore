@@ -1,5 +1,5 @@
-import React from 'react';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import React from 'react';
 
 import CustomerForm from './customerForm';
 import GuestForm from './guestForm';

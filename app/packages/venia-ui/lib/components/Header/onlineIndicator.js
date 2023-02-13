@@ -1,9 +1,8 @@
-import React from 'react';
 import { bool, shape, string } from 'prop-types';
-
+import React from 'react';
 import { CloudOff as CloudOffIcon } from 'react-feather';
-import { useStyle } from '../../classify';
 
+import { useStyle } from '../../classify';
 import Icon from '../Icon';
 import defaultClasses from './onlineIndicator.module.css';
 

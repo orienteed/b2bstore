@@ -1,6 +1,6 @@
+import { node, object } from 'prop-types';
 import { useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { node, object } from 'prop-types';
 
 /**
  * A component that renders content into a DOM node that exists

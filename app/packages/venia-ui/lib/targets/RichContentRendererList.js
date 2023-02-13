@@ -34,7 +34,7 @@ class RichContentRendererList {
 			!renderer.importPath
 		) {
 			throw new Error(
-				`richContentRenderers target: Argument is not a valid rich content renderer strategy. A valid strategy must have a JSX element name as "componentName" and a resolvable path to the renderer module as "importPath".`
+				'richContentRenderers target: Argument is not a valid rich content renderer strategy. A valid strategy must have a JSX element name as "componentName" and a resolvable path to the renderer module as "importPath".'
 			);
 		}
 		this._renderers.unshift(`import * as ${renderer.componentName} from '${renderer.importPath}';`);

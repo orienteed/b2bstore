@@ -1,9 +1,8 @@
-import React from 'react';
-import { bool, func, object, shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { bool, func, object, shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
 import Country from '../../Country';
 import Dialog from '../../Dialog';

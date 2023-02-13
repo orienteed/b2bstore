@@ -1,8 +1,8 @@
+import { useApolloClient } from '@apollo/client';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useApolloClient } from '@apollo/client';
 
-import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { GET_PRODUCTS_IN_WISHLISTS } from './addToListButton.gql';
 import { useSingleWishlist } from './helpers/useSingleWishlist';
 

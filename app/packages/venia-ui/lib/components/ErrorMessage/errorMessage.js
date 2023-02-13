@@ -1,7 +1,7 @@
-import React from 'react';
-import { node, shape, string } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { node, shape, string } from 'prop-types';
+import React from 'react';
+
 import defaultClasses from './errorMessage.module.css';
 
 const ErrorMessage = React.forwardRef((props, ref) => {

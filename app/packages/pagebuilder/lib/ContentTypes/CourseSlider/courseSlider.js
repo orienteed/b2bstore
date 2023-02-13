@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-
+import getCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getCourses';
+import getCoursesByCategory from '@magento/peregrine/lib/RestApi/Lms/courses/getCoursesByCategory';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import CourseItem from '@magento/venia-ui/lib/components/Lms/CourseItem';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-
-import getCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getCourses';
-import getCoursesByCategory from '@magento/peregrine/lib/RestApi/Lms/courses/getCoursesByCategory';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import defaultClasses from './courseSlider.css';
-
 import ArrowRightIcon from './Icons/arrowRight.svg';
 
 const CourseSlider = ({ bannerType, categoryId }) => {

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const sortImages = (images = []) => images.filter(({ disabled }) => !disabled).sort((a, b) => a.position - b.position);
 

@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { useCartContext } from '../../../../context/cart';
-import { findMatchingVariant } from '../../../../util/findMatchingProductVariant';
-import DEFAULT_OPERATIONS from './productForm.gql';
 import { useEventingContext } from '../../../../context/eventing';
+import { findMatchingVariant } from '../../../../util/findMatchingProductVariant';
 import { getOutOfStockVariantsWithInitialSelection } from '../../../../util/getOutOfStockVariantsWithInitialSelection';
+import DEFAULT_OPERATIONS from './productForm.gql';
 
 /**
  * This talon contains logic for a product edit form.

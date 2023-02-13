@@ -1,17 +1,17 @@
+import { useQuoteProduct } from '@magento/peregrine/lib/talons/RequestQuote/QuotePage/useQuoteProduct';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Image from '@magento/venia-ui/lib/components/Image';
+import Kebab from '@magento/venia-ui/lib/components/LegacyMiniCart/kebab';
+import Section from '@magento/venia-ui/lib/components/LegacyMiniCart/section';
+import Price from '@magento/venia-ui/lib/components/Price';
 import React, { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
-import Price from '@magento/venia-ui/lib/components/Price';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import Kebab from '@magento/venia-ui/lib/components/LegacyMiniCart/kebab';
-import Section from '@magento/venia-ui/lib/components/LegacyMiniCart/section';
-import Image from '@magento/venia-ui/lib/components/Image';
-import QuoteProductOptions from './quoteProductOptions';
 import defaultClasses from './quoteProduct.module.css';
+import QuoteProductOptions from './quoteProductOptions';
 import QuoteQuantity from './quoteQuantity';
-import { useQuoteProduct } from '@magento/peregrine/lib/talons/RequestQuote/QuotePage/useQuoteProduct';
 
 const IMAGE_SIZE = 100;
 

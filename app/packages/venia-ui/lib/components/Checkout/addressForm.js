@@ -1,7 +1,8 @@
-import React from 'react';
+import { gql } from '@apollo/client';
+import { useAddressForm } from '@magento/peregrine/lib/talons/Checkout/useAddressForm';
 import { Form } from 'informed';
 import { array, bool, func, shape, string } from 'prop-types';
-import { useAddressForm } from '@magento/peregrine/lib/talons/Checkout/useAddressForm';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import combine from '../../util/combineValidators';
@@ -10,7 +11,6 @@ import Button from '../Button';
 import Field from '../Field';
 import TextInput from '../TextInput';
 import defaultClasses from './addressForm.module.css';
-import { gql } from '@apollo/client';
 
 const fields = ['city', 'email', 'firstname', 'lastname', 'postcode', 'region_code', 'street', 'telephone'];
 

@@ -1,6 +1,5 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import getTicketComments from '../../RestApi/Csr/tickets/ticket_articles/getTicketComments';
 import sendComment from '../../RestApi/Csr/tickets/ticket_articles/sendComment';

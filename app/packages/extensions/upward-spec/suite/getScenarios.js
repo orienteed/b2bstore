@@ -20,7 +20,7 @@ function getOneMatch(candidates, pattern) {
 
 async function getScenarios(pattern) {
 	if (!pattern || typeof pattern.test !== 'function') {
-		throw new Error(`UpwardSpec.getScenarios() requires a regular expression, or an object with a 'test' method`);
+		throw new Error("UpwardSpec.getScenarios() requires a regular expression, or an object with a 'test' method");
 	}
 	const baseDir = await resolve(__dirname, './scenarios', getOneMatch(await dirsPromise, pattern));
 

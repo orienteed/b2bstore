@@ -1,5 +1,5 @@
-import React from 'react';
 import { bool, shape, string } from 'prop-types';
+import React from 'react';
 
 const Option = props => {
 	const { disabled, item } = props;

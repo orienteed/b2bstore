@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 import { useIntl } from 'react-intl';
+
+import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 
 export const useFormError = props => {
 	const { errors, allowErrorMessages } = props;
@@ -10,8 +11,8 @@ export const useFormError = props => {
 		const defaultErrorMessage = allowErrorMessages
 			? ''
 			: formatMessage({
-					id: 'formError.errorMessage',
-					defaultMessage: 'An error has occurred. Please check the input and try again.'
+				id: 'formError.errorMessage',
+				defaultMessage: 'An error has occurred. Please check the input and try again.'
 			  });
 		return deriveErrorMessage(errors, defaultErrorMessage);
 	}, [errors, formatMessage, allowErrorMessages]);

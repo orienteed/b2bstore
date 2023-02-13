@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-
-import mergeOperations from '../../util/shallowMerge';
-import { useCartContext } from '../../context/cart';
-import defaultOperations from './addToCartDialog.gql';
-import { useEventingContext } from '../../context/eventing';
-import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
+import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useCartContext } from '../../context/cart';
+import { useEventingContext } from '../../context/eventing';
+import mergeOperations from '../../util/shallowMerge';
+import defaultOperations from './addToCartDialog.gql';
 
 export const useAddToCartDialog = props => {
 	const { item, onClose } = props;

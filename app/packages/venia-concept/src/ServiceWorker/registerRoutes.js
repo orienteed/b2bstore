@@ -2,19 +2,20 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { registerRoute } from 'workbox-routing';
 import {
     CacheFirst,
-    StaleWhileRevalidate,
-    NetworkFirst
+    NetworkFirst,
+    StaleWhileRevalidate
 } from 'workbox-strategies';
+
 import {
-    isResizedImage,
-    findSameOrLargerImage,
-    createImageCacheHandler
-} from './Utilities/imageCacheHandler';
-import {
-    THIRTY_DAYS,
+    IMAGES_CACHE_NAME,
     MAX_NUM_OF_IMAGES_TO_CACHE,
-    IMAGES_CACHE_NAME
+    THIRTY_DAYS
 } from './defaults';
+import {
+    createImageCacheHandler,
+    findSameOrLargerImage,
+    isResizedImage
+} from './Utilities/imageCacheHandler';
 
 /**
  * registerRoutes function contains all the routes that need to

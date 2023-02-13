@@ -1,6 +1,6 @@
 const TargetableESModule = require('./TargetableESModule');
 
-const lazyImportString = `{ lazy as reactLazy } from 'react';\n`;
+const lazyImportString = "{ lazy as reactLazy } from 'react';\n";
 const babelPluginPath = '@magento/pwa-buildpack/lib/WebpackTools/targetables/BabelModifyJSXPlugin/index.js';
 
 /**

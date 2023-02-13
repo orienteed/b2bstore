@@ -1,9 +1,9 @@
-import React from 'react';
+import { useTile } from '@magento/peregrine/lib/talons/ProductOptions/useTile';
 import { bool, func, number, oneOfType, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './tile.module.css';
-import { useTile } from '@magento/peregrine/lib/talons/ProductOptions/useTile';
 
 const getClassName = (name, isSelected, hasFocus, isOptionOutOfStock, isEverythingOutOfStock) =>
 	`${name}${isSelected ? '_selected' : ''}${hasFocus ? '_focused' : ''}${

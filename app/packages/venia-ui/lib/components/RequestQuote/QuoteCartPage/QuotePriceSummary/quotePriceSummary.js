@@ -1,8 +1,9 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
+import Price from '@magento/venia-ui/lib/components/Price';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Price from '@magento/venia-ui/lib/components/Price';
-import Button from '@magento/venia-ui/lib/components/Button';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+
 import defaultClasses from './quotePriceSummary.module.css';
 
 const QuotePriceSummary = props => {

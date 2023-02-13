@@ -76,14 +76,14 @@ function spliceSourceLoader(content) {
 			}
 			case 'before': {
 				if (!isNonEmptyString(value)) {
-					return nope(`A "before" property must be a non-empty string.`);
+					return nope('A "before" property must be a non-empty string.');
 				}
 				const pos = source.indexOf(value);
 				return pos === -1 ? nope(`The text "${value}" was not found.`) : spliceAt(pos);
 			}
 			case 'after': {
 				if (!isNonEmptyString(value)) {
-					return nope(`An "after" property must be a non-empty string.`);
+					return nope('An "after" property must be a non-empty string.');
 				}
 				const pos = source.indexOf(value);
 				return pos === -1 ? nope(`The text "${value}" was not found.`) : spliceAt(pos + value.length);

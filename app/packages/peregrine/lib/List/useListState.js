@@ -1,4 +1,4 @@
-import { useMemo, useReducer, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 
 import withLogger from '../util/withLogger';
 

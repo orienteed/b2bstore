@@ -1,17 +1,14 @@
+import { useForgotPassword } from '@magento/peregrine/lib/talons/ForgotPassword/useForgotPassword';
+import { func, shape, string } from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { func, shape, string } from 'prop-types';
 
-import { useForgotPassword } from '@magento/peregrine/lib/talons/ForgotPassword/useForgotPassword';
-
-import FormErrors from '../FormError';
 import { useStyle } from '../../classify';
+import FormErrors from '../FormError';
+import forgotPasswordOperations from './forgotPassword.gql';
+import defaultClasses from './forgotPassword.module.css';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import FormSubmissionSuccessful from './FormSubmissionSuccessful';
-
-import forgotPasswordOperations from './forgotPassword.gql';
-
-import defaultClasses from './forgotPassword.module.css';
 
 const ForgotPassword = props => {
 	const { initialValues, onCancel } = props;

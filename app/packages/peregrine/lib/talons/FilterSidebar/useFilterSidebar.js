@@ -1,14 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { useHistory, useLocation } from 'react-router-dom';
-
 import { useAppContext } from '@magento/peregrine/lib/context/app';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import mergeOperations from '../../util/shallowMerge';
 import { useFilterState } from '../FilterModal';
-import { getSearchFromState, getStateFromSearch, sortFiltersArray, stripHtml } from '../FilterModal/helpers';
-
 import DEFAULT_OPERATIONS from '../FilterModal/filterModal.gql';
+import { getSearchFromState, getStateFromSearch, sortFiltersArray, stripHtml } from '../FilterModal/helpers';
 
 const DRAWER_NAME = 'filter';
 

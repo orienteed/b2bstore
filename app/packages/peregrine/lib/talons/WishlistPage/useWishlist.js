@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import { useCallback, useEffect, useState } from 'react';
+
 import mergeOperations from '../../util/shallowMerge';
 import defaultOperations from './wishlist.gql';
 

@@ -2,10 +2,10 @@
  * Find out of stock variants/options of current option selections with initial selctions
  * @return {Array} variants
  */
-import { findAllMatchingVariants } from '@magento/peregrine/lib/util/findAllMatchingVariants';
-import { getOutOfStockIndexes } from '@magento/peregrine/lib/util/getOutOfStockIndexes';
 import { createProductVariants } from '@magento/peregrine/lib/util/createProductVariants';
+import { findAllMatchingVariants } from '@magento/peregrine/lib/util/findAllMatchingVariants';
 import { getCombinations } from '@magento/peregrine/lib/util/getCombinations';
+import { getOutOfStockIndexes } from '@magento/peregrine/lib/util/getOutOfStockIndexes';
 
 export const getOutOfStockVariantsWithInitialSelection = (
 	product,

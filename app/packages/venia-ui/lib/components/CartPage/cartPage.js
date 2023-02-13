@@ -1,23 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useToasts } from '@magento/peregrine';
+import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
+import React, { useEffect, useRef, useState } from 'react';
+import { Check } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useReactToPrint } from 'react-to-print';
-import { Check } from 'react-feather';
-import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
+
 import { useStyle } from '../../classify';
-import { useToasts } from '@magento/peregrine';
-
-import Icon from '../Icon';
 import Button from '../Button';
-import PriceSummary from './PriceSummary';
-import { StoreTitle } from '../Head';
-import defaultClasses from './cartPage.module.css';
-import ProductListing from './ProductListing';
-import PriceAdjustments from './PriceAdjustments';
-import StockStatusMessage from '../StockStatusMessage';
-import { fullPageLoadingIndicator } from '../LoadingIndicator';
-
-import PrintPdfPopup from './PrintPdfPopup';
 import SavedCartButton from '../BuyLaterNotes/SavedCartButton';
+import { StoreTitle } from '../Head';
+import Icon from '../Icon';
+import { fullPageLoadingIndicator } from '../LoadingIndicator';
+import StockStatusMessage from '../StockStatusMessage';
+import defaultClasses from './cartPage.module.css';
+import PriceAdjustments from './PriceAdjustments';
+import PriceSummary from './PriceSummary';
+import PrintPdfPopup from './PrintPdfPopup';
+import ProductListing from './ProductListing';
 const CheckIcon = <Icon size={20} src={Check} />;
 
 /**

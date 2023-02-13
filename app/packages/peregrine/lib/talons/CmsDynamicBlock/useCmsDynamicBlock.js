@@ -1,9 +1,8 @@
-import { useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import { useLocation } from 'react-router-dom';
-
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import DEFAULT_OPERATIONS from './cmsDynamicBlock.gql';
 

@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import { string, shape, object, arrayOf } from 'prop-types';
+import { arrayOf, object, shape, string } from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 
 const { matchMedia } = globalThis;
 

@@ -34,7 +34,7 @@ class DirectoryResolver extends AbstractResolver {
 				maxAge: process.env.NODE_ENV === 'production' ? 604800000 : 0
 			};
 			debug(
-				`creating new server for directory "%s" relative to "%s" with options %o`,
+				'creating new server for directory "%s" relative to "%s" with options %o',
 				directory,
 				this.visitor.upwardPath,
 				staticOpts

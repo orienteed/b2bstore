@@ -1,7 +1,6 @@
-import { useCallback } from 'react';
-
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
+import { useCallback } from 'react';
 
 export const useHeader = () => {
 	const [{ hasBeenOffline, isOnline, isPageLoading }] = useAppContext();

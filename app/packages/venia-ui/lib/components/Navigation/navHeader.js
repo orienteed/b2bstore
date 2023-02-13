@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
+import { useNavigationHeader } from '@magento/peregrine/lib/talons/Navigation/useNavigationHeader';
 import { bool, func, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 import { ArrowLeft as ArrowLeftIcon, X as CloseIcon } from 'react-feather';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import AccountChip from '../AccountChip';
 import Icon from '../Icon';
 import Trigger from '../Trigger';
 import defaultClasses from './navHeader.module.css';
-import { useNavigationHeader } from '@magento/peregrine/lib/talons/Navigation/useNavigationHeader';
 
 const NavHeader = props => {
 	const { isTopLevel, onBack, view } = props;

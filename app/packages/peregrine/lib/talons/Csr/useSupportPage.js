@@ -2,7 +2,7 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 import getGroups from '@magento/peregrine/lib/RestApi/Csr/groups/getGroups';
 import getTickets from '@magento/peregrine/lib/RestApi/Csr/tickets/getTickets';
 import getStates from '@magento/peregrine/lib/RestApi/Csr/tickets/ticket_states/getStates';
-import { useCallback,useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useSupportPage = () => {
 	const [{ isSignedIn }] = useUserContext();

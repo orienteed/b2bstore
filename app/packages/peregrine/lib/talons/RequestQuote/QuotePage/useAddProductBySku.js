@@ -1,9 +1,10 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import debounce from 'lodash.debounce';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { ADD_SIMPLE_PRODUCT_TO_MP_QUOTE, GET_PRODUCTS } from '../requestQuote.gql';
-import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '../useQuoteCartTrigger';
 import { setQuoteId } from '../Store';
+import { AFTER_UPDATE_MY_REQUEST_QUOTE } from '../useQuoteCartTrigger';
 
 export const useAddProductBySku = () => {
 	const [products, setProducts] = useState([]);

@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
 import { useApolloClient } from '@apollo/client';
+import { useCallback } from 'react';
 
 /**
  * A hook that will return a invokable query that returns a Promise. Intended

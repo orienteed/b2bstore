@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import getCourseModuleMedia from '@magento/peregrine/lib/RestApi/Lms/media/getCourseModuleMedia';
+import { useEffect, useState } from 'react';
 
 export const useCourseModuleContent = props => {
 	const { courseModuleUri, courseModuleMimetype, completiondata, isEnrolled } = props;

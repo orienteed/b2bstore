@@ -18,13 +18,13 @@ class UpwardMiddleware {
 		} catch (e) {
 			throw new UpwardServerError(e, `unable to read file ${upwardPath}`);
 		}
-		debug(`read upward.yml file successfully`);
+		debug('read upward.yml file successfully');
 		try {
 			this.definition = await jsYaml.safeLoad(this.yamlTxt);
 		} catch (e) {
 			throw new UpwardServerError(e, `error parsing ${upwardPath} contents: \n\n${this.yamlTxt}`);
 		}
-		debug(`parsed upward.yml file successfully: %o`, this.definition);
+		debug('parsed upward.yml file successfully: %o', this.definition);
 	}
 	async getHandler() {
 		return async (req, res, next) => {

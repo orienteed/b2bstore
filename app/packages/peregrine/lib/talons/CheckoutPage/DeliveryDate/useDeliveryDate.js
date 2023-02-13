@@ -1,9 +1,9 @@
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useMutation, useQuery } from '@apollo/client';
-import { useReducer, useMemo } from 'react';
+import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useMemo, useReducer } from 'react';
 
 import DEFAULT_OPERATIONS from './deliveryDate.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 const deliveryDateData = {
 	mp_delivery_date: '',

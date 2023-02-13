@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useFilterBlock = props => {
 	const { filterState, items, initialOpen } = props;

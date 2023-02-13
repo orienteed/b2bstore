@@ -44,7 +44,7 @@ async function createUpwardServer({
 	before = () => {}
 }) {
 	if (!upwardPath) {
-		throw new Error(`upwardPath is required`);
+		throw new Error('upwardPath is required');
 	}
 	const app = express();
 	before(app);

@@ -2,7 +2,7 @@ import { DATE_FORMAT } from '@magento/peregrine/lib/talons/BuyLaterNotes/config'
 import { useSavedCartsTable } from '@magento/peregrine/lib/talons/BuyLaterNotes/useSavedCartsTable';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { shape, string } from 'prop-types';
-import React, { useEffect,useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Price from '../../Price';

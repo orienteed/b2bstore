@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import defaultClasses from './row.module.css';
-import { verticalAlignmentToFlex } from '../../utils';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { arrayOf, oneOf, shape, bool, string, number, object } from 'prop-types';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { useDetectScrollWidth } from '@magento/peregrine/lib/hooks/useDetectScrollWidth';
 import { useMediaQuery } from '@magento/peregrine/lib/hooks/useMediaQuery';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, bool, number, object, oneOf, shape, string } from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+
+import { verticalAlignmentToFlex } from '../../utils';
+import defaultClasses from './row.module.css';
 
 const { matchMedia } = globalThis;
 
@@ -167,8 +168,8 @@ const Row = props => {
 				speed: enableParallax ? parallaxSpeed : 1,
 				imgSrc: videoFallbackSrc
 					? resourceUrl(videoFallbackSrc, {
-							type: 'image-wysiwyg',
-							quality: 85
+						type: 'image-wysiwyg',
+						quality: 85
 					  })
 					: null,
 				videoSrc,

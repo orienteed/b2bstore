@@ -1,19 +1,16 @@
-import React from 'react';
-import { useIntl } from 'react-intl';
-
-import Dialog from '../../Dialog';
-import Dropzone from './Dropzone/dropzone';
+import { useCreateTicketModal } from '@magento/peregrine/lib/talons/Csr/useCreateTicketModal';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Select from '@magento/venia-ui/lib/components/Select';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import React from 'react';
+import { useIntl } from 'react-intl';
 
-import { useCreateTicketModal } from '@magento/peregrine/lib/talons/Csr/useCreateTicketModal';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
+import Dialog from '../../Dialog';
 import defaultClasses from './createTicketModal.module.css';
-
+import Dropzone from './Dropzone/dropzone';
 import notFoundImage from './Icons/notFound.svg';
 
 const CreateTicketModal = props => {

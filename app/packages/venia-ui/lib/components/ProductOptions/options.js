@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import { useOptions } from '@magento/peregrine/lib/talons/ProductOptions/useOptions';
 import { array, func } from 'prop-types';
+import React, { useEffect } from 'react';
 
 import Option from './option';
-import { useOptions } from '@magento/peregrine/lib/talons/ProductOptions/useOptions';
 
 const Options = props => {
 	const {

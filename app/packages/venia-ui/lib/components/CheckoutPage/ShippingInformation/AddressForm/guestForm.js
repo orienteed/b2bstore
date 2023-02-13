@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useRef } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
-import { func, shape, string, arrayOf, number } from 'prop-types';
-import { AlertCircle } from 'react-feather';
-import { useGuestForm } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingInformation/AddressForm/useGuestForm';
 import { useToasts } from '@magento/peregrine';
+import { useGuestForm } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingInformation/AddressForm/useGuestForm';
+import { Form } from 'informed';
+import { arrayOf, func, number, shape, string } from 'prop-types';
+import React, { Fragment, useEffect, useRef } from 'react';
+import { AlertCircle } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../../../classify';
 import { isRequired } from '../../../../util/formValidators';
@@ -12,10 +12,10 @@ import Button from '../../../Button';
 import Country from '../../../Country';
 import Field, { Message } from '../../../Field';
 import FormError from '../../../FormError';
-import Region from '../../../Region';
-import Postcode from '../../../Postcode';
-import TextInput from '../../../TextInput';
 import Icon from '../../../Icon';
+import Postcode from '../../../Postcode';
+import Region from '../../../Region';
+import TextInput from '../../../TextInput';
 import defaultClasses from './guestForm.module.css';
 
 const AlertCircleIcon = <Icon src={AlertCircle} attrs={{ width: 20 }} />;
@@ -78,12 +78,12 @@ const GuestForm = props => {
 
 	const submitButtonText = isUpdate
 		? formatMessage({
-				id: 'global.updateButton',
-				defaultMessage: 'Update'
+			id: 'global.updateButton',
+			defaultMessage: 'Update'
 		  })
 		: formatMessage({
-				id: 'guestForm.continueToNextStep',
-				defaultMessage: 'Continue to Shipping Method'
+			id: 'guestForm.continueToNextStep',
+			defaultMessage: 'Continue to Shipping Method'
 		  });
 	const submitButtonProps = {
 		disabled: isSaving,

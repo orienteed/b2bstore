@@ -1,17 +1,18 @@
-import React, { useMemo, Fragment } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { shape, string } from 'prop-types';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './addProductBySku.module.css';
-import Image from '@magento/venia-ui/lib/components/Image';
-import { Link } from 'react-router-dom';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
-import Price from '@magento/venia-ui/lib/components/Price';
-import Button from '@magento/venia-ui/lib/components/Button';
-import { Form } from 'informed';
-import Field from '@magento/venia-ui/lib/components/Field';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { useAddProductBySku } from '@magento/peregrine/lib/talons/RequestQuote/QuotePage/useAddProductBySku';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
+import Field from '@magento/venia-ui/lib/components/Field';
+import Image from '@magento/venia-ui/lib/components/Image';
+import Price from '@magento/venia-ui/lib/components/Price';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
+import React, { Fragment, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
+
+import defaultClasses from './addProductBySku.module.css';
 
 const IMAGE_WIDTH = 60;
 

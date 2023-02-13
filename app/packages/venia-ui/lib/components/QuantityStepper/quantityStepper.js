@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
-import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
 import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper';
+import React, { Fragment } from 'react';
+import { Minus as MinusIcon, Plus as PlusIcon } from 'react-feather';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
+import { Message } from '../Field';
 import Icon from '../Icon';
 import TextInput from '../TextInput';
-import { Message } from '../Field';
 import defaultClasses from './quantityStepper.module.css';
 
 const QuantityStepper = props => {

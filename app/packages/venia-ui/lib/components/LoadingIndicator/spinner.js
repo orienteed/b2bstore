@@ -1,9 +1,9 @@
 import React from 'react';
-
-import defaultClasses from './spinner.module.css';
-import { useStyle } from '../../classify';
 import { RotateCw as LoaderIcon } from 'react-feather';
+
+import { useStyle } from '../../classify';
 import Icon from '../Icon';
+import defaultClasses from './spinner.module.css';
 
 const Spinner = props => {
 	const classes = useStyle(defaultClasses, props.classes);

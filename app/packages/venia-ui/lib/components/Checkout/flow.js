@@ -1,19 +1,17 @@
-import React, { useCallback } from 'react';
-import { func, shape, string } from 'prop-types';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { gql } from '@apollo/client';
-
 import { useToasts } from '@magento/peregrine';
 import { useFlow } from '@magento/peregrine/lib/talons/Checkout/useFlow';
+import { func, shape, string } from 'prop-types';
+import React, { useCallback } from 'react';
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
 
 import { useStyle } from '../../classify';
 import isObjectEmpty from '../../util/isObjectEmpty';
 import Icon from '../Icon';
 import CheckoutButton from './checkoutButton';
+import defaultClasses from './flow.module.css';
 import Form from './form';
 import Receipt from './Receipt';
-
-import defaultClasses from './flow.module.css';
 
 const ErrorIcon = <Icon src={AlertCircleIcon} attrs={{ width: 18 }} />;
 

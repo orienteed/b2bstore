@@ -20,10 +20,10 @@ try {
 function addImgOptMiddleware(app, config) {
 	const { cacheExpires, cacheDebug, origin } = config;
 	if (origin === 'backend') {
-		debug(`image origin set to "backend", not mounting onboard image optimization middleware`);
+		debug('image origin set to "backend", not mounting onboard image optimization middleware');
 		return;
 	}
-	debug(`mounting onboard image optimization middleware "hastily"`);
+	debug('mounting onboard image optimization middleware "hastily"');
 
 	let cacheMiddleware;
 	let imageopto;

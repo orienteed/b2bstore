@@ -2,7 +2,6 @@ import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '../../../context/cart';
 import mergeOperations from '../../../util/shallowMerge';
-
 import defaultOperations from './summary.gql';
 /**
  * Talon to handle summary component in payment information section of

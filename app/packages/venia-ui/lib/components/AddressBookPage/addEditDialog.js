@@ -1,10 +1,4 @@
-import React from 'react';
-import { bool, func, object, shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
-
 import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 import Country from '@magento/venia-ui/lib/components/Country';
 import Dialog from '@magento/venia-ui/lib/components/Dialog';
@@ -13,6 +7,11 @@ import FormError from '@magento/venia-ui/lib/components/FormError';
 import Postcode from '@magento/venia-ui/lib/components/Postcode';
 import Region from '@magento/venia-ui/lib/components/Region';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { bool, func, object, shape, string } from 'prop-types';
+import React from 'react';
+import { useIntl } from 'react-intl';
+
 import defaultClasses from './addEditDialog.module.css';
 
 const AddEditDialog = props => {

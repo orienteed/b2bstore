@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import React, { createContext, useContext, useMemo } from 'react';
+
 import DEFAULT_OPERATIONS from './orderHistoryContext.gql';
 
 const OrderHistoryContext = createContext();

@@ -1,13 +1,13 @@
-import React, { Fragment, useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { string } from 'prop-types';
-import { Link } from 'react-router-dom';
-
 import { useBreadcrumbs } from '@magento/peregrine/lib/talons/Breadcrumbs/useBreadcrumbs';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { string } from 'prop-types';
+import React, { Fragment, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+
 import { useStyle } from '../../classify';
-import Shimmer from './breadcrumbs.shimmer';
 import defaultClasses from './breadcrumbs.module.css';
+import Shimmer from './breadcrumbs.shimmer';
 
 const DELIMITER = '/';
 /**

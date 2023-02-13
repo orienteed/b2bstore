@@ -1,8 +1,9 @@
-import { useCallback, useState, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
+import { useCallback, useMemo, useState } from 'react';
+
+import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './wishlist.gql';
 import getWishlistConfigQuery from './wishlistConfig.gql';
-import mergeOperations from '../../util/shallowMerge';
 
 const dialogs = {
 	NONE: 1,

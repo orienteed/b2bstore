@@ -1,14 +1,13 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { func, number, shape, string } from 'prop-types';
-import { Edit2 as EditIcon } from 'react-feather';
-
 import Price from '@magento/venia-ui/lib/components/Price';
+import { func, number, shape, string } from 'prop-types';
+import React from 'react';
+import { Edit2 as EditIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import Icon from '../../Icon';
-import defaultClasses from './completedView.module.css';
 import LinkButton from '../../LinkButton';
+import defaultClasses from './completedView.module.css';
 
 const CompletedView = props => {
 	const { selectedShippingMethod, showUpdateMode } = props;

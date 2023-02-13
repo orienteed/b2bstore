@@ -4,7 +4,7 @@ import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useTicketFilter } from '@magento/peregrine/lib/talons/Csr/useTicketFilter';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { arrayOf, shape, string } from 'prop-types';
-import React, { useCallback,useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import FilterItem from './filterItem';

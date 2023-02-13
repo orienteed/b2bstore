@@ -1,14 +1,13 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-
 import { useLegacyMiniCart } from '@magento/peregrine/lib/talons/LegacyMiniCart/useLegacyMiniCart';
+import { shape, string } from 'prop-types';
+import React from 'react';
 
+import { useStyle } from '../../classify';
 import Body from './body';
 import Footer from './footer';
 import Header from './header';
 import Mask from './mask';
 import defaultClasses from './miniCart.module.css';
-import { useStyle } from '../../classify';
 
 /**
  * @deprecated - use component/MiniCart instead

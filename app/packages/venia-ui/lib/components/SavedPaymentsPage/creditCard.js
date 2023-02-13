@@ -1,12 +1,11 @@
-import React, { useMemo, useEffect } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { AlertCircle as AlertCircleIcon, Trash2 as DeleteIcon } from 'react-feather';
-
 import { useToasts } from '@magento/peregrine';
 import { useCreditCard } from '@magento/peregrine/lib/talons/SavedPaymentsPage/useCreditCard';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
+import React, { useEffect, useMemo } from 'react';
+import { AlertCircle as AlertCircleIcon, Trash2 as DeleteIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import Button from '../Button';
 import Icon from '../Icon';
 import LinkButton from '../LinkButton';

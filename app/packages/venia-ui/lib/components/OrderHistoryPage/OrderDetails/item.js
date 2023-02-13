@@ -1,6 +1,6 @@
 import { useOrderHistoryContext } from '@magento/peregrine/lib/talons/OrderHistoryPage/orderHistoryContext';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { arrayOf,number, shape, string } from 'prop-types';
+import { arrayOf, number, shape, string } from 'prop-types';
 import React, { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';

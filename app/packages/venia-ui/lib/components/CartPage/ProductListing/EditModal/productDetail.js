@@ -1,7 +1,7 @@
+import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
+import Price from '@magento/venia-ui/lib/components/Price';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Price from '@magento/venia-ui/lib/components/Price';
-import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 
 import { useStyle } from '../../../../classify';
 import Image from '../../../Image';

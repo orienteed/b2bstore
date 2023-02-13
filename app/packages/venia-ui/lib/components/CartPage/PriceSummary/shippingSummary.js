@@ -1,6 +1,6 @@
+import Price from '@magento/venia-ui/lib/components/Price';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Price from '@magento/venia-ui/lib/components/Price';
 
 import { useStyle } from '../../../classify';
 /**
@@ -25,12 +25,12 @@ const ShippingSummary = props => {
 
 	const shippingLabel = isCheckout
 		? formatMessage({
-				id: 'shippingSummary.shipping',
-				defaultMessage: 'Shipping'
+			id: 'shippingSummary.shipping',
+			defaultMessage: 'Shipping'
 		  })
 		: formatMessage({
-				id: 'shippingSummary.estimatedShipping',
-				defaultMessage: 'Estimated Shipping'
+			id: 'shippingSummary.estimatedShipping',
+			defaultMessage: 'Estimated Shipping'
 		  });
 
 	// For a value of "0", display "FREE".

@@ -1,10 +1,9 @@
-import React, { Suspense } from 'react';
 import { bool, number, object, shape, string } from 'prop-types';
+import React, { Suspense } from 'react';
 
 import { useStyle } from '../../classify';
 import Checkout from '../Checkout';
 import CheckoutButton from '../Checkout/checkoutButton';
-
 import defaultClasses from './footer.module.css';
 import TotalsSummary from './totalsSummary';
 

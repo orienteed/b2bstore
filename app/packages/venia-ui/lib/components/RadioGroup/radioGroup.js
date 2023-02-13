@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { arrayOf, number, node, oneOfType, shape, string } from 'prop-types';
-import { RadioGroup as InformedRadioGroup } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
+import { RadioGroup as InformedRadioGroup } from 'informed';
+import { arrayOf, node, number, oneOfType, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 
 import { useStyle } from '../../classify';
 import { Message } from '../Field';

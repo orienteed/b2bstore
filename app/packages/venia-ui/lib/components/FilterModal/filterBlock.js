@@ -1,16 +1,15 @@
-import React from 'react';
-import { arrayOf, shape, string, func, bool } from 'prop-types';
-import { useIntl } from 'react-intl';
-import { ChevronDown as ArrowDown, ChevronUp as ArrowUp } from 'react-feather';
-import { Form } from 'informed';
-
 import { useFilterBlock } from '@magento/peregrine/lib/talons/FilterModal';
 import setValidator from '@magento/peregrine/lib/validators/set';
+import { Form } from 'informed';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
+import React from 'react';
+import { ChevronDown as ArrowDown, ChevronUp as ArrowUp } from 'react-feather';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
-import FilterList from './FilterList';
 import defaultClasses from './filterBlock.module.css';
+import FilterList from './FilterList';
 
 const FilterBlock = props => {
 	const { filterApi, filterState, filterFrontendInput, group, items, name, onApply, initialOpen } = props;
@@ -37,22 +36,22 @@ const FilterBlock = props => {
 
 	const toggleItemOptionsAriaLabel = isExpanded
 		? formatMessage(
-				{
-					id: 'filterModal.item.hideOptions',
-					defaultMessage: 'Hide "{itemName}" filter item options.'
-				},
-				{
-					itemName: name
-				}
+			{
+				id: 'filterModal.item.hideOptions',
+				defaultMessage: 'Hide "{itemName}" filter item options.'
+			},
+			{
+				itemName: name
+			}
 		  )
 		: formatMessage(
-				{
-					id: 'filterModal.item.showOptions',
-					defaultMessage: 'Show "{itemName}" filter item options.'
-				},
-				{
-					itemName: name
-				}
+			{
+				id: 'filterModal.item.showOptions',
+				defaultMessage: 'Show "{itemName}" filter item options.'
+			},
+			{
+				itemName: name
+			}
 		  );
 
 	const list = isExpanded ? (

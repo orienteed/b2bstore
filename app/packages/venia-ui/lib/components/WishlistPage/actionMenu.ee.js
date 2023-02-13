@@ -1,9 +1,10 @@
-import React from 'react';
-import Icon from '../Icon';
-import { MoreHorizontal } from 'react-feather';
 import { useActionMenu } from '@magento/peregrine/lib/talons/WishlistPage/useActionMenu';
-import WishlistListActionsDialog from './wishlistListActionsDialog';
+import React from 'react';
+import { MoreHorizontal } from 'react-feather';
+
+import Icon from '../Icon';
 import WishlistEditFavoritesListDialog from './wishlistEditFavoritesListDialog';
+import WishlistListActionsDialog from './wishlistListActionsDialog';
 
 const ActionMenu = props => {
 	const { id, name, visibility } = props;

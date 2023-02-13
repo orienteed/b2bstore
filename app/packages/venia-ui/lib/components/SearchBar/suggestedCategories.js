@@ -1,9 +1,9 @@
-import React from 'react';
 import { arrayOf, func, number, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
-import SuggestedCategory from './suggestedCategory';
 import defaultClasses from './suggestedCategories.module.css';
+import SuggestedCategory from './suggestedCategory';
 
 const SuggestedCategories = props => {
 	const { categories, limit, onNavigate, value } = props;

@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-
 import getCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getCourses';
 import getUserCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getUserCourses';
+import { useEffect, useState } from 'react';
 
 export const useLearningRoute = () => {
 	const [{ isSignedIn }] = useUserContext();

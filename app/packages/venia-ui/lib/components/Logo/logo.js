@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
+
 import { useStyle } from '../../classify';
 import Image from '../Image';
 import logo from './B2BStoreLogo.svg';

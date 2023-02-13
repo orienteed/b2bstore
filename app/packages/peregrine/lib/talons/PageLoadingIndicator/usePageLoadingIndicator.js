@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { useAppContext } from '../../context/app';
 
 const GROUP_LOADING_DELAY = 750;

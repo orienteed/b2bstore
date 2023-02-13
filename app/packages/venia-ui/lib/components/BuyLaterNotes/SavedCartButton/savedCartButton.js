@@ -1,14 +1,12 @@
+import { useSavedCart } from '@magento/peregrine/lib/talons/BuyLaterNotes/useSavedCart';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { shape, string } from 'prop-types';
 
 import Button from '../../Button';
-import SavedCartPopup from './savedCartPopup';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import { useSavedCart } from '@magento/peregrine/lib/talons/BuyLaterNotes/useSavedCart';
-
 import defaultClasses from './savedCartButton.module.css';
+import SavedCartPopup from './savedCartPopup';
 
 const SavedCartButton = props => {
 	const classes = useStyle(defaultClasses, props.classes);

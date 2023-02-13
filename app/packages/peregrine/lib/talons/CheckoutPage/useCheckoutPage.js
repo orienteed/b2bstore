@@ -1,6 +1,6 @@
 import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useNoReorderProductContext } from '@magento/venia-ui/lib/components/NoReorderProductProvider/noReorderProductProvider.js';
-import { useCallback, useEffect, useMemo, useRef,useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactGA from 'react-ga';
 
 import { useCartContext } from '../../context/cart';

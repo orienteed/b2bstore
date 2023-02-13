@@ -1,10 +1,11 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { SHARE_CART } from './buyLaterNotes.gql';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { GET_CART_DETAILS } from '@magento/peregrine/lib/talons/CreateAccount/createAccount.gql';
+import { useCallback, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+
+import { SHARE_CART } from './buyLaterNotes.gql';
 
 export const useShareCartPage = async () => {
 	const [isLoading, setIsLoading] = useState(true);

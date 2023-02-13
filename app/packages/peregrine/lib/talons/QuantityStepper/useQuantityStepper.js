@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useFieldApi } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
+import { useFieldApi } from 'informed';
 import debounce from 'lodash.debounce';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 /**
  * This talon contains logic for a product quantity UI component.

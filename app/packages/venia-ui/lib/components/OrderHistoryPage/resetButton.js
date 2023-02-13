@@ -1,6 +1,6 @@
-import React from 'react';
 import { useFormApi } from 'informed';
 import { func } from 'prop-types';
+import React from 'react';
 import { X as ClearIcon } from 'react-feather';
 
 import Icon from '../Icon';

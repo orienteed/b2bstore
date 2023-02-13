@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-
 import useScript from '@magento/peregrine/lib/hooks/useScript';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useState } from 'react';
 
 import defaultOperations from './googleReCaptchaConfig.gql';
 

@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react';
-import { arrayOf, node, number, oneOfType, shape, string } from 'prop-types';
-import { Option as InformedOption, Select as InformedSelect, useFieldState } from 'informed';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { FieldIcons } from '@magento/venia-ui/lib/components/Field';
-import defaultClasses from '@magento/venia-ui/lib/components/Select/select.module.css';
 import Icon from '@magento/venia-ui/lib/components/Icon';
+import defaultClasses from '@magento/venia-ui/lib/components/Select/select.module.css';
+import { Option as InformedOption, Select as InformedSelect, useFieldState } from 'informed';
+import { arrayOf, node, number, oneOfType, shape, string } from 'prop-types';
+import React, { Fragment } from 'react';
 import { ChevronDown as ChevronDownIcon } from 'react-feather';
 
 const arrow = <Icon src={ChevronDownIcon} size={24} />;

@@ -1,11 +1,10 @@
+import { useEmptyMiniCart } from '@magento/peregrine/lib/talons/LegacyMiniCart/useEmptyMiniCart';
+import { func, shape, string } from 'prop-types';
 import React from 'react';
-import { func, string, shape } from 'prop-types';
 
 import { useStyle } from '../../classify';
-
-import defaultClasses from './emptyMiniCartBody.module.css';
-import { useEmptyMiniCart } from '@magento/peregrine/lib/talons/LegacyMiniCart/useEmptyMiniCart';
 import Button from '../Button';
+import defaultClasses from './emptyMiniCartBody.module.css';
 
 const EMPTY_TITLE = 'There are no items in your shopping cart';
 const CONTINUE_SHOPPING = 'Continue Shopping';

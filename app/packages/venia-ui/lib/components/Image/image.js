@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes, { bool, func, instanceOf, number, oneOfType, shape, string } from 'prop-types';
 import { useImage } from '@magento/peregrine/lib/talons/Image/useImage';
 import { DEFAULT_WIDTH_TO_HEIGHT_RATIO } from '@magento/peregrine/lib/util/imageUtils';
+import PropTypes, { bool, func, instanceOf, number, oneOfType, shape, string } from 'prop-types';
+import React from 'react';
 
+import { useStyle } from '../../classify';
+import defaultClasses from './image.module.css';
 import PlaceholderImage from './placeholderImage';
 import ResourceImage from './resourceImage';
 import SimpleImage from './simpleImage';
-import { useStyle } from '../../classify';
-
-import defaultClasses from './image.module.css';
 /**
  * The Image component renders a placeholder until the image is loaded.
  *

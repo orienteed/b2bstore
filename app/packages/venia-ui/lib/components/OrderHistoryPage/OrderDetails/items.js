@@ -1,5 +1,5 @@
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { arrayOf, number,shape, string } from 'prop-types';
+import { arrayOf, number, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 

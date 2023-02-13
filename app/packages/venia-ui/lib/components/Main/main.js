@@ -1,6 +1,6 @@
-import React from 'react';
-import { bool, shape, string } from 'prop-types';
 import { useScrollLock } from '@magento/peregrine';
+import { bool, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import Footer from '../Footer';

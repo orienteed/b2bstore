@@ -1,14 +1,13 @@
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useLazyQuery, useQuery } from '@apollo/client';
 
-import mergeOperations from '../../../util/shallowMerge';
 import { useAppContext } from '../../../context/app';
 import { usePagination } from '../../../hooks/usePagination';
 import { useScrollTopOnChange } from '../../../hooks/useScrollTopOnChange';
 import { useSort } from '../../../hooks/useSort';
-import { getFiltersFromSearch, getFilterInput } from '../../../talons/FilterModal/helpers';
-
+import { getFilterInput, getFiltersFromSearch } from '../../../talons/FilterModal/helpers';
+import mergeOperations from '../../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './category.gql';
 
 /**

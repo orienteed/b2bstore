@@ -1,14 +1,13 @@
+import { func } from 'prop-types';
 import React, { Suspense } from 'react';
 import { useIntl } from 'react-intl';
-import { func } from 'prop-types';
 
 import { useStyle } from '../../../classify';
-import LoadingIndicator from '../../LoadingIndicator';
 import { Accordion, Section } from '../../Accordion';
 import CouponCode from '../../CartPage/PriceAdjustments/CouponCode';
 import GiftCardSection from '../../CartPage/PriceAdjustments/giftCardSection';
 import GiftOptionsSection from '../../CartPage/PriceAdjustments/giftOptionsSection';
-
+import LoadingIndicator from '../../LoadingIndicator';
 import defaultClasses from './priceAdjustments.module.css';
 
 /**

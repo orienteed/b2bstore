@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
-
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useCallback, useMemo, useState } from 'react';
+
+import { useEventingContext } from '../../context/eventing';
 import mergeOperations from '../../util/shallowMerge';
 import defaultOperations from './wishlistItem.gql';
-import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
 import { ADD_CONFIGURABLE_MUTATION } from '../ProductFullDetail/productFullDetail.gql.ce';

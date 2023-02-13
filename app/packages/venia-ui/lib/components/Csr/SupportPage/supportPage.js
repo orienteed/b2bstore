@@ -9,7 +9,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import emptyTicketsIcon from '@magento/venia-ui/lib/components/Lms/CoursesCatalog/Icons/noCourses.svg';
 import { Form } from 'informed';
 import React from 'react';
-import { ArrowRight as SubmitIcon,Search as SearchIcon } from 'react-feather';
+import { ArrowRight as SubmitIcon, Search as SearchIcon } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { BrowserRouter, Link } from 'react-router-dom';
 

@@ -1,7 +1,6 @@
+import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-
-import { useAppContext } from '@magento/peregrine/lib/context/app';
 
 /**
  * The useMyAccount talon complements the MyAccount component.

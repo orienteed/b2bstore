@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
+import { CustomerAddressBookAddressFragment } from '@magento/peregrine/lib/talons/AddressBookPage/addressBookFragments.gql';
 
 import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 import { AvailablePaymentMethodsFragment } from './paymentInformation.gql';
-
-import { CustomerAddressBookAddressFragment } from '@magento/peregrine/lib/talons/AddressBookPage/addressBookFragments.gql';
 
 export const GET_IS_BILLING_ADDRESS_SAME = gql`
 	query getIsBillingAddressSame($cartId: String!) {

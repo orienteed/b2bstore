@@ -1,12 +1,13 @@
-import React, { useMemo, useCallback } from 'react';
-import { ChevronDown as ArrowDown } from 'react-feather';
-import { arrayOf, shape, string } from 'prop-types';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import SortItem from '@magento/venia-ui/lib/components/ProductSort/sortItem';
-import defaultClasses from './CategoryFilter.module.css';
 import Button from '@magento/venia-ui/lib/components/Button';
+import SortItem from '@magento/venia-ui/lib/components/ProductSort/sortItem';
+import { arrayOf, shape, string } from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { ChevronDown as ArrowDown } from 'react-feather';
+
 import Icon from '../../../Icon';
+import defaultClasses from './CategoryFilter.module.css';
 
 const CategoryFilter = props => {
 	const classes = useStyle(defaultClasses, props.classes);

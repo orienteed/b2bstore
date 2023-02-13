@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useEffect, useState } from 'react';
 
-import getStates from '../../RestApi/Csr/tickets/ticket_states/getStates';
 import getGroups from '../../RestApi/Csr/groups/getGroups';
+import getStates from '../../RestApi/Csr/tickets/ticket_states/getStates';
 
 export const useTicketFilter = props => {
 	const [{ isSignedIn }] = useUserContext();

@@ -1,18 +1,16 @@
+import { useOrderIncidencesModal } from '@magento/peregrine/lib/talons/Csr/useOrderIncidencesModal';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
+import Select from '@magento/venia-ui/lib/components/Select';
+import TextArea from '@magento/venia-ui/lib/components/TextArea';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
 import Dialog from '../../Dialog';
 import Dropzone from '../CreateTicketModal/Dropzone/dropzone';
 import notFoundImage from '../CreateTicketModal/Icons/notFound.svg';
-import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
-import Select from '@magento/venia-ui/lib/components/Select';
-import TextArea from '@magento/venia-ui/lib/components/TextArea';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import { useOrderIncidencesModal } from '@magento/peregrine/lib/talons/Csr/useOrderIncidencesModal';
-
 import defaultClasses from './orderIncidenceModal.module.css';
 
 const OrderIncidencesModal = props => {

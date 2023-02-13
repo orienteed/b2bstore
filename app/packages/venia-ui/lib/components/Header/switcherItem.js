@@ -1,6 +1,6 @@
+import { bool, func, shape, string } from 'prop-types';
 import React, { useCallback } from 'react';
 import { Check } from 'react-feather';
-import { bool, func, shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import Icon from '../Icon/icon';

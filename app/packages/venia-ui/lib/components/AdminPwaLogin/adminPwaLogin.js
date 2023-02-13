@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { useCallback, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 const storage = new BrowserPersistence();
 

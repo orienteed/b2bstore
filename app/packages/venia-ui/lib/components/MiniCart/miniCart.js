@@ -1,18 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Lock as LockIcon, AlertCircle as AlertCircleIcon } from 'react-feather';
-import { bool, shape, string } from 'prop-types';
-
-import { useScrollLock, Price, useToasts } from '@magento/peregrine';
+import { Price, useScrollLock, useToasts } from '@magento/peregrine';
 import { useMiniCart } from '@magento/peregrine/lib/talons/MiniCart/useMiniCart';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { bool, shape, string } from 'prop-types';
+import React, { Fragment, useEffect } from 'react';
+import { AlertCircle as AlertCircleIcon, Lock as LockIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 import Button from '../Button';
 import Icon from '../Icon';
 import StockStatusMessage from '../StockStatusMessage';
-import ProductList from './ProductList';
-import defaultClasses from './miniCart.module.css';
 import operations from './miniCart.gql';
+import defaultClasses from './miniCart.module.css';
+import ProductList from './ProductList';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 

@@ -1,5 +1,5 @@
-import React, { Fragment, useMemo } from 'react';
 import { array, func, object, oneOf, oneOfType, string } from 'prop-types';
+import React, { Fragment, useMemo } from 'react';
 
 import iterable from '../validators/iterable';
 import Item from './item';

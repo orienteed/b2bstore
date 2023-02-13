@@ -1,14 +1,13 @@
-import React, { Fragment, useMemo } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { useWishlistPage } from '@magento/peregrine/lib/talons/WishlistPage/useWishlistPage';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
+import React, { Fragment, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import { fullPageLoadingIndicator } from '../LoadingIndicator';
+import CreateWishlist from './createWishlist';
 import Wishlist from './wishlist';
 import defaultClasses from './wishlistPage.module.css';
-
-import CreateWishlist from './createWishlist';
 
 const WishlistPage = props => {
 	const talonProps = useWishlistPage();

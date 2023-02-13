@@ -1,5 +1,6 @@
-import React from 'react';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import React from 'react';
+
 import defaultClasses from './options.module.css';
 
 const Options = props => {

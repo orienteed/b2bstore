@@ -1,7 +1,7 @@
+import { useStockStatusMessage } from '@magento/peregrine/lib/talons/StockStatusMessage/useStockStatusMessage';
+import { arrayOf, node, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { arrayOf, node, shape, string } from 'prop-types';
-import { useStockStatusMessage } from '@magento/peregrine/lib/talons/StockStatusMessage/useStockStatusMessage';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './stockStatusMessage.module.css';

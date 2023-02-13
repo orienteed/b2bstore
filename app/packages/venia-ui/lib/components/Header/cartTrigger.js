@@ -1,14 +1,13 @@
-import React, { Fragment, Suspense } from 'react';
+import { useCartTrigger } from '@magento/peregrine/lib/talons/Header/useCartTrigger';
 import { shape, string } from 'prop-types';
+import React, { Fragment, Suspense } from 'react';
 import { ShoppingBag as ShoppingCartIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { useCartTrigger } from '@magento/peregrine/lib/talons/Header/useCartTrigger';
-
 import { useStyle } from '../../classify';
 import Icon from '../Icon';
-import defaultClasses from './cartTrigger.module.css';
 import { GET_ITEM_COUNT_QUERY } from './cartTrigger.gql';
+import defaultClasses from './cartTrigger.module.css';
 
 const MiniCart = React.lazy(() => import('../MiniCart'));
 

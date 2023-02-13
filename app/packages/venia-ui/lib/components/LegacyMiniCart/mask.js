@@ -1,9 +1,8 @@
-import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import Mask from '../Mask';
-
 import defaultClasses from './mask.module.css';
 
 const MiniCartMask = props => {

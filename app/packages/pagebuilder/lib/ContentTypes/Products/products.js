@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Gallery from '@magento/venia-ui/lib/components/Gallery';
+import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+
 import Carousel from './Carousel/carousel';
 import defaultClasses from './products.module.css';
 /**

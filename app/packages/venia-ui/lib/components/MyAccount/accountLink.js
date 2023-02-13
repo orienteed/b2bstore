@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
 import { arrayOf, func, node, shape, string } from 'prop-types';
+import React, { useCallback } from 'react';
 
 import { useStyle } from '../../classify';
 import Button from '../Button';
-
 import defaultClasses from './accountLink.module.css';
 
 const AccountLink = props => {

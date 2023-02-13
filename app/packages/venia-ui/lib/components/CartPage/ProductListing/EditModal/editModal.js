@@ -1,5 +1,5 @@
-import React from 'react';
 import { useEditModal } from '@magento/peregrine/lib/talons/CartPage/ProductListing/EditModal/useEditModal';
+import React from 'react';
 
 import ProductForm from './productForm';
 

@@ -1,13 +1,14 @@
-import React from 'react';
 import {
 	PeregrineContextProvider as Peregrine,
 	ToastContextProvider,
 	WindowSizeContextProvider
 } from '@magento/peregrine';
-import LocaleProvider from './localeProvider';
-import { NoReorderProductProvider } from '../NoReorderProductProvider/noReorderProductProvider';
-import { DownloadCsvProvider } from '../Gallery/DownloadCsvProvider/downloadCsvProvider';
+import React from 'react';
+
 import { PrintPdfProvider } from '../CartPage/PrintPdfProvider/printPdfProvider';
+import { DownloadCsvProvider } from '../Gallery/DownloadCsvProvider/downloadCsvProvider';
+import { NoReorderProductProvider } from '../NoReorderProductProvider/noReorderProductProvider';
+import LocaleProvider from './localeProvider';
 /**
  * List of context providers that are required to run Venia
  *

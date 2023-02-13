@@ -1,18 +1,17 @@
-import React from 'react';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { arrayOf, number, shape, string } from 'prop-types';
+import React from 'react';
+import { Printer } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
-import { Printer } from 'react-feather';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '../../Button';
+import Icon from '../../Icon';
 import BillingInformation from './billingInformation';
 import Items from './items';
+import defaultClasses from './orderDetails.module.css';
 import PaymentMethod from './paymentMethod';
 import ShippingInformation from './shippingInformation';
 import ShippingMethod from './shippingMethod';
-import Icon from '../../Icon';
-import Button from '../../Button';
-
-import defaultClasses from './orderDetails.module.css';
 
 const ConditionalWrapper = props => (props.condition ? props.children : null);
 

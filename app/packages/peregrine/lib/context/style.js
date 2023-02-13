@@ -1,5 +1,5 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import mergeClasses from '@magento/peregrine/lib/util/shallowMerge';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 const StyleContext = createContext();
 const isServer = !globalThis.document;

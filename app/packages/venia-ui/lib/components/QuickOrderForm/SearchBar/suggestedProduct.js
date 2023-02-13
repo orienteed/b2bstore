@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useCallback } from 'react';
-import { func, number, shape, string } from 'prop-types';
-import Price from '@magento/venia-ui/lib/components/Price';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import Image from '@magento/venia-ui/lib/components/Image';
+import Price from '@magento/venia-ui/lib/components/Price';
+import { func, number, shape, string } from 'prop-types';
+import React, { useCallback } from 'react';
+
 import defaultClasses from './suggestedProduct.module.css';
 
 const IMAGE_WIDTH = 60;

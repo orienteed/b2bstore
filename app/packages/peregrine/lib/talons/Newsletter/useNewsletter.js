@@ -1,6 +1,7 @@
-import { useCallback, useRef, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useMemo, useRef, useState } from 'react';
+
 import DEFAULT_OPERATIONS from './newsletter.gql';
 
 export const useNewsletter = (props = {}) => {

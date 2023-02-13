@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
+import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useAppContext } from '@magento/peregrine/lib/context/app';
 
+import { useEventingContext } from '../../../context/eventing';
 import mergeOperations from '../../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './product.gql';
-import { useEventingContext } from '../../../context/eventing';
 
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that

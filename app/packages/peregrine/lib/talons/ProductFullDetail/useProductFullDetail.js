@@ -1,18 +1,18 @@
-import { useCallback, useState, useMemo, useEffect } from 'react';
-import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-
 import { appendOptionsToPayload } from '@magento/peregrine/lib/util/appendOptionsToPayload';
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
+import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/util/isSupportedProductType';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
+
+import { useEventingContext } from '../../context/eventing';
 import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 import mergeOperations from '../../util/shallowMerge';
 import defaultOperations from './productFullDetail.gql';
-import { useEventingContext } from '../../context/eventing';
-import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 
 const INITIAL_OPTION_CODES = new Map();
 const INITIAL_OPTION_SELECTIONS = new Map();
@@ -540,12 +540,12 @@ export const useProductFullDetail = props => {
 		buttonText: isSelected =>
 			isSelected
 				? formatMessage({
-						id: 'wishlistButton.addedText',
-						defaultMessage: 'Added to Favorites'
+					id: 'wishlistButton.addedText',
+					defaultMessage: 'Added to Favorites'
 				  })
 				: formatMessage({
-						id: 'wishlistButton.addText',
-						defaultMessage: 'Add to Favorites'
+					id: 'wishlistButton.addText',
+					defaultMessage: 'Add to Favorites'
 				  }),
 		item: wishlistItemOptions,
 		storeConfig: storeConfigData ? storeConfigData.storeConfig : {}

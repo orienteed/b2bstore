@@ -1,13 +1,14 @@
-import React, { useMemo } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { shape, string } from 'prop-types';
-import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useQuotes } from '@magento/peregrine/lib/talons/RequestQuote/useQuotes';
-import QuotesToolbar from './quotesToolbar';
-import QuotesRow from './quotesRow';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
+import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
+import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import defaultClasses from './quotes.module.css';
+import QuotesRow from './quotesRow';
+import QuotesToolbar from './quotesToolbar';
 
 const Quotes = props => {
 	const talonProps = useQuotes();

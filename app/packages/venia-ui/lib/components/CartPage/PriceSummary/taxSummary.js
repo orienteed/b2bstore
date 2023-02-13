@@ -1,6 +1,6 @@
+import Price from '@magento/venia-ui/lib/components/Price';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Price from '@magento/venia-ui/lib/components/Price';
 
 import { useStyle } from '../../../classify';
 /**
@@ -34,12 +34,12 @@ const TaxSummary = props => {
 
 	const taxLabel = isCheckout
 		? formatMessage({
-				id: 'taxSummary.tax',
-				defaultMessage: 'Tax'
+			id: 'taxSummary.tax',
+			defaultMessage: 'Tax'
 		  })
 		: formatMessage({
-				id: 'taxSummary.estimatedTax',
-				defaultMessage: 'Estimated Tax'
+			id: 'taxSummary.estimatedTax',
+			defaultMessage: 'Estimated Tax'
 		  });
 
 	const tax = getEstimatedTax(props.data);

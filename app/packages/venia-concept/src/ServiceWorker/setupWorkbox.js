@@ -1,4 +1,4 @@
-import { skipWaiting, clientsClaim } from 'workbox-core';
+import { clientsClaim, skipWaiting } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 
 export default function () {

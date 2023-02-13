@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react';
 import { array, func, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
-
 import Product from './product';
 import defaultClasses from './productList.module.css';
 

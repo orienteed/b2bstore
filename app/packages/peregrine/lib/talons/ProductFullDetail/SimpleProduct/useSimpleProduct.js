@@ -1,12 +1,13 @@
-import { useCallback, useMemo } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import { useIntl } from 'react-intl';
+import { useMutation, useQuery } from '@apollo/client';
+import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import defaultOperations from '@magento/peregrine/lib/talons/Gallery/gallery.gql';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
-import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import { GET_SIMPLE_PRODUCT } from '../SimpleProduct/getSimpleProduct.gql';
+import { useCallback, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+
+import { GET_SIMPLE_PRODUCT } from '../SimpleProduct/getSimpleProduct.gql';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 export const useSimpleProduct = (props = {}) => {
@@ -38,12 +39,12 @@ export const useSimpleProduct = (props = {}) => {
 		buttonText: isSelected =>
 			isSelected
 				? formatMessage({
-						id: 'wishlistButton.addedText',
-						defaultMessage: 'Added to Favorites'
+					id: 'wishlistButton.addedText',
+					defaultMessage: 'Added to Favorites'
 				  })
 				: formatMessage({
-						id: 'wishlistButton.addText',
-						defaultMessage: 'Add to Favorites'
+					id: 'wishlistButton.addText',
+					defaultMessage: 'Add to Favorites'
 				  }),
 		item: wishlistItemOptions,
 		storeConfig: storeConfigData ? storeConfigData.storeConfig : {}

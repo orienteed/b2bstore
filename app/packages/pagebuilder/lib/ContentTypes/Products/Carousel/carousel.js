@@ -1,6 +1,7 @@
+import GalleryItem from '@magento/venia-ui/lib/components/Gallery/item';
 import React from 'react';
 import SlickSlider from 'react-slick';
-import GalleryItem from '@magento/venia-ui/lib/components/Gallery/item';
+
 import { useCarousel } from './useCarousel';
 
 const Carousel = props => {

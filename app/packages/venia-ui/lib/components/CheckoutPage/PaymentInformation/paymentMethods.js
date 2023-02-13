@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import { shape, string, bool, func } from 'prop-types';
-import { useIntl } from 'react-intl';
-
 import { usePaymentMethods } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/usePaymentMethods';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import RadioGroup from '@magento/venia-ui/lib/components/RadioGroup';
 import Radio from '@magento/venia-ui/lib/components/RadioGroup/radio';
-import defaultClasses from './paymentMethods.module.css';
+import { bool, func, shape, string } from 'prop-types';
+import React, { useEffect } from 'react';
+import { useIntl } from 'react-intl';
+
 import payments from './paymentMethodCollection';
+import defaultClasses from './paymentMethods.module.css';
 
 const PaymentMethods = props => {
 	const {

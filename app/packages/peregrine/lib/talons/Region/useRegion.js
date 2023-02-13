@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
 import { useQuery } from '@apollo/client';
-import { useFieldApi } from 'informed';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
+import { useFieldApi } from 'informed';
+import { useEffect, useRef } from 'react';
 
 /**
  * The useRegion talon handles logic for:

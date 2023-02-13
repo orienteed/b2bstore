@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import PriceSummary from '../../CartPage/PriceSummary';
-import { useStyle } from '../../../classify';
 
+import { useStyle } from '../../../classify';
+import PriceSummary from '../../CartPage/PriceSummary';
 import defaultClasses from './orderSummary.module.css';
 
 const OrderSummary = props => {

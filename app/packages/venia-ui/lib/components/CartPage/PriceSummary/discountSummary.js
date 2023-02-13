@@ -1,12 +1,13 @@
-import React, { Fragment } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useDiscountSummary } from '@magento/peregrine/lib/talons/CartPage/PriceSummary/useDiscountSummary';
 import Price from '@magento/venia-ui/lib/components/Price';
+import React, { Fragment } from 'react';
+import AnimateHeight from 'react-animate-height';
+import { ChevronDown as ArrowDown, ChevronUp as ArrowUp } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import { useStyle } from '../../../classify';
 import Icon from '../../Icon';
-import { ChevronDown as ArrowDown, ChevronUp as ArrowUp } from 'react-feather';
 import defaultClasses from './discountSummary.module.css';
-import AnimateHeight from 'react-animate-height';
-import { useDiscountSummary } from '@magento/peregrine/lib/talons/CartPage/PriceSummary/useDiscountSummary';
 
 const MINUS_SYMBOL = '-';
 
@@ -24,12 +25,12 @@ const DiscountSummary = props => {
 
 	const toggleDiscountsAriaLabel = expanded
 		? formatMessage({
-				id: 'priceSummary.discountSummary.hideDiscounts',
-				defaultMessage: 'Hide individual discounts.'
+			id: 'priceSummary.discountSummary.hideDiscounts',
+			defaultMessage: 'Hide individual discounts.'
 		  })
 		: formatMessage({
-				id: 'priceSummary.discountSummary.showDiscounts',
-				defaultMessage: 'Show individual discounts.'
+			id: 'priceSummary.discountSummary.showDiscounts',
+			defaultMessage: 'Show individual discounts.'
 		  });
 
 	const iconSrc = expanded ? ArrowUp : ArrowDown;

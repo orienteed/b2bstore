@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import defaultOperations from './addressBookPage.gql';
 import { useEventingContext } from '../../context/eventing';
+import defaultOperations from './addressBookPage.gql';
 
 /**
  *  A talon to support the functionality of the Address Book page.

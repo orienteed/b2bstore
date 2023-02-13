@@ -1,18 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import { useBillingAddress } from '@magento/peregrine/lib/talons/CheckoutPage/BillingAddress/useBillingAddress';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { shape, string, func, bool } from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
 import Country from '@magento/venia-ui/lib/components/Country';
-import Region from '@magento/venia-ui/lib/components/Region';
-import Postcode from '@magento/venia-ui/lib/components/Postcode';
 import Field from '@magento/venia-ui/lib/components/Field';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import FormError from '@magento/venia-ui/lib/components/FormError';
+import Postcode from '@magento/venia-ui/lib/components/Postcode';
+import Region from '@magento/venia-ui/lib/components/Region';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { bool, func, shape, string } from 'prop-types';
+import React, { useCallback, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import defaultClasses from './billingAddress.module.css';
-
-import { useBillingAddress } from '@magento/peregrine/lib/talons/CheckoutPage/BillingAddress/useBillingAddress';
 
 const BillingAddress = props => {
 	const classes = useStyle(defaultClasses, props.classes);

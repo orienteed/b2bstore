@@ -1,17 +1,18 @@
-import React, { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Facebook, Instagram, Youtube } from 'react-feather';
-import { Link } from 'react-router-dom';
+import { useStoreConfigData } from '@magento/peregrine/lib/talons/Footer/useStoreConfigData';
+import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { shape, string } from 'prop-types';
-import Newsletter from '../Newsletter';
+import React, { Fragment } from 'react';
+import { Facebook, Instagram, Youtube } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+
 import { useStyle } from '../../classify';
+import Logo from '../Logo';
+import Newsletter from '../Newsletter';
+import copyrightLogo from './assets/copyright.svg';
 import defaultClasses from './footer.module.css';
 import { DEFAULT_LINKS } from './sampleData';
-import Logo from '../Logo';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
-import copyrightLogo from './assets/copyright.svg';
-import { BrowserPersistence } from '@magento/peregrine/lib/util';
-import { useStoreConfigData } from '@magento/peregrine/lib/talons/Footer/useStoreConfigData';
 
 const storage = new BrowserPersistence();
 

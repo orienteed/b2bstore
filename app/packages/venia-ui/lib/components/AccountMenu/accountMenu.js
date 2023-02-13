@@ -1,13 +1,13 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
 import { useAccountMenu } from '@magento/peregrine/lib/talons/Header/useAccountMenu';
+import { shape, string } from 'prop-types';
+import React from 'react';
 
 import { useStyle } from '../../classify';
 import CreateAccount from '../CreateAccount';
-import SignIn from '../SignIn/signIn';
-import AccountMenuItems from './accountMenuItems';
 import ForgotPassword from '../ForgotPassword';
+import SignIn from '../SignIn/signIn';
 import defaultClasses from './accountMenu.module.css';
+import AccountMenuItems from './accountMenuItems';
 
 const AccountMenu = React.forwardRef((props, ref) => {
 	const { accountMenuIsOpen, setAccountMenuIsOpen } = props;

@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useCallback, useState } from 'react';
 
 export const useProduct = props => {
 	const { beginEditItem, createCartMutation, getCartDetailsQuery, item, removeItemMutation } = props;

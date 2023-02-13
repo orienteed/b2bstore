@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+
 import { useToastContext } from './useToastContext';
 
 // By default all toasts are dismissed after a timeout unless specified by the

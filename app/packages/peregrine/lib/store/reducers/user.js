@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+
 import BrowserPersistence from '../../util/simplePersistence';
 
 const storage = new BrowserPersistence();

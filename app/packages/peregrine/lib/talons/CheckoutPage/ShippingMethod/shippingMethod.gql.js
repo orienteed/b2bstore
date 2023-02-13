@@ -2,7 +2,6 @@ import { gql } from '@apollo/client';
 
 import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFragments.gql';
 import { ShippingInformationFragment } from '../ShippingInformation/shippingInformationFragments.gql';
-
 import {
 	AvailableShippingMethodsCheckoutFragment,
 	SelectedShippingMethodCheckoutFragment

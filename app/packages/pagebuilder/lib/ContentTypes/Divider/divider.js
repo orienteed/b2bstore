@@ -1,7 +1,8 @@
-import React from 'react';
-import defaultClasses from './divider.module.css';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { arrayOf, shape, string } from 'prop-types';
+import React from 'react';
+
+import defaultClasses from './divider.module.css';
 
 /**
  * Page Builder Divider component.

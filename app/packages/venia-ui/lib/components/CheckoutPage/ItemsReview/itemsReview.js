@@ -1,14 +1,12 @@
+import { useItemsReview } from '@magento/peregrine/lib/talons/CheckoutPage/ItemsReview/useItemsReview';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useItemsReview } from '@magento/peregrine/lib/talons/CheckoutPage/ItemsReview/useItemsReview';
-
-import Item from './item';
-import ShowAllButton from './showAllButton';
-import LoadingIndicator from '../../LoadingIndicator';
 import { useStyle } from '../../../classify';
-
+import LoadingIndicator from '../../LoadingIndicator';
+import Item from './item';
 import defaultClasses from './itemsReview.module.css';
+import ShowAllButton from './showAllButton';
 
 /**
  * Renders a list of items in an order.

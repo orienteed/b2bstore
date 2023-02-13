@@ -30,50 +30,50 @@ export const getCurrency = products => (products && products.length > 0 ? produc
 export const getFormattedProducts = products => {
 	return products
 		? products.map(item => {
-				const { uid, product, prices, quantity, configurable_options: options } = item;
+			const { uid, product, prices, quantity, configurable_options: options } = item;
 
-				const { name, sku, __typename: type, url_key: url, small_image: image, thumbnail } = product;
+			const { name, sku, __typename: type, url_key: url, small_image: image, thumbnail } = product;
 
-				const formattedOptions = options
+			const formattedOptions = options
 					? options.map(option => {
-							const {
-								id,
-								option_label,
-								value_label,
-								configurable_product_option_value_uid: valueId
-							} = option;
-							return {
-								id: id,
-								optionLabel: option_label,
-								valueId: valueId,
-								valueLabel: value_label
-							};
+						const {
+							id,
+							option_label,
+							value_label,
+							configurable_product_option_value_uid: valueId
+						} = option;
+						return {
+							id: id,
+							optionLabel: option_label,
+							valueId: valueId,
+							valueLabel: value_label
+						};
 					  })
 					: null;
 
-				const imageUrl = image ? image.url : thumbnail ? thumbnail.url : null;
+			const imageUrl = image ? image.url : thumbnail ? thumbnail.url : null;
 
-				return {
-					formattedPrice: '',
-					id: uid,
-					prices: prices,
-					product: {
-						name: name,
-						sku: sku,
-						productType: type,
-						pricing: {
-							regularPrice: prices.price.value,
-							minimalPrice: prices.price.value,
-							maximalPrice: prices.price.value,
-							currencyCode: prices.price.currency
-						},
-						canonicalUrl: url,
-						mainImageUrl: imageUrl
+			return {
+				formattedPrice: '',
+				id: uid,
+				prices: prices,
+				product: {
+					name: name,
+					sku: sku,
+					productType: type,
+					pricing: {
+						regularPrice: prices.price.value,
+						minimalPrice: prices.price.value,
+						maximalPrice: prices.price.value,
+						currencyCode: prices.price.currency
 					},
+					canonicalUrl: url,
+					mainImageUrl: imageUrl
+				},
 
-					configurableOptions: formattedOptions,
-					quantity: quantity
-				};
+				configurableOptions: formattedOptions,
+				quantity: quantity
+			};
 		  })
 		: null;
 };

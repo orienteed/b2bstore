@@ -1,9 +1,8 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import Dialog from '../../../Dialog';
-
 import defaultClasses from './attachmentModal.module.css';
 
 const AttachmentModal = props => {

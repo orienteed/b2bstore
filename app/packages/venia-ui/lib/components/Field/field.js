@@ -1,6 +1,6 @@
+import { bool, node, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { bool, node, shape, string } from 'prop-types';
 
 import { useStyle } from '../../classify';
 import defaultClasses from './field.module.css';

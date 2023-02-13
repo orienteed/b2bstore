@@ -1,6 +1,6 @@
 export default class M2ApiResponseError extends Error {
 	constructor({ method, resourceUrl, response, bodyText }, ...args) {
-		let body = ``;
+		let body = '';
 		let parsedBodyText;
 
 		try {

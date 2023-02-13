@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+
 import ContentTypeFactory from './factory';
 import parseStorageHtml from './parseStorageHtml';
 

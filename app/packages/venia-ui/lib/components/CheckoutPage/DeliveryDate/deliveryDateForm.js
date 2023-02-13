@@ -5,7 +5,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import { Form } from 'informed';
 import moment from 'moment';
-import React, { Suspense,useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { FormattedMessage, useIntl } from 'react-intl';
 

@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { useCatalogContext } from '../../context/catalog';
 import { useUserContext } from '../../context/user';
 import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import useInternalLink from '../../hooks/useInternalLink';
-
+import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './navigation.gql';
 
 const ancestors = {

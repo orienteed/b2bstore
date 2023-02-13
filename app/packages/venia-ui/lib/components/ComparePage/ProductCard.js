@@ -1,13 +1,12 @@
-import React from 'react';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import Image from '../Image';
-import { Trash2 } from 'react-feather';
-import Icon from '../Icon';
 import { Price } from '@magento/peregrine';
-import AddToCartbutton from '../Gallery/addToCartButton';
-import WishlistGalleryButton from '../Wishlist/AddToListButton';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import React from 'react';
+import { Trash2 } from 'react-feather';
 
+import AddToCartbutton from '../Gallery/addToCartButton';
+import Icon from '../Icon';
+import Image from '../Image';
+import WishlistGalleryButton from '../Wishlist/AddToListButton';
 import defaultClasses from './ProductCard.module.css';
 
 const ProductCard = ({ item, deleteProduct }) => {

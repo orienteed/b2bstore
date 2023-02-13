@@ -1,9 +1,9 @@
+import { array, object, shape, string } from 'prop-types';
 import React from 'react';
-import { shape, string, array, object } from 'prop-types';
-import { useStyle } from '../../classify';
 
-import GalleryItemShimmer from './item.shimmer';
+import { useStyle } from '../../classify';
 import defaultClasses from './gallery.module.css';
+import GalleryItemShimmer from './item.shimmer';
 
 const GalleryShimmer = props => {
 	const { items, itemProps } = props;

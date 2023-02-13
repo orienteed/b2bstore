@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client';
-
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import DEFAULT_OPERATIONS from './giftOptionsSection.gql.js';

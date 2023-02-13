@@ -1,10 +1,11 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { shape, string } from 'prop-types';
-import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './quoteSuccess.module.css';
+import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
+import { shape, string } from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
+
+import defaultClasses from './quoteSuccess.module.css';
 
 const QuoteSuccess = props => {
 	const classes = useStyle(defaultClasses, props.classes);

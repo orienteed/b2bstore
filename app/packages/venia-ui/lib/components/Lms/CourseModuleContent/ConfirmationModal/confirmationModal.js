@@ -1,9 +1,8 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { useStyle } from '@magento/venia-ui/lib/classify';
 import Dialog from '../../../ConfirmationDialog';
-
 import defaultClasses from './confirmationModal.module.css';
 
 const ConfirmationModal = props => {

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { useFieldState } from 'informed';
+import { useEffect, useState } from 'react';
 
 const useInformedFieldStateWrapper = field => {
 	const [isInitialRender, setIsInitialRender] = useState(true);

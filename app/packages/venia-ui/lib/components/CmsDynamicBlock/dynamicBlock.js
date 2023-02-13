@@ -1,5 +1,5 @@
-import React from 'react';
 import { shape, string } from 'prop-types';
+import React from 'react';
 
 import RichContent from '../RichContent';
 

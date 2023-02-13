@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useCartContext } from '../../context/cart';
-import operations from './addToCart.gql';
 import { ADD_CONFIGURABLE_MUTATION, GET_PARENT_SKU } from '../QuickOrderForm/addProductByCsv.gql';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import operations from './addToCart.gql';
 /**
  * @param {String} props.item.uid - uid of item
  * @param {String} props.item.name - name of item

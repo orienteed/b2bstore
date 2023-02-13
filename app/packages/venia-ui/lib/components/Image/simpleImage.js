@@ -1,5 +1,5 @@
-import React from 'react';
 import { func, number, oneOfType, string } from 'prop-types';
+import React from 'react';
 
 /**
  * Renders an img element directly using the supplied src.

@@ -34,8 +34,8 @@ class CustomContentTypeList {
 			!type.importPath
 		) {
 			throw new Error(
-				`customContentTypes target: Argument is not a valid rich content type.` +
-					` A valid type must have a JSX element name as "contentType" and a resolvable path to the renderer module as "importPath".`
+				'customContentTypes target: Argument is not a valid rich content type.' +
+					' A valid type must have a JSX element name as "contentType" and a resolvable path to the renderer module as "importPath".'
 			);
 		}
 		const componentName = `${type.contentType}ContentType`;

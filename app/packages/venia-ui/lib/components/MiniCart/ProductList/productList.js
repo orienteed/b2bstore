@@ -1,9 +1,8 @@
+import { arrayOf, func, number, oneOf, shape, string } from 'prop-types';
 import React, { useMemo } from 'react';
-import { string, func, arrayOf, shape, number, oneOf } from 'prop-types';
 
-import Item from './item';
 import { useStyle } from '../../../classify';
-
+import Item from './item';
 import defaultClasses from './productList.module.css';
 
 const ProductList = props => {

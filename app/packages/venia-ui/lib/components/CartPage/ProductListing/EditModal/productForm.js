@@ -1,15 +1,15 @@
+import { useProductForm } from '@magento/peregrine/lib/talons/CartPage/ProductListing/EditModal/useProductForm';
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useProductForm } from '@magento/peregrine/lib/talons/CartPage/ProductListing/EditModal/useProductForm';
 
 import { useStyle } from '../../../../classify';
+import Dialog from '../../../Dialog';
 import FormError from '../../../FormError';
 import LoadingIndicator from '../../../LoadingIndicator';
 import Options from '../../../ProductOptions';
 import QuantityStepper from '../../../QuantityStepper';
-import defaultClasses from './productForm.module.css';
-import Dialog from '../../../Dialog';
 import ProductDetail from './productDetail';
+import defaultClasses from './productForm.module.css';
 
 const ProductForm = props => {
 	const { item: cartItem, setIsCartUpdating, variantPrice, setVariantPrice, setActiveEditItem } = props;
@@ -42,13 +42,13 @@ const ProductForm = props => {
 
 	const message = isLoading
 		? formatMessage({
-				id: 'productForm.fetchingProductOptions',
-				defaultMessage: 'Fetching Product Options...'
+			id: 'productForm.fetchingProductOptions',
+			defaultMessage: 'Fetching Product Options...'
 		  })
 			? isSaving
 			: formatMessage({
-					id: 'productForm.updatingCart',
-					defaultMessage: 'Updating Cart...'
+				id: 'productForm.updatingCart',
+				defaultMessage: 'Updating Cart...'
 			  })
 		: null;
 

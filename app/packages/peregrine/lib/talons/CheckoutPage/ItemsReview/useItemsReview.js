@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useCartContext } from '../../../context/cart';
 import mergeOperations from '../../../util/shallowMerge';

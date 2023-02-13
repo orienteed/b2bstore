@@ -1,5 +1,6 @@
+import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { gql, useQuery, useLazyQuery } from '@apollo/client';
+
 import { useCartContext } from '../../context/cart';
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './cartPage.gql';

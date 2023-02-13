@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
-import { shape, string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useAddToCartDialog } from '@magento/peregrine/lib/talons/AddToCartDialog/useAddToCartDialog';
+import { shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { useStyle } from '../../classify';
 import Button from '../Button';
 import Dialog from '../Dialog';
+import FormError from '../FormError';
 import Image from '../Image';
+import { Spinner } from '../LoadingIndicator';
 import Price from '../Price';
 import Options from '../ProductOptions';
 import defaultClasses from './addToCartDialog.module.css';
-import FormError from '../FormError';
-import { Spinner } from '../LoadingIndicator';
 
 const AddToCartDialog = props => {
 	const { item } = props;

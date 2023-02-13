@@ -1,7 +1,8 @@
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { FormattedMessage } from 'react-intl';
-import { useStyle } from '@magento/venia-ui/lib/classify';
+
 import defaultClasses from './CookiesConsent.module.css';
 
 const CookiesConsent = () => {

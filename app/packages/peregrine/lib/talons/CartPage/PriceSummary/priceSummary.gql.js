@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+
 import { PriceSummaryFragment } from './priceSummaryFragments.gql';
 
 const GET_PRICE_SUMMARY = gql`

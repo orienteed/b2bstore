@@ -10,11 +10,11 @@
  *   https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#requestPaymentMethod.
  */
 
-import React, { useEffect, useState } from 'react';
 import { bool, func, shape, string } from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-import defaultClasses from './braintreeDropin.module.css';
 import { useStyle } from '../../classify';
+import defaultClasses from './braintreeDropin.module.css';
 
 const authorization = process.env.CHECKOUT_BRAINTREE_TOKEN;
 const CONTAINER_ID = 'braintree-dropin-container';

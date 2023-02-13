@@ -10,17 +10,17 @@ const wordwrap = require('word-wrap');
 
 const formatWith =
 	(level, color, icon) =>
-	(str, ...args) =>
-		console[level](
-			color(
-				wordwrap(`${icon}  ${str}`, {
-					width: process.stdout.columns - 5,
-					trim: true,
-					newline: '\n     '
-				})
-			),
-			...args
-		);
+		(str, ...args) =>
+			console[level](
+				color(
+					wordwrap(`${icon}  ${str}`, {
+						width: process.stdout.columns - 5,
+						trim: true,
+						newline: '\n     '
+					})
+				),
+				...args
+			);
 
 const noFormatting = x => x;
 

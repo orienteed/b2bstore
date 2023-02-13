@@ -1,9 +1,8 @@
-import { useCallback, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
+import { useCallback, useMemo } from 'react';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
-
+import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './communicationsPage.gql';
 
 export const useCommunicationsPage = props => {

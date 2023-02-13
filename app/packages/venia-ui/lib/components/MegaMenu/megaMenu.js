@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-
 import { useIsInViewport } from '@magento/peregrine/lib/hooks/useIsInViewport';
 import { useMegaMenu } from '@magento/peregrine/lib/talons/MegaMenu/useMegaMenu';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import React, { useEffect, useRef, useState } from 'react';
 
-import MegaMenuItem from './megaMenuItem';
 import defaultClasses from './megaMenu.module.css';
+import MegaMenuItem from './megaMenuItem';
 
 /**
  * The MegaMenu component displays menu with categories on desktop devices

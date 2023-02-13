@@ -1,7 +1,8 @@
+import { number, shape, string } from 'prop-types';
 import React, { Fragment } from 'react';
-import { number, string, shape } from 'prop-types';
-import patches from '../util/intlPatches';
 import { useIntl } from 'react-intl';
+
+import patches from '../util/intlPatches';
 
 /**
  * @deprecated - replaced by to @magento/venia-ui/lib/components/Price

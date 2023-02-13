@@ -1,8 +1,3 @@
-import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Edit2 as EditIcon } from 'react-feather';
-import { Form } from 'informed';
-
 import { useGiftOptions } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/GiftOptions/useGiftOptions';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -10,11 +5,15 @@ import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 import Field from '@magento/venia-ui/lib/components/Field';
 import FormError from '@magento/venia-ui/lib/components/FormError';
 import Icon from '@magento/venia-ui/lib/components/Icon';
-import LoadingIndicator, { Spinner } from '@magento/venia-ui/lib/components/LoadingIndicator';
 import LinkButton from '@magento/venia-ui/lib/components/LinkButton';
+import LoadingIndicator, { Spinner } from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Price from '@magento/venia-ui/lib/components/Price';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
+import { Form } from 'informed';
+import React from 'react';
+import { Edit2 as EditIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import defaultClasses from './giftOptions.module.css';
 

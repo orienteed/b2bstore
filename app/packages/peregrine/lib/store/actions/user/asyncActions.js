@@ -1,7 +1,6 @@
 import BrowserPersistence from '../../../util/simplePersistence';
 import { removeCart } from '../cart';
 import { clearCheckoutDataFromStorage } from '../checkout';
-
 import actions from './actions';
 
 const storage = new BrowserPersistence();

@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
-import Shimmer from '../Shimmer';
+import React, { useMemo } from 'react';
 
 import { useStyle } from '../../classify';
+import Shimmer from '../Shimmer';
 import defaultClasses from './tileList.module.css';
 
 const TileListShimmer = props => {

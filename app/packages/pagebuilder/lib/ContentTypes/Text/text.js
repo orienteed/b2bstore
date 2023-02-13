@@ -1,11 +1,11 @@
-import React from 'react';
-import { arrayOf, shape, string } from 'prop-types';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './text.module.css';
-import { useHistory } from 'react-router-dom';
-import handleHtmlContentClick from '../../handleHtmlContentClick';
-
 import htmlStringImgUrlConverter from '@magento/peregrine/lib/util/htmlStringImgUrlConverter';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { arrayOf, shape, string } from 'prop-types';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+
+import handleHtmlContentClick from '../../handleHtmlContentClick';
+import defaultClasses from './text.module.css';
 
 const toHTML = str => ({ __html: htmlStringImgUrlConverter(str) });
 

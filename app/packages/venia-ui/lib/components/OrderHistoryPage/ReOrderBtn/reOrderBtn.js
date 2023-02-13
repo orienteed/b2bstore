@@ -1,11 +1,12 @@
-import React from 'react';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from './reOrderBtn.module.css';
-import buttonClasses from '@magento/venia-ui/lib/components/Button/button.module.css';
 import useReOrderItems from '@magento/peregrine/lib/talons/OrderHistoryPage/useReOrderItems.js';
-import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
-import { FormattedMessage } from 'react-intl';
 import { ADD_CONFIGURABLE_MUTATION } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql.ce';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import buttonClasses from '@magento/venia-ui/lib/components/Button/button.module.css';
+import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import defaultClasses from './reOrderBtn.module.css';
 
 const ReOrder = props => {
 	const { orderNumber, order, config } = props;

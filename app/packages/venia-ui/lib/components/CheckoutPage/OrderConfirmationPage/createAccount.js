@@ -1,22 +1,20 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
-import { func, shape, string } from 'prop-types';
 import { useToasts } from '@magento/peregrine';
 import { useCreateAccount } from '@magento/peregrine/lib/talons/CheckoutPage/OrderConfirmationPage/useCreateAccount';
+import { Form } from 'informed';
+import { func, shape, string } from 'prop-types';
+import React, { useCallback } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
-import combine from '../../../util/combineValidators';
 import { useStyle } from '../../../classify';
+import combine from '../../../util/combineValidators';
 import { hasLengthAtLeast, isRequired, validatePassword } from '../../../util/formValidators';
-
 import Button from '../../Button';
 import Checkbox from '../../Checkbox';
 import Field from '../../Field';
 import FormError from '../../FormError';
-import TextInput from '../../TextInput';
-import Password from '../../Password';
 import GoogleReCaptcha from '../../GoogleReCaptcha';
-
+import Password from '../../Password';
+import TextInput from '../../TextInput';
 import defaultClasses from './createAccount.module.css';
 
 const CreateAccount = props => {

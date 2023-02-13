@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { useCallback, useEffect,useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useUserContext } from '../../context/user';

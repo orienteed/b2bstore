@@ -1,13 +1,14 @@
-import React from 'react';
-import { shape, string } from 'prop-types';
-import { useIntl, FormattedMessage } from 'react-intl';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import Icon from '@magento/venia-ui/lib/components/Icon';
-import { Paperclip, X as CloseIcon } from 'react-feather';
-import { Form } from 'informed';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Field from '@magento/venia-ui/lib/components/Field';
+import Icon from '@magento/venia-ui/lib/components/Icon';
 import TextArea from '@magento/venia-ui/lib/components/TextArea';
+import { Form } from 'informed';
+import { shape, string } from 'prop-types';
+import React from 'react';
+import { Paperclip, X as CloseIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import defaultClasses from './quotesViewConversation.module.css';
 
 const QuotesViewConversation = props => {

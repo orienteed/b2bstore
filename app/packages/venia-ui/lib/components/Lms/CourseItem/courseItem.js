@@ -1,17 +1,14 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-
-import Button from '@magento/venia-ui/lib/components/Button';
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useCourseItem } from '@magento/peregrine/lib/talons/Lms/useCourseItem';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import Button from '@magento/venia-ui/lib/components/Button';
+import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 
 import defaultClasses from './courseItem.module.css';
-
-import noImageAvailable from './Icons/noImageAvailable.svg';
 import lockIcon from './Icons/lock.svg';
+import noImageAvailable from './Icons/noImageAvailable.svg';
 
 const CourseItem = props => {
 	const { data, isProgressCourse, isProgressTab } = props;

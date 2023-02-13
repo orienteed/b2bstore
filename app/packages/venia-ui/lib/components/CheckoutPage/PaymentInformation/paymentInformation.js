@@ -1,14 +1,13 @@
+import CheckoutError from '@magento/peregrine/lib/talons/CheckoutPage/CheckoutError';
+import { usePaymentInformation } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/usePaymentInformation';
+import { Form } from 'informed';
+import { bool, func, instanceOf, shape, string } from 'prop-types';
 import React, { Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Form } from 'informed';
-import { shape, func, string, bool, instanceOf } from 'prop-types';
-
-import { usePaymentInformation } from '@magento/peregrine/lib/talons/CheckoutPage/PaymentInformation/usePaymentInformation';
-import CheckoutError from '@magento/peregrine/lib/talons/CheckoutPage/CheckoutError';
 
 import { useStyle } from '../../../classify';
-import defaultClasses from './paymentInformation.module.css';
 import LoadingIndicator from '../../LoadingIndicator';
+import defaultClasses from './paymentInformation.module.css';
 
 const PaymentMethods = React.lazy(() => import('./paymentMethods'));
 const EditModal = React.lazy(() => import('./editModal'));

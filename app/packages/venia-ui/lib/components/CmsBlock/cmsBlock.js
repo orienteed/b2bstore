@@ -1,13 +1,13 @@
+import { gql, useQuery } from '@apollo/client';
+import ErrorView from '@magento/venia-ui/lib/components/ErrorView';
+import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
+import { array, func, oneOfType, shape, string } from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { array, func, oneOfType, shape, string } from 'prop-types';
-import { gql, useQuery } from '@apollo/client';
 
 import { useStyle } from '../../classify';
-import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
 import Block from './block';
 import defaultClasses from './cmsBlock.module.css';
-import ErrorView from '@magento/venia-ui/lib/components/ErrorView';
 
 const CmsBlockGroup = props => {
 	const { identifiers } = props;

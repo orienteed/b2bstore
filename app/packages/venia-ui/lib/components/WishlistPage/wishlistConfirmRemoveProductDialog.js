@@ -1,5 +1,5 @@
-import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../classify';

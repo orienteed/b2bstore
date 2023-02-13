@@ -1,6 +1,7 @@
 /* Deprecated in PWA-12.1.0*/
 
 import { useMemo } from 'react';
+
 import useInternalLink from '../../hooks/useInternalLink';
 
 const previewImageSize = 480;

@@ -1,11 +1,12 @@
-import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { string, number, shape } from 'prop-types';
 import { useAddToCartButton } from '@magento/peregrine/lib/talons/Gallery/useAddToCartButton';
+import { number, shape, string } from 'prop-types';
+import React from 'react';
 import { ShoppingBag, XSquare } from 'react-feather';
-import Icon from '../Icon';
-import Button from '../Button';
+import { FormattedMessage, useIntl } from 'react-intl';
+
 import { useStyle } from '../../classify';
+import Button from '../Button';
+import Icon from '../Icon';
 import defaultClasses from './addToCartButton.module.css';
 
 const AddToCartButton = props => {

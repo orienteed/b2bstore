@@ -1,12 +1,10 @@
-import React from 'react';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 import { shape, string } from 'prop-types';
+import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import { FormattedMessage } from 'react-intl';
 
 import Image from '../../Image';
-import ReactHtmlParser from 'react-html-parser';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-
 import defaultClasses from '../SavedCarts/savedCartsView.module.css';
 
 const SavedCartViewTableItems = props => {

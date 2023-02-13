@@ -1,13 +1,13 @@
-import React, { Fragment, useMemo } from 'react';
-import { array, func, number, shape, string } from 'prop-types';
-import { useIntl } from 'react-intl';
-import setValidator from '@magento/peregrine/lib/validators/set';
 import { useFilterList } from '@magento/peregrine/lib/talons/FilterModal';
+import setValidator from '@magento/peregrine/lib/validators/set';
+import { array, func, number, shape, string } from 'prop-types';
+import React, { Fragment, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import FilterItem from './filterItem';
-import defaultClasses from './filterList.module.css';
 import FilterItemRadioGroup from './filterItemRadioGroup';
+import defaultClasses from './filterList.module.css';
 
 const labels = new WeakMap();
 
@@ -84,12 +84,12 @@ const FilterList = props => {
 
 		const label = isListExpanded
 			? formatMessage({
-					id: 'filterList.showLess',
-					defaultMessage: 'Show Less'
+				id: 'filterList.showLess',
+				defaultMessage: 'Show Less'
 			  })
 			: formatMessage({
-					id: 'filterList.showMore',
-					defaultMessage: 'Show More'
+				id: 'filterList.showMore',
+				defaultMessage: 'Show More'
 			  });
 
 		return (

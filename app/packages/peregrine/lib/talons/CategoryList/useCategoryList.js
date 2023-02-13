@@ -3,7 +3,6 @@
 import { useQuery } from '@apollo/client';
 
 import mergeOperations from '../../util/shallowMerge';
-
 import DEFAULT_OPERATIONS from './categoryList.gql';
 
 /**

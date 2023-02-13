@@ -1,9 +1,9 @@
+import { bool, shape, string } from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { bool, shape, string } from 'prop-types';
 
-import Checkbox from '../../Checkbox';
 import { useStyle } from '../../../classify';
+import Checkbox from '../../Checkbox';
 import defaultClasses from './filterDefault.module.css';
 
 const FilterDefault = props => {
@@ -15,22 +15,22 @@ const FilterDefault = props => {
 
 	const ariaLabel = !isSelected
 		? formatMessage(
-				{
-					id: 'filterModal.item.applyFilter',
-					defaultMessage: 'Apply filter "{optionName}".'
-				},
-				{
-					optionName: label
-				}
+			{
+				id: 'filterModal.item.applyFilter',
+				defaultMessage: 'Apply filter "{optionName}".'
+			},
+			{
+				optionName: label
+			}
 		  )
 		: formatMessage(
-				{
-					id: 'filterModal.item.clearFilter',
-					defaultMessage: 'Remove filter "{optionName}".'
-				},
-				{
-					optionName: label
-				}
+			{
+				id: 'filterModal.item.clearFilter',
+				defaultMessage: 'Remove filter "{optionName}".'
+			},
+			{
+				optionName: label
+			}
 		  );
 
 	return (

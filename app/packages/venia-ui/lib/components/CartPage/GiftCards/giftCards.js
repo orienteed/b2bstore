@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Form } from 'informed';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
-
-import { useGiftCards } from '@magento/peregrine/lib/talons/CartPage/GiftCards/useGiftCards';
 import { Price, useToasts } from '@magento/peregrine';
+import { useGiftCards } from '@magento/peregrine/lib/talons/CartPage/GiftCards/useGiftCards';
+import { Form } from 'informed';
+import React, { useEffect } from 'react';
+import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
@@ -14,8 +13,8 @@ import Icon from '../../Icon';
 import LinkButton from '../../LinkButton';
 import LoadingIndicator from '../../LoadingIndicator';
 import TextInput from '../../TextInput';
-import defaultClasses from './giftCards.module.css';
 import GiftCard from './giftCard';
+import defaultClasses from './giftCards.module.css';
 
 const errorIcon = (
 	<Icon
@@ -90,8 +89,8 @@ const GiftCards = props => {
 
 	const cardEntryErrorMessage = shouldDisplayCardError
 		? formatMessage({
-				id: 'giftCards.errorInvalid',
-				defaultMessage: 'Invalid card. Please try again.'
+			id: 'giftCards.errorInvalid',
+			defaultMessage: 'Invalid card. Please try again.'
 		  })
 		: null;
 

@@ -1,13 +1,12 @@
-import React, { Fragment } from 'react';
-import { useIntl } from 'react-intl';
+import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper';
+import { useStyle } from '@magento/venia-ui/lib/classify';
+import { Message } from '@magento/venia-ui/lib/components/Field';
+import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
+import React, { Fragment } from 'react';
+import { useIntl } from 'react-intl';
 
-import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper';
-
-import { useStyle } from '@magento/venia-ui/lib/classify';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
-import { Message } from '@magento/venia-ui/lib/components/Field';
 import defaultClasses from './quantity.module.css';
 
 export const QuantityStepper = props => {
