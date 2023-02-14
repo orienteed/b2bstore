@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import Gallery from '@magento/venia-ui/lib/components/Gallery';
+import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
+import React, { useMemo } from 'react';
+
 import Carousel from './Carousel/carousel';
 import defaultClasses from './products.module.css';
 /**
@@ -14,11 +14,11 @@ import defaultClasses from './products.module.css';
  * @returns {Array}
  */
 const restoreSortOrder = (urlKeys, products) => {
-    const productsByOriginalOrder = new Map();
-    products.forEach(product => {
-        productsByOriginalOrder.set(product.url_key, product);
-    });
-    return urlKeys.map(urlKey => productsByOriginalOrder.get(urlKey)).filter(Boolean);
+	const productsByOriginalOrder = new Map();
+	products.forEach(product => {
+		productsByOriginalOrder.set(product.url_key, product);
+	});
+	return urlKeys.map(urlKey => productsByOriginalOrder.get(urlKey)).filter(Boolean);
 };
 
 /**
@@ -34,145 +34,145 @@ const restoreSortOrder = (urlKeys, products) => {
  * @returns {React.Element} A React component that displays a Products based on a number of products
  */
 const Products = props => {
-    const classes = useStyle(defaultClasses, props.classes);
-    const {
-        appearance,
-        autoplay,
-        autoplaySpeed,
-        infinite,
-        arrows,
-        dots,
-        draggable = false,
-        carouselMode,
-        centerPadding,
-        pathNames = [],
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft,
-        cssClasses = [],
-        slidesToShow = 5,
-        slidesToShowMedium = 4,
-        slidesToShowSmall = 2,
-        slidesToShowSmallCenterMode = 1
-    } = props;
+	const classes = useStyle(defaultClasses, props.classes);
+	const {
+		appearance,
+		autoplay,
+		autoplaySpeed,
+		infinite,
+		arrows,
+		dots,
+		draggable = false,
+		carouselMode,
+		centerPadding,
+		pathNames = [],
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		cssClasses = [],
+		slidesToShow = 5,
+		slidesToShowMedium = 4,
+		slidesToShowSmall = 2,
+		slidesToShowSmallCenterMode = 1
+	} = props;
 
-    const dynamicStyles = {
-        textAlign,
-        border,
-        borderColor,
-        borderWidth,
-        borderRadius,
-        marginTop,
-        marginRight,
-        marginBottom,
-        marginLeft,
-        paddingTop,
-        paddingRight,
-        paddingBottom,
-        paddingLeft
-    };
+	const dynamicStyles = {
+		textAlign,
+		border,
+		borderColor,
+		borderWidth,
+		borderRadius,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft
+	};
 
-    const { data: storeConfigData } = useQuery(GET_STORE_CONFIG_DATA, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+	const { data: storeConfigData } = useQuery(GET_STORE_CONFIG_DATA, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const productUrlSuffix = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.product_url_suffix;
-        }
-    }, [storeConfigData]);
+	const productUrlSuffix = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.product_url_suffix;
+		}
+	}, [storeConfigData]);
 
-    const urlKeys = pathNames.map(pathName => {
-        const slug = pathName.split('/').pop();
-        return productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
-    });
+	const urlKeys = pathNames.map(pathName => {
+		const slug = pathName.split('/').pop();
+		return productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
+	});
 
-    const { loading, error, data } = useQuery(GET_PRODUCTS_BY_URL_KEY, {
-        variables: { url_keys: urlKeys, pageSize: urlKeys.length }
-    });
+	const { loading, error, data } = useQuery(GET_PRODUCTS_BY_URL_KEY, {
+		variables: { url_keys: urlKeys, pageSize: urlKeys.length }
+	});
 
-    if (loading) return null;
+	if (loading) return null;
 
-    if (error || data.products.items.length === 0) {
-        return null;
-    }
+	if (error || data.products.items.length === 0) {
+		return null;
+	}
 
-    const items = restoreSortOrder(urlKeys, data.products.items);
+	const items = restoreSortOrder(urlKeys, data.products.items);
 
-    if (appearance === 'carousel') {
-        //Settings conditions was made due to react-slick issues
-        const carouselCenterMode = carouselMode === 'continuous' && items.length > slidesToShow;
-        const carouselSmallCenterMode = carouselMode === 'continuous' && items.length > slidesToShowSmallCenterMode;
-        const carouselSettings = {
-            slidesToShow,
-            slidesToScroll: slidesToShow,
-            draggable,
-            autoplay,
-            autoplaySpeed,
-            arrows,
-            dots,
-            centerMode: carouselCenterMode,
-            responsive: [
-                {
-                    breakpoint: 640,
-                    settings: {
-                        slidesToShow: carouselSmallCenterMode ? slidesToShowSmallCenterMode : slidesToShowSmall,
-                        slidesToScroll: carouselSmallCenterMode ? slidesToShowSmallCenterMode : slidesToShowSmall,
-                        centerMode: carouselSmallCenterMode,
-                        ...(carouselSmallCenterMode && { centerPadding }),
-                        ...{
-                            infinite: items.length > slidesToShowSmall && infinite
-                        }
-                    }
-                },
-                {
-                    breakpoint: 960,
-                    settings: {
-                        slidesToShow: slidesToShowSmall + 1,
-                        slidesToScroll: slidesToShowSmall + 1
-                    }
-                },
-                {
-                    breakpoint: 1280,
-                    settings: {
-                        slidesToShow: slidesToShowMedium,
-                        slidesToScroll: slidesToShowMedium
-                    }
-                }
-            ],
-            ...(carouselCenterMode && { centerPadding }),
-            ...{ infinite: items.length > slidesToShow && infinite }
-        };
+	if (appearance === 'carousel') {
+		//Settings conditions was made due to react-slick issues
+		const carouselCenterMode = carouselMode === 'continuous' && items.length > slidesToShow;
+		const carouselSmallCenterMode = carouselMode === 'continuous' && items.length > slidesToShowSmallCenterMode;
+		const carouselSettings = {
+			slidesToShow,
+			slidesToScroll: slidesToShow,
+			draggable,
+			autoplay,
+			autoplaySpeed,
+			arrows,
+			dots,
+			centerMode: carouselCenterMode,
+			responsive: [
+				{
+					breakpoint: 640,
+					settings: {
+						slidesToShow: carouselSmallCenterMode ? slidesToShowSmallCenterMode : slidesToShowSmall,
+						slidesToScroll: carouselSmallCenterMode ? slidesToShowSmallCenterMode : slidesToShowSmall,
+						centerMode: carouselSmallCenterMode,
+						...(carouselSmallCenterMode && { centerPadding }),
+						...{
+							infinite: items.length > slidesToShowSmall && infinite
+						}
+					}
+				},
+				{
+					breakpoint: 960,
+					settings: {
+						slidesToShow: slidesToShowSmall + 1,
+						slidesToScroll: slidesToShowSmall + 1
+					}
+				},
+				{
+					breakpoint: 1280,
+					settings: {
+						slidesToShow: slidesToShowMedium,
+						slidesToScroll: slidesToShowMedium
+					}
+				}
+			],
+			...(carouselCenterMode && { centerPadding }),
+			...{ infinite: items.length > slidesToShow && infinite }
+		};
 
-        const centerModeClass = carouselCenterMode ? classes.centerMode : null;
-        const centerModeSmallClass = carouselSmallCenterMode ? classes.centerModeSmall : null;
+		const centerModeClass = carouselCenterMode ? classes.centerMode : null;
+		const centerModeSmallClass = carouselSmallCenterMode ? classes.centerModeSmall : null;
 
-        return (
-            <div
-                style={dynamicStyles}
-                className={[classes.carousel, ...cssClasses, centerModeClass, centerModeSmallClass].join(' ')}
-            >
-                <Carousel settings={carouselSettings} items={items} />
-            </div>
-        );
-    }
+		return (
+			<div
+				style={dynamicStyles}
+				className={[classes.carousel, ...cssClasses, centerModeClass, centerModeSmallClass].join(' ')}
+			>
+				<Carousel settings={carouselSettings} items={items} />
+			</div>
+		);
+	}
 
-    return (
-        <div style={dynamicStyles} className={[classes.root, ...cssClasses].join(' ')}>
-            <Gallery pageBuilder items={items} classes={{ items: classes.galleryItems }} />
-        </div>
-    );
+	return (
+		<div style={dynamicStyles} className={[classes.root, ...cssClasses].join(' ')}>
+			<Gallery pageBuilder items={items} classes={{ items: classes.galleryItems }} />
+		</div>
+	);
 };
 
 /**
@@ -217,104 +217,103 @@ const Products = props => {
  * @property {Number} slidesToShowSmallCenterMode # of slides to show at a time on small screen in centerMode
  */
 Products.propTypes = {
-    classes: shape({
-        root: string,
-        carousel: string,
-        centerMode: string,
-        centerModeSmall: string,
-        galleryItems: string,
-        error: string
-    }),
-    appearance: oneOf(['grid', 'carousel']),
-    autoplay: bool,
-    autoplaySpeed: number,
-    infinite: bool,
-    arrows: bool,
-    dots: bool,
-    draggable: bool,
-    carouselMode: oneOf(['default', 'continuous']),
-    centerPadding: string,
-    pathNames: arrayOf(string),
-    textAlign: string,
-    border: string,
-    borderColor: string,
-    borderWidth: string,
-    borderRadius: string,
-    marginTop: string,
-    marginRight: string,
-    marginBottom: string,
-    marginLeft: string,
-    paddingTop: string,
-    paddingRight: string,
-    paddingBottom: string,
-    paddingLeft: string,
-    cssClasses: arrayOf(string),
-    slidesToShow: number,
-    slidesToShowMedium: number,
-    slidesToShowSmall: number,
-    slidesToShowSmallCenterMode: number
+	classes: shape({
+		root: string,
+		carousel: string,
+		centerMode: string,
+		centerModeSmall: string,
+		galleryItems: string,
+		error: string
+	}),
+	appearance: oneOf(['grid', 'carousel']),
+	autoplay: bool,
+	autoplaySpeed: number,
+	infinite: bool,
+	arrows: bool,
+	dots: bool,
+	draggable: bool,
+	carouselMode: oneOf(['default', 'continuous']),
+	centerPadding: string,
+	pathNames: arrayOf(string),
+	textAlign: string,
+	border: string,
+	borderColor: string,
+	borderWidth: string,
+	borderRadius: string,
+	marginTop: string,
+	marginRight: string,
+	marginBottom: string,
+	marginLeft: string,
+	paddingTop: string,
+	paddingRight: string,
+	paddingBottom: string,
+	paddingLeft: string,
+	cssClasses: arrayOf(string),
+	slidesToShow: number,
+	slidesToShowMedium: number,
+	slidesToShowSmall: number,
+	slidesToShowSmallCenterMode: number
 };
 
 export default Products;
 
 export const GET_PRODUCTS_BY_URL_KEY = gql`
-    query getProductsByUrlKey($url_keys: [String], $pageSize: Int!) {
-        products(filter: { url_key: { in: $url_keys } }, pageSize: $pageSize) {
-            items {
-                id
-                uid
-                name
-                url_suffix
-                price_range {
-                    maximum_price {
-                        regular_price {
-                            currency
-                            value
-                        }
-                    }
-                }
-                price {
-                    regularPrice {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                    minimalPrice {
-                        amount {
-                            currency
-                            value
-                        }
-                    }
-                }
-                sku
-                small_image {
-                    url
-                }
-                stock_status
-                __typename
-                url_key
-            }
-            total_count
-            filters {
-                name
-                filter_items_count
-                request_var
-                filter_items {
-                    label
-                    value_string
-                }
-            }
-        }
-    }
+	query getProductsByUrlKey($url_keys: [String], $pageSize: Int!) {
+		products(filter: { url_key: { in: $url_keys } }, pageSize: $pageSize) {
+			items {
+				id
+				uid
+				name
+				url_suffix
+				price_range {
+					maximum_price {
+						regular_price {
+							currency
+							value
+						}
+					}
+				}
+				price {
+					regularPrice {
+						amount {
+							value
+							currency
+						}
+					}
+					minimalPrice {
+						amount {
+							currency
+							value
+						}
+					}
+				}
+				sku
+				small_image {
+					url
+				}
+				stock_status
+				__typename
+				url_key
+			}
+			total_count
+			filters {
+				name
+				filter_items_count
+				request_var
+				filter_items {
+					label
+					value_string
+				}
+			}
+		}
+	}
 `;
 
 export const GET_STORE_CONFIG_DATA = gql`
-    query getStoreConfigData {
-        # eslint-disable-next-line @graphql-eslint/require-id-when-available
-        storeConfig {
-            store_code
-            product_url_suffix
-        }
-    }
+	query getStoreConfigData {
+		storeConfig {
+			store_code
+			product_url_suffix
+		}
+	}
 `;

@@ -1,12 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import useInternalLink from '../../hooks/useInternalLink';
-
 import { useQuery } from '@apollo/client';
-import { useEventListener } from '../../hooks/useEventListener';
-import { useUserContext } from '../../context/user';
+import { useCallback, useEffect,useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
+import { useUserContext } from '../../context/user';
+import { useEventListener } from '../../hooks/useEventListener';
+import useInternalLink from '../../hooks/useInternalLink';
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './megaMenu.gql';
 
@@ -20,164 +18,164 @@ import DEFAULT_OPERATIONS from './megaMenu.gql';
  * @return {MegaMenuTalonProps}
  */
 export const useMegaMenu = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getMegaMenuQuery, getStoreConfigQuery, getIsRequiredLogin } = operations;
-    const location = useLocation();
+	const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+	const { getMegaMenuQuery, getStoreConfigQuery, getIsRequiredLogin } = operations;
+	const location = useLocation();
 
-    const [{ isSignedIn }] = useUserContext();
+	const [{ isSignedIn }] = useUserContext();
 
-    const [activeCategoryId, setActiveCategoryId] = useState(null);
-    const [subMenuState, setSubMenuState] = useState(false);
-    const [disableFocus, setDisableFocus] = useState(false);
+	const [activeCategoryId, setActiveCategoryId] = useState(null);
+	const [subMenuState, setSubMenuState] = useState(false);
+	const [disableFocus, setDisableFocus] = useState(false);
 
-    const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+	const { data: storeConfigData } = useQuery(getStoreConfigQuery, {
+		fetchPolicy: 'cache-and-network'
+	});
 
-    const { data,refetch } = useQuery(getMegaMenuQuery);
+	const { data, refetch } = useQuery(getMegaMenuQuery);
 
-    const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+	const { data: storeRequiredLogin } = useQuery(getIsRequiredLogin, {
+		fetchPolicy: 'cache-and-network',
+		nextFetchPolicy: 'cache-first'
+	});
 
-    const categoryUrlSuffix = useMemo(() => {
-        if (storeConfigData) {
-            return storeConfigData.storeConfig.category_url_suffix;
-        }
-    }, [storeConfigData]);
+	const categoryUrlSuffix = useMemo(() => {
+		if (storeConfigData) {
+			return storeConfigData.storeConfig.category_url_suffix;
+		}
+	}, [storeConfigData]);
 
-    useEffect(() => {
-        if (isSignedIn) refetch();
-    }, [isSignedIn]);
-    
-    /**
-     * Check if category should be visible on the storefront.
-     *
-     * @param {MegaMenuCategory} category
-     * @returns {boolean}
-     */
-    const shouldRenderMegaMenuItem = category => {
-        return !!category.include_in_menu;
-    };
+	useEffect(() => {
+		if (isSignedIn) refetch();
+	}, [isSignedIn]);
 
-    /**
-     * Check if category is the active category based on the current location.
-     *
-     * @param {MegaMenuCategory} category
-     * @returns {boolean}
-     */
+	/**
+	 * Check if category should be visible on the storefront.
+	 *
+	 * @param {MegaMenuCategory} category
+	 * @returns {boolean}
+	 */
+	const shouldRenderMegaMenuItem = category => {
+		return !!category.include_in_menu;
+	};
 
-    const isActive = useCallback(
-        ({ url_path }) => {
-            if (!url_path) return false;
+	/**
+	 * Check if category is the active category based on the current location.
+	 *
+	 * @param {MegaMenuCategory} category
+	 * @returns {boolean}
+	 */
 
-            const categoryUrlPath = `/${url_path}${categoryUrlSuffix || ''}`;
+	const isActive = useCallback(
+		({ url_path }) => {
+			if (!url_path) return false;
 
-            return location.pathname === categoryUrlPath;
-        },
-        [location.pathname, categoryUrlSuffix]
-    );
+			const categoryUrlPath = `/${url_path}${categoryUrlSuffix || ''}`;
 
-    /**
-     * Recursively map data returned by GraphQL query.
-     *
-     * @param {MegaMenuCategory} category
-     * @param {array} - path from the given category to the first level category
-     * @param {boolean} isRoot - describes is category a root category
-     * @return {MegaMenuCategory}
-     */
-    const processData = useCallback(
-        (category, path = [], isRoot = true) => {
-            if (!category) {
-                return;
-            }
+			return location.pathname === categoryUrlPath;
+		},
+		[location.pathname, categoryUrlSuffix]
+	);
 
-            const megaMenuCategory = Object.assign({}, category);
+	/**
+	 * Recursively map data returned by GraphQL query.
+	 *
+	 * @param {MegaMenuCategory} category
+	 * @param {array} - path from the given category to the first level category
+	 * @param {boolean} isRoot - describes is category a root category
+	 * @return {MegaMenuCategory}
+	 */
+	const processData = useCallback(
+		(category, path = [], isRoot = true) => {
+			if (!category) {
+				return;
+			}
 
-            if (!isRoot) {
-                megaMenuCategory.path = [...path, category.uid];
-            }
+			const megaMenuCategory = Object.assign({}, category);
 
-            megaMenuCategory.isActive = isActive(megaMenuCategory);
+			if (!isRoot) {
+				megaMenuCategory.path = [...path, category.uid];
+			}
 
-            if (megaMenuCategory.children) {
-                megaMenuCategory.children = [...megaMenuCategory.children]
-                    .filter(category => shouldRenderMegaMenuItem(category))
-                    .sort((a, b) => (a.position > b.position ? 1 : -1))
-                    .map(child => processData(child, megaMenuCategory.path, false));
-            }
+			megaMenuCategory.isActive = isActive(megaMenuCategory);
 
-            return megaMenuCategory;
-        },
-        [isActive]
-    );
+			if (megaMenuCategory.children) {
+				megaMenuCategory.children = [...megaMenuCategory.children]
+					.filter(category => shouldRenderMegaMenuItem(category))
+					.sort((a, b) => (a.position > b.position ? 1 : -1))
+					.map(child => processData(child, megaMenuCategory.path, false));
+			}
 
-    const megaMenuData = useMemo(() => {
-        let isRequiredLogin = false;
+			return megaMenuCategory;
+		},
+		[isActive]
+	);
 
-        if (storeRequiredLogin) {
-            const { is_required_login } = storeRequiredLogin['storeConfig'];
-            isRequiredLogin = is_required_login === '1';
-        }
+	const megaMenuData = useMemo(() => {
+		let isRequiredLogin = false;
 
-        if (!isSignedIn && isRequiredLogin) return {};
-        return data ? processData(data.categoryList[0]) : {};
-    }, [data, processData, isSignedIn, storeRequiredLogin]);
+		if (storeRequiredLogin) {
+			const { is_required_login } = storeRequiredLogin['storeConfig'];
+			isRequiredLogin = is_required_login === '1';
+		}
 
-    const findActiveCategory = useCallback(
-        (pathname, category) => {
-            if (isActive(category)) {
-                return category;
-            }
+		if (!isSignedIn && isRequiredLogin) return {};
+		return data ? processData(data.categoryList[0]) : {};
+	}, [data, processData, isSignedIn, storeRequiredLogin]);
 
-            if (category.children) {
-                return category.children.find(category => findActiveCategory(pathname, category));
-            }
-        },
-        [isActive]
-    );
+	const findActiveCategory = useCallback(
+		(pathname, category) => {
+			if (isActive(category)) {
+				return category;
+			}
 
-    const handleClickOutside = e => {
-        if (!props.mainNavRef.current.contains(e.target)) {
-            setSubMenuState(false);
-            setDisableFocus(true);
-        }
-    };
+			if (category.children) {
+				return category.children.find(category => findActiveCategory(pathname, category));
+			}
+		},
+		[isActive]
+	);
 
-    useEventListener(globalThis, 'keydown', handleClickOutside);
+	const handleClickOutside = e => {
+		if (!props.mainNavRef.current.contains(e.target)) {
+			setSubMenuState(false);
+			setDisableFocus(true);
+		}
+	};
 
-    const handleSubMenuFocus = useCallback(() => {
-        setSubMenuState(true);
-    }, [setSubMenuState]);
+	useEventListener(globalThis, 'keydown', handleClickOutside);
 
-    useEffect(() => {
-        const activeCategory = findActiveCategory(location.pathname, megaMenuData);
+	const handleSubMenuFocus = useCallback(() => {
+		setSubMenuState(true);
+	}, [setSubMenuState]);
 
-        if (activeCategory) {
-            setActiveCategoryId(activeCategory.path[0]);
-        } else {
-            setActiveCategoryId(null);
-        }
-    }, [findActiveCategory, location.pathname, megaMenuData]);
+	useEffect(() => {
+		const activeCategory = findActiveCategory(location.pathname, megaMenuData);
 
-    /**
-     * Sets next root component to show proper loading effect
-     *
-     * @returns {void}
-     */
-    const { setShimmerType } = useInternalLink('category');
+		if (activeCategory) {
+			setActiveCategoryId(activeCategory.path[0]);
+		} else {
+			setActiveCategoryId(null);
+		}
+	}, [findActiveCategory, location.pathname, megaMenuData]);
 
-    return {
-        megaMenuData,
-        activeCategoryId,
-        categoryUrlSuffix,
-        handleClickOutside,
-        subMenuState,
-        disableFocus,
-        handleSubMenuFocus,
-        handleNavigate: setShimmerType
-    };
+	/**
+	 * Sets next root component to show proper loading effect
+	 *
+	 * @returns {void}
+	 */
+	const { setShimmerType } = useInternalLink('category');
+
+	return {
+		megaMenuData,
+		activeCategoryId,
+		categoryUrlSuffix,
+		handleClickOutside,
+		subMenuState,
+		disableFocus,
+		handleSubMenuFocus,
+		handleNavigate: setShimmerType
+	};
 };
 
 /** JSDocs type definitions */
