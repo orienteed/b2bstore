@@ -57,6 +57,7 @@ const RMAForm = props => {
         setFormApi
     } = talonProps;
 
+    console.log('selectedItems', selectedItems);
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
@@ -302,7 +303,7 @@ const RMAForm = props => {
                                                                         )
                                                                     }
                                                                     items={infoReasonsData}
-                                                                    validate={selectedItems.length > 0 && isRequired}
+                                                                    validate={isRequired}
                                                                 />
                                                             )}
                                                         </Field>
@@ -324,7 +325,7 @@ const RMAForm = props => {
                                                                         )
                                                                     }
                                                                     items={infoSolutionData}
-                                                                    validate={selectedItems.length > 0 && isRequired}
+                                                                    validate={isRequired}
                                                                 />
                                                             )}
                                                         </Field>
@@ -369,7 +370,7 @@ const RMAForm = props => {
                         priority="high"
                         type="submit"
                         data-cy="RMARequestForm-root_highPriority"
-                        disabled={selectedItems.length === 0}
+                        disabled={selectedItems.length === 0 && returnType !== 'allItems'}
                     >
                         <FormattedMessage id={'rmaRequestForm.rmaRequestFormText'} defaultMessage={'Request'} />
                     </Button>

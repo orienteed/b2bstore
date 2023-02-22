@@ -47,7 +47,7 @@ const useRMA = () => {
     const getProductBySku = useAwaitQuery(GET_PRODUCT_ID);
     const [createMpRmaRequest, { loading }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
-    console.log('selectedItems', selectedItems);
+
     const formProps = {
         initialValues: formAddress
     };
@@ -145,7 +145,6 @@ const useRMA = () => {
         }
         return e.target.value;
     };
-    console.log('selectedItems', selectedItems);
 
     const handleAdditionalFieldChange = (e, keyContent, addFieldValue) => {
         const newAdditionalField = [...additionalField];
@@ -196,7 +195,7 @@ const useRMA = () => {
             fetchPolicy: 'no-cache'
         });
     };
-
+    console.log('files', filesUploaded);
     const handleSubmit = useCallback(
         async apiValue => {
             try {
@@ -217,7 +216,7 @@ const useRMA = () => {
                                 variables: {
                                     order_increment_id: apiValue.selection,
                                     comment: apiValue.comment,
-                                    // statusId: 1,
+                                    statusId: 1,
                                     // upload: filesUploaded,
                                     request_item: items,
                                     reason: apiValue.reason,
@@ -240,7 +239,7 @@ const useRMA = () => {
                 console.log({ error });
             }
         },
-        [customerOrders, returnType, createMpRmaRequest, selectedItems, additionalField]
+        [customerOrders, returnType, createMpRmaRequest, selectedItems, additionalField, filesUploaded]
     );
 
     const handleClose = file => {

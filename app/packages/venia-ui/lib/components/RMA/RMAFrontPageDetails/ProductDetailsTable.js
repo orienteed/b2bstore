@@ -71,7 +71,7 @@ const ProductDetailsTable = props => {
                     id: 'rmaPage.price',
                     defaultMessage: 'Price'
                 }),
-                value: `${req.price}`
+                value: `${req.price} ${req.currency}`
             },
             {
                 dataLable: formatMessage({
@@ -96,7 +96,7 @@ const ProductDetailsTable = props => {
                     <>
                         {JSON.parse(req.additional_fields).map(field => (
                             <>
-                                <span>{field.label+': '}</span>
+                                <span>{field.label + ': '}</span>
                                 <span>{field.content}</span>
                                 <br />
                             </>
@@ -114,7 +114,7 @@ const ProductDetailsTable = props => {
         ];
     });
     return (
-        <div className={classes.tableContainer} >
+        <div className={classes.tableContainer}>
             <Table headers={tableHeader} tableRows={tableRows} />
         </div>
     );

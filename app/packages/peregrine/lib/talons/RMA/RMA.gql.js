@@ -50,6 +50,7 @@ export const RMA_REQUEST_LIST = gql`
                     order_increment_id
                     request_id
                     request_item {
+                        currency
                         additional_fields
                         price
                         qty_rma
