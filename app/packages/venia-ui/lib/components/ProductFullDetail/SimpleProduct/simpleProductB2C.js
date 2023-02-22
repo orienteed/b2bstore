@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, Suspense, useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import FormError from '@magento/venia-ui/lib/components/FormError';
@@ -11,8 +12,17 @@ import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import Options from '../CustomProductOptions/options';
 import Button from '../../Button';
 
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useToasts } from '@magento/peregrine';
+import Icon from '@magento/venia-ui/lib/components/Icon';
+import { AlertTriangle, Eye } from 'react-feather';
+
+const OfflineIcon = <Icon src={AlertTriangle} attrs={{ width: 18 }} />;
+
 const SimpleProductB2C = props => {
     const classes = useStyle(defaultClasses, props.classes);
+    const [, { addToast }] = useToasts();
+    const { formatMessage } = useIntl();
     const {
         simpleProductData,
         handleAddToCart,
@@ -23,6 +33,7 @@ const SimpleProductB2C = props => {
         simpleProductAggregationFiltered,
         handleQuantityChange
     } = props;
+    const [{ isSignedIn }] = useUserContext();
 
     const { mp_attachments } = simpleProductData;
 
@@ -33,20 +44,43 @@ const SimpleProductB2C = props => {
             <FormattedMessage id="productFullDetail.itemOutOfStock" defaultMessage="Out of Stock" />
         );
 
-    const productAttachments = useMemo(
-        () =>
-            mp_attachments.map(att => (
-                <>
-                    <a key={att.file_name} href={att.url_file} target="blank">
-                        <span>
-                            <img width="20" src={att.file_icon} alt={att.name} />
-                            {att.file_name}
-                        </span>
-                    </a>
-                </>
-            )),
-        [mp_attachments]
-    );
+    // reutrn true if the login is requierd to see the attachment
+    const checkAttachmentLogin = note => note === 'Login required' && isSignedIn;
+
+    const loginRequiredClick = () =>
+        addToast({
+            icon: OfflineIcon,
+            type: 'error',
+            message: formatMessage({
+                id: 'productAttachemts.loginRequired',
+                defaultMessage: 'Login required'
+            }),
+            timeout: 3000
+        });
+
+    console.log({ mp_attachments });
+    const productAttachments = useMemo(() => {
+        const previewIcon = <Icon src={Eye} size={20} />;
+        return mp_attachments?.map(att => (
+            <React.Fragment key={att.file_name}>
+                <span>
+                    {console.log(att.note === '' || checkAttachmentLogin(att.note))}
+                    <img height="20px" width="20" src={att.file_icon} alt={att.name} />
+                    {att.note === '' || checkAttachmentLogin(att.note) ? (
+                        <a href={att.url_file} target="blank">
+                            {previewIcon}
+                        </a>
+                    ) : (
+                        <button type="button" onClick={loginRequiredClick}>
+                            {previewIcon}
+                        </button>
+                    )}
+
+                    {att.file_name}
+                </span>
+            </React.Fragment>
+        ));
+    }, [mp_attachments, isSignedIn]);
 
     return (
         <Fragment>

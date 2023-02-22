@@ -13,17 +13,20 @@ import CustomAttributes from '@magento/venia-ui/lib/components/ProductFullDetail
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
 import defaultClasses from './ProductFullDetailB2C.module.css';
-import { Download as DownloadIcon, Eye } from 'react-feather';
+import { Eye, AlertTriangle } from 'react-feather';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useToasts } from '@magento/peregrine';
 
-const downloadIcon = <Icon src={DownloadIcon} size={20} />;
 const previewIcon = <Icon src={Eye} size={20} />;
+
+const OfflineIcon = <Icon src={AlertTriangle} attrs={{ width: 18 }} />;
 
 const ProductFullDetailB2C = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
 
+    const [, { addToast }] = useToasts();
     const {
         breadcrumbs,
         errors,
@@ -37,31 +40,39 @@ const ProductFullDetailB2C = props => {
         handleQuantityChange,
         tempTotalPrice,
         cartActionContent,
-        customAttributes,
-        downloadClick
+        customAttributes
     } = props;
 
     const [{ isSignedIn }] = useUserContext();
     const { mp_attachments } = productDetails;
 
+    // reutrn true if the login is requierd to see the attachment
+    const checkAttachmentLogin = note => note === 'Login required';
+
+    const loginRequiredClick = () =>
+        addToast({
+            icon: OfflineIcon,
+            type: 'error',
+            message: formatMessage({
+                id: 'productAttachemts.loginRequired',
+                defaultMessage: 'Login required'
+            }),
+            timeout: 3000
+        });
     const productAttachments = useMemo(
         () =>
             mp_attachments?.map(att => (
                 <>
-                    <span>
+                    <span key={att.file_name}>
                         <img height="20px" width="20" src={att.file_icon} alt={att.name} />
+                        {att.note === '' || (checkAttachmentLogin(att.note) && isSignedIn) ? (
+                            <a href={att.url_file} target="blank">
+                                {previewIcon}
+                            </a>
+                        ) : (
+                            <button onClick={loginRequiredClick}>{previewIcon}</button>
+                        )}
 
-                        <button
-                            onClick={() => downloadClick(att.url_file, att.file_name)}
-                            // download
-                            // href=""
-                            target={'_blank'}
-                        >
-                            {downloadIcon}
-                        </button>
-                        <a key={att.file_name} href={att.url_file} target="blank">
-                            {previewIcon}
-                        </a>
                         {att.file_name}
                     </span>
                 </>

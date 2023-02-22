@@ -565,34 +565,6 @@ export const useProductFullDetail = props => {
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };
 
-    const downloadClick = (attLink, name) => {
-        if (!isSignedIn) {
-            addToast({
-                icon: OfflineIcon,
-                type: 'error',
-                message: formatMessage({
-                    id: 'productAttachemts.loginRequired',
-                    defaultMessage: 'Login required'
-                }),
-                timeout: 3000
-            });
-        } else {
-            // const fileType = attLink.split('.')[attLink.split('.').length - 1];
-            // console.log(fileType, 'fileType ');
-            // const file = new Blob([attLink], { type: 'image/png' });
-            // const link = document.createElement('a');
-            // link.href = URL.createObjectURL(file);
-            // link.download = '' + name + '';
-            // document.body.appendChild(link);
-            // link.click();
-            // document.body.removeChild(link);
-            const link = document.createElement('a');
-            link.href = attLink;
-            link.download = name;
-            link.click();
-        }
-    };
-
     return {
         breadcrumbCategoryId,
         errorMessage: derivedErrorMessage,
@@ -621,7 +593,6 @@ export const useProductFullDetail = props => {
         addConfigurableProductToCart,
         isAddConfigurableLoading,
         cartId,
-        derivedOptionSelectionsKey,
-        downloadClick
+        derivedOptionSelectionsKey
     };
 };

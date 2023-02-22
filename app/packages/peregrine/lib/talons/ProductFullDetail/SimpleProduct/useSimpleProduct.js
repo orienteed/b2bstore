@@ -1,4 +1,5 @@
-import { useCallback, useMemo } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useCallback, useMemo } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useIntl } from 'react-intl';
 import defaultOperations from '@magento/peregrine/lib/talons/Gallery/gallery.gql';
@@ -8,19 +9,32 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { GET_SIMPLE_PRODUCT } from '../SimpleProduct/getSimpleProduct.gql';
 import { useLocation } from 'react-router-dom';
 
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 export const useSimpleProduct = (props = {}) => {
     const { formatMessage } = useIntl();
+    const [{ isSignedIn }] = useUserContext();
     const { search } = useLocation();
     const sku = new URLSearchParams(search).get('sku');
 
     const operations = mergeOperations(defaultOperations, props.operations);
     const { addConfigurableProductToCartMutation, productQuantity } = props;
 
-    const { data, loading, error } = useQuery(GET_SIMPLE_PRODUCT, {
-        fetchPolicy: 'no-cache',
+    const { data, loading, error, refetch } = useQuery(GET_SIMPLE_PRODUCT, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
         variables: { sku: sku }
     });
+
+    useEffect(() => {
+        if (isSignedIn) {
+            console.log({ isSignedIn });
+            setTimeout(() => {
+                refetch();
+            }, 5000);
+        }
+    }, [isSignedIn]);
 
     const { data: storeConfigData } = useQuery(operations.getStoreConfigQuery, {
         fetchPolicy: 'cache-and-network'
