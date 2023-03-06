@@ -57,7 +57,6 @@ const RMAForm = props => {
         setFormApi
     } = talonProps;
 
-    console.log('selectedItems', selectedItems);
     const orderInformationTitle = formatMessage({
         id: 'rmaRequestForm.orderInformationTitle',
         defaultMessage: 'Order Information'
@@ -84,7 +83,7 @@ const RMAForm = props => {
     if (!customerOrders && !infoReasonsData && !infoSolutionData && !customerData) return <LoadingIndicator />;
 
     return (
-        <div>
+        <div className={classes.rmaWrapper}>
             <div className={classes.goToRequestListTitle} onClick={handleBackPage}>
                 <div>
                     <Icon src={ArrowLeft} />
@@ -236,14 +235,27 @@ const RMAForm = props => {
                                                     defaultMessage: field.content
                                                 })}
                                             >
-                                                <TextInput
-                                                    id="rmaRequestAdditionalField"
-                                                    data-cy="rmaRequestAdditionalField"
-                                                    onChange={e =>
-                                                        handleAdditionalFieldChange(e, field.content, field.value)
-                                                    }
-                                                    field={field.content}
-                                                />
+                                                {field.type === 'text' ? (
+                                                    <TextInput
+                                                        validate={field.is_require && isRequired}
+                                                        id="rmaRequestAdditionalField"
+                                                        data-cy="rmaRequestAdditionalField"
+                                                        onChange={e =>
+                                                            handleAdditionalFieldChange(e, field.content, field.value)
+                                                        }
+                                                        field={field.content}
+                                                    />
+                                                ) : (
+                                                    <TextArea
+                                                        validate={field.is_require && isRequired}
+                                                        id="rmaRequestAdditionalField"
+                                                        data-cy="rmaRequestAdditionalField"
+                                                        onChange={e =>
+                                                            handleAdditionalFieldChange(e, field.content, field.value)
+                                                        }
+                                                        field={field.content}
+                                                    />
+                                                )}
                                             </Field>
                                         );
                                     })}
@@ -340,19 +352,45 @@ const RMAForm = props => {
                                                                                 defaultMessage: field.content
                                                                             })}
                                                                         >
-                                                                            <TextInput
-                                                                                id="rmaRequestAdditionalField"
-                                                                                data-cy="rmaRequestAdditionalField"
-                                                                                field={`additional ${field.content}`}
-                                                                                onChange={e =>
-                                                                                    handleEachItemChange(
-                                                                                        e,
-                                                                                        item.product_id,
-                                                                                        'content',
-                                                                                        field.value
-                                                                                    )
-                                                                                }
-                                                                            />
+                                                                            {field.type === 'text' ? (
+                                                                                <TextInput
+                                                                                    validate={
+                                                                                        field.is_require && isRequired
+                                                                                    }
+                                                                                    id="rmaRequestAdditionalField"
+                                                                                    data-cy="rmaRequestAdditionalField"
+                                                                                    field={`additional ${
+                                                                                        field.content
+                                                                                    }`}
+                                                                                    onChange={e =>
+                                                                                        handleEachItemChange(
+                                                                                            e,
+                                                                                            item.product_id,
+                                                                                            'content',
+                                                                                            field.value
+                                                                                        )
+                                                                                    }
+                                                                                />
+                                                                            ) : (
+                                                                                <TextArea
+                                                                                    validate={
+                                                                                        field.is_require && isRequired
+                                                                                    }
+                                                                                    id="rmaRequestAdditionalField"
+                                                                                    data-cy="rmaRequestAdditionalField"
+                                                                                    field={`additional ${
+                                                                                        field.content
+                                                                                    }`}
+                                                                                    onChange={e =>
+                                                                                        handleEachItemChange(
+                                                                                            e,
+                                                                                            item.product_id,
+                                                                                            'content',
+                                                                                            field.value
+                                                                                        )
+                                                                                    }
+                                                                                />
+                                                                            )}
                                                                         </Field>
                                                                     );
                                                                 }

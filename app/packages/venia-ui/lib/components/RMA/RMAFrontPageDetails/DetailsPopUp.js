@@ -26,7 +26,6 @@ const DetailsPopUp = ({
 }) => {
     const classes = useStyle(defaultClasses);
     const dialogButtonsArray = [];
-    console.log('item', item);
     const { formatMessage } = useIntl();
 
     const detailsTitle = <FormattedMessage id={'detailsTitle'} defaultMessage={'Details'} />;

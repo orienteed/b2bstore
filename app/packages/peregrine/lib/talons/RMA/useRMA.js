@@ -26,7 +26,7 @@ const useRMA = () => {
 
     const [comment, setComment] = useState('');
     const [returnType, setReturnType] = useState('allItems');
-    const [returnTypes, setReturnTypes] = useState([
+    const [returnTypes] = useState([
         {
             label: 'All Items',
             value: 'allItems'
@@ -45,7 +45,7 @@ const useRMA = () => {
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
     const { data: customerData } = useQuery(GET_CUSTOMER);
     const getProductBySku = useAwaitQuery(GET_PRODUCT_ID);
-    const [createMpRmaRequest, { loading }] = useMutation(MP_RMA_REQUEST);
+    const [createMpRmaRequest] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
 
     const formProps = {
@@ -119,7 +119,6 @@ const useRMA = () => {
     const handleEachItemChange = (e, productId, type, addFieldValue) => {
         if (selectedItems.length > 0) {
             const newSelectedItems = [...selectedItems];
-            console.log({ productId, newSelectedItems }, newSelectedItems.find(a => a.product_id === productId));
             newSelectedItems.find(a => a.product_id === productId)[type] = e.target.value;
             setSelectedItems(newSelectedItems);
 
@@ -195,29 +194,35 @@ const useRMA = () => {
             fetchPolicy: 'no-cache'
         });
     };
-    console.log('files', filesUploaded);
     const handleSubmit = useCallback(
         async apiValue => {
             try {
                 const items = [];
                 (returnType === 'allItems' ? customerOrders : selectedItems).map(
-                    async ({ content, product_id, price, name, qty_rma, SKU, ...rest }, index) => {
+                    // eslint-disable-next-line no-unused-vars
+                    async ({ content, product_id, price, name, qty_rma, SKU, additional_fields, ...rest }, index) => {
                         await getproductId(SKU).then(async data => {
                             if (data.length === 0) return null;
                             await items.push({
                                 product_id: data?.data.products?.items[0].id,
                                 reason: returnType === 'allItems' ? apiValue.reason : null,
                                 solution: returnType === 'allItems' ? apiValue.solution : null,
+                                additional_fields: returnType === 'allItems' ? additionalField : additional_fields,
                                 ...rest
                             });
                         });
                         if ((returnType === 'allItems' ? customerOrders : selectedItems).length - 1 === index) {
-                            createMpRmaRequest({
+                            await createMpRmaRequest({
                                 variables: {
                                     order_increment_id: apiValue.selection,
                                     comment: apiValue.comment,
                                     statusId: 1,
-                                    // upload: filesUploaded,
+                                    upload: filesUploaded?.map(({ base64_encoded_data, ...rest }) => {
+                                        return {
+                                            base64_encoded_data: base64_encoded_data.split(',')[1],
+                                            ...rest
+                                        };
+                                    }),
                                     request_item: items,
                                     reason: apiValue.reason,
                                     solution: apiValue.solution,
@@ -232,6 +237,7 @@ const useRMA = () => {
                                 }),
                                 timeout: 7000
                             });
+                            push('/rma');
                         }
                     }
                 );
