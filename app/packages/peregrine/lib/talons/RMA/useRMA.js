@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useRef, useCallback, useMemo } from 'react';
+import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
@@ -51,6 +51,10 @@ const useRMA = () => {
     const formProps = {
         initialValues: formAddress
     };
+
+    const formattedUploadedFiles = filesUploaded?.map(file => {
+        return { base64_encoded_data: file.base64_encoded_data.split(',')[1], name: file.name };
+    });
 
     const selectTitle = formatMessage({
         id: '"deliveryDate.pleaseSelect',
@@ -194,6 +198,7 @@ const useRMA = () => {
             fetchPolicy: 'no-cache'
         });
     };
+
     const handleSubmit = useCallback(
         async apiValue => {
             try {
@@ -217,12 +222,7 @@ const useRMA = () => {
                                     order_increment_id: apiValue.selection,
                                     comment: apiValue.comment,
                                     statusId: 1,
-                                    upload: filesUploaded?.map(({ base64_encoded_data, ...rest }) => {
-                                        return {
-                                            base64_encoded_data: base64_encoded_data.split(',')[1],
-                                            ...rest
-                                        };
-                                    }),
+                                    upload: formattedUploadedFiles,
                                     request_item: items,
                                     reason: apiValue.reason,
                                     solution: apiValue.solution,
@@ -245,7 +245,7 @@ const useRMA = () => {
                 console.log({ error });
             }
         },
-        [customerOrders, returnType, createMpRmaRequest, selectedItems, additionalField, filesUploaded]
+        [customerOrders, returnType, createMpRmaRequest, selectedItems, additionalField, formattedUploadedFiles]
     );
 
     const handleClose = file => {
