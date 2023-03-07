@@ -23,7 +23,7 @@ const RMAFrontPage = () => {
         handleSubmitConversation,
         setComment,
         comment,
-        isSubmit,
+        isSubmit
     } = useRMAFrontPage({ refetchRequest, requestsList });
 
     const tableHeader = [
@@ -61,7 +61,7 @@ const RMAFrontPage = () => {
                     id: 'rmaPage.requestStatus',
                     defaultMessage: 'Request Status'
                 }),
-                value: req.status_id
+                value: req.status?.label
             },
             {
                 dataLable: formatMessage({

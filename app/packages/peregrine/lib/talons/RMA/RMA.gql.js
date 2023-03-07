@@ -41,7 +41,11 @@ export const RMA_REQUEST_LIST = gql`
                 __typename
                 items {
                     updated_at
-                    status_id
+                    status {
+                        label
+                        __typename
+                        status_id
+                    }
                     comment
                     created_at
                     customer_email
