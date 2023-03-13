@@ -161,5 +161,21 @@ module.exports = [
         name: 'SimpleProduct',
         pattern: '/simple-product',
         path: '../ProductFullDetail/SimpleProduct'
+    },
+    {
+        name: 'RMA',
+        pattern: '/rma',
+        exact: true,
+        authed: true,
+        path: '../RMA',
+        redirectTo: '/sign-in'
+    },
+    {
+        name: 'RMA',
+        pattern: '/rma/form',
+        exact: true,
+        authed: true,
+        path: '../RMA/RMAForm',
+        redirectTo: '/sign-in'
     }
 ];

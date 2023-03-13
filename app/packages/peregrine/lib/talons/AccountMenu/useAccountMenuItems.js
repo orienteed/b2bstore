@@ -71,7 +71,13 @@ export const useAccountMenuItems = props => {
             name: 'Favorites Lists',
             id: 'accountMenu.favoritesListsLink',
             url: '/wishlist'
+        }, 
+        {
+            name: 'RMA Requests',
+            id: 'rmaPage.RMAReuests',
+            url: '/rma'
         }
+        
     ];
 
     if (process.env.CSR_ENABLED === 'true') {
