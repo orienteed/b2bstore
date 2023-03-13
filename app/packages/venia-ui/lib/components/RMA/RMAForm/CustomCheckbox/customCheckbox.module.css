@@ -1,0 +1,71 @@
+.root {
+    --stroke: rgb(var(--venia-global-color-gray-600));
+    align-items: center;
+    color: rgb(var(--venia-global-color-gray-900));
+    display: grid;
+    gap: calc(0.875rem - 5px);
+    grid-auto-flow: column;
+    grid-template-areas: 'input label';
+    grid-template-columns: min-content 1fr;
+    justify-items: center;
+    line-height: 1.5rem;
+}
+
+.input {
+    -webkit-appearance: none;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    grid-area: input;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.icon {
+    grid-area: input;
+    height: 1.5rem;
+    pointer-events: none;
+    width: 1.5rem;
+}
+
+.icon svg {
+    stroke: var(--b2bstore-global-color-orange);
+}
+
+.label {
+    cursor: pointer;
+    font-size: var(--b2bStore-footer-text-font-size);
+    grid-area: label;
+    justify-self: start;
+    z-index: 1;
+}
+
+.input:disabled {
+    cursor: default;
+}
+
+/* When the input is disabled, update the cursor on the sibling label element. */
+.input:disabled ~ .label {
+    cursor: default;
+}
+
+.input:checked:enabled + .icon {
+    --stroke: var(--b2bstore-global-color-orange);
+}
+
+.input:active:enabled,
+.input:focus:enabled {
+    box-shadow: -3px 3px rgba(var(--b2bstore-global-color-gray-alpha), 0.5);
+    outline: none;
+}
+.container {
+    display: flex;
+    font-size: var(--b2bStore-footer-text-font-size);
+}
+.dataPoliticsContainer {
+    margin-top: 1.5px;
+}
+.dataPoliticsContainer .dataPolitics {
+    color: var(--b2bstore-global-color-orange);
+}

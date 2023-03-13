@@ -1,0 +1,50 @@
+.root {
+    padding: 2rem 3rem;
+    row-gap: 2rem;
+}
+
+.headerWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.headerWrapper button {
+  width: 200px;
+}
+.heading {
+    justify-self: center;
+    font-family: var(--venia-global-fontFamily-serif);
+    font-weight: var(--venia-global-fontWeight-bold);
+    font-size: 18px;
+}
+
+.actionsWrapper {
+    color: #e8aa00;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.tableWrapper {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.actionBtn {
+    display: flex;
+    gap: 0.5rem;
+    color: #e8aa00;
+    cursor: pointer;
+}
+
+.actionsWrapper {
+    color: #e8aa00;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
