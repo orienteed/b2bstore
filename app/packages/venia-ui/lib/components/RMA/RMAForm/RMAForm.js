@@ -20,6 +20,7 @@ import DropzonePrevisualizer from '../DropzonePrevisualizer';
 import { ArrowLeft } from 'react-feather';
 import Icon from '../../Icon';
 import { useHistory } from 'react-router-dom';
+import SelectRma from './SelectRma/SelectRma';
 
 const RMAForm = props => {
     const history = useHistory();
@@ -54,7 +55,8 @@ const RMAForm = props => {
         reasonSolutionAdditionalFieldData,
         handleAdditionalFieldChange,
         selectedItems,
-        setFormApi
+        setFormApi,
+        submitingLoading
     } = talonProps;
     const selectedSkus = useMemo(() => selectedItems.map(ele => ele?.SKU), [selectedItems]);
     const orderInformationTitle = formatMessage({
@@ -81,7 +83,7 @@ const RMAForm = props => {
     });
 
     if (!customerOrders && !infoReasonsData && !infoSolutionData && !customerData) return <LoadingIndicator />;
-   
+
     return (
         <div className={classes.rmaWrapper}>
             <button className={classes.goToRequestListTitle} onClick={handleBackPage}>
@@ -300,59 +302,43 @@ const RMAForm = props => {
 
                                                         {infoReasonsData && (
                                                             <>
-                                                                <Field
+                                                                <SelectRma
+                                                                    disabled={!selectedSkus.includes(item?.SKU)}
                                                                     id="rmaRequestFormreturnType"
                                                                     label={formatMessage({
                                                                         id: 'rmaRequestForm.reason',
                                                                         defaultMessage: 'Reason'
                                                                     })}
-                                                                >
-                                                                    {selectedSkus.includes(item?.SKU) && (
-                                                                        <>isSeleceted</>
-                                                                    )}
-                                                                    <Select
-                                                                        disabled={!selectedSkus.includes(item?.SKU)}
-                                                                        field={`reason ${item.product_id}`}
-                                                                        onChange={e =>
-                                                                            handleEachItemChange(
-                                                                                e,
-                                                                                item.product_id,
-                                                                                'reason'
-                                                                            )
-                                                                        }
-                                                                        items={infoReasonsData}
-                                                                        validate={value => {
-                                                                            if (selectedSkus?.includes(item?.SKU)) {
-                                                                                return isRequired(value);
-                                                                            }
-                                                                        }}
-                                                                    />
-                                                                </Field>
-                                                            </>
-                                                        )}
-                                                        <Field
-                                                            id="rmaRequestFormreturnType"
-                                                            label={formatMessage({
-                                                                id: 'rmaRequestForm.solution',
-                                                                defaultMessage: 'Solution'
-                                                            })}
-                                                        >
-                                                            {infoSolutionData && (
-                                                                <Select
-                                                                    disabled={!selectedSkus.includes(item?.SKU)}
-                                                                    field="solution"
+                                                                    field={`reason ${item.product_id}`}
                                                                     onChange={e =>
                                                                         handleEachItemChange(
                                                                             e,
                                                                             item.product_id,
-                                                                            'solution'
+                                                                            'reason'
                                                                         )
                                                                     }
-                                                                    items={infoSolutionData}
-                                                                    validate={isRequired}
+                                                                    items={infoReasonsData}
+                                                                    isSelected={selectedSkus?.includes(item?.SKU)}
                                                                 />
-                                                            )}
-                                                        </Field>
+                                                            </>
+                                                        )}
+
+                                                        {infoSolutionData && (
+                                                            <SelectRma
+                                                                disabled={!selectedSkus.includes(item?.SKU)}
+                                                                id="rmaRequestFormreturnType"
+                                                                label={formatMessage({
+                                                                    id: 'rmaRequestForm.solution',
+                                                                    defaultMessage: 'Solution'
+                                                                })}
+                                                                field={`solution ${item.product_id}`}
+                                                                onChange={e =>
+                                                                    handleEachItemChange(e, item.product_id, 'solution')
+                                                                }
+                                                                items={infoSolutionData}
+                                                                isSelected={selectedSkus?.includes(item?.SKU)}
+                                                            />
+                                                        )}
                                                         {reasonSolutionAdditionalFieldData &&
                                                             reasonSolutionAdditionalFieldData.mpRMAConfig.additional_field.map(
                                                                 field => {
@@ -430,7 +416,7 @@ const RMAForm = props => {
                         priority="high"
                         type="submit"
                         data-cy="RMARequestForm-root_highPriority"
-                        disabled={selectedItems.length === 0 && returnType !== 'allItems'}
+                        disabled={(selectedItems.length === 0 && returnType !== 'allItems') || submitingLoading}
                     >
                         <FormattedMessage id={'rmaRequestForm.rmaRequestFormText'} defaultMessage={'Request'} />
                     </Button>

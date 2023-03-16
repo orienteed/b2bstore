@@ -45,7 +45,7 @@ const useRMA = () => {
     const { data: customersOrders } = useQuery(GET_CUSTOMER_ORDERS);
     const { data: customerData } = useQuery(GET_CUSTOMER);
     const getProductBySku = useAwaitQuery(GET_PRODUCT_ID);
-    const [createMpRmaRequest] = useMutation(MP_RMA_REQUEST);
+    const [createMpRmaRequest, { loading: submitingLoading }] = useMutation(MP_RMA_REQUEST);
     const [cancelMpRmaRequest] = useMutation(MPCANCEL_RMA_REQUEST);
 
     const formProps = {
@@ -100,7 +100,7 @@ const useRMA = () => {
 
     const handleChangeOrderId = val => {
         setSelectedItems([]);
-        setReturnType('allItems')
+        setReturnType('allItems');
         if (formApiRef.current) {
             formApiRef.current.reset();
             formApiRef.current.setValue('selection', val);
@@ -201,7 +201,6 @@ const useRMA = () => {
 
     const handleSubmit = useCallback(
         async apiValue => {
-            console.log({apiValue});
             try {
                 const items = [];
                 (returnType === 'allItems' ? customerOrders : selectedItems).map(
@@ -306,7 +305,8 @@ const useRMA = () => {
         handleReasonSolutionChange,
         reasonSolutionAdditionalFieldData,
         handleAdditionalFieldChange,
-        refetchRequest: refetch
+        refetchRequest: refetch,
+        submitingLoading
     };
 };
 
