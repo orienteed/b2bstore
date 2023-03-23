@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { BrowserRouter, Link, useHistory, useParams } from 'react-router-dom';
 
 import Button from '@magento/venia-ui/lib/components/Button';
@@ -22,6 +22,12 @@ const CourseContent = props => {
     const { courseId } = useParams();
     const talonProps = useLearningRoute();
     const { userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty } = talonProps;
+    const { formatMessage } = useIntl();
+
+    const descriptionText = formatMessage({
+        id: 'characteristicsText',
+        defaultMessage: 'Characteristics and objectives of the course'
+    });
 
     const classes = useStyle(defaultClasses, props.classes);
     const {
@@ -59,6 +65,7 @@ const CourseContent = props => {
             // TODO_B2B: Translations
             const sectionList = ['Descripción'];
             const moduleList = [courseDetails.summary];
+
             courseContent.forEach(course => {
                 if (course.modules.length !== 0) {
                     sectionList.push(course.name);
@@ -71,7 +78,7 @@ const CourseContent = props => {
             setModules(moduleList);
             setModuleSelected(moduleList[0]);
         }
-    }, [courseContent, courseDetails]);
+    }, [courseContent, courseDetails, descriptionText]);
 
     const breadcrumbs = (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
@@ -173,7 +180,7 @@ const CourseContent = props => {
                         {courseContent !== undefined && (
                             <div className={classes.bodyCourseContainer}>
                                 <div className={classes.courseSectionTabs}>
-                                    {sections.map(section => {
+                                    {sections?.map(section => {
                                         return (
                                             <button
                                                 key={section}
@@ -198,7 +205,7 @@ const CourseContent = props => {
                                         <div className={classes.courseSectionModuleActive}>
                                             <h1 className={classes.sectionTitle}>{sectionSelected}</h1>
                                             <ol key={moduleSelected.id} className={classes.courseSectionContainer}>
-                                                {moduleSelected.modules.map((module, i) => {
+                                                {moduleSelected.modules?.map((module, i) => {
                                                     return (
                                                         <CourseModuleContent
                                                             courseModule={module}
@@ -214,7 +221,6 @@ const CourseContent = props => {
                                     )
                                 ) : (
                                     <div className={classes.courseSectionModuleActive}>
-                                        {/* TODO_B2B: Translations */}
                                         <h1 className={classes.sectionTitle}>Características y objetivos del curso</h1>
                                         <div className={classes.courseSectionContainer}>
                                             <span className={classes.moduleSummary}>{moduleSelected}</span>

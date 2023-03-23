@@ -70,6 +70,7 @@
     "cartPage.heading": "Carrito",
     "cartPage.signIn": "Iniciar sesión",
     "cartPage.title": "Carrito",
+    "characteristicsText": "Características y objetivos del curso",
     "cartPage.wishlist.ce.successMessage": "Un artículo se ha añadido correctamente a tu carrito.",
     "cartPage.wishlist.ee.successMessage": "Un artículo se ha añadido correctamente a tu lista de \"{wishlistName}\"",
     "cartTrigger.ariaLabel": "Alternar mini carrito. Tienes {count} artículos en tu carrito.",

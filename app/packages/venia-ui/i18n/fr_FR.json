@@ -75,6 +75,7 @@
     "cartTrigger.ariaLabel": "Basculer le mini-panier. Vous avez {count} articles dans votre panier.",
     "categoryContent.filter": "Filtre",
     "categoryContent.itemsSortedBy": "Articles triés par ",
+    "characteristicsText": "Caractéristiques et objectifs du cours",
     "categoryContent.resultCount": "{count} Résultats",
     "categoryLeaf.allLabel": "Tout(e) {name}",
     "categoryList.noResults": "Aucune catégorie enfant trouvée.",
