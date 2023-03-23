@@ -24,7 +24,7 @@ const CourseContent = props => {
     const { userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty } = talonProps;
     const { formatMessage } = useIntl();
 
-    const descriptionText = formatMessage({
+    const characteristicsText = formatMessage({
         id: 'characteristicsText',
         defaultMessage: 'Characteristics and objectives of the course'
     });
@@ -78,7 +78,7 @@ const CourseContent = props => {
             setModules(moduleList);
             setModuleSelected(moduleList[0]);
         }
-    }, [courseContent, courseDetails, descriptionText]);
+    }, [courseContent, courseDetails]);
 
     const breadcrumbs = (
         <nav className={classes.root} aria-live="polite" aria-busy="false">
@@ -221,7 +221,7 @@ const CourseContent = props => {
                                     )
                                 ) : (
                                     <div className={classes.courseSectionModuleActive}>
-                                        <h1 className={classes.sectionTitle}>Características y objetivos del curso</h1>
+                                        <h1 className={classes.sectionTitle}>{characteristicsText}</h1>
                                         <div className={classes.courseSectionContainer}>
                                             <span className={classes.moduleSummary}>{moduleSelected}</span>
                                         </div>
