@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { BrowserRouter, Link, useHistory } from 'react-router-dom';
+import { BrowserRouter, Link, useHistory, useParams } from 'react-router-dom';
 
 import Button from '@magento/venia-ui/lib/components/Button';
 import CourseModuleContent from '../CourseModuleContent/courseModuleContent';
@@ -14,11 +14,15 @@ import defaultClasses from './courseContent.module.css';
 import noImageAvailable from '../CourseItem/Icons/noImageAvailable.svg';
 import noCoursesImage from '../CoursesCatalog/Icons/noCourses.svg';
 import ConfirmationModal from './ConfirmationModal/confirmationModal';
+import { useLearningRoute } from '@magento/peregrine/lib/talons/Lms/useLearningRoute';
 
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const { courseId, userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty } = props;
+    const { courseId } = useParams();
+    const talonProps = useLearningRoute();
+    const { userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty } = talonProps;
+
     const classes = useStyle(defaultClasses, props.classes);
     const {
         courseContent,
