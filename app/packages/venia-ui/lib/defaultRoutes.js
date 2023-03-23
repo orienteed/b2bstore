@@ -99,16 +99,16 @@ module.exports = [
         name: 'Courses',
         pattern: '/learning',
         exact: true,
-        path: '../Lms/LearningRoute',
+        path: '../Lms/CoursesCatalog',
         authed: true,
         redirectTo: '/sign-in',
         isEnabled: process.env.LMS_INVENTADO
     },
     {
         name: 'Course',
-        pattern: '/course',
+        pattern: '/course/:courseId',
         exact: true,
-        path: '../Lms/LearningRoute',
+        path: '../Lms/CourseContent',
         authed: true,
         redirectTo: '/sign-in',
         isEnabled: process.env.LMS_ENABLED
