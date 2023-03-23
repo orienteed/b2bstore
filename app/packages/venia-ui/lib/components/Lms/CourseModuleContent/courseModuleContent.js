@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-
 import ContentDialog from '../ContentDialog';
 import ConfirmationModal from './ConfirmationModal';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { useCourseModuleContent } from '@magento/peregrine/lib/talons/Lms/useCourseModuleContent';
-
 import defaultClasses from './courseModuleContent.module.css';
-
-import markAsDone from '@magento/peregrine/lib/RestApi/Lms/completion/markAsDone';
-
+import { Magento2 } from '@magento/peregrine/lib/RestApi';
 import audioIcon from './Icons/audio.svg';
 import checkFillIcon from './Icons/checkFill.svg';
 import checkNoFillIcon from './Icons/checkNoFill.svg';
@@ -65,12 +60,23 @@ const CourseModuleContent = props => {
         link.click();
     };
 
-    const handleMarkAsDone = () => {
+    const markAsDone = useCallback(async courseModuleId => {
+        const { request } = Magento2;
+
+        const reply = await request(`/lms/api/v1/completion/done?courseModuleId=${courseModuleId}`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        return reply;
+    }, []);
+
+    const handleMarkAsDone = useCallback(() => {
         setConfirmationModalOpen(false);
         markAsDone(courseModule.id).then(reply =>
             reply ? setIsDone(true) && setMarkAsDoneListQty(list => [...list, true]) : null
         );
-    };
+    }, [courseModule.id, markAsDone, setConfirmationModalOpen, setIsDone, setMarkAsDoneListQty]);
 
     const handleOpenConfirmationModal = () => {
         setConfirmationModalOpen(true);

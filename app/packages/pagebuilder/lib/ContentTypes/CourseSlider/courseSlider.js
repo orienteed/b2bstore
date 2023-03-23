@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-
+import { Magento2 } from '@magento/peregrine/lib/RestApi';
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import CourseItem from '@magento/venia-ui/lib/components/Lms/CourseItem';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 
 import getCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getCourses';
-import getCoursesByCategory from '@magento/peregrine/lib/RestApi/Lms/courses/getCoursesByCategory';
 
 import defaultClasses from './courseSlider.css';
 
@@ -28,18 +27,28 @@ const CourseSlider = ({ bannerType, categoryId }) => {
         defaultMessage: 'Show all courses'
     });
 
-    const moodleMagentoMatchCategoryId = {
-        5: 10,
-        12: 11,
-        3: 12,
-        7: 13,
-        18: 15
-    };
+    const getCoursesByCategory = useCallback(async categoryId => {
+        const { request } = Magento2;
+
+        const reply = await request(`/lms/api/v1/courses/category?categoryId=${categoryId}`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        return reply;
+    }, []);
 
     // TODO_B2B: Customize no courses message
     const emptyCoursesMessage = 'There are no courses available';
 
     useEffect(() => {
+        const moodleMagentoMatchCategoryId = {
+            5: 10,
+            12: 11,
+            3: 12,
+            7: 13,
+            18: 15
+        };
         switch (bannerType) {
             case 'category':
                 if (moodleMagentoMatchCategoryId[categoryId] !== undefined) {
@@ -73,7 +82,7 @@ const CourseSlider = ({ bannerType, categoryId }) => {
                 });
                 break;
         }
-    }, [bannerType, categoryId]);
+    }, [bannerType, categoryId, getCoursesByCategory]);
 
     return (
         <section className={classes.courseSliderContainer}>

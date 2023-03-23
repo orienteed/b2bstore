@@ -1,9 +1,21 @@
-import { useState, useEffect } from 'react';
-import getCoursePreviewMedia from '@magento/peregrine/lib/RestApi/Lms/media/getCoursePreviewMedia';
+import { useState, useEffect, useCallback } from 'react';
+import { Magento2 } from '@magento/peregrine/lib/RestApi';
 
 export const useCourseItem = props => {
     const { courseImageUri, courseModuleMimetype } = props;
     const [coursePreviewUrl, setCoursePreviewUrl] = useState('');
+
+    const getCoursePreviewMedia = useCallback(async courseImageUri => {
+        const { request } = Magento2;
+
+        const reply = await request(`/lms/api/v1/media/course?uri=${courseImageUri}`, {
+            method: 'GET',
+            parseJSON: false,
+            credentials: 'include'
+        });
+
+        return reply;
+    }, []);
 
     useEffect(() => {
         if (courseImageUri) {
@@ -14,7 +26,7 @@ export const useCourseItem = props => {
                 )
                 .catch(err => console.error(err));
         }
-    }, [courseImageUri, courseModuleMimetype]);
+    }, [courseImageUri, courseModuleMimetype, getCoursePreviewMedia]);
 
     return { coursePreviewUrl };
 };

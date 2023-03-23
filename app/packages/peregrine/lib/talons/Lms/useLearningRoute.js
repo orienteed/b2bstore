@@ -1,31 +1,53 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { Magento2 } from '@magento/peregrine/lib/RestApi';
 
-import getCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getCourses';
-import getUserCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getUserCourses';
+import { useLMSContext } from '../../../../venia-ui/lib/components/Lms/lmsProvider/lmsProvider';
 
 export const useLearningRoute = () => {
     const [{ isSignedIn }] = useUserContext();
 
-    const [courses, setCourses] = useState();
-    const [userCourses, setUserCourses] = useState();
+    const { courses, setCourses, userCourses, setUserCourses } = useLMSContext();
+
     const [userCoursesIdList, setUserCoursesIdList] = useState([]);
     const [userCoursesIdListQty, setUserCoursesIdListQty] = useState(0);
     const [markAsDoneListQty, setMarkAsDoneListQty] = useState([]);
     const [buttonSelected, setSelectedButton] = useState('all');
 
+    const getCourses = useCallback(async () => {
+        const { request } = Magento2;
+
+        const reply = await request('/lms/api/v1/courses/', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        return reply.courses.slice(1);
+    }, []);
+
+    const getUserCourses = useCallback(async () => {
+        const { request } = Magento2;
+
+        const reply = await request('/lms/api/v1/courses/progress', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        return reply;
+    }, []);
+
     useEffect(() => {
         if (isSignedIn) {
             getCourses().then(coursesData => setCourses(coursesData));
         }
-    }, [isSignedIn]);
+    }, [getCourses, isSignedIn, setCourses]);
 
     useEffect(() => {
         if (isSignedIn) {
             getUserCourses().then(userCoursesData => setUserCourses(userCoursesData));
         }
-    }, [userCoursesIdListQty, markAsDoneListQty, isSignedIn]);
+    }, [userCoursesIdListQty, markAsDoneListQty, isSignedIn, setUserCourses, getUserCourses]);
 
     useEffect(() => {
         if (isSignedIn) {
