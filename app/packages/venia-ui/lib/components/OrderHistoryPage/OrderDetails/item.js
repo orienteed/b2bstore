@@ -64,7 +64,10 @@ const Item = props => {
                     <Price value={product_sale_price.value} currencyCode={product_sale_price.currency} />
                 </td>
                 <td className={classes.grossPrice}>
-                    <Price value={product_sale_price.value} currencyCode={product_sale_price.currency} />
+                    <Price
+                        value={product_sale_price.value * quantity_ordered}
+                        currencyCode={product_sale_price.currency}
+                    />
                 </td>
             </tr>
         </>
