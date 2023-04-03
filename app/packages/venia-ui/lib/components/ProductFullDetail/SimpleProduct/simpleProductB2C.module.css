@@ -239,19 +239,11 @@
 }
 
 @media (max-width: 959px) {
-    .imageCarousel div {
-        height: 500px;
-    }
-
-    .imageCarousel div div  {
-        height: 450px;
-    }
-
     .imageCarousel div div div img {
         height: 450px;
     }
 
-    .title{
+    .title {
         margin-top: 30px;
     }
 }
