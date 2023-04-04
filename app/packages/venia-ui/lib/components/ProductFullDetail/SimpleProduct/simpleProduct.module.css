@@ -331,14 +331,6 @@ header .productName {
 }
 
 @media (max-device-width: 580px) {
-    .imageCarousel div {
-        height: 450px;
-    }
-
-    .imageCarousel div div {
-        height: 400px;
-    }
-
     .imageCarousel div div div img {
         height: 500px !important;
     }
@@ -349,14 +341,6 @@ header .productName {
 }
 
 @media (max-device-width: 959px) {
-    .imageCarousel div {
-        height: 500px;
-    }
-
-    .imageCarousel div div {
-        height: 510px;
-    }
-
     .imageCarousel div div div img {
         height: 500px !important;
     }
