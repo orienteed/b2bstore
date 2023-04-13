@@ -27,7 +27,8 @@ const restartDevServerOnChange = [
     'packages/venia-*/.env',
     'packages/venia-*/static/**/*',
     'yarn.lock',
-    'packages/venia-concept/src/targets/componentOverrideMapping.js'
+    'packages/venia-concept/src/targets/componentOverrideMapping.js',
+    'packages/adapter/**/*.ts',    
 ];
 
 const eventBuffer = [];
