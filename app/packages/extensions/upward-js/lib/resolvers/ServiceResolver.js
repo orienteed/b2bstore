@@ -96,7 +96,7 @@ class ServiceResolver extends AbstractResolver {
             uri: endpoint.toString(),
             fetch: this.visitor.io.networkFetch,
             headers,
-            useGETForQueries: method === 'GET'
+            useGETForQueries: method !== 'GET'
         });
 
         let parsedQuery;

@@ -45,7 +45,7 @@ const getLinks = apiBase => {
     // https://docs.fastly.com/en/guides/resource-limits#request-and-response-limits
     const httpLink = createHttpLink({
         fetch: customFetchToShrinkQuery,
-        useGETForQueries: true,
+        useGETForQueries: false,
         uri: apiBase
     });
 
