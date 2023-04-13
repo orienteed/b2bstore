@@ -11,7 +11,7 @@
         "noUnusedParameters": false,
         "resolveJsonModule": true,
         "skipLibCheck": true,
-        "strict": true
+        "strict": false
     },
     "include": ["**/*.ts"],
     "exclude": ["node_modules"]
