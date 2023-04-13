@@ -11,27 +11,34 @@ import { useLocation } from 'react-router-dom';
 import { useUserContext } from '../../../context/user';
 import { useModulesContext } from '../../../context/modulesProvider';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
+import { useAdapter } from '../../../hooks/useAdapter';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 
 export const useSimpleProduct = (props = {}) => {
     const { addConfigurableProductToCartMutation, productQuantity } = props;
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getSimpleProductQuery } = operations;
-
     const { formatMessage } = useIntl();
     const { search } = useLocation();
-    const sku = new URLSearchParams(search).get('sku');
     const [{ isSignedIn }] = useUserContext();
-
     const { tenantConfig } = useModulesContext();
 
+    const sku = new URLSearchParams(search).get('sku');
     const isB2B = tenantConfig.b2bProductDetailView;
 
-    const { data, loading, error } = useQuery(getSimpleProductQuery, {
-        variables: { sku: sku }
-    });
+    // const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    // const { getSimpleProductQuery } = operations;
+
+    // const { data, loading, error } = useQuery(getSimpleProductQuery, {
+    //     variables: { sku: sku }
+    // });
+
+    // BIGCOMMERCE ADAPTER
+    // Obtain operations from adapter
+    const { getSimpleProduct } = useAdapter();
+
+    // Fetch product data from BigCommerce
+    const { data, loading, error } = getSimpleProduct({ sku: 'SLCTBS-A9615491' });
+    // END BIGCOMMERCE ADAPTER
 
     const { data: storeConfigData, refetch } = useStoreConfigContext();
 
