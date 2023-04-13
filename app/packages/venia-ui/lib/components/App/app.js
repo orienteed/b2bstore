@@ -22,6 +22,8 @@ import ReactGA from 'react-ga';
 import CookiesConsent from '../CookiesConsent';
 
 import { AlertCircle as AlertCircleIcon, CloudOff as CloudOffIcon, Wifi as WifiIcon } from 'react-feather';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const OnlineIcon = <Icon src={WifiIcon} attrs={{ width: 18 }} />;
 const OfflineIcon = <Icon src={CloudOffIcon} attrs={{ width: 18 }} />;
@@ -36,6 +38,25 @@ const App = props => {
     const { location } = useHistory();
     const { pathname } = location;
     useDelayedTransition();
+
+    // TODO_B2B: Remove this once we have a complete set of operations
+    // BIGCOMMERCE ADAPTER
+    // Obtain operations from adapter
+    const [, { setToken }] = useUserContext();
+    const { generateToken } = useAdapter();
+
+    // Generate token against BigCommerce
+    const { data: tokenData } = generateToken();
+
+    // Update token in local storage
+    const updateToken = async () => {
+        tokenData && (await setToken(tokenData.data.token));
+    };
+
+    useEffect(() => {
+        updateToken();
+    }, [tokenData]);
+    // END BIGCOMMERCE ADAPTER
 
     useEffect(() => {
         ReactGA.pageview(window.location.pathname + window.location.search);
