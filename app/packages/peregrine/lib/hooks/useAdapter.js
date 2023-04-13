@@ -3,7 +3,7 @@ import { Magento2 } from '../../lib/RestApi';
 import { useAwaitQuery } from '../../lib/hooks/useAwaitQuery';
 import { useLazyQuery, useMutation, useQuery, useSubscription } from '@apollo/client';
 
-import { getResolvers } from '@b2bstore/boilerplate-adapter';
+import { getResolvers } from '@b2bstore/bigcommerce-adapter';
 
 export const useAdapter = () => {
     const { request: restClient } = Magento2;
