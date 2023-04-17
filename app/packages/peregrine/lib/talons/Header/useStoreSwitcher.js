@@ -7,6 +7,7 @@ import { BrowserPersistence } from '@magento/peregrine/lib/util';
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './storeSwitcher.gql';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '../../hooks/useAdapter';
 
 const storage = new BrowserPersistence();
 
@@ -59,7 +60,7 @@ const mapAvailableOptions = (config, stores) => {
 
 export const useStoreSwitcher = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getRouteDataQuery, getAvailableStoresDataQuery } = operations;
+    const { getAvailableStoresDataQuery } = operations;
 
     const { availableRoutes = [] } = props;
     const internalRoutes = useMemo(() => {
@@ -78,9 +79,10 @@ export const useStoreSwitcher = (props = {}) => {
         triggerRef: storeMenuTriggerRef
     } = useDropdown();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
-    const fetchRouteData = useAwaitQuery(getRouteDataQuery);
+    const { getRouteData } = useAdapter();
+    const { fetchRouteData } = getRouteData();
 
     const { data: availableStoresData } = useQuery(getAvailableStoresDataQuery, {
         fetchPolicy: 'cache-and-network',
