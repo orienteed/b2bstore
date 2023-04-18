@@ -13,6 +13,7 @@ import DEFAULT_OPERATIONS from './category.gql';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '../../../hooks/useAdapter';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
  * controls the logic for the Category Root Component.
@@ -38,9 +39,9 @@ export const useCategory = props => {
     const { id } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCategoryQuery, getFilterInputsQuery } = operations;
+    const { getFilterInputsQuery } = operations;
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
 
     const [paginationValues, paginationApi] = usePagination();
@@ -68,11 +69,9 @@ export const useCategory = props => {
         }
     ] = useAppContext();
 
-    const [runQuery, queryResponse] = useLazyQuery(getCategoryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-    const { called: categoryCalled, loading: categoryLoading, error, data } = queryResponse;
+    const { getCategory } = useAdapter();
+    const { runQuery, data, loading: categoryLoading, error, called: categoryCalled } = getCategory();
+
     const { search } = useLocation();
 
     const isBackgroundLoading = !!data && categoryLoading;
