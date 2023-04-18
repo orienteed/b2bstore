@@ -1,11 +1,8 @@
 import { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
 import useInternalLink from '../../hooks/useInternalLink';
-
-import mergeOperations from '../../util/shallowMerge';
-
-import DEFAULT_OPERATIONS from './breadcrumbs.gql';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '../../hooks/useAdapter';
 
 // Just incase the data is unsorted, lets sort it.
 const sortCrumbs = (a, b) => a.category_level > b.category_level;
@@ -37,16 +34,10 @@ const getPath = (path, suffix) => {
 export const useBreadcrumbs = props => {
     const { categoryId } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getBreadcrumbsQuery } = operations;
+    const { getBreadcrumbs } = useAdapter();
+    const { data, loading, error } = getBreadcrumbs({ category_id: categoryId });
 
-    const { data, loading, error } = useQuery(getBreadcrumbsQuery, {
-        variables: { category_id: categoryId },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const categoryUrlSuffix = useMemo(() => {
         if (storeConfigData) {
