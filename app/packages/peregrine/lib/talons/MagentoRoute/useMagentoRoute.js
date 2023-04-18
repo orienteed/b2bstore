@@ -1,27 +1,21 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useRootComponents } from '../../context/rootComponents';
-import mergeOperations from '../../util/shallowMerge';
 import { getComponentData } from '../../util/magentoRouteData';
 import { useAppContext } from '../../context/app';
 
 import { getRootComponent, isRedirect } from './helpers';
-import DEFAULT_OPERATIONS from './magentoRoute.gql';
 
 const getInlinedPageData = () => {
-    return globalThis.INLINED_PAGE_TYPE && globalThis.INLINED_PAGE_TYPE.type
-        ? globalThis.INLINED_PAGE_TYPE
-        : null;
+    return globalThis.INLINED_PAGE_TYPE && globalThis.INLINED_PAGE_TYPE.type ? globalThis.INLINED_PAGE_TYPE : null;
 };
 
 const resetInlinedPageData = () => {
     globalThis.INLINED_PAGE_TYPE = false;
 };
 
-export const useMagentoRoute = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { resolveUrlQuery } = operations;
+export const useMagentoRoute = () => {
     const { replace } = useHistory();
     const { pathname } = useLocation();
     const [componentMap, setComponentMap] = useRootComponents();
@@ -43,9 +37,9 @@ export const useMagentoRoute = (props = {}) => {
 
     const component = componentMap.get(pathname);
 
-    const [runQuery, queryResult] = useLazyQuery(resolveUrlQuery);
-    // destructure the query result
-    const { data, error, loading } = queryResult;
+    const { resolveURL } = useAdapter();
+    const { runQuery, data, loading, error } = resolveURL();
+
     const { route } = data || {};
 
     useEffect(() => {
@@ -90,8 +84,7 @@ export const useMagentoRoute = (props = {}) => {
         })();
     }, [route]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const { id, identifier, uid, redirect_code, relative_url, type } =
-        route || {};
+    const { id, identifier, uid, redirect_code, relative_url, type } = route || {};
 
     // evaluate both results and determine the response type
     const empty = !route || !type || (!id && !identifier && !uid);
@@ -120,9 +113,7 @@ export const useMagentoRoute = (props = {}) => {
         // REDIRECT
         routeData = {
             isRedirect: true,
-            relativeUrl: relative_url.startsWith('/')
-                ? relative_url
-                : '/' + relative_url
+            relativeUrl: relative_url.startsWith('/') ? relative_url : '/' + relative_url
         };
     } else {
         // LOADING

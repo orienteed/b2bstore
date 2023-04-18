@@ -7,10 +7,9 @@ import { availableRoutes } from '@magento/venia-ui/lib/components/Routes/routes'
 
 import { useAppContext } from '../context/app';
 import { useRootComponents } from '../context/rootComponents';
-import mergeOperations from '../util/shallowMerge';
 import { getComponentData } from '../util/magentoRouteData';
-import DEFAULT_OPERATIONS from '../talons/MagentoRoute/magentoRoute.gql';
 import { getRootComponent } from '../talons/MagentoRoute/helpers';
+import { useAdapter } from './useAdapter';
 
 const DELAY_MESSAGE_PREFIX = 'DELAY:';
 
@@ -18,11 +17,13 @@ const useDelayedTransition = () => {
     const { pathname } = useLocation();
     const history = useHistory();
     const client = useApolloClient();
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { resolveUrlQuery } = operations;
     const [, setComponentMap] = useRootComponents();
     const [, appApi] = useAppContext();
     const { actions: appActions } = appApi;
+
+    const { resolveURL } = useAdapter();
+    const { runQuery, data } = resolveURL();
+
     const { setPageLoading } = appActions;
     const unblock = useRef();
 
@@ -43,9 +44,7 @@ const useDelayedTransition = () => {
             let currentPath = pathname;
 
             if (process.env.USE_STORE_CODE_IN_URL === 'true') {
-                const storeCodes = AVAILABLE_STORE_VIEWS.map(
-                    store => `\/?${store.store_code}`
-                ).join('|');
+                const storeCodes = AVAILABLE_STORE_VIEWS.map(store => `\/?${store.store_code}`).join('|');
                 const regex = new RegExp(`^${storeCodes}`);
                 currentPath = currentPath.replace(regex, '');
             }
@@ -56,14 +55,12 @@ const useDelayedTransition = () => {
             }
 
             // Ignore hardcoded routes
-            const isInternalRoute = availableRoutes.some(
-                ({ pattern: path, exact }) => {
-                    return !!matchPath(location.pathname, {
-                        path,
-                        exact
-                    });
-                }
-            );
+            const isInternalRoute = availableRoutes.some(({ pattern: path, exact }) => {
+                return !!matchPath(location.pathname, {
+                    path,
+                    exact
+                });
+            });
             if (isInternalRoute) {
                 return true;
             }
@@ -93,14 +90,12 @@ const useDelayedTransition = () => {
             setPageLoading(true);
             const currentPathname = message.replace(DELAY_MESSAGE_PREFIX, '');
 
-            const queryResult = await client.query({
-                query: resolveUrlQuery,
+            await runQuery({
                 fetchPolicy: 'cache-first',
                 nextFetchPolicy: 'cache-first',
                 variables: { url: currentPathname }
             });
 
-            const { data } = queryResult;
             const { route } = data || {};
             const { type, ...routeData } = route || {};
 
@@ -121,7 +116,7 @@ const useDelayedTransition = () => {
             }
             proceed(true);
         };
-    }, [client, resolveUrlQuery, setComponentMap, setPageLoading]);
+    }, [client, data, runQuery, setComponentMap, setPageLoading]);
 };
 
 export default useDelayedTransition;
