@@ -1,33 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const GET_CMS_DYNAMIC_BLOCKS = gql`
-    query GetCmsDynamicBlocks(
-        $cartId: String
-        $productId: ID
-        $type: DynamicBlockTypeEnum!
-        $locations: [DynamicBlockLocationEnum]
-        $uids: [ID]!
-    ) {
-        dynamicBlocks(
-            input: {
-                cart_id: $cartId
-                product_uid: $productId
-                dynamic_block_uids: $uids
-                locations: $locations
-                type: $type
-            }
-        ) {
-            items {
-                content {
-                    html
-                }
-                uid
-            }
-            salesRulesData @client
-        }
-    }
-`;
-
 export const GET_PRODUCT_DETAIL_FOR_CMS_DYNAMIC_BLOCK_BY_URL_KEY = gql`
     query GetProductDetailForCmsDynamicBlockByUrlKey($urlKey: String!) {
         products(filter: { url_key: { eq: $urlKey } }) {
@@ -94,7 +66,6 @@ export const GET_SALES_RULES_DATA = gql`
 `;
 
 export default {
-    getCmsDynamicBlocksQuery: GET_CMS_DYNAMIC_BLOCKS,
     getProductDetailQuery: GET_PRODUCT_DETAIL_FOR_CMS_DYNAMIC_BLOCK_BY_URL_KEY,
     getSalesRulesDataQuery: GET_SALES_RULES_DATA
 };
