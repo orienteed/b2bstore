@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useAdapter } from '../useAdapter';
 
 import useScript from '@magento/peregrine/lib/hooks/useScript';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import defaultOperations from './googleReCaptchaConfig.gql';
 
 const GOOGLE_RECAPTCHA_HEADER = 'X-ReCaptcha';
 const GOOGLE_RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js';
@@ -24,14 +21,10 @@ const GOOGLE_RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js';
  * import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
  */
 export const useGoogleReCaptcha = props => {
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const { getReCaptchaV3ConfigQuery } = operations;
-
     const { currentForm, formAction } = props;
 
-    const { data: configData, error: configError, loading: configLoading } = useQuery(getReCaptchaV3ConfigQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+    const { getReCaptchaV3Config } = useAdapter();
+    const { data: configData, loading: configLoading, error: configError } = getReCaptchaV3Config();
 
     if (!globalThis['recaptchaCallbacks']) {
         globalThis['recaptchaCallbacks'] = {};
