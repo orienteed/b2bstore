@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-
-import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { useEventingContext } from '../../context/eventing';
-
-import DEFAULT_OPERATIONS from './cmsPage.gql';
+import { useAdapter } from '../../hooks/useAdapter';
 
 /**
  * Retrieves data necessary to render a CMS Page
@@ -18,17 +14,11 @@ import DEFAULT_OPERATIONS from './cmsPage.gql';
 export const useCmsPage = props => {
     const { identifier } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCmsPageQuery } = operations;
-
     const [, { dispatch }] = useEventingContext();
 
-    const { loading, data } = useQuery(getCmsPageQuery, {
-        variables: {
-            identifier: identifier
-        },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
+    const { getCmsPage } = useAdapter();
+    const { data, loading } = getCmsPage({
+        identifier
     });
 
     const [
