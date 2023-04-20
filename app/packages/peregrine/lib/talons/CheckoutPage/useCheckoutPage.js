@@ -4,6 +4,7 @@ import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
+import { useAdapter } from '../../hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './checkoutPage.gql.js';
@@ -81,7 +82,6 @@ export const useCheckoutPage = props => {
         getCheckoutDetailsQuery,
         getCustomerInformationQuery,
         getOrderDetailsQuery,
-        placeOrderMutation,
         setPaymentMethodOnCartMutation
     } = operations;
 
@@ -110,9 +110,9 @@ export const useCheckoutPage = props => {
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
     const [fetchCartId] = useMutation(createCartMutation);
-    const [placeOrder, { data: placeOrderData, error: placeOrderError, loading: placeOrderLoading }] = useMutation(
-        placeOrderMutation
-    );
+
+    const { placeOrder } = useAdapter();
+    const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
 
     const [getOrderDetails, { data: orderDetailsData, loading: orderDetailsLoading }] = useLazyQuery(
         getOrderDetailsQuery,
@@ -139,7 +139,7 @@ export const useCheckoutPage = props => {
             cartId
         }
     });
-    
+
     const [
         updatePaymentMethod,
         {
@@ -285,7 +285,7 @@ export const useCheckoutPage = props => {
             try {
                 const reCaptchaData = await generateReCaptchaData();
                 const { cart } = orderDetailsData;
-                const { data } = await placeOrder({
+                const { data } = await runPlaceOrder({
                     variables: {
                         cartId
                     },
@@ -344,7 +344,7 @@ export const useCheckoutPage = props => {
         fetchCartId,
         generateReCaptchaData,
         orderDetailsData,
-        placeOrder,
+        runPlaceOrder,
         removeCart,
         isPlacingOrder
     ]);
@@ -451,6 +451,6 @@ export const useCheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod 
+        currentSelectedPaymentMethod
     };
 };

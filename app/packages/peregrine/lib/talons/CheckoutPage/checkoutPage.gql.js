@@ -25,18 +25,7 @@ export const GET_ORDER_DETAILS = gql`
     ${OrderConfirmationPageFragment}
 `;
 
-export const PLACE_ORDER = gql`
-    mutation PlaceOrder($cartId: String!) {
-        placeOrder(input: { cart_id: $cartId }) {
-            order {
-                order_number
-            }
-        }
-    }
-`;
-
 export default {
     getCheckoutDetailsQuery: GET_CHECKOUT_DETAILS,
-    getOrderDetailsQuery: GET_ORDER_DETAILS,
-    placeOrderMutation: PLACE_ORDER
+    getOrderDetailsQuery: GET_ORDER_DETAILS
 };
