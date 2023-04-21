@@ -7,6 +7,7 @@ import { useCartContext } from '../../context/cart';
 import { useUserContext } from '../../context/user';
 import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
@@ -23,13 +24,7 @@ export const useSignIn = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
 
-    const {
-        getCustomerInformationQuery,
-        mergeCartsMutation,
-        signInMutation,
-        getCartDetailsQuery,
-        createCartMutation
-    } = operations;
+    const { getCustomerInformationQuery, mergeCartsMutation, signInMutation, getCartDetailsQuery } = operations;
 
     const apolloClient = useApolloClient();
     const [isSigningIn, setIsSigningIn] = useState(false);
@@ -46,12 +41,14 @@ export const useSignIn = props => {
         fetchPolicy: 'no-cache'
     });
 
-    const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
+    const { generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_LOGIN',
         formAction: 'signIn'
     });
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { createCart: createCartFromAdapter } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
+
     const [mergeCarts] = useMutation(mergeCartsMutation);
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);

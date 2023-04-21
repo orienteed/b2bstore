@@ -15,12 +15,6 @@ export const IS_USER_AUTHED = gql`
     }
 `;
 
-export const CREATE_CART = gql`
-    mutation CreateCart {
-        cartId: createEmptyCart
-    }
-`;
-
 export const GET_CART_DETAILS = gql`
     query GetCartDetails($cartId: String!) {
         cart(cart_id: $cartId) {
@@ -123,7 +117,6 @@ export const UPDATE_CART_ITEMS = gql`
 
 export default {
     IsUserAuthedQuery: IS_USER_AUTHED,
-    createCartMutation: CREATE_CART,
     getCartDetailsQuery: GET_CART_DETAILS,
     mergeCartsMutation: MERGE_CARTS,
     removeItemFromCartMutation: REMOVE_ITEM_FROM_CART,

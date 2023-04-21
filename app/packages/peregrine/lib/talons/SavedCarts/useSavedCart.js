@@ -4,6 +4,7 @@ import { useMutation, useApolloClient, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import DEFAULT_OPERATIONS from './savedCarts.gql';
@@ -11,12 +12,7 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 export const useSavedCart = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS);
-    const {
-        createCartMutation,
-        getConfigDetailsForSavedCartsQuery,
-        getCartDetailsQuery,
-        saveSavedCartsMutation
-    } = operations;
+    const { getConfigDetailsForSavedCartsQuery, getCartDetailsQuery, saveSavedCartsMutation } = operations;
 
     const [isShow, setIsShow] = useState(false);
     const [buttonTitle, setButtonTitle] = useState();
@@ -30,7 +26,8 @@ export const useSavedCart = () => {
 
     const [{ cartId }, { getCartDetails, createCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { createCart: createCartFromAdapter } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
 
     const history = useHistory();
 

@@ -78,7 +78,6 @@ export const useCheckoutPage = props => {
     );
 
     const {
-        createCartMutation,
         getCheckoutDetailsQuery,
         getCustomerInformationQuery,
         getOrderDetailsQuery,
@@ -109,9 +108,9 @@ export const useCheckoutPage = props => {
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { placeOrder, createCart: createCartFromAdapter } = useAdapter();
 
-    const { placeOrder } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
     const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
 
     const [getOrderDetails, { data: orderDetailsData, loading: orderDetailsLoading }] = useLazyQuery(

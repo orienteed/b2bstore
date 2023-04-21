@@ -7,6 +7,7 @@ import { useCartContext } from '../../context/cart';
 import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import SIGNIN_OPERATIONS from '../SignIn/signIn.gql';
@@ -48,7 +49,6 @@ export const useCreateAccount = props => {
 
     const {
         createAccountMutation,
-        createCartMutation,
         getCartDetailsQuery,
         getCustomerInformationQuery,
         mergeCartsMutation,
@@ -65,7 +65,8 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { createCart: createCartFromAdapter } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
 
     const [mergeCarts] = useMutation(mergeCartsMutation);
 

@@ -7,6 +7,7 @@ import { useCartContext } from '../../../context/cart';
 import { useAwaitQuery } from '../../../hooks/useAwaitQuery';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../../CreateAccount/createAccount.gql';
 import SIGNIN_OPERATIONS from '../../SignIn/signIn.gql';
@@ -43,13 +44,7 @@ export const useCreateAccount = props => {
         props.operations
     );
 
-    const {
-        createAccountMutation,
-        createCartMutation,
-        getCartDetailsQuery,
-        getCustomerInformationQuery,
-        signInMutation
-    } = operations;
+    const { createAccountMutation, getCartDetailsQuery, getCustomerInformationQuery, signInMutation } = operations;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [, { createCart, getCartDetails, removeCart }] = useCartContext();
@@ -57,7 +52,8 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { createCart: createCartFromAdapter } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.

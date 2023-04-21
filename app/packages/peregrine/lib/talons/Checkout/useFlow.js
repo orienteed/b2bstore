@@ -1,12 +1,9 @@
 import { useCallback } from 'react';
-import { useMutation } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
 import isObjectEmpty from '@magento/peregrine/lib/util/isObjectEmpty';
-
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 const isCheckoutReady = checkout => {
     const { billingAddress, paymentData, shippingAddress, shippingMethod } = checkout;
@@ -23,10 +20,9 @@ const isCheckoutReady = checkout => {
 export const useFlow = props => {
     const { onSubmitError, setStep } = props;
 
-    const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { createCartMutation } = operations;
+    const { createCart } = useAdapter();
+    const { fetchCartId } = createCart();
 
-    const [fetchCartId] = useMutation(createCartMutation);
     const [cartState] = useCartContext();
     const [
         checkoutState,

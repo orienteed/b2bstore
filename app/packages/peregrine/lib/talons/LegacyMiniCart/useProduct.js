@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -9,7 +10,7 @@ export const useProduct = props => {
     const { beginEditItem, item, removeItemMutation } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { createCartMutation, getCartDetailsQuery } = operations;
+    const { getCartDetailsQuery } = operations;
 
     const { configurable_options: options, product, quantity, prices } = item;
     const { price } = prices;
@@ -19,7 +20,9 @@ export const useProduct = props => {
     const [isLoading, setIsLoading] = useState(false);
     const [, { removeItemFromCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { createCart } = useAdapter();
+    const { fetchCartId } = createCart();
+
     const [removeItem] = useMutation(removeItemMutation);
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
