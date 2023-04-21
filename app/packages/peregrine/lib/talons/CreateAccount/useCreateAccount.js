@@ -47,13 +47,7 @@ export const useCreateAccount = props => {
         props.operations
     );
 
-    const {
-        createAccountMutation,
-        getCartDetailsQuery,
-        getCustomerInformationQuery,
-        mergeCartsMutation,
-        signInMutation
-    } = operations;
+    const { createAccountMutation, getCustomerInformationQuery, mergeCartsMutation, signInMutation } = operations;
 
     const apolloClient = useApolloClient();
 
@@ -65,8 +59,9 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { createCart: createCartFromAdapter } = useAdapter();
+    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     const [mergeCarts] = useMutation(mergeCartsMutation);
 
@@ -81,7 +76,6 @@ export const useCreateAccount = props => {
     });
 
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

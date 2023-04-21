@@ -23,8 +23,7 @@ export const useSignIn = props => {
     const { setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
-
-    const { getCustomerInformationQuery, mergeCartsMutation, signInMutation, getCartDetailsQuery } = operations;
+    const { getCustomerInformationQuery, mergeCartsMutation, signInMutation } = operations;
 
     const apolloClient = useApolloClient();
     const [isSigningIn, setIsSigningIn] = useState(false);
@@ -46,12 +45,12 @@ export const useSignIn = props => {
         formAction: 'signIn'
     });
 
-    const { createCart: createCartFromAdapter } = useAdapter();
+    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     const [mergeCarts] = useMutation(mergeCartsMutation);
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);
