@@ -11,17 +11,20 @@ import DEFAULT_OPERATIONS from './quickOrderForm.gql';
 import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+
 export const useQuickOrderForm = props => {
     const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen, setProducts, success } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
-    const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery, getProductBySkuQuery } = operations;
+    const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery } = operations;
 
     const [{ cartId }] = useCartContext();
 
     const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
     const getParentSku = useAwaitQuery(getParentSkuBySkuQuery);
-    const getproduct = useAwaitQuery(getProductBySkuQuery);
+    const { getProductDetailForQuickOrderBySku } = useAdapter();
+    const { getproduct } = getProductDetailForQuickOrderBySku();
 
     const handleCSVFile = () => {
         const input = document.createElement('input');

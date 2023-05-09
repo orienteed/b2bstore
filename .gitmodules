@@ -5,3 +5,4 @@
 [submodule "app/packages/adapters/b2bstore-magento-adapter"]
 	path = app/packages/adapters/b2bstore-magento-adapter
 	url = https://github.com/orienteed-lab/b2bstore-magento2-adapter
+	branch = develop
