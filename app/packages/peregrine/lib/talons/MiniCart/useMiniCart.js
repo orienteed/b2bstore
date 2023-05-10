@@ -6,6 +6,7 @@ import { useCartContext } from '../../context/cart';
 import { useEventingContext } from '../../context/eventing';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { deriveErrorMessage } from '../../util/deriveErrorMessage';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import mergeOperations from '../../util/shallowMerge';
@@ -35,24 +36,19 @@ import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
 export const useMiniCart = props => {
     const { isOpen, setIsOpen } = props;
     const [, { dispatch }] = useEventingContext();
-    
+
     const { handleAddCofigItemBySku } = useAddToQuote();
 
-    const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation, getMiniCartQuery } = operations;
+    const operations = mergeOperations(CART_OPERATIONS);
+    const { removeItemFromCartMutation } = operations;
 
     const [{ cartId }] = useCartContext();
     const history = useHistory();
 
-    const { data: miniCartData, loading: miniCartLoading } = useQuery(getMiniCartQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: { cartId },
-        skip: !cartId,
-        errorPolicy: 'all'
-    });
+    const { getMiniCart } = useAdapter();
+    const { data: miniCartData, loading: miniCartLoading } = getMiniCart({ cartId: cartId })
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const configurableThumbnailSource = useMemo(() => {
         if (storeConfigData) {
@@ -126,7 +122,7 @@ export const useMiniCart = props => {
     );
 
     const submitQuote = useCallback(async () => {
-       
+
         try {
             await handleAddCofigItemBySku(SelectedVariants);
             productList.forEach(async ({ uid }) => {
