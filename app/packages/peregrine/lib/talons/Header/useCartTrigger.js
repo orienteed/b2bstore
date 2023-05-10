@@ -1,12 +1,9 @@
 import { useCallback, useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
-
-import DEFAULT_OPERATIONS from './cartTrigger.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * Routes to hide the mini cart on.
@@ -28,8 +25,7 @@ const DENIED_MINI_CART_ROUTES = ['/checkout'];
  *  }
  */
 export const useCartTrigger = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getItemCountQuery } = operations;
+    const { getItemCount } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const history = useHistory();
@@ -43,14 +39,7 @@ export const useCartTrigger = () => {
         triggerRef: miniCartTriggerRef
     } = useDropdown();
 
-    const { data } = useQuery(getItemCountQuery, {
-        fetchPolicy: 'cache-and-network',
-        variables: {
-            cartId
-        },
-        skip: !cartId,
-        errorPolicy: 'all'
-    });
+    const { data } = getItemCount({cartId: cartId});
 
     const itemCount = data?.cart?.total_quantity || 0;
 
