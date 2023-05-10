@@ -78,7 +78,6 @@ export const useCheckoutPage = props => {
     );
 
     const {
-        getCheckoutDetailsQuery,
         getCustomerInformationQuery,
         getOrderDetailsQuery,
         setPaymentMethodOnCartMutation
@@ -108,7 +107,7 @@ export const useCheckoutPage = props => {
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
-    const { placeOrder, createCart: createCartFromAdapter } = useAdapter();
+    const { placeOrder, createCart: createCartFromAdapter, getCheckoutDetails } = useAdapter();
 
     const { fetchCartId } = createCartFromAdapter();
     const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
@@ -127,17 +126,7 @@ export const useCheckoutPage = props => {
         skip: !isSignedIn
     });
 
-    const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = useQuery(getCheckoutDetailsQuery, {
-        /**
-         * Skip fetching checkout details if the `cartId`
-         * is a falsy value.
-         */
-        skip: !cartId,
-        notifyOnNetworkStatusChange: true,
-        variables: {
-            cartId
-        }
-    });
+    const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = getCheckoutDetails({cartId: cartId})
 
     const [
         updatePaymentMethod,
