@@ -5,6 +5,7 @@ import { useQuery, useApolloClient, useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
@@ -116,7 +117,6 @@ export const useCreditCard = props => {
     );
 
     const {
-        getBillingAddressQuery,
         getCustomerAddressesQuery,
         getIsBillingAddressSameQuery,
         getPaymentNonceQuery,
@@ -155,6 +155,7 @@ export const useCreditCard = props => {
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
+    const { getBillingAddress } = useAdapter();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
@@ -163,10 +164,7 @@ export const useCreditCard = props => {
         skip: !isSignedIn
     });
 
-    const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: billingAddressData } = getBillingAddress({cartId:cartId});
     const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
         skip: !cartId,
         variables: { cartId }

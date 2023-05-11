@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
+import { useQuery, useApolloClient, useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './billingAddress.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
@@ -106,7 +107,6 @@ export const useBillingAddress = props => {
     const [, { addToast }] = useToasts();
 
     const {
-        getBillingAddressQuery,
         getCustomerAddressesQuery,
         getIsBillingAddressSameQuery,
         getShippingInformationQuery,
@@ -120,6 +120,7 @@ export const useBillingAddress = props => {
     const { validate } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
+    const { getBillingAddress } = useAdapter();
 
     const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',
@@ -136,10 +137,7 @@ export const useBillingAddress = props => {
         variables: { cartId }
     });
 
-    const [loadBillingAddressQuery, { data: billingAddressData }] = useLazyQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { loadBillingAddressQuery, data: billingAddressData } = getBillingAddress({ cartId: cartId, type: 'request' });
 
     const [
         updateBillingAddress,
