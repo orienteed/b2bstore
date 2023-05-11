@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useCartContext } from '../../../context/cart';
-import DEFAULT_OPERATIONS from './productListing.gql';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 /**
  * This talon contains logic for a component that renders a list of products for a cart.
@@ -25,17 +23,13 @@ import { useStoreConfigContext } from '../../../context/storeConfigProvider';
  * @example <caption>Importing into your project</caption>
  * import { useProductListing } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useProductListing';
  */
-export const useProductListing = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductListingQuery } = operations;
+export const useProductListing = () => {
+    const { getProductListing } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const [activeEditItem, setActiveEditItem] = useState(null);
 
-    const [fetchProductListing, { called, data, error, loading }] = useLazyQuery(getProductListingQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const {fetchProductListing, called, data, error, loading } = getProductListing();
 
         const { data: storeConfigData } = useStoreConfigContext();
     const wishlistConfig = storeConfigData ? storeConfigData.storeConfig : {};
