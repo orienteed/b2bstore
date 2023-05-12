@@ -119,7 +119,7 @@ export const useBillingAddress = props => {
     const { validate } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress, getIsBillingAddressSame } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
 
     const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',
@@ -131,18 +131,17 @@ export const useBillingAddress = props => {
         variables: { cartId }
     });
 
-    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({cartId:cartId});
+    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({ cartId: cartId });
 
     const { loadBillingAddressQuery, data: billingAddressData } = getBillingAddress({ cartId: cartId, type: 'request' });
 
-    const [
+    const {
         updateBillingAddress,
-        {
-            error: billingAddressMutationError,
-            called: billingAddressMutationCalled,
-            loading: billingAddressMutationLoading
-        }
-    ] = useMutation(setBillingAddressMutation);
+        error: billingAddressMutationError,
+        called: billingAddressMutationCalled,
+        loading: billingAddressMutationLoading
+
+    } = setBillingAddressFromAdapter();
     const [
         updateDefaultBillingAddress,
         {

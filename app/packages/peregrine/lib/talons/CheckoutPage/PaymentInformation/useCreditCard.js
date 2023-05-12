@@ -154,7 +154,7 @@ export const useCreditCard = props => {
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress, getIsBillingAddressSame } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
@@ -163,20 +163,19 @@ export const useCreditCard = props => {
         skip: !isSignedIn
     });
 
-    const { data: billingAddressData } = getBillingAddress({cartId:cartId});
+    const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
     const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
         skip: !cartId,
         variables: { cartId }
     });
-    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({cartId:cartId});
-    const [
+    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({ cartId: cartId });
+    const {
         updateBillingAddress,
-        {
-            error: billingAddressMutationError,
-            called: billingAddressMutationCalled,
-            loading: billingAddressMutationLoading
-        }
-    ] = useMutation(setBillingAddressMutation);
+        error: billingAddressMutationError,
+        called: billingAddressMutationCalled,
+        loading: billingAddressMutationLoading
+
+    } = setBillingAddressFromAdapter();
 
     const [
         updateDefaultBillingAddress,

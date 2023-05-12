@@ -10,6 +10,7 @@ import { useCartContext } from '../../../context/cart';
 import CheckoutError from '../CheckoutError';
 import { useEventingContext } from '../../../context/eventing';
 import { CHECKOUT_STEP } from '../useCheckoutPage';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 /**
  *
@@ -48,6 +49,7 @@ export const usePaymentInformation = props => {
     const [{ cartId }] = useCartContext();
     const client = useApolloClient();
     const [, { dispatch }] = useEventingContext();
+    const { setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
 
     /**
      * Helper Functions
@@ -99,7 +101,7 @@ export const usePaymentInformation = props => {
         });
     }, [cartId, client, getPaymentNonceQuery]);
 
-    const [setBillingAddress] = useMutation(setBillingAddressMutation);
+    const { setBillingAddress } = setBillingAddressFromAdapter();
 
     // We must wait for payment method to be set if this is the first time we
     // are hitting this component and the total is $0. If we don't wait then
