@@ -108,7 +108,6 @@ export const useBillingAddress = props => {
 
     const {
         getCustomerAddressesQuery,
-        getIsBillingAddressSameQuery,
         getShippingInformationQuery,
         setBillingAddressMutation,
         setDefaultBillingAddressMutation
@@ -120,7 +119,7 @@ export const useBillingAddress = props => {
     const { validate } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame } = useAdapter();
 
     const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',
@@ -132,10 +131,7 @@ export const useBillingAddress = props => {
         variables: { cartId }
     });
 
-    const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({cartId:cartId});
 
     const { loadBillingAddressQuery, data: billingAddressData } = getBillingAddress({ cartId: cartId, type: 'request' });
 

@@ -118,7 +118,6 @@ export const useCreditCard = props => {
 
     const {
         getCustomerAddressesQuery,
-        getIsBillingAddressSameQuery,
         getPaymentNonceQuery,
         getShippingInformationQuery,
         setBillingAddressMutation,
@@ -155,7 +154,7 @@ export const useCreditCard = props => {
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame } = useAdapter();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
@@ -169,10 +168,7 @@ export const useCreditCard = props => {
         skip: !cartId,
         variables: { cartId }
     });
-    const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({cartId:cartId});
     const [
         updateBillingAddress,
         {
