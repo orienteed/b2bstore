@@ -108,18 +108,15 @@ export const useBillingAddress = props => {
 
     const {
         getCustomerAddressesQuery,
-        getShippingInformationQuery,
-        setBillingAddressMutation,
-        setDefaultBillingAddressMutation
+        getShippingInformationQuery
     } = operations;
 
     const client = useApolloClient();
     const formState = useFormState();
     const { validate: validateBillingAddressForm } = useFormApi();
-    const { validate } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter, setDefaultBillingAddress: setDefaultBillingAddressFromAdapter } = useAdapter();
 
     const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',
@@ -142,14 +139,12 @@ export const useBillingAddress = props => {
         loading: billingAddressMutationLoading
 
     } = setBillingAddressFromAdapter();
-    const [
+    const {
         updateDefaultBillingAddress,
-        {
-            error: defaultBillingAddressMutationError,
-            called: defaultBillingAddressMutationCalled,
-            loading: defaultBillingAddressMutationLoading
-        }
-    ] = useMutation(setDefaultBillingAddressMutation);
+        error: defaultBillingAddressMutationError,
+        called: defaultBillingAddressMutationCalled,
+        loading: defaultBillingAddressMutationLoading
+    } = setDefaultBillingAddressFromAdapter();
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart?.shipping_addresses[0]?.country.code

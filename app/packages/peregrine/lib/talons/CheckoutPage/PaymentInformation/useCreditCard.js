@@ -120,8 +120,6 @@ export const useCreditCard = props => {
         getCustomerAddressesQuery,
         getPaymentNonceQuery,
         getShippingInformationQuery,
-        setBillingAddressMutation,
-        setDefaultBillingAddressMutation,
         setPaymentMethodOnCartMutation
     } = operations;
 
@@ -154,7 +152,7 @@ export const useCreditCard = props => {
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter, setDefaultBillingAddress: setDefaultBillingAddressFromAdapter } = useAdapter();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
@@ -177,14 +175,12 @@ export const useCreditCard = props => {
 
     } = setBillingAddressFromAdapter();
 
-    const [
+    const {
         updateDefaultBillingAddress,
-        {
-            error: defaultBillingAddressMutationError,
-            called: defaultBillingAddressMutationCalled,
-            loading: defaultBillingAddressMutationLoading
-        }
-    ] = useMutation(setDefaultBillingAddressMutation);
+        error: defaultBillingAddressMutationError,
+        called: defaultBillingAddressMutationCalled,
+        loading: defaultBillingAddressMutationLoading
+    } = setDefaultBillingAddressFromAdapter();
 
     const [
         updateCCDetails,
