@@ -4,10 +4,10 @@ import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 import DEFAULT_OPERATIONS from './cmsDynamicBlock.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import { useAdapter } from '../../hooks/useAdapter';
 
 export const flatten = cartData => {
     const cartItems = cartData?.cart?.items || [];
@@ -69,10 +69,11 @@ export const useCmsDynamicBlock = props => {
     const { locations, uids, type } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductDetailQuery, getSalesRulesDataQuery } = operations;
+    const { getProductDetailQuery } = operations;
 
     const [{ cartId }] = useCartContext();
     const { pathname } = useLocation();
+    const { getCmsDynamicBlocks, getSalesRulesData } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
@@ -93,7 +94,6 @@ export const useCmsDynamicBlock = props => {
         productData?.products?.items && productData.products.items.length > 0 ? productData.products.items : [];
     const productUid = products.find(item => item.url_key === urlKey)?.uid;
 
-    const { getCmsDynamicBlocks } = useAdapter();
     const { client, data, loading, error, refetch } = getCmsDynamicBlocks({
         cartId,
         ...(productUid ? { productId: productUid } : {}),
@@ -102,10 +102,7 @@ export const useCmsDynamicBlock = props => {
         uids
     });
 
-    const { loading: cartLoading, data: cartData } = useQuery(getSalesRulesDataQuery, {
-        variables: { cartId },
-        skip: !cartId
-    });
+    const { loading: cartLoading, data: cartData } = getSalesRulesData({ cartId: cartId });
 
     const currentSalesRulesData = flatten(cartData);
     const isLoading = loading || cartLoading || storeConfigData === undefined || productDataLoading;
