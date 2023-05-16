@@ -6,6 +6,7 @@ import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 import { useEventingContext } from '../../../context/eventing';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../cartPage.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -38,11 +39,12 @@ export const useProduct = props => {
     const [, { dispatch }] = useEventingContext();
 
     const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation, updateCartItemsMutation } = operations;
+    const { updateCartItemsMutation } = operations;
 
     const { formatMessage } = useIntl();
+    const { removeItemFromCart: removeItemFromCartFromAdapter } = useAdapter();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const configurableThumbnailSource = useMemo(() => {
         if (storeConfigData) {
@@ -58,10 +60,7 @@ export const useProduct = props => {
 
     const flatProduct = flattenProduct(item, configurableThumbnailSource, storeUrlSuffix);
 
-    const [
-        removeItemFromCart,
-        { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }
-    ] = useMutation(removeItemFromCartMutation);
+    const { removeItem: removeItemFromCart, called: removeItemCalled, error: removeItemError, loading: removeItemLoading } = removeItemFromCartFromAdapter();
 
     const [
         updateItemQuantity,

@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useCartContext } from '../../context/cart';
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './cartPage.gql';
 
 import { useHistory } from 'react-router-dom';
 import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
@@ -26,11 +23,11 @@ import { useAdapter } from '../../hooks/useAdapter';
  * import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
  */
 export const useCartPage = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation } = operations;
 
     const history = useHistory();
-    const [removeItem] = useMutation(removeItemFromCartMutation);
+    const { getCartDetails, removeItemFromCart } = useAdapter();
+
+    const { removeItem } = removeItemFromCart();
 
     const [{ cartId }] = useCartContext();
 
@@ -40,7 +37,6 @@ export const useCartPage = (props = {}) => {
     const [isQuoteOpen, setIsQuoteOpen] = useState(false);
     const { handleAddCofigItemBySku } = useAddToQuote();
 
-    const { getCartDetails } = useAdapter();
     const { fetchCartDetails, data, loading, called } = getCartDetails({ isLazy: true });
 
     const hasItems = !!(data && data.cart.total_quantity);

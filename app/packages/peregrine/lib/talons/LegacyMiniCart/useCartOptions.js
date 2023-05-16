@@ -34,7 +34,7 @@ export const useCartOptions = props => {
     } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation, updateCartItemsMutation } = operations;
+    const { updateCartItemsMutation } = operations;
 
     const { configurable_options: cartItemOptions, product, quantity: qty } = cartItem;
     const { name, price } = product;
@@ -44,13 +44,13 @@ export const useCartOptions = props => {
 
     const [, { updateItemInCart }] = useCartContext();
 
-    const { createCart, getCartDetails } = useAdapter();
+    const { createCart, getCartDetails, removeItemFromCart } = useAdapter();
     const { fetchCartId } = createCart();
     const { fetchCartDetails } = getCartDetails();
 
     const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
     const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
-    const [removeItem] = useMutation(removeItemFromCartMutation);
+    const { removeItem } = removeItemFromCart();
     const [updateItem] = useMutation(updateCartItemsMutation);
 
     const initialOptionSelections = useMemo(() => {
