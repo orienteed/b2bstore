@@ -47,7 +47,7 @@ export const useCreateAccount = props => {
         props.operations
     );
 
-    const { createAccountMutation, getCustomerInformationQuery, mergeCartsMutation, signInMutation } = operations;
+    const { createAccountMutation, getCustomerInformationQuery, signInMutation } = operations;
 
     const apolloClient = useApolloClient();
 
@@ -59,11 +59,11 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter, mergeCarts: mergeCartsFromAdapter } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
-    const [mergeCarts] = useMutation(mergeCartsMutation);
+    const { mergeCarts } = mergeCartsFromAdapter();
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
