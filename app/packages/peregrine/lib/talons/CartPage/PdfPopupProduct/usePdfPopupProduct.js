@@ -1,14 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import CART_OPERATIONS from '../cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 
 /**
@@ -36,11 +33,8 @@ import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 export const usePdfPopupProduct = props => {
     const { item, wishlistConfig } = props;
 
-    const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { updateCartItemsMutation } = operations;
-
     const { formatMessage } = useIntl();
-    const { removeItemFromCart: removeItemFromCartFromAdapter } = useAdapter();
+    const { removeItemFromCart: removeItemFromCartFromAdapter, updateCartItems } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
@@ -61,10 +55,7 @@ export const usePdfPopupProduct = props => {
     const { removeItem: removeItemFromCart, called: removeItemCalled, error: removeItemError, loading: removeItemLoading }
         = removeItemFromCartFromAdapter();
 
-    const [
-        updateItemQuantity,
-        { loading: updateItemLoading, error: updateError, called: updateItemCalled }
-    ] = useMutation(updateCartItemsMutation);
+    const { updateItemQuantity, loading: updateItemLoading, error: updateError, called: updateItemCalled } = updateCartItems();
 
     const [{ cartId }] = useCartContext();
 

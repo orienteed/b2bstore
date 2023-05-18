@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 import { useEventingContext } from '../../../context/eventing';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import CART_OPERATIONS from '../cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 /**
  * This talon contains logic for a product component used in a product listing component.
@@ -38,11 +34,8 @@ export const useProduct = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { updateCartItemsMutation } = operations;
-
     const { formatMessage } = useIntl();
-    const { removeItemFromCart: removeItemFromCartFromAdapter } = useAdapter();
+    const { removeItemFromCart: removeItemFromCartFromAdapter, updateCartItems } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
@@ -62,10 +55,7 @@ export const useProduct = props => {
 
     const { removeItem: removeItemFromCart, called: removeItemCalled, error: removeItemError, loading: removeItemLoading } = removeItemFromCartFromAdapter();
 
-    const [
-        updateItemQuantity,
-        { loading: updateItemLoading, error: updateError, called: updateItemCalled }
-    ] = useMutation(updateCartItemsMutation);
+    const { updateItemQuantity, loading: updateItemLoading, error: updateError, called: updateItemCalled } = updateCartItems();
 
     const [{ cartId }] = useCartContext();
 

@@ -6,6 +6,7 @@ import { getOutOfStockVariantsWithInitialSelection } from '@magento/peregrine/li
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useEventingContext } from '@magento/peregrine/lib/context/eventing';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../../../ProductFullDetail/productFullDetail.gql';
 import CART_OPERATIONS from '../../cartPage.gql';
@@ -53,15 +54,14 @@ export const useProductForm = props => {
 
     const {
         getProductDetailForConfigurableOptionsBySkuQuery,
-        updateConfigurableOptionsMutation,
-        updateCartItemsMutation
+        updateConfigurableOptionsMutation
     } = operations;
 
     const { cartItem, setIsCartUpdating, setVariantPrice, setActiveEditItem } = props;
 
     const [, { dispatch }] = useEventingContext();
-
     const [{ cartId }] = useCartContext();
+    const { updateCartItems } = useAdapter();
 
     const derivedOptionSelections = useMemo(() => {
         if (cartItem) {
@@ -85,10 +85,7 @@ export const useProductForm = props => {
         setActiveEditItem(null);
     }, [setActiveEditItem, setMultipleOptionSelections, setOptionSelections]);
 
-    const [
-        updateItemQuantity,
-        { called: updateQuantityCalled, error: updateQuantityError, loading: updateQuantityLoading }
-    ] = useMutation(updateCartItemsMutation);
+    const { updateItemQuantity, called: updateQuantityCalled, error: updateQuantityError, loading: updateQuantityLoading } = updateCartItems();
 
     const [
         updateConfigurableOptions,
@@ -109,7 +106,7 @@ export const useProductForm = props => {
         }
     });
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const handleOptionSelection = useCallback(
         (optionId, selection) => {

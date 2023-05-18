@@ -7,9 +7,6 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { appendOptionsToPayload } from '../../util/appendOptionsToPayload';
 import { isProductConfigurable } from '../../util/isProductConfigurable';
 
-import DEFAULT_OPERATIONS from '../CartPage/cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 const isItemMissingOptions = (cartItem, configItem, numSelections) => {
     // Non-configurable products can't be missing options
     if (cartItem.product_type !== 'configurable') {
@@ -33,9 +30,6 @@ export const useCartOptions = props => {
         endEditItem
     } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { updateCartItemsMutation } = operations;
-
     const { configurable_options: cartItemOptions, product, quantity: qty } = cartItem;
     const { name, price } = product;
     const { regularPrice } = price;
@@ -44,14 +38,14 @@ export const useCartOptions = props => {
 
     const [, { updateItemInCart }] = useCartContext();
 
-    const { createCart, getCartDetails, removeItemFromCart } = useAdapter();
+    const { createCart, getCartDetails, removeItemFromCart, updateCartItems } = useAdapter();
     const { fetchCartId } = createCart();
     const { fetchCartDetails } = getCartDetails();
 
     const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
     const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
     const { removeItem } = removeItemFromCart();
-    const [updateItem] = useMutation(updateCartItemsMutation);
+    const { updateItem } = updateCartItems();
 
     const initialOptionSelections = useMemo(() => {
         const result = new Map();
