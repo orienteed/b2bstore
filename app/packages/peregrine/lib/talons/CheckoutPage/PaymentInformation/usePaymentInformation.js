@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient, useMutation } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from './paymentInformation.gql';
 import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
@@ -35,9 +35,7 @@ export const usePaymentInformation = props => {
         props.operations
     );
     const {
-        getPaymentInformationQuery,
         getPaymentNonceQuery,
-        setBillingAddressMutation,
         setPaymentMethodOnCartMutation
     } = operations;
 
@@ -49,7 +47,7 @@ export const usePaymentInformation = props => {
     const [{ cartId }] = useCartContext();
     const client = useApolloClient();
     const [, { dispatch }] = useEventingContext();
-    const { setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
+    const { setBillingAddress: setBillingAddressFromAdapter, getPaymentInformation } = useAdapter();
 
     /**
      * Helper Functions
@@ -77,12 +75,7 @@ export const usePaymentInformation = props => {
     /**
      * Queries
      */
-    const { data: paymentInformationData, loading: paymentInformationLoading } = useQuery(getPaymentInformationQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: paymentInformationData, loading: paymentInformationLoading } = getPaymentInformation({ cartId: cartId });
 
     const [setFreePaymentMethod, { loading: setFreePaymentMethodLoading }] = useMutation(
         setPaymentMethodOnCartMutation
