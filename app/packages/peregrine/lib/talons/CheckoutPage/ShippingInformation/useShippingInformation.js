@@ -7,6 +7,7 @@ import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
 import { useEventingContext } from '../../../context/eventing';
 import { useUserContext } from '../../../context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './shippingInformation.gql';
@@ -19,11 +20,12 @@ export const useShippingInformation = props => {
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
+    const { getDefaultShipping } = useAdapter();
 
     const [hasUpdate, setHasUpdate] = useState(false);
     const hasLoadedData = useRef(false);
 
-    const { setDefaultAddressIdOnCartMutation, getDefaultShippingQuery, getShippingInformationQuery } = operations;
+    const { setDefaultAddressIdOnCartMutation, getShippingInformationQuery } = operations;
 
     const { data: shippingInformationData, loading: getShippingInformationLoading } = useQuery(
         getShippingInformationQuery,
@@ -35,9 +37,7 @@ export const useShippingInformation = props => {
         }
     );
 
-    const { data: defaultShippingData, loading: getDefaultShippingLoading } = useQuery(getDefaultShippingQuery, {
-        skip: !isSignedIn
-    });
+    const { data: defaultShippingData, loading: getDefaultShippingLoading } = getDefaultShipping({ isSignedIn: isSignedIn });
 
     const [setDefaultAddressOnCart, { loading: setDefaultAddressLoading }] = useMutation(
         setDefaultAddressIdOnCartMutation
