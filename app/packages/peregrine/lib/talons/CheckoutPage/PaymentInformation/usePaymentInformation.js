@@ -1,16 +1,15 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from './paymentInformation.gql';
-import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
 import BILLING_ADDRESS_OPERATIONS from '../BillingAddress/billingAddress.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 import { useCartContext } from '../../../context/cart';
 import CheckoutError from '../CheckoutError';
 import { useEventingContext } from '../../../context/eventing';
 import { CHECKOUT_STEP } from '../useCheckoutPage';
-import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 /**
  *
@@ -31,12 +30,10 @@ export const usePaymentInformation = props => {
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
         BILLING_ADDRESS_OPERATIONS,
-        PAYMENT_METHODS_OPERATIONS,
         props.operations
     );
     const {
-        getPaymentNonceQuery,
-        setPaymentMethodOnCartMutation
+        getPaymentNonceQuery
     } = operations;
 
     /**
@@ -47,7 +44,7 @@ export const usePaymentInformation = props => {
     const [{ cartId }] = useCartContext();
     const client = useApolloClient();
     const [, { dispatch }] = useEventingContext();
-    const { setBillingAddress: setBillingAddressFromAdapter, getPaymentInformation } = useAdapter();
+    const { setBillingAddress: setBillingAddressFromAdapter, getPaymentInformation, setPaymentMethodOnCart } = useAdapter();
 
     /**
      * Helper Functions
@@ -77,9 +74,7 @@ export const usePaymentInformation = props => {
      */
     const { data: paymentInformationData, loading: paymentInformationLoading } = getPaymentInformation({ cartId: cartId });
 
-    const [setFreePaymentMethod, { loading: setFreePaymentMethodLoading }] = useMutation(
-        setPaymentMethodOnCartMutation
-    );
+    const {fetch: setFreePaymentMethod, loading: setFreePaymentMethodLoading } = setPaymentMethodOnCart();
 
     const clearPaymentDetails = useCallback(() => {
         client.writeQuery({

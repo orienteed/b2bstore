@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
@@ -11,7 +11,6 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
 import BILLING_ADDRESS_OPERATIONS from '../BillingAddress/billingAddress.gql';
 import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
-import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
 import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 
 /**
@@ -111,7 +110,6 @@ export const useCreditCard = props => {
         ADDRESS_BOOK_OPERATIONS,
         BILLING_ADDRESS_OPERATIONS,
         PAYMENT_INFORMATION_OPERATIONS,
-        PAYMENT_METHODS_OPERATIONS,
         SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
@@ -119,8 +117,7 @@ export const useCreditCard = props => {
     const {
         getCustomerAddressesQuery,
         getPaymentNonceQuery,
-        getShippingInformationQuery,
-        setPaymentMethodOnCartMutation
+        getShippingInformationQuery
     } = operations;
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
@@ -152,7 +149,7 @@ export const useCreditCard = props => {
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter, setDefaultBillingAddress: setDefaultBillingAddressFromAdapter } = useAdapter();
+    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter, setDefaultBillingAddress: setDefaultBillingAddressFromAdapter, setPaymentMethodOnCart } = useAdapter();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
@@ -182,10 +179,7 @@ export const useCreditCard = props => {
         loading: defaultBillingAddressMutationLoading
     } = setDefaultBillingAddressFromAdapter();
 
-    const [
-        updateCCDetails,
-        { error: ccMutationError, called: ccMutationCalled, loading: ccMutationLoading }
-    ] = useMutation(setPaymentMethodOnCartMutation);
+    const {fetch: updateCCDetails, error: ccMutationError, called: ccMutationCalled, loading: ccMutationLoading } = setPaymentMethodOnCart();
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart.shipping_addresses[0].country.code
