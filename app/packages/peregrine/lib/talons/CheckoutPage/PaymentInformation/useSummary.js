@@ -1,9 +1,5 @@
-import { useQuery } from '@apollo/client';
-
 import { useCartContext } from '../../../context/cart';
-
-import DEFAULT_OPERATIONS from './paymentMethods.gql';
-import mergeOperations from '../../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * Talon to handle summary component in payment information section of
@@ -19,15 +15,11 @@ import mergeOperations from '../../../util/shallowMerge';
  */
 
 export const useSummary = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getSelectedPaymentMethodQuery } = operations;
 
     const [{ cartId }] = useCartContext();
+    const { getSelectedPaymentMethod } = useAdapter();
 
-    const { data: summaryData, loading: summaryDataLoading } = useQuery(getSelectedPaymentMethodQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: summaryData, loading: summaryDataLoading } = getSelectedPaymentMethod({ cartId: cartId });
 
     const selectedPaymentMethod = summaryData ? summaryData.cart.selected_payment_method : null;
 
