@@ -7,20 +7,6 @@ import {
     SelectedShippingMethodCheckoutFragment
 } from './shippingMethodFragments.gql';
 
-export const GET_SELECTED_AND_AVAILABLE_SHIPPING_METHODS = gql`
-    query GetSelectedAndAvailableShippingMethods($cartId: String!) {
-        cart(cart_id: $cartId) {
-            id
-            ...AvailableShippingMethodsCheckoutFragment
-            ...SelectedShippingMethodCheckoutFragment
-            ...ShippingInformationFragment
-        }
-    }
-    ${AvailableShippingMethodsCheckoutFragment}
-    ${SelectedShippingMethodCheckoutFragment}
-    ${ShippingInformationFragment}
-`;
-
 export const SET_SHIPPING_METHOD = gql`
     mutation SetShippingMethod($cartId: String!, $shippingMethod: ShippingMethodInput!) {
         setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: [$shippingMethod] }) {
@@ -45,6 +31,5 @@ export const SET_SHIPPING_METHOD = gql`
 `;
 
 export default {
-    getSelectedAndAvailableShippingMethodsQuery: GET_SELECTED_AND_AVAILABLE_SHIPPING_METHODS,
     setShippingMethodMutation: SET_SHIPPING_METHOD
 };
