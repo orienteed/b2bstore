@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { MOCKED_ADDRESS } from '../../CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
 
@@ -9,31 +8,22 @@ import { useEventingContext } from '../../../context/eventing';
 import { useUserContext } from '../../../context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './shippingInformation.gql';
-
 export const useShippingInformation = props => {
     const { onSave, toggleActiveContent } = props;
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getDefaultShipping, getShippingInformation } = useAdapter();
+    const { getDefaultShipping, getShippingInformation, setCustomerAddressIdOnCart } = useAdapter();
 
     const [hasUpdate, setHasUpdate] = useState(false);
     const hasLoadedData = useRef(false);
-
-    const { setDefaultAddressIdOnCartMutation } = operations;
 
     const { data: shippingInformationData, loading: getShippingInformationLoading } = getShippingInformation({ cartId: cartId });
 
     const { data: defaultShippingData, loading: getDefaultShippingLoading } = getDefaultShipping({ isSignedIn: isSignedIn });
 
-    const [setDefaultAddressOnCart, { loading: setDefaultAddressLoading }] = useMutation(
-        setDefaultAddressIdOnCartMutation
-    );
+    const {setDefaultAddressOnCart, loading: setDefaultAddressLoading } = setCustomerAddressIdOnCart({hasOnSuccess: false});
 
     const isLoading = getShippingInformationLoading || getDefaultShippingLoading || setDefaultAddressLoading;
 
