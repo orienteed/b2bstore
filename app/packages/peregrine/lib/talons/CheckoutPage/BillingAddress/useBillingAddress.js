@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -8,7 +8,6 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './billingAddress.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
@@ -101,14 +100,12 @@ export const useBillingAddress = props => {
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
-        SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
     const [, { addToast }] = useToasts();
 
     const {
-        getCustomerAddressesQuery,
-        getShippingInformationQuery
+        getCustomerAddressesQuery
     } = operations;
 
     const client = useApolloClient();
@@ -116,17 +113,19 @@ export const useBillingAddress = props => {
     const { validate: validateBillingAddressForm } = useFormApi();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getBillingAddress, getIsBillingAddressSame, setBillingAddress: setBillingAddressFromAdapter, setDefaultBillingAddress: setDefaultBillingAddressFromAdapter } = useAdapter();
+    const { getBillingAddress,
+        getIsBillingAddressSame,
+        setBillingAddress: setBillingAddressFromAdapter,
+        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
+        getShippingInformation
+    } = useAdapter();
 
     const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',
         skip: !isSignedIn
     });
 
-    const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
 
     const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({ cartId: cartId });
 

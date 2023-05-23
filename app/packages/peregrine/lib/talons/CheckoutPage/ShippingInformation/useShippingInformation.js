@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { MOCKED_ADDRESS } from '../../CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
 
@@ -20,22 +20,14 @@ export const useShippingInformation = props => {
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
-    const { getDefaultShipping } = useAdapter();
+    const { getDefaultShipping, getShippingInformation } = useAdapter();
 
     const [hasUpdate, setHasUpdate] = useState(false);
     const hasLoadedData = useRef(false);
 
-    const { setDefaultAddressIdOnCartMutation, getShippingInformationQuery } = operations;
+    const { setDefaultAddressIdOnCartMutation } = operations;
 
-    const { data: shippingInformationData, loading: getShippingInformationLoading } = useQuery(
-        getShippingInformationQuery,
-        {
-            skip: !cartId,
-            variables: {
-                cartId
-            }
-        }
-    );
+    const { data: shippingInformationData, loading: getShippingInformationLoading } = getShippingInformation({ cartId: cartId });
 
     const { data: defaultShippingData, loading: getDefaultShippingLoading } = getDefaultShipping({ isSignedIn: isSignedIn });
 

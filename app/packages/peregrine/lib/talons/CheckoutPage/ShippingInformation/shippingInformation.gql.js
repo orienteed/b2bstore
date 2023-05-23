@@ -5,24 +5,6 @@ import { PriceSummaryFragment } from '../../CartPage/PriceSummary/priceSummaryFr
 import { ShippingInformationFragment } from './shippingInformationFragments.gql';
 import { ShippingMethodsCheckoutFragment } from '../ShippingMethod/shippingMethodFragments.gql';
 
-export const GET_DEFAULT_SHIPPING = gql`
-    query GetDefaultShipping {
-        customer {
-            default_shipping
-        }
-    }
-`;
-
-export const GET_SHIPPING_INFORMATION = gql`
-    query GetShippingInformation($cartId: String!) {
-        cart(cart_id: $cartId) {
-            id
-            ...ShippingInformationFragment
-        }
-    }
-    ${ShippingInformationFragment}
-`;
-
 export const SET_CUSTOMER_ADDRESS_ID_ON_CART = gql`
     mutation SetCustomerAddressIdOnCart($cartId: String!, $addressId: Int!) {
         setShippingAddressesOnCart(
@@ -44,7 +26,5 @@ export const SET_CUSTOMER_ADDRESS_ID_ON_CART = gql`
 `;
 
 export default {
-    getDefaultShippingQuery: GET_DEFAULT_SHIPPING,
-    getShippingInformationQuery: GET_SHIPPING_INFORMATION,
     setDefaultAddressIdOnCartMutation: SET_CUSTOMER_ADDRESS_ID_ON_CART
 };
