@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from './couponCode.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 /**
  * This talon contains the logic for a coupon code form component.
@@ -28,22 +24,17 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  * @example <caption>Importing into your project</caption>
  * import { useCouponCode } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/CouponCode/useCouponCode';
  */
-export const useCouponCode = props => {
+export const useCouponCode = props => { 
     const { setIsCartUpdating } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeCouponFromCartMutation } = operations;
-    const { applyCouponToCart, getAppliedCoupons } = useAdapter();
+    const { applyCouponToCart, getAppliedCoupons, removeCouponFromCart } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const { data, error: fetchError } = getAppliedCoupons({ cartId: cartId });
 
     const { applyCoupon, called: applyCouponCalled, error: applyError, loading: applyingCoupon } = applyCouponToCart();
 
-    const [
-        removeCoupon,
-        { called: removeCouponCalled, error: removeCouponError, loading: removingCoupon }
-    ] = useMutation(removeCouponFromCartMutation);
+    const { removeCoupon, called: removeCouponCalled, error: removeCouponError, loading: removingCoupon } = removeCouponFromCart();
 
     const handleApplyCoupon = useCallback(
         async ({ couponCode }) => {
