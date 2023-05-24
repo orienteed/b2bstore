@@ -1,17 +1,6 @@
 import { gql } from '@apollo/client';
 
-import { AppliedCouponsFragment } from './couponCodeFragments.gql';
 import { CartPageFragment } from '../../cartPageFragments.gql';
-
-const GET_APPLIED_COUPONS = gql`
-    query GetAppliedCoupons($cartId: String!) {
-        cart(cart_id: $cartId) {
-            id
-            ...AppliedCouponsFragment
-        }
-    }
-    ${AppliedCouponsFragment}
-`;
 
 const REMOVE_COUPON_FROM_CART = gql`
     mutation RemoveCouponFromCart($cartId: String!) {
@@ -31,6 +20,5 @@ const REMOVE_COUPON_FROM_CART = gql`
 `;
 
 export default {
-    getAppliedCouponsQuery: GET_APPLIED_COUPONS,
     removeCouponFromCartMutation: REMOVE_COUPON_FROM_CART
 };

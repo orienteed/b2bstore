@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -32,18 +32,11 @@ export const useCouponCode = props => {
     const { setIsCartUpdating } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getAppliedCouponsQuery, removeCouponFromCartMutation } = operations;
-    const { applyCouponToCart } = useAdapter();
+    const { removeCouponFromCartMutation } = operations;
+    const { applyCouponToCart, getAppliedCoupons } = useAdapter();
 
     const [{ cartId }] = useCartContext();
-    const { data, error: fetchError } = useQuery(getAppliedCouponsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
+    const { data, error: fetchError } = getAppliedCoupons({ cartId: cartId });
 
     const { applyCoupon, called: applyCouponCalled, error: applyError, loading: applyingCoupon } = applyCouponToCart();
 
