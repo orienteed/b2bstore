@@ -1,7 +1,8 @@
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { useCartContext } from '../../../../context/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './shippingMethods.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -47,16 +48,18 @@ export const MOCKED_ADDRESS = {
  */
 export const useShippingForm = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getShippingMethodsQuery, setShippingAddressMutation } = operations;
+    const { getShippingMethodsQuery } = operations;
     const { selectedValues, setIsCartUpdating } = props;
 
     const [{ cartId }] = useCartContext();
     const apolloClient = useApolloClient();
+    const { setShippingAddress: setShippingAddressFromAdapter } = useAdapter();
 
-    const [
-        setShippingAddress,
-        { called: isSetShippingAddressCalled, error: errorSettingShippingAddress, loading: isSetShippingLoading }
-    ] = useMutation(setShippingAddressMutation);
+    const { setShippingAddress,
+        called: isSetShippingAddressCalled,
+        error: errorSettingShippingAddress,
+        loading: isSetShippingLoading
+    } = setShippingAddressFromAdapter();
 
     useEffect(() => {
         if (isSetShippingAddressCalled) {
