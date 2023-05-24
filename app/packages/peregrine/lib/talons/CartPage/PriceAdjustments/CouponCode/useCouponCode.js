@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './couponCode.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -31,7 +32,8 @@ export const useCouponCode = props => {
     const { setIsCartUpdating } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { applyCouponToCartMutation, getAppliedCouponsQuery, removeCouponFromCartMutation } = operations;
+    const { getAppliedCouponsQuery, removeCouponFromCartMutation } = operations;
+    const { applyCouponToCart } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const { data, error: fetchError } = useQuery(getAppliedCouponsQuery, {
@@ -43,9 +45,7 @@ export const useCouponCode = props => {
         }
     });
 
-    const [applyCoupon, { called: applyCouponCalled, error: applyError, loading: applyingCoupon }] = useMutation(
-        applyCouponToCartMutation
-    );
+    const { applyCoupon, called: applyCouponCalled, error: applyError, loading: applyingCoupon } = applyCouponToCart();
 
     const [
         removeCoupon,
