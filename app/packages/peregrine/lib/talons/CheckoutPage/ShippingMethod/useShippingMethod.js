@@ -1,7 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
-import DEFAULT_OPERATIONS from './shippingMethod.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -46,28 +43,15 @@ const DEFAULT_AVAILABLE_SHIPPING_METHODS = [];
 export const useShippingMethod = props => {
     const { onSave, onSuccess, setPageIsUpdating } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-
-    const {
-        setShippingMethodMutation
-    } = operations;
-
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
     const [, { dispatch }] = useEventingContext();
-    const { getSelectedAndAvailableShippingMethods } = useAdapter();
+    const { getSelectedAndAvailableShippingMethods, setShippingMethod } = useAdapter();
 
     /*
      *  Apollo Hooks.
      */
-    const [
-        setShippingMethodCall,
-        { error: setShippingMethodError, loading: isSettingShippingMethod }
-    ] = useMutation(setShippingMethodMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+    const { setShippingMethodCall, error: setShippingMethodError, loading: isSettingShippingMethod } = setShippingMethod({ onSuccess: onSuccess, hasOnSuccess: true });
 
     const { data, loading: isLoadingShippingMethods } = getSelectedAndAvailableShippingMethods({ cartId: cartId });
 
