@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFormApi } from 'informed';
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -39,12 +39,11 @@ const actions = {
 export const useGiftCards = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const {
-        getGiftCardBalanceQuery,
         removeGiftCardFromCartMutation
     } = operations;
 
     const { setIsCartUpdating } = props;
-    const { applyGiftCardToCart, getAppliedGiftCards } = useAdapter();
+    const { applyGiftCardToCart, getAppliedGiftCards, getGiftCardBalance } = useAdapter();
 
     // We need the cartId for all of our queries and mutations.
     const [{ cartId }] = useCartContext();
@@ -58,11 +57,7 @@ export const useGiftCards = props => {
      */
     const appliedCardsResult = getAppliedGiftCards({ cartId: cartId });
 
-    const [checkCardBalance, balanceResult] = useLazyQuery(getGiftCardBalanceQuery, {
-        // For security, always fetch this from the network and never cache the
-        // result.
-        fetchPolicy: 'no-cache'
-    });
+    const { checkCardBalance, balanceResult } = getGiftCardBalance();
 
     const { applyCard, applyCardResult } = applyGiftCardToCart();
     const [removeCard, removeCardResult] = useMutation(removeGiftCardFromCartMutation);
