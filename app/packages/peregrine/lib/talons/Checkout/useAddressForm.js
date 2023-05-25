@@ -1,12 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useCheckoutContext } from '@magento/peregrine/lib/context/checkout';
-import { useMutation } from '@apollo/client';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from './addressForm.gql';
-
-import mergeOperations from '../../util/shallowMerge';
 
 /**
  * Returns values used to render an AddressForm component.
@@ -24,19 +19,13 @@ import mergeOperations from '../../util/shallowMerge';
 export const useAddressForm = props => {
     const { countries, fields, onCancel, onSubmit } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, SHIPPING_METHODS_OPERATIONS, props.operations);
-    const { setGuestEmailOnCartMutation } = operations;
-
     const [{ shippingAddress, shippingAddressError }, { submitShippingAddress }] = useCheckoutContext();
 
     const [{ isSignedIn }] = useUserContext();
 
-    const { setShippingAddress } = useAdapter();
+    const { setShippingAddress, setGuestEmailOnCart } = useAdapter();
 
-    const [setGuestEmail] = useMutation(setGuestEmailOnCartMutation, {
-        // For security, never cache this mutation or the mutation results.
-        fetchPolicy: 'no-cache'
-    });
+    const { setGuestEmail } = setGuestEmailOnCart();
 
     const { setShippingAddressOnCart } = setShippingAddress();
 
