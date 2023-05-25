@@ -1,17 +1,6 @@
 import { gql } from '@apollo/client';
 
 import { CartPageFragment } from '../cartPageFragments.gql';
-import { GiftCardFragment } from './giftCardFragments.gql';
-
-const GET_APPLIED_GIFT_CARDS = gql`
-    query GetAppliedGiftCards($cartId: String!) {
-        cart(cart_id: $cartId) {
-            id
-            ...GiftCardFragment
-        }
-    }
-    ${GiftCardFragment}
-`;
 
 const GET_GIFT_CARD_BALANCE = gql`
     query GetGiftCardBalance($giftCardCode: String!) {
@@ -45,7 +34,6 @@ const REMOVE_GIFT_CARD_FROM_CART = gql`
 `;
 
 export default {
-    getAppliedGiftCardsQuery: GET_APPLIED_GIFT_CARDS,
     getGiftCardBalanceQuery: GET_GIFT_CARD_BALANCE,
     removeGiftCardFromCartMutation: REMOVE_GIFT_CARD_FROM_CART
 };

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFormApi } from 'informed';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -39,13 +39,12 @@ const actions = {
 export const useGiftCards = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const {
-        getAppliedGiftCardsQuery,
         getGiftCardBalanceQuery,
         removeGiftCardFromCartMutation
     } = operations;
 
     const { setIsCartUpdating } = props;
-    const { applyGiftCardToCart } = useAdapter();
+    const { applyGiftCardToCart, getAppliedGiftCards } = useAdapter();
 
     // We need the cartId for all of our queries and mutations.
     const [{ cartId }] = useCartContext();
@@ -57,12 +56,7 @@ export const useGiftCards = props => {
      *
      * Immediately execute the cart query and set up the other graphql actions.
      */
-    const appliedCardsResult = useQuery(getAppliedGiftCardsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const appliedCardsResult = getAppliedGiftCards({ cartId: cartId });
 
     const [checkCardBalance, balanceResult] = useLazyQuery(getGiftCardBalanceQuery, {
         // For security, always fetch this from the network and never cache the
