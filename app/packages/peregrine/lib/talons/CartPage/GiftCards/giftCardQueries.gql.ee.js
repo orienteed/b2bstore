@@ -3,23 +3,6 @@ import { gql } from '@apollo/client';
 import { CartPageFragment } from '../cartPageFragments.gql';
 import { GiftCardFragment } from './giftCardFragments.gql';
 
-const APPLY_GIFT_CARD_TO_CART = gql`
-    mutation ApplyGiftCardToCart($cartId: String!, $giftCardCode: String!) {
-        applyGiftCardToCart(input: { cart_id: $cartId, gift_card_code: $giftCardCode }) {
-            cart {
-                id
-                ...CartPageFragment
-                # If this mutation causes "free" to become available we need to know.
-                available_payment_methods {
-                    code
-                    title
-                }
-            }
-        }
-    }
-    ${CartPageFragment}
-`;
-
 const GET_APPLIED_GIFT_CARDS = gql`
     query GetAppliedGiftCards($cartId: String!) {
         cart(cart_id: $cartId) {
@@ -62,7 +45,6 @@ const REMOVE_GIFT_CARD_FROM_CART = gql`
 `;
 
 export default {
-    applyGiftCardToCartMutation: APPLY_GIFT_CARD_TO_CART,
     getAppliedGiftCardsQuery: GET_APPLIED_GIFT_CARDS,
     getGiftCardBalanceQuery: GET_GIFT_CARD_BALANCE,
     removeGiftCardFromCartMutation: REMOVE_GIFT_CARD_FROM_CART

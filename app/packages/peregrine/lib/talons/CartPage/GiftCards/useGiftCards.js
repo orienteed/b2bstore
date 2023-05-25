@@ -3,6 +3,7 @@ import { useFormApi } from 'informed';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './giftCardQueries.gql';
 
@@ -40,11 +41,11 @@ export const useGiftCards = props => {
     const {
         getAppliedGiftCardsQuery,
         getGiftCardBalanceQuery,
-        applyGiftCardToCartMutation,
         removeGiftCardFromCartMutation
     } = operations;
 
     const { setIsCartUpdating } = props;
+    const { applyGiftCardToCart } = useAdapter();
 
     // We need the cartId for all of our queries and mutations.
     const [{ cartId }] = useCartContext();
@@ -69,7 +70,7 @@ export const useGiftCards = props => {
         fetchPolicy: 'no-cache'
     });
 
-    const [applyCard, applyCardResult] = useMutation(applyGiftCardToCartMutation);
+    const { applyCard, applyCardResult } = applyGiftCardToCart();
     const [removeCard, removeCardResult] = useMutation(removeGiftCardFromCartMutation);
 
     /*
