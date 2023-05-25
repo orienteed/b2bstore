@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import DEFAULT_OPERATIONS from './guestForm.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useCartContext } from '../../../../context/cart';
 import { useEventingContext } from '../../../../context/eventing';
@@ -11,15 +12,12 @@ export const useGuestForm = props => {
     const [showSignInToast, setShowSignInToast] = useState(false);
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { setGuestShippingMutation, isEmailAvailableQuery } = operations;
+    const { isEmailAvailableQuery } = operations;
+    const { setGuestShipping: setGuestShippingFromAdapter } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
-    const [setGuestShipping, { error, loading }] = useMutation(setGuestShippingMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+    const { setGuestShipping, error, loading } = setGuestShippingFromAdapter({ onSuccess: onSuccess });
 
     const [runQuery, { data }] = useLazyQuery(isEmailAvailableQuery, {
         fetchPolicy: 'cache-and-network'
@@ -66,6 +64,7 @@ export const useGuestForm = props => {
                         }
                     }
                 });
+                console.log('ME ACABO DE EJECUTAR', error, loading);
                 dispatchEvent();
             } catch {
                 return;
