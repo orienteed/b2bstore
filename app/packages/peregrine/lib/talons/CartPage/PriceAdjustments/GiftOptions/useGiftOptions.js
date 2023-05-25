@@ -1,13 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import debounce from 'lodash.debounce';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from './giftOptions.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 /**
  * This talon contains the logic for a gift options component.
@@ -28,14 +24,12 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  * @example <caption>Importing into your project</caption>
  * import { useGiftOptions } from '@magento/peregrine/lib/talons/CartPage/GiftOptions/useGiftOptions';
  */
-export const useGiftOptions = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { setGiftOptionsOnCartMutation } = operations;
-    const { getGiftOptions } = useAdapter();
+export const useGiftOptions = () => {
+    const { getGiftOptions, setGiftOptionsOnCart: setGiftOptionsOnCartFromAdapter } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
-    const [setGiftOptionsOnCart, { error: setGiftOptionsOnCartError }] = useMutation(setGiftOptionsOnCartMutation);
+    const { setGiftOptionsOnCart, error: setGiftOptionsOnCartError } = setGiftOptionsOnCartFromAdapter();
     const { data: getGiftOptionsData, error: getGiftOptionsError, loading } = getGiftOptions({ cartId: cartId });
 
     const { cart } = getGiftOptionsData || {};
