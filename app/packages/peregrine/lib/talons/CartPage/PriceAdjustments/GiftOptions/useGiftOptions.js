@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import debounce from 'lodash.debounce';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './giftOptions.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -29,17 +30,13 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  */
 export const useGiftOptions = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getGiftOptionsQuery, setGiftOptionsOnCartMutation } = operations;
+    const { setGiftOptionsOnCartMutation } = operations;
+    const { getGiftOptions } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
     const [setGiftOptionsOnCart, { error: setGiftOptionsOnCartError }] = useMutation(setGiftOptionsOnCartMutation);
-    const { data: getGiftOptionsData, error: getGiftOptionsError, loading } = useQuery(getGiftOptionsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: getGiftOptionsData, error: getGiftOptionsError, loading } = getGiftOptions({ cartId: cartId });
 
     const { cart } = getGiftOptionsData || {};
 

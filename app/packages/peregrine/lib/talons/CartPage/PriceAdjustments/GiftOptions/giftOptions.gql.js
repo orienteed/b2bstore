@@ -3,16 +3,6 @@ import { gql } from '@apollo/client';
 import { CartPageFragment } from '../../cartPageFragments.gql';
 import { GiftOptionsFragment } from './giftOptionsFragments.gql';
 
-const GET_GIFT_OPTIONS = gql`
-    query GetGiftOptions($cartId: String!) {
-        cart(cart_id: $cartId) {
-            id
-            ...GiftOptionsFragment
-        }
-    }
-    ${GiftOptionsFragment}
-`;
-
 // Currently Commerce only
 const SET_GIFT_OPTIONS_ON_CART = gql`
     mutation SetGiftOptionsOnCart(
@@ -41,6 +31,5 @@ const SET_GIFT_OPTIONS_ON_CART = gql`
 `;
 
 export default {
-    getGiftOptionsQuery: GET_GIFT_OPTIONS,
     setGiftOptionsOnCartMutation: SET_GIFT_OPTIONS_ON_CART
 };
