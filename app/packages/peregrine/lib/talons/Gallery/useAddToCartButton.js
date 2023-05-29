@@ -1,12 +1,9 @@
 import { useCallback, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import { useCartContext } from '../../context/cart';
 import resourceUrl from '../../util/makeUrl';
 
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
@@ -29,12 +26,9 @@ const UNSUPPORTED_PRODUCT_TYPES = ['VirtualProduct', 'BundleProduct', 'GroupedPr
 export const useAddToCartButton = props => {
     const { item, urlSuffix, quantity } = props;
 
-    const operations = mergeOperations(PRODUCT_OPERATIONS, props.operations);
-    const { addConfigurableProductToCartMutation } = operations;
-
     const [isLoading, setIsLoading] = useState(false);
 
-    const { getParentSkuBySku } = useAdapter();
+    const { getParentSkuBySku, addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
     const { getParentSku } = getParentSkuBySku();
 
     const isInStock = item.stock_status === 'IN_STOCK';
@@ -46,7 +40,7 @@ export const useAddToCartButton = props => {
 
     const [{ cartId }] = useCartContext();
 
-    const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
     const handleAddToCart = useCallback(async () => {
         try {

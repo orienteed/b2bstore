@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useIntl } from 'react-intl';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
@@ -15,7 +15,7 @@ import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 
 export const useSimpleProduct = (props = {}) => {
-    const { addConfigurableProductToCartMutation, productQuantity } = props;
+    const { addConfigurableProductToCartFromAdapter, productQuantity } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getSimpleProductQuery } = operations;
@@ -52,13 +52,13 @@ export const useSimpleProduct = (props = {}) => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
+                    id: 'wishlistButton.addedText',
+                    defaultMessage: 'Added to Favorites'
+                })
                 : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
+                    id: 'wishlistButton.addText',
+                    defaultMessage: 'Add to Favorites'
+                }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };
@@ -69,10 +69,11 @@ export const useSimpleProduct = (props = {}) => {
 
     const [{ cartId }] = useCartContext();
 
-    const [
+    const {
         addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
-    ] = useMutation(addConfigurableProductToCartMutation);
+        error: errorAddingConfigurableProduct,
+        loading: isAddConfigurableLoading
+    } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
     const handleAddToCart = useCallback(async () => {
         const payload = {

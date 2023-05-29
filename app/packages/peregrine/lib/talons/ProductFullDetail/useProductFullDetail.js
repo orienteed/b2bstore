@@ -16,6 +16,7 @@ import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/ut
 
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './productFullDetail.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useModulesContext } from '../../context/modulesProvider';
 
@@ -256,6 +257,7 @@ export const useProductFullDetail = props => {
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
 
     const productType = product.__typename;
 
@@ -271,10 +273,10 @@ export const useProductFullDetail = props => {
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const [
-        addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
-    ] = useMutation(addConfigurableProductToCartMutation || operations.addConfigurableProductToCartMutation);
+    const { addConfigurableProductToCart, 
+        error: errorAddingConfigurableProduct, 
+        loading: isAddConfigurableLoading
+    } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
     const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
         addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
@@ -557,13 +559,13 @@ export const useProductFullDetail = props => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
+                    id: 'wishlistButton.addedText',
+                    defaultMessage: 'Added to Favorites'
+                })
                 : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
+                    id: 'wishlistButton.addText',
+                    defaultMessage: 'Add to Favorites'
+                }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };

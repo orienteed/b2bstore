@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { useSimpleProduct } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/useSimpleProduct';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
 import { ADD_CONFIGURABLE_PRODUCT_TO_CART } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import ErrorView from '../../ErrorView/errorView';
 import SimpleProductB2B from './simpleProductB2B';
 import SimpleProductB2C from './simpleProductB2C';
@@ -15,9 +16,10 @@ import SimpleProductB2C from './simpleProductB2C';
 const SimpleProduct = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const [quantity, setQuantity] = useState(1);
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
 
     const talonProps = useSimpleProduct({
-        addConfigurableProductToCartMutation: ADD_CONFIGURABLE_PRODUCT_TO_CART,
+        addConfigurableProductToCartFromAdapter: addConfigurableProductToCartFromAdapter,
         productQuantity: quantity
     });
     const {

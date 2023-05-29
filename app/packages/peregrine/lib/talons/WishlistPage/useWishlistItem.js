@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
 import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
@@ -52,9 +53,10 @@ export const useWishlistItem = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
     const {
         addProductToCartMutation,
-        addConfigurableProductToCartMutation,
         removeProductsFromWishlistMutation
     } = operations;
+
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
@@ -89,13 +91,12 @@ export const useWishlistItem = props => {
         return item;
     }, [configurableOptions, selectedConfigurableOptions, sku]);
 
-    const [addWishlistSimpleProductToCart] = useMutation(addConfigurableProductToCartMutation, {
-        variables: {
-            cartId,
-            quantity: 1.0,
-            sku: item.product.sku,
-            parentSku: item.product.orParentSku
-        }
+    const { addWishlistSimpleProductToCart } = addConfigurableProductToCartFromAdapter({
+        cartId: cartId,
+        quantity: 1.0,
+        sku: item.product.sku,
+        parentSku: item.product.orParentSku,
+        hasProps: true
     });
 
     const [
@@ -151,9 +152,9 @@ export const useWishlistItem = props => {
                 const selectedOptionsLabels =
                     selectedConfigurableOptions?.length > 0
                         ? selectedConfigurableOptions?.map(({ option_label, value_label }) => ({
-                              attribute: option_label,
-                              value: value_label
-                          }))
+                            attribute: option_label,
+                            value: value_label
+                        }))
                         : null;
 
                 dispatch({

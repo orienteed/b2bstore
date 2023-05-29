@@ -23,7 +23,7 @@ const isItemMissingOptions = (cartItem, configItem, numSelections) => {
 
 export const useCartOptions = props => {
     const {
-        addConfigurableProductToCartMutation,
+        addConfigurableProductToCartFromAdapter,
         addSimpleProductToCartMutation,
         cartItem,
         configItem,
@@ -42,7 +42,7 @@ export const useCartOptions = props => {
     const { fetchCartId } = createCart();
     const { fetchCartDetails } = getCartDetails();
 
-    const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
     const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
     const { removeItem } = removeItemFromCart();
     const { updateItem } = updateCartItems();
