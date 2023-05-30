@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -24,7 +23,7 @@ const isItemMissingOptions = (cartItem, configItem, numSelections) => {
 export const useCartOptions = props => {
     const {
         addConfigurableProductToCartFromAdapter,
-        addSimpleProductToCartMutation,
+        addSimpleProductToCartFromAdapter,
         cartItem,
         configItem,
         endEditItem
@@ -43,7 +42,7 @@ export const useCartOptions = props => {
     const { fetchCartDetails } = getCartDetails();
 
     const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
-    const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
+    const { addSimpleProductToCart } = addSimpleProductToCartFromAdapter();
     const { removeItem } = removeItemFromCart();
     const { updateItem } = updateCartItems();
 

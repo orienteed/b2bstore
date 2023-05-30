@@ -13,7 +13,6 @@ import { useStyle } from '../../classify';
 
 import defaultClasses from './cartOptions.module.css';
 
-import { ADD_SIMPLE_PRODUCT_TO_CART } from '../ProductFullDetail/productFullDetail.gql';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const Options = React.lazy(() => import('../ProductOptions'));
@@ -33,11 +32,11 @@ const QUANTITY_TITLE = 'Quantity';
 const CartOptions = props => {
     const { cartItem, configItem, currencyCode, endEditItem } = props;
 
-    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addSimpleProductToCart: addSimpleProductToCartFromAdapter } = useAdapter();
 
     const talonProps = useCartOptions({
-        addConfigurableProductToCartFromAdapter: addConfigurableProductToCartFromAdapter,
-        addSimpleProductToCartMutation: ADD_SIMPLE_PRODUCT_TO_CART,
+        addConfigurableProductToCartFromAdapter,
+        addSimpleProductToCartFromAdapter,
         cartItem,
         configItemu,
         endEditItem

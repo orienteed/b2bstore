@@ -1,6 +1,5 @@
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useEventingContext } from '../../context/eventing';
@@ -14,8 +13,6 @@ import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStock
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/util/isSupportedProductType';
 
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './productFullDetail.gql';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useModulesContext } from '../../context/modulesProvider';
@@ -256,8 +253,7 @@ export const useProductFullDetail = props => {
     const [, { dispatch }] = useEventingContext();
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addProductToCart: addProductToCartFromAdapter } = useAdapter();
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addProductToCart: addProductToCartFromAdapter, addSimpleProductToCart: addSimpleProductToCartFromAdapter } = useAdapter();
 
     const productType = product.__typename;
 
@@ -273,16 +269,14 @@ export const useProductFullDetail = props => {
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const { addConfigurableProductToCart, 
-        error: errorAddingConfigurableProduct, 
+    const { addConfigurableProductToCart,
+        error: errorAddingConfigurableProduct,
         loading: isAddConfigurableLoading
     } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
-    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
-        addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
-    );
+    const { addSimpleProductToCart, error: errorAddingSimpleProduct, loading: isAddSimpleLoading } = addSimpleProductToCartFromAdapter();
 
-    const {addProductToCart, error: errorAddingProductToCart, loading: isAddProductLoading } = addProductToCartFromAdapter({initialRun: false});
+    const { addProductToCart, error: errorAddingProductToCart, loading: isAddProductLoading } = addProductToCartFromAdapter({ initialRun: false });
 
     const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
 
