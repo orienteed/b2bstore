@@ -8,23 +8,6 @@ import { ProductFormFragment } from './productFullDetailFragment.gql';
 /**
  * @deprecated - replaced by general mutation in @magento/peregrine/lib/talons/productFullDetail.js
  */
-export const ADD_PRODUCT_TO_CART = gql`
-    mutation AddProductToCart($cartId: String!, $product: CartItemInput!) {
-        addProductsToCart(cartId: $cartId, cartItems: [$product]) {
-            cart {
-                id
-                ...CartTriggerFragment
-                ...MiniCartFragment
-            }
-        }
-    }
-    ${CartTriggerFragment}
-    ${MiniCartFragment}
-`;
-
-/**
- * @deprecated - replaced by general mutation in @magento/peregrine/lib/talons/productFullDetail.js
- */
 export const ADD_SIMPLE_PRODUCT_TO_CART = gql`
     mutation AddSimpleProductToCart($cartId: String!, $quantity: Float!, $sku: String!) {
         addSimpleProductsToCart(
@@ -86,7 +69,6 @@ const UPDATE_CONFIGURABLE_OPTIONS = gql`
 `;
 
 export default {
-    addProductToCartMutation: ADD_PRODUCT_TO_CART,
     addSimpleProductToCartMutation: ADD_SIMPLE_PRODUCT_TO_CART,
     getProductDetailForConfigurableOptionsBySkuQuery: GET_PRODUCT_DETAIL_FOR_CONFIGURABLE_OPTIONS_BY_SKU,
     updateConfigurableOptionsMutation: UPDATE_CONFIGURABLE_OPTIONS

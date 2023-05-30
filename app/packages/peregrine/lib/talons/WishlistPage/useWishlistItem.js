@@ -6,7 +6,6 @@ import mergeOperations from '../../util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
@@ -50,13 +49,12 @@ export const useWishlistItem = props => {
         [props.supportedProductTypes, productType]
     );
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const {
-        addProductToCartMutation,
         removeProductsFromWishlistMutation
     } = operations;
 
-    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addProductToCart } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
@@ -99,15 +97,11 @@ export const useWishlistItem = props => {
         hasProps: true
     });
 
-    const [
+    const {
         addWishlistItemToCart,
-        { error: addWishlistItemToCartError, loading: addWishlistItemToCartLoading }
-    ] = useMutation(addProductToCartMutation, {
-        variables: {
-            cartId,
-            product: cartItem
-        }
-    });
+        error: addWishlistItemToCartError,
+        loading: addWishlistItemToCartLoading
+    } = addProductToCart({ cartId: cartId, product: cartItem, initialRun: true });
 
     const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
         update: cache => {

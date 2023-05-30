@@ -257,7 +257,7 @@ export const useProductFullDetail = props => {
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter } = useAdapter();
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addProductToCart: addProductToCartFromAdapter } = useAdapter();
 
     const productType = product.__typename;
 
@@ -282,9 +282,7 @@ export const useProductFullDetail = props => {
         addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
     );
 
-    const [addProductToCart, { error: errorAddingProductToCart, loading: isAddProductLoading }] = useMutation(
-        operations.addProductToCartMutation
-    );
+    const {addProductToCart, error: errorAddingProductToCart, loading: isAddProductLoading } = addProductToCartFromAdapter({initialRun: false});
 
     const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
 

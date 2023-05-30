@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '../../context/cart';
 
@@ -9,16 +9,17 @@ import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStock
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
 
 import DEFAULT_OPERATIONS from './addToCartDialog.gql';
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useAddToCartDialog = props => {
     const { item, onClose } = props;
     const sku = item && item.product?.sku;
     const [, { dispatch }] = useEventingContext();
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
-    const { addProductToCartMutation, getProductDetailQuery } = operations;
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { getProductDetailQuery } = operations;
+    const { addProductToCart: addProductToCartFromAdapter } = useAdapter();
 
     const [userSelectedOptions, setUserSelectedOptions] = useState(new Map());
     const [currentImage, setCurrentImage] = useState();
@@ -108,9 +109,7 @@ export const useAddToCartDialog = props => {
         skip: !sku
     });
 
-    const [addProductToCart, { error: addProductToCartError, loading: isAddingToCart }] = useMutation(
-        addProductToCartMutation
-    );
+    const {addProductToCart, error: addProductToCartError, loading: isAddingToCart } = addProductToCartFromAdapter({initialRun: false});
 
     useEffect(() => {
         if (data) {
