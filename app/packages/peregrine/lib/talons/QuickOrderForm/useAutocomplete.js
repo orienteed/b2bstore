@@ -1,9 +1,7 @@
 import { useEffect, useMemo } from 'react';
-import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
 
-import DEFAULT_OPERATIONS from '../SearchBar/autocomplete.gql';
-import mergeOperation from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @typedef { import("graphql").DocumentNode } DocumentNode
@@ -18,15 +16,10 @@ import mergeOperation from '../../util/shallowMerge';
 export const useAutocomplete = props => {
     const { valid, visible, inputText: value } = props;
 
-    const operations = mergeOperation(DEFAULT_OPERATIONS, props.operations);
-    const { getAutocompleteResultsQuery } = operations;
+    const { getAutocompleteResults } = useAdapter();
 
     // Prepare to run the queries.
-    const [runSearch, productResult] = useLazyQuery(getAutocompleteResultsQuery, {
-        fetchPolicy: 'cache-and-network',
-        variables: { search_query: value },
-        nextFetchPolicy: 'cache-first'
-    });
+    const { runSearch, productResult } = getAutocompleteResults({ inputText: value, hasVars: true });
 
     // Create a debounced function so we only search some delay after the last
     // keypress.
