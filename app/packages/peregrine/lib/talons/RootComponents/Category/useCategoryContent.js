@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
 
-import mergeOperations from '../../../util/shallowMerge';
 import { useEventingContext } from '../../../context/eventing';
-
-import DEFAULT_OPERATIONS from './categoryContent.gql';
 import { useAdapter } from '../../../hooks/useAdapter';
 
 /**
@@ -22,17 +18,11 @@ import { useAdapter } from '../../../hooks/useAdapter';
 export const useCategoryContent = props => {
     const { categoryId, data, pageSize = 6 } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductAggregationsFilteredByCategoryQuery } = operations;
-
-    const { getCategoryData, getAvailableSortMethodsByCategory } = useAdapter();
+    const { getCategoryData, getAvailableSortMethodsByCategory, getProductAggregationsFilteredByCategory } = useAdapter();
     const placeholderItems = Array.from({ length: pageSize }).fill(null);
     const [items, setItems] = useState([]);
 
-    const [getFilters, { data: filterData }] = useLazyQuery(getProductAggregationsFilteredByCategoryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getFilters, data: filterData } = getProductAggregationsFilteredByCategory();
 
     const { getSortMethods, data: sortData } = getAvailableSortMethodsByCategory();
 
