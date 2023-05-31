@@ -28,16 +28,14 @@ export const useSearchPage = (props = {}) => {
 
     const {
         getProductFiltersBySearchQuery,
-        getAvailableSortMethodsBySearchQuery,
         getProductsDetailsBySearchQuery
     } = operations;
 
+    const { getFilterInputs, getAvailableSortMethodsBySearch } = useAdapter();
+
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const [getSortMethods, { data: sortData }] = useLazyQuery(getAvailableSortMethodsBySearchQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getSortMethods, data: sortData } = getAvailableSortMethodsBySearch();
 
     const [{ isSignedIn }] = useUserContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
@@ -89,7 +87,6 @@ export const useSearchPage = (props = {}) => {
     }, [toggleDrawer]);
 
     // Get "allowed" filters by intersection of schema and aggregations
-    const { getFilterInputs } = useAdapter();
     const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = getFilterInputs();
 
     // Create a type map we can reference later to ensure we pass valid args
