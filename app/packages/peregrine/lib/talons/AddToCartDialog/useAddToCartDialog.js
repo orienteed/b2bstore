@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '../../context/cart';
 
@@ -8,8 +7,6 @@ import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConf
 import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
 
-import DEFAULT_OPERATIONS from './addToCartDialog.gql';
-import mergeOperations from '../../util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useAddToCartDialog = props => {
@@ -17,9 +14,7 @@ export const useAddToCartDialog = props => {
     const sku = item && item.product?.sku;
     const [, { dispatch }] = useEventingContext();
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductDetailQuery } = operations;
-    const { addProductToCart: addProductToCartFromAdapter } = useAdapter();
+    const { addProductToCart: addProductToCartFromAdapter, getProductDetailForATCDialogBySku } = useAdapter();
 
     const [userSelectedOptions, setUserSelectedOptions] = useState(new Map());
     const [currentImage, setCurrentImage] = useState();
@@ -99,17 +94,9 @@ export const useAddToCartDialog = props => {
         return [];
     }, [item, userSelectedOptions]);
 
-    const { data, loading: isFetchingProductDetail } = useQuery(getProductDetailQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: {
-            configurableOptionValues: selectedOptionsArray,
-            sku
-        },
-        skip: !sku
-    });
+    const { data, loading: isFetchingProductDetail } = getProductDetailForATCDialogBySku({ configurableOptionValues: selectedOptionsArray, sku: sku });
 
-    const {addProductToCart, error: addProductToCartError, loading: isAddingToCart } = addProductToCartFromAdapter({initialRun: false});
+    const { addProductToCart, error: addProductToCartError, loading: isAddingToCart } = addProductToCartFromAdapter({ initialRun: false });
 
     useEffect(() => {
         if (data) {
