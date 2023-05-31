@@ -53,7 +53,6 @@ export const useProductForm = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, props.operations);
 
     const {
-        getProductDetailForConfigurableOptionsBySkuQuery,
         updateConfigurableOptionsMutation
     } = operations;
 
@@ -61,7 +60,7 @@ export const useProductForm = props => {
 
     const [, { dispatch }] = useEventingContext();
     const [{ cartId }] = useCartContext();
-    const { updateCartItems } = useAdapter();
+    const { updateCartItems, getProductDetailForConfigurableOptionsBySku } = useAdapter();
 
     const derivedOptionSelections = useMemo(() => {
         if (cartItem) {
@@ -99,12 +98,7 @@ export const useProductForm = props => {
         setIsCartUpdating(isSaving);
     }, [isSaving, setIsCartUpdating]);
 
-    const { data, error, loading } = useQuery(getProductDetailForConfigurableOptionsBySkuQuery, {
-        skip: !cartItem,
-        variables: {
-            sku: cartItem ? cartItem.product.sku : null
-        }
-    });
+    const { data, error, loading } = getProductDetailForConfigurableOptionsBySku({ cartItem: cartItem, isLazy: false });
 
     const { data: storeConfigData } = useStoreConfigContext();
 

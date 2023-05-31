@@ -1,20 +1,6 @@
 import { gql } from '@apollo/client';
 
 import { CartPageFragment } from '../CartPage/cartPageFragments.gql';
-import { ProductFormFragment } from './productFullDetailFragment.gql';
-
-const GET_PRODUCT_DETAIL_FOR_CONFIGURABLE_OPTIONS_BY_SKU = gql`
-    query GetProductDetailForConfigurableOptionsBySku($sku: String) {
-        products(filter: { sku: { eq: $sku } }) {
-            items {
-                id
-                uid
-                ...ProductFormFragment
-            }
-        }
-    }
-    ${ProductFormFragment}
-`;
 
 const UPDATE_CONFIGURABLE_OPTIONS = gql`
     mutation UpdateConfigurableOptions(
@@ -46,6 +32,5 @@ const UPDATE_CONFIGURABLE_OPTIONS = gql`
 `;
 
 export default {
-    getProductDetailForConfigurableOptionsBySkuQuery: GET_PRODUCT_DETAIL_FOR_CONFIGURABLE_OPTIONS_BY_SKU,
     updateConfigurableOptionsMutation: UPDATE_CONFIGURABLE_OPTIONS
 };
