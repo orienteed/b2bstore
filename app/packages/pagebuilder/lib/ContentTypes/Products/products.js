@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
 
 import Carousel from './Carousel/carousel';
@@ -12,8 +11,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './products.module.css';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './products.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * Sort products based on the original order
@@ -43,8 +41,7 @@ const restoreSortOrder = (urlKeys, products) => {
  * @returns {React.Element} A React component that displays a Products based on a number of products
  */
 const Products = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductsQuery } = operations;
+    const { getProductsForPagebuilderByUrlKey } = useAdapter();
 
     const classes = useStyle(defaultClasses, props.classes);
     const {
@@ -109,9 +106,7 @@ const Products = props => {
         return productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
     });
 
-    const { loading, error, data, refetch } = useQuery(getProductsQuery, {
-        variables: { url_keys: urlKeys, pageSize: urlKeys.length }
-    });
+    const { loading, error, data, refetch } = getProductsForPagebuilderByUrlKey({ url_keys: urlKeys, pageSize: urlKeys.length });
 
     useEffect(() => {
         if (isSignedIn) refetch();
