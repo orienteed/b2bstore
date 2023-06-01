@@ -1,22 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const GET_PRODUCT_FILTERS_BY_SEARCH = gql`
-    query GetProductFiltersBySearch($search: String!) {
-        products(search: $search) {
-            aggregations {
-                label
-                count
-                attribute_code
-                options {
-                    label
-                    value
-                }
-                position
-            }
-        }
-    }
-`;
-
 export const GET_PRODUCTS_DETAILS_BY_SEARCH = gql`
     query GetProductsDetailsBySearch(
         $currentPage: Int = 1
@@ -141,6 +124,5 @@ export const GET_PRODUCTS_DETAILS_BY_SEARCH = gql`
 `;
 
 export default {
-    getProductFiltersBySearchQuery: GET_PRODUCT_FILTERS_BY_SEARCH,
     getProductsDetailsBySearchQuery: GET_PRODUCTS_DETAILS_BY_SEARCH
 };

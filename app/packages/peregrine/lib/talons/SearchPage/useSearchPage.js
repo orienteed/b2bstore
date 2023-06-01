@@ -27,11 +27,10 @@ export const useSearchPage = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const {
-        getProductFiltersBySearchQuery,
         getProductsDetailsBySearchQuery
     } = operations;
 
-    const { getFilterInputs, getAvailableSortMethodsBySearch } = useAdapter();
+    const { getFilterInputs, getAvailableSortMethodsBySearch, getProductFiltersBySearch } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
@@ -227,10 +226,7 @@ export const useSearchPage = (props = {}) => {
     }, [inputText, getSortMethods]);
 
     // Fetch category filters for when a user is searching in a category.
-    const [getFilters, { data: filterData }] = useLazyQuery(getProductFiltersBySearchQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getFilters, data: filterData } = getProductFiltersBySearch();
 
     useEffect(() => {
         if (inputText) {
