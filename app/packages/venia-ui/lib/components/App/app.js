@@ -39,24 +39,24 @@ const App = props => {
     const { pathname } = location;
     useDelayedTransition();
 
-    // TODO_B2B: Remove this once we have a complete set of operations
-    // BIGCOMMERCE ADAPTER
-    // Obtain operations from adapter
-    const [, { setToken }] = useUserContext();
-    const { generateToken } = useAdapter();
+    // // TODO_B2B: Remove this once we have a complete set of operations
+    // // BIGCOMMERCE ADAPTER
+    // // Obtain operations from adapter
+    // const [, { setToken }] = useUserContext();
+    // const { generateToken } = useAdapter();
 
-    // Generate token against BigCommerce
-    const { data: tokenData } = generateToken();
+    // // Generate token against BigCommerce
+    // const { data: tokenData } = generateToken();
 
-    // Update token in local storage
-    const updateToken = async () => {
-        tokenData && (await setToken(tokenData.data.token));
-    };
+    // // Update token in local storage
+    // const updateToken = async () => {
+    //     tokenData && (await setToken(tokenData.data.token));
+    // };
 
-    useEffect(() => {
-        updateToken();
-    }, [tokenData]);
-    // END BIGCOMMERCE ADAPTER
+    // useEffect(() => {
+    //     updateToken();
+    // }, [tokenData]);
+    // // END BIGCOMMERCE ADAPTER
 
     useEffect(() => {
         ReactGA.pageview(window.location.pathname + window.location.search);

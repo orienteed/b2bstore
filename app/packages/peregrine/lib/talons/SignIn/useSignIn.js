@@ -12,6 +12,7 @@ import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import DEFAULT_OPERATIONS from './signIn.gql';
 import { useEventingContext } from '../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
 import doLmsLogin from '@magento/peregrine/lib/RestApi/Lms/auth/login.js';
@@ -42,9 +43,19 @@ export const useSignIn = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [signIn, { error: signInError }] = useMutation(signInMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    //START BIGCOMMERCE ADAPTER
+
+    const { signIn: signInFromAdapter, generateToken } = useAdapter();
+
+    // const [signIn, { error: signInError }] = useMutation(signInMutation, {
+    //     fetchPolicy: 'no-cache'
+    // });
+
+    const { data: tokenData } = generateToken();
+
+    const { signIn, error: signInError } = signInFromAdapter();
+
+    //END
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_LOGIN',
@@ -70,15 +81,24 @@ export const useSignIn = props => {
                 const recaptchaData = await generateReCaptchaData();
 
                 // Sign in and set the token.
-                const signInResponse = await signIn({
-                    variables: {
+                if (true) { //TODO_B2B: Put variable backendTechnology in condition
+                    const signInResponse = await signIn(
                         email,
-                        password
-                    },
-                    ...recaptchaData
-                });
-                const token = signInResponse.data.generateCustomerToken.token;
-                await setToken(token);
+                        password,
+                        tokenData.data.token);
+                    const token = signInResponse.data.generateCustomerToken.token;
+                    await setToken(token);
+                } else {
+                    const signInResponse = await signIn({
+                        variables: {
+                            email,
+                            password
+                        },
+                        ...recaptchaData
+                    });
+                    const token = signInResponse.data.generateCustomerToken.token;
+                    await setToken(token);
+                }
 
                 // LMS logic
                 tenantConfig.lmsEnabled && doLmsLogin(password);

@@ -10,11 +10,20 @@ export default function createAuthLink() {
 
         // return the headers to the context so httpLink can read them
         // backendTechnology: 'magento', // TODO_B2B: update this to be dynamic from S3 data
-        return {
-            headers: {
-                ...headers,
-                authorization: token ? `Bearer ${token}` : ''
-            }
-        };
+
+        if (token) {
+            return {
+                headers: {
+                    ...headers,
+                    authorization: `Bearer ${token}`
+                }
+            };
+        }else{
+            return {
+                headers: {
+                    ...headers
+                }
+            };
+        }
     });
 }
