@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useLazyQuery } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { usePagination } from '../../hooks/usePagination';
 import { useScrollTopOnChange } from '../../hooks/useScrollTopOnChange';
@@ -12,7 +10,6 @@ import { getFiltersFromSearch, getFilterInput } from '../FilterModal/helpers';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { useAdapter } from '../../hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from './searchPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -22,15 +19,10 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  * @param {Object} props
  * @param {String} props.query - graphql query used for executing search
  */
-export const useSearchPage = (props = {}) => {
+export const useSearchPage = () => {
     const [, { dispatch }] = useEventingContext();
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const {
-        getProductsDetailsBySearchQuery
-    } = operations;
-
-    const { getFilterInputs, getAvailableSortMethodsBySearch, getProductFiltersBySearch } = useAdapter();
+    const { getFilterInputs, getAvailableSortMethodsBySearch, getProductFiltersBySearch, getProductsDetailsBySearch } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
@@ -107,13 +99,7 @@ export const useSearchPage = (props = {}) => {
         totalPages
     };
 
-    const [runQuery, { called: searchCalled, loading: searchLoading, error, data }] = useLazyQuery(
-        getProductsDetailsBySearchQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first'
-        }
-    );
+    const { runQuery, called: searchCalled, loading: searchLoading, error, data } = getProductsDetailsBySearch();
 
     const isBackgroundLoading = !!data && searchLoading;
 
