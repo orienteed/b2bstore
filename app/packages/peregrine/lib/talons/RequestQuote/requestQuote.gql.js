@@ -377,31 +377,6 @@ export const UPDATE_QUOTE = gql`
     }
 `;
 
-export const GET_PRODUCTS_DETAILS_FOR_QUOTE_BY_SEARCH = gql`
-    query GetProductsDetailsForQuoteBySearch($search: String) {
-        products(search: $search) {
-            items {
-                name
-                sku
-                type_id
-                small_image {
-                    url
-                }
-                url_key
-                url_suffix
-                price {
-                    regularPrice {
-                        amount {
-                            value
-                            currency
-                        }
-                    }
-                }
-            }
-        }
-    }
-`;
-
 export default {
     addConfigurableProductToQuoteMutation: ADD_CONFIGURABLE_PRODUCT_TO_QUOTE,
     addQuoteToCartMutation: ADD_QUOTE_TO_CART,
@@ -415,6 +390,5 @@ export default {
     getQuoteConfigDetailsQuery: GET_QUOTE_CONFIG_DETAILS,
     getQuoteListQuery: GET_QUOTE_LIST,
     submitCurrentQuoteMutation: SUBMIT_CURRENT_QUOTE,
-    updateQuoteMutation: UPDATE_QUOTE,
-    getProductsQuery: GET_PRODUCTS_DETAILS_FOR_QUOTE_BY_SEARCH
+    updateQuoteMutation: UPDATE_QUOTE
 };
