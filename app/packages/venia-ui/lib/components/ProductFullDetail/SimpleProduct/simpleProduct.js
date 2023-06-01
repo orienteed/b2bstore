@@ -7,7 +7,6 @@ import Price from '@magento/venia-ui/lib/components/Price';
 import { FormattedMessage } from 'react-intl';
 import { useSimpleProduct } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/useSimpleProduct';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
-import { ADD_CONFIGURABLE_PRODUCT_TO_CART } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import ErrorView from '../../ErrorView/errorView';
 import SimpleProductB2B from './simpleProductB2B';
