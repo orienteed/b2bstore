@@ -10,7 +10,6 @@ import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import SIGNIN_OPERATIONS from '../SignIn/signIn.gql';
 import DEFAULT_OPERATIONS from './createAccount.gql';
 import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import { useEventingContext } from '../../context/eventing';
@@ -43,11 +42,10 @@ export const useCreateAccount = props => {
         DEFAULT_OPERATIONS,
         CART_OPERATIONS,
         ACCOUNT_OPERATIONS,
-        SIGNIN_OPERATIONS,
         props.operations
     );
 
-    const { createAccountMutation, getCustomerInformationQuery, signInMutation } = operations;
+    const { createAccountMutation, getCustomerInformationQuery } = operations;
 
     const apolloClient = useApolloClient();
 
@@ -59,7 +57,7 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter, mergeCarts: mergeCartsFromAdapter } = useAdapter();
+    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter, mergeCarts: mergeCartsFromAdapter, signIn: signInFromAdapter } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
@@ -71,9 +69,7 @@ export const useCreateAccount = props => {
         fetchPolicy: 'no-cache'
     });
 
-    const [signIn, { error: signInError }] = useMutation(signInMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    const { signIn, error: signInError } = signInFromAdapter();
 
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
 

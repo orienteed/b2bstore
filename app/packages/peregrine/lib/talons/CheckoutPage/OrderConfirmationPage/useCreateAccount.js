@@ -10,7 +10,6 @@ import { useEventingContext } from '../../../context/eventing';
 import { useAdapter } from '../../../hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../../CreateAccount/createAccount.gql';
-import SIGNIN_OPERATIONS from '../../SignIn/signIn.gql';
 import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationPage.gql';
 
 /**
@@ -35,9 +34,9 @@ import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationP
 export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, SIGNIN_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
+    const operations = mergeOperations(DEFAULT_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
 
-    const { createAccountMutation, getCustomerInformationQuery, signInMutation } = operations;
+    const { createAccountMutation, getCustomerInformationQuery } = operations;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [, { createCart, getCartDetails, removeCart }] = useCartContext();
@@ -45,7 +44,7 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter, signIn: signInFromAdapter } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
@@ -55,9 +54,7 @@ export const useCreateAccount = props => {
         fetchPolicy: 'no-cache'
     });
 
-    const [signIn, { error: signInError }] = useMutation(signInMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    const { signIn, error: signInError } = signInFromAdapter();
 
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
 
