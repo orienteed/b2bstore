@@ -5,6 +5,7 @@ import { Form } from 'informed';
 
 import { useToasts } from '@magento/peregrine';
 import { useResetPassword } from '@magento/peregrine/lib/talons/MyAccount/useResetPassword';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useStyle } from '../../../classify';
 import { isRequired } from '../../../util/formValidators';
@@ -16,13 +17,13 @@ import { StoreTitle } from '../../Head';
 import Password from '../../Password';
 import TextInput from '../../TextInput';
 import defaultClasses from './resetPassword.module.css';
-import resetPasswordOperations from './resetPassword.gql';
 
 const ResetPassword = props => {
     const { classes: propClasses } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, propClasses);
-    const talonProps = useResetPassword({ ...resetPasswordOperations });
+    const { resetPassword: resetPasswordFromAdapter } = useAdapter();
+    const talonProps = useResetPassword(resetPasswordFromAdapter);
     const { hasCompleted, loading, token, formErrors, handleSubmit, recaptchaWidgetProps } = talonProps;
 
     const tokenMissing = (
