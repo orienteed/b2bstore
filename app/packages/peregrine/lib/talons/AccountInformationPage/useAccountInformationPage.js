@@ -4,6 +4,7 @@ import { useUserContext } from '../../context/user';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../context/eventing';
 import { useAppContext } from '../../context/app';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
@@ -30,7 +31,6 @@ export const useAccountInformationPage = props => {
     const {
         getCustomerSubscriptionQuery,
         setNewsletterSubscriptionMutation,
-        setCustomerInformationMutation,
         changeCustomerPasswordMutation,
         createCustomerAddressMutation,
         deleteCustomerAddressMutation,
@@ -38,6 +38,8 @@ export const useAccountInformationPage = props => {
         getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
+
+    const { setCustomerInformation: setCustomerInformationFromAdapter } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
         skip: !isSignedIn
@@ -102,10 +104,10 @@ export const useAccountInformationPage = props => {
         skip: !isSignedIn
     });
 
-    const [
-        setCustomerInformation,
-        { error: customerInformationUpdateError, loading: isUpdatingCustomerInformation }
-    ] = useMutation(setCustomerInformationMutation);
+    const { setCustomerInformation,
+        error: customerInformationUpdateError,
+        loading: isUpdatingCustomerInformation
+    } = setCustomerInformationFromAdapter();
 
     const [
         changeCustomerPassword,

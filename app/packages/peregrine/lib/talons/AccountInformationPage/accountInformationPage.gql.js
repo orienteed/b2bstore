@@ -19,19 +19,7 @@ export const GET_CUSTOMER_INFORMATION = gql`
     ${AccountInformationPageFragment}
 `;
 
-export const SET_CUSTOMER_INFORMATION = gql`
-    mutation SetCustomerInformation($customerInput: CustomerInput!) {
-        updateCustomer(input: $customerInput) {
-            customer {
-                ...AccountInformationPageFragment
-            }
-        }
-    }
-    ${AccountInformationPageFragment}
-`;
-
 export default {
     changeCustomerPasswordMutation: CHANGE_CUSTOMER_PASSWORD,
-    getCustomerInformationQuery: GET_CUSTOMER_INFORMATION,
-    setCustomerInformationMutation: SET_CUSTOMER_INFORMATION
+    getCustomerInformationQuery: GET_CUSTOMER_INFORMATION
 };
