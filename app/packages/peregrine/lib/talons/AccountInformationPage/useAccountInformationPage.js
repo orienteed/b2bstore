@@ -32,14 +32,13 @@ export const useAccountInformationPage = props => {
         getCustomerSubscriptionQuery,
         setNewsletterSubscriptionMutation,
         changeCustomerPasswordMutation,
-        createCustomerAddressMutation,
         deleteCustomerAddressMutation,
         updateCustomerAddressMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
 
-    const { setCustomerInformation: setCustomerInformationFromAdapter } = useAdapter();
+    const { setCustomerInformation: setCustomerInformationFromAdapter, addNewCustomerAddressToAddressBook } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
         skip: !isSignedIn
@@ -134,10 +133,11 @@ export const useAccountInformationPage = props => {
     const customerAddresses =
         (customerAddressesData && customerAddressesData.customer && customerAddressesData.customer.addresses) || [];
 
-    const [
+    const {
         createCustomerAddress,
-        { error: createCustomerAddressError, loading: isCreatingCustomerAddress }
-    ] = useMutation(createCustomerAddressMutation);
+        error: createCustomerAddressError,
+        loading: isCreatingCustomerAddress
+    } = addNewCustomerAddressToAddressBook({ hasOnSuccess: false });
 
     const [
         updateCustomerAddress,

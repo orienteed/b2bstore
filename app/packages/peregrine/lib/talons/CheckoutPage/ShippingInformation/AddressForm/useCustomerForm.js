@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { useEventingContext } from '../../../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import SHIPPING_INFORMATION_OPERATIONS from '../shippingInformation.gql';
@@ -19,21 +20,19 @@ export const useCustomerForm = props => {
     );
 
     const {
-        createCustomerAddressMutation,
         updateCustomerAddressMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery,
         getDefaultShippingQuery
     } = operations;
 
-    const [
+    const { addNewCustomerAddressToAddressBook } = useAdapter();
+
+    const {
         createCustomerAddress,
-        { error: createCustomerAddressError, loading: createCustomerAddressLoading }
-    ] = useMutation(createCustomerAddressMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: createCustomerAddressError,
+        loading: createCustomerAddressLoading
+    } = addNewCustomerAddressToAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
 
     const [
         updateCustomerAddress,

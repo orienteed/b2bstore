@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import defaultOperations from './addressBookPage.gql';
 import { useEventingContext } from '../../context/eventing';
@@ -24,11 +25,11 @@ import { useEventingContext } from '../../context/eventing';
 export const useAddressBookPage = (props = {}) => {
     const operations = mergeOperations(defaultOperations, props.operations);
     const {
-        createCustomerAddressMutation,
         deleteCustomerAddressMutation,
         getCustomerAddressesQuery,
         updateCustomerAddressMutation
     } = operations;
+    const { addNewCustomerAddressToAddressBook } = useAdapter();
 
     const [
         ,
@@ -61,13 +62,11 @@ export const useAddressBookPage = (props = {}) => {
             customerAddressesData.customer.addresses) ||
         [];
 
-    const [
+    const {
         createCustomerAddress,
-        {
-            error: createCustomerAddressError,
-            loading: isCreatingCustomerAddress
-        }
-    ] = useMutation(createCustomerAddressMutation);
+        error: createCustomerAddressError,
+        loading: isCreatingCustomerAddress
+    } = addNewCustomerAddressToAddressBook({ hasOnSuccess: false });
     const [
         updateCustomerAddress,
         {
@@ -153,12 +152,12 @@ export const useAddressBookPage = (props = {}) => {
             if (isDialogEditMode) {
                 try {
                     const address = {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                middlename: formValues.middlename || '',
-                                lastname: 'lastname',
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
+                        ...formValues,
+                        // Sends value as empty if none are provided
+                        middlename: formValues.middlename || '',
+                        lastname: 'lastname',
+                        // Cleans up the street array when values are null or undefined
+                        street: formValues.street.filter(e => e)
                     };
 
                     await updateCustomerAddress({
@@ -192,12 +191,12 @@ export const useAddressBookPage = (props = {}) => {
             } else {
                 try {
                     const address = {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                middlename: formValues.middlename || '',
-                                lastname: 'lastname',
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
+                        ...formValues,
+                        // Sends value as empty if none are provided
+                        middlename: formValues.middlename || '',
+                        lastname: 'lastname',
+                        // Cleans up the street array when values are null or undefined
+                        street: formValues.street.filter(e => e)
                     };
                     await createCustomerAddress({
                         variables: {
