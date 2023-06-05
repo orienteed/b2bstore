@@ -40,14 +40,7 @@ export const GET_CUSTOMER_CART_ADDRESSES = gql`
     ${ShippingInformationFragment}
 `;
 
-export const DELETE_CUSTOMER_ADDRESS = gql`
-    mutation DeleteCustomerAddressFromAddressBook($addressId: Int!) {
-        deleteCustomerAddress(id: $addressId)
-    }
-`;
-
 export default {
-    deleteCustomerAddressMutation: DELETE_CUSTOMER_ADDRESS,
     getCustomerAddressesQuery: GET_CUSTOMER_ADDRESSES,
     getCustomerCartAddressQuery: GET_CUSTOMER_CART_ADDRESSES,
     updateCustomerAddressMutation: UPDATE_CUSTOMER_ADDRESS

@@ -25,11 +25,10 @@ import { useEventingContext } from '../../context/eventing';
 export const useAddressBookPage = (props = {}) => {
     const operations = mergeOperations(defaultOperations, props.operations);
     const {
-        deleteCustomerAddressMutation,
         getCustomerAddressesQuery,
         updateCustomerAddressMutation
     } = operations;
-    const { addNewCustomerAddressToAddressBook } = useAdapter();
+    const { addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook } = useAdapter();
 
     const [
         ,
@@ -48,10 +47,7 @@ export const useAddressBookPage = (props = {}) => {
             skip: !isSignedIn
         }
     );
-    const [
-        deleteCustomerAddress,
-        { loading: isDeletingCustomerAddress }
-    ] = useMutation(deleteCustomerAddressMutation);
+    const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
 
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
 

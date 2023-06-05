@@ -32,13 +32,12 @@ export const useAccountInformationPage = props => {
         getCustomerSubscriptionQuery,
         setNewsletterSubscriptionMutation,
         changeCustomerPasswordMutation,
-        deleteCustomerAddressMutation,
         updateCustomerAddressMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
 
-    const { setCustomerInformation: setCustomerInformationFromAdapter, addNewCustomerAddressToAddressBook } = useAdapter();
+    const { setCustomerInformation: setCustomerInformationFromAdapter, addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
         skip: !isSignedIn
@@ -113,7 +112,7 @@ export const useAccountInformationPage = props => {
         { error: customerPasswordChangeError, loading: isChangingCustomerPassword }
     ] = useMutation(changeCustomerPasswordMutation);
 
-    const [deleteCustomerAddress, { loading: isDeletingCustomerAddress }] = useMutation(deleteCustomerAddressMutation);
+    const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
 
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
 
