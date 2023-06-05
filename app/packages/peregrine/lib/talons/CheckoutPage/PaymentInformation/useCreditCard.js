@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
@@ -8,8 +8,6 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import BILLING_ADDRESS_OPERATIONS from '../BillingAddress/billingAddress.gql';
 import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
 
 /**
@@ -106,14 +104,11 @@ export const useCreditCard = props => {
     const { onSuccess, onReady, onError, shouldSubmit, resetShouldSubmit } = props;
 
     const operations = mergeOperations(
-        ADDRESS_BOOK_OPERATIONS,
-        BILLING_ADDRESS_OPERATIONS,
         PAYMENT_INFORMATION_OPERATIONS,
         props.operations
     );
 
     const {
-        getCustomerAddressesQuery,
         getPaymentNonceQuery
     } = operations;
 
@@ -151,15 +146,13 @@ export const useCreditCard = props => {
         setBillingAddress: setBillingAddressFromAdapter,
         setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
         setPaymentMethodOnCart,
-        getShippingInformation
+        getShippingInformation,
+        getCustomerAddressesForAddressBook
     } = useAdapter();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
-    const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
+    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
 
     const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
     const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });

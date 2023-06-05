@@ -1,13 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from './billingAddress.gql';
-import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
 
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
@@ -97,16 +93,7 @@ export const getDefaultBillingAddress = customerAddressesData => {
 export const useBillingAddress = props => {
     // return function useBillingAddress(props, ...restArgs) {
     const { shouldSubmit, onBillingAddressChangedError, onBillingAddressChangedSuccess } = props;
-    const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
-        ADDRESS_BOOK_OPERATIONS,
-        props.operations
-    );
     const [, { addToast }] = useToasts();
-
-    const {
-        getCustomerAddressesQuery
-    } = operations;
 
     const client = useApolloClient();
     const formState = useFormState();
@@ -117,13 +104,11 @@ export const useBillingAddress = props => {
         getIsBillingAddressSame,
         setBillingAddress: setBillingAddressFromAdapter,
         setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
-        getShippingInformation
+        getShippingInformation,
+        getCustomerAddressesForAddressBook
     } = useAdapter();
 
-    const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
+    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
 
     const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
 

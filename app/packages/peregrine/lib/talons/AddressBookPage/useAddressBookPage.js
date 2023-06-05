@@ -28,7 +28,7 @@ export const useAddressBookPage = (props = {}) => {
         getCustomerAddressesQuery,
         updateCustomerAddressMutation
     } = operations;
-    const { addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook } = useAdapter();
+    const { addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook, getCustomerAddressesForAddressBook } = useAdapter();
 
     const [
         ,
@@ -40,13 +40,7 @@ export const useAddressBookPage = (props = {}) => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { data: customerAddressesData, loading } = useQuery(
-        getCustomerAddressesQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            skip: !isSignedIn
-        }
-    );
+    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
     const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
 
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();

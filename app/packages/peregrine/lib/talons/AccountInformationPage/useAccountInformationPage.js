@@ -37,7 +37,12 @@ export const useAccountInformationPage = props => {
         getCustomerAddressesQuery
     } = operations;
 
-    const { setCustomerInformation: setCustomerInformationFromAdapter, addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook } = useAdapter();
+    const {
+        setCustomerInformation: setCustomerInformationFromAdapter,
+        addNewCustomerAddressToAddressBook,
+        deleteCustomerAddressFromAddressBook,
+        getCustomerAddressesForAddressBook
+    } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
         skip: !isSignedIn
@@ -97,10 +102,7 @@ export const useAccountInformationPage = props => {
         nextFetchPolicy: 'cache-first'
     });
 
-    const { data: customerAddressesData, loading } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
+    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
 
     const { setCustomerInformation,
         error: customerInformationUpdateError,

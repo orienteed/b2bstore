@@ -15,7 +15,7 @@ export const useAddressBook = props => {
     const { toggleActiveContent, onSuccess } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, SHIPPING_INFORMATION_OPERATIONS, props.operations);
-    const { getCustomerAddressesQuery, getCustomerCartAddressQuery } = operations;
+    const { getCustomerCartAddressQuery } = operations;
 
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
@@ -24,18 +24,14 @@ export const useAddressBook = props => {
     const addressCount = useRef();
     const [activeAddress, setActiveAddress] = useState();
     const [selectedAddress, setSelectedAddress] = useState();
-    const { setCustomerAddressIdOnCart } = useAdapter();
+    const { setCustomerAddressIdOnCart, getCustomerAddressesForAddressBook } = useAdapter();
 
     const { setCustomerAddressOnCart, 
         error: setCustomerAddressOnCartError, 
         loading: setCustomerAddressOnCartLoading 
     } = setCustomerAddressIdOnCart({ onSuccess: onSuccess, hasOnSuccess: true });
 
-    const { data: customerAddressesData, loading: customerAddressesLoading } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !isSignedIn
-    });
+    const { data: customerAddressesData, loading: customerAddressesLoading } = getCustomerAddressesForAddressBook({hasNextFetchPolicy: true, isSignedIn: isSignedIn});
 
     const { data: customerCartAddressData, loading: customerCartAddressLoading } = useQuery(
         getCustomerCartAddressQuery,
