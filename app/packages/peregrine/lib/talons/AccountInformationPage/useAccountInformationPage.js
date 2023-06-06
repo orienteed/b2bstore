@@ -10,7 +10,6 @@ import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCu
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
 import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../../talons/CommunicationsPage/communicationsPage.gql.js';
 import ACCOUNT_OPERATIONS from './accountInformationPage.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../talons/AddressBookPage/addressBookPage.gql';
 import { useModulesContext } from '../../context/modulesProvider';
@@ -23,13 +22,11 @@ export const useAccountInformationPage = props => {
     const { tenantConfig } = useModulesContext();
 
     const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
         ACCOUNT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
         props.operations
     );
     const {
-        setNewsletterSubscriptionMutation,
         changeCustomerPasswordMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery
@@ -41,7 +38,8 @@ export const useAccountInformationPage = props => {
         deleteCustomerAddressFromAddressBook,
         getCustomerAddressesForAddressBook,
         updateCustomerAddressInAddressBook,
-        getCustomerSubscription
+        getCustomerSubscription,
+        setNewsletterSubscription: setNewsletterSubscriptionFromAdapter
     } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
@@ -52,9 +50,7 @@ export const useAccountInformationPage = props => {
         }
     }, [subscriptionData]);
 
-    const [setNewsletterSubscription, { error: setNewsletterSubscriptionError, loading: isSubmitting }] = useMutation(
-        setNewsletterSubscriptionMutation
-    );
+    const { setNewsletterSubscription, error: setNewsletterSubscriptionError, loading: isSubmitting } = setNewsletterSubscriptionFromAdapter();
 
     const handleSubmitSubscribeToNewsletter = useCallback(
         async formValues => {

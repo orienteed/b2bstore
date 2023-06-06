@@ -1,22 +1,13 @@
 import { useCallback, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from './communicationsPage.gql';
 
 export const useCommunicationsPage = props => {
     const { afterSubmit } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        setNewsletterSubscriptionMutation
-    } = operations;
-
     const [{ isSignedIn }] = useUserContext();
-    const { getCustomerSubscription } = useAdapter();
+    const { getCustomerSubscription, setNewsletterSubscription: setNewsletterSubscriptionFromAdapter } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
 
@@ -26,10 +17,11 @@ export const useCommunicationsPage = props => {
         }
     }, [subscriptionData]);
 
-    const [
-        setNewsletterSubscription,
-        { error: setNewsletterSubscriptionError, loading: isSubmitting }
-    ] = useMutation(setNewsletterSubscriptionMutation);
+    const { 
+        setNewsletterSubscription, 
+        error: setNewsletterSubscriptionError, 
+        loading: isSubmitting 
+    } = setNewsletterSubscriptionFromAdapter();
 
     const handleSubmit = useCallback(
         async formValues => {
