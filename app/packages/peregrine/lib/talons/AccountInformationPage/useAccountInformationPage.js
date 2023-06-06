@@ -32,7 +32,6 @@ export const useAccountInformationPage = props => {
         getCustomerSubscriptionQuery,
         setNewsletterSubscriptionMutation,
         changeCustomerPasswordMutation,
-        updateCustomerAddressMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
@@ -41,7 +40,8 @@ export const useAccountInformationPage = props => {
         setCustomerInformation: setCustomerInformationFromAdapter,
         addNewCustomerAddressToAddressBook,
         deleteCustomerAddressFromAddressBook,
-        getCustomerAddressesForAddressBook
+        getCustomerAddressesForAddressBook,
+        updateCustomerAddressInAddressBook
     } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
@@ -140,10 +140,11 @@ export const useAccountInformationPage = props => {
         loading: isCreatingCustomerAddress
     } = addNewCustomerAddressToAddressBook({ hasOnSuccess: false });
 
-    const [
-        updateCustomerAddress,
-        { error: updateCustomerAddressError, loading: isUpdatingCustomerAddress }
-    ] = useMutation(updateCustomerAddressMutation);
+    const { 
+        updateCustomerAddress, 
+        error: updateCustomerAddressError, 
+        loading: isUpdatingCustomerAddress 
+    } = updateCustomerAddressInAddressBook();
 
     const handleChangePassword = useCallback(() => {
         setShouldShowNewPassword(true);

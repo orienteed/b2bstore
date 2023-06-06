@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -25,10 +24,9 @@ import { useEventingContext } from '../../context/eventing';
 export const useAddressBookPage = (props = {}) => {
     const operations = mergeOperations(defaultOperations, props.operations);
     const {
-        getCustomerAddressesQuery,
-        updateCustomerAddressMutation
+        getCustomerAddressesQuery
     } = operations;
-    const { addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook, getCustomerAddressesForAddressBook } = useAdapter();
+    const { addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook, getCustomerAddressesForAddressBook, updateCustomerAddressInAddressBook } = useAdapter();
 
     const [
         ,
@@ -57,13 +55,11 @@ export const useAddressBookPage = (props = {}) => {
         error: createCustomerAddressError,
         loading: isCreatingCustomerAddress
     } = addNewCustomerAddressToAddressBook({ hasOnSuccess: false });
-    const [
+    const {
         updateCustomerAddress,
-        {
-            error: updateCustomerAddressError,
-            loading: isUpdatingCustomerAddress
-        }
-    ] = useMutation(updateCustomerAddressMutation);
+        error: updateCustomerAddressError,
+        loading: isUpdatingCustomerAddress
+    } = updateCustomerAddressInAddressBook();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDialogEditMode, setIsDialogEditMode] = useState(false);
