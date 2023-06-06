@@ -29,7 +29,6 @@ export const useAccountInformationPage = props => {
         props.operations
     );
     const {
-        getCustomerSubscriptionQuery,
         setNewsletterSubscriptionMutation,
         changeCustomerPasswordMutation,
         getCustomerInformationQuery,
@@ -41,12 +40,11 @@ export const useAccountInformationPage = props => {
         addNewCustomerAddressToAddressBook,
         deleteCustomerAddressFromAddressBook,
         getCustomerAddressesForAddressBook,
-        updateCustomerAddressInAddressBook
+        updateCustomerAddressInAddressBook,
+        getCustomerSubscription
     } = useAdapter();
 
-    const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
-        skip: !isSignedIn
-    });
+    const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
 
     const initialValuesSubscribeToNewsletter = useMemo(() => {
         if (subscriptionData) {
@@ -140,10 +138,10 @@ export const useAccountInformationPage = props => {
         loading: isCreatingCustomerAddress
     } = addNewCustomerAddressToAddressBook({ hasOnSuccess: false });
 
-    const { 
-        updateCustomerAddress, 
-        error: updateCustomerAddressError, 
-        loading: isUpdatingCustomerAddress 
+    const {
+        updateCustomerAddress,
+        error: updateCustomerAddressError,
+        loading: isUpdatingCustomerAddress
     } = updateCustomerAddressInAddressBook();
 
     const handleChangePassword = useCallback(() => {
