@@ -1,9 +1,4 @@
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useQuery } from '@apollo/client';
-
-import DEFAULT_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
@@ -14,9 +9,6 @@ import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 export const useAddressBook = props => {
     const { toggleActiveContent, onSuccess } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, SHIPPING_INFORMATION_OPERATIONS, props.operations);
-    const { getCustomerCartAddressQuery } = operations;
-
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
@@ -24,23 +16,16 @@ export const useAddressBook = props => {
     const addressCount = useRef();
     const [activeAddress, setActiveAddress] = useState();
     const [selectedAddress, setSelectedAddress] = useState();
-    const { setCustomerAddressIdOnCart, getCustomerAddressesForAddressBook } = useAdapter();
+    const { setCustomerAddressIdOnCart, getCustomerAddressesForAddressBook, getCustomerCartAddressesForAddressBook } = useAdapter();
 
-    const { setCustomerAddressOnCart, 
-        error: setCustomerAddressOnCartError, 
-        loading: setCustomerAddressOnCartLoading 
+    const { setCustomerAddressOnCart,
+        error: setCustomerAddressOnCartError,
+        loading: setCustomerAddressOnCartLoading
     } = setCustomerAddressIdOnCart({ onSuccess: onSuccess, hasOnSuccess: true });
 
-    const { data: customerAddressesData, loading: customerAddressesLoading } = getCustomerAddressesForAddressBook({hasNextFetchPolicy: true, isSignedIn: isSignedIn});
+    const { data: customerAddressesData, loading: customerAddressesLoading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: true, isSignedIn: isSignedIn });
 
-    const { data: customerCartAddressData, loading: customerCartAddressLoading } = useQuery(
-        getCustomerCartAddressQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            skip: !isSignedIn
-        }
-    );
+    const { data: customerCartAddressData, loading: customerCartAddressLoading } = getCustomerCartAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     const derivedErrorMessage = useMemo(() => deriveErrorMessage([setCustomerAddressOnCartError]), [
         setCustomerAddressOnCartError
