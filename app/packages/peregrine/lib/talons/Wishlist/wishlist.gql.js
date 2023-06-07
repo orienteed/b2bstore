@@ -36,17 +36,6 @@ export const GET_WISHLIST_PRODUCTS = gql`
     ${WishlistItemFragment}
 `;
 
-export const GET_WISHLISTS = gql`
-    query GetWishlists {
-        customer {
-            wishlists {
-                ...WishlistPageFragment
-            }
-        }
-    }
-    ${WishlistPageFragment}
-`;
-
 export const REMOVE_PRODUCTS_FROM_WISHLIST = gql`
     mutation RemoveProductsFromWishlist($wishlistId: ID!, $wishlistItemsId: [ID!]!) {
         removeProductsFromWishlist(wishlistId: $wishlistId, wishlistItemsIds: $wishlistItemsId) {
@@ -73,7 +62,6 @@ export default {
     createWishlistMutation: CREATE_WISHLIST,
     getProductsInWishlistsQuery: GET_PRODUCTS_IN_WISHLISTS,
     getWishlistProductsQuery: GET_WISHLIST_PRODUCTS,
-    getWishlistsQuery: GET_WISHLISTS,
     removeProductsFromWishlistMutation: REMOVE_PRODUCTS_FROM_WISHLIST,
     updateWishlistMutation: UPDATE_WISHLIST
 };

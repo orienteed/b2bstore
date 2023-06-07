@@ -1,27 +1,19 @@
 import { useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @function
  *
  * @returns {WishlistPageProps}
  */
-export const useWishlistPage = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getWishlistsQuery } = operations;
+export const useWishlistPage = () => {
+    const { getWishlists } = useAdapter();
 
     const [{ isSignedIn }] = useUserContext();
 
-    const { data, error, loading } = useQuery(getWishlistsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !isSignedIn
-    });
+    const { data, error, loading } = getWishlists({ hasIsSignedIn: true, isSignedIn: isSignedIn });
 
     const derivedWishlists = useMemo(() => {
         return (data && data.customer.wishlists) || [];

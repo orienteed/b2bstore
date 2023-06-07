@@ -1,24 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useQuery } from '@apollo/client';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from '../wishlist.gql';
 
 export const useWishlistDialog = props => {
     const { isLoading, itemOptions, onClose, onSuccess } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getWishlistsQuery } = operations;
-    const { addProductToWishlist: addProductToWishlistFromAdapter } = useAdapter();
+    const { addProductToWishlist: addProductToWishlistFromAdapter, getWishlists } = useAdapter();
 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const { data: wishlistsData } = useQuery(getWishlistsQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+    const { data: wishlistsData } = getWishlists();
 
     const { addProductToWishlist, loading: isAddLoading, error: addProductError } = addProductToWishlistFromAdapter({ hasRefetch: true });
 
