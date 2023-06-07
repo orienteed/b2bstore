@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../../wishlist.gql';
 
@@ -11,12 +12,15 @@ export const useSingleWishlist = props => {
     const { afterAdd, beforeAdd, item } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addProductToWishlistMutation, getProductsInWishlistsQuery } = operations;
+    const { getProductsInWishlistsQuery } = operations;
+    const { addProductToWishlist: addProductToWishlistFromAdapter } = useAdapter();
 
-    const [
-        addProductToWishlist,
-        { data: addProductData, error: errorAddingProduct, loading: isAddingToWishlist }
-    ] = useMutation(addProductToWishlistMutation);
+    const { 
+        addProductToWishlist, 
+        data: addProductData, 
+        error: errorAddingProduct, 
+        loading: isAddingToWishlist 
+    } = addProductToWishlistFromAdapter({ hasRefetch: false });
 
     const {
         client,

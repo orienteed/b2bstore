@@ -3,17 +3,6 @@ import { gql } from '@apollo/client';
 import { WishlistItemFragment } from './wishlistItemFragments.gql';
 import { WishlistPageFragment } from './wishlistFragment.gql.ce';
 
-export const ADD_PRODUCT_TO_WISHLIST = gql`
-    mutation AddProductToWishlist($wishlistId: ID!, $itemOptions: WishlistItemInput!) {
-        addProductsToWishlist(wishlistId: $wishlistId, wishlistItems: [$itemOptions]) {
-            user_errors {
-                code
-                message
-            }
-        }
-    }
-`;
-
 export const CREATE_WISHLIST = gql`
     mutation CreateWishlist($input: CreateWishlistInput!) {
         createWishlist(input: $input) {
@@ -81,7 +70,6 @@ export const UPDATE_WISHLIST = gql`
 `;
 
 export default {
-    addProductToWishlistMutation: ADD_PRODUCT_TO_WISHLIST,
     createWishlistMutation: CREATE_WISHLIST,
     getProductsInWishlistsQuery: GET_PRODUCTS_IN_WISHLISTS,
     getWishlistProductsQuery: GET_WISHLIST_PRODUCTS,
