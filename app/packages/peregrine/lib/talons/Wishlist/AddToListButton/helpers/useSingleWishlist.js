@@ -13,19 +13,19 @@ export const useSingleWishlist = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getProductsInWishlistsQuery } = operations;
-    const { addProductToWishlist: addProductToWishlistFromAdapter } = useAdapter();
+    const { addProductToWishlist: addProductToWishlistFromAdapter, getProductsInWishlists } = useAdapter();
 
-    const { 
-        addProductToWishlist, 
-        data: addProductData, 
-        error: errorAddingProduct, 
-        loading: isAddingToWishlist 
+    const {
+        addProductToWishlist,
+        data: addProductData,
+        error: errorAddingProduct,
+        loading: isAddingToWishlist
     } = addProductToWishlistFromAdapter({ hasRefetch: false });
 
     const {
         client,
         data: { customerWishlistProducts }
-    } = useQuery(getProductsInWishlistsQuery);
+    } = getProductsInWishlists();
 
     const isSelected = useMemo(() => {
         return customerWishlistProducts.includes(item.sku) || isAddingToWishlist;
