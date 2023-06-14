@@ -54,7 +54,11 @@ export const useWishlistItem = props => {
         removeProductsFromWishlistMutation
     } = operations;
 
-    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addProductToCart } = useAdapter();
+    const {
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
+        addProductToCart,
+        removeProductsFromWishlist: removeProductsFromWishlistFromAdapter
+    } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
@@ -103,35 +107,12 @@ export const useWishlistItem = props => {
         loading: addWishlistItemToCartLoading
     } = addProductToCart({ cartId: cartId, product: cartItem, initialRun: true });
 
-    const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
-        update: cache => {
-            // clean up for cache fav product on category page
-            cache.modify({
-                id: 'ROOT_QUERY',
-                fields: {
-                    customerWishlistProducts: cachedProducts => cachedProducts.filter(productSku => productSku !== sku)
-                }
-            });
-
-            cache.modify({
-                id: `CustomerWishlist:${wishlistId}`,
-                fields: {
-                    items_v2: (cachedItems, { readField, Remove }) => {
-                        for (let i = 0; i < cachedItems.items.length; i++) {
-                            if (readField('id', item) === itemId) {
-                                return Remove;
-                            }
-                        }
-
-                        return cachedItems;
-                    }
-                }
-            });
-        },
-        variables: {
-            wishlistId: wishlistId,
-            wishlistItemsId: [itemId]
-        }
+    const { removeProductsFromWishlist } = removeProductsFromWishlistFromAdapter({
+        wishlistId: wishlistId,
+        wishlistItemsId: [itemId],
+        item: item,
+        sku: sku,
+        isFromUse: true
     });
 
     const handleAddToCart = useCallback(async () => {
