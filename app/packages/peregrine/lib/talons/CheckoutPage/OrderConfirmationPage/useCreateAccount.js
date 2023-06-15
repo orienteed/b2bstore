@@ -1,14 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import mergeOperations from '../../../util/shallowMerge';
 import { useUserContext } from '../../../context/user';
 import { useCartContext } from '../../../context/cart';
-import { useAwaitQuery } from '../../../hooks/useAwaitQuery';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../../context/eventing';
 import { useAdapter } from '../../../hooks/useAdapter';
-
-import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationPage.gql';
 
 /**
  * Returns props necessary to render CreateAccount component. In particular this
@@ -32,10 +28,6 @@ import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationP
 export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit } = props;
 
-    const operations = mergeOperations(ACCOUNT_OPERATIONS, props.operations);
-
-    const { getCustomerInformationQuery } = operations;
-
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [, { createCart, getCartDetails, removeCart }] = useCartContext();
     const [{ isGettingDetails }, { getUserDetails, setToken }] = useUserContext();
@@ -46,7 +38,8 @@ export const useCreateAccount = props => {
         createCart: createCartFromAdapter,
         getCartDetails: getCartDetailsFromAdapter,
         signIn: signInFromAdapter,
-        createAccount: createAccountFromAdapter
+        createAccount: createAccountFromAdapter,
+        getCustomerInformation
     } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
@@ -57,7 +50,7 @@ export const useCreateAccount = props => {
 
     const { signIn, error: signInError } = signInFromAdapter();
 
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

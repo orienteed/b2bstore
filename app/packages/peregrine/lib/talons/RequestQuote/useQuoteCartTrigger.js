@@ -3,19 +3,20 @@ import { useQuery, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const DENIED_MINI_CART_ROUTES = ['/checkout'];
 export const AFTER_UPDATE_MY_QUOTE = 'after_update_my_QUOTE';
 
 import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 export const useQuoteCartTrigger = props => {
     const { getConfigData, getQuoteId, setQuoteId } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
-    const { getQuoteByIdQuery, deleteItemFromQuoteMutation, getCustomerInformationQuery } = operations;
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { getQuoteByIdQuery, deleteItemFromQuoteMutation } = operations;
+    const { getCustomerInformation } = useAdapter();
 
     const configData = getConfigData();
 
@@ -23,10 +24,7 @@ export const useQuoteCartTrigger = props => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [{ isSignedIn: isUserSignedIn }] = useUserContext();
-    const { data: custoemrData } = useQuery(getCustomerInformationQuery, {
-        fetchPolicy: 'network-only',
-        skip: !isUserSignedIn
-    });
+    const { data: custoemrData } = getCustomerInformation({ hasSkip: true, isSignedIn: isUserSignedIn, hasFetchPolicy: true });
 
     useMemo(() => {
         if (custoemrData && custoemrData.customer) {
@@ -70,7 +68,7 @@ export const useQuoteCartTrigger = props => {
     useState(() => {
         window.addEventListener(
             AFTER_UPDATE_MY_QUOTE,
-            async function(event) {
+            async function (event) {
                 setIsLoading(true);
                 await setMyQuote(event.detail);
                 setIsLoading(false);

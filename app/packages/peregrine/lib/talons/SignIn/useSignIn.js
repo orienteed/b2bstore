@@ -1,16 +1,12 @@
 import { useCallback, useRef, useState, useMemo } from 'react';
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha/useGoogleReCaptcha';
-import mergeOperations from '../../util/shallowMerge';
 import { useCartContext } from '../../context/cart';
 import { useUserContext } from '../../context/user';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login.js';
@@ -21,9 +17,13 @@ import { useModulesContext } from '../../context/modulesProvider';
 export const useSignIn = props => {
     const { setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
-    const operations = mergeOperations(CART_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
-    const { getCustomerInformationQuery } = operations;
-    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter, mergeCarts: mergeCartsFromAdapter, signIn: signInFromAdapter } = useAdapter();
+    const {
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        mergeCarts: mergeCartsFromAdapter,
+        signIn: signInFromAdapter,
+        getCustomerInformation
+    } = useAdapter();
 
     const apolloClient = useApolloClient();
     const [isSigningIn, setIsSigningIn] = useState(false);
@@ -47,7 +47,7 @@ export const useSignIn = props => {
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     const { mergeCarts } = mergeCartsFromAdapter();
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);

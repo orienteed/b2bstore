@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
 import { useUserContext } from '../../context/user';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../context/eventing';
@@ -10,7 +9,6 @@ import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCu
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
 import mergeOperations from '../../util/shallowMerge';
-import ACCOUNT_OPERATIONS from './accountInformationPage.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../talons/AddressBookPage/addressBookPage.gql';
 import { useModulesContext } from '../../context/modulesProvider';
 
@@ -22,12 +20,10 @@ export const useAccountInformationPage = props => {
     const { tenantConfig } = useModulesContext();
 
     const operations = mergeOperations(
-        ACCOUNT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
         props.operations
     );
     const {
-        getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
 
@@ -39,7 +35,8 @@ export const useAccountInformationPage = props => {
         updateCustomerAddressInAddressBook,
         getCustomerSubscription,
         setNewsletterSubscription: setNewsletterSubscriptionFromAdapter,
-        changeCustomerPassword: changeCustomerPasswordFromAdapter
+        changeCustomerPassword: changeCustomerPasswordFromAdapter,
+        getCustomerInformation
     } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
@@ -90,10 +87,14 @@ export const useAccountInformationPage = props => {
     // https://github.com/apollographql/apollo-feature-requests/issues/170
     const [displayError, setDisplayError] = useState(false);
 
-    const { data: accountInformationData, error: loadDataError } = useQuery(getCustomerInformationQuery, {
-        skip: !isSignedIn,
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
+    const {
+        data: accountInformationData,
+        error: loadDataError
+    } = getCustomerInformation({
+        hasSkip: true,
+        isSignedIn: isSignedIn,
+        hasNextFetchPolicy: true,
+        hasFetchPolicy: true
     });
 
     const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
@@ -105,8 +106,8 @@ export const useAccountInformationPage = props => {
 
     const {
         changeCustomerPassword,
-        error: customerPasswordChangeError, 
-        loading: isChangingCustomerPassword 
+        error: customerPasswordChangeError,
+        loading: isChangingCustomerPassword
     } = changeCustomerPasswordFromAdapter();
 
     const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();

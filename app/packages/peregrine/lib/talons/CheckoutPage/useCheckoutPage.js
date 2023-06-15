@@ -1,14 +1,10 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { useApolloClient, useQuery } from '@apollo/client';
+import { useApolloClient} from '@apollo/client';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 
 import CheckoutError from './CheckoutError';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
@@ -67,16 +63,6 @@ export const CHECKOUT_STEP = {
 export const useCheckoutPage = props => {
     const { submitDeliveryDate, deliveryDateIsActivated, submitOrderAttribute } = props;
 
-    const operations = mergeOperations(
-        ACCOUNT_OPERATIONS,
-        CART_OPERATIONS,
-        props.operations
-    );
-
-    const {
-        getCustomerInformationQuery
-    } = operations;
-
     const { setNoProduct } = useNoReorderProductContext();
 
     const { generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
@@ -101,16 +87,21 @@ export const useCheckoutPage = props => {
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
-    const { placeOrder, createCart: createCartFromAdapter, getCheckoutDetails, getOrderDetails: getOrderDetailsFromAdapter, setPaymentMethodOnCart } = useAdapter();
+    const {
+        placeOrder,
+        createCart: createCartFromAdapter,
+        getCheckoutDetails,
+        getOrderDetails: getOrderDetailsFromAdapter,
+        setPaymentMethodOnCart,
+        getCustomerInformation
+    } = useAdapter();
 
     const { fetchCartId } = createCartFromAdapter();
     const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
 
     const { getOrderDetails, data: orderDetailsData, loading: orderDetailsLoading } = getOrderDetailsFromAdapter();
 
-    const { data: customerData, loading: customerLoading } = useQuery(getCustomerInformationQuery, {
-        skip: !isSignedIn
-    });
+    const { data: customerData, loading: customerLoading } = getCustomerInformation({ hasSkip: true, isSignedIn: isSignedIn });
 
     const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = getCheckoutDetails({ cartId: cartId })
 

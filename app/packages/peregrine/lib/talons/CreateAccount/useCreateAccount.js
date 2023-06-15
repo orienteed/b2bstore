@@ -1,16 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login';
@@ -37,14 +33,6 @@ import { useModulesContext } from '../../context/modulesProvider';
 export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit, onCancel } = props;
 
-    const operations = mergeOperations(
-        CART_OPERATIONS,
-        ACCOUNT_OPERATIONS,
-        props.operations
-    );
-
-    const { getCustomerInformationQuery } = operations;
-
     const apolloClient = useApolloClient();
 
     const { tenantConfig } = useModulesContext();
@@ -60,7 +48,8 @@ export const useCreateAccount = props => {
         getCartDetails: getCartDetailsFromAdapter,
         mergeCarts: mergeCartsFromAdapter,
         signIn: signInFromAdapter,
-        createAccount: createAccountFromAdapter
+        createAccount: createAccountFromAdapter,
+        getCustomerInformation
     } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
@@ -73,7 +62,7 @@ export const useCreateAccount = props => {
 
     const { signIn, error: signInError } = signInFromAdapter();
 
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',
