@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
@@ -10,7 +10,6 @@ import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import DEFAULT_OPERATIONS from './createAccount.gql';
 import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
@@ -39,13 +38,12 @@ export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit, onCancel } = props;
 
     const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
         CART_OPERATIONS,
         ACCOUNT_OPERATIONS,
         props.operations
     );
 
-    const { createAccountMutation, getCustomerInformationQuery } = operations;
+    const { getCustomerInformationQuery } = operations;
 
     const apolloClient = useApolloClient();
 
@@ -57,7 +55,13 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter, mergeCarts: mergeCartsFromAdapter, signIn: signInFromAdapter } = useAdapter();
+    const {
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        mergeCarts: mergeCartsFromAdapter,
+        signIn: signInFromAdapter,
+        createAccount: createAccountFromAdapter
+    } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
@@ -65,9 +69,7 @@ export const useCreateAccount = props => {
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
-    const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    const { createAccount, error: createAccountError } = createAccountFromAdapter();
 
     const { signIn, error: signInError } = signInFromAdapter();
 
