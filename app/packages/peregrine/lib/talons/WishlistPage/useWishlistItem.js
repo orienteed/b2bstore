@@ -1,11 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import mergeOperations from '../../util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
 import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
@@ -48,11 +45,6 @@ export const useWishlistItem = props => {
         () => mergeSupportedProductTypes(props.supportedProductTypes).includes(productType),
         [props.supportedProductTypes, productType]
     );
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        removeProductsFromWishlistMutation
-    } = operations;
 
     const {
         addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,

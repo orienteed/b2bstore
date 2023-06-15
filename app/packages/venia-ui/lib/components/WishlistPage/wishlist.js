@@ -12,10 +12,6 @@ import Button from '../Button';
 import defaultClasses from './wishlist.module.css';
 import ActionMenu from './actionMenu';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/Wishlist/wishlist.gql';
-
-import { useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
 import { useReactToPrint } from 'react-to-print';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -33,8 +29,6 @@ const Wishlist = props => {
     const { data, shouldRenderVisibilityToggle, isCollapsed } = props;
     const { formatMessage } = useIntl();
     const { id, items_count: itemsCount, name, visibility } = data;
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeProductsFromWishlistMutation } = operations;
     const { removeProductsFromWishlist: removeProductsFromWishlistFromAdapter } = useAdapter();
 
     const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
