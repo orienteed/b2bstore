@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useUserContext } from '../../context/user';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../context/eventing';
@@ -27,7 +27,6 @@ export const useAccountInformationPage = props => {
         props.operations
     );
     const {
-        changeCustomerPasswordMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
@@ -39,7 +38,8 @@ export const useAccountInformationPage = props => {
         getCustomerAddressesForAddressBook,
         updateCustomerAddressInAddressBook,
         getCustomerSubscription,
-        setNewsletterSubscription: setNewsletterSubscriptionFromAdapter
+        setNewsletterSubscription: setNewsletterSubscriptionFromAdapter,
+        changeCustomerPassword: changeCustomerPasswordFromAdapter
     } = useAdapter();
 
     const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
@@ -103,10 +103,11 @@ export const useAccountInformationPage = props => {
         loading: isUpdatingCustomerInformation
     } = setCustomerInformationFromAdapter();
 
-    const [
+    const {
         changeCustomerPassword,
-        { error: customerPasswordChangeError, loading: isChangingCustomerPassword }
-    ] = useMutation(changeCustomerPasswordMutation);
+        error: customerPasswordChangeError, 
+        loading: isChangingCustomerPassword 
+    } = changeCustomerPasswordFromAdapter();
 
     const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
 
