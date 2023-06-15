@@ -1,20 +1,16 @@
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 
-import DEFAULT_OPERATIONS from './orderHistoryPage.gql';
-
 const PAGE_SIZE = 10;
 
-export const useOrderHistoryPage = (props, ...restArgs) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, restArgs.operations);
-    const { getCustomerOrdersQuery } = operations;
+export const useOrderHistoryPage = () => {
+    const { getCustomerOrders } = useAdapter();
 
     const [
         ,
@@ -29,19 +25,16 @@ export const useOrderHistoryPage = (props, ...restArgs) => {
     const [successToast, setSuccessToast] = useState(false);
     const [{ isSignedIn }] = useUserContext();
 
-    const { data: orderData, error: getOrderError, loading: orderLoading } = useQuery(getCustomerOrdersQuery, {
-        fetchPolicy: 'cache-and-network',
-        variables: {
-            filter: {
-                number: {
-                    match: searchText
-                }
-            },
-            pageSize
-        }
+    const { data: orderData, error: getOrderError, loading: orderLoading } = getCustomerOrders({
+        filter: {
+            number: {
+                match: searchText
+            }
+        },
+        pageSize
     });
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const orders = orderData ? orderData.customer.orders.items : [];
 
