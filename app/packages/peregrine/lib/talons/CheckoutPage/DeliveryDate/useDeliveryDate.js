@@ -1,9 +1,6 @@
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useMutation } from '@apollo/client';
 import { useReducer, useMemo } from 'react';
 
-import DEFAULT_OPERATIONS from './deliveryDate.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
@@ -32,9 +29,7 @@ function reducer(state, action) {
 export const useDeliveryDate = () => {
     const [state, dispatch] = useReducer(reducer, deliveryDateData);
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { setDeliveryTimeMutation } = operations;
-    const { getDeliveryDate } = useAdapter();
+    const { getDeliveryDate, setDeliveryTime } = useAdapter();
 
     const handleChange = (name, value) => {
         dispatch({ type: name, value });
@@ -50,7 +45,7 @@ export const useDeliveryDate = () => {
 
     const { data: deliveryDate } = getDeliveryDate();
 
-    const [deliverytime] = useMutation(setDeliveryTimeMutation);
+    const { deliverytime } = setDeliveryTime();
 
     const deliveryDateIsActivated = useMemo(() => {
         if (deliveryDate?.deliveryTime) {
