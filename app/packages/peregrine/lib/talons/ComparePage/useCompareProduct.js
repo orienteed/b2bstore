@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './compareProduct.gql';
@@ -10,17 +10,16 @@ import mergeOperations from '../../util/shallowMerge';
 const useCompareProduct = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        deleteProductsFromCompareListMutation,
         getCustomerCompareListQuery
     } = operations;
-    const { createCompareList: createCompareListFromAdapter } = useAdapter();
+    const { createCompareList: createCompareListFromAdapter, deleteProductsFromCompareList } = useAdapter();
 
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
     const [isLoading, setIsLoading] = useState(false);
     const [isAction, setIsAction] = useState(false);
     const { createCompareList } = createCompareListFromAdapter();
-    const [deleteProductsFromList] = useMutation(deleteProductsFromCompareListMutation);
+    const { deleteProductsFromList } = deleteProductsFromCompareList();
     const [getCustomerCompareList, { data, loading }] = useLazyQuery(getCustomerCompareListQuery, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
