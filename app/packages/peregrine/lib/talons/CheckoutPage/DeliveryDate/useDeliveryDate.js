@@ -1,10 +1,11 @@
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useReducer, useMemo } from 'react';
 
 import DEFAULT_OPERATIONS from './deliveryDate.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const deliveryDateData = {
     mp_delivery_date: '',
@@ -32,13 +33,14 @@ export const useDeliveryDate = () => {
     const [state, dispatch] = useReducer(reducer, deliveryDateData);
 
     const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getDeliveryDateQuery, setDeliveryTimeMutation } = operations;
+    const { setDeliveryTimeMutation } = operations;
+    const { getDeliveryDate } = useAdapter();
 
     const handleChange = (name, value) => {
         dispatch({ type: name, value });
     };
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const local = useMemo(() => {
         return storeConfigData && storeConfigData.storeConfig.locale;
@@ -46,10 +48,7 @@ export const useDeliveryDate = () => {
 
     const [{ cartId }] = useCartContext();
 
-    const { data: deliveryDate } = useQuery(getDeliveryDateQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: deliveryDate } = getDeliveryDate();
 
     const [deliverytime] = useMutation(setDeliveryTimeMutation);
 
