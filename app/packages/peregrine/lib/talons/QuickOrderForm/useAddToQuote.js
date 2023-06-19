@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
 import { AFTER_UPDATE_MY_QUOTE } from '../RequestQuote/useQuoteCartTrigger';
 import { setQuoteId } from '../RequestQuote/Store';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
 import mergeOperations from '../../util/shallowMerge';
@@ -13,15 +14,15 @@ export const useAddToQuote = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
         addSimpleProductToQuoteMutation,
-        addConfigurableProductToQuoteMutation,
         submitCurrentQuoteMutation
     } = operations;
+    const { addConfigurableProductsToQuote } = useAdapter();
 
     const [, { addToast }] = useToasts();
     const [isLoading, setIsLoading] = useState(false);
     const [addSimpleProductToCart] = useMutation(addSimpleProductToQuoteMutation);
     const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
-    const [addConfigProductToCart] = useMutation(addConfigurableProductToQuoteMutation);
+    const { addConfigProductToQuote } = addConfigurableProductsToQuote();
 
     // Add Simple Product
     const handleAddItemBySku = useCallback(
@@ -83,7 +84,7 @@ export const useAddToQuote = () => {
                 data: {
                     addConfigurableProductsToMpQuote: { quote }
                 }
-            } = await addConfigProductToCart({
+            } = await addConfigProductToQuote({
                 variables
             });
             const {
@@ -98,7 +99,7 @@ export const useAddToQuote = () => {
                 timeout: 5000
             });
         },
-        [addConfigProductToCart, addToast, submitCurrentQuote]
+        [addConfigProductToQuote, addToast, submitCurrentQuote]
     );
     return { handleAddItemBySku, handleAddCofigItemBySku, isLoading };
 };
