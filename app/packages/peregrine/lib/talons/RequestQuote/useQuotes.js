@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -24,10 +24,9 @@ export const useQuotes = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
         getQuoteConfigDetailsQuery,
-        getQuoteListQuery,
-        duplicateQuoteMutation
+        getQuoteListQuery
     } = operations;
-    const { addQuoteToCart, cancelQuote, deleteSubmittedQuote } = useAdapter();
+    const { addQuoteToCart, cancelQuote, deleteSubmittedQuote, duplicateQuote } = useAdapter();
 
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
@@ -54,7 +53,7 @@ export const useQuotes = () => {
     const { cancelMpQuote } = cancelQuote();
 
     // Duplicate Quote Mutation
-    const [duplicateMpQuote] = useMutation(duplicateQuoteMutation);
+    const { duplicateMpQuote } = duplicateQuote();
 
     // Add Quote To Cart Mutation
     const { addMpQuoteToCart } = addQuoteToCart();
