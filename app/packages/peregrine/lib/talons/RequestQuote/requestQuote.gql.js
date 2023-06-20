@@ -1,15 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const ADD_QUOTE_TO_CART = gql`
-    mutation AddQuoteToCart($quoteId: Int!) {
-        addMpQuoteToCart(quote_id: $quoteId) {
-            cart {
-                id
-            }
-        }
-    }
-`;
-
 export const ADD_SIMPLE_PRODUCT_TO_QUOTE = gql`
     mutation AddSimpleProductsToQuote($input: AddSimpleProductsToQuoteInput) {
         addSimpleProductsToMpQuote(input: $input) {
@@ -330,7 +320,6 @@ export const UPDATE_QUOTE = gql`
 `;
 
 export default {
-    addQuoteToCartMutation: ADD_QUOTE_TO_CART,
     addSimpleProductToQuoteMutation: ADD_SIMPLE_PRODUCT_TO_QUOTE,
     cancelQuoteMutation: CANCEL_QUOTE,
     deleteCurrentQuoteMutation: DELETE_CURRENT_QUOTE,
