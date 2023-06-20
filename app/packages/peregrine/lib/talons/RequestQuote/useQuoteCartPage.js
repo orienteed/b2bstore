@@ -14,10 +14,9 @@ export const useQuoteCartPage = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
         getQuoteByIdQuery,
-        submitCurrentQuoteMutation,
-        getQuoteConfigDetailsQuery
+        submitCurrentQuoteMutation
     } = operations;
-    const { deleteCurrentQuote: deleteCurrentQuoteFromAdapter } = useAdapter();
+    const { deleteCurrentQuote: deleteCurrentQuoteFromAdapter, getConfigDetailsForQuote } = useAdapter();
 
     const [myQuote, setMyQuote] = useState({});
     const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
@@ -27,9 +26,7 @@ export const useQuoteCartPage = props => {
     const history = useHistory();
 
     // Get config details
-    const { loading: configLoading, data: configData } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { loading: configLoading, data: configData } = getConfigDetailsForQuote();
     useMemo(() => {
         if (!configLoading && configData === undefined) {
             history.push('/');

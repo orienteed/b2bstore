@@ -23,10 +23,9 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 export const useQuotes = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        getQuoteConfigDetailsQuery,
         getQuoteListQuery
     } = operations;
-    const { addQuoteToCart, cancelQuote, deleteSubmittedQuote, duplicateQuote } = useAdapter();
+    const { addQuoteToCart, cancelQuote, deleteSubmittedQuote, duplicateQuote, getConfigDetailsForQuote } = useAdapter();
 
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
@@ -37,9 +36,7 @@ export const useQuotes = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     // Get config details
-    const { data: configData, loading: configLoading } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { data: configData, loading: configLoading } = getConfigDetailsForQuote();
     useMemo(() => {
         if (!configLoading && configData == undefined) {
             history.push('/account-information');

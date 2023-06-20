@@ -47,21 +47,6 @@ export const GET_QUOTE_BY_ID = gql`
     }
 `;
 
-export const GET_QUOTE_CONFIG_DETAILS = gql`
-    query GetConfigDetailsForQuote {
-        mpQuoteConfig {
-            allow_category
-            category
-            customer_groups
-            file_type
-            icon_url
-            is_allow_attach
-            is_allow_guest
-            redirect_page
-        }
-    }
-`;
-
 export const GET_QUOTE_LIST = gql`
     query GetQuoteList($filter: MpQuoteFilterInput, $pageSize: Int, $currentPage: Int) {
         mpQuoteList(filter: $filter, currentPage: $currentPage, pageSize: $pageSize) {
@@ -165,7 +150,6 @@ export const UPDATE_QUOTE = gql`
 
 export default {
     getQuoteByIdQuery: GET_QUOTE_BY_ID,
-    getQuoteConfigDetailsQuery: GET_QUOTE_CONFIG_DETAILS,
     getQuoteListQuery: GET_QUOTE_LIST,
     submitCurrentQuoteMutation: SUBMIT_CURRENT_QUOTE,
     updateQuoteMutation: UPDATE_QUOTE
