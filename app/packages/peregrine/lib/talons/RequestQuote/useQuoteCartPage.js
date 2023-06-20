@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 import { deleteQuoteId } from './Store';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -13,10 +14,10 @@ export const useQuoteCartPage = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
         getQuoteByIdQuery,
-        deleteCurrentQuoteMutation,
         submitCurrentQuoteMutation,
         getQuoteConfigDetailsQuery
     } = operations;
+    const { deleteCurrentQuote: deleteCurrentQuoteFromAdapter } = useAdapter();
 
     const [myQuote, setMyQuote] = useState({});
     const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
@@ -36,7 +37,7 @@ export const useQuoteCartPage = props => {
     }, [configData, configLoading, history]);
 
     // Delete Current Quote Mutation
-    const [deleteCurrentQuote] = useMutation(deleteCurrentQuoteMutation);
+    const { deleteCurrentQuote } = deleteCurrentQuoteFromAdapter();
 
     // Submit Current Quote Mutation
     const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
@@ -60,7 +61,7 @@ export const useQuoteCartPage = props => {
     useState(() => {
         window.addEventListener(
             AFTER_UPDATE_MY_QUOTE,
-            async function(event) {
+            async function (event) {
                 await setMyQuote(event.detail);
             },
             false
