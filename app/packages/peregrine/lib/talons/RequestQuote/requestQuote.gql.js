@@ -1,11 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const DELETE_SUBMITTED_QUOTE = gql`
-    mutation DeleteSubmittedQuote($quoteId: Int!) {
-        deleteSubmittedMpQuote(quote_id: $quoteId)
-    }
-`;
-
 export const DUPLICATE_QUOTE = gql`
     mutation DuplicateQuote($quoteId: Int!) {
         duplicateMpQuote(quote_id: $quoteId) {
@@ -215,7 +209,6 @@ export const UPDATE_QUOTE = gql`
 `;
 
 export default {
-    deleteSubmittedQuoteMutation: DELETE_SUBMITTED_QUOTE,
     duplicateQuoteMutation: DUPLICATE_QUOTE,
     getQuoteByIdQuery: GET_QUOTE_BY_ID,
     getQuoteConfigDetailsQuery: GET_QUOTE_CONFIG_DETAILS,

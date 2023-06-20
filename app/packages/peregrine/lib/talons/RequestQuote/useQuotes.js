@@ -25,10 +25,9 @@ export const useQuotes = () => {
     const {
         getQuoteConfigDetailsQuery,
         getQuoteListQuery,
-        deleteSubmittedQuoteMutation,
         duplicateQuoteMutation
     } = operations;
-    const { addQuoteToCart, cancelQuote } = useAdapter();
+    const { addQuoteToCart, cancelQuote, deleteSubmittedQuote } = useAdapter();
 
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
@@ -49,7 +48,7 @@ export const useQuotes = () => {
     }, [configData, configLoading, history]);
 
     // Delete Quote Mutation
-    const [deleteSubmittedMpQuote] = useMutation(deleteSubmittedQuoteMutation);
+    const { deleteSubmittedMpQuote } = deleteSubmittedQuote();
 
     // Cancel Quote Mutation
     const { cancelMpQuote } = cancelQuote();
