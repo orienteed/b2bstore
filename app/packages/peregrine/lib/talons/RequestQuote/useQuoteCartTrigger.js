@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -15,8 +15,8 @@ export const useQuoteCartTrigger = props => {
     const { getConfigData, getQuoteId, setQuoteId } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getQuoteByIdQuery, deleteItemFromQuoteMutation } = operations;
-    const { getCustomerInformation } = useAdapter();
+    const { getQuoteByIdQuery } = operations;
+    const { getCustomerInformation, deleteItemFromQuote } = useAdapter();
 
     const configData = getConfigData();
 
@@ -54,7 +54,7 @@ export const useQuoteCartTrigger = props => {
     });
 
     // Delete Mp Quote Item
-    const [deleteItemFromMpQuote] = useMutation(deleteItemFromQuoteMutation);
+    const { removeItem: deleteItemFromMpQuote } = deleteItemFromQuote();
 
     useEffect(() => {
         if (data != undefined) {
