@@ -1,23 +1,18 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import debounce from 'lodash.debounce';
-import { useMutation } from '@apollo/client';
 import { AFTER_UPDATE_MY_QUOTE } from '../useQuoteCartTrigger';
 import { setQuoteId } from '../Store';
 
-import DEFAULT_OPERATIONS from '../requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useAddProductBySku = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { addSimpleProductToQuoteMutation } = operations;
-    const { getProductsDetailsForQuoteBySearch } = useAdapter();
+    const { getProductsDetailsForQuoteBySearch, addSimpleProductsToQuote } = useAdapter();
 
     const [products, setProducts] = useState([]);
     const [isFatching, setIsFatching] = useState(false);
 
     // SimpleProduct Mutation
-    const [addSimpleProductToCart] = useMutation(addSimpleProductToQuoteMutation);
+    const { addSimpleProductToQuote } = addSimpleProductsToQuote();
 
     // Prepare to run the queries.
     const { runSearch, productResult } = getProductsDetailsForQuoteBySearch();
@@ -50,13 +45,13 @@ export const useAddProductBySku = () => {
                 data: {
                     addSimpleProductsToMpQuote: { quote }
                 }
-            } = await addSimpleProductToCart({
+            } = await addSimpleProductToQuote({
                 variables
             });
             await setQuoteId(quote.entity_id);
             await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_QUOTE, { detail: quote }));
         },
-        [addSimpleProductToCart]
+        [addSimpleProductToQuote]
     );
 
     useEffect(() => {

@@ -13,14 +13,13 @@ import mergeOperations from '../../util/shallowMerge';
 export const useAddToQuote = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        addSimpleProductToQuoteMutation,
         submitCurrentQuoteMutation
     } = operations;
-    const { addConfigurableProductsToQuote } = useAdapter();
+    const { addConfigurableProductsToQuote, addSimpleProductsToQuote } = useAdapter();
 
     const [, { addToast }] = useToasts();
     const [isLoading, setIsLoading] = useState(false);
-    const [addSimpleProductToCart] = useMutation(addSimpleProductToQuoteMutation);
+    const { addSimpleProductToQuote } = addSimpleProductsToQuote();
     const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
     const { addConfigProductToQuote } = addConfigurableProductsToQuote();
 
@@ -45,7 +44,7 @@ export const useAddToQuote = () => {
                 data: {
                     addSimpleProductsToMpQuote: { quote }
                 }
-            } = await addSimpleProductToCart({
+            } = await addSimpleProductToQuote({
                 variables
             });
             const {
@@ -60,7 +59,7 @@ export const useAddToQuote = () => {
                 timeout: 5000
             });
         },
-        [addSimpleProductToCart, addToast, submitCurrentQuote]
+        [addSimpleProductToQuote, addToast, submitCurrentQuote]
     );
 
     const handleAddCofigItemBySku = useCallback(
