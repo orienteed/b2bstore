@@ -1,26 +1,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
 import { AFTER_UPDATE_MY_QUOTE } from '../RequestQuote/useQuoteCartTrigger';
 import { setQuoteId } from '../RequestQuote/Store';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '../../util/shallowMerge';
-
 export const useAddToQuote = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        submitCurrentQuoteMutation
-    } = operations;
-    const { addConfigurableProductsToQuote, addSimpleProductsToQuote } = useAdapter();
+        addConfigurableProductsToQuote,
+        addSimpleProductsToQuote,
+        submitCurrentQuote: submitCurrentQuoteFromAdapter
+    } = useAdapter();
 
     const [, { addToast }] = useToasts();
     const [isLoading, setIsLoading] = useState(false);
     const { addSimpleProductToQuote } = addSimpleProductsToQuote();
-    const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
+    const { submitCurrentQuote } = submitCurrentQuoteFromAdapter();
     const { addConfigProductToQuote } = addConfigurableProductsToQuote();
 
     // Add Simple Product

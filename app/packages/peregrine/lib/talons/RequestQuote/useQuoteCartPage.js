@@ -1,21 +1,18 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 import { deleteQuoteId } from './Store';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 export const useQuoteCartPage = props => {
     const { getQuoteId } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        submitCurrentQuoteMutation
-    } = operations;
-    const { deleteCurrentQuote: deleteCurrentQuoteFromAdapter, getConfigDetailsForQuote, getQuoteById } = useAdapter();
+        deleteCurrentQuote: deleteCurrentQuoteFromAdapter,
+        getConfigDetailsForQuote,
+        getQuoteById,
+        submitCurrentQuote: submitCurrentQuoteFromAdapter
+    } = useAdapter();
 
     const [myQuote, setMyQuote] = useState({});
     const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
@@ -36,7 +33,7 @@ export const useQuoteCartPage = props => {
     const { deleteCurrentQuote } = deleteCurrentQuoteFromAdapter();
 
     // Submit Current Quote Mutation
-    const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
+    const { submitCurrentQuote } = submitCurrentQuoteFromAdapter();
 
     // Get Mp Quote
     const { data, loading } = getQuoteById({ quote_id: getQuoteId() });
