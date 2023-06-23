@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -8,15 +7,9 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 const DENIED_MINI_CART_ROUTES = ['/checkout'];
 export const AFTER_UPDATE_MY_QUOTE = 'after_update_my_QUOTE';
 
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 export const useQuoteCartTrigger = props => {
     const { getConfigData, getQuoteId, setQuoteId } = props;
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getQuoteByIdQuery } = operations;
-    const { getCustomerInformation, deleteItemFromQuote } = useAdapter();
+    const { getCustomerInformation, deleteItemFromQuote, getQuoteById } = useAdapter();
 
     const configData = getConfigData();
 
@@ -46,12 +39,7 @@ export const useQuoteCartTrigger = props => {
     const hideQuoteCartTrigger = DENIED_MINI_CART_ROUTES.includes(history.location.pathname);
 
     // Get Mp Quote
-    const { data } = useQuery(getQuoteByIdQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            quote_id: getQuoteId()
-        }
-    });
+    const { data } = getQuoteById({ quote_id: getQuoteId() });
 
     // Delete Mp Quote Item
     const { removeItem: deleteItemFromMpQuote } = deleteItemFromQuote();

@@ -13,10 +13,9 @@ export const useQuoteCartPage = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        getQuoteByIdQuery,
         submitCurrentQuoteMutation
     } = operations;
-    const { deleteCurrentQuote: deleteCurrentQuoteFromAdapter, getConfigDetailsForQuote } = useAdapter();
+    const { deleteCurrentQuote: deleteCurrentQuoteFromAdapter, getConfigDetailsForQuote, getQuoteById } = useAdapter();
 
     const [myQuote, setMyQuote] = useState({});
     const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
@@ -40,12 +39,7 @@ export const useQuoteCartPage = props => {
     const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
 
     // Get Mp Quote
-    const { data, loading } = useQuery(getQuoteByIdQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            quote_id: getQuoteId()
-        }
-    });
+    const { data, loading } = getQuoteById({ quote_id: getQuoteId() });
     useEffect(() => {
         if (data != undefined) {
             const {

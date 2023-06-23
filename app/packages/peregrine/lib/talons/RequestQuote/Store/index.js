@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 const storage = new BrowserPersistence();
 const MP_QUOTE_ID = 'mp_QUOTE_id';
-
-import DEFAULT_OPERATIONS from '../requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-const operations = mergeOperations(DEFAULT_OPERATIONS);
-const { getQuoteByIdQuery } = operations;
 
 export const getConfigData = () => {
     const [isEnable, setIsEnable] = useState(false);
@@ -48,15 +41,10 @@ export const getQuoteId = () => {
 
 export const getMpQuote = () => {
     const [myQuote, setMyQuote] = useState();
+    const { getQuoteById } = useAdapter();
 
     if (getQuoteId() != undefined) {
-        const { data } = useQuery(getQuoteByIdQuery, {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            variables: {
-                quote_id: getQuoteId()
-            }
-        });
+        const { data } = getQuoteById({ quote_id: getQuoteId(), hasNextFetchPolicy: true });
 
         useState(() => {
             if (data != undefined) {
