@@ -1,23 +1,15 @@
 import { useCallback, useEffect } from 'react';
-import { useMutation } from '@apollo/client';
 import { AFTER_UPDATE_MY_QUOTE } from '../useQuoteCartTrigger';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from '../requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 export const useQuoteProduct = props => {
     const { item, setIsCartUpdating } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { updateQuoteMutation } = operations;
-    const { deleteItemFromQuote } = useAdapter();
+    const { deleteItemFromQuote, updateQuote } = useAdapter();
 
     const { removeItem, called: removeItemCalled, loading: removeItemLoading } = deleteItemFromQuote();
 
-    const [updateItemQuantity, { loading: updateItemLoading, called: updateItemCalled }] = useMutation(
-        updateQuoteMutation
-    );
+    const { updateItemQuantity, loading: updateItemLoading, called: updateItemCalled } = updateQuote();
 
     useEffect(() => {
         if (updateItemCalled || removeItemCalled) {
