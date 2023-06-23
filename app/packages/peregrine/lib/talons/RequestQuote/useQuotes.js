@@ -1,5 +1,4 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -10,9 +9,6 @@ const DEFAULT_PAGE_SIZE = 5;
 const DEFAULT_CURRENT_PAGE = 1;
 const DEFAULT_TOTAL_PAGE = 0;
 
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 /**
  * @function
  *
@@ -21,11 +17,14 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  * @returns {useQuotes}
  */
 export const useQuotes = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        getQuoteListQuery
-    } = operations;
-    const { addQuoteToCart, cancelQuote, deleteSubmittedQuote, duplicateQuote, getConfigDetailsForQuote } = useAdapter();
+        addQuoteToCart,
+        cancelQuote,
+        deleteSubmittedQuote,
+        duplicateQuote,
+        getConfigDetailsForQuote,
+        getQuoteList
+    } = useAdapter();
 
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
@@ -56,13 +55,7 @@ export const useQuotes = () => {
     const { addMpQuoteToCart } = addQuoteToCart();
 
     // Get quotes details
-    const { data: quoteList, refetch, loading } = useQuery(getQuoteListQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            pageSize: pageSize,
-            currentPage: currentPage || 1
-        }
-    });
+    const { data: quoteList, refetch, loading } = getQuoteList({ pageSize: pageSize, currentPage: currentPage || 1 });
 
     const handleContentToggle = useCallback(() => {
         setIsOpen(currentValue => !currentValue);
