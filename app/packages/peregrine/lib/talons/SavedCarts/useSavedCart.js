@@ -1,17 +1,11 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from './savedCarts.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 export const useSavedCart = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { saveSavedCartsMutation } = operations;
-
     const [isShow, setIsShow] = useState(false);
     const [buttonTitle, setButtonTitle] = useState();
     const [isSaveCartLoading, setIsSaveCartLoading] = useState(false);
@@ -25,14 +19,15 @@ export const useSavedCart = () => {
     const {
         createCart: createCartFromAdapter,
         getCartDetails: getCartDetailsFromAdapter,
-        getConfigDetailsForSavedCarts
+        getConfigDetailsForSavedCarts,
+        saveSavedCarts
     } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     const history = useHistory();
 
-    const [getMpSaveCart] = useMutation(saveSavedCartsMutation);
+    const { getMpSaveCart } = saveSavedCarts();
 
     // Popup Open
     const handleSaveCart = useCallback(() => {
