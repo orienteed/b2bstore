@@ -1,11 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const DELETE_SAVED_CARTS = gql`
-    mutation DeleteSavedCarts($token: String!) {
-        mpSaveCartDeleteCart(token: $token)
-    }
-`;
-
 export const GET_CONFIG_DETAILS = gql`
     query GetConfigDetailsForSavedCarts {
         mpSaveCartConfigs {
@@ -70,7 +64,6 @@ export const SHARE_CART = gql`
 `;
 
 export default {
-    deleteSavedCartsMutation: DELETE_SAVED_CARTS,
     getConfigDetailsForSavedCartsQuery: GET_CONFIG_DETAILS,
     getSavedCartsQuery: GET_SAVED_CARTS,
     restoreSavedCartsMutation: RESTORE_SAVED_CARTS,

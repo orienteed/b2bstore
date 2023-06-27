@@ -17,7 +17,7 @@ export const useSavedCartsTable = props => {
     const { handleIsLoading, getSavedCarts } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { restoreSavedCartsMutation, deleteSavedCartsMutation } = operations;
+    const { restoreSavedCartsMutation } = operations;
 
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
@@ -25,7 +25,7 @@ export const useSavedCartsTable = props => {
 
     const [{ cartId }, { getCartDetails }] = useCartContext();
 
-    const { getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const { getCartDetails: getCartDetailsFromAdapter, deleteSavedCarts } = useAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     // Restore Cart
@@ -38,12 +38,7 @@ export const useSavedCartsTable = props => {
     });
 
     // Delete save cart
-    const [deleteSaveCart] = useMutation(deleteSavedCartsMutation, {
-        fetchPolicy: 'no-cache',
-        variables: {
-            token: token
-        }
-    });
+    const { deleteSaveCart } = deleteSavedCarts({ token: token });
 
     const handleContentToggle = useCallback(() => {
         setIsOpen(currentValue => !currentValue);
