@@ -1,19 +1,13 @@
 import { useHistory } from 'react-router-dom';
 import { useMemo, useState, useCallback } from 'react';
-import { useQuery } from '@apollo/client';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from './savedCarts.gql';
-import mergeOperations from '../../util/shallowMerge';
 
 const DEFAULT_CURRENT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 5;
 const DEFAULT_TOTAL_PAGE = 0;
 
 export const useSavedCartsPage = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getSavedCartsQuery } = operations;
-    const { getConfigDetailsForSavedCarts } = useAdapter();
+    const { getConfigDetailsForSavedCarts, getSavedCarts: getSavedCartsFromAdapter } = useAdapter();
 
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
@@ -39,13 +33,9 @@ export const useSavedCartsPage = () => {
     }, [data, history]);
 
     // Get carts details
-    const { data: savedCartData, refetch } = useQuery(getSavedCartsQuery, {
-        fetchPolicy: 'network-only',
-        nextFetchPolicy: 'cache-first',
-        variables: {
-            pageSize: pageSize,
-            currentPage: currentPage || 1
-        }
+    const { data: savedCartData, refetch } = getSavedCartsFromAdapter({
+        pageSize: pageSize,
+        currentPage: currentPage || 1
     });
 
     useMemo(() => {
