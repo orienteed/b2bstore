@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation, useApolloClient, useQuery } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -10,7 +10,7 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 export const useSavedCart = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getConfigDetailsForSavedCartsQuery, saveSavedCartsMutation } = operations;
+    const { saveSavedCartsMutation } = operations;
 
     const [isShow, setIsShow] = useState(false);
     const [buttonTitle, setButtonTitle] = useState();
@@ -22,7 +22,11 @@ export const useSavedCart = () => {
 
     const [{ cartId }, { getCartDetails, createCart }] = useCartContext();
 
-    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const {
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        getConfigDetailsForSavedCarts
+    } = useAdapter();
     const { fetchCartId } = createCartFromAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
@@ -39,10 +43,7 @@ export const useSavedCart = () => {
     }, []);
 
     // Getting Config details
-    const { data } = useQuery(getConfigDetailsForSavedCartsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data } = getConfigDetailsForSavedCarts();
     useEffect(() => {
         if (data != undefined) {
             const {

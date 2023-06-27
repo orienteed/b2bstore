@@ -1,16 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const GET_CONFIG_DETAILS = gql`
-    query GetConfigDetailsForSavedCarts {
-        mpSaveCartConfigs {
-            enabled
-            button_title
-            allow_share
-            show_button_guest
-        }
-    }
-`;
-
 export const GET_SAVED_CARTS = gql`
     query GetSavedCarts($pageSize: Int, $currentPage: Int) {
         mpSaveCartGetCarts(currentPage: $currentPage, pageSize: $pageSize) {
@@ -64,7 +53,6 @@ export const SHARE_CART = gql`
 `;
 
 export default {
-    getConfigDetailsForSavedCartsQuery: GET_CONFIG_DETAILS,
     getSavedCartsQuery: GET_SAVED_CARTS,
     restoreSavedCartsMutation: RESTORE_SAVED_CARTS,
     saveSavedCartsMutation: SAVE_CART,
