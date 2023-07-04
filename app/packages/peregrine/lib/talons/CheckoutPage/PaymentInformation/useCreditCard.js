@@ -152,7 +152,7 @@ export const useCreditCard = props => {
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
-    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
+    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
     const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });

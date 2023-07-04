@@ -108,7 +108,7 @@ export const useBillingAddress = props => {
         getCustomerAddressesForAddressBook
     } = useAdapter();
 
-    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
+    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
 

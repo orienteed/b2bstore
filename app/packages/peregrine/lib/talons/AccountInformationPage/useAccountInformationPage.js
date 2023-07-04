@@ -97,7 +97,7 @@ export const useAccountInformationPage = props => {
         hasFetchPolicy: true
     });
 
-    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
+    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     const { setCustomerInformation,
         error: customerInformationUpdateError,

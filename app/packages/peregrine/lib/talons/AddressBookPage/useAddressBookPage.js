@@ -2,10 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import defaultOperations from './addressBookPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
 /**
@@ -21,11 +19,7 @@ import { useEventingContext } from '../../context/eventing';
  * @example <caption>Importing into your project</caption>
  * import { useAddressBookPage } from '@magento/peregrine/lib/talons/AddressBookPage/useAddressBookPage';
  */
-export const useAddressBookPage = (props = {}) => {
-    const operations = mergeOperations(defaultOperations, props.operations);
-    const {
-        getCustomerAddressesQuery
-    } = operations;
+export const useAddressBookPage = () => {
     const { addNewCustomerAddressToAddressBook, deleteCustomerAddressFromAddressBook, getCustomerAddressesForAddressBook, updateCustomerAddressInAddressBook } = useAdapter();
 
     const [
@@ -38,7 +32,7 @@ export const useAddressBookPage = (props = {}) => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: false, isSignedIn: isSignedIn });
+    const { data: customerAddressesData, loading, getCustomerAddressesQuery } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
     const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
 
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
