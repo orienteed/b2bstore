@@ -5,23 +5,27 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import SHIPPING_INFORMATION_OPERATIONS from '../shippingInformation.gql';
-import ADDRESS_BOOK_OPERATIONS from '../../../AddressBookPage/addressBookPage.gql';
 
 export const useCustomerForm = props => {
     const { afterSubmit, onCancel, onSuccess, shippingData } = props;
 
     const operations = mergeOperations(
-        ADDRESS_BOOK_OPERATIONS,
         SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
 
     const {
-        getCustomerAddressesQuery,
         getDefaultShippingQuery
     } = operations;
 
-    const { addNewCustomerAddressToAddressBook, updateCustomerAddressInAddressBook, getCustomerInformation } = useAdapter();
+    const {
+        addNewCustomerAddressToAddressBook,
+        updateCustomerAddressInAddressBook,
+        getCustomerInformation,
+        getCustomerAddressesForAddressBook
+    } = useAdapter();
+
+    const { getCustomerAddressesQuery } = getCustomerAddressesForAddressBook();
 
     const {
         createCustomerAddress,
@@ -29,10 +33,10 @@ export const useCustomerForm = props => {
         loading: createCustomerAddressLoading
     } = addNewCustomerAddressToAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
 
-    const { 
-        updateCustomerAddress, 
-        error: updateCustomerAddressError, 
-        loading: updateCustomerAddressLoading 
+    const {
+        updateCustomerAddress,
+        error: updateCustomerAddressError,
+        loading: updateCustomerAddressLoading
     } = updateCustomerAddressInAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
 
     const { data: customerData, loading: getCustomerLoading } = getCustomerInformation();

@@ -4,9 +4,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useCartContext } from '../../../../context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from './shippingMethods.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 /**
  * GraphQL currently requires a complete address before it will return
  * estimated shipping prices, even though it only needs Country, State,
@@ -47,13 +44,13 @@ export const MOCKED_ADDRESS = {
  * import { useShippingForm } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
  */
 export const useShippingForm = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getShippingMethodsQuery } = operations;
     const { selectedValues, setIsCartUpdating } = props;
 
     const [{ cartId }] = useCartContext();
     const apolloClient = useApolloClient();
-    const { setShippingAddress: setShippingAddressFromAdapter } = useAdapter();
+    const { setShippingAddress: setShippingAddressFromAdapter, getShippingMethods } = useAdapter();
+
+    const { getShippingMethodsQuery } = getShippingMethods();
 
     const { setShippingAddress,
         called: isSetShippingAddressCalled,

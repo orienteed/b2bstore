@@ -8,8 +8,6 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
-import mergeOperations from '../../util/shallowMerge';
-import ADDRESS_BOOK_OPERATIONS from '../../talons/AddressBookPage/addressBookPage.gql';
 import { useModulesContext } from '../../context/modulesProvider';
 
 export const useAccountInformationPage = props => {
@@ -18,14 +16,6 @@ export const useAccountInformationPage = props => {
     const [{ isSignedIn }] = useUserContext();
 
     const { tenantConfig } = useModulesContext();
-
-    const operations = mergeOperations(
-        ADDRESS_BOOK_OPERATIONS,
-        props.operations
-    );
-    const {
-        getCustomerAddressesQuery
-    } = operations;
 
     const {
         setCustomerInformation: setCustomerInformationFromAdapter,
@@ -97,7 +87,7 @@ export const useAccountInformationPage = props => {
         hasFetchPolicy: true
     });
 
-    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
+    const { data: customerAddressesData, loading, getCustomerAddressesQuery } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     const { setCustomerInformation,
         error: customerInformationUpdateError,
