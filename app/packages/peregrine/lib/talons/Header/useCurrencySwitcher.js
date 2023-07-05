@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client';
 import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
