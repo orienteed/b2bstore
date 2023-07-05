@@ -3,27 +3,18 @@ import { useCallback, useMemo } from 'react';
 import { useEventingContext } from '../../../../context/eventing';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import SHIPPING_INFORMATION_OPERATIONS from '../shippingInformation.gql';
-
 export const useCustomerForm = props => {
     const { afterSubmit, onCancel, onSuccess, shippingData } = props;
-
-    const operations = mergeOperations(
-        SHIPPING_INFORMATION_OPERATIONS,
-        props.operations
-    );
-
-    const {
-        getDefaultShippingQuery
-    } = operations;
 
     const {
         addNewCustomerAddressToAddressBook,
         updateCustomerAddressInAddressBook,
         getCustomerInformation,
-        getCustomerAddressesForAddressBook
+        getCustomerAddressesForAddressBook,
+        getDefaultShipping
     } = useAdapter();
+
+    const { getDefaultShippingQuery } = getDefaultShipping();
 
     const { getCustomerAddressesQuery } = getCustomerAddressesForAddressBook();
 
