@@ -7,9 +7,6 @@ import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
-
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
  * queries to input names in the billing address form.
@@ -103,15 +100,6 @@ export const getDefaultBillingAddress = customerAddressesData => {
 export const useCreditCard = props => {
     const { onSuccess, onReady, onError, shouldSubmit, resetShouldSubmit } = props;
 
-    const operations = mergeOperations(
-        PAYMENT_INFORMATION_OPERATIONS,
-        props.operations
-    );
-
-    const {
-        getPaymentNonceQuery
-    } = operations;
-
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'BRAINTREE',
         formAction: 'braintree'
@@ -147,8 +135,11 @@ export const useCreditCard = props => {
         setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
         setPaymentMethodOnCart,
         getShippingInformation,
-        getCustomerAddressesForAddressBook
+        getCustomerAddressesForAddressBook,
+        getPaymentNonce
     } = useAdapter();
+
+    const { getPaymentNonceQuery } = getPaymentNonce();
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
