@@ -1,3 +1,10 @@
+# B2BStore 0.9.2
+## 🛠 Bug fixes 
+  - Fix the order history page when the product is out of stock
+  - Fix Add to cart function in pwa login from admin panel
+  - Fix quick order form
+  - Fix PLP pages for the new users
+
 # B2BStore 0.9.1
 ## 🚨 Hotfixes  
   - Fixed a bug in the store locator page
