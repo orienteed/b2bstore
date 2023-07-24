@@ -1,9 +1,12 @@
-import eeOperations from '../carousel.gql.ee';
-import ceOperations from '../carousel.gql.ce';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const { getStoreConfig } = useAdapter();
+const { getStoreConfigCEQuery, getStoreConfigEEQuery } = getStoreConfig();
 
 export const mockGetStoreConfigEE = {
     request: {
-        query: eeOperations.getStoreConfigQuery
+        query: getStoreConfigEEQuery
     },
     result: {
         data: {
@@ -19,7 +22,7 @@ export const mockGetStoreConfigEE = {
 
 export const mockGetStoreConfigCE = {
     request: {
-        query: ceOperations.getStoreConfigQuery
+        query: getStoreConfigCEQuery
     },
     result: {
         data: {

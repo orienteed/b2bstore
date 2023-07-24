@@ -51,10 +51,11 @@ const CartContextProvider = props => {
         return [derivedCartState, cartApi];
     }, [cartApi, cartState, derivedDetails]);
 
-    const { createCart, isUserAuthed } = useAdapter();
+    const { createCart, isUserAuthed, getCartDetails } = useAdapter();
     const { fetchCartId } = createCart();
 
     const fetchIsUserAuthed = isUserAuthed();
+    const {fetchCartDetails} = getCartDetails();
 
     // Storage listener to force a state update if cartId changes from another browser tab.
     const storageListener = useCallback(() => {
@@ -72,9 +73,10 @@ const CartContextProvider = props => {
         // cartApi.getCartDetails initializes the cart if there isn't one.
         cartApi.getCartDetails({
             fetchCartId,
-            fetchIsUserAuthed
+            fetchIsUserAuthed,
+            fetchCartDetails
         });
-    }, [cartApi, fetchIsUserAuthed, fetchCartId]);
+    }, []);
 
     return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>;
 };

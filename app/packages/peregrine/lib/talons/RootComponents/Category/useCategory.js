@@ -63,7 +63,7 @@ export const useCategory = props => {
         }
     ] = useAppContext();
 
-    const { getCategory } = useAdapter();
+    const { getCategory, getFilterInputs } = useAdapter();
     const { runQuery, data, loading: categoryLoading, error, called: categoryCalled } = getCategory();
 
     const { search } = useLocation();
@@ -79,7 +79,6 @@ export const useCategory = props => {
     const previousSearch = useRef(search);
 
     // Get "allowed" filters by intersection of schema and aggregations
-    const { getFilterInputs } = useAdapter();
     const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = getFilterInputs();
 
     // Create a type map we can reference later to ensure we pass valid args

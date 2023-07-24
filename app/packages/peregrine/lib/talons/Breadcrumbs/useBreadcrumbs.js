@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 import useInternalLink from '../../hooks/useInternalLink';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { useAdapter } from '../../hooks/useAdapter';

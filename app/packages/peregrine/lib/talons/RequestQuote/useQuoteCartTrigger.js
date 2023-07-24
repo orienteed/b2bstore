@@ -17,16 +17,16 @@ export const useQuoteCartTrigger = props => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [{ isSignedIn: isUserSignedIn }] = useUserContext();
-    const { data: custoemrData } = getCustomerInformation({ hasSkip: true, isSignedIn: isUserSignedIn, hasFetchPolicy: true });
+    const { data: customerData } = getCustomerInformation({ hasSkip: true, isSignedIn: isUserSignedIn, hasFetchPolicy: true });
 
     useMemo(() => {
-        if (custoemrData && custoemrData.customer) {
+        if (customerData && customerData.customer) {
             const {
                 customer: { mp_quote_id }
-            } = custoemrData;
+            } = customerData;
             setQuoteId(mp_quote_id);
         }
-    }, [custoemrData, setQuoteId]);
+    }, [customerData, setQuoteId]);
 
     const {
         elementRef: quoteMiniCartRef,

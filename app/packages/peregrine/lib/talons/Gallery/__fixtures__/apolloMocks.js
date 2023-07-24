@@ -1,9 +1,12 @@
-import acOperations from '../gallery.gql.ee';
-import mosOperations from '../gallery.gql.ce';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const { getStoreConfig } = useAdapter();
+const { getStoreConfigCEQuery, getStoreConfigEEQuery } = getStoreConfig();
 
 export const mockGetStoreConfigAC = {
     request: {
-        query: acOperations.getStoreConfigQuery
+        query: getStoreConfigEEQuery
     },
     result: {
         data: {
@@ -19,7 +22,7 @@ export const mockGetStoreConfigAC = {
 
 export const mockGetStoreConfigMOS = {
     request: {
-        query: mosOperations.getStoreConfigQuery
+        query: getStoreConfigCEQuery
     },
     result: {
         data: {
