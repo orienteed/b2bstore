@@ -3,10 +3,9 @@ import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import { useCartContext } from '../../context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import resourceUrl from '../../util/makeUrl';
 
-import DEFAULT_OPERATIONS from '../QuickOrderForm/quickOrderForm.gql';
 import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
@@ -30,12 +29,13 @@ const UNSUPPORTED_PRODUCT_TYPES = ['VirtualProduct', 'BundleProduct', 'GroupedPr
 export const useAddToCartButton = props => {
     const { item, urlSuffix, quantity } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
-    const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery } = operations;
+    const operations = mergeOperations(PRODUCT_OPERATIONS, props.operations);
+    const { addConfigurableProductToCartMutation } = operations;
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const getParentSku = useAwaitQuery(getParentSkuBySkuQuery);
+    const { getParentSkuBySku } = useAdapter();
+    const { getParentSku } = getParentSkuBySku();
 
     const isInStock = item.stock_status === 'IN_STOCK';
     const productType = item.__typename;

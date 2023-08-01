@@ -12,7 +12,6 @@ import Icon from '../Icon';
 import StockStatusMessage from '../StockStatusMessage';
 import ProductList from './ProductList';
 import defaultClasses from './miniCart.module.css';
-import operations from './miniCart.gql';
 
 import ConfirmationModal from '../RequestQuote/ConfirmationModal';
 
@@ -33,8 +32,7 @@ const MiniCart = React.forwardRef((props, ref) => {
 
     const talonProps = useMiniCart({
         isOpen,
-        setIsOpen,
-        operations
+        setIsOpen
     });
 
     const {

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
-import DEFAULT_OPERATIONS from './billingAddress.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
 import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 
@@ -98,7 +98,6 @@ export const useBillingAddress = props => {
     // return function useBillingAddress(props, ...restArgs) {
     const { shouldSubmit, onBillingAddressChangedError, onBillingAddressChangedSuccess } = props;
     const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
         SHIPPING_INFORMATION_OPERATIONS,
         props.operations
@@ -106,13 +105,15 @@ export const useBillingAddress = props => {
     const [, { addToast }] = useToasts();
 
     const {
-        getBillingAddressQuery,
         getCustomerAddressesQuery,
-        getIsBillingAddressSameQuery,
-        getShippingInformationQuery,
-        setBillingAddressMutation,
-        setDefaultBillingAddressMutation
+        getShippingInformationQuery
     } = operations;
+    const {
+        getBillingAddress,
+        getIsBillingAddressSame,
+        setBillingAddress: setBillingAddressFromAdapter,
+        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter
+    } = useAdapter();
 
     const client = useApolloClient();
     const formState = useFormState();
@@ -131,32 +132,22 @@ export const useBillingAddress = props => {
         variables: { cartId }
     });
 
-    const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({ cartId: cartId });
 
-    const [loadBillingAddressQuery, { data: billingAddressData }] = useLazyQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { loadBillingAddressQuery, data: billingAddressData } = getBillingAddress({ cartId: cartId, type: 'request' });
 
-    const [
+    const {
         updateBillingAddress,
-        {
-            error: billingAddressMutationError,
-            called: billingAddressMutationCalled,
-            loading: billingAddressMutationLoading
-        }
-    ] = useMutation(setBillingAddressMutation);
-    const [
+        error: billingAddressMutationError,
+        called: billingAddressMutationCalled,
+        loading: billingAddressMutationLoading
+    } = setBillingAddressFromAdapter();
+    const {
         updateDefaultBillingAddress,
-        {
-            error: defaultBillingAddressMutationError,
-            called: defaultBillingAddressMutationCalled,
-            loading: defaultBillingAddressMutationLoading
-        }
-    ] = useMutation(setDefaultBillingAddressMutation);
+        error: defaultBillingAddressMutationError,
+        called: defaultBillingAddressMutationCalled,
+        loading: defaultBillingAddressMutationLoading
+    } = setDefaultBillingAddressFromAdapter();
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart?.shipping_addresses[0]?.country.code

@@ -1,16 +1,16 @@
 import { useCallback, useRef, useMemo } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './contactUs.gql';
-import CMS_BLOCK_OPERATIONS from '../Cms/cmsBlock.gql';
+import { useAdapter } from '../../hooks/useAdapter';
 
 export default props => {
     const { cmsBlockIdentifiers = [] } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CMS_BLOCK_OPERATIONS, props.operations);
-    const { submitContactFormMutation, getCmsBlocksQuery } = operations;
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { submitContactFormMutation } = operations;
 
     const formApiRef = useRef(null);
 
@@ -18,13 +18,11 @@ export default props => {
         fetchPolicy: 'no-cache'
     });
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
-    const { data: cmsBlocksData, loading: cmsBlocksLoading } = useQuery(getCmsBlocksQuery, {
-        variables: {
-            cmsBlockIdentifiers
-        },
-        fetchPolicy: 'cache-and-network'
+    const { getCmsBlocks } = useAdapter();
+    const { data: cmsBlocksData, loading: cmsBlocksLoading } = getCmsBlocks({
+        identifiers: cmsBlockIdentifiers
     });
 
     const isEnabled = useMemo(() => {

@@ -7,6 +7,7 @@ import { useStoreConfigContext } from '../../context/storeConfigProvider';
 
 import DEFAULT_OPERATIONS from './cmsDynamicBlock.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '../../hooks/useAdapter';
 
 export const flatten = cartData => {
     const cartItems = cartData?.cart?.items || [];
@@ -68,12 +69,13 @@ export const useCmsDynamicBlock = props => {
     const { locations, uids, type } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCmsDynamicBlocksQuery, getProductDetailQuery, getSalesRulesDataQuery } = operations;
+    const { getProductDetailQuery } = operations;
+    const { getCmsDynamicBlocks, getSalesRulesData } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const { pathname } = useLocation();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     // Get Product Data from cache
     const slug = pathname.split('/').pop();
@@ -92,21 +94,15 @@ export const useCmsDynamicBlock = props => {
         productData?.products?.items && productData.products.items.length > 0 ? productData.products.items : [];
     const productUid = products.find(item => item.url_key === urlKey)?.uid;
 
-    const { client, loading, error, data, refetch } = useQuery(getCmsDynamicBlocksQuery, {
-        variables: {
-            cartId,
-            type,
-            locations,
-            uids,
-            ...(productUid ? { productId: productUid } : {})
-        },
-        skip: !cartId
+    const { client, data, loading, error, refetch, getCmsDynamicBlocksQuery } = getCmsDynamicBlocks({
+        cartId,
+        ...(productUid ? { productId: productUid } : {}),
+        type,
+        locations,
+        uids
     });
 
-    const { loading: cartLoading, data: cartData } = useQuery(getSalesRulesDataQuery, {
-        variables: { cartId },
-        skip: !cartId
-    });
+    const { loading: cartLoading, data: cartData } = getSalesRulesData({ cartId: cartId });
 
     const currentSalesRulesData = flatten(cartData);
     const isLoading = loading || cartLoading || storeConfigData === undefined || productDataLoading;

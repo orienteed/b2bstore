@@ -3,13 +3,11 @@ import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import useInternalLink from '../../hooks/useInternalLink';
 
-import { useQuery } from '@apollo/client';
 import { useEventListener } from '../../hooks/useEventListener';
 import { useUserContext } from '../../context/user';
 
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './megaMenu.gql';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '../../hooks/useAdapter';
 
 /**
  * The useMegaMenu talon complements the MegaMenu component.
@@ -21,8 +19,8 @@ import { useStoreConfigContext } from '../../context/storeConfigProvider';
  * @return {MegaMenuTalonProps}
  */
 export const useMegaMenu = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getMegaMenuQuery } = operations;
+    const { getMegaMenu } = useAdapter();
+    const { data, refetch } = getMegaMenu();
 
     const location = useLocation();
 
@@ -33,8 +31,6 @@ export const useMegaMenu = (props = {}) => {
     const [disableFocus, setDisableFocus] = useState(false);
 
     const { data: storeConfigData, refetch: refetchStoreConfig } = useStoreConfigContext();
-
-    const { data, refetch } = useQuery(getMegaMenuQuery);
 
     const categoryUrlSuffix = useMemo(() => {
         if (storeConfigData) {

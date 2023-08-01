@@ -5,10 +5,10 @@ import { useQuery, useApolloClient, useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import BILLING_ADDRESS_OPERATIONS from '../BillingAddress/billingAddress.gql';
 import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
 import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
 import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
@@ -108,7 +108,6 @@ export const useCreditCard = props => {
 
     const operations = mergeOperations(
         ADDRESS_BOOK_OPERATIONS,
-        BILLING_ADDRESS_OPERATIONS,
         PAYMENT_INFORMATION_OPERATIONS,
         PAYMENT_METHODS_OPERATIONS,
         SHIPPING_INFORMATION_OPERATIONS,
@@ -116,15 +115,17 @@ export const useCreditCard = props => {
     );
 
     const {
-        getBillingAddressQuery,
         getCustomerAddressesQuery,
-        getIsBillingAddressSameQuery,
         getPaymentNonceQuery,
         getShippingInformationQuery,
-        setBillingAddressMutation,
-        setDefaultBillingAddressMutation,
         setPaymentMethodOnCartMutation
     } = operations;
+    const {
+        getBillingAddress,
+        getIsBillingAddressSame,
+        setBillingAddress: setBillingAddressFromAdapter,
+        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter
+    } = useAdapter();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'BRAINTREE',
@@ -163,35 +164,25 @@ export const useCreditCard = props => {
         skip: !isSignedIn
     });
 
-    const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
     const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
         skip: !cartId,
         variables: { cartId }
     });
-    const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
-    const [
+    const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({ cartId: cartId });
+    const {
         updateBillingAddress,
-        {
-            error: billingAddressMutationError,
-            called: billingAddressMutationCalled,
-            loading: billingAddressMutationLoading
-        }
-    ] = useMutation(setBillingAddressMutation);
+        error: billingAddressMutationError,
+        called: billingAddressMutationCalled,
+        loading: billingAddressMutationLoading
+    } = setBillingAddressFromAdapter();
 
-    const [
+    const {
         updateDefaultBillingAddress,
-        {
-            error: defaultBillingAddressMutationError,
-            called: defaultBillingAddressMutationCalled,
-            loading: defaultBillingAddressMutationLoading
-        }
-    ] = useMutation(setDefaultBillingAddressMutation);
+        error: defaultBillingAddressMutationError,
+        called: defaultBillingAddressMutationCalled,
+        loading: defaultBillingAddressMutationLoading
+    } = setDefaultBillingAddressFromAdapter();
 
     const [
         updateCCDetails,

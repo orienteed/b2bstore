@@ -7,8 +7,8 @@ import { useCartContext } from '../../context/cart';
 import { useUserContext } from '../../context/user';
 import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import DEFAULT_OPERATIONS from './signIn.gql';
 import { useEventingContext } from '../../context/eventing';
@@ -21,14 +21,11 @@ import { useModulesContext } from '../../context/modulesProvider';
 export const useSignIn = props => {
     const { setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
+    const operations = mergeOperations(DEFAULT_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
 
     const {
         getCustomerInformationQuery,
-        mergeCartsMutation,
         signInMutation,
-        getCartDetailsQuery,
-        createCartMutation
     } = operations;
 
     const apolloClient = useApolloClient();
@@ -51,10 +48,16 @@ export const useSignIn = props => {
         formAction: 'signIn'
     });
 
-    const [fetchCartId] = useMutation(createCartMutation);
-    const [mergeCarts] = useMutation(mergeCartsMutation);
+    const {
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        mergeCarts: mergeCartsFromAdapter
+    } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
+    const { mergeCarts } = mergeCartsFromAdapter();
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);

@@ -7,11 +7,11 @@ import { useCartContext } from '../../../context/cart';
 import { useAwaitQuery } from '../../../hooks/useAwaitQuery';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../../CreateAccount/createAccount.gql';
 import SIGNIN_OPERATIONS from '../../SignIn/signIn.gql';
 import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationPage.gql';
-import CART_OPERATIONS from '../../CartPage/cartPage.gql';
 
 /**
  * Returns props necessary to render CreateAccount component. In particular this
@@ -37,7 +37,6 @@ export const useCreateAccount = props => {
 
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
-        CART_OPERATIONS,
         SIGNIN_OPERATIONS,
         ACCOUNT_OPERATIONS,
         props.operations
@@ -45,8 +44,6 @@ export const useCreateAccount = props => {
 
     const {
         createAccountMutation,
-        createCartMutation,
-        getCartDetailsQuery,
         getCustomerInformationQuery,
         signInMutation
     } = operations;
@@ -57,7 +54,9 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { createCart: createCartFromAdapter, getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
@@ -70,7 +69,6 @@ export const useCreateAccount = props => {
     });
 
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

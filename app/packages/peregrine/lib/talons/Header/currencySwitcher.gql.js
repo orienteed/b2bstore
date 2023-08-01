@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
 
 const storage = new BrowserPersistence();
@@ -20,18 +19,4 @@ export const CUSTOM_TYPES = {
             }
         }
     }
-};
-
-export const GET_CURRENCY_DATA = gql`
-    query GetCurrencyData {
-        currency {
-            current_currency_code @client
-            default_display_currency_code
-            available_currency_codes
-        }
-    }
-`;
-
-export default {
-    getCurrencyDataQuery: GET_CURRENCY_DATA
 };

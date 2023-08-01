@@ -7,8 +7,8 @@ import { useCartContext } from '../../context/cart';
 import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import SIGNIN_OPERATIONS from '../SignIn/signIn.gql';
 import DEFAULT_OPERATIONS from './createAccount.gql';
 import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
@@ -40,7 +40,6 @@ export const useCreateAccount = props => {
 
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
-        CART_OPERATIONS,
         ACCOUNT_OPERATIONS,
         SIGNIN_OPERATIONS,
         props.operations
@@ -48,10 +47,7 @@ export const useCreateAccount = props => {
 
     const {
         createAccountMutation,
-        createCartMutation,
-        getCartDetailsQuery,
         getCustomerInformationQuery,
-        mergeCartsMutation,
         signInMutation
     } = operations;
 
@@ -65,9 +61,15 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const {
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        mergeCarts: mergeCartsFromAdapter
+    } = useAdapter();
+    const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
 
-    const [mergeCarts] = useMutation(mergeCartsMutation);
+    const { mergeCarts } = mergeCartsFromAdapter();
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
@@ -80,7 +82,6 @@ export const useCreateAccount = props => {
     });
 
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

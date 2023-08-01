@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 
 import mergeOperations from '../../../util/shallowMerge';
 import { useEventingContext } from '../../../context/eventing';
 
 import DEFAULT_OPERATIONS from './categoryContent.gql';
+import { useAdapter } from '../../../hooks/useAdapter';
 
 /**
  * Returns props necessary to render the categoryContent component.
@@ -24,10 +25,11 @@ export const useCategoryContent = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const {
-        getCategoryDataQuery,
         getProductAggregationsFilteredByCategoryQuery,
         getAvailableSortMethodsByCategoryQuery
     } = operations;
+
+    const { getCategoryData } = useAdapter();
 
     const placeholderItems = Array.from({ length: pageSize }).fill(null);
     const [items, setItems] = useState([]);
@@ -42,14 +44,7 @@ export const useCategoryContent = props => {
         nextFetchPolicy: 'cache-first'
     });
 
-    const { data: categoryData, loading: categoryLoading } = useQuery(getCategoryDataQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !categoryId,
-        variables: {
-            id: categoryId
-        }
-    });
+    const { data: categoryData, loading: categoryLoading } = getCategoryData({ id: categoryId });
 
     const [, { dispatch }] = useEventingContext();
 

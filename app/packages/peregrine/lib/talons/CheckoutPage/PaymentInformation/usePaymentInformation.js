@@ -3,13 +3,13 @@ import { useQuery, useApolloClient, useMutation } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from './paymentInformation.gql';
 import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
-import BILLING_ADDRESS_OPERATIONS from '../BillingAddress/billingAddress.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useCartContext } from '../../../context/cart';
 import CheckoutError from '../CheckoutError';
 import { useEventingContext } from '../../../context/eventing';
 import { CHECKOUT_STEP } from '../useCheckoutPage';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 
 /**
  *
@@ -29,16 +29,15 @@ export const usePaymentInformation = props => {
 
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
-        BILLING_ADDRESS_OPERATIONS,
         PAYMENT_METHODS_OPERATIONS,
         props.operations
     );
     const {
         getPaymentInformationQuery,
         getPaymentNonceQuery,
-        setBillingAddressMutation,
         setPaymentMethodOnCartMutation
     } = operations;
+    const { setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
 
     /**
      * Definitions
@@ -99,7 +98,7 @@ export const usePaymentInformation = props => {
         });
     }, [cartId, client, getPaymentNonceQuery]);
 
-    const [setBillingAddress] = useMutation(setBillingAddressMutation);
+    const { updateBillingAddress: setBillingAddress } = setBillingAddressFromAdapter();
 
     // We must wait for payment method to be set if this is the first time we
     // are hitting this component and the total is $0. If we don't wait then

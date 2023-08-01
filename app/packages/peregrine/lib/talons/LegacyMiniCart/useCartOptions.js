@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { appendOptionsToPayload } from '../../util/appendOptionsToPayload';
 import { isProductConfigurable } from '../../util/isProductConfigurable';
@@ -34,7 +34,7 @@ export const useCartOptions = props => {
     } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { createCartMutation, getCartDetailsQuery, removeItemFromCartMutation, updateCartItemsMutation } = operations;
+    const { removeItemFromCartMutation, updateCartItemsMutation } = operations;
 
     const { configurable_options: cartItemOptions, product, quantity: qty } = cartItem;
     const { name, price } = product;
@@ -44,12 +44,14 @@ export const useCartOptions = props => {
 
     const [, { updateItemInCart }] = useCartContext();
 
+    const { createCart, getCartDetails } = useAdapter();
+    const { fetchCartId } = createCart();
+    const { fetchCartDetails } = getCartDetails();
+
     const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
     const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
-    const [fetchCartId] = useMutation(createCartMutation);
     const [removeItem] = useMutation(removeItemFromCartMutation);
     const [updateItem] = useMutation(updateCartItemsMutation);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const initialOptionSelections = useMemo(() => {
         const result = new Map();
