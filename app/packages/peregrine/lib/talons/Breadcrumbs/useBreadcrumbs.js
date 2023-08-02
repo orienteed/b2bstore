@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 import useInternalLink from '../../hooks/useInternalLink';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { useAdapter } from '../../hooks/useAdapter';
@@ -33,9 +32,6 @@ const getPath = (path, suffix) => {
  */
 export const useBreadcrumbs = props => {
     const { categoryId } = props;
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getBreadcrumbsQuery } = operations;
 
     const { getBreadcrumbs } = useAdapter();
     const { data, loading, error } = getBreadcrumbs({ category_id: categoryId });

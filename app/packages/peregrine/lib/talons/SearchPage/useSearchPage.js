@@ -27,17 +27,18 @@ export const useSearchPage = (props = {}) => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const {
-        getProductFiltersBySearchQuery,
-        getAvailableSortMethodsBySearchQuery,
         getProductsDetailsBySearchQuery
     } = operations;
+    const {
+        getFilterInputs,
+        getAvailableSortMethodsBySearch,
+        getProductFiltersBySearch,
+        getProductsDetailsBySearch
+    } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const [getSortMethods, { data: sortData }] = useLazyQuery(getAvailableSortMethodsBySearchQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getSortMethods, data: sortData } = getAvailableSortMethodsBySearch();
 
     const [{ isSignedIn }] = useUserContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
@@ -89,7 +90,6 @@ export const useSearchPage = (props = {}) => {
     }, [toggleDrawer]);
 
     // Get "allowed" filters by intersection of schema and aggregations
-    const { getFilterInputs } = useAdapter();
     const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = getFilterInputs();
 
     // Create a type map we can reference later to ensure we pass valid args
@@ -111,13 +111,7 @@ export const useSearchPage = (props = {}) => {
         totalPages
     };
 
-    const [runQuery, { called: searchCalled, loading: searchLoading, error, data }] = useLazyQuery(
-        getProductsDetailsBySearchQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first'
-        }
-    );
+    const { runQuery, called: searchCalled, loading: searchLoading, error, data } = getProductsDetailsBySearch();
 
     const isBackgroundLoading = !!data && searchLoading;
 
@@ -230,10 +224,7 @@ export const useSearchPage = (props = {}) => {
     }, [inputText, getSortMethods]);
 
     // Fetch category filters for when a user is searching in a category.
-    const [getFilters, { data: filterData }] = useLazyQuery(getProductFiltersBySearchQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getFilters, data: filterData } = getProductFiltersBySearch();
 
     useEffect(() => {
         if (inputText) {

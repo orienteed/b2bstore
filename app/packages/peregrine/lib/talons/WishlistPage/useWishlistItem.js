@@ -2,10 +2,10 @@ import { useCallback, useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import mergeOperations from '../../util/shallowMerge';
 
 import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
@@ -49,12 +49,14 @@ export const useWishlistItem = props => {
         [props.supportedProductTypes, productType]
     );
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const {
-        addProductToCartMutation,
-        addConfigurableProductToCartMutation,
         removeProductsFromWishlistMutation
     } = operations;
+    const {
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
+        addProductToCart
+    } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
@@ -89,24 +91,19 @@ export const useWishlistItem = props => {
         return item;
     }, [configurableOptions, selectedConfigurableOptions, sku]);
 
-    const [addWishlistSimpleProductToCart] = useMutation(addConfigurableProductToCartMutation, {
-        variables: {
-            cartId,
-            quantity: 1.0,
-            sku: item.product.sku,
-            parentSku: item.product.orParentSku
-        }
+    const { addWishlistSimpleProductToCart } = addConfigurableProductToCartFromAdapter({
+        cartId: cartId,
+        quantity: 1.0,
+        sku: item.product.sku,
+        parentSku: item.product.orParentSku,
+        hasProps: true
     });
 
-    const [
+    const {
         addWishlistItemToCart,
-        { error: addWishlistItemToCartError, loading: addWishlistItemToCartLoading }
-    ] = useMutation(addProductToCartMutation, {
-        variables: {
-            cartId,
-            product: cartItem
-        }
-    });
+        error: addWishlistItemToCartError,
+        loading: addWishlistItemToCartLoading
+    } = addProductToCart({ cartId: cartId, product: cartItem, initialRun: true });
 
     const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
         update: cache => {
@@ -151,9 +148,9 @@ export const useWishlistItem = props => {
                 const selectedOptionsLabels =
                     selectedConfigurableOptions?.length > 0
                         ? selectedConfigurableOptions?.map(({ option_label, value_label }) => ({
-                              attribute: option_label,
-                              value: value_label
-                          }))
+                            attribute: option_label,
+                            value: value_label
+                        }))
                         : null;
 
                 dispatch({

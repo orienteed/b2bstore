@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
@@ -10,8 +10,6 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
 import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
-import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
@@ -109,22 +107,20 @@ export const useCreditCard = props => {
     const operations = mergeOperations(
         ADDRESS_BOOK_OPERATIONS,
         PAYMENT_INFORMATION_OPERATIONS,
-        PAYMENT_METHODS_OPERATIONS,
-        SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
 
     const {
         getCustomerAddressesQuery,
-        getPaymentNonceQuery,
-        getShippingInformationQuery,
-        setPaymentMethodOnCartMutation
+        getPaymentNonceQuery
     } = operations;
     const {
         getBillingAddress,
         getIsBillingAddressSame,
         setBillingAddress: setBillingAddressFromAdapter,
-        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter
+        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
+        setPaymentMethodOnCart,
+        getShippingInformation
     } = useAdapter();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
@@ -165,10 +161,7 @@ export const useCreditCard = props => {
     });
 
     const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
-    const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
     const { data: isBillingAddressSameData, getIsBillingAddressSameQuery } = getIsBillingAddressSame({ cartId: cartId });
     const {
         updateBillingAddress,
@@ -184,10 +177,12 @@ export const useCreditCard = props => {
         loading: defaultBillingAddressMutationLoading
     } = setDefaultBillingAddressFromAdapter();
 
-    const [
-        updateCCDetails,
-        { error: ccMutationError, called: ccMutationCalled, loading: ccMutationLoading }
-    ] = useMutation(setPaymentMethodOnCartMutation);
+    const {
+        fetch: updateCCDetails,
+        error: ccMutationError,
+        called: ccMutationCalled,
+        loading: ccMutationLoading
+    } = setPaymentMethodOnCart();
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart.shipping_addresses[0].country.code

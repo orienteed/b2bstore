@@ -1,12 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 
-import DEFAULT_OPERATIONS from './cmsDynamicBlock.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '../../hooks/useAdapter';
 
 export const flatten = cartData => {
@@ -68,9 +65,7 @@ export const flatten = cartData => {
 export const useCmsDynamicBlock = props => {
     const { locations, uids, type } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductDetailQuery } = operations;
-    const { getCmsDynamicBlocks, getSalesRulesData } = useAdapter();
+    const { getCmsDynamicBlocks, getSalesRulesData, getProductDetailForCmsDynamicBlockByUrlKey } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const { pathname } = useLocation();
@@ -82,12 +77,7 @@ export const useCmsDynamicBlock = props => {
     const productUrlSuffix = storeConfigData?.storeConfig?.product_url_suffix;
     const urlKey = productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
 
-    const { data: productData, loading: productDataLoading } = useQuery(getProductDetailQuery, {
-        skip: !storeConfigData,
-        variables: {
-            urlKey
-        }
-    });
+    const { data: productData, loading: productDataLoading } = getProductDetailForCmsDynamicBlockByUrlKey({ urlKey: urlKey, storeConfigData: storeConfigData });
 
     // @TODO: Update with uid when done in Product Root Component
     const products =

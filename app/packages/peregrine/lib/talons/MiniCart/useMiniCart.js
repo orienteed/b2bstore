@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '../../context/cart';
 import { useEventingContext } from '../../context/eventing';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { deriveErrorMessage } from '../../util/deriveErrorMessage';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import mergeOperations from '../../util/shallowMerge';
 
 import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
 
@@ -40,13 +36,11 @@ export const useMiniCart = props => {
     const [isSubmitQuoteDisabled, setIsSubmitQuoteDisabled] = useState(false);
     const { handleAddCofigItemBySku } = useAddToQuote();
 
-    const operations = mergeOperations(CART_OPERATIONS);
-    const { removeItemFromCartMutation } = operations;
+    const { getMiniCart, removeItemFromCart } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const history = useHistory();
 
-    const { getMiniCart } = useAdapter();
     const { data: miniCartData, loading: miniCartLoading } = getMiniCart({ cartId: cartId });
 
     const { data: storeConfigData } = useStoreConfigContext();
@@ -63,9 +57,12 @@ export const useMiniCart = props => {
         }
     }, [storeConfigData]);
 
-    const [removeItem, { loading: removeItemLoading, called: removeItemCalled, error: removeItemError }] = useMutation(
-        removeItemFromCartMutation
-    );
+    const {
+        removeItem,
+        loading: removeItemLoading,
+        called: removeItemCalled,
+        error: removeItemError
+    } = removeItemFromCart();
 
     const totalQuantity = useMemo(() => {
         if (!miniCartLoading && miniCartData) {

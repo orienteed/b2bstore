@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '../../../../context/cart';
-
-import DEFAULT_OPERATIONS from './shippingMethods.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * Contains logic for a shipping method selector component.
@@ -24,20 +21,12 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  * @example <caption>Importing into your project</caption>
  * import { useShippingMethods } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingMethods';
  */
-export const useShippingMethods = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getShippingMethodsQuery } = operations;
+export const useShippingMethods = () => {
+    const { getShippingMethods } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
-    const { data } = useQuery(getShippingMethodsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
+    const { data } = getShippingMethods({ cartId: cartId });
 
     const [isShowingForm, setIsShowingForm] = useState(false);
     const showForm = useCallback(() => setIsShowingForm(true), []);

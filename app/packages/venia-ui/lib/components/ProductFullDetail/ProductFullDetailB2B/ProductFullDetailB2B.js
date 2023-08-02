@@ -19,23 +19,19 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { AlertTriangle, Eye } from 'react-feather';
 import { useToasts } from '@magento/peregrine';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const previewIcon = <Icon src={Eye} size={20} />;
 const OfflineIcon = <Icon src={AlertTriangle} attrs={{ width: 18 }} />;
 
-import CATEGORY_OPERATIONS from '@magento/peregrine/lib/talons/RootComponents/Category/categoryContent.gql.js';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 import AvailableStore from '../../StoreLocator/AvailableStore';
-import { useLazyQuery } from '@apollo/client';
 import Breadcrumbs from '../../Breadcrumbs';
 import Pagination from '../../Pagination';
 
 const ProductFullDetailB2B = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
-    const operations = mergeOperations(CATEGORY_OPERATIONS, props.operations);
-    const { getProductItemsFilteredByCategoryQuery } = operations;
+    const { getProductItemsFilteredByCategory } = useAdapter();
 
     const { cmsBlocks } = useCmsBlock({
         cmsBlockIdentifiers: ['warranties-block', 'recommended-product-block']
@@ -153,10 +149,7 @@ const ProductFullDetailB2B = props => {
         });
     };
 
-    const [getFilters, { data: filterData }] = useLazyQuery(getProductItemsFilteredByCategoryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getFilters, data: filterData } = getProductItemsFilteredByCategory();
 
     useEffect(() => {
         if (product.categories) {

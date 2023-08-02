@@ -1,14 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { appendOptionsToPayload } from '../../util/appendOptionsToPayload';
 import { isProductConfigurable } from '../../util/isProductConfigurable';
-
-import DEFAULT_OPERATIONS from '../CartPage/cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 const isItemMissingOptions = (cartItem, configItem, numSelections) => {
     // Non-configurable products can't be missing options
@@ -26,15 +22,14 @@ const isItemMissingOptions = (cartItem, configItem, numSelections) => {
 
 export const useCartOptions = props => {
     const {
-        addConfigurableProductToCartMutation,
-        addSimpleProductToCartMutation,
+        addConfigurableProductToCartFromAdapter,
+        addSimpleProductToCartFromAdapter,
         cartItem,
         configItem,
         endEditItem
     } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation, updateCartItemsMutation } = operations;
+    const { createCart, getCartDetails, removeItemFromCart, updateCartItems } = useAdapter();
 
     const { configurable_options: cartItemOptions, product, quantity: qty } = cartItem;
     const { name, price } = product;
@@ -44,14 +39,13 @@ export const useCartOptions = props => {
 
     const [, { updateItemInCart }] = useCartContext();
 
-    const { createCart, getCartDetails } = useAdapter();
     const { fetchCartId } = createCart();
     const { fetchCartDetails } = getCartDetails();
 
-    const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
-    const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
-    const [removeItem] = useMutation(removeItemFromCartMutation);
-    const [updateItem] = useMutation(updateCartItemsMutation);
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
+    const { addSimpleProductToCart } = addSimpleProductToCartFromAdapter();
+    const { removeItem } = removeItemFromCart();
+    const { updateItemQuantity: updateItem } = updateCartItems();
 
     const initialOptionSelections = useMemo(() => {
         const result = new Map();

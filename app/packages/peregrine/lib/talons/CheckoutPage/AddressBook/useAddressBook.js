@@ -1,20 +1,21 @@
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
 import { useUserContext } from '../../../context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 
 export const useAddressBook = props => {
     const { toggleActiveContent, onSuccess } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, SHIPPING_INFORMATION_OPERATIONS, props.operations);
-    const { getCustomerAddressesQuery, getCustomerCartAddressQuery, setDefaultAddressIdOnCartMutation } = operations;
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { getCustomerAddressesQuery, getCustomerCartAddressQuery } = operations;
+    const { setCustomerAddressIdOnCart } = useAdapter();
 
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
@@ -24,14 +25,11 @@ export const useAddressBook = props => {
     const [activeAddress, setActiveAddress] = useState();
     const [selectedAddress, setSelectedAddress] = useState();
 
-    const [
+    const {
         setCustomerAddressOnCart,
-        { error: setCustomerAddressOnCartError, loading: setCustomerAddressOnCartLoading }
-    ] = useMutation(setDefaultAddressIdOnCartMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: setCustomerAddressOnCartError,
+        loading: setCustomerAddressOnCartLoading
+    } = setCustomerAddressIdOnCart({ onSuccess: onSuccess, hasOnSuccess: true });
 
     const { data: customerAddressesData, loading: customerAddressesLoading } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',

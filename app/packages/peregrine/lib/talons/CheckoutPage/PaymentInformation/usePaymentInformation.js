@@ -1,8 +1,7 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from './paymentInformation.gql';
-import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useCartContext } from '../../../context/cart';
@@ -29,15 +28,16 @@ export const usePaymentInformation = props => {
 
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
-        PAYMENT_METHODS_OPERATIONS,
         props.operations
     );
     const {
-        getPaymentInformationQuery,
-        getPaymentNonceQuery,
-        setPaymentMethodOnCartMutation
+        getPaymentNonceQuery
     } = operations;
-    const { setBillingAddress: setBillingAddressFromAdapter } = useAdapter();
+    const {
+        setBillingAddress: setBillingAddressFromAdapter,
+        getPaymentInformation,
+        setPaymentMethodOnCart
+    } = useAdapter();
 
     /**
      * Definitions
@@ -74,16 +74,12 @@ export const usePaymentInformation = props => {
     /**
      * Queries
      */
-    const { data: paymentInformationData, loading: paymentInformationLoading } = useQuery(getPaymentInformationQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const {
+        data: paymentInformationData,
+        loading: paymentInformationLoading
+    } = getPaymentInformation({ cartId: cartId });
 
-    const [setFreePaymentMethod, { loading: setFreePaymentMethodLoading }] = useMutation(
-        setPaymentMethodOnCartMutation
-    );
+    const { fetch: setFreePaymentMethod, loading: setFreePaymentMethodLoading } = setPaymentMethodOnCart();
 
     const clearPaymentDetails = useCallback(() => {
         client.writeQuery({

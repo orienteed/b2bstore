@@ -8,15 +8,17 @@ import createTicket from '../../RestApi/Csr/tickets/createTicket';
 
 import DEFAULT_OPERATIONS from './createTicketModal.gql';
 import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useCreateTicketModal = props => {
     const { orderBy, setTicketModal, setTickets, setTicketCount, setErrorToast, setSuccessToast } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCustomerOrdersForCsrQuery, getImageBySkuQuery } = operations;
+    const { getCustomerOrdersForCsrQuery } = operations;
+    const { getImageBySku } = useAdapter();
 
     const fetchCustomerOrders = useAwaitQuery(getCustomerOrdersForCsrQuery);
-    const fetchProductImage = useAwaitQuery(getImageBySkuQuery);
+    const { fetchProductImage } = getImageBySku();
     const { formatMessage, locale } = useIntl();
 
     // Translations

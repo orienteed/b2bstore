@@ -1,27 +1,24 @@
 import { useCallback } from 'react';
 
-import { useMutation } from '@apollo/client';
-
 import Papa from 'papaparse';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 export const useQuickOrderForm = props => {
     const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen, setProducts, success } = props;
 
-    const operations = mergeOperations(PRODUCT_OPERATIONS, props.operations);
-    const { addConfigurableProductToCartMutation } = operations;
-    const { getProductDetailForQuickOrderBySku, getParentSkuBySku } = useAdapter();
+    const {
+        getProductDetailForQuickOrderBySku,
+        getParentSkuBySku,
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter
+    } = useAdapter();
     const { getproduct } = getProductDetailForQuickOrderBySku();
     const { getParentSku } = getParentSkuBySku();
 
     const [{ cartId }] = useCartContext();
 
-    const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
     const handleCSVFile = () => {
         const input = document.createElement('input');
@@ -42,7 +39,7 @@ export const useQuickOrderForm = props => {
             setIsCsvDialogOpen(true);
         } else {
             Papa.parse(file, {
-                complete: function(result) {
+                complete: function (result) {
                     const dataValidated = formatData(result.data);
                     setProducts([]);
                     dataValidated.map(async item => {

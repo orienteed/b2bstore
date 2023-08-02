@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
-
-import DEFAULT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql.js';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useEditItem = props => {
     const { item } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductDetailForConfigurableOptionsBySkuQuery } = operations;
+    const { getProductDetailForConfigurableOptionsBySku } = useAdapter();
 
-    const [runQuery, queryResult] = useLazyQuery(getProductDetailForConfigurableOptionsBySkuQuery);
+    const { runQuery, queryResult } = getProductDetailForConfigurableOptionsBySku({ isLazy: true });
     const { data, error, loading } = queryResult;
 
     const itemHasOptions = item.configurable_options && item.configurable_options.length > 0;
