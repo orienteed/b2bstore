@@ -13,6 +13,7 @@ import DEFAULT_OPERATIONS from './category.gql';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../../context/modulesProvider';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
  * controls the logic for the Category Root Component.
@@ -37,10 +38,11 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 export const useCategory = props => {
     const { id } = props;
 
+    const { tenantConfig } = useModulesContext();
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getCategoryQuery, getFilterInputsQuery } = operations;
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
 
     const [paginationValues, paginationApi] = usePagination();
@@ -132,10 +134,11 @@ export const useCategory = props => {
                 id: id,
                 filters: newFilters,
                 pageSize: Number(pageSize),
-                sort: { [currentSort.sortAttribute]: currentSort.sortDirection }
+                sort: { [currentSort.sortAttribute]: currentSort.sortDirection },
+                includeProductAlert: tenantConfig?.productAlertEnabled
             }
         });
-    }, [currentPage, currentSort, filterTypeMap, id, pageSize, runQuery, search, isSignedIn]);
+    }, [currentPage, currentSort, filterTypeMap, id, pageSize, runQuery, search, isSignedIn, tenantConfig]);
 
     const totalPagesFromData = data ? data.products.page_info.total_pages : null;
 

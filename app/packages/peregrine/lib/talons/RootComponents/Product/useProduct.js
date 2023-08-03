@@ -11,6 +11,7 @@ import DEFAULT_OPERATIONS from './product.gql';
 import { useEventingContext } from '../../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../../context/modulesProvider';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
  * controls the logic for the Product Root Component.
@@ -29,6 +30,8 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  */
 export const useProduct = props => {
     const { mapProduct } = props;
+
+    const { tenantConfig } = useModulesContext();
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getProductDetailQuery } = operations;
@@ -53,7 +56,9 @@ export const useProduct = props => {
         nextFetchPolicy: 'cache-first',
         skip: !storeConfigData,
         variables: {
-            urlKey
+            urlKey,
+            includeProductAlert: tenantConfig?.productAlertEnabled,
+            includeProductAttachment:tenantConfig?.productAttachmentEnabled
         }
     });
 

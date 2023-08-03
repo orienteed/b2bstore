@@ -3,19 +3,27 @@ import getTenantConfig from '../../RestApi/Configuration/getTenantConfig';
 
 export const useModules = () => {
     const [tenantConfig, setTenantConfig] = useState({});
-    const [error, setError] = useState(null);
+    const [, setError] = useState(null);
 
     class TenantConfig {
         constructor(tenantConfig) {
             this.lmsEnabled = Boolean(tenantConfig.lms?.ENABLED === 'true' || tenantConfig.lms?.ENABLED === true);
             this.csrEnabled = Boolean(tenantConfig.csr?.ENABLED === 'true' || tenantConfig.csr?.ENABLED === true);
-            this.chatbotEnabled = Boolean(tenantConfig.chatbot?.ENABLED === 'true' || tenantConfig.chatbot?.ENABLED === true);
+            this.chatbotEnabled = Boolean(
+                tenantConfig.chatbot?.ENABLED === 'true' || tenantConfig.chatbot?.ENABLED === true
+            );
             this.braintreeToken = tenantConfig.braintree?.CHECKOUT_BRAINTREE_TOKEN;
             this.googleAnalyticsTrackingId = tenantConfig.googleAnalytics?.GOOGLE_ANALYTICS_TRACKING_ID;
             this.b2bProductDetailView = Boolean(
                 tenantConfig.b2b?.IS_B2B === 'true' || tenantConfig.b2b?.IS_B2B === true
-                );
+            );
             this.GoogleMapApiKey = tenantConfig.googleMap?.GOOGLE_MAPS_API_KEY;
+            this.productAlertEnabled = Boolean(
+                tenantConfig.productAlert?.ENABLED === 'true' || tenantConfig.productAlert?.ENABLED === true
+            );
+            this.productAttachmentEnabled = Boolean(
+                tenantConfig.productAttachment?.ENABLED === 'true' || tenantConfig.productAttachment?.ENABLED === true
+            );
         }
     }
 
@@ -39,8 +47,14 @@ export const useModules = () => {
             b2b: {
                 IS_B2B: process.env.IS_B2B
             },
-            googleMap:{
+            googleMap: {
                 GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY
+            },
+            productAlert: {
+                ENABLED: process.env.PRODUCT_ALERT
+            },
+            productAttachment: {
+                ENABLED: process.env.PRODUCT_ATTACHMENT
             }
         };
 

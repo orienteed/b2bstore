@@ -1,10 +1,14 @@
 import { gql } from '@apollo/client';
 
 export const GET_SIMPLE_PRODUCT = gql`
-    query GetSimpleProduct($sku: String!) {
+    query GetSimpleProduct(
+        $sku: String!
+        $includeProductAlert: Boolean = false
+        $includeProductAttachment: Boolean = false
+    ) {
         products(search: $sku, filter: { sku: { eq: $sku } }) {
             items {
-                mp_attachments {
+                mp_attachments @include(if: $includeProductAttachment) {
                     file_icon
                     file_label
                     file_name
@@ -18,7 +22,7 @@ export const GET_SIMPLE_PRODUCT = gql`
                     url_file
                     __typename
                 }
-                mp_product_alert {
+                mp_product_alert @include(if: $includeProductAlert) {
                     mp_productalerts_price_alert
                     mp_productalerts_stock_notify
                 }

@@ -24,9 +24,14 @@ export const GET_PRODUCTS_DETAILS_BY_SEARCH = gql`
         $pageSize: Int = 6
         $filters: ProductAttributeFilterInput!
         $sort: ProductAttributeSortInput
+        $includeProductAlert: Boolean = false
     ) {
         products(currentPage: $currentPage, pageSize: $pageSize, search: $inputText, filter: $filters, sort: $sort) {
             items {
+                mp_product_alert @include(if: $includeProductAlert) {
+                    mp_productalerts_price_alert
+                    mp_productalerts_stock_notify
+                }
                 id
                 uid
                 name
@@ -92,6 +97,10 @@ export const GET_PRODUCTS_DETAILS_BY_SEARCH = gql`
                             value_index
                         }
                         product {
+                            mp_product_alert @include(if: $includeProductAlert) {
+                                mp_productalerts_price_alert
+                                mp_productalerts_stock_notify
+                            }
                             stock_status
                             uid
                             name

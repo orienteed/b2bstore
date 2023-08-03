@@ -2,25 +2,7 @@ import { gql } from '@apollo/client';
 
 export const ProductDetailsFragment = gql`
     fragment ProductDetailsFragment on ProductInterface {
-        mp_attachments {
-            file_icon
-            file_label
-            file_name
-            file_size
-            group {
-                name
-                position
-                value
-            }
-            note
-            url_file
-            __typename
-        }
         __typename
-        mp_product_alert {
-            mp_productalerts_price_alert
-            mp_productalerts_stock_notify
-        }
         # eslint-disable-next-line @graphql-eslint/require-id-when-available
         # mp_pickup_locations {
         #     productStock
@@ -143,10 +125,6 @@ export const ProductDetailsFragment = gql`
                 product {
                     uid
                     name
-                    mp_product_alert {
-                        mp_productalerts_price_alert
-                        mp_productalerts_stock_notify
-                    }
                     # eslint-disable-next-line @graphql-eslint/require-id-when-available
                     media_gallery_entries {
                         uid

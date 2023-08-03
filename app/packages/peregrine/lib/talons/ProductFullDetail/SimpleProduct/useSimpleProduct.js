@@ -30,7 +30,11 @@ export const useSimpleProduct = (props = {}) => {
     const isB2B = tenantConfig.b2bProductDetailView;
 
     const { data, loading, error } = useQuery(getSimpleProductQuery, {
-        variables: { sku: sku }
+        variables: {
+            sku: sku,
+            includeProductAlert: tenantConfig?.productAlertEnabled,
+            includeProductAttachment: tenantConfig?.productAttachmentEnabled
+        }
     });
 
     const { data: storeConfigData, refetch } = useStoreConfigContext();
