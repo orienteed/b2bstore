@@ -1,7 +1,7 @@
 import { useCallback, useState, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
@@ -25,7 +25,8 @@ export const useActionMenu = (props = {}) => {
     const { id } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCustomerWishlistQuery, updateWishlistMutation } = operations;
+    const { getCustomerWishlistQuery } = operations;
+    const { updateWishlist: updateWishlistFromAdapter } = useAdapter();
 
     const [currentDialog, setCurrentDialog] = useState(dialogs.NONE);
     const [displayError, setDisplayError] = useState(false);
@@ -46,11 +47,9 @@ export const useActionMenu = (props = {}) => {
         setCurrentDialog(dialogs.EDIT_WISHLIST);
     }, []);
 
-    const [updateWishlist, { error: updateWishlistErrors, loading: isEditInProgress }] = useMutation(
-        updateWishlistMutation
-    );
+    const { updateWishlist, error: updateWishlistErrors, loading: isEditInProgress } = updateWishlistFromAdapter();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const shouldRender = useMemo(() => {
         let multipleWishlistEnabled = false;

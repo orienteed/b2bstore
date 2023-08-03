@@ -45,6 +45,7 @@ export const MOCKED_ADDRESS = {
  */
 export const useShippingForm = props => {
     const { getShippingMethods, setShippingAddress: setShippingAddressFromAdapter } = useAdapter();
+    
     const { getShippingMethodsQuery } = getShippingMethods();
     const { selectedValues, setIsCartUpdating } = props;
 

@@ -1,11 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-import mergeOperations from '../../util/shallowMerge';
 
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
 import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
@@ -49,13 +46,10 @@ export const useWishlistItem = props => {
         [props.supportedProductTypes, productType]
     );
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {
-        removeProductsFromWishlistMutation
-    } = operations;
     const {
         addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
-        addProductToCart
+        addProductToCart,
+        removeProductsFromWishlist: removeProductsFromWishlistFromAdapter
     } = useAdapter();
 
     const [{ cartId }] = useCartContext();
@@ -105,35 +99,12 @@ export const useWishlistItem = props => {
         loading: addWishlistItemToCartLoading
     } = addProductToCart({ cartId: cartId, product: cartItem, initialRun: true });
 
-    const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
-        update: cache => {
-            // clean up for cache fav product on category page
-            cache.modify({
-                id: 'ROOT_QUERY',
-                fields: {
-                    customerWishlistProducts: cachedProducts => cachedProducts.filter(productSku => productSku !== sku)
-                }
-            });
-
-            cache.modify({
-                id: `CustomerWishlist:${wishlistId}`,
-                fields: {
-                    items_v2: (cachedItems, { readField, Remove }) => {
-                        for (let i = 0; i < cachedItems.items.length; i++) {
-                            if (readField('id', item) === itemId) {
-                                return Remove;
-                            }
-                        }
-
-                        return cachedItems;
-                    }
-                }
-            });
-        },
-        variables: {
-            wishlistId: wishlistId,
-            wishlistItemsId: [itemId]
-        }
+    const { removeProductsFromWishlist } = removeProductsFromWishlistFromAdapter({
+        wishlistId: wishlistId,
+        wishlistItemsId: [itemId],
+        item: item,
+        sku: sku,
+        isFromUse: true
     });
 
     const handleAddToCart = useCallback(async () => {

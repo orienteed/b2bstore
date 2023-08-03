@@ -1,9 +1,6 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { useApolloClient } from '@apollo/client';
 
-import DEFAULT_OPERATIONS from './paymentInformation.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 import { useCartContext } from '../../../context/cart';
 import CheckoutError from '../CheckoutError';
 import { useEventingContext } from '../../../context/eventing';
@@ -26,18 +23,14 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter'
 export const usePaymentInformation = props => {
     const { onSave, checkoutError, resetShouldSubmit, setCheckoutStep, shouldSubmit } = props;
 
-    const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
-        props.operations
-    );
-    const {
-        getPaymentNonceQuery
-    } = operations;
     const {
         setBillingAddress: setBillingAddressFromAdapter,
         getPaymentInformation,
-        setPaymentMethodOnCart
+        setPaymentMethodOnCart,
+        getPaymentNonce
     } = useAdapter();
+
+    const { getPaymentNonceQuery } = getPaymentNonce();
 
     /**
      * Definitions

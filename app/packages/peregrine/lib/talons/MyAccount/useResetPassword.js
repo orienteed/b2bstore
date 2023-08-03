@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
 
@@ -19,13 +18,13 @@ import { useModulesContext } from '../../context/modulesProvider';
  * import { useResetPassword } from '@magento/peregrine/lib/talons/MyAccount/useResetPassword.js';
  */
 export const useResetPassword = props => {
-    const { mutations } = props;
+    const { resetPasswordFromAdapter } = props;
 
     const { tenantConfig } = useModulesContext();
 
     const [hasCompleted, setHasCompleted] = useState(false);
     const location = useLocation();
-    const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(mutations.resetPasswordMutation);
+    const { resetPassword, error: resetPasswordErrors, loading } = resetPasswordFromAdapter();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_FORGOT_PASSWORD',

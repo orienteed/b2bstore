@@ -1,9 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
-import DEFAULT_OPERATIONS from './savedCarts.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '../../hooks/useAdapter';
 
 /**
@@ -16,34 +13,20 @@ import { useAdapter } from '../../hooks/useAdapter';
 export const useSavedCartsTable = props => {
     const { handleIsLoading, getSavedCarts } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { restoreSavedCartsMutation, deleteSavedCartsMutation } = operations;
-
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [token, setToken] = useState();
 
     const [{ cartId }, { getCartDetails }] = useCartContext();
 
-    const { getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const { getCartDetails: getCartDetailsFromAdapter, deleteSavedCarts, restoreSavedCarts } = useAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     // Restore Cart
-    const [restoreSaveCart] = useMutation(restoreSavedCartsMutation, {
-        fetchPolicy: 'no-cache',
-        variables: {
-            token: token,
-            cartId: cartId
-        }
-    });
+    const { restoreSaveCart } = restoreSavedCarts({ token: token, cartId: cartId });
 
     // Delete save cart
-    const [deleteSaveCart] = useMutation(deleteSavedCartsMutation, {
-        fetchPolicy: 'no-cache',
-        variables: {
-            token: token
-        }
-    });
+    const { deleteSaveCart } = deleteSavedCarts({ token: token });
 
     const handleContentToggle = useCallback(() => {
         setIsOpen(currentValue => !currentValue);

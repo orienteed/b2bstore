@@ -1,10 +1,7 @@
 import { useCallback, useState, useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
-
-import DEFAULT_OPERATIONS from './orderRow.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @function
@@ -19,20 +16,14 @@ export const useOrderRow = props => {
     const [ticketModal, setTicketModal] = useState(false);
 
     const { items } = props;
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductThumbnailsQuery } = operations;
+
+    const { getProductThumbnailsByUrlKey } = useAdapter();
 
     const urlKeys = useMemo(() => {
         return items.map(item => item.product_url_key).sort();
     }, [items]);
 
-    const { data, loading } = useQuery(getProductThumbnailsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: {
-            urlKeys
-        }
-    });
+    const { data, loading } = getProductThumbnailsByUrlKey({ urlKeys: urlKeys });
 
     const { data: storeConfigData } = useStoreConfigContext();
 

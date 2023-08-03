@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
 import { getOutOfStockVariantsWithInitialSelection } from '@magento/peregrine/lib/util/getOutOfStockVariantsWithInitialSelection';
@@ -7,9 +6,6 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useEventingContext } from '@magento/peregrine/lib/context/eventing';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import DEFAULT_OPERATIONS from '../../../ProductFullDetail/productFullDetail.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 /**
  * This talon contains logic for a product edit form.
@@ -49,12 +45,7 @@ function deriveOptionSelectionsFromProduct(cartItem) {
 }
 
 export const useProductForm = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-
-    const {
-        updateConfigurableOptionsMutation
-    } = operations;
-    const { updateCartItems, getProductDetailForConfigurableOptionsBySku } = useAdapter();
+    const { updateCartItems, getProductDetailForConfigurableOptionsBySku, updateConfigurableOptions: updateConfigurableOptionsFromAdapter } = useAdapter();
 
     const { cartItem, setIsCartUpdating, setVariantPrice, setActiveEditItem } = props;
 
@@ -91,10 +82,11 @@ export const useProductForm = props => {
         loading: updateQuantityLoading
     } = updateCartItems();
 
-    const [
-        updateConfigurableOptions,
-        { called: updateConfigurableCalled, error: updateConfigurableError, loading: updateConfigurableLoading }
-    ] = useMutation(updateConfigurableOptionsMutation);
+    const { updateConfigurableOptions,
+        called: updateConfigurableCalled,
+        error: updateConfigurableError,
+        loading: updateConfigurableLoading
+    } = updateConfigurableOptionsFromAdapter();
 
     const isSaving =
         (updateQuantityCalled && updateQuantityLoading) || (updateConfigurableCalled && updateConfigurableLoading);

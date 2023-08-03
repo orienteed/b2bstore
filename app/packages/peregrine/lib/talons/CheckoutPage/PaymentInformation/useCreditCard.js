@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
 
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
@@ -104,24 +100,18 @@ export const getDefaultBillingAddress = customerAddressesData => {
 export const useCreditCard = props => {
     const { onSuccess, onReady, onError, shouldSubmit, resetShouldSubmit } = props;
 
-    const operations = mergeOperations(
-        ADDRESS_BOOK_OPERATIONS,
-        PAYMENT_INFORMATION_OPERATIONS,
-        props.operations
-    );
-
-    const {
-        getCustomerAddressesQuery,
-        getPaymentNonceQuery
-    } = operations;
     const {
         getBillingAddress,
         getIsBillingAddressSame,
         setBillingAddress: setBillingAddressFromAdapter,
         setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
         setPaymentMethodOnCart,
-        getShippingInformation
+        getShippingInformation,
+        getCustomerAddressesForAddressBook,
+        getPaymentNonce
     } = useAdapter();
+
+    const { getPaymentNonceQuery } = getPaymentNonce();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'BRAINTREE',
@@ -155,10 +145,7 @@ export const useCreditCard = props => {
 
     const isLoading = isDropinLoading || recaptchaLoading || (stepNumber >= 1 && stepNumber <= 3);
 
-    const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
+    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
     const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });

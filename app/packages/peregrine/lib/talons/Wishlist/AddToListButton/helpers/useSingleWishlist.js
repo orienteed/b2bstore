@@ -1,27 +1,26 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation, useQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import DEFAULT_OPERATIONS from '../../wishlist.gql';
 
 export const useSingleWishlist = props => {
     const { afterAdd, beforeAdd, item } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addProductToWishlistMutation, getProductsInWishlistsQuery } = operations;
+    const { addProductToWishlist: addProductToWishlistFromAdapter, getProductsInWishlists } = useAdapter();
 
-    const [
+    const {
         addProductToWishlist,
-        { data: addProductData, error: errorAddingProduct, loading: isAddingToWishlist }
-    ] = useMutation(addProductToWishlistMutation);
+        data: addProductData,
+        error: errorAddingProduct,
+        loading: isAddingToWishlist
+    } = addProductToWishlistFromAdapter();
 
     const {
         client,
-        data: { customerWishlistProducts }
-    } = useQuery(getProductsInWishlistsQuery);
+        data: { customerWishlistProducts },
+        getProductsInWishlistsQuery
+    } = getProductsInWishlists();
 
     const isSelected = useMemo(() => {
         return customerWishlistProducts.includes(item.sku) || isAddingToWishlist;

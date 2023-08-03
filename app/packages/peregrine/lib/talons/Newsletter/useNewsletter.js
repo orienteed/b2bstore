@@ -1,12 +1,9 @@
 import { useCallback, useRef, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './newsletter.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 
-export const useNewsletter = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { subscribeToNewsletterMutation } = operations;
+export const useNewsletter = () => {
+    const { subscribeToNewsletter } = useAdapter();
 
     const formApiRef = useRef(null);
 
@@ -14,12 +11,9 @@ export const useNewsletter = (props = {}) => {
 
     const clearErrors = () => setNewsLetterError(null);
 
-    const [subscribeNewsLetter, { data, loading: subscribeLoading }] = useMutation(subscribeToNewsletterMutation, {
-        fetchPolicy: 'no-cache',
-        onError: setNewsLetterError
-    });
+    const { subscribeNewsLetter, data, loading: subscribeLoading } = subscribeToNewsletter({ setNewsLetterError: setNewsLetterError });
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const isEnabled = useMemo(() => {
         return !!storeConfigData?.storeConfig?.newsletter_enabled;

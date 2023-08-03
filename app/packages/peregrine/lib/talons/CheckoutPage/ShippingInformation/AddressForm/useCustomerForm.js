@@ -1,53 +1,35 @@
 import { useCallback, useMemo } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 
 import { useEventingContext } from '../../../../context/eventing';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import SHIPPING_INFORMATION_OPERATIONS from '../shippingInformation.gql';
-import ADDRESS_BOOK_OPERATIONS from '../../../AddressBookPage/addressBookPage.gql';
-import ACCOUNT_OPERATIONS from '../../../AccountInformationPage/accountInformationPage.gql';
-
 export const useCustomerForm = props => {
     const { afterSubmit, onCancel, onSuccess, shippingData } = props;
 
-    const operations = mergeOperations(
-        ACCOUNT_OPERATIONS,
-        ADDRESS_BOOK_OPERATIONS,
-        SHIPPING_INFORMATION_OPERATIONS,
-        props.operations
-    );
-
     const {
-        createCustomerAddressMutation,
-        updateCustomerAddressMutation,
-        getCustomerInformationQuery,
-        getCustomerAddressesQuery
-    } = operations;
-    const { getDefaultShipping } = useAdapter();
+        getDefaultShipping,
+        addNewCustomerAddressToAddressBook,
+        getCustomerAddressesForAddressBook,
+        updateCustomerAddressInAddressBook,
+        getCustomerInformation
+    } = useAdapter();
 
     const { getDefaultShippingQuery } = getDefaultShipping();
+    const { getCustomerAddressesQuery } = getCustomerAddressesForAddressBook();
 
-    const [
+    const {
         createCustomerAddress,
-        { error: createCustomerAddressError, loading: createCustomerAddressLoading }
-    ] = useMutation(createCustomerAddressMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: createCustomerAddressError,
+        loading: createCustomerAddressLoading
+    } = addNewCustomerAddressToAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
 
-    const [
+    const {
         updateCustomerAddress,
-        { error: updateCustomerAddressError, loading: updateCustomerAddressLoading }
-    ] = useMutation(updateCustomerAddressMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: updateCustomerAddressError,
+        loading: updateCustomerAddressLoading
+    } = updateCustomerAddressInAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
 
-    const { data: customerData, loading: getCustomerLoading } = useQuery(getCustomerInformationQuery);
+    const { data: customerData, loading: getCustomerLoading } = getCustomerInformation();
 
     const isSaving = createCustomerAddressLoading || updateCustomerAddressLoading;
 

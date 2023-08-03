@@ -1,14 +1,11 @@
 import React, { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import actions from '../store/actions/cart/actions';
 import * as asyncActions from '../store/actions/cart/asyncActions';
 import bindActionCreators from '../util/bindActionCreators';
 import { useEventListener } from '../hooks/useEventListener';
 import BrowserPersistence from '../util/simplePersistence';
-import DEFAULT_OPERATIONS from '../talons/CartPage/cartPage.gql';
-import mergeOperations from '../util/shallowMerge';
 
 const CartContext = createContext();
 
@@ -18,7 +15,6 @@ const getTotalQuantity = items => items.reduce((total, item) => total + item.qua
 
 const CartContextProvider = props => {
     const { actions, asyncActions, cartState, children } = props;
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
 
     // Make deeply nested details easier to retrieve and provide empty defaults
     const derivedDetails = useMemo(() => {
@@ -55,12 +51,11 @@ const CartContextProvider = props => {
         return [derivedCartState, cartApi];
     }, [cartApi, cartState, derivedDetails]);
 
-    const { IsUserAuthedQuery } = operations;
+    const { createCart, isUserAuthed } = useAdapter();
 
-    const { createCart } = useAdapter();
     const { fetchCartId } = createCart();
 
-    const fetchIsUserAuthed = useAwaitQuery(IsUserAuthedQuery);
+    const { fetchIsUserAuthed } = isUserAuthed();
 
     // Storage listener to force a state update if cartId changes from another browser tab.
     const storageListener = useCallback(() => {

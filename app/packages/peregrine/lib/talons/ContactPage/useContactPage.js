@@ -1,26 +1,19 @@
 import { useCallback, useRef, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './contactUs.gql';
 import { useAdapter } from '../../hooks/useAdapter';
 
 export default props => {
     const { cmsBlockIdentifiers = [] } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { submitContactFormMutation } = operations;
+    const { getCmsBlocks, submitContactForm } = useAdapter();
 
     const formApiRef = useRef(null);
 
-    const [submitForm, { data, error: contactError, loading: submitLoading }] = useMutation(submitContactFormMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    const { submitForm, data, error: contactError, loading: submitLoading } = submitContactForm();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const { getCmsBlocks } = useAdapter();
     const { data: cmsBlocksData, loading: cmsBlocksLoading } = getCmsBlocks({
         identifiers: cmsBlockIdentifiers
     });

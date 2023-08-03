@@ -6,7 +6,6 @@ import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useToasts } from '../../Toasts';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import deliveryDateOpration from '../CheckoutPage/DeliveryDate/deliveryDate.gql';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 
 import DEFAULT_OPERATIONS from './productsAlerts.gql';
@@ -25,7 +24,7 @@ export const useProductsAlert = props => {
         SUBMIT_DELETE_ALERT,
         GET_CONFIG_ALERTS,
         GET_LOCALE
-    } = mergeOperations(DEFAULT_OPERATIONS, deliveryDateOpration);
+    } = mergeOperations(DEFAULT_OPERATIONS);
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
     const formApiRef = useRef(null);

@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useLazyQuery } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { usePagination } from '../../hooks/usePagination';
 import { useScrollTopOnChange } from '../../hooks/useScrollTopOnChange';
@@ -12,7 +10,6 @@ import { getFiltersFromSearch, getFilterInput } from '../FilterModal/helpers';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { useAdapter } from '../../hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from './searchPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -24,11 +21,7 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  */
 export const useSearchPage = (props = {}) => {
     const [, { dispatch }] = useEventingContext();
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const {
-        getProductsDetailsBySearchQuery
-    } = operations;
     const {
         getFilterInputs,
         getAvailableSortMethodsBySearch,

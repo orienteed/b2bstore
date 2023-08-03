@@ -1,17 +1,13 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 import { useUserContext } from '../../context/user';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../context/eventing';
 import { useAppContext } from '../../context/app';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../../talons/CommunicationsPage/communicationsPage.gql.js';
-import ACCOUNT_OPERATIONS from './accountInformationPage.gql';
-import ADDRESS_BOOK_OPERATIONS from '../../talons/AddressBookPage/addressBookPage.gql';
 import { useModulesContext } from '../../context/modulesProvider';
 
 export const useAccountInformationPage = props => {
@@ -21,27 +17,19 @@ export const useAccountInformationPage = props => {
 
     const { tenantConfig } = useModulesContext();
 
-    const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
-        ACCOUNT_OPERATIONS,
-        ADDRESS_BOOK_OPERATIONS,
-        props.operations
-    );
     const {
-        getCustomerSubscriptionQuery,
-        setNewsletterSubscriptionMutation,
-        setCustomerInformationMutation,
-        changeCustomerPasswordMutation,
-        createCustomerAddressMutation,
-        deleteCustomerAddressMutation,
-        updateCustomerAddressMutation,
-        getCustomerInformationQuery,
-        getCustomerAddressesQuery
-    } = operations;
+        setCustomerInformation: setCustomerInformationFromAdapter,
+        addNewCustomerAddressToAddressBook,
+        deleteCustomerAddressFromAddressBook,
+        getCustomerAddressesForAddressBook,
+        updateCustomerAddressInAddressBook,
+        getCustomerSubscription,
+        setNewsletterSubscription: setNewsletterSubscriptionFromAdapter,
+        changeCustomerPassword: changeCustomerPasswordFromAdapter,
+        getCustomerInformation
+    } = useAdapter();
 
-    const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
-        skip: !isSignedIn
-    });
+    const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
 
     const initialValuesSubscribeToNewsletter = useMemo(() => {
         if (subscriptionData) {
@@ -49,9 +37,7 @@ export const useAccountInformationPage = props => {
         }
     }, [subscriptionData]);
 
-    const [setNewsletterSubscription, { error: setNewsletterSubscriptionError, loading: isSubmitting }] = useMutation(
-        setNewsletterSubscriptionMutation
-    );
+    const { setNewsletterSubscription, error: setNewsletterSubscriptionError, loading: isSubmitting } = setNewsletterSubscriptionFromAdapter();
 
     const handleSubmitSubscribeToNewsletter = useCallback(
         async formValues => {
@@ -91,28 +77,30 @@ export const useAccountInformationPage = props => {
     // https://github.com/apollographql/apollo-feature-requests/issues/170
     const [displayError, setDisplayError] = useState(false);
 
-    const { data: accountInformationData, error: loadDataError } = useQuery(getCustomerInformationQuery, {
-        skip: !isSignedIn,
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
+    const {
+        data: accountInformationData,
+        error: loadDataError
+    } = getCustomerInformation({
+        hasSkip: true,
+        isSignedIn: isSignedIn,
+        hasNextFetchPolicy: true,
+        hasFetchPolicy: true
     });
 
-    const { data: customerAddressesData, loading } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
+    const { data: customerAddressesData, loading, getCustomerAddressesQuery } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
-    const [
-        setCustomerInformation,
-        { error: customerInformationUpdateError, loading: isUpdatingCustomerInformation }
-    ] = useMutation(setCustomerInformationMutation);
+    const { setCustomerInformation,
+        error: customerInformationUpdateError,
+        loading: isUpdatingCustomerInformation
+    } = setCustomerInformationFromAdapter();
 
-    const [
+    const {
         changeCustomerPassword,
-        { error: customerPasswordChangeError, loading: isChangingCustomerPassword }
-    ] = useMutation(changeCustomerPasswordMutation);
+        error: customerPasswordChangeError,
+        loading: isChangingCustomerPassword
+    } = changeCustomerPasswordFromAdapter();
 
-    const [deleteCustomerAddress, { loading: isDeletingCustomerAddress }] = useMutation(deleteCustomerAddressMutation);
+    const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
 
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
 
@@ -132,15 +120,17 @@ export const useAccountInformationPage = props => {
     const customerAddresses =
         (customerAddressesData && customerAddressesData.customer && customerAddressesData.customer.addresses) || [];
 
-    const [
+    const {
         createCustomerAddress,
-        { error: createCustomerAddressError, loading: isCreatingCustomerAddress }
-    ] = useMutation(createCustomerAddressMutation);
+        error: createCustomerAddressError,
+        loading: isCreatingCustomerAddress
+    } = addNewCustomerAddressToAddressBook();
 
-    const [
+    const {
         updateCustomerAddress,
-        { error: updateCustomerAddressError, loading: isUpdatingCustomerAddress }
-    ] = useMutation(updateCustomerAddressMutation);
+        error: updateCustomerAddressError,
+        loading: isUpdatingCustomerAddress
+    } = updateCustomerAddressInAddressBook();
 
     const handleChangePassword = useCallback(() => {
         setShouldShowNewPassword(true);

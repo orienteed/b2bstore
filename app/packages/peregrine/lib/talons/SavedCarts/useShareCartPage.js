@@ -1,15 +1,10 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-
-import DEFAULT_OPERATIONS from './savedCarts.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '../../hooks/useAdapter';
 
 export const useShareCartPage = async () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { shareSavedCartsMutation } = operations;
+    const { getCartDetails: getCartDetailsFromAdapter, shareSavedCarts } = useAdapter();
 
     const [isLoading, setIsLoading] = useState(true);
     const [shareCartUpadte, setShareCartUpadte] = useState(1);
@@ -20,9 +15,8 @@ export const useShareCartPage = async () => {
     const [{ cartId }, { getCartDetails }] = useCartContext();
 
     // Share Cart
-    const [getShareCart] = useMutation(shareSavedCartsMutation);
+    const { getShareCart } = shareSavedCarts();
 
-    const { getCartDetails: getCartDetailsFromAdapter } = useAdapter();
     const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     const handleShareCart = useCallback(async () => {

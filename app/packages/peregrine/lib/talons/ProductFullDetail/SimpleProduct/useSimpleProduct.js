@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 import { useIntl } from 'react-intl';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import DEFAULT_OPERATIONS from './simpleProduct.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useLocation } from 'react-router-dom';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useUserContext } from '../../../context/user';
 import { useModulesContext } from '../../../context/modulesProvider';
@@ -17,8 +15,7 @@ const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 export const useSimpleProduct = (props = {}) => {
     const { addConfigurableProductToCartFromAdapter, productQuantity } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getSimpleProductQuery } = operations;
+    const { getSimpleProduct } = useAdapter();
 
     const { formatMessage } = useIntl();
     const { search } = useLocation();
@@ -29,9 +26,7 @@ export const useSimpleProduct = (props = {}) => {
 
     const isB2B = tenantConfig.b2bProductDetailView;
 
-    const { data, loading, error } = useQuery(getSimpleProductQuery, {
-        variables: { sku: sku }
-    });
+    const { data, loading, error } = getSimpleProduct({sku: sku});
 
     const { data: storeConfigData, refetch } = useStoreConfigContext();
 
