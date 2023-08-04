@@ -1,10 +1,9 @@
 import { useCallback, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 export const useProduct = props => {
-    const { beginEditItem, item, removeItemMutation } = props;
+    const { beginEditItem, item, removeItemFromCartFromAdapter } = props;
 
     const { configurable_options: options, product, quantity, prices } = item;
     const { price } = prices;
@@ -18,7 +17,7 @@ export const useProduct = props => {
     const { fetchCartId } = createCart();
     const { fetchCartDetails } = getCartDetails();
 
-    const [removeItem] = useMutation(removeItemMutation);
+    const { removeItem } = removeItemFromCartFromAdapter();
 
     const handleFavoriteItem = useCallback(() => {
         setIsFavorite(!isFavorite);

@@ -89,15 +89,6 @@ export const GET_CUSTOMERS_ALERTS = gql`
     }
 `;
 
-export const SUBMIT_CUSTOMER_PRICE_ALERT = gql`
-    mutation MpProductAlertCustomerNotifyPriceDrops($productSku: String!) {
-        MpProductAlertCustomerNotifyPriceDrops(input: { productSku: $productSku }) {
-            ...subscriberOutput
-        }
-    }
-    ${subscriberOutput}
-`;
-
 export const SUBMIT_GUEST_PRICE_ALERT = gql`
     mutation MpProductAlertNotifyPriceDrops($productSku: String!, $email: String!) {
         MpProductAlertNotifyPriceDrops(input: { productSku: $productSku, email: $email }) {
@@ -167,7 +158,6 @@ const GET_LOCALE = gql`
 
 export default {
     GET_CUSTOMERS_ALERTS,
-    SUBMIT_CUSTOMER_PRICE_ALERT,
     SUBMIT_GUEST_PRICE_ALERT,
     SUBMIT_CUSTOMER_STOCK_ALERT,
     SUBMIT_GUEST_STOCK_ALERT,

@@ -28,7 +28,6 @@ const SavedCartViewTableItems = props => {
         [attribute_labels_and_values]
     );
 
-    console.log({ attribute_labels_and_values });
     return (
         <div className={classes.savedCartViewTableRow}>
             <div className={classes.productImage}>

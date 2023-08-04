@@ -5,6 +5,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useToasts } from '../../Toasts';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import Icon from '@magento/venia-ui/lib/components/Icon';
 
@@ -16,7 +17,6 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        SUBMIT_CUSTOMER_PRICE_ALERT,
         GET_CUSTOMERS_ALERTS,
         SUBMIT_GUEST_PRICE_ALERT,
         SUBMIT_CUSTOMER_STOCK_ALERT,
@@ -25,6 +25,9 @@ export const useProductsAlert = props => {
         GET_CONFIG_ALERTS,
         GET_LOCALE
     } = mergeOperations(DEFAULT_OPERATIONS);
+    const {
+        submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter
+    } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
     const formApiRef = useRef(null);
@@ -62,7 +65,7 @@ export const useProductsAlert = props => {
         fetchPolicy: 'no-cache',
         variables: { priceCurrentPage: priceControlPage?.currentPage, stockCurrentPage: stockPageControl?.currentPage }
     });
-    const [submitCustomerPriceAlert] = useMutation(SUBMIT_CUSTOMER_PRICE_ALERT);
+    const { submitCustomerPriceAlert } = submitCustomerPriceAlertFromAdapter();
     const [submiGuestPriceAlert] = useMutation(SUBMIT_GUEST_PRICE_ALERT);
     const [submitCustomerStockAlert] = useMutation(SUBMIT_CUSTOMER_STOCK_ALERT);
     const [submiGuestStockAlert] = useMutation(SUBMIT_GUEST_STOCK_ALERT);

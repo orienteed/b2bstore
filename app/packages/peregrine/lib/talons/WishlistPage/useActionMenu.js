@@ -3,9 +3,6 @@ import { useCallback, useState, useMemo } from 'react';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
-
 const dialogs = {
     NONE: 1,
     LIST_ACTIONS: 2,
@@ -24,9 +21,9 @@ const dialogs = {
 export const useActionMenu = (props = {}) => {
     const { id } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCustomerWishlistQuery } = operations;
-    const { updateWishlist: updateWishlistFromAdapter } = useAdapter();
+    const { updateWishlist: updateWishlistFromAdapter, getWishlists } = useAdapter();
+    const { getWishlistsQuery } = getWishlists({ performQuery: false })
+
 
     const [currentDialog, setCurrentDialog] = useState(dialogs.NONE);
     const [displayError, setDisplayError] = useState(false);
@@ -77,7 +74,7 @@ export const useActionMenu = (props = {}) => {
                         visibility: data.visibility,
                         wishlistId: id
                     },
-                    refetchQueries: [{ query: getCustomerWishlistQuery }],
+                    refetchQueries: [{ query: getWishlistsQuery }],
                     awaitRefetchQueries: true
                 });
                 setCurrentDialog(dialogs.NONE);
@@ -88,7 +85,7 @@ export const useActionMenu = (props = {}) => {
                 }
             }
         },
-        [getCustomerWishlistQuery, id, updateWishlist]
+        [getWishlistsQuery, id, updateWishlist]
     );
 
     const errors = useMemo(() => (displayError ? [updateWishlistErrors] : []), [updateWishlistErrors, displayError]);

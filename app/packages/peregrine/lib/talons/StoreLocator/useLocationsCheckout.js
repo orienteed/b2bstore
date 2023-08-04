@@ -6,12 +6,11 @@ import defaultOperations from './storeLocator.gql';
 import { useToasts } from '@magento/peregrine';
 import { useCartContext } from '../../context/cart';
 import { useIntl } from 'react-intl';
-import oparations from '../CheckoutPage/DeliveryDate/deliveryDate.gql';
 
 export const useLocationsCheckout = () => {
     const [{ cartId }] = useCartContext();
     const [, { addToast }] = useToasts();
-    const operations = mergeOperations(defaultOperations, oparations);
+    const operations = mergeOperations(defaultOperations);
     const { formatMessage } = useIntl();
 
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
