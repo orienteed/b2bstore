@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useToasts } from '../../Toasts';
@@ -17,7 +17,6 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        SUBMIT_DELETE_ALERT,
         GET_CONFIG_ALERTS,
         GET_LOCALE
     } = mergeOperations(DEFAULT_OPERATIONS);
@@ -26,7 +25,8 @@ export const useProductsAlert = props => {
         getCustomerAlerts,
         submitGuestPriceAlert: submitGuestPriceAlertFromAdapter,
         submitCustomerStockAlert: submitCustomerStockAlertFromAdapter,
-        submitGuestStockAlert: submitGuestStockAlertFromAdapter
+        submitGuestStockAlert: submitGuestStockAlertFromAdapter,
+        submitDeleteAlert: submitDeleteAlertFromAdapter
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -69,7 +69,7 @@ export const useProductsAlert = props => {
     const { submitGuestPriceAlert } = submitGuestPriceAlertFromAdapter();
     const { submitCustomerStockAlert } = submitCustomerStockAlertFromAdapter();
     const { submitGuestStockAlert } = submitGuestStockAlertFromAdapter();
-    const [submiDeleteAlertAPI] = useMutation(SUBMIT_DELETE_ALERT);
+    const { submitDeleteAlertAPI } = submitDeleteAlertFromAdapter();
     const selectTitle = formatMessage({
         id: 'productAlerts.pleaseSelect',
         defaultMessage: 'Notify me about the product availability '
@@ -218,7 +218,7 @@ export const useProductsAlert = props => {
     const submitDeleteAlert = useCallback(
         async id => {
             try {
-                await submiDeleteAlertAPI({
+                await submitDeleteAlertAPI({
                     variables: {
                         id
                     }
@@ -249,7 +249,7 @@ export const useProductsAlert = props => {
                 });
             }
         },
-        [submiDeleteAlertAPI]
+        [submitDeleteAlertAPI]
     );
 
     return {

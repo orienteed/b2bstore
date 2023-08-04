@@ -1,11 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const SUBMIT_DELETE_ALERT = gql`
-    mutation MpProductAlertSubscriberDelete($id: Int!) {
-        MpProductAlertSubscriberDelete(input: { id: $id })
-    }
-`;
-
 export const GET_CONFIG_ALERTS = gql`
     query MpProductAlertsConfigs {
         MpProductAlertsConfigs {
@@ -41,7 +35,6 @@ const GET_LOCALE = gql`
 `;
 
 export default {
-    SUBMIT_DELETE_ALERT,
     GET_CONFIG_ALERTS,
     GET_LOCALE
 };
