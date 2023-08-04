@@ -17,8 +17,6 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        GET_CUSTOMERS_ALERTS,
-        SUBMIT_GUEST_PRICE_ALERT,
         SUBMIT_CUSTOMER_STOCK_ALERT,
         SUBMIT_GUEST_STOCK_ALERT,
         SUBMIT_DELETE_ALERT,
@@ -27,7 +25,8 @@ export const useProductsAlert = props => {
     } = mergeOperations(DEFAULT_OPERATIONS);
     const {
         submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter,
-        getCustomerAlerts
+        getCustomerAlerts,
+        submitGuestPriceAlert
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -67,7 +66,7 @@ export const useProductsAlert = props => {
         stockCurrentPage: stockPageControl?.currentPage
     });
     const { submitCustomerPriceAlert } = submitCustomerPriceAlertFromAdapter();
-    const [submiGuestPriceAlert] = useMutation(SUBMIT_GUEST_PRICE_ALERT);
+    const { submiGuestPriceAlert } = submitGuestPriceAlert();
     const [submitCustomerStockAlert] = useMutation(SUBMIT_CUSTOMER_STOCK_ALERT);
     const [submiGuestStockAlert] = useMutation(SUBMIT_GUEST_STOCK_ALERT);
     const [submiDeleteAlertAPI] = useMutation(SUBMIT_DELETE_ALERT);
