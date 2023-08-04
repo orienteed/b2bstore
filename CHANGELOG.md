@@ -1,3 +1,18 @@
+# B2BStore 0.10
+
+## 🪄 Enhancements
+  - Add more details to added to quote successfully
+  - Change the user menu text in the spanish language
+
+## 🛠 Bug fixes 
+  - Fix, PDP, Quantity input isn't working correctly
+  - Fix Recover password when requesting gives an error (standard) 
+  - Fix product alert , Mixed texts in English and Spanish
+  - Fix Sign up for newsletter is not working in the demo
+  - Fix Show time taking into account the user's system timezone
+  - Fix Link social icons to Orienteed real addresses
+  - Fix Multilingual demo + integration (in the admin panel)
+  - Fix the mail arrives with the Luma logo at baying and create account (in the admin panel)
 # B2BStore 0.9.2
 ## 🛠 Bug fixes 
   - Fix the order history page when the product is out of stock
