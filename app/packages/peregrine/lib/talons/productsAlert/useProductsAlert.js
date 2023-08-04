@@ -17,7 +17,6 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        SUBMIT_CUSTOMER_STOCK_ALERT,
         SUBMIT_GUEST_STOCK_ALERT,
         SUBMIT_DELETE_ALERT,
         GET_CONFIG_ALERTS,
@@ -26,7 +25,8 @@ export const useProductsAlert = props => {
     const {
         submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter,
         getCustomerAlerts,
-        submitGuestPriceAlert
+        submitGuestPriceAlert: submitGuestPriceAlertFromAdapter,
+        submitCustomerStockAlert: submitCustomerStockAlertFromAdapter
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -66,8 +66,8 @@ export const useProductsAlert = props => {
         stockCurrentPage: stockPageControl?.currentPage
     });
     const { submitCustomerPriceAlert } = submitCustomerPriceAlertFromAdapter();
-    const { submiGuestPriceAlert } = submitGuestPriceAlert();
-    const [submitCustomerStockAlert] = useMutation(SUBMIT_CUSTOMER_STOCK_ALERT);
+    const { submitGuestPriceAlert } = submitGuestPriceAlertFromAdapter();
+    const { submitCustomerStockAlert } = submitCustomerStockAlertFromAdapter();
     const [submiGuestStockAlert] = useMutation(SUBMIT_GUEST_STOCK_ALERT);
     const [submiDeleteAlertAPI] = useMutation(SUBMIT_DELETE_ALERT);
     const selectTitle = formatMessage({
@@ -140,7 +140,7 @@ export const useProductsAlert = props => {
                     });
                     handleCloseModal();
                 } else {
-                    await submiGuestPriceAlert({
+                    await submitGuestPriceAlert({
                         variables: {
                             productSku: sku,
                             email: apiValue?.email
@@ -161,7 +161,7 @@ export const useProductsAlert = props => {
         },
         [
             submitCustomerPriceAlert,
-            submiGuestPriceAlert,
+            submitGuestPriceAlert,
             isSignedIn,
             selectProductSku,
             simpleProductB2CSku,

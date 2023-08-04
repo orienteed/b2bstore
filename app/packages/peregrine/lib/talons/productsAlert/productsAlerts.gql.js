@@ -20,15 +20,6 @@ const subscriberOutput = gql`
     }
 `;
 
-export const SUBMIT_CUSTOMER_STOCK_ALERT = gql`
-    mutation MpProductAlertCustomerNotifyInStock($productSku: String!) {
-        MpProductAlertCustomerNotifyInStock(input: { productSku: $productSku }) {
-            ...subscriberOutput
-        }
-    }
-    ${subscriberOutput}
-`;
-
 export const SUBMIT_GUEST_STOCK_ALERT = gql`
     mutation MpProductAlertNotifyInStock($productSku: String!, $email: String!) {
         MpProductAlertNotifyInStock(input: { productSku: $productSku, email: $email }) {
@@ -79,7 +70,6 @@ const GET_LOCALE = gql`
 `;
 
 export default {
-    SUBMIT_CUSTOMER_STOCK_ALERT,
     SUBMIT_GUEST_STOCK_ALERT,
     SUBMIT_DELETE_ALERT,
     GET_CONFIG_ALERTS,
