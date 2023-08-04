@@ -17,7 +17,6 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        SUBMIT_GUEST_STOCK_ALERT,
         SUBMIT_DELETE_ALERT,
         GET_CONFIG_ALERTS,
         GET_LOCALE
@@ -26,7 +25,8 @@ export const useProductsAlert = props => {
         submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter,
         getCustomerAlerts,
         submitGuestPriceAlert: submitGuestPriceAlertFromAdapter,
-        submitCustomerStockAlert: submitCustomerStockAlertFromAdapter
+        submitCustomerStockAlert: submitCustomerStockAlertFromAdapter,
+        submitGuestStockAlert: submitGuestStockAlertFromAdapter
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -68,7 +68,7 @@ export const useProductsAlert = props => {
     const { submitCustomerPriceAlert } = submitCustomerPriceAlertFromAdapter();
     const { submitGuestPriceAlert } = submitGuestPriceAlertFromAdapter();
     const { submitCustomerStockAlert } = submitCustomerStockAlertFromAdapter();
-    const [submiGuestStockAlert] = useMutation(SUBMIT_GUEST_STOCK_ALERT);
+    const { submitGuestStockAlert } = submitGuestStockAlertFromAdapter();
     const [submiDeleteAlertAPI] = useMutation(SUBMIT_DELETE_ALERT);
     const selectTitle = formatMessage({
         id: 'productAlerts.pleaseSelect',
@@ -186,7 +186,7 @@ export const useProductsAlert = props => {
                     addedSuccsessfully();
                     handleCloseModal();
                 } else {
-                    await submiGuestStockAlert({
+                    await submitGuestStockAlert({
                         variables: {
                             productSku: sku,
                             email: apiValue?.email
@@ -205,7 +205,7 @@ export const useProductsAlert = props => {
             }
         },
         [
-            submiGuestStockAlert,
+            submitGuestStockAlert,
             isSignedIn,
             submitCustomerStockAlert,
             itemSku,
