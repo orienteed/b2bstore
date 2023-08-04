@@ -26,7 +26,8 @@ export const useProductsAlert = props => {
         GET_LOCALE
     } = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter
+        submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter,
+        getCustomerAlerts
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -61,9 +62,9 @@ export const useProductsAlert = props => {
     const [priceControlPage, setPriceControlPage] = useState({});
 
     const [{ isSignedIn }] = useUserContext();
-    const { loading, data: customersAlertsItems, refetch } = useQuery(GET_CUSTOMERS_ALERTS, {
-        fetchPolicy: 'no-cache',
-        variables: { priceCurrentPage: priceControlPage?.currentPage, stockCurrentPage: stockPageControl?.currentPage }
+    const { loading, data: customersAlertsItems, refetch } = getCustomerAlerts({
+        priceCurrentPage: priceControlPage?.currentPage,
+        stockCurrentPage: stockPageControl?.currentPage
     });
     const { submitCustomerPriceAlert } = submitCustomerPriceAlertFromAdapter();
     const [submiGuestPriceAlert] = useMutation(SUBMIT_GUEST_PRICE_ALERT);
