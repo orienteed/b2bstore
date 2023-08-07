@@ -17,16 +17,13 @@ export const useLocationsCheckout = () => {
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedDay, setSelectedDay] = useState();
-    const { getLocationsCart, submitLocation, getLocationHolidays, getStoreId } = operations;
+    const { submitLocation, getLocationHolidays, getStoreId } = operations;
     const {
-        getLocale
+        getLocale,
+        getLocationsCart
     } = useAdapter();
 
-    const { data, loading } = useQuery(getLocationsCart, {
-        variables: { cartId },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data, loading } = getLocationsCart({ cartId });
     const { data: storeData } = useQuery(getStoreId, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
