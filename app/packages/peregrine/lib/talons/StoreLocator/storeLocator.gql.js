@@ -1,19 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const GET_LOCATIONS_HOLIDAYS = gql`
-    query MpStoreLocatorConfig($storeId: String! = "1") {
-        MpStoreLocatorConfig(storeId: $storeId) {
-            locationsData {
-                name
-                holidayData {
-                    from
-                    to
-                }
-            }
-        }
-    }
-`;
-
 export const GET_STOREID = gql`
     query StoreConfig {
         storeConfig {
@@ -30,7 +16,6 @@ const SUBMIT_LOCATION = gql`
 `;
 
 export default {
-    getLocationHolidays: GET_LOCATIONS_HOLIDAYS,
     submitLocation: SUBMIT_LOCATION,
     getStoreId: GET_STOREID
 };

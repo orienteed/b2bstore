@@ -17,10 +17,11 @@ export const useLocationsCheckout = () => {
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedDay, setSelectedDay] = useState();
-    const { submitLocation, getLocationHolidays, getStoreId } = operations;
+    const { submitLocation, getStoreId } = operations;
     const {
         getLocale,
-        getLocationsCart
+        getLocationsCart,
+        getLocationHolidays
     } = useAdapter();
 
     const { data, loading } = getLocationsCart({ cartId });
@@ -28,11 +29,7 @@ export const useLocationsCheckout = () => {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
     });
-    const { data: locationsHolidays, loading: holidaysLoading } = useQuery(getLocationHolidays, {
-        variables: { storeId: storeData?.storeConfig?.id },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: locationsHolidays, loading: holidaysLoading } = getLocationHolidays({ storeId: storeData?.storeConfig?.id });
 
     const { data: localData } = getLocale();
 
