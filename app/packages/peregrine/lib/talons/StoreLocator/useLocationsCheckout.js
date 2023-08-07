@@ -6,6 +6,7 @@ import defaultOperations from './storeLocator.gql';
 import { useToasts } from '@magento/peregrine';
 import { useCartContext } from '../../context/cart';
 import { useIntl } from 'react-intl';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useLocationsCheckout = () => {
     const [{ cartId }] = useCartContext();
@@ -16,7 +17,10 @@ export const useLocationsCheckout = () => {
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedDay, setSelectedDay] = useState();
-    const { getLocationsCart, submitLocation, getLocationHolidays, getStoreId, GET_LOCALE } = operations;
+    const { getLocationsCart, submitLocation, getLocationHolidays, getStoreId } = operations;
+    const {
+        getLocale
+    } = useAdapter();
 
     const { data, loading } = useQuery(getLocationsCart, {
         variables: { cartId },
@@ -33,10 +37,7 @@ export const useLocationsCheckout = () => {
         nextFetchPolicy: 'cache-first'
     });
 
-    const { data: localData } = useQuery(GET_LOCALE, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: localData } = getLocale();
 
     const local = useMemo(() => {
         return localData && localData.storeConfig.locale;

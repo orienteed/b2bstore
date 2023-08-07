@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery } from '@apollo/client';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useToasts } from '../../Toasts';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import Icon from '@magento/venia-ui/lib/components/Icon';
-
-import DEFAULT_OPERATIONS from './productsAlerts.gql';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
@@ -17,16 +13,14 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        GET_LOCALE
-    } = mergeOperations(DEFAULT_OPERATIONS);
-    const {
         submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter,
         getCustomerAlerts,
         submitGuestPriceAlert: submitGuestPriceAlertFromAdapter,
         submitCustomerStockAlert: submitCustomerStockAlertFromAdapter,
         submitGuestStockAlert: submitGuestStockAlertFromAdapter,
         submitDeleteAlert: submitDeleteAlertFromAdapter,
-        getConfigAlerts
+        getConfigAlerts,
+        getLocale
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -36,10 +30,7 @@ export const useProductsAlert = props => {
     const [selectedOptionB2C, setSelectedOptionB2C] = useState('');
 
     const { data: alertConfig } = getConfigAlerts();
-    const { data: storeData } = useQuery(GET_LOCALE, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: storeData } = getLocale();
     const local = useMemo(() => {
         return storeData && storeData.storeConfig.locale;
     }, [storeData]);

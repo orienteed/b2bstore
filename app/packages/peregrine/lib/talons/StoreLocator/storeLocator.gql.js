@@ -71,20 +71,10 @@ const SUBMIT_LOCATION = gql`
     }
 `;
 
-export const GET_LOCALE = gql`
-    query {
-        storeConfig {
-            locale
-            store_code
-        }
-    }
-`;
-
 export default {
     getStoreLocations: MP_STORE_LOCATOR_LOCATIONS,
     getLocationsCart: GET_LOCATIONS_CART,
     getLocationHolidays: GET_LOCATIONS_HOLIDAYS,
     submitLocation: SUBMIT_LOCATION,
-    getStoreId: GET_STOREID,
-    GET_LOCALE
+    getStoreId: GET_STOREID
 };
