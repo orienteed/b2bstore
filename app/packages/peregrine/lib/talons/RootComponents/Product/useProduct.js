@@ -8,6 +8,7 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useEventingContext } from '../../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../../context/modulesProvider';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
  * controls the logic for the Product Root Component.
@@ -27,6 +28,8 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 export const useProduct = props => {
     const { mapProduct } = props;
 
+    const { tenantConfig } = useModulesContext();
+
     const { getProductDetailForProductPageByUrlKey } = useAdapter();
 
     const { pathname } = useLocation();
@@ -44,7 +47,12 @@ export const useProduct = props => {
     const productUrlSuffix = storeConfigData?.storeConfig?.product_url_suffix;
     const urlKey = productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
 
-    const { error, loading, data, refetch } = getProductDetailForProductPageByUrlKey({ urlKey: urlKey, storeConfigData: storeConfigData });
+    const { error, loading, data, refetch } = getProductDetailForProductPageByUrlKey({
+        urlKey: urlKey,
+        storeConfigData: storeConfigData,
+        includeProductAlert: tenantConfig?.productAlertEnabled,
+        includeProductAttachment: tenantConfig?.productAttachmentEnabled
+    });
 
     const isBackgroundLoading = !!data && loading;
 

@@ -10,6 +10,7 @@ import { getFiltersFromSearch, getFilterInput } from '../../../talons/FilterModa
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../../context/modulesProvider';
 import { useAdapter } from '../../../hooks/useAdapter';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
@@ -35,6 +36,7 @@ import { useAdapter } from '../../../hooks/useAdapter';
 export const useCategory = props => {
     const { id } = props;
 
+    const { tenantConfig } = useModulesContext();
     const { data: storeConfigData } = useStoreConfigContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
 
@@ -119,10 +121,11 @@ export const useCategory = props => {
                 id: id,
                 filters: newFilters,
                 pageSize: Number(pageSize),
-                sort: { [currentSort.sortAttribute]: currentSort.sortDirection }
+                sort: { [currentSort.sortAttribute]: currentSort.sortDirection },
+                includeProductAlert: tenantConfig?.productAlertEnabled
             }
         });
-    }, [currentPage, currentSort, filterTypeMap, id, pageSize, runQuery, search, isSignedIn]);
+    }, [currentPage, currentSort, filterTypeMap, id, pageSize, runQuery, search, isSignedIn, tenantConfig]);
 
     const totalPagesFromData = data ? data.products.page_info.total_pages : null;
 

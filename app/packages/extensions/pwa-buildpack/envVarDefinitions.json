@@ -374,6 +374,26 @@
             ]
         },
         {
+            "name": "Product Alert",
+            "variables": [
+                {
+                    "name": "PRODUCT_ALERT",
+                    "type": "bool",
+                    "desc": "product alert module status"
+                }
+            ]
+        }, 
+        {
+            "name": "Product Attachment",
+            "variables": [
+                {
+                    "name": "PRODUCT_ATTACHMENT",
+                    "type": "bool",
+                    "desc": "product attachment status status"
+                }
+            ]
+        },
+        {
             "name": "adapters variables",
             "variables": [
                 {
@@ -384,7 +404,7 @@
                 },
                 {
                     "name": "BIGCOMMERCE_CHANNEL_ID",
-                    "type": "str",
+                    "type": "num",
                     "desc": "Specify the BigCommerce channel id.",
                     "default": 1
                 }

@@ -13,6 +13,7 @@ import { useAdapter } from '../../hooks/useAdapter';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../context/modulesProvider';
 /**
  * Return props necessary to render a SearchPage component.
  *
@@ -21,6 +22,8 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  */
 export const useSearchPage = (props = {}) => {
     const [, { dispatch }] = useEventingContext();
+
+    const { tenantConfig } = useModulesContext();
 
     const {
         getFilterInputs,
@@ -163,7 +166,8 @@ export const useSearchPage = (props = {}) => {
                 filters: newFilters,
                 inputText,
                 pageSize: Number(pageSize),
-                sort: { [sortAttribute]: sortDirection }
+                sort: { [sortAttribute]: sortDirection },
+                includeProductAlert: tenantConfig?.productAlertEnabled 
             }
         });
         if (!searched.current) {
