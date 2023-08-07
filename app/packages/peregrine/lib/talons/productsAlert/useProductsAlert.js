@@ -17,7 +17,6 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        GET_CONFIG_ALERTS,
         GET_LOCALE
     } = mergeOperations(DEFAULT_OPERATIONS);
     const {
@@ -26,7 +25,8 @@ export const useProductsAlert = props => {
         submitGuestPriceAlert: submitGuestPriceAlertFromAdapter,
         submitCustomerStockAlert: submitCustomerStockAlertFromAdapter,
         submitGuestStockAlert: submitGuestStockAlertFromAdapter,
-        submitDeleteAlert: submitDeleteAlertFromAdapter
+        submitDeleteAlert: submitDeleteAlertFromAdapter,
+        getConfigAlerts
     } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
@@ -35,10 +35,7 @@ export const useProductsAlert = props => {
     const [formEmail] = useState();
     const [selectedOptionB2C, setSelectedOptionB2C] = useState('');
 
-    const { data: alertConfig } = useQuery(GET_CONFIG_ALERTS, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: alertConfig } = getConfigAlerts();
     const { data: storeData } = useQuery(GET_LOCALE, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
