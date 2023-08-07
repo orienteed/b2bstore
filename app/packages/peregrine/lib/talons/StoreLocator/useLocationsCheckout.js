@@ -1,8 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState, useMemo } from 'react';
-import mergeOperations from '../../util/shallowMerge';
-import { useQuery } from '@apollo/client';
-import defaultOperations from './storeLocator.gql';
 import { useToasts } from '@magento/peregrine';
 import { useCartContext } from '../../context/cart';
 import { useIntl } from 'react-intl';
@@ -11,25 +8,21 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 export const useLocationsCheckout = () => {
     const [{ cartId }] = useCartContext();
     const [, { addToast }] = useToasts();
-    const operations = mergeOperations(defaultOperations);
     const { formatMessage } = useIntl();
 
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedDay, setSelectedDay] = useState();
-    const { getStoreId } = operations;
     const {
         getLocale,
         getLocationsCart,
         getLocationHolidays,
-        submitLocation
+        submitLocation,
+        getStoreId
     } = useAdapter();
 
     const { data, loading } = getLocationsCart({ cartId });
-    const { data: storeData } = useQuery(getStoreId, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: storeData } = getStoreId();
     const { data: locationsHolidays, loading: holidaysLoading } = getLocationHolidays({ storeId: storeData?.storeConfig?.id });
 
     const { data: localData } = getLocale();
