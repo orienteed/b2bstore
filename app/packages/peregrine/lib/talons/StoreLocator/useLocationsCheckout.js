@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState, useMemo } from 'react';
 import mergeOperations from '../../util/shallowMerge';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import defaultOperations from './storeLocator.gql';
 import { useToasts } from '@magento/peregrine';
 import { useCartContext } from '../../context/cart';
@@ -17,11 +17,12 @@ export const useLocationsCheckout = () => {
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedDay, setSelectedDay] = useState();
-    const { submitLocation, getStoreId } = operations;
+    const { getStoreId } = operations;
     const {
         getLocale,
         getLocationsCart,
-        getLocationHolidays
+        getLocationHolidays,
+        submitLocation
     } = useAdapter();
 
     const { data, loading } = getLocationsCart({ cartId });
@@ -36,7 +37,7 @@ export const useLocationsCheckout = () => {
     const local = useMemo(() => {
         return localData && localData.storeConfig.locale;
     }, [localData]);
-    const [handleSubmitLocation, { loading: isSubmtiting }] = useMutation(submitLocation);
+    const { handleSubmitLocation, loading: isSubmtiting } = submitLocation();
 
     // const locationsData = useMemo(() => data?.MpStoreLocatorPickupLocationList, [data]);
 
