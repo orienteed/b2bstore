@@ -1,5 +1,23 @@
 # B2BStore 0.10
 
+## 🚨 Hotfixes  
+  - Fixed the variable type in env sample file 
+
+## 🪄 Enhancements
+  - Added delivery page 
+  - Added offer page from the demo storefront
+
+## 🛠 Bug fixes 
+  - Fix, Home page bugs (in the admin panel)
+    - Fix First Banner: Centered
+    - Fix Second Banner: It doesn't link to any dummy offer
+    - Fix Banner Offer pack: Reduced width, not linked to dummy offer
+    - Fix New Products: linked to products
+    - Fix Delivery Banner: Too big, reduced size
+    - Fixed the icon link for the emails 
+# B2BStore 0.9.2
+# B2BStore 0.10
+
 ## 🪄 Enhancements
   - Add more details to added to quote successfully
   - Change the user menu text in the spanish language
