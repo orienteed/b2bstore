@@ -755,6 +755,7 @@
     "productAlert.NotifyPrice": "Notifíqueme cuando baje el precio",
     "productAlerts.noProductStock": "No hay artículos en su lista de alertas.",
     "productAlerts.noProductPrice": "No hay artículos en su lista de precios Alertas.",
+    "productAlert.requestProductAlert": "La alerta de producto se ha enviado correctamente",
     "productAlert.subscribedOn": "Suscrito On",
     "productAlerts.infoText": "Suscríbase ahora a las alertas de cambio de precio Registre su dirección de correo electrónico para ser el primero en enterarse de los cambios de precio de nuestros productos. Estará siempre informado de las novedades en los precios de nuestros productos.",
     "productAlerts.modalFooterText": "  Tenga en cuenta que el correo electrónico de reposición de existencias sólo se enviará una vez y que su dirección de correo electrónico no se compartirá ni publicará con nadie.",
