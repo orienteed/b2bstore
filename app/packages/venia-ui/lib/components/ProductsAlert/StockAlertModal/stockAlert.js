@@ -19,6 +19,23 @@ const StockAlert = props => {
         defaultMessage:
             'Subscribe  for product availability. Register your email address to be the first to know when our product has any changes in availability. You are always updated to get product availability!'
     });
+    const modalButtonText = formatMessage({
+        id: 'productAlert.NotifyMe',
+        defaultMessage: 'Notify me'
+    });
+    const modalHeadingText = formatMessage({
+        id: 'productAlerts.stockAlertModal',
+        defaultMessage: 'Stay tuned for any updates on this products availability!'
+    });
+    const modalFooterContent = formatMessage({
+        id: 'productAlerts.modalFooterText',
+        defaultMessage:
+            '  Kindly notice that the back-in-stock email will be delivered only one time, and your email address will not be shared or published with anyone else.'
+    });
+    const modalEmailPlaceHolder = formatMessage({
+        id: 'productAlerts.enterEmail',
+        defaultMessage: 'Enter your email to get notified.'
+    });
     return (
         <>
             <Dialog
@@ -26,28 +43,22 @@ const StockAlert = props => {
                 onCancel={onCancel}
                 onConfirm={submitStockAlert}
                 isOpen={isOpen}
-                confirmTextButton={alertConfig?.popup_setting?.button_text}
-                title={alertConfig?.popup_setting?.heading_text}
+                confirmTextButton={modalButtonText}
+                title={modalHeadingText}
             >
                 <hr />
                 <p className={classes.textInfo}>{modalTextInfo}</p>
                 {!isSignedIn && (
-                    <Field
-                        id="email"
-                        label={formatMessage({
-                            id: 'productAlerts.enterEmail',
-                            defaultMessage: 'Enter your email to get notified'
-                        })}
-                    >
+                    <Field id="email" label={modalEmailPlaceHolder}>
                         <TextInput
-                            placeholder={alertConfig?.popup_setting?.place_holder}
+                            placeholder={modalEmailPlaceHolder}
                             field="email"
                             validate={!isSignedIn && isRequired}
                             data-cy="email"
                         />
                     </Field>
                 )}
-                <p className={classes.textInfo}>{alertConfig?.popup_setting?.footer_content}</p>
+                <p className={classes.textInfo}>{modalFooterContent}</p>
             </Dialog>
         </>
     );

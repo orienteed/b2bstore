@@ -19,20 +19,22 @@ import { useModulesContext } from '../../context/modulesProvider';
  * import { useResetPassword } from '@magento/peregrine/lib/talons/MyAccount/useResetPassword.js';
  */
 export const useResetPassword = props => {
-    const { mutations } = props;
+    const { resetPasswordMutation } = props;
 
     const { tenantConfig } = useModulesContext();
 
     const [hasCompleted, setHasCompleted] = useState(false);
     const location = useLocation();
-    const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(mutations.resetPasswordMutation);
+    const [resetPassword, { error: resetPasswordErrors, loading }] = useMutation(resetPasswordMutation);
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_FORGOT_PASSWORD',
         formAction: 'resetPassword'
     });
 
-    const { handleSubmit: handleSignIn } = useSignIn();
+    const { handleSubmit: handleSignIn } = useSignIn({
+        setDefaultUsername: null
+    });
 
     const searchParams = useMemo(() => new URLSearchParams(location.search), [location]);
     const token = searchParams.get('token');
