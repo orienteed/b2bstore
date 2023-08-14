@@ -983,6 +983,7 @@
     "wishlist.copiedUrl": "The page URL was copied to the clipboard",
     "wishlist.emptyListText": "There are currently no items in this list",
     "wishlist.galleryButton.loginMessage": "Please sign-in to your Account to save items for later.",
+    "wishlist.galleryButton.removeSuccessMessage": "Item successfully removed from your favorites list.",
     "wishlist.galleryButton.successMessageGeneral": "Item successfully added to your favorites list.",
     "wishlist.galleryButton.successMessageNamed": "Item successfully added to the \"{wishlistName}\" list.",
     "wishlist.itemCountClosed": "You have {count} items in this list",

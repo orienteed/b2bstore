@@ -977,6 +977,7 @@
     "wishlist.copiedUrl": "O URL da página foi copiado no porta-papeles.",
     "wishlist.emptyListText": "Não há artigos nesta lista de momento",
     "wishlist.galleryButton.loginMessage": "Por favor entre na sua conta para guardar os artigos para depois",
+    "wishlist.galleryButton.removeSuccessMessage": "Item removido com sucesso da sua lista de favoritos.",
     "wishlist.galleryButton.successMessageGeneral": "Artigo adicionado aos favoritos com sucesso",
     "wishlist.galleryButton.successMessageNamed": "Artigo adicionado à \"{wishlistName}\" com sucesso",
     "wishlist.itemCountClosed": "Voce tem {count} artigos nesta lista",

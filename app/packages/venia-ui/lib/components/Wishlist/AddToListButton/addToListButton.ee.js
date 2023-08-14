@@ -22,10 +22,11 @@ const AddToListButton = props => {
         isSelected,
         loginToastProps,
         modalProps,
-        successToastProps
+        successToastProps,
+        removeSuccessToastProps
     } = talonProps;
 
-    useCommonToasts({ errorToastProps, loginToastProps, successToastProps });
+    useCommonToasts({ errorToastProps, loginToastProps, successToastProps , removeSuccessToastProps});
     const { buttonProps: buttonAriaProps } = useButton(buttonProps, buttonRef);
 
     const multipleWishlistDialog = modalProps ? (

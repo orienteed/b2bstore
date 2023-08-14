@@ -9,7 +9,7 @@ const ErrorIcon = <Icon size={20} src={AlertCircle} />;
 const InfoIcon = <Icon size={20} src={Info} />;
 
 export const useCommonToasts = props => {
-    const { errorToastProps, loginToastProps, successToastProps } = props;
+    const { errorToastProps, loginToastProps, successToastProps, removeSuccessToastProps } = props;
 
     const [, { addToast }] = useToasts();
 
@@ -24,6 +24,12 @@ export const useCommonToasts = props => {
             addToast({ ...successToastProps, icon: CheckIcon });
         }
     }, [addToast, successToastProps]);
+
+    useEffect(() => {
+        if (removeSuccessToastProps) {
+            addToast({ ...removeSuccessToastProps, icon: CheckIcon });
+        }
+    }, [addToast, removeSuccessToastProps]);
 
     useEffect(() => {
         if (errorToastProps) {
