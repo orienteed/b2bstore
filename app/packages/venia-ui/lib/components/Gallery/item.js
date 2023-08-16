@@ -59,6 +59,7 @@ const GalleryItem = props => {
 
     const compareProps = useCompareProduct();
     const { addProductsToCompare } = compareProps;
+    const [isConfigurableProductUnselected, setIsConfigurableProductUnselected] = useState(true);
 
     const productsAlert = useProductsAlert({ ItemSku: item.sku });
     const {
@@ -111,6 +112,7 @@ const GalleryItem = props => {
 
     const addButton = isSupportedProductType ? (
         <AddToCartButton
+            setIsConfigurableProductUnselected={setIsConfigurableProductUnselected}
             item={
                 selectedVeriant
                     ? {
@@ -197,7 +199,7 @@ const GalleryItem = props => {
         });
     };
 
-    const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value));
+    const onChangeVariant = e => setSelectedVeriant(JSON.parse(e.target.value), setIsConfigurableProductUnselected(true));
 
     const getProductsInstance = () => {
         const instanceItem = { ...item };
@@ -328,7 +330,9 @@ const GalleryItem = props => {
                                 <QuantityStepper value={quantity} onChange={e => onChangeQty(e)} min={1} />
                             </div>
                             <div className={classes.productsSelect}>
-                                <Select
+                                <Select  
+                                isConfigurableProductUnselected={isConfigurableProductUnselected}
+                                setIsConfigurableProductUnselected={setIsConfigurableProductUnselected}
                                     field={`veriants ${item.sku}`}
                                     items={[
                                         {

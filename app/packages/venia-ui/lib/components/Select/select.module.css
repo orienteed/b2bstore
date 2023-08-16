@@ -10,12 +10,46 @@
 .input_error {
     composes: input from '../Field/field.module.css';
     grid-area: input-start / input-start / input-end / icon-end;
-    padding-right: calc(2.25rem - 1px); /* TODO @TW: review */
+    padding-right: calc(2.25rem - 1px);
+    /* TODO @TW: review */
 }
 
 .input {
     composes: disabled_pointer-events-none from global;
     composes: disabled_text-subtle from global;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+.active {
+    composes: input from '../Field/field.module.css';
+    grid-area: input-start / input-start / input-end / icon-end;
+    padding-right: calc(2.25rem - 1px);
+    composes: disabled_pointer-events-none from global;
+    composes: disabled_text-subtle from global;
+    animation: shake 0.5s ease-in-out;
+    border: 2px solid #e45b62;
 }
 
 .input_error {

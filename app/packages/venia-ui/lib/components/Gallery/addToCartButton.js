@@ -10,11 +10,12 @@ import defaultClasses from './addToCartButton.module.css';
 import NotifyButton from '../ProductsAlert/NotifyButton';
 
 const AddToCartButton = props => {
-    const { item, urlSuffix, handleOpendStockModal, isProductAlertEnabled } = props;
+    const { item, urlSuffix, handleOpendStockModal, isProductAlertEnabled, setIsConfigurableProductUnselected } = props;
     const talonProps = useAddToCartButton({
         item,
         urlSuffix,
-        quantity: props.quantity
+        quantity: props.quantity,
+        setIsConfigurableProductUnselected
     });
     const { handleAddToCart, isDisabled, isInStock } = talonProps;
     const { formatMessage } = useIntl();

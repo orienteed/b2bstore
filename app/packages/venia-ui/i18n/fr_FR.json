@@ -54,7 +54,10 @@
     "savedCartsPage.emptyDataMessage": "Vous n'avez pas encore de chariot.",
     "savedCartsPage.pageTitleText": "Paniers enregistrés",
     "cancelPdfButton": "Annuler",
+    "cartPage.AddedFailure": "Échec de l'ajout d'un article au panier.",
+    "cartPage.AddedSuccessfully": "Ajouté au panier avec succès.",
     "cartPage.couponCode": "Code De Coupon",
+    "cartPage.ConfigurableProductSelectionRequired": "Veuillez sélectionner un article.",
     "cartPage.emptyCart": "Il n'y a aucun article dans votre panier.",
     "cartPage.heading": "Panier",
     "cartPage.signIn": "Se connecter",
@@ -758,7 +761,7 @@
     "productAlerts.modalFooterText": " Veuillez noter que l'e-mail de rupture de stock ne sera envoyé qu'une seule fois et que votre adresse e-mail ne sera ni partagée ni publiée avec qui que ce soit.",
     "productAlerts.priceAlertModal": "Restez à l'écoute pour toute mise à jour sur le prix de ce produit !",
     "productAlerts.stockAlertModal": "Restez à l'écoute pour toute mise à jour sur la disponibilité de ce produit !",
-   "productDetail.inStock": "En stock",
+    "productDetail.inStock": "En stock",
     "productDetail.outOfStock": "En rupture de stock",
     "productDetail.skuNumber": "FR-SKU # {sku}",
     "productDetail.unknown": "Inconnue",
@@ -1009,5 +1012,5 @@
     "wishlistPage.disabledMessage": "Désolé, cette fonctionnalité a été désactivée.",
     "wishlistPage.fetchErrorMessage": "Un problème est survenu. Veuillez actualiser et réessayer.",
     "wishlistPage.headingText": "Listes de favoris",
-    "wishlistPage.wishlistDisabledMessage": "La liste de souhaits n'est pas disponible actuellement."    
+    "wishlistPage.wishlistDisabledMessage": "La liste de souhaits n'est pas disponible actuellement."
 }

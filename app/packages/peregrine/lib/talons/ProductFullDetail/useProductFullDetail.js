@@ -13,6 +13,8 @@ import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingPro
 import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/util/isSupportedProductType';
+import { useToasts } from '@magento/peregrine';
+
 
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './productFullDetail.gql';
@@ -267,6 +269,7 @@ const getCustomAttributes = (product, optionCodes, optionSelections) => {
 export const useProductFullDetail = props => {
     const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, product } = props;
     const [, { dispatch }] = useEventingContext();
+    const [, { addToast }] = useToasts();
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
@@ -394,21 +397,20 @@ export const useProductFullDetail = props => {
         });
         return selectedOptions;
     }, [attributeIdToValuesMap, optionSelections]);
-
     const handleAddToCart = useCallback(
         async formValues => {
-            const { quantity } = formValues;
+            const { quantity } = formValues;         
             if (hasDeprecatedOperationProp) {
                 const payload = {
                     item: product,
                     productType,
                     quantity
                 };
-
+    
                 if (isProductConfigurable(product)) {
                     appendOptionsToPayload(payload, optionSelections, optionCodes);
                 }
-
+    
                 if (isSupportedProductType) {
                     const variables = {
                         cartId,
@@ -416,7 +418,7 @@ export const useProductFullDetail = props => {
                         product: payload.item,
                         quantity: payload.quantity,
                         sku: payload.item.sku
-                    };
+                    }; 
                     // Use the proper mutation for the type.
                     if (productType === 'SimpleProduct') {
                         try {
@@ -452,30 +454,37 @@ export const useProductFullDetail = props => {
                         }
                     ]
                 };
-
+    
                 if (selectedOptionsArray.length) {
                     variables.product.selected_options = selectedOptionsArray;
                 }
 
                 try {
-                    await addProductToCart({ variables });
-
-                    const selectedOptionsLabels =
-                        selectedOptionsArray?.map((uid, i) => ({
+                    await addProductToCart({ variables }).then(() => {
+                        addToast({
+                            type: 'success',
+                            message: formatMessage({
+                                id: 'cartPage.AddedSuccessfully',
+                                defaultMessage: 'Added to cart successfully.'
+                            }),
+                            timeout: 6000
+                        });
+                        const selectedOptionsLabels = selectedOptionsArray?.map((uid, i) => ({
                             attribute: product.configurable_options[i].label,
                             value: product.configurable_options[i].values.findLast(x => x.uid === uid)?.label || null
                         })) || null;
-
-                    dispatch({
-                        type: 'CART_ADD_ITEM',
-                        payload: {
-                            cartId,
-                            sku: product.sku,
-                            name: product.name,
-
-                            selectedOptions: selectedOptionsLabels,
-                            quantity
+    
+                        dispatch({
+                            type: 'CART_ADD_ITEM',
+                            payload: {
+                                cartId,
+                                sku: product.sku,
+                                name: product.name,
+                                selectedOptions: selectedOptionsLabels,
+                                quantity
+                            }
                         }
+                        );
                     });
                 } catch {
                     return;

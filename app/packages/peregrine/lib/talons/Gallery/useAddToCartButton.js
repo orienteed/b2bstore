@@ -9,6 +9,8 @@ import resourceUrl from '../../util/makeUrl';
 import DEFAULT_OPERATIONS from '../QuickOrderForm/quickOrderForm.gql';
 import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useToasts } from '../../Toasts';
+import { useIntl } from 'react-intl';
 
 /**
  * @param {String} props.item.uid - uid of item
@@ -28,8 +30,13 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 const UNSUPPORTED_PRODUCT_TYPES = ['VirtualProduct', 'BundleProduct', 'GroupedProduct', 'DownloadableProduct'];
 
 export const useAddToCartButton = props => {
-    const { item, urlSuffix, quantity } = props;
+    const [, { addToast }] = useToasts();
+    const { formatMessage } = useIntl();
+    const { location } = useHistory();
+    const isHomePage = location.pathname === '/';
 
+
+    const { item, urlSuffix, quantity , setIsConfigurableProductUnselected } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
     const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery } = operations;
 
@@ -68,15 +75,45 @@ export const useAddToCartButton = props => {
                     }
                 });
                 setIsLoading(false);
+                addToast({
+                    type: 'success',
+                    message: formatMessage({
+                        id: 'cartPage.AddedSuccessfully',
+                        defaultMessage: 'Added to cart successfully.'
+                    }),
+                    timeout: 6000
+                });
             } else if (productType === 'ConfigurableProduct') {
-                const productLink = resourceUrl(`/${item.url_key}${urlSuffix || ''}`);
-
-                history.push(productLink);
-            } else {
+                if (!isHomePage) {
+                    setIsConfigurableProductUnselected(false);
+                    addToast({
+                        type: 'error',
+                        message: formatMessage({
+                            id: 'cartPage.ConfigurableProductSelectionRequired',
+                            defaultMessage: 'Please select an item.'
+                        }),
+                        timeout: 6000
+                    });
+                    return;
+                } else if (isHomePage) {
+                    const productLink = resourceUrl(`/${item.url_key}${urlSuffix || ''}`);
+                    history.push(productLink);
+                }
+            }
+             else {
                 console.warn('Unsupported product type unable to handle.');
             }
-        } catch (error) {
-            console.error(error);
+        } 
+        catch (err) {
+            console.error("Failed to add product to cart", err);
+            addToast({
+                type: 'error',
+                message: formatMessage({
+                    id: 'cartPage.AddedFailure',
+                    defaultMessage: 'Failed to add an item to cart.'
+                }),
+                timeout: 6000
+            });
         }
     }, [
         addConfigurableProductToCart,
@@ -88,12 +125,14 @@ export const useAddToCartButton = props => {
         item.url_key,
         productType,
         quantity,
-        urlSuffix
+        urlSuffix,
+        setIsConfigurableProductUnselected
     ]);
 
-    return {
+    return { 
         handleAddToCart,
         isDisabled,
-        isInStock
+        isInStock,
+        setIsConfigurableProductUnselected
     };
 };
