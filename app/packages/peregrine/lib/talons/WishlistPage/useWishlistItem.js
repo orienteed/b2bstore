@@ -62,9 +62,14 @@ export const useWishlistItem = props => {
 
     const [removeProductFromWishlistError, setRemoveProductFromWishlistError] = useState(null);
 
+    const [quantity, setQuantity] = useState(1);
+    const handleQuantityChange = tempQuantity => {
+        setQuantity(tempQuantity);
+    };
+    
     const cartItem = useMemo(() => {
         const item = {
-            quantity: 1,
+            quantity,
             sku
         };
 
@@ -87,7 +92,7 @@ export const useWishlistItem = props => {
         }
 
         return item;
-    }, [configurableOptions, selectedConfigurableOptions, sku]);
+    }, [configurableOptions, selectedConfigurableOptions, sku, quantity]);
 
     const [addWishlistSimpleProductToCart] = useMutation(addConfigurableProductToCartMutation, {
         variables: {
@@ -225,7 +230,8 @@ export const useWishlistItem = props => {
         hasRemoveProductFromWishlistError: !!removeProductFromWishlistError,
         imageProps,
         isSupportedProductType,
-        isInStock
+        isInStock,
+        handleQuantityChange
     };
 };
 

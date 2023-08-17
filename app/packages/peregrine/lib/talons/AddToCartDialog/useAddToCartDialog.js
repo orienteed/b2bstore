@@ -28,7 +28,10 @@ export const useAddToCartDialog = props => {
     const [multipleOptionSelections, setMultipleOptionSelections] = useState(new Map());
 
     const [{ cartId }] = useCartContext();
-
+    const [quantity, setQuantity] = useState(1);
+    const handleQuantityChange = tempQuantity => {
+        setQuantity(tempQuantity);
+    };
     const optionCodes = useMemo(() => {
         const optionCodeMap = new Map();
         if (item) {
@@ -164,8 +167,6 @@ export const useAddToCartDialog = props => {
     );
     const handleAddToCart = useCallback(async () => {
         try {
-            const quantity = 1;
-
             await addProductToCart({
                 variables: {
                     cartId,
@@ -210,7 +211,8 @@ export const useAddToCartDialog = props => {
         handleOnClose,
         item,
         selectedOptionsArray,
-        sku
+        sku,
+        quantity
     ]);
 
     const imageProps = useMemo(() => {
@@ -264,6 +266,7 @@ export const useAddToCartDialog = props => {
         imageProps,
         isFetchingProductDetail,
         priceProps,
-        selectedVariant
+        selectedVariant,
+        handleQuantityChange
     };
 };

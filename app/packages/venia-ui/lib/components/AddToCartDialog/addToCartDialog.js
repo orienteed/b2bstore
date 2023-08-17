@@ -12,6 +12,7 @@ import Options from '../ProductOptions';
 import defaultClasses from './addToCartDialog.module.css';
 import FormError from '../FormError';
 import { Spinner } from '../LoadingIndicator';
+import QuantityStepper from '../QuantityStepper/quantityStepper';
 
 const AddToCartDialog = props => {
     const { item } = props;
@@ -26,7 +27,8 @@ const AddToCartDialog = props => {
         imageProps,
         isFetchingProductDetail,
         priceProps,
-        selectedVariant
+        selectedVariant,
+        handleQuantityChange
     } = talonProps;
     const classes = useStyle(defaultClasses, props.classes);
 
@@ -60,13 +62,26 @@ const AddToCartDialog = props => {
                             }}
                             outOfStockVariants={outOfStockVariants}
                         />
-                        <Button {...buttonProps}>
-                            {selectedVariant?.product.stock_status === 'OUT_OF_STOCK' ? (
-                                <FormattedMessage id="productDetail.outOfStock" defaultMessage="Out of stock" />
-                            ) : (
-                                <FormattedMessage id="addToCartDialog.addToCart" defaultMessage="Add to Cart" />
-                            )}
-                        </Button>
+                        <div className={classes.fornWrapper}>
+                            <QuantityStepper
+                                fieldName={`${item.sku}`}
+                                classes={{
+                                    button_increment: classes.disable,
+                                    button_decrement: classes.disable,
+                                    root: classes.disable_gap
+                                }}
+                                min={1}
+                                isPDP={true}
+                                onChange={e => handleQuantityChange(e?.target?.value || e)}
+                            />
+                            <Button {...buttonProps}>
+                                {selectedVariant?.product.stock_status === 'OUT_OF_STOCK' ? (
+                                    <FormattedMessage id="productDetail.outOfStock" defaultMessage="Out of stock" />
+                                ) : (
+                                    <FormattedMessage id="addToCartDialog.addToCart" defaultMessage="Add to Cart" />
+                                )}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             );

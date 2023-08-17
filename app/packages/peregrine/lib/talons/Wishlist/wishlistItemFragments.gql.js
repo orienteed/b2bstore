@@ -4,6 +4,11 @@ export const WishlistItemFragment = gql`
     fragment WishlistItemFragment on WishlistItemInterface {
         id
         product {
+            id
+            description {
+                html
+            }
+            stock_status
             uid
             orParentSku
             image {

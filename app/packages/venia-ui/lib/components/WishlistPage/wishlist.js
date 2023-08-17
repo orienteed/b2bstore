@@ -21,6 +21,7 @@ import { useReactToPrint } from 'react-to-print';
 
 import { ShareWithBorderIcon } from '@magento/venia-ui/lib/assets/shareWithBorderIcon';
 import { ThrashIcon } from '@magento/venia-ui/lib/assets/ThrashIcon';
+import { CSVLink } from 'react-csv';
 /**
  * A single wishlist container.
  *
@@ -47,7 +48,7 @@ const Wishlist = props => {
 
     const wishlistId = id;
     const talonProps = useWishlist({ id, itemsCount, isCollapsed });
-    const { handleContentToggle, isOpen, items, isLoading, isFetchingMore, handleLoadMore } = talonProps;
+    const { handleContentToggle, isOpen, items, isLoading, isFetchingMore, handleLoadMore, csvItems } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
     const contentClass = isOpen ? classes.content : classes.content_hidden;
@@ -204,12 +205,11 @@ const Wishlist = props => {
                     <FormattedMessage id={'wishlist.printPage'} defaultMessage={'Print page'} />
                 </span>
             </button>
-
-            <article className={classes.addAllToCartShareContainer}>
-                <button onClick={handleShareClick} className={classes.shareIcon}>
-                    <ShareWithBorderIcon />
-                </button>
-            </article>
+            <CSVLink filename="Downloaded-favourateItems.csv" data={csvItems}>
+                <Button priority='high'>
+                    <FormattedMessage id={'download'} defaultMessage={'download'} />
+                </Button>
+            </CSVLink>
         </section>
     );
 
