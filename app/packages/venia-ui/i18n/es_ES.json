@@ -759,6 +759,7 @@
     "productAlert.subscribedOn": "Suscrito On",
     "productAlerts.infoText": "Suscríbase ahora a las alertas de cambio de precio Registre su dirección de correo electrónico para ser el primero en enterarse de los cambios de precio de nuestros productos. Estará siempre informado de las novedades en los precios de nuestros productos.",
     "productAlerts.modalFooterText": "  Tenga en cuenta que el correo electrónico de reposición de existencias sólo se enviará una vez y que su dirección de correo electrónico no se compartirá ni publicará con nadie.",
+    "productAlerts.pleaseSelect": "Notificar-me sobre a disponibilidade do produto",
     "productAlerts.priceAlertModal": "Esté atento a cualquier actualización sobre el precio de este producto.",
     "productAlerts.stockAlertModal": "Esté atento a las novedades sobre la disponibilidad de este producto.",
     "productDetail.inStock": "En stock",
