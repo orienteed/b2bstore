@@ -96,7 +96,7 @@ const CreateAccount = props => {
                     validate={isRequired}
                     validateOnBlur
                     mask={value => value && value.trim()}
-                    initialValue={'lastname'}
+                    initialValue={' '}
                     maskOnBlur={true}
                     data-cy="customer-lastname"
                 />
