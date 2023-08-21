@@ -30,7 +30,7 @@
     "addressBookPage.addressBookText": "Livro de endereços",
     "addressBookPage.editDialogTitle": "Editar morada",
     "addressBookPage.makeDefaultAddress": "Tornar morada predefinida",
-    "addressBookPage.telephone": "Telefone",
+    "addressBookPage.telephone": "Telefone {telephone}",
     "addressCard.defaultText": "Predefinição",
     "addToCartButton.addItemToCart": "ADICIONAR AO CARRINHO",
     "addToCartButton.addItemToCartAriaLabel": "Adicionar ao carrinho",

@@ -30,7 +30,7 @@
     "addressBookPage.addressBookText": "Directorio",
     "addressBookPage.editDialogTitle": "Editar dirección",
     "addressBookPage.makeDefaultAddress": "Seleccionar como dirección de envío por defecto",
-    "addressBookPage.telephone": "Teléfono",
+    "addressBookPage.telephone": "Teléfono {telephone}",
     "addressCard.defaultText": "Por defecto",
     "addToCartButton.addItemToCart": "AÑADIR AL CARRITO",
     "addToCartButton.addItemToCartAriaLabel": "Añadir a la cesta",
