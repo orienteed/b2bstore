@@ -1,3 +1,5 @@
+import { isValidNumber } from 'libphonenumber-js';
+
 /**
  * @fileoverview This file houses functions that can be used for
  * validation of form fields.
@@ -161,3 +163,11 @@ export const isNotEqualToField = (value, values, fieldKey) => {
     };
     return value !== values[fieldKey] ? SUCCESS : message;
 };
+
+export const validatePhoneNumber = (phoneNumber) => {
+    const message = {
+        id: 'phoneNumber.invalid',
+        defaultMessage: 'Invalid phone number',
+    };
+    return isValidNumber(phoneNumber) ? SUCCESS : message;
+  };

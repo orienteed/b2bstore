@@ -722,6 +722,7 @@
     "pagination.nextPage": "move to the next page",
     "pagination.prevPage": "move to the previous page",
     "personalPrices": "Personal Prices",
+    "phoneNumber.invalid": "Phone number is invalid",
     "postcode.label": "ZIP / Postal Code",
     "priceAdjustments.couponCode": "Enter Coupon Code",
     "priceAdjustments.giftOptions": "See Gift Options",

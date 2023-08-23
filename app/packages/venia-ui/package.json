@@ -35,6 +35,7 @@
   "dependencies": {
     "informed": "~3.29.0",
     "jarallax": "~1.11.1",
+    "libphonenumber-js": "^1.10.41",
     "load-google-maps-api": "~2.0.1",
     "lodash.escape": "~4.0.1",
     "lodash.over": "~4.7.0",
