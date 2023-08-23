@@ -44,19 +44,30 @@ export const useQuickOrderForm = props => {
             Papa.parse(file, {
                 complete: function(result) {
                     const dataValidated = formatData(result.data);
-                    setProducts([]);
-                    dataValidated.map(async item => {
-                        const data = await getproduct({
-                            variables: { sku: item[0] }
+                    if (dataValidated.length > 0) {
+                        setProducts([]);
+                        dataValidated.map(async item => {
+                            const data = await getproduct({
+                                variables: { sku: item[0] }
+                            });
+                            console.log({ data });
+                            await setProducts(prev => [
+                                ...prev,
+                                {
+                                    ...data?.data?.products?.items[0],
+                                    quantity: item[1]
+                                }
+                            ]);
                         });
-                        setProducts(prev => [
-                            ...prev,
-                            {
-                                ...data?.data?.products?.items[0],
-                                quantity: item[1]
-                            }
-                        ]);
-                    });
+                        setTimeout(() => {
+                            setProducts(prev => [
+                                ...prev,
+                                {
+                                    name: ''
+                                }
+                            ]);
+                        }, 0);
+                    }
                 }
             });
         }

@@ -15,6 +15,7 @@ export const GET_PRODUCT_FOR_QUICK_ORDER_BY_SKU = gql`
     query GetProductDetailForQuickOrderBySku($sku: String!) {
         products(search: $sku) {
             items {
+                stock_status
                 orParentSku
                 id
                 uid
