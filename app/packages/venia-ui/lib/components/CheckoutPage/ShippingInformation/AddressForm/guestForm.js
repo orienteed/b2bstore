@@ -7,7 +7,8 @@ import { useGuestForm } from '@magento/peregrine/lib/talons/CheckoutPage/Shippin
 import { useToasts } from '@magento/peregrine';
 
 import { useStyle } from '../../../../classify';
-import { isRequired } from '../../../../util/formValidators';
+import combine from '../../../../util/combineValidators';
+import { isRequired, validatePhoneNumber } from '../../../../util/formValidators';
 import Button from '../../../Button';
 import Country from '../../../Country';
 import Field, { Message } from '../../../Field';
@@ -317,7 +318,7 @@ const GuestForm = props => {
                             field="telephone"
                             id="telephone"
                             data-cy="GuestForm-telephone"
-                            validate={isRequired}
+                            validate={combine([isRequired, validatePhoneNumber])}
                         />
                     </Field>
                 </div>

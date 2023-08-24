@@ -8,7 +8,8 @@ import Postcode from '@magento/venia-ui/lib/components/Postcode';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import FormError from '@magento/venia-ui/lib/components/FormError';
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import { isRequired, validatePhoneNumber } from '@magento/venia-ui/lib/util/formValidators';
+import combine from '../../../util/combineValidators';
 
 import defaultClasses from './billingAddress.module.css';
 
@@ -197,7 +198,7 @@ const BillingAddress = props => {
                             <TextInput
                                 id="phoneNumber"
                                 field="phoneNumber"
-                                validate={isFieldRequired}
+                                validate={combine([isFieldRequired, validatePhoneNumber])}
                                 initialValue={initialValues.phoneNumber}
                             />
                         </Field>
