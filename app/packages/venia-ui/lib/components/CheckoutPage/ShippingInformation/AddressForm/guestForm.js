@@ -298,6 +298,7 @@ const GuestForm = props => {
                             defaultMessage: 'ZIP / Postal Code'
                         })}
                         validate={isRequired}
+                        countryCodeField="country"
                         data-cy="GuestForm-postcode"
                     />
                 </div>

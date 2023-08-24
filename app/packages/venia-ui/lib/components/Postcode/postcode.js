@@ -9,7 +9,7 @@ import TextInput from '../TextInput';
 import defaultClasses from './postcode.module.css';
 
 const Postcode = props => {
-    const { classes: propClasses, fieldInput, label, ...inputProps } = props;
+    const { classes: propClasses, fieldInput, countryCodeField, label, ...inputProps } = props;
 
     const classes = useStyle(defaultClasses, propClasses);
     const postcodeProps = {
@@ -28,9 +28,10 @@ const Postcode = props => {
 
       const errorMessage = formatMessage({
         id: 'postcode.invalid',
+        defaultMessage: 'Invalid postcode'
       })
 
-    const { warning } = usePostcode({ fieldInput });
+    const { warning } = usePostcode({ fieldInput, countryCodeField });
 
     return (
       <>
@@ -53,7 +54,8 @@ const Postcode = props => {
 export default Postcode;
 
 Postcode.defaultProps = {
-    fieldInput: 'postcode'
+    fieldInput: 'postcode',
+    countryCodeField: 'country_code'
 };
 
 Postcode.propTypes = {
@@ -61,6 +63,7 @@ Postcode.propTypes = {
         root: string
     }),
     fieldInput: string,
-    label: string
+    label: string,
+    countryCodeField: string
 };
 

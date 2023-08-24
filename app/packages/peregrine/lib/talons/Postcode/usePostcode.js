@@ -13,7 +13,7 @@ import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
  * @return {PostcodeTalonProps}
  */
 export const usePostcode = props => {
-    const { countryCodeField = 'country', fieldInput = 'postcode' } = props;
+    const { countryCodeField = 'country_code', fieldInput = 'postcode' } = props;
     const [warning, setWarning] = useState('');
     const hasInitialized = useRef(false);
     const countryFieldState = useFieldState(countryCodeField);

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 
+import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -150,6 +151,8 @@ export const useAddressBookPage = (props = {}) => {
 
     const handleConfirmDialog = useCallback(
         async formValues => {
+            const { country_code, postcode } = formValues;
+            if(!validatePostcode(postcode, country_code)) return; 
             if (isDialogEditMode) {
                 try {
                     const address = {
@@ -158,9 +161,10 @@ export const useAddressBookPage = (props = {}) => {
                                 middlename: formValues.middlename || '',
                                 lastname: 'lastname',
                                 // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
+                                street: formValues.street.filter(e => e),
+                                country_code,
+                                postcode: postcode
                     };
-
                     await updateCustomerAddress({
                         variables: {
                             addressId: formAddress.id,
@@ -190,6 +194,7 @@ export const useAddressBookPage = (props = {}) => {
                     return;
                 }
             } else {
+                if(!validatePostcode(postcode, country_code)) return; 
                 try {
                     const address = {
                                 ...formValues,
@@ -197,8 +202,11 @@ export const useAddressBookPage = (props = {}) => {
                                 middlename: formValues.middlename || '',
                                 lastname: 'lastname',
                                 // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
+                                street: formValues.street.filter(e => e),
+                                postcode: postcode,
+                                country_code
                     };
+                    console.log('address: ', address)
                     await createCustomerAddress({
                         variables: {
                             address
