@@ -23,6 +23,7 @@ import { useIntl } from 'react-intl';
 
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
 import CompareIcon from '@magento/venia-ui/lib/assets/compare.svg';
+import { BrowserPersistence } from '@magento/peregrine/lib/util';
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 
@@ -37,9 +38,11 @@ const Header = props => {
     } = useHeader();
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isSearchOpen ? classes.open : classes.closed;
-
+    const storage = new BrowserPersistence();
     const [{ isSignedIn }] = useUserContext();
     const { productsCount } = useCompareProduct();
+    const storeConfigRequiredLogin = storage.getItem('is_required_login');
+    const isRequiredLogin = storeConfigRequiredLogin === '1';
 
     const searchBarFallback = (
         <div className={classes.searchFallback} ref={searchRef}>
@@ -84,7 +87,7 @@ const Header = props => {
                     >
                         <Logo classes={{ logo: classes.logo }} />
                     </Link>
-                    <MegaMenu />
+                    {(!isRequiredLogin || (isRequiredLogin && isSignedIn)) && <MegaMenu />}
                     <div className={classes.secondaryActions}>
                         <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
                         <AccountTrigger />
