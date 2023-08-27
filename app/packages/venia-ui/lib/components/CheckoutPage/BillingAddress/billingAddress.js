@@ -106,7 +106,7 @@ const BillingAddress = props => {
                                 id="firstName"
                                 field="firstName"
                                 validate={isFieldRequired}
-                                initialValue={initialValues.firstName}
+                                initialValue={initialValues?.firstName}
                             />
                         </Field>
                         <Field
@@ -147,7 +147,7 @@ const BillingAddress = props => {
                                 id="street1"
                                 field="street1"
                                 validate={isFieldRequired}
-                                initialValue={initialValues.street1}
+                                initialValue={initialValues?.street?.[0]}
                             />
                         </Field>
                         <Field
@@ -159,7 +159,7 @@ const BillingAddress = props => {
                             })}
                             optional={true}
                         >
-                            <TextInput id="street2" field="street2" initialValue={initialValues.street2} />
+                            <TextInput id="street2" field="street2" initialValue={initialValues?.street?.[1]} />
                         </Field>
                         <Field
                             id="city"
@@ -211,7 +211,7 @@ const BillingAddress = props => {
                         </span>
                         <span>
                             {isBillingAddressDefault
-                                ? initialValues?.defaultBillingAddressObject.firstname
+                                ? initialValues?.defaultBillingAddressObject.firstName
                                 : initialValues.firstName}
                         </span>
                     </div>{' '}
@@ -232,7 +232,7 @@ const BillingAddress = props => {
                         <span>
                             {isBillingAddressDefault
                                 ? initialValues?.defaultBillingAddressObject?.street[0]
-                                : initialValues.street1}
+                                : initialValues?.street?.[0]}
                         </span>
                     </div>
                     {(initialValues?.defaultBillingAddressObject?.street?.length > 1 || initialValues.street2) && (
@@ -244,7 +244,7 @@ const BillingAddress = props => {
                             <span>
                                 {isBillingAddressDefault
                                     ? initialValues?.defaultBillingAddressObject.street[1]
-                                    : initialValues.street2}
+                                    : initialValues?.street?.[1]}
                             </span>
                         </div>
                     )}

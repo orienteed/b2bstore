@@ -103,8 +103,8 @@ export const useCheckoutPage = props => {
     const [activeContent, setActiveContent] = useState('checkout');
     const [checkoutStep, setCheckoutStep] = useState(CHECKOUT_STEP.SHIPPING_ADDRESS);
     const [guestSignInUsername, setGuestSignInUsername] = useState('');
-
     const [currentSelectedPaymentMethod, setCurrentSelectedPaymentMethod] = useState('');
+    const [resetEditing, setResetEditing] = useState(false);
 
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
@@ -139,7 +139,7 @@ export const useCheckoutPage = props => {
             cartId
         }
     });
-    
+
     const [
         updatePaymentMethod,
         {
@@ -156,10 +156,12 @@ export const useCheckoutPage = props => {
     };
 
     const onBillingAddressChangedSuccess = useCallback(() => {
-        updatePaymentMethod({
-            variables: { cartId, payment_method: currentSelectedPaymentMethod }
-        });
-    }, [updatePaymentMethod, cartId, currentSelectedPaymentMethod]);
+        if (currentSelectedPaymentMethod && currentSelectedPaymentMethod.code) {
+            updatePaymentMethod({
+                variables: { cartId, payment_method: currentSelectedPaymentMethod }
+            });
+        }
+    }, [updatePaymentMethod, cartId, currentSelectedPaymentMethod, currentSelectedPaymentMethod]);
 
     const cartItems = useMemo(() => {
         return (checkoutData && checkoutData?.cart?.items) || [];
@@ -192,6 +194,7 @@ export const useCheckoutPage = props => {
     }, [placeOrderError]);
 
     const handleReviewOrder = () => {
+        setResetEditing(false);
         if (deliveryDateIsActivated) submitDeliveryDate();
         submitOrderAttribute();
         ReactGA.event({
@@ -201,6 +204,13 @@ export const useCheckoutPage = props => {
         });
         setReviewOrderButtonClicked(true);
     };
+
+    const handleBackToReview = useCallback(() => {
+        setCheckoutStep(CHECKOUT_STEP.SHIPPING_ADDRESS);
+        resetReviewOrderButtonClicked();
+        setResetEditing(true);
+        setCurrentSelectedPaymentMethod('');
+    }, []);
 
     const resetReviewOrderButtonClicked = useCallback(() => {
         setReviewOrderButtonClicked(false);
@@ -420,6 +430,7 @@ export const useCheckoutPage = props => {
         error: checkoutError,
         guestSignInUsername,
         handlePlaceOrder,
+        handleBackToReview,
         hasError: !!checkoutError,
         isCartEmpty: !(checkoutData && checkoutData.cart?.total_quantity),
         isGuestCheckout: !isSignedIn,
@@ -451,6 +462,7 @@ export const useCheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod 
+        currentSelectedPaymentMethod,
+        resetEditing
     };
 };

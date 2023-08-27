@@ -111,7 +111,9 @@ const CheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod
+        currentSelectedPaymentMethod,
+        handleBackToReview,
+        resetEditing
     } = talonProps;
     const [, { addToast }] = useToasts();
 
@@ -246,6 +248,7 @@ const CheckoutPage = props => {
                     shouldSubmit={reviewOrderButtonClicked}
                     setCurrentSelectedPaymentMethod={setCurrentSelectedPaymentMethod}
                     paymentMethodMutationData={paymentMethodMutationData}
+                    resetEditing={resetEditing}
                 />
             ) : (
                 <h3 className={classes.payment_information_heading}>
@@ -287,15 +290,20 @@ const CheckoutPage = props => {
 
         const placeOrderButton =
             checkoutStep === CHECKOUT_STEP.REVIEW ? (
-                <Button
-                    onClick={handlePlaceOrder}
-                    priority="high"
-                    className={classes.place_order_button}
-                    data-cy="CheckoutPage-placeOrderButton"
-                    disabled={isUpdating || placeOrderLoading || orderDetailsLoading || placeOrderButtonClicked}
-                >
-                    <FormattedMessage id={'checkoutPage.placeOrder'} defaultMessage={'Place Order'} />
-                </Button>
+                <>
+                    <Button
+                        onClick={handlePlaceOrder}
+                        priority="high"
+                        className={classes.place_order_button}
+                        data-cy="CheckoutPage-placeOrderButton"
+                        disabled={isUpdating || placeOrderLoading || orderDetailsLoading || placeOrderButtonClicked}
+                    >
+                        <FormattedMessage id={'checkoutPage.placeOrder'} defaultMessage={'Place Order'} />
+                    </Button>
+                    <Button onClick={handleBackToReview} priority="high" className={classes.place_order_button}>
+                        <FormattedMessage id={'checkoutPage.returnToReviewOrder'} defaultMessage={'Return To Review'} />
+                    </Button>
+                </>
             ) : null;
 
         // If we're on mobile we should only render price summary in/after review.

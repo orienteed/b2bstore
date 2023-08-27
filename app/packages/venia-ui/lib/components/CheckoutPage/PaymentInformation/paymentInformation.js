@@ -23,17 +23,17 @@ const PaymentInformation = props => {
         shouldSubmit,
         checkoutError,
         setCurrentSelectedPaymentMethod,
-        paymentMethodMutationData
+        paymentMethodMutationData,
+        resetEditing
     } = props;
-
     const classes = useStyle(defaultClasses, propClasses);
-
     const talonProps = usePaymentInformation({
         onSave,
         checkoutError,
         resetShouldSubmit,
         setCheckoutStep,
-        shouldSubmit
+        shouldSubmit,
+        resetEditing
     });
 
     const {

@@ -25,7 +25,7 @@ import { CHECKOUT_STEP } from '../useCheckoutPage';
  * @returns {PaymentInformationTalonProps}
  */
 export const usePaymentInformation = props => {
-    const { onSave, checkoutError, resetShouldSubmit, setCheckoutStep, shouldSubmit } = props;
+    const { onSave, checkoutError, resetShouldSubmit, setCheckoutStep, shouldSubmit, resetEditing } = props;
 
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
@@ -59,13 +59,19 @@ export const usePaymentInformation = props => {
     const hideEditModal = useCallback(() => {
         setIsEditModalActive(false);
     }, []);
-
-    const handlePaymentSuccess = useCallback(() => {
-        setDoneEditing(true);
-        if (onSave) {
+    useEffect(() => {
+        if (onSave && doneEditing) {
             onSave();
         }
-    }, [onSave]);
+    }, [onSave, doneEditing]);
+
+    const handlePaymentSuccess = useCallback(() => {
+        if (!resetEditing) {
+            setDoneEditing(true);
+        } else {
+            setDoneEditing(false);
+        }
+    }, [resetEditing]);
 
     const handlePaymentError = useCallback(() => {
         resetShouldSubmit();
@@ -225,7 +231,8 @@ export const usePaymentInformation = props => {
         hideEditModal,
         isEditModalActive,
         isLoading,
-        showEditModal
+        showEditModal,
+        setDoneEditing
     };
 };
 

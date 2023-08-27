@@ -25,11 +25,11 @@ const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 export const mapAddressData = rawAddressData => {
     if (rawAddressData) {
         const {
-            firstname: firstName,
+            firstName: firstName,
             lastname: lastName,
             city,
             postcode,
-            telephone: phoneNumber,
+            phoneNumber: phoneNumber,
             street,
             country,
             region
