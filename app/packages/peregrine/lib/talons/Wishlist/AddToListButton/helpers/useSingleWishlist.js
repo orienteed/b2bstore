@@ -23,25 +23,25 @@ export const useSingleWishlist = props => {
         { data: addProductData, error: errorAddingProduct, loading: isAddingToWishlist }
     ] = useMutation(addProductToWishlistMutation);
 
-    const [
-        removeProductFromWishlist,
-        { data: removeProductData, error: errorRemovingProduct }
-    ] = useMutation(removeProductsFromWishlistMutation, {
-        update: cache => {
-            cache.modify({
-                id: 'ROOT_QUERY',
-                fields: {
-                    customerWishlistProducts: cachedProducts => {
-                        return cachedProducts.filter(sku => sku !== item.sku);
+    const [removeProductFromWishlist, { data: removeProductData, error: errorRemovingProduct }] = useMutation(
+        removeProductsFromWishlistMutation,
+        {
+            update: cache => {
+                cache.modify({
+                    id: 'ROOT_QUERY',
+                    fields: {
+                        customerWishlistProducts: cachedProducts => {
+                            return cachedProducts.filter(sku => sku !== item.sku);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    });
+    );
 
     const { data } = useQuery(getWishlistProductsQuery, {
-        variables: { 
-            id: '0', 
+        variables: {
+            id: '0'
         }
     });
 
@@ -54,7 +54,7 @@ export const useSingleWishlist = props => {
     } = useQuery(getProductsInWishlistsQuery);
 
     const isSelected = useMemo(() => {
-        return customerWishlistProducts.includes(item.sku)
+        return customerWishlistProducts.includes(item.sku);
     }, [customerWishlistProducts, isAddingToWishlist, item.sku]);
 
     const [showLoginToast, setShowLoginToast] = useState(0);
@@ -66,8 +66,7 @@ export const useSingleWishlist = props => {
         if (!isSignedIn) {
             setShowLoginToast(current => ++current);
             return;
-        }
-         else {
+        } else {
             try {
                 if (isSelected) {
                     await removeProductFromWishlist({
@@ -76,8 +75,7 @@ export const useSingleWishlist = props => {
                             wishlistItemsId: wishlistItemIds
                         }
                     });
-                }
-                 else {
+                } else {
                     if (beforeAdd) {
                         await beforeAdd();
                     }
@@ -95,10 +93,9 @@ export const useSingleWishlist = props => {
 
                     if (afterAdd) {
                         afterAdd();
-                    } 
+                    }
                 }
-            }
-             catch (error) {
+            } catch (error) {
                 console.error(error);
             }
         }
@@ -185,7 +182,6 @@ export const useSingleWishlist = props => {
         }
         return null;
     }, [errorRemovingProduct, formatMessage]);
-    
 
     const buttonProps = useMemo(
         () => ({

@@ -25,7 +25,7 @@ const AddToListButton = props => {
         removeSuccessToastProps
     } = talonProps;
 
-    useCommonToasts({ errorToastProps, loginToastProps, successToastProps,removeSuccessToastProps });
+    useCommonToasts({ errorToastProps, loginToastProps, successToastProps, removeSuccessToastProps });
     const { buttonProps: ariaButtonProps } = useButton(buttonProps, buttonRef);
 
     const classes = useStyle(defaultClasses, props.classes);

@@ -26,24 +26,17 @@ const AddToListButton = props => {
         removeSuccessToastProps
     } = talonProps;
 
-    useCommonToasts({ errorToastProps, loginToastProps, successToastProps , removeSuccessToastProps});
+    useCommonToasts({ errorToastProps, loginToastProps, successToastProps, removeSuccessToastProps });
     const { buttonProps: buttonAriaProps } = useButton(buttonProps, buttonRef);
 
-    const multipleWishlistDialog = modalProps ? (
-        <WishlistDialog {...modalProps} />
-    ) : null;
+    const multipleWishlistDialog = modalProps ? <WishlistDialog {...modalProps} /> : null;
 
     const classes = useStyle(defaultClasses, props.classes);
     const buttonClass = isSelected ? classes.root_selected : classes.root;
 
     return (
         <Fragment>
-            <button
-                ref={buttonRef}
-                className={buttonClass}
-                {...buttonAriaProps}
-                data-cy="addToListButton-root"
-            >
+            <button ref={buttonRef} className={buttonClass} {...buttonAriaProps} data-cy="addToListButton-root">
                 {props.icon} {buttonText}
             </button>
             {multipleWishlistDialog}
