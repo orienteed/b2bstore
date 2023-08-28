@@ -65,7 +65,7 @@ const AddToCartButton = props => {
             </span>
         </Button>
     );
-    
+
     const outOfStockBtn =
         process.env.B2BSTORE_VERSION === 'PREMIUM' && isProductAlertEnabled?.mp_productalerts_stock_notify ? (
             <NotifyButton handleOpendStockModal={handleOpendStockModal} />

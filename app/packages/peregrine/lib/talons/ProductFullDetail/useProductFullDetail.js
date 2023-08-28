@@ -15,7 +15,6 @@ import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConf
 import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/util/isSupportedProductType';
 import { useToasts } from '@magento/peregrine';
 
-
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './productFullDetail.gql';
 
@@ -126,7 +125,7 @@ const getIsAllOutOfStock = product => {
     return stock_status === OUT_OF_STOCK_CODE;
 };
 
-const getMediaGalleryEntries = (product, optionCodes, optionSelections, ) => {
+const getMediaGalleryEntries = (product, optionCodes, optionSelections) => {
     let value = [];
     const { media_gallery_entries, variants } = product;
     const isConfigurable = isProductConfigurable(product);
@@ -399,18 +398,18 @@ export const useProductFullDetail = props => {
     }, [attributeIdToValuesMap, optionSelections]);
     const handleAddToCart = useCallback(
         async formValues => {
-            const { quantity } = formValues;         
+            const { quantity } = formValues;
             if (hasDeprecatedOperationProp) {
                 const payload = {
                     item: product,
                     productType,
                     quantity
                 };
-    
+
                 if (isProductConfigurable(product)) {
                     appendOptionsToPayload(payload, optionSelections, optionCodes);
                 }
-    
+
                 if (isSupportedProductType) {
                     const variables = {
                         cartId,
@@ -418,7 +417,7 @@ export const useProductFullDetail = props => {
                         product: payload.item,
                         quantity: payload.quantity,
                         sku: payload.item.sku
-                    }; 
+                    };
                     // Use the proper mutation for the type.
                     if (productType === 'SimpleProduct') {
                         try {
@@ -454,7 +453,7 @@ export const useProductFullDetail = props => {
                         }
                     ]
                 };
-    
+
                 if (selectedOptionsArray.length) {
                     variables.product.selected_options = selectedOptionsArray;
                 }
@@ -469,11 +468,13 @@ export const useProductFullDetail = props => {
                             }),
                             timeout: 6000
                         });
-                        const selectedOptionsLabels = selectedOptionsArray?.map((uid, i) => ({
-                            attribute: product.configurable_options[i].label,
-                            value: product.configurable_options[i].values.findLast(x => x.uid === uid)?.label || null
-                        })) || null;
-    
+                        const selectedOptionsLabels =
+                            selectedOptionsArray?.map((uid, i) => ({
+                                attribute: product.configurable_options[i].label,
+                                value:
+                                    product.configurable_options[i].values.findLast(x => x.uid === uid)?.label || null
+                            })) || null;
+
                         dispatch({
                             type: 'CART_ADD_ITEM',
                             payload: {
@@ -483,8 +484,7 @@ export const useProductFullDetail = props => {
                                 selectedOptions: selectedOptionsLabels,
                                 quantity
                             }
-                        }
-                        );
+                        });
                     });
                 } catch {
                     return;

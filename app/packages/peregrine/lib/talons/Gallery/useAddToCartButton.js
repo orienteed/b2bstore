@@ -35,8 +35,7 @@ export const useAddToCartButton = props => {
     const { location } = useHistory();
     const isHomePage = location.pathname === '/';
 
-
-    const { item, urlSuffix, quantity , setIsConfigurableProductUnselected } = props;
+    const { item, urlSuffix, quantity, setIsConfigurableProductUnselected } = props;
     const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
     const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery } = operations;
 
@@ -99,13 +98,11 @@ export const useAddToCartButton = props => {
                     const productLink = resourceUrl(`/${item.url_key}${urlSuffix || ''}`);
                     history.push(productLink);
                 }
-            }
-             else {
+            } else {
                 console.warn('Unsupported product type unable to handle.');
             }
-        } 
-        catch (err) {
-            console.error("Failed to add product to cart", err);
+        } catch (err) {
+            console.error('Failed to add product to cart', err);
             addToast({
                 type: 'error',
                 message: formatMessage({
@@ -129,7 +126,7 @@ export const useAddToCartButton = props => {
         setIsConfigurableProductUnselected
     ]);
 
-    return { 
+    return {
         handleAddToCart,
         isDisabled,
         isInStock,
