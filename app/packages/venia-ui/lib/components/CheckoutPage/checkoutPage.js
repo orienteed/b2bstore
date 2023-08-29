@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { AlertCircle as AlertCircleIcon, ArrowLeft } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import { useWindowSize, useToasts } from '@magento/peregrine';
@@ -41,6 +41,7 @@ import OrderAttributes from './OrderAttributes/orderAttributesForm';
 import { useOrderAttributes } from '@magento/peregrine/lib/talons/CheckoutPage/OrderAttributes/useOrderAttributes';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
+const backIcon = <Icon src={ArrowLeft} size={20} />;
 
 const CheckoutPage = props => {
     const { classes: propClasses } = props;
@@ -290,20 +291,15 @@ const CheckoutPage = props => {
 
         const placeOrderButton =
             checkoutStep === CHECKOUT_STEP.REVIEW ? (
-                <>
-                    <Button
-                        onClick={handlePlaceOrder}
-                        priority="high"
-                        className={classes.place_order_button}
-                        data-cy="CheckoutPage-placeOrderButton"
-                        disabled={isUpdating || placeOrderLoading || orderDetailsLoading || placeOrderButtonClicked}
-                    >
-                        <FormattedMessage id={'checkoutPage.placeOrder'} defaultMessage={'Place Order'} />
-                    </Button>
-                    <Button onClick={handleBackToReview} priority="high" className={classes.place_order_button}>
-                        <FormattedMessage id={'checkoutPage.returnToReviewOrder'} defaultMessage={'Return To Review'} />
-                    </Button>
-                </>
+                <Button
+                    onClick={handlePlaceOrder}
+                    priority="high"
+                    className={classes.place_order_button}
+                    data-cy="CheckoutPage-placeOrderButton"
+                    disabled={isUpdating || placeOrderLoading || orderDetailsLoading || placeOrderButtonClicked}
+                >
+                    <FormattedMessage id={'checkoutPage.placeOrder'} defaultMessage={'Place Order'} />
+                </Button>
             ) : null;
 
         // If we're on mobile we should only render price summary in/after review.
@@ -371,6 +367,7 @@ const CheckoutPage = props => {
         checkoutContent = (
             <div className={checkoutContentClass}>
                 <div className={classes.heading_container}>
+                    {checkoutStep > 3 && <div onClick={handleBackToReview}>{backIcon}</div>}
                     <FormError
                         classes={{
                             root: classes.formErrors
