@@ -10,9 +10,12 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import DEFAULT_OPERATIONS from './quickOrderForm.gql';
 import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useIntl } from 'react-intl';
 
 export const useQuickOrderForm = props => {
     const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen, setProducts, success } = props;
+
+    const { formatMessage } = useIntl();
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
     const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery, getProductBySkuQuery } = operations;
@@ -44,19 +47,29 @@ export const useQuickOrderForm = props => {
             Papa.parse(file, {
                 complete: function(result) {
                     const dataValidated = formatData(result.data);
-                    setProducts([]);
-                    dataValidated.map(async item => {
-                        const data = await getproduct({
-                            variables: { sku: item[0] }
+                    if (dataValidated.length > 0) {
+                        setProducts([]);
+                        dataValidated.map(async item => {
+                            const data = await getproduct({
+                                variables: { sku: item[0] }
+                            });
+                            await setProducts(prev => [
+                                ...prev,
+                                {
+                                    ...data?.data?.products?.items[0],
+                                    quantity: item[1]
+                                }
+                            ]);
                         });
-                        setProducts(prev => [
-                            ...prev,
-                            {
-                                ...data?.data?.products?.items[0],
-                                quantity: item[1]
-                            }
-                        ]);
-                    });
+                        setTimeout(() => {
+                            setProducts(prev => [
+                                ...prev,
+                                {
+                                    name: ''
+                                }
+                            ]);
+                        }, 0);
+                    }
                 }
             });
         }
@@ -76,7 +89,11 @@ export const useQuickOrderForm = props => {
                     dataValidated.push(rawData[i]);
                 }
             } else {
-                setCsvErrorType('fields');
+                const errorMsg = formatMessage({
+                    id: 'quickOrder.uploadTheCorrectCSVFile',
+                    defaultMessage: 'Upload a correct CSV file format'
+                });
+                setCsvErrorType(errorMsg);
                 setIsCsvDialogOpen(true);
             }
         }

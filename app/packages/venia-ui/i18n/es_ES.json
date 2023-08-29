@@ -816,6 +816,7 @@
     "quickOrder.SearchProduct": "Introduzca la referencia o el nombre del producto",
     "quickOrder.somethingWentWrongTryAgainLater": "algo ha ido mal, inténtalo de nuevo más tarde",
     "quickOrder.Unavailable": "No disponible",
+    "quickOrder.uploadTheCorrectCSVFile": "Cargar un archivo CSV con el formato correcto",
     "quickOrder.UploadYourFile": "Cargue su archivo",
     "quickOrder.UploadYourOrder": "Suba su pedido",
     "quotesDate.quotesDateText": "Fecha de envío: ",

@@ -817,6 +817,7 @@
     "quickOrder.SearchProduct": "Enter SKU or name of product",
     "quickOrder.somethingWentWrongTryAgainLater": "something went wrong, try again later",
     "quickOrder.Unavailable": "Unavailable",
+    "quickOrder.uploadTheCorrectCSVFile": "Upload a correct CSV file format",
     "quickOrder.UploadYourFile": "Upload your file",
     "quickOrder.UploadYourOrder": "Upload your order",
     "quotesDate.quotesDateText": "Submitted Date: ",

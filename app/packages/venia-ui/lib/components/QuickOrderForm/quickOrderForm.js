@@ -49,7 +49,7 @@ const QuickOrderForm = props => {
     const { handleAddCofigItemBySku, isLoading: isLoadingAddQuote } = useAddToQuote();
     const { handleAddProductsToCart, handleCSVFile } = useQuickOrderForm({
         quickOrder: true,
-        setCsvErrorType: () => displayMessage('warning', warningMsg),
+        setCsvErrorType: errorMsg => displayMessage('warning', errorMsg || warningMsg),
         setCsvSkuErrorList: () => displayMessage('warning', warningMsg),
         setIsCsvDialogOpen: () => {},
         setProducts,
