@@ -10,9 +10,12 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import DEFAULT_OPERATIONS from './quickOrderForm.gql';
 import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useIntl } from 'react-intl';
 
 export const useQuickOrderForm = props => {
     const { setCsvErrorType, setCsvSkuErrorList, setIsCsvDialogOpen, setProducts, success } = props;
+
+    const { formatMessage } = useIntl();
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
     const { addConfigurableProductToCartMutation, getParentSkuBySkuQuery, getProductBySkuQuery } = operations;
@@ -50,7 +53,6 @@ export const useQuickOrderForm = props => {
                             const data = await getproduct({
                                 variables: { sku: item[0] }
                             });
-                            console.log({ data });
                             await setProducts(prev => [
                                 ...prev,
                                 {
@@ -87,7 +89,11 @@ export const useQuickOrderForm = props => {
                     dataValidated.push(rawData[i]);
                 }
             } else {
-                setCsvErrorType('fields');
+                const errorMsg = formatMessage({
+                    id: 'quickOrder.uploadTheCorrectCSVFile',
+                    defaultMessage: 'Upload a correct CSV file format'
+                });
+                setCsvErrorType(errorMsg);
                 setIsCsvDialogOpen(true);
             }
         }
