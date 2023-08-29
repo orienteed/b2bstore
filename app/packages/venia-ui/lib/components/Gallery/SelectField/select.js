@@ -11,9 +11,18 @@ import { ChevronDown as ChevronDownIcon } from 'react-feather';
 const arrow = <Icon src={ChevronDownIcon} size={24} />;
 
 const Select = props => {
-    const { before, classes: propClasses, field, items, message, ...rest } = props;
+    const {
+        before,
+        classes: propClasses,
+        isConfigurableProductUnselected,
+        setIsConfigurableProductUnselected,
+        field,
+        items,
+        message,
+        ...rest
+    } = props;
     const classes = useStyle(defaultClasses, propClasses);
-    const inputClass = classes.input;
+    const inputClass = isConfigurableProductUnselected ? classes.input : classes.active;
     const options = items.map(item => (
         <InformedOption key={item.value + item?.product?.sku} value={JSON.stringify(item)}>
             {item.label || (item.value != null ? item.value : '')}
