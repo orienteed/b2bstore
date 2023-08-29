@@ -271,7 +271,7 @@ const CheckoutPage = props => {
                     className={classes.review_order_button}
                     data-cy="CheckoutPage-reviewOrderButton"
                     disabled={
-                        reviewOrderButtonClicked || isUpdating || !isPaymentAvailable || !currentSelectedPaymentMethod
+                        reviewOrderButtonClicked || isUpdating || !isPaymentAvailable || !currentSelectedPaymentMethod?.code
                     }
                 >
                     <FormattedMessage id={'checkoutPage.reviewOrder'} defaultMessage={'Review Order'} />
