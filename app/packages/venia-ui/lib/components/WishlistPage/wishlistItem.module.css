@@ -102,6 +102,17 @@
     display: none;
 }
 
+.formContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.disable {
+    visibility: hidden;
+    width: 0px;
+}
+
 @media (max-width: 1270px) {
     .actionWrap {
         min-height: 60px;

@@ -56,7 +56,22 @@ export const useWishlist = (props = {}) => {
     }, [itemsCount, isOpen, fetchWishlistItems, data]);
 
     const items = data && data.customer.wishlist_v2.items_v2.items ? data.customer.wishlist_v2.items_v2.items : [];
-
+    let csvItems;
+    if (items.length > 0) {
+        csvItems = items.map(item => {
+            return {
+                id: item.product.id,
+                name: item.product.name,
+                sku: item.product.sku,
+                stockStatus: item.product.stock_status,
+                regularPrice: item.product.price.regularPrice.amount.value,
+                discountPrice: item.product.price.minimalPrice.amount.value,
+                description: item.product.description.html,
+            };
+        });
+    } else {
+        csvItems = [];
+    }
     return {
         handleContentToggle,
         isOpen,
@@ -64,7 +79,8 @@ export const useWishlist = (props = {}) => {
         error,
         isLoading: !!loading,
         isFetchingMore,
-        handleLoadMore
+        handleLoadMore,
+        csvItems
     };
 };
 

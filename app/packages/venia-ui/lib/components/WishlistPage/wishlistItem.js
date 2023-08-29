@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
 import { useWishlistItem } from '@magento/peregrine/lib/talons/WishlistPage/useWishlistItem';
 
@@ -11,6 +11,9 @@ import defaultClasses from './wishlistItem.module.css';
 import { ShareIcon } from '@magento/venia-ui/lib/assets/shareIcon';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { ThrashIcon } from '../../assets/ThrashIcon';
+import { Form } from 'informed';
+import QuantityStepper from '../QuantityStepper/quantityStepper';
+import { Link } from 'react-router-dom';
 
 const WishlistItem = props => {
     const { item } = props;
@@ -35,7 +38,9 @@ const WishlistItem = props => {
         handleRemoveProductFromWishlist,
         hasError,
         isRemovalInProgress,
-        isSupportedProductType
+        isSupportedProductType,
+        handleQuantityChange,
+        isInStock
     } = talonProps;
 
     const { formatMessage } = useIntl();
@@ -97,26 +102,42 @@ const WishlistItem = props => {
     const rootClass = isRemovalInProgress ? classes.root_disabled : classes.root;
 
     const addToCart = isSupportedProductType ? (
-        <button className={classes.addToCart} {...addToCartButtonProps} data-cy="wishlistItem-addToCart">
-            {formatMessage({
-                id: 'wishlistItem.addToCart',
-                defaultMessage: 'Add to Cart'
-            })}
-        </button>
+        <Form className={classes.formContainer}>
+            <QuantityStepper
+                fieldName={`${item.sku}`}
+                classes={{
+                    button_increment: classes.disable,
+                    button_decrement: classes.disable,
+                    root: classes.disable_gap
+                }}
+                min={1}
+                isPDP={true}
+                onChange={e => handleQuantityChange(e?.target?.value || e)}
+            />
+            <button className={classes.addToCart} {...addToCartButtonProps} data-cy="wishlistItem-addToCart">
+                {isInStock ? (
+                    <FormattedMessage id={'wishlistItem.addToCart'} defaultMessage={'Add to Cart'} />
+                ) : (
+                    <FormattedMessage id="productFullDetail.itemOutOfStock" defaultMessage="Out of Stock" />
+                )}
+            </button>
+        </Form>
     ) : null;
 
     const discount = Math.round(100 - (minimalPrice?.amount.value / regularPrice?.amount.value) * 100);
 
     return (
         <div className={rootClass} data-cy="wishlistItem-root">
-            <article className={classes.imageContainer}>
-                {discount ? (
-                    <div className={classes.discount}>
-                        <span>{discount}%</span>
-                    </div>
-                ) : null}
-                <Image {...imageProps} />
-            </article>
+            <Link to={actualProductLink}>
+                <article className={classes.imageContainer}>
+                    {discount ? (
+                        <div className={classes.discount}>
+                            <span>{discount}%</span>
+                        </div>
+                    ) : null}
+                    <Image {...imageProps} />
+                </article>
+            </Link>
             <div className={classes.actionWrap}>
                 <span className={classes.name} data-cy="wishlistItem-productName">
                     {name}
