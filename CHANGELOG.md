@@ -1,5 +1,29 @@
 # B2BStore 0.10
 
+## 🪄 Enhancements
+  - Make wishlist button work for delete also in PLP and PDP
+  - Add to Cart, PLP indicates user to choose a color to add it to cart
+  - Add to Cart, add alert to indicating the user that added to cart
+  - Wishlist page: add functionality to download a CSV file
+  - Articles SEO Targeted related to Big Commerce
+  - Wishlist Adding to cart from wishlist there’s no quantity selector
+  - Wishlist It’s not possible to access the pdp of the products saved at the wishlist
+  - Create cookies details page
+  - Add extra order info to order table order history page
+  - Add all Magento operations to the Magento Connector
+
+## 🛠 Bug fixes 
+  - Saved cart page wasn´t working in the demo
+  - Recovering password: Gived a 500 error
+  - Alert modal: The popup was still with mix languages
+  - Add to Cart- Order Quote - Doesn't return an email
+  - Categories keep showing after logout when the auth is required
+  - header banner of demo contrast with text fixed
+  - phone number is not showing in the billing address page
+  - Order Quote Doesn't return an email
+ 
+# B2BStore 0.10
+
 ## 🚨 Hotfixes  
   - Fixed the variable type in env sample file 
 
