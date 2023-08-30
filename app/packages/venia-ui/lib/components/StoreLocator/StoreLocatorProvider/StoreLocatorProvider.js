@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, useMemo, useEffect, useCallback, useRef } from 'react';
-import { useLazyQuery } from '@apollo/client';
-import { MP_STORE_LOCATOR_LOCATIONS } from '@magento/peregrine/lib/talons/StoreLocator/storeLocator.gql';
 import useLocalStorage from '../useLocalStorage/useLocalStorage';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const StoreLocatorContext = React.createContext();
 
@@ -16,6 +15,8 @@ export const StoreLocatorProvider = ({ children }) => {
     const [favoriteStores, setFavoriteStores] = useLocalStorage('favoriteStores', {});
     const [selectedLocation, setSelectedLocation] = useState();
     const [searchValue, setSearchValue] = useState('');
+
+    const { getStoreLocations } = useAdapter();
 
     const [centerCoordinates, setCenterCoordinates] = useState({
         lat: 0,
@@ -32,14 +33,10 @@ export const StoreLocatorProvider = ({ children }) => {
     };
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);
-    const [runQuery, queryResponse] = useLazyQuery(MP_STORE_LOCATOR_LOCATIONS, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: {
-            filter: {},
-            pageSize: pageSize,
-            currentPage: currentPage
-        }
+    const { runQuery, queryResponse } = getStoreLocations({
+        filter: {},
+        pageSize: pageSize,
+        currentPage: currentPage
     });
     const { data: locations, loading: locationsLoading } = queryResponse;
     // useEffect(() => {

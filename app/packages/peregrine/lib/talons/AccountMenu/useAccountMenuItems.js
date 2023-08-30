@@ -87,12 +87,7 @@ export const useAccountMenuItems = props => {
             name: 'Favorites Lists',
             id: 'accountMenu.favoritesListsLink',
             url: '/wishlist'
-        },
-        {
-            name: 'Product Alerts',
-            id: 'productAlert.myProductAlerts',
-            url: '/productsAlert'
-        },
+        }
         // {
         //     name: 'Find a Store',
         //     id: 'storeLocator.findStoreText',
@@ -118,6 +113,15 @@ export const useAccountMenuItems = props => {
         };
         MENU_ITEMS_BASIC.push(lmsItem);
         MENU_ITEMS_PREMIUM.push(lmsItem);
+    }
+
+    if (tenantConfig?.productAlertEnabled) {
+        const productAlertLink = {
+            name: 'Product Alerts',
+            id: 'productAlert.myProductAlerts',
+            url: '/productsAlert'
+        };
+        MENU_ITEMS_PREMIUM.push(productAlertLink);
     }
 
     return {

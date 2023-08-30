@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
-import { useQuery } from '@apollo/client';
 
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import DEFAULT_OPERATIONS from './savedPaymentsPage.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const normalizeTokens = responseData => {
     const paymentTokens = (responseData && responseData.customerPaymentTokens.items) || [];
@@ -31,9 +28,8 @@ export const normalizeTokens = responseData => {
  * @example <caption>Importing into your project</caption>
  * import { useSavedPayments } from '@magento/peregrine/lib/talons/SavedPaymentsPage/useSavedPaymentsPage';
  */
-export const useSavedPaymentsPage = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getSavedPaymentsQuery } = operations;
+export const useSavedPaymentsPage = () => {
+    const { getSavedPayments } = useAdapter();
 
     const [
         ,
@@ -43,11 +39,7 @@ export const useSavedPaymentsPage = (props = {}) => {
     ] = useAppContext();
     const [{ isSignedIn }] = useUserContext();
 
-    const { data: savedPaymentsData, loading } = useQuery(getSavedPaymentsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !isSignedIn
-    });
+    const { data: savedPaymentsData, loading } = getSavedPayments({ isSignedIn: isSignedIn });
 
     // Update the page indicator if the GraphQL query is in flight.
     useEffect(() => {

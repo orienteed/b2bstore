@@ -1,22 +1,18 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 import { deleteQuoteId } from './Store';
-
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useQuoteCartPage = props => {
     const { getQuoteId } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        getQuoteByIdQuery,
-        deleteCurrentQuoteMutation,
-        submitCurrentQuoteMutation,
-        getQuoteConfigDetailsQuery
-    } = operations;
+        deleteCurrentQuote: deleteCurrentQuoteFromAdapter,
+        getConfigDetailsForQuote,
+        getQuoteById,
+        submitCurrentQuote: submitCurrentQuoteFromAdapter
+    } = useAdapter();
 
     const [myQuote, setMyQuote] = useState({});
     const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
@@ -26,9 +22,7 @@ export const useQuoteCartPage = props => {
     const history = useHistory();
 
     // Get config details
-    const { loading: configLoading, data: configData } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { loading: configLoading, data: configData } = getConfigDetailsForQuote();
     useMemo(() => {
         if (!configLoading && configData === undefined) {
             history.push('/');
@@ -36,18 +30,13 @@ export const useQuoteCartPage = props => {
     }, [configData, configLoading, history]);
 
     // Delete Current Quote Mutation
-    const [deleteCurrentQuote] = useMutation(deleteCurrentQuoteMutation);
+    const { deleteCurrentQuote } = deleteCurrentQuoteFromAdapter();
 
     // Submit Current Quote Mutation
-    const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
+    const { submitCurrentQuote } = submitCurrentQuoteFromAdapter();
 
     // Get Mp Quote
-    const { data, loading } = useQuery(getQuoteByIdQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            quote_id: getQuoteId()
-        }
-    });
+    const { data, loading } = getQuoteById({ quote_id: getQuoteId() });
     useEffect(() => {
         if (data != undefined) {
             const {
@@ -60,7 +49,7 @@ export const useQuoteCartPage = props => {
     useState(() => {
         window.addEventListener(
             AFTER_UPDATE_MY_QUOTE,
-            async function(event) {
+            async function (event) {
                 await setMyQuote(event.detail);
             },
             false

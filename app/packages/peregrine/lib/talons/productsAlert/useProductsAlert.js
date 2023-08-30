@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery, useMutation } from '@apollo/client';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useToasts } from '../../Toasts';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import deliveryDateOpration from '../CheckoutPage/DeliveryDate/deliveryDate.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import Icon from '@magento/venia-ui/lib/components/Icon';
-
-import DEFAULT_OPERATIONS from './productsAlerts.gql';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
@@ -17,15 +13,15 @@ export const useProductsAlert = props => {
     const { formatMessage } = useIntl();
     const selectProductSku = props?.selectedVarient?.product?.sku;
     const {
-        SUBMIT_CUSTOMER_PRICE_ALERT,
-        GET_CUSTOMERS_ALERTS,
-        SUBMIT_GUEST_PRICE_ALERT,
-        SUBMIT_CUSTOMER_STOCK_ALERT,
-        SUBMIT_GUEST_STOCK_ALERT,
-        SUBMIT_DELETE_ALERT,
-        GET_CONFIG_ALERTS,
-        GET_LOCALE
-    } = mergeOperations(DEFAULT_OPERATIONS, deliveryDateOpration);
+        submitCustomerPriceAlert: submitCustomerPriceAlertFromAdapter,
+        getCustomerAlerts,
+        submitGuestPriceAlert: submitGuestPriceAlertFromAdapter,
+        submitCustomerStockAlert: submitCustomerStockAlertFromAdapter,
+        submitGuestStockAlert: submitGuestStockAlertFromAdapter,
+        submitDeleteAlert: submitDeleteAlertFromAdapter,
+        getConfigAlerts,
+        getLocale
+    } = useAdapter();
     const simpleProductB2CSku = props?.simpleProductData?.sku;
     const itemSku = props?.ItemSku;
     const formApiRef = useRef(null);
@@ -33,14 +29,8 @@ export const useProductsAlert = props => {
     const [formEmail] = useState();
     const [selectedOptionB2C, setSelectedOptionB2C] = useState('');
 
-    const { data: alertConfig } = useQuery(GET_CONFIG_ALERTS, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-    const { data: storeData } = useQuery(GET_LOCALE, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: alertConfig } = getConfigAlerts();
+    const { data: storeData } = getLocale();
     const local = useMemo(() => {
         return storeData && storeData.storeConfig.locale;
     }, [storeData]);
@@ -59,15 +49,15 @@ export const useProductsAlert = props => {
     const [priceControlPage, setPriceControlPage] = useState({});
 
     const [{ isSignedIn }] = useUserContext();
-    const { loading, data: customersAlertsItems, refetch } = useQuery(GET_CUSTOMERS_ALERTS, {
-        fetchPolicy: 'no-cache',
-        variables: { priceCurrentPage: priceControlPage?.currentPage, stockCurrentPage: stockPageControl?.currentPage }
+    const { loading, data: customersAlertsItems, refetch } = getCustomerAlerts({
+        priceCurrentPage: priceControlPage?.currentPage,
+        stockCurrentPage: stockPageControl?.currentPage
     });
-    const [submitCustomerPriceAlert] = useMutation(SUBMIT_CUSTOMER_PRICE_ALERT);
-    const [submiGuestPriceAlert] = useMutation(SUBMIT_GUEST_PRICE_ALERT);
-    const [submitCustomerStockAlert] = useMutation(SUBMIT_CUSTOMER_STOCK_ALERT);
-    const [submiGuestStockAlert] = useMutation(SUBMIT_GUEST_STOCK_ALERT);
-    const [submiDeleteAlertAPI] = useMutation(SUBMIT_DELETE_ALERT);
+    const { submitCustomerPriceAlert } = submitCustomerPriceAlertFromAdapter();
+    const { submitGuestPriceAlert } = submitGuestPriceAlertFromAdapter();
+    const { submitCustomerStockAlert } = submitCustomerStockAlertFromAdapter();
+    const { submitGuestStockAlert } = submitGuestStockAlertFromAdapter();
+    const { submitDeleteAlertAPI } = submitDeleteAlertFromAdapter();
     const selectTitle = formatMessage({
         id: 'productAlerts.pleaseSelect',
         defaultMessage: 'Notify me about the product availability '
@@ -138,7 +128,7 @@ export const useProductsAlert = props => {
                     });
                     handleCloseModal();
                 } else {
-                    await submiGuestPriceAlert({
+                    await submitGuestPriceAlert({
                         variables: {
                             productSku: sku,
                             email: apiValue?.email
@@ -159,7 +149,7 @@ export const useProductsAlert = props => {
         },
         [
             submitCustomerPriceAlert,
-            submiGuestPriceAlert,
+            submitGuestPriceAlert,
             isSignedIn,
             selectProductSku,
             simpleProductB2CSku,
@@ -184,7 +174,7 @@ export const useProductsAlert = props => {
                     addedSuccsessfully();
                     handleCloseModal();
                 } else {
-                    await submiGuestStockAlert({
+                    await submitGuestStockAlert({
                         variables: {
                             productSku: sku,
                             email: apiValue?.email
@@ -203,7 +193,7 @@ export const useProductsAlert = props => {
             }
         },
         [
-            submiGuestStockAlert,
+            submitGuestStockAlert,
             isSignedIn,
             submitCustomerStockAlert,
             itemSku,
@@ -216,7 +206,7 @@ export const useProductsAlert = props => {
     const submitDeleteAlert = useCallback(
         async id => {
             try {
-                await submiDeleteAlertAPI({
+                await submitDeleteAlertAPI({
                     variables: {
                         id
                     }
@@ -247,7 +237,7 @@ export const useProductsAlert = props => {
                 });
             }
         },
-        [submiDeleteAlertAPI]
+        [submitDeleteAlertAPI]
     );
 
     return {

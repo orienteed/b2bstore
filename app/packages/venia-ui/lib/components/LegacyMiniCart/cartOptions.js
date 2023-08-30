@@ -10,10 +10,9 @@ import Quantity from '../ProductQuantity';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { useCartOptions } from '@magento/peregrine/lib/talons/LegacyMiniCart/useCartOptions';
 import { useStyle } from '../../classify';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import defaultClasses from './cartOptions.module.css';
-
-import { ADD_CONFIGURABLE_PRODUCT_TO_CART, ADD_SIMPLE_PRODUCT_TO_CART } from '../ProductFullDetail/productFullDetail.gql';
 
 const Options = React.lazy(() => import('../ProductOptions'));
 
@@ -32,9 +31,14 @@ const QUANTITY_TITLE = 'Quantity';
 const CartOptions = props => {
     const { cartItem, configItem, currencyCode, endEditItem } = props;
 
+    const { 
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
+        addSimpleProductToCart: addSimpleProductToCartFromAdapter
+    } = useAdapter();
+
     const talonProps = useCartOptions({
-        addConfigurableProductToCartMutation: ADD_CONFIGURABLE_PRODUCT_TO_CART,
-        addSimpleProductToCartMutation: ADD_SIMPLE_PRODUCT_TO_CART,
+        addConfigurableProductToCartFromAdapter,
+        addSimpleProductToCartFromAdapter,
         cartItem,
         configItemu,
         endEditItem

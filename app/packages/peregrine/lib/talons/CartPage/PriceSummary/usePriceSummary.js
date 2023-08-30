@@ -1,10 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 import { useCartContext } from '../../../context/cart';
-import mergeOperations from '../../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './priceSummary.gql';
 import { usePrintPdfContext } from '@magento/venia-ui/lib/components/CartPage/PrintPdfProvider/printPdfProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @ignore
@@ -46,9 +44,8 @@ const flattenData = data => {
  * @example <caption>Importing into your project</caption>
  * import { usePriceSummary } from '@magento/peregrine/lib/talons/CartPage/PriceSummary/usePriceSummary';
  */
-export const usePriceSummary = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getPriceSummaryQuery } = operations;
+export const usePriceSummary = () => {
+    const { getPriceSummary } = useAdapter();
 
     const { setPriceSummary } = usePrintPdfContext();
 
@@ -58,14 +55,7 @@ export const usePriceSummary = (props = {}) => {
     const match = useRouteMatch('/checkout');
     const isCheckout = !!match;
 
-    const { error, loading, data } = useQuery(getPriceSummaryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
+    const { error, loading, data } = getPriceSummary({ cartId: cartId });
     useEffect(() => {
         setPriceSummary(flattenData(data));
     }, [data, setPriceSummary]);

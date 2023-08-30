@@ -1,13 +1,11 @@
-import { useQuery } from '@apollo/client';
 import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useTypePolicies } from '@magento/peregrine';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import mergeOperations from '../../util/shallowMerge';
-
-import DEFAULT_OPERATIONS, { CUSTOM_TYPES } from './currencySwitcher.gql';
+import { CUSTOM_TYPES } from './currencySwitcher.gql';
 
 const storage = new BrowserPersistence();
 
@@ -29,15 +27,10 @@ const storage = new BrowserPersistence();
 export const useCurrencySwitcher = (props = {}) => {
     const { typePolicies = CUSTOM_TYPES } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCurrencyDataQuery } = operations;
-
     useTypePolicies(typePolicies);
 
-    const { data: currencyData } = useQuery(getCurrencyDataQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getCurrencyData } = useAdapter();
+    const { data: currencyData } = getCurrencyData();
 
     const currentCurrencyCode = useMemo(() => {
         if (currencyData) {

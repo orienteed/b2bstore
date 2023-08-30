@@ -1,10 +1,7 @@
 import { useMemo, useReducer } from 'react';
 
 import { useCartContext } from '../../../context/cart';
-import { useMutation } from '@apollo/client';
-
-import DEFAULT_OPERATIONS from './orderAttributes.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const orderAttributesData = {
     comment: null,
@@ -26,8 +23,7 @@ export const useOrderAttributes = () => {
     const [state, dispatch] = useReducer(reducer, orderAttributesData);
     const [{ cartId }] = useCartContext();
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { setOrderAttributesQuery } = operations;
+    const { setOrderAttributes } = useAdapter();
 
     const handleChangeOrderAttribute = (name, value) => {
         dispatch({ type: name, value });
@@ -37,7 +33,7 @@ export const useOrderAttributes = () => {
         return Object.keys(state).some(ele => state[ele]);
     }, [state]);
 
-    const [customAttributeQuoteSave] = useMutation(setOrderAttributesQuery);
+    const { customAttributeQuoteSave } = setOrderAttributes();
 
     const submitOrderAttribute = async () => {
         await customAttributeQuoteSave({

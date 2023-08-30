@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFormApi } from 'informed';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './giftCardQueries.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 // To keep track of the most recent action taken.
 const actions = {
@@ -36,13 +34,12 @@ const actions = {
  * import { useGiftCards } from '@magento/peregrine/lib/talons/CartPage/GiftCards'
  */
 export const useGiftCards = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const {
-        getAppliedGiftCardsQuery,
-        getGiftCardBalanceQuery,
-        applyGiftCardToCartMutation,
-        removeGiftCardFromCartMutation
-    } = operations;
+        applyGiftCardToCart,
+        getAppliedGiftCards,
+        getGiftCardBalance,
+        removeGiftCardFromCart
+    } = useAdapter();
 
     const { setIsCartUpdating } = props;
 
@@ -56,21 +53,12 @@ export const useGiftCards = props => {
      *
      * Immediately execute the cart query and set up the other graphql actions.
      */
-    const appliedCardsResult = useQuery(getAppliedGiftCardsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const appliedCardsResult = getAppliedGiftCards({ cartId: cartId });
 
-    const [checkCardBalance, balanceResult] = useLazyQuery(getGiftCardBalanceQuery, {
-        // For security, always fetch this from the network and never cache the
-        // result.
-        fetchPolicy: 'no-cache'
-    });
+    const { checkCardBalance, balanceResult } = getGiftCardBalance();
 
-    const [applyCard, applyCardResult] = useMutation(applyGiftCardToCartMutation);
-    const [removeCard, removeCardResult] = useMutation(removeGiftCardFromCartMutation);
+    const { applyCard, applyCardResult } = applyGiftCardToCart();
+    const { removeCard, removeCardResult } = removeGiftCardFromCart();
 
     /*
      *  useState hooks.

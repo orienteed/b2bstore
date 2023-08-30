@@ -1,22 +1,17 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation, useApolloClient, useQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
-
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import DEFAULT_OPERATIONS from './savedCarts.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useSavedCart = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS);
     const {
-        createCartMutation,
-        getConfigDetailsForSavedCartsQuery,
-        getCartDetailsQuery,
-        saveSavedCartsMutation
-    } = operations;
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        getConfigDetailsForSavedCarts,
+        saveSavedCarts
+    } = useAdapter();
 
     const [isShow, setIsShow] = useState(false);
     const [buttonTitle, setButtonTitle] = useState();
@@ -24,17 +19,16 @@ export const useSavedCart = () => {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
     const apolloClient = useApolloClient();
 
     const [{ cartId }, { getCartDetails, createCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
 
     const history = useHistory();
 
-    const [getMpSaveCart] = useMutation(saveSavedCartsMutation);
+    const { getMpSaveCart } = saveSavedCarts();
 
     // Popup Open
     const handleSaveCart = useCallback(() => {
@@ -45,10 +39,7 @@ export const useSavedCart = () => {
     }, []);
 
     // Getting Config details
-    const { data } = useQuery(getConfigDetailsForSavedCartsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data } = getConfigDetailsForSavedCarts();
     useEffect(() => {
         if (data != undefined) {
             const {

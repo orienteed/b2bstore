@@ -1,16 +1,13 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 
 import { setQuoteId } from './Store';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const DEFAULT_PAGE_SIZE = 5;
 const DEFAULT_CURRENT_PAGE = 1;
 const DEFAULT_TOTAL_PAGE = 0;
-
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 /**
  * @function
@@ -20,15 +17,14 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
  * @returns {useQuotes}
  */
 export const useQuotes = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        getQuoteConfigDetailsQuery,
-        getQuoteListQuery,
-        deleteSubmittedQuoteMutation,
-        cancelQuoteMutation,
-        duplicateQuoteMutation,
-        addQuoteToCartMutation
-    } = operations;
+        addQuoteToCart,
+        cancelQuote,
+        deleteSubmittedQuote,
+        duplicateQuote,
+        getConfigDetailsForQuote,
+        getQuoteList
+    } = useAdapter();
 
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
@@ -39,9 +35,7 @@ export const useQuotes = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     // Get config details
-    const { data: configData, loading: configLoading } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { data: configData, loading: configLoading } = getConfigDetailsForQuote();
     useMemo(() => {
         if (!configLoading && configData == undefined) {
             history.push('/account-information');
@@ -49,24 +43,21 @@ export const useQuotes = () => {
     }, [configData, configLoading, history]);
 
     // Delete Quote Mutation
-    const [deleteSubmittedMpQuote] = useMutation(deleteSubmittedQuoteMutation);
+    const { deleteSubmittedMpQuote } = deleteSubmittedQuote();
 
     // Cancel Quote Mutation
-    const [cancelMpQuote] = useMutation(cancelQuoteMutation);
+    const { cancelMpQuote } = cancelQuote();
 
     // Duplicate Quote Mutation
-    const [duplicateMpQuote] = useMutation(duplicateQuoteMutation);
+    const { duplicateMpQuote } = duplicateQuote();
 
     // Add Quote To Cart Mutation
-    const [addMpQuoteToCart] = useMutation(addQuoteToCartMutation);
+    const { addMpQuoteToCart } = addQuoteToCart();
 
     // Get quotes details
-    const { data: quoteList, refetch, loading } = useQuery(getQuoteListQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            pageSize: pageSize,
-            currentPage: currentPage || 1
-        }
+    const { data: quoteList, refetch, loading } = getQuoteList({
+        pageSize: pageSize,
+        currentPage: currentPage || 1
     });
 
     const handleContentToggle = useCallback(() => {

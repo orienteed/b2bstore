@@ -1,48 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState, useMemo } from 'react';
-import mergeOperations from '../../util/shallowMerge';
-import { useMutation, useQuery } from '@apollo/client';
-import defaultOperations from './storeLocator.gql';
 import { useToasts } from '@magento/peregrine';
 import { useCartContext } from '../../context/cart';
 import { useIntl } from 'react-intl';
-import oparations from '../CheckoutPage/DeliveryDate/deliveryDate.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useLocationsCheckout = () => {
     const [{ cartId }] = useCartContext();
     const [, { addToast }] = useToasts();
-    const operations = mergeOperations(defaultOperations, oparations);
     const { formatMessage } = useIntl();
 
     const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedDay, setSelectedDay] = useState();
-    const { getLocationsCart, submitLocation, getLocationHolidays, getStoreId, GET_LOCALE } = operations;
+    const {
+        getLocale,
+        getLocationsCart,
+        getLocationHolidays,
+        submitLocation,
+        getStoreId
+    } = useAdapter();
 
-    const { data, loading } = useQuery(getLocationsCart, {
-        variables: { cartId },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-    const { data: storeData } = useQuery(getStoreId, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-    const { data: locationsHolidays, loading: holidaysLoading } = useQuery(getLocationHolidays, {
-        variables: { storeId: storeData?.storeConfig?.id },
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data, loading } = getLocationsCart({ cartId });
+    const { data: storeData } = getStoreId();
+    const { data: locationsHolidays, loading: holidaysLoading } = getLocationHolidays({ storeId: storeData?.storeConfig?.id });
 
-    const { data: localData } = useQuery(GET_LOCALE, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data: localData } = getLocale();
 
     const local = useMemo(() => {
         return localData && localData.storeConfig.locale;
     }, [localData]);
-    const [handleSubmitLocation, { loading: isSubmtiting }] = useMutation(submitLocation);
+    const { handleSubmitLocation, loading: isSubmtiting } = submitLocation();
 
     // const locationsData = useMemo(() => data?.MpStoreLocatorPickupLocationList, [data]);
 

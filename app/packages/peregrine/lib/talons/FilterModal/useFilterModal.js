@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useQuery } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useFilterState } from './useFilterState';
 import { getSearchFromState, getStateFromSearch, sortFiltersArray, stripHtml } from './helpers';
-
-import DEFAULT_OPERATIONS from '../RootComponents/Category/category.gql';
+import { useAdapter } from '../../hooks/useAdapter';
 
 const DRAWER_NAME = 'filter';
 
@@ -25,9 +22,6 @@ const DRAWER_NAME = 'filter';
 export const useFilterModal = props => {
     const { filters } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getFilterInputsQuery } = operations;
-
     const [isApplying, setIsApplying] = useState(false);
     const [{ drawer }, { toggleDrawer, closeDrawer }] = useAppContext();
     const [filterState, filterApi] = useFilterState();
@@ -37,7 +31,8 @@ export const useFilterModal = props => {
     const history = useHistory();
     const { pathname, search } = useLocation();
 
-    const { data: introspectionData } = useQuery(getFilterInputsQuery);
+    const { getFilterInputs } = useAdapter();
+    const { data: introspectionData } = getFilterInputs();
 
     const attributeCodes = useMemo(() => filters.map(({ attribute_code }) => attribute_code), [filters]);
 

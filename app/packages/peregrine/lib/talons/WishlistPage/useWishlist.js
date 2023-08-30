@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @function
@@ -13,21 +11,13 @@ import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
 export const useWishlist = (props = {}) => {
     const { id, itemsCount, isCollapsed } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getWishlistProductsQuery } = operations;
+    const { getWishlistProducts } = useAdapter();
 
     const [page, setPage] = useState(1);
     const [isOpen, setIsOpen] = useState(!isCollapsed);
     const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-    const [fetchWishlistItems, queryResult] = useLazyQuery(getWishlistProductsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: {
-            id,
-            currentPage: 1
-        }
-    });
+    const { fetchWishlistItems, queryResult } = getWishlistProducts({ id: id, currentPage: 1 });
     const { data, error, loading, fetchMore } = queryResult;
 
     const handleContentToggle = () => {

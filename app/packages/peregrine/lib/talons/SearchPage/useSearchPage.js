@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { usePagination } from '../../hooks/usePagination';
 import { useScrollTopOnChange } from '../../hooks/useScrollTopOnChange';
@@ -10,12 +8,12 @@ import { getSearchParam } from '../../hooks/useSearchParam';
 import { useSort } from '../../hooks/useSort';
 import { getFiltersFromSearch, getFilterInput } from '../FilterModal/helpers';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '../../hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from './searchPage.gql';
-import CATEGORY_OPERATIONS from '../RootComponents/Category/category.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../context/modulesProvider';
 /**
  * Return props necessary to render a SearchPage component.
  *
@@ -24,21 +22,19 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  */
 export const useSearchPage = (props = {}) => {
     const [, { dispatch }] = useEventingContext();
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CATEGORY_OPERATIONS, props.operations);
+
+    const { tenantConfig } = useModulesContext();
 
     const {
-        getFilterInputsQuery,
-        getProductFiltersBySearchQuery,
-        getAvailableSortMethodsBySearchQuery,
-        getProductsDetailsBySearchQuery
-    } = operations;
+        getFilterInputs,
+        getAvailableSortMethodsBySearch,
+        getProductFiltersBySearch,
+        getProductsDetailsBySearch
+    } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const [getSortMethods, { data: sortData }] = useLazyQuery(getAvailableSortMethodsBySearchQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getSortMethods, data: sortData } = getAvailableSortMethodsBySearch();
 
     const [{ isSignedIn }] = useUserContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
@@ -90,9 +86,7 @@ export const useSearchPage = (props = {}) => {
     }, [toggleDrawer]);
 
     // Get "allowed" filters by intersection of schema and aggregations
-    const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = useQuery(
-        getFilterInputsQuery
-    );
+    const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = getFilterInputs();
 
     // Create a type map we can reference later to ensure we pass valid args
     // to the graphql query.
@@ -113,13 +107,7 @@ export const useSearchPage = (props = {}) => {
         totalPages
     };
 
-    const [runQuery, { called: searchCalled, loading: searchLoading, error, data }] = useLazyQuery(
-        getProductsDetailsBySearchQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first'
-        }
-    );
+    const { runQuery, called: searchCalled, loading: searchLoading, error, data } = getProductsDetailsBySearch();
 
     const isBackgroundLoading = !!data && searchLoading;
 
@@ -178,7 +166,8 @@ export const useSearchPage = (props = {}) => {
                 filters: newFilters,
                 inputText,
                 pageSize: Number(pageSize),
-                sort: { [sortAttribute]: sortDirection }
+                sort: { [sortAttribute]: sortDirection },
+                includeProductAlert: tenantConfig?.productAlertEnabled 
             }
         });
         if (!searched.current) {
@@ -232,10 +221,7 @@ export const useSearchPage = (props = {}) => {
     }, [inputText, getSortMethods]);
 
     // Fetch category filters for when a user is searching in a category.
-    const [getFilters, { data: filterData }] = useLazyQuery(getProductFiltersBySearchQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { getFilters, data: filterData } = getProductFiltersBySearch();
 
     useEffect(() => {
         if (inputText) {

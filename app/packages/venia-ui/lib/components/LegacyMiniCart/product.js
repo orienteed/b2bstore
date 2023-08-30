@@ -10,10 +10,9 @@ import Section from './section';
 import { transparentPlaceholder } from '@magento/peregrine/lib/util/images';
 import { useProduct } from '@magento/peregrine/lib/talons/LegacyMiniCart/useProduct';
 import { useStyle } from '../../classify';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import defaultClasses from './product.module.css';
-
-import { REMOVE_ITEM_MUTATION } from './cartOptions.gql';
 
 const QUANTITY_OPERATOR = '×';
 
@@ -21,11 +20,12 @@ const PRODUCT_IMAGE_WIDTH = 80;
 
 const Product = props => {
     const { beginEditItem, currencyCode, item } = props;
+    const { removeItemFromCart: removeItemFromCartFromAdapter } = useAdapter();
 
     const talonProps = useProduct({
         beginEditItem,
         item,
-        removeItemMutation: REMOVE_ITEM_MUTATION
+        removeItemFromCartFromAdapter
     });
 
     const {

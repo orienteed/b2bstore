@@ -1,11 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useFieldApi } from 'informed';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '../../../../context/cart';
-
-import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CheckoutPage/ShippingMethod/shippingMethod.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * Contains logic for a component that renders a radio selector for shipping.
@@ -32,14 +29,15 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 export const useShippingRadios = props => {
     const { setIsCartUpdating, selectedShippingMethod, shippingMethods } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { setShippingMethodMutation } = operations;
+    const { setShippingMethod: setShippingMethodFromAdapter } = useAdapter();
 
     const shippingMethodFieldApi = useFieldApi('method');
 
-    const [setShippingMethod, { called: setShippingMethodCalled, loading: setShippingMethodLoading }] = useMutation(
-        setShippingMethodMutation
-    );
+    const {
+        setShippingMethod,
+        called: setShippingMethodCalled,
+        loading: setShippingMethodLoading
+    } = setShippingMethodFromAdapter({ hasOnSuccess: false });
 
     const [{ cartId }] = useCartContext();
 

@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
 import { getOutOfStockVariantsWithInitialSelection } from '@magento/peregrine/lib/util/getOutOfStockVariantsWithInitialSelection';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useEventingContext } from '@magento/peregrine/lib/context/eventing';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
-
-import DEFAULT_OPERATIONS from '../../../ProductFullDetail/productFullDetail.gql';
-import CART_OPERATIONS from '../../cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * This talon contains logic for a product edit form.
@@ -49,13 +45,7 @@ function deriveOptionSelectionsFromProduct(cartItem) {
 }
 
 export const useProductForm = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, props.operations);
-
-    const {
-        getProductDetailForConfigurableOptionsBySkuQuery,
-        updateConfigurableOptionsMutation,
-        updateCartItemsMutation
-    } = operations;
+    const { updateCartItems, getProductDetailForConfigurableOptionsBySku, updateConfigurableOptions: updateConfigurableOptionsFromAdapter } = useAdapter();
 
     const { cartItem, setIsCartUpdating, setVariantPrice, setActiveEditItem } = props;
 
@@ -85,15 +75,18 @@ export const useProductForm = props => {
         setActiveEditItem(null);
     }, [setActiveEditItem, setMultipleOptionSelections, setOptionSelections]);
 
-    const [
+    const {
         updateItemQuantity,
-        { called: updateQuantityCalled, error: updateQuantityError, loading: updateQuantityLoading }
-    ] = useMutation(updateCartItemsMutation);
+        called: updateQuantityCalled,
+        error: updateQuantityError,
+        loading: updateQuantityLoading
+    } = updateCartItems();
 
-    const [
-        updateConfigurableOptions,
-        { called: updateConfigurableCalled, error: updateConfigurableError, loading: updateConfigurableLoading }
-    ] = useMutation(updateConfigurableOptionsMutation);
+    const { updateConfigurableOptions,
+        called: updateConfigurableCalled,
+        error: updateConfigurableError,
+        loading: updateConfigurableLoading
+    } = updateConfigurableOptionsFromAdapter();
 
     const isSaving =
         (updateQuantityCalled && updateQuantityLoading) || (updateConfigurableCalled && updateConfigurableLoading);
@@ -102,14 +95,9 @@ export const useProductForm = props => {
         setIsCartUpdating(isSaving);
     }, [isSaving, setIsCartUpdating]);
 
-    const { data, error, loading } = useQuery(getProductDetailForConfigurableOptionsBySkuQuery, {
-        skip: !cartItem,
-        variables: {
-            sku: cartItem ? cartItem.product.sku : null
-        }
-    });
+    const { data, error, loading } = getProductDetailForConfigurableOptionsBySku({ cartItem: cartItem, isLazy: false });
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const handleOptionSelection = useCallback(
         (optionId, selection) => {

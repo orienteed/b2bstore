@@ -1,28 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useState } from 'react';
-import {  useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
+import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
 import { AFTER_UPDATE_MY_QUOTE } from '../RequestQuote/useQuoteCartTrigger';
 import { setQuoteId } from '../RequestQuote/Store';
-
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useAddToQuote = () => {
     const { formatMessage } = useIntl();
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
+
     const {
-        addSimpleProductToQuoteMutation,
-        addConfigurableProductToQuoteMutation,
-        submitCurrentQuoteMutation
-    } = operations;
+        addConfigurableProductsToQuote,
+        addSimpleProductsToQuote,
+        submitCurrentQuote: submitCurrentQuoteFromAdapter
+    } = useAdapter();
 
     const [, { addToast }] = useToasts();
     const [isLoading, setIsLoading] = useState(false);
-    const [addSimpleProductToCart] = useMutation(addSimpleProductToQuoteMutation);
-    const [submitCurrentQuote] = useMutation(submitCurrentQuoteMutation);
-    const [addConfigProductToCart] = useMutation(addConfigurableProductToQuoteMutation);
+    const { addSimpleProductToQuote } = addSimpleProductsToQuote();
+    const { submitCurrentQuote } = submitCurrentQuoteFromAdapter();
+    const { addConfigProductToQuote } = addConfigurableProductsToQuote();
 
     // Add Simple Product
     const handleAddItemBySku = useCallback(
@@ -45,7 +42,7 @@ export const useAddToQuote = () => {
                 data: {
                     addSimpleProductsToMpQuote: { quote }
                 }
-            } = await addSimpleProductToCart({
+            } = await addSimpleProductToQuote({
                 variables
             });
             const {
@@ -54,7 +51,7 @@ export const useAddToQuote = () => {
             await setQuoteId(quote.entity_id);
             await window.dispatchEvent(new CustomEvent(AFTER_UPDATE_MY_QUOTE, { detail: quote }));
             setTimeout(() => setIsLoading(false), 1000);
-          
+
             addToast({
                 type: 'success',
                 message: formatMessage(
@@ -74,7 +71,7 @@ export const useAddToQuote = () => {
                 timeout: 5000
             });
         },
-        [addSimpleProductToCart, addToast, formatMessage, submitCurrentQuote]
+        [addSimpleProductToQuote, addToast, formatMessage, submitCurrentQuote]
     );
 
     const handleAddCofigItemBySku = useCallback(
@@ -98,7 +95,7 @@ export const useAddToQuote = () => {
                 data: {
                     addConfigurableProductsToMpQuote: { quote }
                 }
-            } = await addConfigProductToCart({
+            } = await addConfigProductToQuote({
                 variables
             });
             const {
@@ -126,7 +123,7 @@ export const useAddToQuote = () => {
                 timeout: 8000
             });
         },
-        [addConfigProductToCart, formatMessage, addToast, submitCurrentQuote]
+        [addConfigProductToQuote, formatMessage, addToast, submitCurrentQuote]
     );
     return { handleAddItemBySku, handleAddCofigItemBySku, isLoading };
 };

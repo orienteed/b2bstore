@@ -1,29 +1,20 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useMutation, useLazyQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './guestForm.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useCartContext } from '../../../../context/cart';
 import { useEventingContext } from '../../../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useGuestForm = props => {
     const { afterSubmit, onCancel, onSuccess, shippingData, toggleSignInContent, setGuestSignInUsername } = props;
     const [showSignInToast, setShowSignInToast] = useState(false);
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { setGuestShippingMutation, isEmailAvailableQuery } = operations;
+    const { setGuestShipping: setGuestShippingFromAdapter, isEmailAvailable } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
-    const [setGuestShipping, { error, loading }] = useMutation(setGuestShippingMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+    const { setGuestShipping, error, loading } = setGuestShippingFromAdapter({ onSuccess: onSuccess });
 
-    const [runQuery, { data }] = useLazyQuery(isEmailAvailableQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+    const { runQuery, data } = isEmailAvailable();
 
     const { country } = shippingData;
     const { code: countryCode } = country;

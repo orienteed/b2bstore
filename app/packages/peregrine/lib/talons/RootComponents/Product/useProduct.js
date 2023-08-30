@@ -1,16 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useQuery } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
-
-import mergeOperations from '../../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './product.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useEventingContext } from '../../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '../../../context/modulesProvider';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
  * controls the logic for the Product Root Component.
@@ -30,8 +28,9 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 export const useProduct = props => {
     const { mapProduct } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductDetailQuery } = operations;
+    const { tenantConfig } = useModulesContext();
+
+    const { getProductDetailForProductPageByUrlKey } = useAdapter();
 
     const { pathname } = useLocation();
     const [
@@ -48,13 +47,11 @@ export const useProduct = props => {
     const productUrlSuffix = storeConfigData?.storeConfig?.product_url_suffix;
     const urlKey = productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
 
-    const { error, loading, data, refetch } = useQuery(getProductDetailQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !storeConfigData,
-        variables: {
-            urlKey
-        }
+    const { error, loading, data, refetch } = getProductDetailForProductPageByUrlKey({
+        urlKey: urlKey,
+        storeConfigData: storeConfigData,
+        includeProductAlert: tenantConfig?.productAlertEnabled,
+        includeProductAttachment: tenantConfig?.productAttachmentEnabled
     });
 
     const isBackgroundLoading = !!data && loading;

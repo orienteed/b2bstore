@@ -1,6 +1,5 @@
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useEventingContext } from '../../context/eventing';
@@ -15,8 +14,7 @@ import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConf
 import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/util/isSupportedProductType';
 import { useToasts } from '@magento/peregrine';
 
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './productFullDetail.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useModulesContext } from '../../context/modulesProvider';
 
@@ -271,7 +269,11 @@ export const useProductFullDetail = props => {
     const [, { addToast }] = useToasts();
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const {
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
+        addProductToCart: addProductToCartFromAdapter,
+        addSimpleProductToCart: addSimpleProductToCartFromAdapter
+    } = useAdapter();
 
     const productType = product.__typename;
 
@@ -287,18 +289,22 @@ export const useProductFullDetail = props => {
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const [
-        addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
-    ] = useMutation(addConfigurableProductToCartMutation || operations.addConfigurableProductToCartMutation);
+    const { addConfigurableProductToCart,
+        error: errorAddingConfigurableProduct,
+        loading: isAddConfigurableLoading
+    } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
-    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
-        addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
-    );
+    const {
+        addSimpleProductToCart,
+        error: errorAddingSimpleProduct,
+        loading: isAddSimpleLoading
+    } = addSimpleProductToCartFromAdapter();
 
-    const [addProductToCart, { error: errorAddingProductToCart, loading: isAddProductLoading }] = useMutation(
-        operations.addProductToCartMutation
-    );
+    const {
+        addProductToCart,
+        error: errorAddingProductToCart,
+        loading: isAddProductLoading
+    } = addProductToCartFromAdapter({ initialRun: false });
 
     const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
 
@@ -581,13 +587,13 @@ export const useProductFullDetail = props => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
+                    id: 'wishlistButton.addedText',
+                    defaultMessage: 'Added to Favorites'
+                })
                 : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
+                    id: 'wishlistButton.addText',
+                    defaultMessage: 'Add to Favorites'
+                }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };

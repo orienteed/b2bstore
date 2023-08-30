@@ -1,21 +1,16 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { useDropdown } from '@magento/peregrine/lib/hooks/useDropdown';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const DENIED_MINI_CART_ROUTES = ['/checkout'];
 export const AFTER_UPDATE_MY_QUOTE = 'after_update_my_QUOTE';
 
-import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
 export const useQuoteCartTrigger = props => {
     const { getConfigData, getQuoteId, setQuoteId } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
-    const { getQuoteByIdQuery, deleteItemFromQuoteMutation, getCustomerInformationQuery } = operations;
+    const { getCustomerInformation, deleteItemFromQuote, getQuoteById } = useAdapter();
 
     const configData = getConfigData();
 
@@ -23,19 +18,15 @@ export const useQuoteCartTrigger = props => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [{ isSignedIn: isUserSignedIn }] = useUserContext();
-    const { data: custoemrData } = useQuery(getCustomerInformationQuery, {
-        fetchPolicy: 'network-only',
-        skip: !isUserSignedIn
-    });
-
+    const { data: customerData } = getCustomerInformation({ hasSkip: true, isSignedIn: isUserSignedIn, hasFetchPolicy: true });
     useMemo(() => {
-        if (custoemrData && custoemrData.customer) {
+        if (customerData && customerData.customer) {
             const {
                 customer: { mp_quote_id }
-            } = custoemrData;
+            } = customerData;
             setQuoteId(mp_quote_id);
         }
-    }, [custoemrData, setQuoteId]);
+    }, [customerData, setQuoteId]);
 
     const {
         elementRef: quoteMiniCartRef,
@@ -48,15 +39,10 @@ export const useQuoteCartTrigger = props => {
     const hideQuoteCartTrigger = DENIED_MINI_CART_ROUTES.includes(history.location.pathname);
 
     // Get Mp Quote
-    const { data } = useQuery(getQuoteByIdQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            quote_id: getQuoteId()
-        }
-    });
+    const { data } = getQuoteById({ quote_id: getQuoteId() });
 
     // Delete Mp Quote Item
-    const [deleteItemFromMpQuote] = useMutation(deleteItemFromQuoteMutation);
+    const { removeItem: deleteItemFromMpQuote } = deleteItemFromQuote();
 
     useEffect(() => {
         if (data != undefined) {
@@ -70,7 +56,7 @@ export const useQuoteCartTrigger = props => {
     useState(() => {
         window.addEventListener(
             AFTER_UPDATE_MY_QUOTE,
-            async function(event) {
+            async function (event) {
                 setIsLoading(true);
                 await setMyQuote(event.detail);
                 setIsLoading(false);
