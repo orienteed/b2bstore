@@ -1,30 +1,43 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation, useQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import DEFAULT_OPERATIONS from '../../wishlist.gql';
 
 export const useSingleWishlist = props => {
     const { afterAdd, beforeAdd, item } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addProductToWishlistMutation, getProductsInWishlistsQuery } = operations;
-
-    const [
+    const {
+        addProductToWishlist: addProductToWishlistFromAdapter,
+        getProductsInWishlists,
+        removeProductsFromWishlist: removeProductsFromWishlistFromAdapter,
+        getWishlistProducts
+    } = useAdapter();
+    const {
         addProductToWishlist,
-        { data: addProductData, error: errorAddingProduct, loading: isAddingToWishlist }
-    ] = useMutation(addProductToWishlistMutation);
+        data: addProductData,
+        error: errorAddingProduct,
+        loading: isAddingToWishlist
+    } = addProductToWishlistFromAdapter();
+
+    const {
+        removeProductFromWishlist,
+        data: removeProductData,
+        error: errorRemovingProduct
+    } = removeProductsFromWishlistFromAdapter({ isFromUseSingle: true, item });
+
+    const { data } = getWishlistProducts({ isUseQuery: true, id: '0' });
+    const wishlistItems = data?.customer?.wishlist_v2.items_v2.items;
+    const wishlistItemIds = wishlistItems?.map(item => item.id);
 
     const {
         client,
-        data: { customerWishlistProducts }
-    } = useQuery(getProductsInWishlistsQuery);
+        data: { customerWishlistProducts },
+        getProductsInWishlistsQuery
+    } = getProductsInWishlists();
 
     const isSelected = useMemo(() => {
-        return customerWishlistProducts.includes(item.sku) || isAddingToWishlist;
+        return customerWishlistProducts.includes(item.sku);
     }, [customerWishlistProducts, isAddingToWishlist, item.sku]);
 
     const [showLoginToast, setShowLoginToast] = useState(0);
@@ -35,25 +48,35 @@ export const useSingleWishlist = props => {
     const handleClick = useCallback(async () => {
         if (!isSignedIn) {
             setShowLoginToast(current => ++current);
+            return;
         } else {
             try {
-                if (beforeAdd) {
-                    await beforeAdd();
-                }
-
-                await addProductToWishlist({
-                    variables: { wishlistId: '0', itemOptions: item }
-                });
-
-                client.writeQuery({
-                    query: getProductsInWishlistsQuery,
-                    data: {
-                        customerWishlistProducts: [...customerWishlistProducts, item.sku]
+                if (isSelected) {
+                    await removeProductFromWishlist({
+                        variables: {
+                            wishlistId: '0',
+                            wishlistItemsId: wishlistItemIds
+                        }
+                    });
+                } else {
+                    if (beforeAdd) {
+                        await beforeAdd();
                     }
-                });
 
-                if (afterAdd) {
-                    afterAdd();
+                    await addProductToWishlist({
+                        variables: { wishlistId: '0', itemOptions: item }
+                    });
+
+                    client.writeQuery({
+                        query: getProductsInWishlistsQuery,
+                        data: {
+                            customerWishlistProducts: [...customerWishlistProducts, item.sku]
+                        }
+                    });
+
+                    if (afterAdd) {
+                        afterAdd();
+                    }
                 }
             } catch (error) {
                 console.error(error);
@@ -115,13 +138,40 @@ export const useSingleWishlist = props => {
         return null;
     }, [errorAddingProduct, formatMessage]);
 
+    const removeSuccessToastProps = useMemo(() => {
+        if (removeProductData) {
+            return {
+                type: 'success',
+                message: formatMessage({
+                    id: 'wishlist.galleryButton.removeSuccessMessage',
+                    defaultMessage: 'Item successfully removed from your favorites list.'
+                }),
+                timeout: 5000
+            };
+        }
+        return null;
+    }, [removeProductData, formatMessage]);
+
+    const removeErrorToastProps = useMemo(() => {
+        if (errorRemovingProduct) {
+            return {
+                type: 'error',
+                message: formatMessage({
+                    id: 'wishlist.galleryButton.removeError',
+                    defaultMessage: 'Something went wrong removing the product from your wishlist.'
+                }),
+                timeout: 5000
+            };
+        }
+        return null;
+    }, [errorRemovingProduct, formatMessage]);
+
     const buttonProps = useMemo(
         () => ({
             'aria-label': formatMessage({
                 id: 'wishlistButton.addText',
                 defaultMessage: 'Add to Favorites'
             }),
-            isDisabled: isSelected,
             onPress: handleClick,
             type: 'button'
         }),
@@ -136,6 +186,8 @@ export const useSingleWishlist = props => {
         handleClick,
         isSelected,
         loginToastProps,
-        successToastProps
+        successToastProps,
+        removeSuccessToastProps,
+        removeErrorToastProps
     };
 };

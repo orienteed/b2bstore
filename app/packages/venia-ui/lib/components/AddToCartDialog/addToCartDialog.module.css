@@ -68,3 +68,14 @@
     composes: leading-none from global;
     composes: w-fit from global;
 }
+
+.disable {
+    visibility: hidden;
+    width: 0px;
+}
+
+.fornWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

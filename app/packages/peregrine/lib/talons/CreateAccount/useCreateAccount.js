@@ -1,17 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import SIGNIN_OPERATIONS from '../SignIn/signIn.gql';
-import DEFAULT_OPERATIONS from './createAccount.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import doCsrLogin from '@magento/peregrine/lib/RestApi/Csr/auth/login';
@@ -38,22 +33,14 @@ import { useModulesContext } from '../../context/modulesProvider';
 export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit, onCancel } = props;
 
-    const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
-        CART_OPERATIONS,
-        ACCOUNT_OPERATIONS,
-        SIGNIN_OPERATIONS,
-        props.operations
-    );
-
     const {
-        createAccountMutation,
-        createCartMutation,
-        getCartDetailsQuery,
-        getCustomerInformationQuery,
-        mergeCartsMutation,
-        signInMutation
-    } = operations;
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter,
+        mergeCarts: mergeCartsFromAdapter,
+        signIn: signInFromAdapter,
+        createAccount: createAccountFromAdapter,
+        getCustomerInformation
+    } = useAdapter();
 
     const apolloClient = useApolloClient();
 
@@ -65,22 +52,18 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { fetchCartId } = createCartFromAdapter();
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
 
-    const [mergeCarts] = useMutation(mergeCartsMutation);
+    const { mergeCarts } = mergeCartsFromAdapter();
 
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
-    const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    const { createAccount, error: createAccountError } = createAccountFromAdapter();
 
-    const [signIn, { error: signInError }] = useMutation(signInMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    const { signIn, error: signInError } = signInFromAdapter();
 
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

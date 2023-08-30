@@ -4,17 +4,13 @@ import { useIntl } from 'react-intl';
 
 import Icon from '@magento/venia-ui/lib/components/Icon';
 
-import { useQuery } from '@apollo/client';
 import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
-
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './customerCreditSystem.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
 export const useCustomerCreditSystem = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getWebkulPaymentCreditSystemConfigQuery } = operations;
+    const { getWebkulPaymentCreditSystemConfig } = useAdapter();
 
     const { formatMessage } = useIntl();
 
@@ -29,10 +25,7 @@ export const useCustomerCreditSystem = props => {
     const paymentMethodMutationCalled = paymentMethodMutationData?.paymentMethodMutationCalled;
 
     // Get config details
-    const { data, loading } = useQuery(getWebkulPaymentCreditSystemConfigQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data, loading } = getWebkulPaymentCreditSystemConfig();
 
     useEffect(() => {
         if (data != undefined) {

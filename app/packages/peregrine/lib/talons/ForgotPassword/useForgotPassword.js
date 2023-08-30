@@ -1,10 +1,7 @@
 import { useCallback, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
-
-import DEFAULT_OPERATIONS from './forgotPassword.gql';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * Returns props necessary to render a ForgotPassword form.
@@ -22,15 +19,12 @@ import mergeOperations from '../../util/shallowMerge';
 export const useForgotPassword = props => {
     const { onCancel } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { requestPasswordResetEmailMutation } = operations;
+    const { requestPasswordResetEmail } = useAdapter();
 
     const [hasCompleted, setCompleted] = useState(false);
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState(null);
 
-    const [requestResetEmail, { error: requestResetEmailError, loading: isResettingPassword }] = useMutation(
-        requestPasswordResetEmailMutation
-    );
+    const { requestResetEmail, error: requestResetEmailError, loading: isResettingPassword } = requestPasswordResetEmail();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_FORGOT_PASSWORD',

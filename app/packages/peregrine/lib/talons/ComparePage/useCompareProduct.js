@@ -1,29 +1,22 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
-import { useMutation, useLazyQuery } from '@apollo/client';
-
-import DEFAULT_OPERATIONS from './compareProduct.gql';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const useCompareProduct = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
     const {
-        createCompareListMutation,
-        deleteProductsFromCompareListMutation,
-        getCustomerCompareListQuery
-    } = operations;
+        createCompareList: createCompareListFromAdapter,
+        deleteProductsFromCompareList,
+        getCustomerCompareList: getCustomerCompareListFromAdapter
+    } = useAdapter();
 
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
     const [isLoading, setIsLoading] = useState(false);
     const [isAction, setIsAction] = useState(false);
-    const [createCompareList] = useMutation(createCompareListMutation);
-    const [deleteProductsFromList] = useMutation(deleteProductsFromCompareListMutation);
-    const [getCustomerCompareList, { data, loading }] = useLazyQuery(getCustomerCompareListQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { createCompareList } = createCompareListFromAdapter();
+    const { deleteProductsFromList } = deleteProductsFromCompareList();
+    const { getCustomerCompareList, data, loading } = getCustomerCompareListFromAdapter();
 
     const deleteProduct = async item => {
         await deleteProductsFromList({

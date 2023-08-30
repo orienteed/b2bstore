@@ -1,11 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
-import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
 import { useEventingContext } from '../../context/eventing';
-
-import DEFAULT_OPERATIONS from './autocomplete.gql';
-import mergeOperation from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @typedef { import("graphql").DocumentNode } DocumentNode
@@ -20,16 +17,12 @@ import mergeOperation from '../../util/shallowMerge';
 export const useAutocomplete = props => {
     const { valid, visible } = props;
 
-    const operations = mergeOperation(DEFAULT_OPERATIONS, props.operations);
-    const { getAutocompleteResultsQuery } = operations;
+    const { getAutocompleteResults } = useAdapter();
 
     const [, { dispatch }] = useEventingContext();
 
     // Prepare to run the queries.
-    const [runSearch, productResult] = useLazyQuery(getAutocompleteResultsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { runSearch, productResult } = getAutocompleteResults({ hasVars: false });
 
     // Get the search term from the field.
     const { value } = useFieldState('search_query');

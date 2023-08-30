@@ -84,7 +84,7 @@ const AddEditDialogCompanyInfo = props => {
                     </Field>
                 </div>
                 <div className={classes.country}>
-                    <Country field={'country_code'} validate={isRequired} data-cy="country" />
+                    <Country initialValue="ES" field={'country_code'} validate={isRequired} data-cy="country" />
                 </div>
                 <div className={classes.street1}>
                     <Field id="street1" label={street1Label}>

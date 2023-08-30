@@ -1,24 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 
 import { useCartContext } from '../../context/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useEventingContext } from '../../context/eventing';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
 
-import DEFAULT_OPERATIONS from './addToCartDialog.gql';
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
-import mergeOperations from '../../util/shallowMerge';
-
 export const useAddToCartDialog = props => {
     const { item, onClose } = props;
     const sku = item && item.product?.sku;
     const [, { dispatch }] = useEventingContext();
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
-    const { addProductToCartMutation, getProductDetailQuery } = operations;
+    const { addProductToCart: addProductToCartFromAdapter, getProductDetailForATCDialogBySku } = useAdapter();
 
     const [userSelectedOptions, setUserSelectedOptions] = useState(new Map());
     const [currentImage, setCurrentImage] = useState();
@@ -28,7 +23,10 @@ export const useAddToCartDialog = props => {
     const [multipleOptionSelections, setMultipleOptionSelections] = useState(new Map());
 
     const [{ cartId }] = useCartContext();
-
+    const [quantity, setQuantity] = useState(1);
+    const handleQuantityChange = tempQuantity => {
+        setQuantity(tempQuantity);
+    };
     const optionCodes = useMemo(() => {
         const optionCodeMap = new Map();
         if (item) {
@@ -98,19 +96,13 @@ export const useAddToCartDialog = props => {
         return [];
     }, [item, userSelectedOptions]);
 
-    const { data, loading: isFetchingProductDetail } = useQuery(getProductDetailQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: {
-            configurableOptionValues: selectedOptionsArray,
-            sku
-        },
-        skip: !sku
-    });
+    const { data, loading: isFetchingProductDetail } = getProductDetailForATCDialogBySku({ configurableOptionValues: selectedOptionsArray, sku: sku });
 
-    const [addProductToCart, { error: addProductToCartError, loading: isAddingToCart }] = useMutation(
-        addProductToCartMutation
-    );
+    const {
+        addProductToCart,
+        error: addProductToCartError,
+        loading: isAddingToCart
+    } = addProductToCartFromAdapter({ initialRun: false });
 
     useEffect(() => {
         if (data) {
@@ -164,8 +156,6 @@ export const useAddToCartDialog = props => {
     );
     const handleAddToCart = useCallback(async () => {
         try {
-            const quantity = 1;
-
             await addProductToCart({
                 variables: {
                     cartId,
@@ -210,7 +200,8 @@ export const useAddToCartDialog = props => {
         handleOnClose,
         item,
         selectedOptionsArray,
-        sku
+        sku,
+        quantity
     ]);
 
     const imageProps = useMemo(() => {
@@ -264,6 +255,7 @@ export const useAddToCartDialog = props => {
         imageProps,
         isFetchingProductDetail,
         priceProps,
-        selectedVariant
+        selectedVariant,
+        handleQuantityChange
     };
 };

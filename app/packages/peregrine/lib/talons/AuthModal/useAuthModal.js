@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 
-import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
-import DEFAULT_OPERATIONS from '../Header/accountMenu.gql';
 import { useEventingContext } from '../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const UNAUTHED_ONLY = ['CREATE_ACCOUNT', 'FORGOT_PASSWORD', 'SIGN_IN'];
 
@@ -36,13 +34,12 @@ const UNAUTHED_ONLY = ['CREATE_ACCOUNT', 'FORGOT_PASSWORD', 'SIGN_IN'];
 export const useAuthModal = props => {
     const { closeDrawer, showCreateAccount, showForgotPassword, showMainMenu, showMyAccount, showSignIn, view } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { signOutMutation } = operations;
+    const { signOut: signOutFromAdapter } = useAdapter();
 
     const [isSigningOut, setIsSigningOut] = useState(false);
     const [username, setUsername] = useState('');
     const [{ currentUser, isSignedIn }, { signOut }] = useUserContext();
-    const [revokeToken] = useMutation(signOutMutation);
+    const { revokeToken } = signOutFromAdapter();
     const history = useHistory();
 
     const [, { dispatch }] = useEventingContext();

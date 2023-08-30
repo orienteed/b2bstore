@@ -1,25 +1,18 @@
 import { useEffect, useRef } from 'react';
-import { useLazyQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import resourceUrl from '../../util/makeUrl';
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../MagentoRoute/magentoRoute.gql';
 
 const useLink = (props, passedOperations = {}) => {
     const { innerRef: originalRef, to } = props;
     const shouldPrefetch = props.prefetchType || props.shouldPrefetch;
-    const operations = shouldPrefetch
-        ? mergeOperations(DEFAULT_OPERATIONS, passedOperations)
-        : {};
 
     const intersectionObserver = useIntersectionObserver();
-    const { resolveUrlQuery } = operations;
     const generatedRef = useRef();
     const elementRef =
         originalRef || !shouldPrefetch ? originalRef : generatedRef;
-    const [runQuery, { called: pageTypeCalled }] = useLazyQuery(
-        resolveUrlQuery
-    );
+    const { resolveURL } = useAdapter();
+    const { runQuery, called: pageTypeCalled } = resolveURL();
     const linkPath = shouldPrefetch ? resourceUrl(to) : null;
 
     useEffect(() => {

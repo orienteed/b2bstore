@@ -1,5 +1,5 @@
 import BrowserPersistence from '../util/simplePersistence';
-import { RESOLVE_URL } from '../talons/MagentoRoute/magentoRoute.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @description Given a route string, resolves with the "standard route", along
@@ -100,9 +100,12 @@ function remotelyResolveRoute(opts) {
 function fetchRoute(opts) {
     // If the route is empty, request the homepage
     const route = opts.route || '/';
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { resolveURL } = useAdapter();
+    const { resolveUrlQuery } = resolveURL();
 
     const url = new URL(opts.apiBase);
-    url.searchParams.set('query', RESOLVE_URL);
+    url.searchParams.set('query', resolveUrlQuery);
     url.searchParams.set('variables', JSON.stringify({ url: route }));
     url.searchParams.set('operationName', 'ResolveURL');
 

@@ -1,12 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 
-import DEFAULT_OPERATIONS from './cmsDynamicBlock.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '../../hooks/useAdapter';
 
 export const flatten = cartData => {
     const cartItems = cartData?.cart?.items || [];
@@ -67,46 +65,34 @@ export const flatten = cartData => {
 export const useCmsDynamicBlock = props => {
     const { locations, uids, type } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCmsDynamicBlocksQuery, getProductDetailQuery, getSalesRulesDataQuery } = operations;
+    const { getCmsDynamicBlocks, getSalesRulesData, getProductDetailForCmsDynamicBlockByUrlKey } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const { pathname } = useLocation();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     // Get Product Data from cache
     const slug = pathname.split('/').pop();
     const productUrlSuffix = storeConfigData?.storeConfig?.product_url_suffix;
     const urlKey = productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
 
-    const { data: productData, loading: productDataLoading } = useQuery(getProductDetailQuery, {
-        skip: !storeConfigData,
-        variables: {
-            urlKey
-        }
-    });
+    const { data: productData, loading: productDataLoading } = getProductDetailForCmsDynamicBlockByUrlKey({ urlKey: urlKey, storeConfigData: storeConfigData });
 
     // @TODO: Update with uid when done in Product Root Component
     const products =
         productData?.products?.items && productData.products.items.length > 0 ? productData.products.items : [];
     const productUid = products.find(item => item.url_key === urlKey)?.uid;
 
-    const { client, loading, error, data, refetch } = useQuery(getCmsDynamicBlocksQuery, {
-        variables: {
-            cartId,
-            type,
-            locations,
-            uids,
-            ...(productUid ? { productId: productUid } : {})
-        },
-        skip: !cartId
+    const { client, data, loading, error, refetch, getCmsDynamicBlocksQuery } = getCmsDynamicBlocks({
+        cartId,
+        ...(productUid ? { productId: productUid } : {}),
+        type,
+        locations,
+        uids
     });
 
-    const { loading: cartLoading, data: cartData } = useQuery(getSalesRulesDataQuery, {
-        variables: { cartId },
-        skip: !cartId
-    });
+    const { loading: cartLoading, data: cartData } = getSalesRulesData({ cartId: cartId });
 
     const currentSalesRulesData = flatten(cartData);
     const isLoading = loading || cartLoading || storeConfigData === undefined || productDataLoading;

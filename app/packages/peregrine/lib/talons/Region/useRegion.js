@@ -1,11 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useFieldApi } from 'informed';
-import { useQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import useFieldState from '@magento/peregrine/lib/hooks/hook-wrappers/useInformedFieldStateWrapper';
-
-import DEFAULT_OPERATIONS from './region.gql';
-import mergeOperations from '../../util/shallowMerge';
 
 /**
  * The useRegion talon handles logic for:
@@ -22,9 +19,6 @@ import mergeOperations from '../../util/shallowMerge';
  * @return {RegionTalonProps}
  */
 export const useRegion = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getRegionsQuery } = operations;
-
     const {
         countryCodeField = 'country',
         fieldInput = 'region',
@@ -39,10 +33,8 @@ export const useRegion = props => {
     const regionInputFieldApi = useFieldApi(fieldInput);
     const regionSelectFieldApi = useFieldApi(fieldSelect);
 
-    const { data, loading } = useQuery(getRegionsQuery, {
-        variables: { countryCode: country },
-        skip: !country
-    });
+    const { getRegions } = useAdapter();
+    const { data, loading } = getRegions({ countryCode: country });
 
     // Reset region value when country changes. Because of how Informed sets
     // initialValues, we want to skip the first state change of the value being

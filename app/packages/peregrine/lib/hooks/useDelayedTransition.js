@@ -7,10 +7,9 @@ import { availableRoutes } from '@magento/venia-ui/lib/components/Routes/routes'
 
 import { useAppContext } from '../context/app';
 import { useRootComponents } from '../context/rootComponents';
-import mergeOperations from '../util/shallowMerge';
 import { getComponentData } from '../util/magentoRouteData';
-import DEFAULT_OPERATIONS from '../talons/MagentoRoute/magentoRoute.gql';
 import { getRootComponent } from '../talons/MagentoRoute/helpers';
+import { useAdapter } from './useAdapter';
 
 const DELAY_MESSAGE_PREFIX = 'DELAY:';
 
@@ -18,11 +17,13 @@ const useDelayedTransition = () => {
     const { pathname } = useLocation();
     const history = useHistory();
     const client = useApolloClient();
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { resolveUrlQuery } = operations;
     const [, setComponentMap] = useRootComponents();
     const [, appApi] = useAppContext();
     const { actions: appActions } = appApi;
+
+    const { resolveURL } = useAdapter();
+    const { resolveUrlQuery } = resolveURL();
+
     const { setPageLoading } = appActions;
     const unblock = useRef();
 

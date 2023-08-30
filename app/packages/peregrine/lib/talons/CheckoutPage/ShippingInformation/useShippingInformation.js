@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 
 import { MOCKED_ADDRESS } from '../../CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
 
@@ -7,14 +6,10 @@ import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
 import { useEventingContext } from '../../../context/eventing';
 import { useUserContext } from '../../../context/user';
-
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './shippingInformation.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useShippingInformation = props => {
     const { onSave, toggleActiveContent } = props;
-
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
@@ -23,25 +18,13 @@ export const useShippingInformation = props => {
     const [hasUpdate, setHasUpdate] = useState(false);
     const hasLoadedData = useRef(false);
 
-    const { setDefaultAddressIdOnCartMutation, getDefaultShippingQuery, getShippingInformationQuery } = operations;
+    const { getDefaultShipping, getShippingInformation, setCustomerAddressIdOnCart } = useAdapter();
 
-    const { data: shippingInformationData, loading: getShippingInformationLoading } = useQuery(
-        getShippingInformationQuery,
-        {
-            skip: !cartId,
-            variables: {
-                cartId
-            }
-        }
-    );
+    const { data: shippingInformationData, loading: getShippingInformationLoading } = getShippingInformation({ cartId: cartId });
 
-    const { data: defaultShippingData, loading: getDefaultShippingLoading } = useQuery(getDefaultShippingQuery, {
-        skip: !isSignedIn
-    });
+    const { data: defaultShippingData, loading: getDefaultShippingLoading } = getDefaultShipping({ isSignedIn: isSignedIn });
 
-    const [setDefaultAddressOnCart, { loading: setDefaultAddressLoading }] = useMutation(
-        setDefaultAddressIdOnCartMutation
-    );
+    const { setDefaultAddressOnCart, loading: setDefaultAddressLoading } = setCustomerAddressIdOnCart({ hasOnSuccess: false });
 
     const isLoading = getShippingInformationLoading || getDefaultShippingLoading || setDefaultAddressLoading;
 

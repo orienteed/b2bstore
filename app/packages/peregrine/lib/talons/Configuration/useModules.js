@@ -14,10 +14,16 @@ export const useModules = () => {
             this.googleAnalyticsTrackingId = tenantConfig.googleAnalytics?.GOOGLE_ANALYTICS_TRACKING_ID;
             this.b2bProductDetailView = Boolean(tenantConfig.b2b?.IS_B2B === 'true' || tenantConfig.b2b?.IS_B2B === true);
             this.GoogleMapApiKey = tenantConfig.googleMap?.GOOGLE_MAPS_API_KEY;
+            this.productAlertEnabled = Boolean(
+                tenantConfig.productAlert?.ENABLED === 'true' || tenantConfig.productAlert?.ENABLED === true
+            );
+            this.productAttachmentEnabled = Boolean(
+                tenantConfig.productAttachment?.ENABLED === 'true' || tenantConfig.productAttachment?.ENABLED === true
+            );
 
             this.backendTechnology = tenantConfig.backendTechnology?.BACKEND_TECHNOLOGY;
             this.bigcommerceChannelId = tenantConfig.backendTechnology?.BIGCOMMERCE_CHANNEL_ID;
-            
+
             this.downloadCsv = Boolean(tenantConfig.features?.DOWNLOAD_CSV === 'true' || tenantConfig.features?.DOWNLOAD_CSV === true);
             this.quickCart = Boolean(tenantConfig.features?.QUICK_CART === 'true' || tenantConfig.features?.QUICK_CART === true);
             this.requestForQuote = Boolean(tenantConfig.features?.REQUEST_FOR_QUOTE === 'true' || tenantConfig.features?.REQUEST_FOR_QUOTE === true);
@@ -48,8 +54,14 @@ export const useModules = () => {
             b2b: {
                 IS_B2B: process.env.IS_B2B
             },
-            googleMap:{
+            googleMap: {
                 GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY
+            },
+            productAlert: {
+                ENABLED: process.env.PRODUCT_ALERT
+            },
+            productAttachment: {
+                ENABLED: process.env.PRODUCT_ATTACHMENT
             },
             backendTechnology: {
                 BACKEND_TECHNOLOGY: process.env.BACKEND_TECHNOLOGY
@@ -80,11 +92,11 @@ export const useModules = () => {
             }
         };
 
-            return enabledModulesObj;
+        return enabledModulesObj;
     }
 
     const fetchTenantConfig = useCallback(
-        async function() {
+        async function () {
             if (process.env.MULTITENANT_ENABLED === 'true') {
                 try {
                     const tenantConfig = await getTenantConfig();

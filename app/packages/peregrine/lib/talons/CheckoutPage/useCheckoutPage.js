@@ -1,15 +1,10 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
-
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './checkoutPage.gql.js';
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
-import PAYMENT_METHODS_OPERATIONS from './PaymentInformation/paymentMethods.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CheckoutError from './CheckoutError';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
@@ -68,22 +63,14 @@ export const CHECKOUT_STEP = {
 export const useCheckoutPage = props => {
     const { submitDeliveryDate, deliveryDateIsActivated, submitOrderAttribute } = props;
 
-    const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
-        ACCOUNT_OPERATIONS,
-        CART_OPERATIONS,
-        PAYMENT_METHODS_OPERATIONS,
-        props.operations
-    );
-
     const {
-        createCartMutation,
-        getCheckoutDetailsQuery,
-        getCustomerInformationQuery,
-        getOrderDetailsQuery,
-        placeOrderMutation,
-        setPaymentMethodOnCartMutation
-    } = operations;
+        placeOrder,
+        createCart: createCartFromAdapter,
+        getCheckoutDetails,
+        getOrderDetails: getOrderDetailsFromAdapter,
+        setPaymentMethodOnCart,
+        getCustomerInformation
+    } = useAdapter();
 
     const { setNoProduct } = useNoReorderProductContext();
 
@@ -109,45 +96,21 @@ export const useCheckoutPage = props => {
     const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
-    const [placeOrder, { data: placeOrderData, error: placeOrderError, loading: placeOrderLoading }] = useMutation(
-        placeOrderMutation
-    );
+    const { fetchCartId } = createCartFromAdapter();
+    const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
 
-    const [getOrderDetails, { data: orderDetailsData, loading: orderDetailsLoading }] = useLazyQuery(
-        getOrderDetailsQuery,
-        {
-            // We use this query to fetch details _just_ before submission, so we
-            // want to make sure it is fresh. We also don't want to cache this data
-            // because it may contain PII.
-            fetchPolicy: 'no-cache'
-        }
-    );
+    const { getOrderDetails, data: orderDetailsData, loading: orderDetailsLoading } = getOrderDetailsFromAdapter();
 
-    const { data: customerData, loading: customerLoading } = useQuery(getCustomerInformationQuery, {
-        skip: !isSignedIn
-    });
+    const { data: customerData, loading: customerLoading } = getCustomerInformation({ hasSkip: true, isSignedIn: isSignedIn });
 
-    const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = useQuery(getCheckoutDetailsQuery, {
-        /**
-         * Skip fetching checkout details if the `cartId`
-         * is a falsy value.
-         */
-        skip: !cartId,
-        notifyOnNetworkStatusChange: true,
-        variables: {
-            cartId
-        }
-    });
-    
-    const [
-        updatePaymentMethod,
-        {
-            error: paymentMethodMutationError,
-            called: paymentMethodMutationCalled,
-            loading: paymentMethodMutationLoading
-        }
-    ] = useMutation(setPaymentMethodOnCartMutation);
+    const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = getCheckoutDetails({ cartId: cartId })
+
+    const {
+        fetch: updatePaymentMethod,
+        error: paymentMethodMutationError,
+        called: paymentMethodMutationCalled,
+        loading: paymentMethodMutationLoading
+    } = setPaymentMethodOnCart();
 
     const paymentMethodMutationData = {
         paymentMethodMutationError,
@@ -285,7 +248,7 @@ export const useCheckoutPage = props => {
             try {
                 const reCaptchaData = await generateReCaptchaData();
                 const { cart } = orderDetailsData;
-                const { data } = await placeOrder({
+                const { data } = await runPlaceOrder({
                     variables: {
                         cartId
                     },
@@ -344,7 +307,7 @@ export const useCheckoutPage = props => {
         fetchCartId,
         generateReCaptchaData,
         orderDetailsData,
-        placeOrder,
+        runPlaceOrder,
         removeCart,
         isPlacingOrder
     ]);
@@ -451,6 +414,6 @@ export const useCheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod 
+        currentSelectedPaymentMethod
     };
 };

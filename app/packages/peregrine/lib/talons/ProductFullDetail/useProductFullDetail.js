@@ -1,6 +1,5 @@
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useEventingContext } from '../../context/eventing';
@@ -13,9 +12,9 @@ import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingPro
 import { getOutOfStockVariants } from '@magento/peregrine/lib/util/getOutOfStockVariants';
 import { isProductConfigurable } from '@magento/peregrine/lib/util/isProductConfigurable';
 import { isSupportedProductType as isSupported } from '@magento/peregrine/lib/util/isSupportedProductType';
+import { useToasts } from '@magento/peregrine';
 
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './productFullDetail.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useModulesContext } from '../../context/modulesProvider';
 
@@ -124,7 +123,7 @@ const getIsAllOutOfStock = product => {
     return stock_status === OUT_OF_STOCK_CODE;
 };
 
-const getMediaGalleryEntries = (product, optionCodes, optionSelections, ) => {
+const getMediaGalleryEntries = (product, optionCodes, optionSelections) => {
     let value = [];
     const { media_gallery_entries, variants } = product;
     const isConfigurable = isProductConfigurable(product);
@@ -267,9 +266,14 @@ const getCustomAttributes = (product, optionCodes, optionSelections) => {
 export const useProductFullDetail = props => {
     const { addConfigurableProductToCartMutation, addSimpleProductToCartMutation, product } = props;
     const [, { dispatch }] = useEventingContext();
+    const [, { addToast }] = useToasts();
     const hasDeprecatedOperationProp = !!(addConfigurableProductToCartMutation || addSimpleProductToCartMutation);
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const {
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
+        addProductToCart: addProductToCartFromAdapter,
+        addSimpleProductToCart: addSimpleProductToCartFromAdapter
+    } = useAdapter();
 
     const productType = product.__typename;
 
@@ -285,18 +289,22 @@ export const useProductFullDetail = props => {
 
     const { data: storeConfigData } = useStoreConfigContext();
 
-    const [
-        addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
-    ] = useMutation(addConfigurableProductToCartMutation || operations.addConfigurableProductToCartMutation);
+    const { addConfigurableProductToCart,
+        error: errorAddingConfigurableProduct,
+        loading: isAddConfigurableLoading
+    } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
-    const [addSimpleProductToCart, { error: errorAddingSimpleProduct, loading: isAddSimpleLoading }] = useMutation(
-        addSimpleProductToCartMutation || operations.addSimpleProductToCartMutation
-    );
+    const {
+        addSimpleProductToCart,
+        error: errorAddingSimpleProduct,
+        loading: isAddSimpleLoading
+    } = addSimpleProductToCartFromAdapter();
 
-    const [addProductToCart, { error: errorAddingProductToCart, loading: isAddProductLoading }] = useMutation(
-        operations.addProductToCartMutation
-    );
+    const {
+        addProductToCart,
+        error: errorAddingProductToCart,
+        loading: isAddProductLoading
+    } = addProductToCartFromAdapter({ initialRun: false });
 
     const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
 
@@ -394,7 +402,6 @@ export const useProductFullDetail = props => {
         });
         return selectedOptions;
     }, [attributeIdToValuesMap, optionSelections]);
-
     const handleAddToCart = useCallback(
         async formValues => {
             const { quantity } = formValues;
@@ -458,24 +465,32 @@ export const useProductFullDetail = props => {
                 }
 
                 try {
-                    await addProductToCart({ variables });
+                    await addProductToCart({ variables }).then(() => {
+                        addToast({
+                            type: 'success',
+                            message: formatMessage({
+                                id: 'cartPage.AddedSuccessfully',
+                                defaultMessage: 'Added to cart successfully.'
+                            }),
+                            timeout: 6000
+                        });
+                        const selectedOptionsLabels =
+                            selectedOptionsArray?.map((uid, i) => ({
+                                attribute: product.configurable_options[i].label,
+                                value:
+                                    product.configurable_options[i].values.findLast(x => x.uid === uid)?.label || null
+                            })) || null;
 
-                    const selectedOptionsLabels =
-                        selectedOptionsArray?.map((uid, i) => ({
-                            attribute: product.configurable_options[i].label,
-                            value: product.configurable_options[i].values.findLast(x => x.uid === uid)?.label || null
-                        })) || null;
-
-                    dispatch({
-                        type: 'CART_ADD_ITEM',
-                        payload: {
-                            cartId,
-                            sku: product.sku,
-                            name: product.name,
-
-                            selectedOptions: selectedOptionsLabels,
-                            quantity
-                        }
+                        dispatch({
+                            type: 'CART_ADD_ITEM',
+                            payload: {
+                                cartId,
+                                sku: product.sku,
+                                name: product.name,
+                                selectedOptions: selectedOptionsLabels,
+                                quantity
+                            }
+                        });
                     });
                 } catch {
                     return;
@@ -572,13 +587,13 @@ export const useProductFullDetail = props => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
+                    id: 'wishlistButton.addedText',
+                    defaultMessage: 'Added to Favorites'
+                })
                 : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
+                    id: 'wishlistButton.addText',
+                    defaultMessage: 'Add to Favorites'
+                }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };

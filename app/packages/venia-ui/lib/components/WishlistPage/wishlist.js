@@ -12,15 +12,13 @@ import Button from '../Button';
 import defaultClasses from './wishlist.module.css';
 import ActionMenu from './actionMenu';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/Wishlist/wishlist.gql';
-
-import { useMutation } from '@apollo/client';
 import { useToasts } from '@magento/peregrine';
 import { useReactToPrint } from 'react-to-print';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { ShareWithBorderIcon } from '@magento/venia-ui/lib/assets/shareWithBorderIcon';
 import { ThrashIcon } from '@magento/venia-ui/lib/assets/ThrashIcon';
+import { CSVLink } from 'react-csv';
 /**
  * A single wishlist container.
  *
@@ -32,8 +30,8 @@ const Wishlist = props => {
     const { data, shouldRenderVisibilityToggle, isCollapsed } = props;
     const { formatMessage } = useIntl();
     const { id, items_count: itemsCount, name, visibility } = data;
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { removeProductsFromWishlistMutation } = operations;
+
+    const { removeProductsFromWishlist: removeProductsFromWishlistFromAdapter } = useAdapter();
 
     const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
     const [, { addToast }] = useToasts();
@@ -47,7 +45,7 @@ const Wishlist = props => {
 
     const wishlistId = id;
     const talonProps = useWishlist({ id, itemsCount, isCollapsed });
-    const { handleContentToggle, isOpen, items, isLoading, isFetchingMore, handleLoadMore } = talonProps;
+    const { handleContentToggle, isOpen, items, isLoading, isFetchingMore, handleLoadMore, csvItems } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
     const contentClass = isOpen ? classes.content : classes.content_hidden;
@@ -56,33 +54,9 @@ const Wishlist = props => {
 
     const idsOfItems = items.map(item => item.id);
 
-    const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
-        update: cache => {
-            cache.modify({
-                id: 'ROOT_QUERY',
-                fields: {
-                    customerWishlistProducts: cachedProducts => {
-                        return cachedProducts.slice(0, 0);
-                    }
-                }
-            });
-
-            cache.modify({
-                id: `CustomerWishlist:${wishlistId}`,
-                fields: {
-                    items_v2: (cachedItems, { Remove }) => {
-                        for (let i = 0; i < cachedItems.items.length; i++) {
-                            return Remove;
-                        }
-                        return cachedItems;
-                    }
-                }
-            });
-        },
-        variables: {
-            wishlistId: wishlistId,
-            wishlistItemsId: idsOfItems
-        }
+    const { removeProductsFromWishlist } = removeProductsFromWishlistFromAdapter({
+        wishlistId: wishlistId,
+        wishlistItemsId: idsOfItems
     });
 
     const handleRemoveAllProductsFromWishlist = useCallback(async () => {
@@ -113,22 +87,22 @@ const Wishlist = props => {
     const itemsCountMessage =
         itemsCount && isOpen
             ? formatMessage(
-                  {
-                      id: 'wishlist.itemCountOpen',
-                      defaultMessage: 'Favorites ({currentCount} products)'
-                  },
-                  { currentCount: items.length, count: itemsCount }
-              )
+                {
+                    id: 'wishlist.itemCountOpen',
+                    defaultMessage: 'Favorites ({currentCount} products)'
+                },
+                { currentCount: items.length, count: itemsCount }
+            )
             : formatMessage(
-                  {
-                      id: 'wishlist.itemCountClosed',
-                      defaultMessage: `You have {count} {count, plural,
+                {
+                    id: 'wishlist.itemCountClosed',
+                    defaultMessage: `You have {count} {count, plural,
                         one {item}
                         other {items}
                       } in this list`
-                  },
-                  { count: itemsCount }
-              );
+                },
+                { count: itemsCount }
+            );
     const loadMoreButton =
         items && items.length < itemsCount ? (
             <div>
@@ -204,12 +178,11 @@ const Wishlist = props => {
                     <FormattedMessage id={'wishlist.printPage'} defaultMessage={'Print page'} />
                 </span>
             </button>
-
-            <article className={classes.addAllToCartShareContainer}>
-                <button onClick={handleShareClick} className={classes.shareIcon}>
-                    <ShareWithBorderIcon />
-                </button>
-            </article>
+            <CSVLink filename="Downloaded-favourateItems.csv" data={csvItems}>
+                <Button priority='high'>
+                    <FormattedMessage id={'download'} defaultMessage={'download'} />
+                </Button>
+            </CSVLink>
         </section>
     );
 

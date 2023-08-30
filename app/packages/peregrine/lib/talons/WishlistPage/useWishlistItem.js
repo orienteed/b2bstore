@@ -1,11 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import { useEventingContext } from '../../context/eventing';
 
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct', 'ConfigurableProduct'];
@@ -49,12 +46,11 @@ export const useWishlistItem = props => {
         [props.supportedProductTypes, productType]
     );
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, PRODUCT_OPERATIONS, props.operations);
     const {
-        addProductToCartMutation,
-        addConfigurableProductToCartMutation,
-        removeProductsFromWishlistMutation
-    } = operations;
+        addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
+        addProductToCart,
+        removeProductsFromWishlist: removeProductsFromWishlistFromAdapter
+    } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
@@ -62,9 +58,14 @@ export const useWishlistItem = props => {
 
     const [removeProductFromWishlistError, setRemoveProductFromWishlistError] = useState(null);
 
+    const [quantity, setQuantity] = useState(1);
+    const handleQuantityChange = tempQuantity => {
+        setQuantity(tempQuantity);
+    };
+    
     const cartItem = useMemo(() => {
         const item = {
-            quantity: 1,
+            quantity,
             sku
         };
 
@@ -87,56 +88,28 @@ export const useWishlistItem = props => {
         }
 
         return item;
-    }, [configurableOptions, selectedConfigurableOptions, sku]);
+    }, [configurableOptions, selectedConfigurableOptions, sku, quantity]);
 
-    const [addWishlistSimpleProductToCart] = useMutation(addConfigurableProductToCartMutation, {
-        variables: {
-            cartId,
-            quantity: 1.0,
-            sku: item.product.sku,
-            parentSku: item.product.orParentSku
-        }
+    const { addWishlistSimpleProductToCart } = addConfigurableProductToCartFromAdapter({
+        cartId: cartId,
+        quantity: 1.0,
+        sku: item.product.sku,
+        parentSku: item.product.orParentSku,
+        hasProps: true
     });
 
-    const [
+    const {
         addWishlistItemToCart,
-        { error: addWishlistItemToCartError, loading: addWishlistItemToCartLoading }
-    ] = useMutation(addProductToCartMutation, {
-        variables: {
-            cartId,
-            product: cartItem
-        }
-    });
+        error: addWishlistItemToCartError,
+        loading: addWishlistItemToCartLoading
+    } = addProductToCart({ cartId: cartId, product: cartItem, initialRun: true });
 
-    const [removeProductsFromWishlist] = useMutation(removeProductsFromWishlistMutation, {
-        update: cache => {
-            // clean up for cache fav product on category page
-            cache.modify({
-                id: 'ROOT_QUERY',
-                fields: {
-                    customerWishlistProducts: cachedProducts => cachedProducts.filter(productSku => productSku !== sku)
-                }
-            });
-
-            cache.modify({
-                id: `CustomerWishlist:${wishlistId}`,
-                fields: {
-                    items_v2: (cachedItems, { readField, Remove }) => {
-                        for (let i = 0; i < cachedItems.items.length; i++) {
-                            if (readField('id', item) === itemId) {
-                                return Remove;
-                            }
-                        }
-
-                        return cachedItems;
-                    }
-                }
-            });
-        },
-        variables: {
-            wishlistId: wishlistId,
-            wishlistItemsId: [itemId]
-        }
+    const { removeProductsFromWishlist } = removeProductsFromWishlistFromAdapter({
+        wishlistId: wishlistId,
+        wishlistItemsId: [itemId],
+        item: item,
+        sku: sku,
+        isFromUse: true
     });
 
     const handleAddToCart = useCallback(async () => {
@@ -151,9 +124,9 @@ export const useWishlistItem = props => {
                 const selectedOptionsLabels =
                     selectedConfigurableOptions?.length > 0
                         ? selectedConfigurableOptions?.map(({ option_label, value_label }) => ({
-                              attribute: option_label,
-                              value: value_label
-                          }))
+                            attribute: option_label,
+                            value: value_label
+                        }))
                         : null;
 
                 dispatch({
@@ -225,7 +198,8 @@ export const useWishlistItem = props => {
         hasRemoveProductFromWishlistError: !!removeProductFromWishlistError,
         imageProps,
         isSupportedProductType,
-        isInStock
+        isInStock,
+        handleQuantityChange
     };
 };
 
