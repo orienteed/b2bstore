@@ -18,12 +18,16 @@ import { useAdapter } from '../../../hooks/useAdapter';
 export const useCategoryContent = props => {
     const { categoryId, data, pageSize = 6 } = props;
 
-    const { getCategoryData, getAvailableSortMethodsByCategory, getProductAggregationsFilteredByCategory } = useAdapter();
+    const {
+        getCategoryData,
+        getAvailableSortMethodsByCategory,
+        getProductAggregationsFilteredByCategory
+    } = useAdapter();
 
     const placeholderItems = Array.from({ length: pageSize }).fill(null);
     const [items, setItems] = useState([]);
-
-    const { getFilters, data: filterData } = getProductAggregationsFilteredByCategory();
+    
+    const { getFilters, data: filterData } = getProductAggregationsFilteredByCategory({ categoryIdFilter: categoryId });
 
     const { getSortMethods, data: sortData } = getAvailableSortMethodsByCategory();
 
