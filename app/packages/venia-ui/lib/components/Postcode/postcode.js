@@ -45,8 +45,8 @@ const Postcode = props => {
             field={fieldInput}
             id={classes.root}
           />
-        </Field>
         {warning && <div className={classes.warning}>{errorMessage}</div>}
+        </Field>
       </>
     );
 };

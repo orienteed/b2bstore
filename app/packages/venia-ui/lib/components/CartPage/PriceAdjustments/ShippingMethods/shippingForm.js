@@ -64,6 +64,7 @@ const ShippingForm = props => {
                 />
                 <Postcode
                     fieldInput="zip"
+                    countryCodeField="country"
                     data-cy="ShippingMethods-ShippingForm-postCode"
                     validate={isRequired}
                     onValueChange={handleZipChange}
