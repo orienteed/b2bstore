@@ -114,9 +114,7 @@ const CouponCode = props => {
 
         return <div className={classes.appliedCoupon}>{codes}</div>;
     } else {
-        const errorMessage = deriveErrorMessage([
-            errors.get('applyCouponMutation')
-        ]);
+        const errorMessage = deriveErrorMessage([errors.get('applyCouponToCartMutation')]);
 
         const formClass = errorMessage
             ? classes.entryFormError
