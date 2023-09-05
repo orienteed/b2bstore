@@ -1,5 +1,6 @@
 # B2BStore 0.10
-
+## 🚨 Hotfixes  
+  - Fixed the wishlist button in PLP and PDP
 ## 🪄 Enhancements
   - Make wishlist button work for delete also in PLP and PDP
   - Add to Cart, PLP indicates user to choose a color to add it to cart
