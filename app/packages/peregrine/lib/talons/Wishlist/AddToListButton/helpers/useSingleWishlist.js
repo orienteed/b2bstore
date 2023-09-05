@@ -21,7 +21,7 @@ export const useSingleWishlist = props => {
     } = addProductToWishlistFromAdapter();
 
     const {
-        removeProductFromWishlist,
+        removeProductsFromWishlist,
         data: removeProductData,
         error: errorRemovingProduct
     } = removeProductsFromWishlistFromAdapter({ isFromUseSingle: true, item });
@@ -52,7 +52,7 @@ export const useSingleWishlist = props => {
         } else {
             try {
                 if (isSelected) {
-                    await removeProductFromWishlist({
+                    await removeProductsFromWishlist({
                         variables: {
                             wishlistId: '0',
                             wishlistItemsId: wishlistItemIds
