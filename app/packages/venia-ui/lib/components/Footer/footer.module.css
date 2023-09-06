@@ -103,6 +103,8 @@
     composes: grid from global;
 
     composes: xs_col-span-2 from global;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .linkItem {
