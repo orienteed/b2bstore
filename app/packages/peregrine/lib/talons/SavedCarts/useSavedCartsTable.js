@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 import { useAdapter } from '../../hooks/useAdapter';
+import { useToasts } from '../../Toasts';
+import { useIntl } from 'react-intl';
 
 /**
  * @function
@@ -12,6 +14,7 @@ import { useAdapter } from '../../hooks/useAdapter';
  */
 export const useSavedCartsTable = props => {
     const { handleIsLoading, getSavedCarts } = props;
+    const { formatMessage } = useIntl();
 
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
@@ -32,12 +35,21 @@ export const useSavedCartsTable = props => {
         setIsOpen(currentValue => !currentValue);
     }, []);
 
+    const [, { addToast }] = useToasts();
     // Copy URL
     const copyCartUrl = useCallback(obj => {
         const baseUrl = window.location.origin;
         const cartUrl = `${baseUrl}/mpsavecart/cart/share/id/${obj}`;
         navigator.clipboard.writeText(cartUrl);
 
+        addToast({
+            type: 'success',
+            message: formatMessage({
+                id: 'wishlist.copiedUrl',
+                defaultMessage: 'The page URL was copied to the clipboard'
+            }),
+            timeout: 5000
+        });
         setCopied(true);
         setTimeout(() => {
             setCopied(false);
