@@ -44,10 +44,3 @@
 .description div ul {
     padding-inline-start: 40px;
 }
-
-@media (min-width:1540px){
-    .tableWrapper {
-        max-width: 85vw;
-     
-    }
-}
