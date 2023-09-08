@@ -77,7 +77,7 @@ export const useQuantityStepper = props => {
                 const nextVal = parseFloat(value);
                 if (value && isNaN(nextVal)) throw new Error(`${value} is not a number.`);
                 if (nextVal < min) return min;
-                if (nextVal > max) return max;
+                if (nextVal > max) return max
                 else return nextVal;
             } catch (err) {
                 console.error(err);
