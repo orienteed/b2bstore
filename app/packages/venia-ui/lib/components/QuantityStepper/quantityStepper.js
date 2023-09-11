@@ -33,6 +33,12 @@ const QuantityStepper = props => {
 
     const errorMessage = message ? <Message>{message}</Message> : null;
 
+    const handlePreventKeyDown = (e) => {
+        if(e.keyCode === 13) {
+            e.preventDefault()
+        }
+    }
+
     return (
         <Fragment>
             <div className={classes.root}>
@@ -66,6 +72,7 @@ const QuantityStepper = props => {
                     min={min}
                     onBlur={handleBlur}
                     pattern="[0-9]*"
+                    onKeyDown={handlePreventKeyDown}
                     onChange={isPDP && onChange}
                     {...textProps}
                 />
