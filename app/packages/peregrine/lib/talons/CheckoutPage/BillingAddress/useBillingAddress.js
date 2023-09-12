@@ -5,6 +5,7 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
+import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
@@ -243,7 +244,9 @@ export const useBillingAddress = props => {
             postcode,
             phoneNumber
         } = formState.values;
-
+        if (!validatePostcode(postcode, country)) {
+            throw new Error("Invalid postcode")
+        }
         updateBillingAddress({
             variables: {
                 cartId,

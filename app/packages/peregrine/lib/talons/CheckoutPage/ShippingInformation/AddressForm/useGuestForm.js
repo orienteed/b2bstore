@@ -1,4 +1,8 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useMutation, useLazyQuery } from '@apollo/client';
+import DEFAULT_OPERATIONS from './guestForm.gql';
+import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 
 import { useCartContext } from '../../../../context/cart';
 import { useEventingContext } from '../../../../context/eventing';
@@ -41,7 +45,8 @@ export const useGuestForm = props => {
 
     const handleSubmit = useCallback(
         async formValues => {
-            const { country, email, region, ...address } = formValues;
+            const { country, email, region, postcode, ...address } = formValues;
+            if(!validatePostcode(postcode, country)) return; 
             try {
                 await setGuestShipping({
                     variables: {
@@ -53,7 +58,8 @@ export const useGuestForm = props => {
                             street: address.street.filter(e => e),
                             // region_id is used for field select and region is used for field input
                             region: region.region_id || region.region,
-                            country_code: country
+                            country_code: country,
+                            postcode: postcode
                         }
                     }
                 });

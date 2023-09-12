@@ -185,6 +185,7 @@ const BillingAddress = props => {
                             classes={fieldClasses.postal_code}
                             validate={isFieldRequired}
                             initialValue={initialValues.postcode}
+                            countryCodeField="country"
                         />
                         <Field
                             id="phoneNumber"

@@ -247,6 +247,7 @@ const CustomerForm = props => {
                 <div className={classes.postcode}>
                     <Postcode
                         validate={isRequired}
+                        countryCodeField='country'
                         data-cy="CustomerForm-postcode"
                     />
                 </div>
