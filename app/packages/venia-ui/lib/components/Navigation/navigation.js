@@ -85,7 +85,7 @@ const Navigation = props => {
                     <div className={classes.footer}>
                         <div className={classes.actionsContainer}>
                             {isSignedIn && productsCount > 0 && (
-                                <Link className={classes.compareLink} to="/compare_products">
+                                <Link className={classes.compareLink} onClick={handleClose} to="/compare_products">
                                     <span className={classes.productsCount}>{productsCount}</span>
                                     <img src={CompareIcon} alt=" compare Icon" />
                                 </Link>
