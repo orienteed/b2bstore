@@ -1,7 +1,4 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import { useMutation, useLazyQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './guestForm.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 
 import { useCartContext } from '../../../../context/cart';

@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 
 import { useEventingContext } from '../../../../context/eventing';
