@@ -35,22 +35,24 @@ const Footer = props => {
             }
 
             const itemKey = `text: ${text} path:${path}`;
-            const child = path ? (
-                <Link data-cy="Footer-link" className={classes.link} to={path}>
-                    <FormattedMessage id={`footer.${text}`} defaultMessage={text} />
-                </Link>
-            ) : (
-                <span data-cy="Footer-label" className={classes.label}>
-                    <FormattedMessage id={`footer.${text}`} defaultMessage={text} />
-                </span>
-            );
+
+            // If there is no path, it is not a link and won't be rendere
+            if (!path) return null
 
             return (
                 <Component key={itemKey}>
-                    <li className={classes.linkItem}>{child}</li>
+                    <li className={classes.linkItem}>
+                    	<Link data-cy="Footer-link" className={classes.link} to={path}>
+												<FormattedMessage id={`footer.${text}`} defaultMessage={text} />
+											</Link>
+                    </li>
                 </Component>
             );
-        });
+        }).filter(Boolean);
+
+				// If there are no link elements, don't render the <ul>
+				if (!linkElements.length) return null
+
 
         return (
             <ul key={groupKey} className={classes.linkGroup}>
