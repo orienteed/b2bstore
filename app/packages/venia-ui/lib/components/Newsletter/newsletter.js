@@ -94,7 +94,7 @@ const Newsletter = props => {
                     }
                 />
             </p>
-            <FormError allowErrorMessages errors={Array.from(errors.values())} />
+            <FormError errors={Array.from(errors.values())} />
             <Form getApi={setFormApi} className={classes.form} onSubmit={handleSubmit}>
                 <Field id="email">
                     <TextInput autoComplete="email" field="email" id="email" validate={isRequired} />
