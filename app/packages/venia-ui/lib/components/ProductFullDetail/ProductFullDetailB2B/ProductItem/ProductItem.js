@@ -207,7 +207,7 @@ const ProductItem = props => {
                         </div>
                     ) : (
                         <div className={classes.productSkuContainer}>
-                            <button onClick={copyText}>
+                            <button type="button" onClick={copyText}>
                                 ...{lastDigitsOfSku} <img src={copyToClipboard} alt="copyToClipboard" />
                             </button>
                         </div>
