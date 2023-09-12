@@ -1,13 +1,9 @@
-import { useQuery } from '@apollo/client';
-
-import DEFAULT_OPERATIONS from './country.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '../../hooks/useAdapter';
 
 export const useCountry = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getCountriesQuery } = operations;
+    const { getCountries } = useAdapter();
 
-    const { data, error, loading } = useQuery(getCountriesQuery);
+    const { data, loading, error } = getCountries();
 
     let formattedCountriesData = [{ label: 'Loading Countries...', value: '' }];
     if (!loading && !error) {
