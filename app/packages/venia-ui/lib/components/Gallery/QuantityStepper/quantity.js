@@ -6,7 +6,6 @@ import { func, number, string } from 'prop-types';
 import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import TextInput from '@magento/venia-ui/lib/components/TextInput';
 import { Message } from '@magento/venia-ui/lib/components/Field';
 import defaultClasses from './quantity.module.css';
 
@@ -15,6 +14,7 @@ export const QuantityStepper = props => {
         initialValue,
         itemId,
         min,
+        max,
         onChange,
         value,
         message,
@@ -29,7 +29,17 @@ export const QuantityStepper = props => {
             e.preventDefault();
         }
     };
-    const handleChange = e => onChange(e.target.value);
+
+    const handleChange = e => {
+        const newValue = e.target.value;
+        if (newValue < min) {
+            e.target.value = min;
+        } else if (newValue > max) {
+            e.target.value = max;
+        }
+        onChange(e.target.value);
+    };
+
     return (
         <Fragment>
             <div className={classes.root}>
@@ -41,6 +51,7 @@ export const QuantityStepper = props => {
                     id={itemId}
                     value={value}
                     min={min}
+                    max={max}
                     onChange={handleChange}
                     // pattern="[0-9]*"
                 />
@@ -52,6 +63,7 @@ export const QuantityStepper = props => {
 
 QuantityStepper.defaultProps = {
     min: 0,
+    max: 1000,
     initialValue: 1,
     onChange: () => {}
 };

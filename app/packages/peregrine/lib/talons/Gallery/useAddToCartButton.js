@@ -98,6 +98,7 @@ export const useAddToCartButton = props => {
             }
         } catch (err) {
             console.error('Failed to add product to cart', err);
+            setIsLoading(false)
             addToast({
                 type: 'error',
                 message: formatMessage({

@@ -17,6 +17,8 @@ import debounce from 'lodash.debounce';
  * @param {Object} props
  * @param {number} props.initialValue the initial quantity value
  * @param {number} props.min the minimum allowed quantity value
+ * @param {number} props.max the maximum allowed quantity value
+
  * @param {function} props.onChange change handler to invoke when quantity value changes
  *
  * @returns {QuantityTalonProps}
@@ -25,13 +27,13 @@ import debounce from 'lodash.debounce';
  * import { useQuantityStepper } from '@magento/peregrine/lib/talons/CartPage/ProductListing/useQuantityStepper';
  */
 export const useQuantityStepper = props => {
-    const { initialValue, min, onChange, fieldName } = props;
+    const { initialValue, min, max, onChange, fieldName } = props;
 
     const [prevQuantity, setPrevQuantity] = useState(initialValue);
 
     const quantityFieldApi = useFieldApi(fieldName);
     const { value: quantity } = useFieldState(fieldName);
-    const isIncrementDisabled = useMemo(() => !quantity, [quantity]);
+    const isIncrementDisabled = useMemo(() => !quantity || quantity >= 1000, [quantity]);
 
     // "min: 0" lets a user delete the value and enter a new one, but "1" is
     // actually the minimum value we allow to be set through decrement button.
@@ -75,13 +77,14 @@ export const useQuantityStepper = props => {
                 const nextVal = parseFloat(value);
                 if (value && isNaN(nextVal)) throw new Error(`${value} is not a number.`);
                 if (nextVal < min) return min;
+                if (nextVal > max) return max
                 else return nextVal;
             } catch (err) {
                 console.error(err);
                 return prevQuantity;
             }
         },
-        [min, prevQuantity]
+        [min, max, prevQuantity]
     );
 
     /**

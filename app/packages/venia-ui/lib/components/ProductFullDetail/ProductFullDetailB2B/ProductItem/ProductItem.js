@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-literals */
 import React, { useCallback, useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { ShoppingCart as ShoppingCartIcon } from 'react-feather';
 import QuantityStepper from '../../../QuantityStepper';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -9,6 +9,7 @@ import Image from '../../../Image';
 import Icon from '../../../Icon';
 import Button from '../../../Button';
 import defaultClasses from './ProductItem.module.css';
+import { useToasts } from '@magento/peregrine';
 
 import PlaceholderImage from '../../../Image/placeholderImage';
 
@@ -23,6 +24,8 @@ import StockAlert from '../../../ProductsAlert/StockAlertModal/stockAlert';
 
 const ProductItem = props => {
     const classes = useStyle(defaultClasses, props.classes);
+    const [, {addToast}] = useToasts();
+    const { formatMessage } = useIntl();
 
     const [quantity, setQuantity] = useState(1);
     const handleQuantityChange = tempQuantity => {
@@ -81,11 +84,28 @@ const ProductItem = props => {
             await addConfigurableProductToCart({
                 variables
             });
+            addToast({
+                type: 'success',
+                message: formatMessage({
+                    id: 'cartPage.AddedSuccessfully',
+                    defaultMessage: 'Added to cart successfully.'
+                }),
+                timeout: 6000
+            });
             setIsItemDisabled(false);
         } catch {
+            setIsItemDisabled(false);
             setError('Error');
+            addToast({
+                type: 'error',
+                message: formatMessage({
+                    id: 'cartPage.AddedFailure',
+                    defaultMessage: 'Failed to add an item to cart.'
+                }),
+                timeout: 6000
+            });
         }
-    }, [cartId, quantity, variant, addConfigurableProductToCart, setError, product]);
+    }, [cartId, quantity, variant, addConfigurableProductToCart, setError, product, addToast, formatMessage]);
 
     const stockStatusText = (
         <FormattedMessage id={'productFullDetailB2B.stockStatus'} defaultMessage={'Stock Status'} />
@@ -228,7 +248,7 @@ const ProductItem = props => {
                     <span className={classes.indexFixed}>
                         <Price
                             currencyCode={variant.product.price.regularPrice.amount.currency}
-                            value={variant.product.price.minimalPrice.amount.value * quantity}
+                            value={variant.product.price.minimalPrice.amount.value * quantity || 0}
                         />
                     </span>
                 ) : (
