@@ -1,4 +1,5 @@
 import { postcodeValidator } from "postcode-validator";
+import { isValidNumber } from 'libphonenumber-js';
 
 /**
  * @fileoverview This file houses functions that can be used for
@@ -163,6 +164,14 @@ export const isNotEqualToField = (value, values, fieldKey) => {
     };
     return value !== values[fieldKey] ? SUCCESS : message;
 };
+
+export const validatePhoneNumber = (phoneNumber) => {
+    const message = {
+        id: 'phoneNumber.invalid',
+        defaultMessage: 'Invalid phone number',
+    };
+    return isValidNumber(phoneNumber) ? SUCCESS : message;
+  };
 
 export const validatePostcode = (postcode, countryCode) => {
     if (!postcodeValidator(postcode, countryCode)) {

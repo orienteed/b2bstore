@@ -725,6 +725,7 @@
     "pagination.nextPage": "passer à la page suivante",
     "pagination.prevPage": "passer à la page précédente",
     "personalPrices": "Tarifs personnels",
+    "phoneNumber.invalid": "Numéro de téléphone non valide",
     "postcode.label": "ZIP / Code Postal",
     "postcode.invalid": "Code postal non valide pour le pays sélectionné",
     "priceAdjustments.couponCode": "Entrer le code promotionnel",
