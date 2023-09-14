@@ -109,7 +109,9 @@ const ProductItem = props => {
         </div>
     );
 
-    const nameTag = <p>{product.name + ' ' + categoriesValuesName.join(' - ')}</p>;
+    const isPdSize = categoriesValuesName.some(value => !isNaN(parseFloat(value) && isFinite(value)))
+
+    const nameTag = <p>{product.name + ' ' + categoriesValuesName.join(' - ')} {isPdSize ? "cm" : ""}</p>;
 
     const quantitySelector = (id = 1) => (
         <div className={classes.quantity}>
@@ -215,9 +217,10 @@ const ProductItem = props => {
                 </p>
                 <div className={classes.categoriesItemList}>
                     {categoriesValuesName.map((category, i) => {
+                        const isCategoryPdSize = !isNaN(parseFloat(category) && isFinite(category))
                         return (
                             <p key={`${variant.product.sku}-${category}-${i}`} className={classes.indexFixedCategory}>
-                                {category}
+                                {category} {isCategoryPdSize ? "cm" : ""}
                             </p>
                         );
                     })}
