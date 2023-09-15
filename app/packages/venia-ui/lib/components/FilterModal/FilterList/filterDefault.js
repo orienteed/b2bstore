@@ -10,6 +10,7 @@ const FilterDefault = props => {
     const { classes: propsClasses, isSelected, item, ...restProps } = props;
 
     const { label, value_index } = item || {};
+    const isPdSize = !isNaN(parseFloat(label) && isFinite(label)) ? "cm" : "";
     const classes = useStyle(defaultClasses, propsClasses);
     const { formatMessage } = useIntl();
 
@@ -38,7 +39,7 @@ const FilterDefault = props => {
             classes={classes}
             field={`${label}-${value_index}`}
             fieldValue={!!isSelected}
-            label={label}
+            label={`${label} ${isPdSize}`}
             ariaLabel={ariaLabel}
             data-cy="FilterDefault-checkbox"
             {...restProps}
