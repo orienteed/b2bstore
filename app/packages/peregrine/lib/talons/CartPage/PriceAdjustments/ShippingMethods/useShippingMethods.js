@@ -32,22 +32,18 @@ export const useShippingMethods = () => {
     const showForm = useCallback(() => setIsShowingForm(true), []);
 
     useEffect(() => {
-        if (data && data.cart.shipping_addresses.length) {
+        if (data && data.cart?.shipping_addresses?.length) {
             setIsShowingForm(true);
         }
     }, [data]);
 
+    let selectedShippingFields = {};
     let formattedShippingMethods = [];
     let selectedShippingMethod = null;
-    let selectedShippingFields = {
-        country: DEFAULT_COUNTRY_CODE,
-        region: '',
-        zip: ''
-    };
-    if (data) {
-        const { cart } = data;
-        const { shipping_addresses: shippingAddresses } = cart;
-        if (shippingAddresses.length) {
+    if (data && data.cart && data.cart?.shipping_addresses) {
+        const { shipping_addresses: shippingAddresses } = data.cart;
+
+        if (shippingAddresses.length > 0) {
             const primaryShippingAddress = shippingAddresses[0];
             const {
                 available_shipping_methods: shippingMethods,
@@ -71,6 +67,12 @@ export const useShippingMethods = () => {
                 selectedShippingMethod = `${shippingMethod.carrier_code}|${shippingMethod.method_code}`;
             }
         }
+    } else {
+        selectedShippingFields = {
+            country: '',
+            region: '',
+            zip: ''
+        };
     }
 
     return {
