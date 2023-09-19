@@ -133,9 +133,10 @@ const QuickOrderForm = props => {
 
     const onChangeQty = (value, index) => {
         const newProducts = [...products];
+        const isNumeric = !isNaN(parseFloat(value)) && isFinite(value);
         newProducts[index] = {
             ...newProducts[index],
-            quantity: value
+            quantity: isNumeric ? value : 1
         };
         setProducts(newProducts);
     };
