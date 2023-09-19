@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { AlertCircle as AlertCircleIcon } from 'react-feather';
+import { AlertCircle as AlertCircleIcon, ArrowLeft } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 import { useWindowSize, useToasts } from '@magento/peregrine';
@@ -41,6 +41,7 @@ import OrderAttributes from './OrderAttributes/orderAttributesForm';
 import { useOrderAttributes } from '@magento/peregrine/lib/talons/CheckoutPage/OrderAttributes/useOrderAttributes';
 
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
+const backIcon = <Icon src={ArrowLeft} size={20} />;
 
 const CheckoutPage = props => {
     const { classes: propClasses } = props;
@@ -111,7 +112,9 @@ const CheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod
+        currentSelectedPaymentMethod,
+        handleBackToReview,
+        resetEditing
     } = talonProps;
     const [, { addToast }] = useToasts();
 
@@ -246,6 +249,7 @@ const CheckoutPage = props => {
                     shouldSubmit={reviewOrderButtonClicked}
                     setCurrentSelectedPaymentMethod={setCurrentSelectedPaymentMethod}
                     paymentMethodMutationData={paymentMethodMutationData}
+                    resetEditing={resetEditing}
                 />
             ) : (
                 <h3 className={classes.payment_information_heading}>
@@ -363,6 +367,7 @@ const CheckoutPage = props => {
         checkoutContent = (
             <div className={checkoutContentClass}>
                 <div className={classes.heading_container}>
+                    {checkoutStep > 3 && <div onClick={handleBackToReview}>{backIcon}</div>}
                     <FormError
                         classes={{
                             root: classes.formErrors
