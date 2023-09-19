@@ -7,9 +7,9 @@ import { useCartContext } from '../../../context/cart';
 import { useAwaitQuery } from '../../../hooks/useAwaitQuery';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../../context/eventing';
+import { useModulesContext } from '../../../context/modulesProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import DEFAULT_OPERATIONS from '../../CreateAccount/createAccount.gql';
-import SIGNIN_OPERATIONS from '../../SignIn/signIn.gql';
 import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationPage.gql';
 import CART_OPERATIONS from '../../CartPage/cartPage.gql';
 
@@ -36,20 +36,25 @@ export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit } = props;
 
     const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
         CART_OPERATIONS,
-        SIGNIN_OPERATIONS,
         ACCOUNT_OPERATIONS,
         props.operations
     );
 
+    const { tenantConfig } = useModulesContext();
     const {
-        createAccountMutation,
         createCartMutation,
         getCartDetailsQuery,
-        getCustomerInformationQuery,
-        signInMutation
+        getCustomerInformationQuery
     } = operations;
+    const {
+        getCustomerInformation,
+        createAccount: createAccountFromAdapter,
+        signIn: signInFromAdapter,
+        generateToken,
+        getCartDetails: getCartDetailsFromAdapter,
+        createCart: createCartFromAdapter
+    } = useAdapter();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [, { createCart, getCartDetails, removeCart }] = useCartContext();
@@ -57,19 +62,26 @@ export const useCreateAccount = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
-
     // For create account and sign in mutations, we don't want to cache any
     // personally identifiable information (PII). So we set fetchPolicy to 'no-cache'.
-    const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    // const [createAccount, { error: createAccountError }] = useMutation(createAccountMutation, {
+    //     fetchPolicy: 'no-cache'
+    // });
 
-    const [signIn, { error: signInError }] = useMutation(signInMutation, {
-        fetchPolicy: 'no-cache'
-    });
+    // BIGCOMMERCE ADAPTER
+
+    const { data: tokenData } = generateToken();
+
+    const { signIn, error: signInError } = signInFromAdapter();
+
+    const { createAccount, error: createAccountError } = createAccountFromAdapter();
+
+    // END
+
+    const [fetchCartId] = useMutation(createCartMutation);
 
     const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
+
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
@@ -91,7 +103,8 @@ export const useCreateAccount = props => {
                         firstname: formValues.customer.firstname,
                         lastname: formValues.customer.lastname,
                         password: formValues.password,
-                        is_subscribed: !!formValues.subscribe
+                        is_subscribed: !!formValues.subscribe,
+                        channel_id: tenantConfig?.bigcommerceChannelId
                     },
                     ...recaptchaDataForCreateAccount
                 });
@@ -112,7 +125,8 @@ export const useCreateAccount = props => {
                 const signInResponse = await signIn({
                     variables: {
                         email: formValues.customer.email,
-                        password: formValues.password
+                        password: formValues.password,
+                        auth: tokenData.data.token
                     },
                     ...recaptchaDataForSignIn
                 });
