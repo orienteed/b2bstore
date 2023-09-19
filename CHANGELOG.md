@@ -1,4 +1,25 @@
-# B2BStore 0.10
+# B2BStore 0.13
+## 🪄 Enhancements
+  - Shipment: Post code field has an index validator
+  - Shipment: phone number has a validator 
+  - Shipment: Added back option in checkout page
+  - Added a  space on newsletter consent
+  - Add unit measurements to product size  
+
+## 🛠 Bug fixes 
+  - PLP: Bug When a product’s quantity input gets disabled (example set the quantity > 10000)  if its changed the quantity to the original  value the input keep
+  - Checkout: When filling the checkout data manually (instead of load from user stored properties) the billing address is now displayed.
+  - Quick order: When entering any non numeric character in the quantity and clicking ”Get Quote”. The button got disabled until reloading    the page and an error was displayed.
+  - Bug: When entering an invalid Coupon Code the web doesn’t generate any alert.
+  - At comparing products some lines of the boxes were not correctly visible. 
+  - Not valid email with a warning message in English at the Spanish site 
+  - PDP Quantity, if pressed "enter" , it was copied the SKU  
+  - Removed Link Footer that are not clickable
+  - Saved Cart Info Icon displayed dark box
+  - Fix the error when adding an item to cart for guest user 
+  - Bug, PDP PLP total price isn't working correctly
+
+  # B2BStore 0.12
 ## 🚨 Hotfixes  
   - Fixed the wishlist button in PLP and PDP
 ## 🪄 Enhancements
@@ -23,7 +44,7 @@
   - phone number is not showing in the billing address page
   - Order Quote Doesn't return an email
  
-# B2BStore 0.10
+# B2BStore 0.11
 
 ## 🚨 Hotfixes  
   - Fixed the variable type in env sample file 
@@ -40,7 +61,6 @@
     - Fix New Products: linked to products
     - Fix Delivery Banner: Too big, reduced size
     - Fixed the icon link for the emails 
-# B2BStore 0.9.2
 # B2BStore 0.10
 
 ## 🪄 Enhancements
