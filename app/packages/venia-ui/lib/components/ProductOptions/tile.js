@@ -27,6 +27,8 @@ const Tile = props => {
     const { handleClick } = talonProps;
     const classes = useStyle(defaultClasses, props.classes);
     const className = classes[getClassName('root', isSelected, hasFocus, isOptionOutOfStock, isEverythingOutOfStock)];
+    const isPdSize = !isNaN(parseFloat(label) && isFinite(label)) ? "cm" : "";
+
 
     return (
         <button
@@ -37,7 +39,7 @@ const Tile = props => {
             data-cy="Tile-button"
             disabled={isEverythingOutOfStock || isOptionOutOfStock}
         >
-            <span>{label}</span>
+            <span>{label} {isPdSize}</span>
         </button>
     );
 };

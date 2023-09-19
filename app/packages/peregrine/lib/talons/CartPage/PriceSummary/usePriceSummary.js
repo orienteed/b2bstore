@@ -16,13 +16,13 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 const flattenData = data => {
     if (!data) return {};
     return {
-        subtotal: data.cart.prices.subtotal_excluding_tax,
-        total: data.cart.prices.grand_total,
-        discounts: data.cart.prices.discounts,
-        giftCards: data.cart.applied_gift_cards,
+        subtotal: data.cart?.prices.subtotal_excluding_tax,
+        total: data.cart?.prices.grand_total,
+        discounts: data.cart?.prices.discounts,
+        giftCards: data.cart?.applied_gift_cards,
         // giftOptions: data.cart.prices.gift_options,
-        taxes: data.cart.prices.applied_taxes,
-        shipping: data.cart.shipping_addresses
+        taxes: data.cart?.prices.applied_taxes,
+        shipping: data.cart?.shipping_addresses
     };
 };
 
@@ -67,7 +67,7 @@ export const usePriceSummary = () => {
     return {
         handleProceedToCheckout,
         hasError: !!error,
-        hasItems: data && !!data.cart.items.length,
+        hasItems: data && !!data.cart?.items?.length,
         isCheckout,
         isLoading: !!loading,
         flatData: flattenData(data)

@@ -1,5 +1,5 @@
 .tableWrapper {
-    max-width: 90vw;
+    max-width: 100vw;
     clear: both;
     overflow-x: auto !important;
     position: relative;
@@ -43,11 +43,4 @@
 
 .description div ul {
     padding-inline-start: 40px;
-}
-
-@media (min-width:1540px){
-    .tableWrapper {
-        max-width: 85vw;
-     
-    }
 }

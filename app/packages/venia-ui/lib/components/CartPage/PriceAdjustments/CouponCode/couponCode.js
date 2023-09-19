@@ -47,19 +47,10 @@ const CouponCode = props => {
         setIsCartUpdating: props.setIsCartUpdating
     });
     const [, { addToast }] = useToasts();
-    const {
-        applyingCoupon,
-        data,
-        errors,
-        handleApplyCoupon,
-        handleRemoveCoupon,
-        removingCoupon
-    } = talonProps;
+    const { applyingCoupon, data, errors, handleApplyCoupon, handleRemoveCoupon, removingCoupon } = talonProps;
     const { formatMessage } = useIntl();
 
-    const removeCouponError = deriveErrorMessage([
-        errors.get('removeCouponMutation')
-    ]);
+    const removeCouponError = deriveErrorMessage([errors.get('removeCouponMutation')]);
 
     useEffect(() => {
         if (removeCouponError) {
@@ -82,16 +73,14 @@ const CouponCode = props => {
             <div className={classes.errorContainer}>
                 <FormattedMessage
                     id={'couponCode.errorContainer'}
-                    defaultMessage={
-                        'Something went wrong. Please refresh and try again.'
-                    }
+                    defaultMessage={'Something went wrong. Please refresh and try again.'}
                 />
             </div>
         );
     }
 
-    if (data.cart.applied_coupons) {
-        const codes = data.cart.applied_coupons.map(({ code }) => {
+    if (data.cart?.applied_coupons) {
+        const codes = data.cart.applied_coupons?.map(({ code }) => {
             return (
                 <Fragment key={code}>
                     <span>{code}</span>
@@ -103,10 +92,7 @@ const CouponCode = props => {
                             handleRemoveCoupon(code);
                         }}
                     >
-                        <FormattedMessage
-                            id={'couponCode.removeButton'}
-                            defaultMessage={'Remove'}
-                        />
+                        <FormattedMessage id={'couponCode.removeButton'} defaultMessage={'Remove'} />
                     </LinkButton>
                 </Fragment>
             );
@@ -114,20 +100,12 @@ const CouponCode = props => {
 
         return <div className={classes.appliedCoupon}>{codes}</div>;
     } else {
-        const errorMessage = deriveErrorMessage([
-            errors.get('applyCouponMutation')
-        ]);
+        const errorMessage = deriveErrorMessage([errors.get('applyCouponToCartMutation')]);
 
-        const formClass = errorMessage
-            ? classes.entryFormError
-            : classes.entryForm;
+        const formClass = errorMessage ? classes.entryFormError : classes.entryForm;
 
         return (
-            <Form
-                data-cy="CouponCode-form"
-                className={formClass}
-                onSubmit={handleApplyCoupon}
-            >
+            <Form data-cy="CouponCode-form" className={formClass} onSubmit={handleApplyCoupon}>
                 <Field
                     id="couponCode"
                     label={formatMessage({
@@ -149,16 +127,8 @@ const CouponCode = props => {
                     />
                 </Field>
                 <Field>
-                    <Button
-                        data-cy="CouponCode-submit"
-                        disabled={applyingCoupon}
-                        priority={'normal'}
-                        type={'submit'}
-                    >
-                        <FormattedMessage
-                            id={'couponCode.apply'}
-                            defaultMessage={'Apply'}
-                        />
+                    <Button data-cy="CouponCode-submit" disabled={applyingCoupon} priority={'normal'} type={'submit'}>
+                        <FormattedMessage id={'couponCode.apply'} defaultMessage={'Apply'} />
                     </Button>
                 </Field>
             </Form>

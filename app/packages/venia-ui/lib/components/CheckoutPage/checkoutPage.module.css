@@ -30,7 +30,9 @@
     composes: col-span-1 from global;
     composes: col-start-1 from global;
     composes: gap-y-xs from global;
-    composes: grid from global;
+    composes: flex from global;
+    composes: gap-x-2.5	 from global;
+    composes: cursor-pointer from global;
 }
 
 .heading {

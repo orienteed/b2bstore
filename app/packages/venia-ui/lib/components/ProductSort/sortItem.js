@@ -10,6 +10,8 @@ const SortItem = props => {
     const { active, onClick, sortItem } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
+    const isPdSize = !isNaN(parseFloat(sortItem.text) && isFinite(sortItem.text)) ? "cm" : "";
+    
     const handleClick = useCallback(
         e => {
             // use only left click for selection
@@ -40,7 +42,7 @@ const SortItem = props => {
             onKeyDown={handleKeyDown}
         >
             <span className={classes.content}>
-                <span className={classes.text}>{sortItem.text}</span>
+                <span className={classes.text}>{sortItem.text} {isPdSize}</span>
                 {activeIcon}
             </span>
         </button>

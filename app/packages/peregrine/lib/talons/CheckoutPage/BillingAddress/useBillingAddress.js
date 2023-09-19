@@ -5,6 +5,7 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
+import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 import { useToasts } from '@magento/peregrine';
@@ -21,11 +22,11 @@ const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 export const mapAddressData = rawAddressData => {
     if (rawAddressData) {
         const {
-            firstname: firstName,
+            firstName: firstName,
             lastname: lastName,
             city,
             postcode,
-            telephone: phoneNumber,
+            phoneNumber: phoneNumber,
             street,
             country,
             region
@@ -243,7 +244,9 @@ export const useBillingAddress = props => {
             postcode,
             phoneNumber
         } = formState.values;
-
+        if (!validatePostcode(postcode, country)) {
+            throw new Error("Invalid postcode")
+        }
         updateBillingAddress({
             variables: {
                 cartId,

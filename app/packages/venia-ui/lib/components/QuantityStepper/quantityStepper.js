@@ -10,7 +10,7 @@ import { Message } from '../Field';
 import defaultClasses from './quantityStepper.module.css';
 
 const QuantityStepper = props => {
-    const { initialValue, itemId, label, min, onChange, message, fieldName = 'quantity', textProps, isPDP } = props;
+    const { initialValue, itemId, label, min, max, onChange, message, fieldName = 'quantity', textProps, isPDP } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
     const iconClasses = { root: classes.icon };
@@ -18,6 +18,7 @@ const QuantityStepper = props => {
     const talonProps = useQuantityStepper({
         initialValue,
         min,
+        max,
         onChange,
         fieldName
     });
@@ -32,6 +33,12 @@ const QuantityStepper = props => {
     } = talonProps;
 
     const errorMessage = message ? <Message>{message}</Message> : null;
+
+    const handlePreventKeyDown = (e) => {
+        if(e.keyCode === 13) {
+            e.preventDefault()
+        }
+    }
 
     return (
         <Fragment>
@@ -64,8 +71,10 @@ const QuantityStepper = props => {
                     inputMode="numeric"
                     mask={maskInput}
                     min={min}
+                    max={max}
                     onBlur={handleBlur}
                     pattern="[0-9]*"
+                    onKeyDown={handlePreventKeyDown}
                     onChange={isPDP && onChange}
                     {...textProps}
                 />
@@ -90,6 +99,7 @@ const QuantityStepper = props => {
 
 QuantityStepper.defaultProps = {
     min: 0,
+    max: 1000,
     initialValue: 1,
     fieldName: 'quantity',
     onChange: () => {}

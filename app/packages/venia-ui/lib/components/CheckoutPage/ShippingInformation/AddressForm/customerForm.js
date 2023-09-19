@@ -5,7 +5,8 @@ import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import { useCustomerForm } from '@magento/peregrine/lib/talons/CheckoutPage/ShippingInformation/AddressForm/useCustomerForm';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import { isRequired } from '@magento/venia-ui/lib/util/formValidators';
+import combine from '../../../../util/combineValidators';
+import { isRequired, validatePhoneNumber } from '@magento/venia-ui/lib/util/formValidators';
 import Button from '@magento/venia-ui/lib/components/Button';
 import Checkbox from '@magento/venia-ui/lib/components/Checkbox';
 import Country from '@magento/venia-ui/lib/components/Country';
@@ -247,6 +248,7 @@ const CustomerForm = props => {
                 <div className={classes.postcode}>
                     <Postcode
                         validate={isRequired}
+                        countryCodeField='country'
                         data-cy="CustomerForm-postcode"
                     />
                 </div>
@@ -260,7 +262,7 @@ const CustomerForm = props => {
                     >
                         <TextInput
                             field="telephone"
-                            validate={isRequired}
+                            validate={combine([isRequired, validatePhoneNumber])}
                             id="customer_telephone"
                             data-cy="CustomerForm-telephone"
                         />

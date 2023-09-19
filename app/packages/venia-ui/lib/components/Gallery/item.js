@@ -143,6 +143,7 @@ const GalleryItem = props => {
 
     const configurableOptions = configurable_options?.map((ele, key) => {
         const values = ele.values.map(({ default_label }) => default_label);
+        const isPdSize = values.some(value => !isNaN(parseFloat(value) && isFinite(value)));
         return (
             <div className={classes.configurableWrapper} key={key + 'configurable_options'}>
                 <span className={classes.configrableLabel}>{ele?.label} </span>{' '}
@@ -150,7 +151,7 @@ const GalleryItem = props => {
                     content={
                         <ul className={classes.list}>
                             {values.map(val => (
-                                <li key={val}>{val}</li>
+                                <li key={val}>{val} {isPdSize ? "cm" : ""}</li>
                             ))}
                         </ul>
                     }

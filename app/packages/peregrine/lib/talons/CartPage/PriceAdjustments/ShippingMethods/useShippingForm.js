@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import { useCallback, useEffect, useMemo } from 'react';
 
+import { validatePostcode } from '@magento/venia-ui/lib/util/formValidators';
 import { useCartContext } from '../../../../context/cart';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
@@ -117,6 +118,7 @@ export const useShippingForm = props => {
         formValues => {
             const { country, region, zip } = formValues;
             if (country && region && zip) {
+                if(!validatePostcode(zip, country)) return
                 setShippingAddress({
                     variables: {
                         cartId,

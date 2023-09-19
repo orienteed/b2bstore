@@ -39,11 +39,11 @@ export const useCartPage = () => {
 
     const { fetchCartDetails, data, loading, called } = getCartDetails({ isLazy: true });
 
-    const hasItems = !!(data && data.cart.total_quantity);
+    const hasItems = !!(data && data.cart?.total_quantity);
     const shouldShowLoadingIndicator = called && loading && !hasItems;
 
     const cartItems = useMemo(() => {
-        return (data && data.cart.items) || [];
+        return (data && data.cart?.items) || [];
     }, [data]);
 
     const onAddToWishlistSuccess = useCallback(successToastProps => {

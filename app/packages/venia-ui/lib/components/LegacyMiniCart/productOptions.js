@@ -14,11 +14,12 @@ const ProductOptions = props => {
             options.map(({ option_label, value_label }) => {
                 const key = `${option_label}${value_label}`;
                 const optionLabelString = `${option_label} :`;
+                const isPdSize = !isNaN(parseFloat(value_label) && isFinite(value_label)) ? "cm" : "";
                 return (
                     <div key={key} className={[classes.optionLabel, classes.mobileView].join(' ')}>
                         <dt className={classes.optionName}>{optionLabelString}</dt>
                         <dd className={classes.optionValue} data-cy="ProductOptions-optionValue">
-                            {value_label}
+                            {value_label} {isPdSize}
                         </dd>
                     </div>
                 );
