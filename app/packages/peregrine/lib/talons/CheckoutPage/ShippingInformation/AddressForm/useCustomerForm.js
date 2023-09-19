@@ -1,18 +1,17 @@
 import { useCallback, useMemo } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { useEventingContext } from '../../../../context/eventing';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import SHIPPING_INFORMATION_OPERATIONS from '../shippingInformation.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../../AddressBookPage/addressBookPage.gql';
-import ACCOUNT_OPERATIONS from '../../../AccountInformationPage/accountInformationPage.gql';
 
 export const useCustomerForm = props => {
     const { afterSubmit, onCancel, onSuccess, shippingData } = props;
 
     const operations = mergeOperations(
-        ACCOUNT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
         SHIPPING_INFORMATION_OPERATIONS,
         props.operations
@@ -20,11 +19,25 @@ export const useCustomerForm = props => {
 
     const {
         createCustomerAddressMutation,
-        updateCustomerAddressMutation,
-        getCustomerInformationQuery,
         getCustomerAddressesQuery,
         getDefaultShippingQuery
     } = operations;
+    const {
+        updateCustomerAddressInAddressBook,
+        getCustomerInformation
+    } = useAdapter();
+
+    // BIGCOMMERCE ADAPTER
+
+    const {
+        updateCustomerAddress,
+        error: updateCustomerAddressError,
+        loading: updateCustomerAddressLoading
+    } = updateCustomerAddressInAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
+
+    const { data: customerData, loading: getCustomerLoading } = getCustomerInformation();
+
+    // END
 
     const [
         createCustomerAddress,
@@ -34,17 +47,6 @@ export const useCustomerForm = props => {
             onSuccess();
         }
     });
-
-    const [
-        updateCustomerAddress,
-        { error: updateCustomerAddressError, loading: updateCustomerAddressLoading }
-    ] = useMutation(updateCustomerAddressMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
-
-    const { data: customerData, loading: getCustomerLoading } = useQuery(getCustomerInformationQuery);
 
     const isSaving = createCustomerAddressLoading || updateCustomerAddressLoading;
 

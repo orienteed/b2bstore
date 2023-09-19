@@ -2,13 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useInternalLink from '../../hooks/useInternalLink';
 import { useAppContext } from '../../context/app';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { useCatalogContext } from '../../context/catalog';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { useUserContext } from '../../context/user';
-
-import DEFAULT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const ancestors = {
     CREATE_ACCOUNT: 'SIGN_IN',
@@ -18,15 +15,14 @@ const ancestors = {
     MENU: null
 };
 
-export const useNavigation = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCustomerInformationQuery } = operations;
+export const useNavigation = () => {
+    const { getCustomerInformation } = useAdapter();
     
     // retrieve app state from context
     const [appState, { closeDrawer }] = useAppContext();
     const [catalogState, { actions: catalogActions }] = useCatalogContext();
     const [, { getUserDetails }] = useUserContext();
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
     // request data from server
     useEffect(() => {

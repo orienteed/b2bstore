@@ -10,7 +10,6 @@ import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCu
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
 import mergeOperations from '../../util/shallowMerge';
-import ACCOUNT_OPERATIONS from './accountInformationPage.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../talons/AddressBookPage/addressBookPage.gql';
 import { useModulesContext } from '../../context/modulesProvider';
 
@@ -22,15 +21,12 @@ export const useAccountInformationPage = props => {
     const { tenantConfig } = useModulesContext();
 
     const operations = mergeOperations(
-        ACCOUNT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
         props.operations
     );
     const {
         createCustomerAddressMutation,
         deleteCustomerAddressMutation,
-        updateCustomerAddressMutation,
-        getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
     const {
@@ -40,6 +36,7 @@ export const useAccountInformationPage = props => {
         setCustomerInformation: setCustomerInformationFromAdapter,
         setNewsletterSubscription: setNewsletterSubscriptionFromAdapter,
         getCustomerSubscription,
+        updateCustomerAddressInAddressBook,
         deleteCustomerAddressFromAddressBook
     } = useAdapter();
 
@@ -52,6 +49,22 @@ export const useAccountInformationPage = props => {
     const { setCustomerInformation, error: customerInformationUpdateError, loading: isUpdatingCustomerInformation } = setCustomerInformationFromAdapter();
 
     const { setNewsletterSubscription, error: setNewsletterSubscriptionError, loading: isSubmitting } = setNewsletterSubscriptionFromAdapter();
+
+    const {
+        updateCustomerAddress,
+        error: updateCustomerAddressError,
+        loading: isUpdatingCustomerAddress
+    } = updateCustomerAddressInAddressBook();
+
+    const {
+        data: accountInformationData,
+        error: loadDataError
+    } = getCustomerInformation({
+        hasSkip: true,
+        isSignedIn: isSignedIn,
+        hasNextFetchPolicy: true,
+        hasFetchPolicy: true
+    });
 
     // END
 
@@ -99,12 +112,6 @@ export const useAccountInformationPage = props => {
     // https://github.com/apollographql/apollo-feature-requests/issues/170
     const [displayError, setDisplayError] = useState(false);
 
-    const { data: accountInformationData, error: loadDataError } = useQuery(getCustomerInformationQuery, {
-        skip: !isSignedIn,
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-
     const { data: customerAddressesData, loading } = useQuery(getCustomerAddressesQuery, {
         fetchPolicy: 'cache-and-network',
         skip: !isSignedIn
@@ -134,11 +141,6 @@ export const useAccountInformationPage = props => {
         createCustomerAddress,
         { error: createCustomerAddressError, loading: isCreatingCustomerAddress }
     ] = useMutation(createCustomerAddressMutation);
-
-    const [
-        updateCustomerAddress,
-        { error: updateCustomerAddressError, loading: isUpdatingCustomerAddress }
-    ] = useMutation(updateCustomerAddressMutation);
 
     const handleChangePassword = useCallback(() => {
         setShouldShowNewPassword(true);

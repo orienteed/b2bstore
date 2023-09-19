@@ -4,11 +4,11 @@ import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './checkoutPage.gql.js';
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import PAYMENT_METHODS_OPERATIONS from './PaymentInformation/paymentMethods.gql';
 
 import CheckoutError from './CheckoutError';
@@ -70,20 +70,29 @@ export const useCheckoutPage = props => {
 
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
-        ACCOUNT_OPERATIONS,
         CART_OPERATIONS,
         PAYMENT_METHODS_OPERATIONS,
         props.operations
     );
 
+    const [{ isSignedIn }] = useUserContext();
+
     const {
         createCartMutation,
         getCheckoutDetailsQuery,
-        getCustomerInformationQuery,
         getOrderDetailsQuery,
         placeOrderMutation,
         setPaymentMethodOnCartMutation
     } = operations;
+    const {
+        getCustomerInformation
+    } = useAdapter();
+
+    // BIGCOMMERCE ADAPTER
+
+    const { data: customerData, loading: customerLoading } = getCustomerInformation({ hasSkip: true, isSignedIn: isSignedIn });
+
+    // END
 
     const { setNoProduct } = useNoReorderProductContext();
 
@@ -106,7 +115,6 @@ export const useCheckoutPage = props => {
 
     const [currentSelectedPaymentMethod, setCurrentSelectedPaymentMethod] = useState('');
 
-    const [{ isSignedIn }] = useUserContext();
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
     const [fetchCartId] = useMutation(createCartMutation);
@@ -123,10 +131,6 @@ export const useCheckoutPage = props => {
             fetchPolicy: 'no-cache'
         }
     );
-
-    const { data: customerData, loading: customerLoading } = useQuery(getCustomerInformationQuery, {
-        skip: !isSignedIn
-    });
 
     const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = useQuery(getCheckoutDetailsQuery, {
         /**

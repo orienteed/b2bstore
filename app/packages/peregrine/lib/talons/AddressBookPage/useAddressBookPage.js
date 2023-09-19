@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import defaultOperations from './addressBookPage.gql';
 import { useEventingContext } from '../../context/eventing';
@@ -26,9 +27,21 @@ export const useAddressBookPage = (props = {}) => {
     const {
         createCustomerAddressMutation,
         deleteCustomerAddressMutation,
-        getCustomerAddressesQuery,
-        updateCustomerAddressMutation
+        getCustomerAddressesQuery
     } = operations;
+    const {
+        updateCustomerAddressInAddressBook
+    } = useAdapter();
+
+    // BIGCOMMERCE ADAPTER
+
+    const {
+        updateCustomerAddress,
+        error: updateCustomerAddressError,
+        loading: isUpdatingCustomerAddress
+    } = updateCustomerAddressInAddressBook();
+
+    // END
 
     const [
         ,
@@ -68,13 +81,6 @@ export const useAddressBookPage = (props = {}) => {
             loading: isCreatingCustomerAddress
         }
     ] = useMutation(createCustomerAddressMutation);
-    const [
-        updateCustomerAddress,
-        {
-            error: updateCustomerAddressError,
-            loading: isUpdatingCustomerAddress
-        }
-    ] = useMutation(updateCustomerAddressMutation);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDialogEditMode, setIsDialogEditMode] = useState(false);

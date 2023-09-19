@@ -9,7 +9,6 @@ import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import ACCOUNT_OPERATIONS from '../AccountInformationPage/accountInformationPage.gql';
 import { useEventingContext } from '../../context/eventing';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
@@ -21,10 +20,9 @@ import { useModulesContext } from '../../context/modulesProvider';
 export const useSignIn = props => {
     const { setDefaultUsername, showCreateAccount, showForgotPassword } = props;
 
-    const operations = mergeOperations(CART_OPERATIONS, ACCOUNT_OPERATIONS, props.operations);
+    const operations = mergeOperations(CART_OPERATIONS, props.operations);
 
     const {
-        getCustomerInformationQuery,
         mergeCartsMutation,
         getCartDetailsQuery,
         createCartMutation
@@ -41,13 +39,15 @@ export const useSignIn = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { signIn: signInFromAdapter, generateToken } = useAdapter();
+    const { signIn: signInFromAdapter, generateToken, getCustomerInformation } = useAdapter();
 
     // BIGCOMMERCE ADAPTER
 
     const { data: tokenData } = generateToken();
 
     const { signIn, error: signInError } = signInFromAdapter();
+
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
     // END
 
@@ -58,7 +58,6 @@ export const useSignIn = props => {
 
     const [fetchCartId] = useMutation(createCartMutation);
     const [mergeCarts] = useMutation(mergeCartsMutation);
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const formApiRef = useRef(null);

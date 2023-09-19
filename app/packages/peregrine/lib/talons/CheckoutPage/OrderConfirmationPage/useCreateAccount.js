@@ -10,7 +10,6 @@ import { useEventingContext } from '../../../context/eventing';
 import { useModulesContext } from '../../../context/modulesProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
-import ACCOUNT_OPERATIONS from '../../AccountInformationPage/accountInformationPage.gql';
 import CART_OPERATIONS from '../../CartPage/cartPage.gql';
 
 /**
@@ -37,15 +36,13 @@ export const useCreateAccount = props => {
 
     const operations = mergeOperations(
         CART_OPERATIONS,
-        ACCOUNT_OPERATIONS,
         props.operations
     );
 
     const { tenantConfig } = useModulesContext();
     const {
         createCartMutation,
-        getCartDetailsQuery,
-        getCustomerInformationQuery
+        getCartDetailsQuery
     } = operations;
     const {
         getCustomerInformation,
@@ -76,11 +73,11 @@ export const useCreateAccount = props => {
 
     const { createAccount, error: createAccountError } = createAccountFromAdapter();
 
+    const fetchUserDetails = getCustomerInformation({ isAwait: true });
+
     // END
 
     const [fetchCartId] = useMutation(createCartMutation);
-
-    const fetchUserDetails = useAwaitQuery(getCustomerInformationQuery);
 
     const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
