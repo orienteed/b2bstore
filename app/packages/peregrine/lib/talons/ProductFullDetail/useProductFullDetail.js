@@ -304,7 +304,7 @@ export const useProductFullDetail = props => {
         addProductToCart,
         error: errorAddingProductToCart,
         loading: isAddProductLoading
-    } = addProductToCartFromAdapter({ initialRun: false });
+    } = addProductToCartFromAdapter();
 
     const breadcrumbCategoryId = useMemo(() => getBreadcrumbCategoryId(product.categories), [product.categories]);
 

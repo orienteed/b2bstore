@@ -22,7 +22,7 @@ export const useModules = () => {
             );
 
             this.backendTechnology = tenantConfig.backendTechnology?.BACKEND_TECHNOLOGY;
-            this.bigcommerceChannelId = tenantConfig.backendTechnology?.BIGCOMMERCE_CHANNEL_ID;
+            this.bigcommerceChannelId = Number(tenantConfig.backendTechnology?.BIGCOMMERCE_CHANNEL_ID);
 
             this.downloadCsv = Boolean(tenantConfig.features?.DOWNLOAD_CSV === 'true' || tenantConfig.features?.DOWNLOAD_CSV === true);
             this.quickCart = Boolean(tenantConfig.features?.QUICK_CART === 'true' || tenantConfig.features?.QUICK_CART === true);
@@ -64,9 +64,7 @@ export const useModules = () => {
                 ENABLED: process.env.PRODUCT_ATTACHMENT
             },
             backendTechnology: {
-                BACKEND_TECHNOLOGY: process.env.BACKEND_TECHNOLOGY
-            },
-            bigcommerceChannelId: {
+                BACKEND_TECHNOLOGY: process.env.BACKEND_TECHNOLOGY,
                 BIGCOMMERCE_CHANNEL_ID: process.env.BIGCOMMERCE_CHANNEL_ID
             },
             downloadCsv: {
