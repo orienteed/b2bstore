@@ -1,8 +1,9 @@
-version: "3.7"
+version: "3"
 services:
   pwa:
     image: node:14.18.1
-
+    container_name: b2bstore
+    working_dir: /app
     tty: true
 
     volumes:
@@ -10,10 +11,3 @@ services:
 
     ports:
       - 10000:10000
-
-    networks:
-      - magento
-networks:
-  magento:
-    name: magento_network
-    driver: bridge
