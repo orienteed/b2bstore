@@ -41,6 +41,11 @@ const ProductItem = props => {
         cartId,
         errors
     } = props;
+    
+    useEffect(() => {
+        setQuantity(1);
+    }, [variant]);
+
     const [copied, setCopied] = useState(false);
     const productAlertStatus = variant?.product?.mp_product_alert;
     const [isItemDisabled, setIsItemDisabled] = useState(false);
