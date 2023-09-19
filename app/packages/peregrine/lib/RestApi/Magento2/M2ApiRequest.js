@@ -64,6 +64,7 @@ class M2ApiRequest {
                 new Headers({
                     authorization: signin_token ? `Bearer ${signin_token}` : '',
                     'api-authorization': signin_token ? signin_token : '',
+                    "x-forwarded-host": process.env.COMPANY_DOMAIN ? process.env.COMPANY_DOMAIN : '',
                     ...opts.headers
                 })
             )
