@@ -4,12 +4,12 @@ import { useUserContext } from '../../context/user';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../context/eventing';
 import { useAppContext } from '../../context/app';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import modifyLmsCustomer from '@magento/peregrine/lib/RestApi/Lms/users/modifyCustomer';
 import modifyCsrCustomer from '@magento/peregrine/lib/RestApi/Csr/users/modifyCustomer';
 
 import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../../talons/CommunicationsPage/communicationsPage.gql.js';
 import ACCOUNT_OPERATIONS from './accountInformationPage.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../talons/AddressBookPage/addressBookPage.gql';
 import { useModulesContext } from '../../context/modulesProvider';
@@ -22,36 +22,44 @@ export const useAccountInformationPage = props => {
     const { tenantConfig } = useModulesContext();
 
     const operations = mergeOperations(
-        DEFAULT_OPERATIONS,
         ACCOUNT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
         props.operations
     );
     const {
-        getCustomerSubscriptionQuery,
-        setNewsletterSubscriptionMutation,
-        setCustomerInformationMutation,
-        changeCustomerPasswordMutation,
         createCustomerAddressMutation,
         deleteCustomerAddressMutation,
         updateCustomerAddressMutation,
         getCustomerInformationQuery,
         getCustomerAddressesQuery
     } = operations;
+    const {
+        getCustomerInformation,
+        getCustomerAddressesForAddressBook,
+        changeCustomerPassword: changeCustomerPasswordFromAdapter,
+        setCustomerInformation: setCustomerInformationFromAdapter,
+        setNewsletterSubscription: setNewsletterSubscriptionFromAdapter,
+        getCustomerSubscription,
+        deleteCustomerAddressFromAddressBook
+    } = useAdapter();
 
-    const { data: subscriptionData, error: subscriptionDataError } = useQuery(getCustomerSubscriptionQuery, {
-        skip: !isSignedIn
-    });
+    // BIGCOMMERCE ADAPTER
+
+    const { data: subscriptionData, error: subscriptionDataError } = getCustomerSubscription({ isSignedIn: isSignedIn });
+
+    const { changeCustomerPassword, error: customerPasswordChangeError, loading: isChangingCustomerPassword } = changeCustomerPasswordFromAdapter();
+
+    const { setCustomerInformation, error: customerInformationUpdateError, loading: isUpdatingCustomerInformation } = setCustomerInformationFromAdapter();
+
+    const { setNewsletterSubscription, error: setNewsletterSubscriptionError, loading: isSubmitting } = setNewsletterSubscriptionFromAdapter();
+
+    // END
 
     const initialValuesSubscribeToNewsletter = useMemo(() => {
         if (subscriptionData) {
             return { isSubscribed: subscriptionData.customer.is_subscribed };
         }
     }, [subscriptionData]);
-
-    const [setNewsletterSubscription, { error: setNewsletterSubscriptionError, loading: isSubmitting }] = useMutation(
-        setNewsletterSubscriptionMutation
-    );
 
     const handleSubmitSubscribeToNewsletter = useCallback(
         async formValues => {
@@ -101,16 +109,6 @@ export const useAccountInformationPage = props => {
         fetchPolicy: 'cache-and-network',
         skip: !isSignedIn
     });
-
-    const [
-        setCustomerInformation,
-        { error: customerInformationUpdateError, loading: isUpdatingCustomerInformation }
-    ] = useMutation(setCustomerInformationMutation);
-
-    const [
-        changeCustomerPassword,
-        { error: customerPasswordChangeError, loading: isChangingCustomerPassword }
-    ] = useMutation(changeCustomerPasswordMutation);
 
     const [deleteCustomerAddress, { loading: isDeletingCustomerAddress }] = useMutation(deleteCustomerAddressMutation);
 
@@ -229,10 +227,9 @@ export const useAccountInformationPage = props => {
                                 firstname,
                                 lastname: 'lastname',
                                 taxvat,
-                                // You must send password because it is required
-                                // when changing email.
                                 password
-                            }
+                            },
+                            initialEmail: initialValues.customer.email
                         }
                     });
                 }
@@ -241,7 +238,8 @@ export const useAccountInformationPage = props => {
                     await changeCustomerPassword({
                         variables: {
                             currentPassword: password,
-                            newPassword: newPassword
+                            newPassword: newPassword,
+                            email: email
                         },
                         ...recaptchaDataForChangeCustomerPassword
                     });
