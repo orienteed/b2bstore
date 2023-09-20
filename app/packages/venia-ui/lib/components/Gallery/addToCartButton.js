@@ -10,7 +10,7 @@ import defaultClasses from './addToCartButton.module.css';
 import NotifyButton from '../ProductsAlert/NotifyButton';
 
 const AddToCartButton = props => {
-    const { item, urlSuffix, handleOpendStockModal, isProductAlertEnabled, setIsConfigurableProductUnselected } = props;
+    const { item, urlSuffix, handleOpendStockModal, isProductAlertEnabled, setIsConfigurableProductUnselected =()=>{}} = props;
     const talonProps = useAddToCartButton({
         item,
         urlSuffix,
