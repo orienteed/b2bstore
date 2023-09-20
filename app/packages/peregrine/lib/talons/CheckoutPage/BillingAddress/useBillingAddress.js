@@ -3,6 +3,7 @@ import { useFormState, useFormApi } from 'informed';
 import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import DEFAULT_OPERATIONS from './billingAddress.gql';
@@ -113,6 +114,7 @@ export const useBillingAddress = props => {
         setBillingAddressMutation,
         setDefaultBillingAddressMutation
     } = operations;
+    const { getCustomerAddressesForAddressBook } = useAdapter();
 
     const client = useApolloClient();
     const formState = useFormState();
@@ -121,10 +123,11 @@ export const useBillingAddress = props => {
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
 
-    const { data: customerAddressesData } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
+    // BIGCOMMERCE ADAPTER
+
+    const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
+
+    // END
 
     const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
         skip: !cartId,

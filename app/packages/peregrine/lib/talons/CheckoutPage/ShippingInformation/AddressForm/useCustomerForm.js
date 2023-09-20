@@ -18,13 +18,14 @@ export const useCustomerForm = props => {
     );
 
     const {
-        createCustomerAddressMutation,
         getCustomerAddressesQuery,
         getDefaultShippingQuery
     } = operations;
     const {
         updateCustomerAddressInAddressBook,
-        getCustomerInformation
+        getCustomerInformation,
+        addNewCustomerAddressToAddressBook,
+        getCustomerAddressesForAddressBook
     } = useAdapter();
 
     // BIGCOMMERCE ADAPTER
@@ -37,16 +38,15 @@ export const useCustomerForm = props => {
 
     const { data: customerData, loading: getCustomerLoading } = getCustomerInformation();
 
-    // END
-
-    const [
+    const {
         createCustomerAddress,
-        { error: createCustomerAddressError, loading: createCustomerAddressLoading }
-    ] = useMutation(createCustomerAddressMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: createCustomerAddressError,
+        loading: createCustomerAddressLoading
+    } = addNewCustomerAddressToAddressBook({ hasOnSuccess: true, onSuccess: onSuccess });
+
+    // const { getCustomerAddressesQuery } = getCustomerAddressesForAddressBook();
+
+    // END
 
     const isSaving = createCustomerAddressLoading || updateCustomerAddressLoading;
 

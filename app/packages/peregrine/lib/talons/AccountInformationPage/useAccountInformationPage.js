@@ -25,12 +25,12 @@ export const useAccountInformationPage = props => {
         props.operations
     );
     const {
-        createCustomerAddressMutation,
         deleteCustomerAddressMutation,
         getCustomerAddressesQuery
     } = operations;
     const {
         getCustomerInformation,
+        addNewCustomerAddressToAddressBook,
         getCustomerAddressesForAddressBook,
         changeCustomerPassword: changeCustomerPasswordFromAdapter,
         setCustomerInformation: setCustomerInformationFromAdapter,
@@ -65,6 +65,16 @@ export const useAccountInformationPage = props => {
         hasNextFetchPolicy: true,
         hasFetchPolicy: true
     });
+
+    const {
+        createCustomerAddress,
+        error: createCustomerAddressError,
+        loading: isCreatingCustomerAddress
+    } = addNewCustomerAddressToAddressBook();
+
+    const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
+
+    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
     // END
 
@@ -112,13 +122,6 @@ export const useAccountInformationPage = props => {
     // https://github.com/apollographql/apollo-feature-requests/issues/170
     const [displayError, setDisplayError] = useState(false);
 
-    const { data: customerAddressesData, loading } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        skip: !isSignedIn
-    });
-
-    const [deleteCustomerAddress, { loading: isDeletingCustomerAddress }] = useMutation(deleteCustomerAddressMutation);
-
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
@@ -136,11 +139,6 @@ export const useAccountInformationPage = props => {
 
     const customerAddresses =
         (customerAddressesData && customerAddressesData.customer && customerAddressesData.customer.addresses) || [];
-
-    const [
-        createCustomerAddress,
-        { error: createCustomerAddressError, loading: isCreatingCustomerAddress }
-    ] = useMutation(createCustomerAddressMutation);
 
     const handleChangePassword = useCallback(() => {
         setShouldShowNewPassword(true);

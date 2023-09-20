@@ -25,23 +25,15 @@ import { useEventingContext } from '../../context/eventing';
 export const useAddressBookPage = (props = {}) => {
     const operations = mergeOperations(defaultOperations, props.operations);
     const {
-        createCustomerAddressMutation,
         deleteCustomerAddressMutation,
         getCustomerAddressesQuery
     } = operations;
     const {
-        updateCustomerAddressInAddressBook
+        updateCustomerAddressInAddressBook,
+        addNewCustomerAddressToAddressBook,
+        deleteCustomerAddressFromAddressBook,
+        getCustomerAddressesForAddressBook
     } = useAdapter();
-
-    // BIGCOMMERCE ADAPTER
-
-    const {
-        updateCustomerAddress,
-        error: updateCustomerAddressError,
-        loading: isUpdatingCustomerAddress
-    } = updateCustomerAddressInAddressBook();
-
-    // END
 
     const [
         ,
@@ -53,17 +45,25 @@ export const useAddressBookPage = (props = {}) => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { data: customerAddressesData, loading } = useQuery(
-        getCustomerAddressesQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            skip: !isSignedIn
-        }
-    );
-    const [
-        deleteCustomerAddress,
-        { loading: isDeletingCustomerAddress }
-    ] = useMutation(deleteCustomerAddressMutation);
+    // BIGCOMMERCE ADAPTER
+
+    const {
+        updateCustomerAddress,
+        error: updateCustomerAddressError,
+        loading: isUpdatingCustomerAddress
+    } = updateCustomerAddressInAddressBook();
+
+    const {
+        createCustomerAddress,
+        error: createCustomerAddressError,
+        loading: isCreatingCustomerAddress
+    } = addNewCustomerAddressToAddressBook();
+
+    const { deleteCustomerAddress, loading: isDeletingCustomerAddress } = deleteCustomerAddressFromAddressBook();
+
+    const { data: customerAddressesData, loading } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
+
+    // END
 
     const [confirmDeleteAddressId, setConfirmDeleteAddressId] = useState();
 
@@ -73,14 +73,6 @@ export const useAddressBookPage = (props = {}) => {
             customerAddressesData.customer &&
             customerAddressesData.customer.addresses) ||
         [];
-
-    const [
-        createCustomerAddress,
-        {
-            error: createCustomerAddressError,
-            loading: isCreatingCustomerAddress
-        }
-    ] = useMutation(createCustomerAddressMutation);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isDialogEditMode, setIsDialogEditMode] = useState(false);
@@ -159,12 +151,12 @@ export const useAddressBookPage = (props = {}) => {
             if (isDialogEditMode) {
                 try {
                     const address = {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                middlename: formValues.middlename || '',
-                                lastname: 'lastname',
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
+                        ...formValues,
+                        // Sends value as empty if none are provided
+                        middlename: formValues.middlename || '',
+                        lastname: 'lastname',
+                        // Cleans up the street array when values are null or undefined
+                        street: formValues.street.filter(e => e)
                     };
 
                     await updateCustomerAddress({
@@ -198,12 +190,12 @@ export const useAddressBookPage = (props = {}) => {
             } else {
                 try {
                     const address = {
-                                ...formValues,
-                                // Sends value as empty if none are provided
-                                middlename: formValues.middlename || '',
-                                lastname: 'lastname',
-                                // Cleans up the street array when values are null or undefined
-                                street: formValues.street.filter(e => e)
+                        ...formValues,
+                        // Sends value as empty if none are provided
+                        middlename: formValues.middlename || '',
+                        lastname: 'lastname',
+                        // Cleans up the street array when values are null or undefined
+                        street: formValues.street.filter(e => e)
                     };
                     await createCustomerAddress({
                         variables: {

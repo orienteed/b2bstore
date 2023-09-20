@@ -8,6 +8,7 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAppContext } from '../../../context/app';
 import { useCartContext } from '../../../context/cart';
 import { useUserContext } from '../../../context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 
 export const useAddressBook = props => {
@@ -15,6 +16,7 @@ export const useAddressBook = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, SHIPPING_INFORMATION_OPERATIONS, props.operations);
     const { getCustomerAddressesQuery, getCustomerCartAddressQuery, setDefaultAddressIdOnCartMutation } = operations;
+    const { getCustomerAddressesForAddressBook } = useAdapter();
 
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
@@ -24,6 +26,12 @@ export const useAddressBook = props => {
     const [activeAddress, setActiveAddress] = useState();
     const [selectedAddress, setSelectedAddress] = useState();
 
+    // BIGCOMMERCE ADAPTER
+
+    const { data: customerAddressesData, loading: customerAddressesLoading } = getCustomerAddressesForAddressBook({ hasNextFetchPolicy: true, isSignedIn: isSignedIn });
+
+    // END
+
     const [
         setCustomerAddressOnCart,
         { error: setCustomerAddressOnCartError, loading: setCustomerAddressOnCartLoading }
@@ -31,12 +39,6 @@ export const useAddressBook = props => {
         onCompleted: () => {
             onSuccess();
         }
-    });
-
-    const { data: customerAddressesData, loading: customerAddressesLoading } = useQuery(getCustomerAddressesQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !isSignedIn
     });
 
     const { data: customerCartAddressData, loading: customerCartAddressLoading } = useQuery(
