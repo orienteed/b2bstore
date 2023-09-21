@@ -74,28 +74,29 @@ export const useQuickOrderForm = props => {
 
     const formatData = rawData => {
         const dataValidated = [];
-        for (let i = 1; i <= rawData.length - 1; i++) {
-            if (
-                rawData[i][0] != '' &&
-                rawData[i][1] != '' &&
-                parseInt(rawData[i][1], 10) >= 1 &&
-                rawData[i].length == 2
-            ) {
-                // If SKU appear more than once, exclude it
-                if (!dataValidated.map(e => e[0]).includes(rawData[i][0])) {
-                    dataValidated.push(rawData[i]);
+        
+        // Find the index of the column named "sku" (case-insensitive)
+        const skuColumnIndex = rawData[0].findIndex(header => header.toLowerCase() === 'sku');
+    
+        if (skuColumnIndex !== -1) {
+            for (let i = 1; i < rawData.length; i++) {
+                const sku = rawData[i][skuColumnIndex];
+                if (sku !== undefined && sku.trim() !== '') {
+                    dataValidated.push([sku]);
                 }
-            } else {
-                const errorMsg = formatMessage({
-                    id: 'quickOrder.uploadTheCorrectCSVFile',
-                    defaultMessage: 'Upload a correct CSV file format'
-                });
-                setCsvErrorType(errorMsg);
-                setIsCsvDialogOpen(true);
             }
+        } else {
+            // If there is no "sku" column, set an error message
+            const errorMsg = formatMessage({
+                id: 'quickOrder.uploadTheCorrectCSVFile',
+                defaultMessage: 'Upload a correct CSV file format'
+            });
+            setCsvErrorType(errorMsg);
+            setIsCsvDialogOpen(true);
         }
+    
         return dataValidated;
-    };
+    };    
 
     const handleAddProductsToCart = useCallback(
         async csvProducts => {
