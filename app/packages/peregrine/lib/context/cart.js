@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { useMutation } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import actions from '../store/actions/cart/actions';
 import * as asyncActions from '../store/actions/cart/asyncActions';
@@ -55,8 +55,9 @@ const CartContextProvider = props => {
         return [derivedCartState, cartApi];
     }, [cartApi, cartState, derivedDetails]);
 
-    const { createCartMutation, IsUserAuthedQuery } = operations;
-    const [fetchCartId] = useMutation(createCartMutation);
+    const { IsUserAuthedQuery } = operations;
+    const { createCart } = useAdapter();
+    const { fetchCartId } = createCart();
     const fetchIsUserAuthed = useAwaitQuery(IsUserAuthedQuery);
 
     // Storage listener to force a state update if cartId changes from another browser tab.

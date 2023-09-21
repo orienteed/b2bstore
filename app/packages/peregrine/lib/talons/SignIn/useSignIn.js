@@ -5,7 +5,6 @@ import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha/useGoogleReCa
 import mergeOperations from '../../util/shallowMerge';
 import { useCartContext } from '../../context/cart';
 import { useUserContext } from '../../context/user';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
@@ -23,9 +22,7 @@ export const useSignIn = props => {
     const operations = mergeOperations(CART_OPERATIONS, props.operations);
 
     const {
-        mergeCartsMutation,
-        getCartDetailsQuery,
-        createCartMutation
+        mergeCartsMutation
     } = operations;
 
     const apolloClient = useApolloClient();
@@ -39,7 +36,13 @@ export const useSignIn = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const { signIn: signInFromAdapter, generateToken, getCustomerInformation } = useAdapter();
+    const { 
+        signIn: signInFromAdapter, 
+        generateToken, 
+        getCustomerInformation,
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter
+    } = useAdapter();
 
     // BIGCOMMERCE ADAPTER
 
@@ -49,6 +52,10 @@ export const useSignIn = props => {
 
     const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
+    const { fetchCartId } = createCartFromAdapter();
+
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
     // END
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
@@ -56,9 +63,7 @@ export const useSignIn = props => {
         formAction: 'signIn'
     });
 
-    const [fetchCartId] = useMutation(createCartMutation);
     const [mergeCarts] = useMutation(mergeCartsMutation);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const formApiRef = useRef(null);
     const setFormApi = useCallback(api => (formApiRef.current = api), []);

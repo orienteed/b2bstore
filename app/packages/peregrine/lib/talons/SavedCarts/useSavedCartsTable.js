@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import DEFAULT_OPERATIONS from './savedCarts.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '../../hooks/useAdapter';
 
 /**
  * @function
@@ -18,7 +18,8 @@ export const useSavedCartsTable = props => {
     const { handleIsLoading, getSavedCarts } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, props.operations);
-    const { getCartDetailsQuery, restoreSavedCartsMutation, deleteSavedCartsMutation } = operations;
+    const { restoreSavedCartsMutation, deleteSavedCartsMutation } = operations;
+    const { getCartDetails: getCartDetailsFromAdapter } = useAdapter();
 
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
@@ -26,7 +27,11 @@ export const useSavedCartsTable = props => {
 
     const [{ cartId }, { getCartDetails }] = useCartContext();
 
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
+    // BIGCOMMERCE ADAPTER
+
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
+    // END
 
     // Restore Cart
     const [restoreSaveCart] = useMutation(restoreSavedCartsMutation, {

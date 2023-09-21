@@ -2,8 +2,8 @@ import { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMutation, useApolloClient, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
 import { clearCartDataFromCache } from '@magento/peregrine/lib/Apollo/clearCartDataFromCache';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
 import DEFAULT_OPERATIONS from './savedCarts.gql';
@@ -12,11 +12,13 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 export const useSavedCart = () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS);
     const {
-        createCartMutation,
         getConfigDetailsForSavedCartsQuery,
-        getCartDetailsQuery,
         saveSavedCartsMutation
     } = operations;
+    const {
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter
+    } = useAdapter();
 
     const [isShow, setIsShow] = useState(false);
     const [buttonTitle, setButtonTitle] = useState();
@@ -25,12 +27,17 @@ export const useSavedCart = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
     const apolloClient = useApolloClient();
 
     const [{ cartId }, { getCartDetails, createCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
+    // BIGCOMMERCE ADAPTER
+
+    const { fetchCartId } = createCartFromAdapter();
+
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
+    // END
 
     const history = useHistory();
 

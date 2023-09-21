@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
 
 import { useCartContext } from '../../context/cart';
 import { useEventingContext } from '../../context/eventing';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
 import { deriveErrorMessage } from '../../util/deriveErrorMessage';
-
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import mergeOperations from '../../util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
 
@@ -35,24 +32,28 @@ import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
 export const useMiniCart = props => {
     const { isOpen, setIsOpen } = props;
     const [, { dispatch }] = useEventingContext();
-    
+
     const { handleAddCofigItemBySku } = useAddToQuote();
 
-    const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation, getMiniCartQuery } = operations;
+    const { getMiniCart, removeItemFromCart } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const history = useHistory();
 
-    const { data: miniCartData, loading: miniCartLoading } = useQuery(getMiniCartQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        variables: { cartId },
-        skip: !cartId,
-        errorPolicy: 'all'
-    });
+    // BIGCOMMERCE ADAPTER
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: miniCartData, loading: miniCartLoading } = getMiniCart({ cartId: cartId });
+
+    const {
+        removeItem,
+        loading: removeItemLoading,
+        called: removeItemCalled,
+        error: removeItemError
+    } = removeItemFromCart();
+
+    // END
+
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const configurableThumbnailSource = useMemo(() => {
         if (storeConfigData) {
@@ -65,10 +66,6 @@ export const useMiniCart = props => {
             return storeConfigData.storeConfig.product_url_suffix;
         }
     }, [storeConfigData]);
-
-    const [removeItem, { loading: removeItemLoading, called: removeItemCalled, error: removeItemError }] = useMutation(
-        removeItemFromCartMutation
-    );
 
     const totalQuantity = useMemo(() => {
         if (!miniCartLoading && miniCartData) {
@@ -116,8 +113,8 @@ export const useMiniCart = props => {
                     return arrayCompare(selectedOption, variantOption);
                 });
                 return {
-                    name: selectedVariant.product.name,
-                    sku: selectedVariant.product.sku,
+                    name: selectedVariant?.product.name,
+                    sku: selectedVariant?.product.sku,
                     orParentSku: confgItem.product.sku,
                     quantity: confgItem.quantity
                 };
@@ -126,7 +123,7 @@ export const useMiniCart = props => {
     );
 
     const submitQuote = useCallback(async () => {
-       
+
         try {
             await handleAddCofigItemBySku(SelectedVariants);
             productList.forEach(async ({ uid }) => {

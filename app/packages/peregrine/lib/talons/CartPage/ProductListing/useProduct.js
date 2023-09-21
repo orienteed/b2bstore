@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import configuredVariant from '@magento/peregrine/lib/util/configuredVariant';
 import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 import { useEventingContext } from '../../../context/eventing';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
-
-import CART_OPERATIONS from '../cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * This talon contains logic for a product component used in a product listing component.
@@ -37,8 +34,7 @@ export const useProduct = props => {
 
     const [, { dispatch }] = useEventingContext();
 
-    const operations = mergeOperations(CART_OPERATIONS, props.operations);
-    const { removeItemFromCartMutation, updateCartItemsMutation } = operations;
+    const { removeItemFromCart: removeItemFromCartFromAdapter, updateCartItems } = useAdapter();
 
     const { formatMessage } = useIntl();
 
@@ -58,15 +54,23 @@ export const useProduct = props => {
 
     const flatProduct = flattenProduct(item, configurableThumbnailSource, storeUrlSuffix);
 
-    const [
-        removeItemFromCart,
-        { called: removeItemCalled, error: removeItemError, loading: removeItemLoading }
-    ] = useMutation(removeItemFromCartMutation);
+    // BIGCOMMERCE ADAPTER
 
-    const [
+    const {
+        removeItem: removeItemFromCart,
+        called: removeItemCalled,
+        error: removeItemError,
+        loading: removeItemLoading
+    } = removeItemFromCartFromAdapter();
+
+    const {
         updateItemQuantity,
-        { loading: updateItemLoading, error: updateError, called: updateItemCalled }
-    ] = useMutation(updateCartItemsMutation);
+        loading: updateItemLoading,
+        error: updateError,
+        called: updateItemCalled
+    } = updateCartItems();
+
+    // END
 
     const [{ cartId }] = useCartContext();
 

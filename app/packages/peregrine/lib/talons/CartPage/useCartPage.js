@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLazyQuery, useMutation } from '@apollo/client';
 import { useCartContext } from '../../context/cart';
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './cartPage.gql';
 
 import { useHistory } from 'react-router-dom';
 import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
+import { useAdapter } from '../../hooks/useAdapter';
 /**
  * This talon contains logic for a cart page component.
  * It performs effects and returns prop data for rendering the component.
@@ -24,12 +22,10 @@ import { useAddToQuote } from '../QuickOrderForm/useAddToQuote';
  * @example <caption>Importing into your project</caption>
  * import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
  */
-export const useCartPage = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCartDetailsQuery, removeItemFromCartMutation } = operations;
+export const useCartPage = () => {
+    const { getCartDetails, removeItemFromCart } = useAdapter();
 
     const history = useHistory();
-    const [removeItem] = useMutation(removeItemFromCartMutation);
 
     const [{ cartId }] = useCartContext();
 
@@ -39,11 +35,13 @@ export const useCartPage = (props = {}) => {
     const [isQuoteOpen, setIsQuoteOpen] = useState(false);
     const { handleAddCofigItemBySku } = useAddToQuote();
 
-    const [fetchCartDetails, { called, data, loading }] = useLazyQuery(getCartDetailsQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-        // errorPolicy: 'all'
-    });
+    // BIGCOMMERCE ADAPTER
+
+    const { fetchCartDetails, data, loading, called } = getCartDetails({ isLazy: true });
+
+    const { removeItem } = removeItemFromCart();
+
+    // END
 
     const hasItems = !!(data && data.cart.total_quantity);
     const shouldShowLoadingIndicator = called && loading && !hasItems;

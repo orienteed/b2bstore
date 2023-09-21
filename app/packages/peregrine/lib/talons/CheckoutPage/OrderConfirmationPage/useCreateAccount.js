@@ -1,16 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
-import mergeOperations from '../../../util/shallowMerge';
 import { useUserContext } from '../../../context/user';
 import { useCartContext } from '../../../context/cart';
-import { useAwaitQuery } from '../../../hooks/useAwaitQuery';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
 import { useEventingContext } from '../../../context/eventing';
 import { useModulesContext } from '../../../context/modulesProvider';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
-import CART_OPERATIONS from '../../CartPage/cartPage.gql';
 
 /**
  * Returns props necessary to render CreateAccount component. In particular this
@@ -34,16 +29,8 @@ import CART_OPERATIONS from '../../CartPage/cartPage.gql';
 export const useCreateAccount = props => {
     const { initialValues = {}, onSubmit } = props;
 
-    const operations = mergeOperations(
-        CART_OPERATIONS,
-        props.operations
-    );
-
     const { tenantConfig } = useModulesContext();
-    const {
-        createCartMutation,
-        getCartDetailsQuery
-    } = operations;
+
     const {
         getCustomerInformation,
         createAccount: createAccountFromAdapter,
@@ -75,11 +62,11 @@ export const useCreateAccount = props => {
 
     const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
+    const { fetchCartId } = createCartFromAdapter();
+
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
     // END
-
-    const [fetchCartId] = useMutation(createCartMutation);
-
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

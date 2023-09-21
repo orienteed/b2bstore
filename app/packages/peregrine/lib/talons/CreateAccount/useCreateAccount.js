@@ -4,7 +4,6 @@ import { useApolloClient, useMutation } from '@apollo/client';
 import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
 import { useCartContext } from '../../context/cart';
-import { useAwaitQuery } from '../../hooks/useAwaitQuery';
 import { retrieveCartId } from '../../store/actions/cart';
 import { useGoogleReCaptcha } from '../../hooks/useGoogleReCaptcha';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -42,15 +41,15 @@ export const useCreateAccount = props => {
     );
 
     const {
-        createCartMutation,
-        getCartDetailsQuery,
         mergeCartsMutation
     } = operations;
     const {
         createAccount: createAccountFromAdapter,
         signIn: signInFromAdapter,
         generateToken,
-        getCustomerInformation
+        getCustomerInformation,
+        createCart: createCartFromAdapter,
+        getCartDetails: getCartDetailsFromAdapter
     } = useAdapter();
 
     const apolloClient = useApolloClient();
@@ -62,8 +61,6 @@ export const useCreateAccount = props => {
     const [{ isGettingDetails }, { getUserDetails, setToken }] = useUserContext();
 
     const [, { dispatch }] = useEventingContext();
-
-    const [fetchCartId] = useMutation(createCartMutation);
 
     const [mergeCarts] = useMutation(mergeCartsMutation);
 
@@ -83,9 +80,11 @@ export const useCreateAccount = props => {
 
     const fetchUserDetails = getCustomerInformation({ isAwait: true });
 
-    // END
+    const { fetchCartId } = createCartFromAdapter();
 
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
+    // END
 
     const { generateReCaptchaData, recaptchaLoading, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_CREATE',

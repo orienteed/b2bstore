@@ -2,13 +2,10 @@ import { useCallback, useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import { appendOptionsToPayload } from '../../util/appendOptionsToPayload';
 import { isProductConfigurable } from '../../util/isProductConfigurable';
-
-import DEFAULT_OPERATIONS from '../CartPage/cartPage.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 const isItemMissingOptions = (cartItem, configItem, numSelections) => {
     // Non-configurable products can't be missing options
@@ -33,8 +30,19 @@ export const useCartOptions = props => {
         endEditItem
     } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { createCartMutation, getCartDetailsQuery, removeItemFromCartMutation, updateCartItemsMutation } = operations;
+    const { createCart, getCartDetails, removeItemFromCart, updateCartItems } = useAdapter();
+
+    // BIGCOMMERCE ADAPTER
+
+    const { fetchCartId } = createCart();
+
+    const { fetchCartDetails } = getCartDetails();
+
+    const { removeItem } = removeItemFromCart();
+
+    const { updateItemQuantity: updateItem } = updateCartItems();
+
+    // END
 
     const { configurable_options: cartItemOptions, product, quantity: qty } = cartItem;
     const { name, price } = product;
@@ -46,10 +54,6 @@ export const useCartOptions = props => {
 
     const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
     const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
-    const [fetchCartId] = useMutation(createCartMutation);
-    const [removeItem] = useMutation(removeItemFromCartMutation);
-    const [updateItem] = useMutation(updateCartItemsMutation);
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const initialOptionSelections = useMemo(() => {
         const result = new Map();

@@ -78,19 +78,21 @@ export const useCheckoutPage = props => {
     const [{ isSignedIn }] = useUserContext();
 
     const {
-        createCartMutation,
         getCheckoutDetailsQuery,
         getOrderDetailsQuery,
         placeOrderMutation,
         setPaymentMethodOnCartMutation
     } = operations;
     const {
-        getCustomerInformation
+        getCustomerInformation,
+        createCart: createCartFromAdapter
     } = useAdapter();
 
     // BIGCOMMERCE ADAPTER
 
     const { data: customerData, loading: customerLoading } = getCustomerInformation({ hasSkip: true, isSignedIn: isSignedIn });
+
+    const { fetchCartId } = createCartFromAdapter();
 
     // END
 
@@ -117,7 +119,6 @@ export const useCheckoutPage = props => {
 
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
-    const [fetchCartId] = useMutation(createCartMutation);
     const [placeOrder, { data: placeOrderData, error: placeOrderError, loading: placeOrderLoading }] = useMutation(
         placeOrderMutation
     );

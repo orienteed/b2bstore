@@ -7,10 +7,8 @@ import Price from '../../Price';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useCustomerCreditSystem } from '@magento/peregrine/lib/talons/CheckoutPage/CustomerCreditSystem/useCustomerCreditSystem';
-import { useQuery } from '@apollo/client';
 import { useStyle } from '@magento/venia-ui/lib/classify';
-
-import DEFAULT_OPERATIONS from '@magento/peregrine/lib/talons/CartPage/PriceSummary/priceSummary.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import defaultClasses from './customerCreditSystem.module.css';
 
@@ -18,7 +16,7 @@ const CustomerCreditSystem = props => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
     const { onPaymentSuccess, onPaymentError, resetShouldSubmit, shouldSubmit, paymentMethodMutationData } = props;
-    const { getPriceSummaryQuery } = DEFAULT_OPERATIONS;
+    const { getPriceSummary } = useAdapter();
     const [{ cartId }] = useCartContext();
     const talonProps = useCustomerCreditSystem({
         onPaymentSuccess,
@@ -27,14 +25,7 @@ const CustomerCreditSystem = props => {
         shouldSubmit,
         paymentMethodMutationData
     });
-    const { data } = useQuery(getPriceSummaryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: {
-            cartId
-        }
-    });
+    const { data } = getPriceSummary({ cartId: cartId });
     const priceSummary = data?.cart?.prices.grand_total;
     const { loading } = talonProps;
 

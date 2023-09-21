@@ -1,17 +1,13 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useLazyQuery } from '@apollo/client';
 
 import { useCartContext } from '../../../context/cart';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
-
-import mergeOperations from '../../../util/shallowMerge';
-import DEFAULT_OPERATIONS from './itemsReview.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useItemsReview = props => {
     const [showAllItems, setShowAllItems] = useState(false);
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
-    const { getItemsInCartQuery } = operations;
+    const { getItemsInCart } = useAdapter();
 
     const [{ cartId }] = useCartContext();
 
@@ -23,9 +19,7 @@ export const useItemsReview = props => {
         }
     }, [storeConfigData]);
 
-    const [fetchItemsInCart, { data: queryData, error, loading }] = useLazyQuery(getItemsInCartQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+    const { fetchItemsInCart, data: queryData, error, loading } = getItemsInCart();
 
     // If static data was provided, use that instead of query data.
     const data = props.data || queryData;

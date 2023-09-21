@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import { useAwaitQuery } from '@magento/peregrine/lib/hooks/useAwaitQuery';
+import { useAdapter } from '../../hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './savedCarts.gql';
 import CART_OPERATIONS from '../CartPage/cartPage.gql';
@@ -10,7 +10,8 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 export const useShareCartPage = async () => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS);
-    const { getCartDetailsQuery, shareSavedCartsMutation } = operations;
+    const { shareSavedCartsMutation } = operations;
+    const { getCartDetails: getCartDetailsFromAdapter } = useAdapter();
 
     const [isLoading, setIsLoading] = useState(true);
     const [shareCartUpadte, setShareCartUpadte] = useState(1);
@@ -20,10 +21,14 @@ export const useShareCartPage = async () => {
 
     const [{ cartId }, { getCartDetails }] = useCartContext();
 
+    // BIGCOMMERCE ADAPTER
+
+    const { fetchCartDetails } = getCartDetailsFromAdapter();
+
+    // END
+
     // Share Cart
     const [getShareCart] = useMutation(shareSavedCartsMutation);
-
-    const fetchCartDetails = useAwaitQuery(getCartDetailsQuery);
 
     const handleShareCart = useCallback(async () => {
         const token = url[5];
