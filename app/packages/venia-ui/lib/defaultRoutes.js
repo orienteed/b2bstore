@@ -173,5 +173,33 @@ module.exports = [
         name: 'SimpleProduct',
         pattern: '/simple-product',
         path: '../ProductFullDetail/SimpleProduct'
+    },
+    {
+        name: 'Company Account Information',
+        pattern: '/company-account/information',
+        path: '../CompanyAccount/CompanyInfo/companyInfo',
+        authed: true,
+        redirectTo: '/sign-in'
+    },
+    {
+        name: 'Company Account Users',
+        pattern: '/company-account/users',
+        path: '../CompanyAccount/CompanyUsers/companyUsers',
+        authed: true,
+        redirectTo: '/sign-in'
+    },
+    {
+        name: 'Company Account Orders',
+        pattern: '/company-account/orders',
+        path: '../CompanyAccount/CompanyOrders/companyOrders',
+        authed: true,
+        redirectTo: '/sign-in'
+    },
+    {
+        name: 'Company Account User Roles',
+        pattern: '/company-account/userRoles',
+        path: '../CompanyAccount/UserRoles/userRoles',
+        authed: true,
+        redirectTo: '/sign-in'
     }
 ];

@@ -1,10 +1,11 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import doCsrLogout from '@magento/peregrine/lib/RestApi/Csr/auth/logout';
 import doLmsLogout from '@magento/peregrine/lib/RestApi/Lms/auth/logout';
 
 import { useModulesContext } from '../../context/modulesProvider';
 import getUserCourses from '@magento/peregrine/lib/RestApi/Lms/courses/getUserCourses';
 import { useUserContext } from '../../context/user';
+import { useCompanyAccountInfo } from '@magento/peregrine/lib/talons/CompanyAccount/useCompanyAccountInfo';
 
 /**
  * @param {Object}      props
@@ -16,7 +17,6 @@ import { useUserContext } from '../../context/user';
 export const useAccountMenuItems = props => {
     const { tenantConfig } = useModulesContext();
     const { onSignOut } = props;
-
     const [isValidLms, setIsValidLms] = useState(false);
     const [{ isSignedIn }] = useUserContext();
 
@@ -25,6 +25,32 @@ export const useAccountMenuItems = props => {
         tenantConfig.lmsEnabled && doLmsLogout();
         onSignOut();
     }, [tenantConfig, onSignOut]);
+
+    const { companyInfo } = useCompanyAccountInfo({});
+
+    const companyLinks = useMemo(() => {
+        if (companyInfo) {
+            return [
+                {
+                    name: 'Account Information',
+                    id: 'accountMenu.accountInfoLink',
+                    url: '/account-information'
+                },
+                {
+                    name: 'My Company',
+                    id: 'companyAccount.myCompany',
+                    url: '/company-account/information'
+                }
+            ];
+        }
+        return [
+            {
+                name: 'Account Information',
+                id: 'accountMenu.accountInfoLink',
+                url: '/account-information'
+            }
+        ];
+    }, [companyInfo]);
 
     useEffect(() => {
         if (isSignedIn) {
@@ -58,11 +84,7 @@ export const useAccountMenuItems = props => {
     ];
 
     const MENU_ITEMS_PREMIUM = [
-        {
-            name: 'Account Information',
-            id: 'accountMenu.accountInfoLink',
-            url: '/account-information'
-        },
+        ...companyLinks,
         {
             name: 'Address Book',
             id: 'accountMenu.addressBookLink',
