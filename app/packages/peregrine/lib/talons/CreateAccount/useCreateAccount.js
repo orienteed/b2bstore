@@ -89,7 +89,6 @@ export const useCreateAccount = props => {
                     variables: {
                         email: formValues.customer.email,
                         firstname: formValues.customer.firstname,
-                        lastname: formValues.customer.lastname,
                         password: formValues.password,
                         is_subscribed: !!formValues.subscribe
                     },
@@ -101,7 +100,6 @@ export const useCreateAccount = props => {
                     payload: {
                         email: formValues.customer.email,
                         firstName: formValues.customer.firstname,
-                        lastName: formValues.customer.lastname,
                         isSubscribed: !!formValues.subscribe
                     }
                 });
