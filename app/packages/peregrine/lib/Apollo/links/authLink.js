@@ -9,7 +9,6 @@ export default function createAuthLink() {
         const token = storage.getItem('signin_token');
 
         // return the headers to the context so httpLink can read them
-        // backendTechnology: 'magento', // TODO_B2B: update this to be dynamic from S3 data
 
         if (token) {
             return {

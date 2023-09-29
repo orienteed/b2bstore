@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 
 import mergeOperations from '../../util/shallowMerge';
@@ -10,9 +10,9 @@ import { getSearchParam } from '../../hooks/useSearchParam';
 import { useSort } from '../../hooks/useSort';
 import { getFiltersFromSearch, getFilterInput } from '../FilterModal/helpers';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
+import { useAdapter } from '../../hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './searchPage.gql';
-import CATEGORY_OPERATIONS from '../RootComponents/Category/category.gql';
 import { useEventingContext } from '../../context/eventing';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
@@ -24,14 +24,19 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
  */
 export const useSearchPage = (props = {}) => {
     const [, { dispatch }] = useEventingContext();
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CATEGORY_OPERATIONS, props.operations);
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
 
     const {
-        getFilterInputsQuery,
         getProductFiltersBySearchQuery,
         getAvailableSortMethodsBySearchQuery,
         getProductsDetailsBySearchQuery
     } = operations;
+    const {
+        getFilterInputs,
+        getAvailableSortMethodsBySearch,
+        getProductFiltersBySearch,
+        getProductsDetailsBySearch
+    } = useAdapter();
 
     const { data: storeConfigData } = useStoreConfigContext();
 
@@ -90,9 +95,7 @@ export const useSearchPage = (props = {}) => {
     }, [toggleDrawer]);
 
     // Get "allowed" filters by intersection of schema and aggregations
-    const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = useQuery(
-        getFilterInputsQuery
-    );
+    const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = getFilterInputs();
 
     // Create a type map we can reference later to ensure we pass valid args
     // to the graphql query.

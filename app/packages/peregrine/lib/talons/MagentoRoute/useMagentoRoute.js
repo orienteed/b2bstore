@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useRootComponents } from '../../context/rootComponents';
-import mergeOperations from '../../util/shallowMerge';
 import { getComponentData } from '../../util/magentoRouteData';
 import { useAppContext } from '../../context/app';
 
 import { getRootComponent, isRedirect } from './helpers';
-import DEFAULT_OPERATIONS from './magentoRoute.gql';
 
 const getInlinedPageData = () => {
     return globalThis.INLINED_PAGE_TYPE && globalThis.INLINED_PAGE_TYPE.type
@@ -19,9 +17,9 @@ const resetInlinedPageData = () => {
     globalThis.INLINED_PAGE_TYPE = false;
 };
 
-export const useMagentoRoute = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { resolveUrlQuery } = operations;
+export const useMagentoRoute = () => {
+    const { resolveURL } = useAdapter();
+    const { runQuery, data, loading, error } = resolveURL();
     const { replace } = useHistory();
     const { pathname } = useLocation();
     const [componentMap, setComponentMap] = useRootComponents();
@@ -43,9 +41,7 @@ export const useMagentoRoute = (props = {}) => {
 
     const component = componentMap.get(pathname);
 
-    const [runQuery, queryResult] = useLazyQuery(resolveUrlQuery);
     // destructure the query result
-    const { data, error, loading } = queryResult;
     const { route } = data || {};
 
     useEffect(() => {

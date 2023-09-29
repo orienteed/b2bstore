@@ -13,7 +13,7 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { ThrashIcon } from '../../assets/ThrashIcon';
 
 const WishlistItem = props => {
-    const { item } = props;
+    const { item, onOpenAddToCartDialog } = props;
     const { url_key, url_suffix, sku, __typename: typename, price } = item.product;
     const { minimalPrice, regularPrice } = price;
 

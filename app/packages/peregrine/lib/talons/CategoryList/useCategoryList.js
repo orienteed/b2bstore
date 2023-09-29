@@ -1,10 +1,7 @@
 /* Deprecated in PWA-12.1.0*/
 
-import { useQuery } from '@apollo/client';
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
-
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../RootComponents/Category/categoryContent.gql';
+import { useAdapter } from '../../hooks/useAdapter';
 
 /**
  * Returns props necessary to render a CategoryList component.
@@ -17,19 +14,10 @@ import DEFAULT_OPERATIONS from '../RootComponents/Category/categoryContent.gql';
 export const useCategoryList = props => {
     const { id } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCategoryDataQuery } = operations;
+    const { getCategoryData } = useAdapter();
+    const { data, loading, error } = getCategoryData({ id });
 
-    const { loading, error, data } = useQuery(getCategoryDataQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !id,
-        variables: {
-            id
-        }
-    });
-
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
     const storeConfig = storeConfigData ? storeConfigData.storeConfig : null;
 
     return {

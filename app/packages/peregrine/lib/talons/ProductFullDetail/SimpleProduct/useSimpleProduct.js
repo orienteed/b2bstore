@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useMemo } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useIntl } from 'react-intl';
 import { deriveErrorMessage } from '@magento/peregrine/lib/util/deriveErrorMessage';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import DEFAULT_OPERATIONS from './simpleProduct.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useLocation } from 'react-router-dom';
 
 import { useUserContext } from '../../../context/user';
@@ -25,19 +23,16 @@ export const useSimpleProduct = (props = {}) => {
     const sku = new URLSearchParams(search).get('sku');
     const isB2B = tenantConfig.b2bProductDetailView;
 
-    // const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    // const { getSimpleProductQuery } = operations;
-
-    // const { data, loading, error } = useQuery(getSimpleProductQuery, {
-    //     variables: { sku: sku }
-    // });
-
     // BIGCOMMERCE ADAPTER
     // Obtain operations from adapter
     const { getSimpleProduct } = useAdapter();
 
     // Fetch product data from BigCommerce
-    const { data, loading, error } = getSimpleProduct({ sku: 'SLCTBS-A9615491' });
+    const { data, loading, error } = getSimpleProduct({
+        sku: sku,
+        includeProductAlert: tenantConfig?.productAlertEnabled,
+        includeProductAttachment: tenantConfig?.productAttachmentEnabled
+    });
     // END BIGCOMMERCE ADAPTER
 
     const { data: storeConfigData, refetch } = useStoreConfigContext();

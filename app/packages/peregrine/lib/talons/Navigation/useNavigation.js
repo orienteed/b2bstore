@@ -33,7 +33,7 @@ export const useNavigation = () => {
 
     const rootCategoryId = useMemo(() => {
         if (storeConfigData) {
-            return storeConfigData.storeConfig.root_category_uid;
+            return 23; // Temporary hardcoded id for BigCommerce
         }
     }, [storeConfigData]);
 
@@ -44,7 +44,7 @@ export const useNavigation = () => {
 
     // get local state
     const [view, setView] = useState('MENU');
-    const [categoryId, setCategoryId] = useState(rootCategoryId);
+    const [categoryId, setCategoryId] = useState(23); // Temporary hardcoded id for BigCommerce
 
     useEffect(() => {
         // On a fresh render with cold cache set the current category as root

@@ -1,18 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useLazyQuery, useQuery } from '@apollo/client';
 
-import mergeOperations from '../../../util/shallowMerge';
 import { useAppContext } from '../../../context/app';
 import { usePagination } from '../../../hooks/usePagination';
 import { useScrollTopOnChange } from '../../../hooks/useScrollTopOnChange';
 import { useSort } from '../../../hooks/useSort';
 import { getFiltersFromSearch, getFilterInput } from '../../../talons/FilterModal/helpers';
 
-import DEFAULT_OPERATIONS from './category.gql';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '../../../hooks/useAdapter';
 /**
  * A [React Hook]{@link https://reactjs.org/docs/hooks-intro.html} that
  * controls the logic for the Category Root Component.
@@ -37,8 +35,7 @@ import { useUserContext } from '@magento/peregrine/lib/context/user';
 export const useCategory = props => {
     const { id } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getCategoryQuery, getFilterInputsQuery } = operations;
+    const { getCategory, getFilterInputs } = useAdapter();
 
         const { data: storeConfigData } = useStoreConfigContext();
     const pageSize = storeConfigData && storeConfigData.storeConfig.grid_per_page;
@@ -68,11 +65,7 @@ export const useCategory = props => {
         }
     ] = useAppContext();
 
-    const [runQuery, queryResponse] = useLazyQuery(getCategoryQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
-    const { called: categoryCalled, loading: categoryLoading, error, data } = queryResponse;
+    const { runQuery, data, loading: categoryLoading, error, called: categoryCalled } = getCategory();
     const { search } = useLocation();
 
     const isBackgroundLoading = !!data && categoryLoading;
@@ -86,13 +79,7 @@ export const useCategory = props => {
     const previousSearch = useRef(search);
 
     // Get "allowed" filters by intersection of schema and aggregations
-    const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = useQuery(
-        getFilterInputsQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first'
-        }
-    );
+    const { called: introspectionCalled, data: introspectionData, loading: introspectionLoading } = getFilterInputs();
 
     // Create a type map we can reference later to ensure we pass valid args
     // to the graphql query.
