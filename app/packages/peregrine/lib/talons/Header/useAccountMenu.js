@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client';
 
 import mergeOperations from '../../util/shallowMerge';
 import { useUserContext } from '../../context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './accountMenu.gql';
 import { useEventingContext } from '../../context/eventing';
@@ -31,13 +32,14 @@ export const useAccountMenu = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { signOutMutation } = operations;
+    const { signOut: signOutFromAdapter } = useAdapter();
 
     const [view, setView] = useState('SIGNIN');
     const [username, setUsername] = useState('');
 
     const history = useHistory();
     const location = useLocation();
-    const [revokeToken] = useMutation(signOutMutation);
+    const { revokeToken } = signOutFromAdapter();
     const [{ isSignedIn: isUserSignedIn, currentUser }, { signOut }] = useUserContext();
 
     const [, { dispatch }] = useEventingContext();
