@@ -1,27 +1,41 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation, useQuery } from '@apollo/client';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import DEFAULT_OPERATIONS from '../../wishlist.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useSingleWishlist = props => {
     const { afterAdd, beforeAdd, item } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addProductToWishlistMutation, getProductsInWishlistsQuery } = operations;
+    const {
+        addProductToWishlist: addProductToWishlistFromAdapter,
+        getProductsInWishlists,
+        removeProductsFromWishlist: removeProductsFromWishlistFromAdapter,
+        getWishlistProducts
+    } = useAdapter();
 
-    const [
+    const {
         addProductToWishlist,
-        { data: addProductData, error: errorAddingProduct, loading: isAddingToWishlist }
-    ] = useMutation(addProductToWishlistMutation);
+        data: addProductData,
+        error: errorAddingProduct,
+        loading: isAddingToWishlist
+    } = addProductToWishlistFromAdapter();
+
+    const {
+        removeProductsFromWishlist,
+        data: removeProductData,
+        error: errorRemovingProduct
+    } = removeProductsFromWishlistFromAdapter({ isFromUseSingle: true, item });
 
     const {
         client,
-        data: { customerWishlistProducts }
-    } = useQuery(getProductsInWishlistsQuery);
+        data: { customerWishlistProducts },
+        getProductsInWishlistsQuery
+    } = getProductsInWishlists();
+
+    const { data } = getWishlistProducts({ isUseQuery: true, id: '0' });
+    const wishlistItems = data?.customer?.wishlist_v2.items_v2.items;
+    const wishlistItemIds = wishlistItems?.map(item => item.id);
 
     const isSelected = useMemo(() => {
         return customerWishlistProducts.includes(item.sku) || isAddingToWishlist;

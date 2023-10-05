@@ -1,29 +1,23 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
 
-import DEFAULT_OPERATIONS from '../wishlist.gql';
+import { useStoreConfigContext } from '@magento/peregrine/lib/context/storeConfigProvider';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useWishlistDialog = props => {
     const { isLoading, itemOptions, onClose, onSuccess } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { addProductToWishlistMutation, getWishlistsQuery } = operations;
+    const { addProductToWishlist: addProductToWishlistFromAdapter, getWishlists } = useAdapter();
 
     const [isFormOpen, setIsFormOpen] = useState(false);
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
-    const { data: wishlistsData } = useQuery(getWishlistsQuery, {
-        fetchPolicy: 'cache-and-network'
-    });
+    const { data: wishlistsData } = getWishlists();
 
-    const [addProductToWishlist, { loading: isAddLoading, error: addProductError }] = useMutation(
-        addProductToWishlistMutation,
-        {
-            refetchQueries: [{ query: getWishlistsQuery }]
-        }
-    );
+    const {
+        addProductToWishlist,
+        loading: isAddLoading,
+        error: addProductError
+    } = addProductToWishlistFromAdapter({ hasRefetch: true });
 
     // enable_multiple_wishlists is a string "1" or "0". See documentation here:
     // https://devdocs.magento.com/guides/v2.4/graphql/mutations/create-wishlist.html

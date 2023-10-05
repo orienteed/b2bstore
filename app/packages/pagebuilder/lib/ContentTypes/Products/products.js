@@ -11,6 +11,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from './products.module.css';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './products.gql';
@@ -45,6 +46,7 @@ const restoreSortOrder = (urlKeys, products) => {
 const Products = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getProductsQuery } = operations;
+    const { getProductsForPagebuilderByUrlKey } = useAdapter();
 
     const classes = useStyle(defaultClasses, props.classes);
     const {
@@ -112,6 +114,8 @@ const Products = props => {
     const { loading, error, data, refetch } = useQuery(getProductsQuery, {
         variables: { url_keys: urlKeys, pageSize: urlKeys.length }
     });
+
+    // const { loading, error, data, refetch } = getProductsForPagebuilderByUrlKey({ url_keys: urlKeys, pageSize: urlKeys.length });
 
     useEffect(() => {
         if (isSignedIn) refetch();

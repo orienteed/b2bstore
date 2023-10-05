@@ -1,10 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useStoreConfigContext } from '../../context/storeConfigProvider';
-
-import mergeOperations from '../../util/shallowMerge';
-import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  * @function
@@ -15,15 +12,15 @@ import DEFAULT_OPERATIONS from '../Wishlist/wishlist.gql';
 export const useCreateWishlist = (props = { numberOfWishlists: 1 }) => {
     const { numberOfWishlists } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, WISHLIST_PAGE_OPERATIONS, props.operations);
-    const { createWishlistMutation, getCustomerWishlistQuery } = operations;
+    const { createWishlist: createWishlistFromAdapter, getWishlists } = useAdapter();
+    const { getWishlistsQuery: getCustomerWishlistQuery } = getWishlists({ performQuery: false });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [displayError, setDisplayError] = useState(false);
 
-    const [createWishlist, { error: createWishlistError, loading }] = useMutation(createWishlistMutation);
+    const { createWishlist, error: createWishlistError, loading } = createWishlistFromAdapter();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const shouldRender = useMemo(() => {
         return (

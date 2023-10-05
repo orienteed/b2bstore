@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useUserContext } from '../../context/user';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '../../util/shallowMerge';
 import DEFAULT_OPERATIONS from './customerWishlist.gql';
-import WISHLIST_OPERATIONS from '../../talons/Wishlist/wishlist.gql';
 
 /**
  * A hook that queries for products in a customer's wishlists and maintains a
@@ -14,8 +14,9 @@ import WISHLIST_OPERATIONS from '../../talons/Wishlist/wishlist.gql';
  * @returns {undefined}
  */
 export const useCustomerWishlistSkus = (props = {}) => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, WISHLIST_OPERATIONS, props.operations);
-    const { getProductsInWishlistsQuery, getWishlistProductsForLocalFieldQuery } = operations;
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { getWishlistProductsForLocalFieldQuery } = operations;
+    const { getProductsInWishlists, getWishlistProductsForLocalField } = useAdapter();
 
     const [{ isSignedIn }] = useUserContext();
 
@@ -23,8 +24,9 @@ export const useCustomerWishlistSkus = (props = {}) => {
 
     const {
         client,
-        data: { customerWishlistProducts }
-    } = useQuery(getProductsInWishlistsQuery);
+        data: { customerWishlistProducts },
+        getProductsInWishlistsQuery
+    } = getProductsInWishlists();
 
     useQuery(getWishlistProductsForLocalFieldQuery, {
         fetchPolicy: 'cache-and-network',

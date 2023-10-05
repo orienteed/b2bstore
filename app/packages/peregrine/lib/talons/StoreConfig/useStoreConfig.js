@@ -1,16 +1,13 @@
-import DEFAULT_OPERATIONS from './storeConfig.gql';
-import mergeOperations from '../../util/shallowMerge';
-
-import { useQuery } from '@apollo/client';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+import { useEffect } from 'react';
 
 export const useStoreConfig = () => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS);
-    const { getStoreConfigQuery } = operations;
+    const { getStoreConfig } = useAdapter();
+    const { data, refetch } = getStoreConfig();
 
-    const { data, refetch } = useQuery(getStoreConfigQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    useEffect(() => {
+        console.log('STORE CONFIG DATA: ', data);
+    }, [data]);
 
     return {
         data,

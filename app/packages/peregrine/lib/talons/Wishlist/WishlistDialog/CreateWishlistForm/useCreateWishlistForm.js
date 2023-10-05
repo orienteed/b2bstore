@@ -1,18 +1,14 @@
 import { useCallback } from 'react';
-import { useMutation } from '@apollo/client';
 
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-
-import DEFAULT_OPERATIONS from '../../wishlist.gql';
 import { useFormState } from 'informed';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useCreateWishlistForm = props => {
     const { onCancel, onCreateList, isAddLoading } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { createWishlistMutation } = operations;
+    const { createWishlist } = useAdapter();
 
-    const [createList, { loading: isCreateLoading, error: createWishlistError }] = useMutation(createWishlistMutation);
+    const { createList, loading: isCreateLoading, error: createWishlistError } = createWishlist();
 
     const { values } = useFormState();
 

@@ -4,15 +4,14 @@ import { useApolloClient } from '@apollo/client';
 
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useSingleWishlist } from './helpers/useSingleWishlist';
-
-import DEFAULT_OPERATIONS from '../wishlist.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const useAddToListButton = props => {
     const { afterAdd, beforeAdd, item, storeConfig } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getProductsInWishlistsQuery } = operations;
+    const { getProductsInWishlists } = useAdapter();
+    
+    const { getProductsInWishlistsQuery } = getProductsInWishlists({ performQuery: false });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [successToastName, setSuccessToastName] = useState();
