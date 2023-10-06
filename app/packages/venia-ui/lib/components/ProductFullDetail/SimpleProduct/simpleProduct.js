@@ -6,6 +6,7 @@ import FullPageLoadingIndicator from '@magento/venia-ui/lib/components/LoadingIn
 import Price from '@magento/venia-ui/lib/components/Price';
 import { FormattedMessage } from 'react-intl';
 import { useSimpleProduct } from '@magento/peregrine/lib/talons/ProductFullDetail/SimpleProduct/useSimpleProduct';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton';
 import { ADD_CONFIGURABLE_PRODUCT_TO_CART } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql';
 import ErrorView from '../../ErrorView/errorView';
@@ -15,9 +16,11 @@ import SimpleProductB2C from './simpleProductB2C';
 const SimpleProduct = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const [quantity, setQuantity] = useState(1);
+    const { addConfigurableProductToCart: addConfigurableProductToCartFromAdapter, addSimpleProductToCart: addSimpleProductToCartFromAdapter } = useAdapter();
 
     const talonProps = useSimpleProduct({
-        addConfigurableProductToCartMutation: ADD_CONFIGURABLE_PRODUCT_TO_CART,
+        addConfigurableProductToCartFromAdapter,
+        addSimpleProductToCartFromAdapter,
         productQuantity: quantity
     });
     const {

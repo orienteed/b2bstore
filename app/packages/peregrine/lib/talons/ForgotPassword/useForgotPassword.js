@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useMutation } from '@apollo/client';
 
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './forgotPassword.gql';
 import mergeOperations from '../../util/shallowMerge';
@@ -24,13 +25,14 @@ export const useForgotPassword = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { requestPasswordResetEmailMutation } = operations;
+    const { requestPasswordResetEmail, generateToken } = useAdapter();
 
     const [hasCompleted, setCompleted] = useState(false);
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState(null);
 
-    const [requestResetEmail, { error: requestResetEmailError, loading: isResettingPassword }] = useMutation(
-        requestPasswordResetEmailMutation
-    );
+    const { data: tokenData } = generateToken();
+
+    const { requestResetEmail, error: requestResetEmailError, loading: isResettingPassword } = requestPasswordResetEmail();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'CUSTOMER_FORGOT_PASSWORD',
@@ -43,7 +45,7 @@ export const useForgotPassword = props => {
                 const reCaptchaData = await generateReCaptchaData();
 
                 await requestResetEmail({
-                    variables: { email },
+                    variables: { email, auth: tokenData?.data.token },
                     ...reCaptchaData
                 });
 

@@ -23,8 +23,8 @@ const isItemMissingOptions = (cartItem, configItem, numSelections) => {
 
 export const useCartOptions = props => {
     const {
-        addConfigurableProductToCartMutation,
-        addSimpleProductToCartMutation,
+        addConfigurableProductToCartFromAdapter,
+        addSimpleProductToCartFromAdapter,
         cartItem,
         configItem,
         endEditItem
@@ -52,8 +52,8 @@ export const useCartOptions = props => {
 
     const [, { updateItemInCart }] = useCartContext();
 
-    const [addConfigurableProductToCart] = useMutation(addConfigurableProductToCartMutation);
-    const [addSimpleProductToCart] = useMutation(addSimpleProductToCartMutation);
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
+    const { addSimpleProductToCart } = addSimpleProductToCartFromAdapter();
 
     const initialOptionSelections = useMemo(() => {
         const result = new Map();

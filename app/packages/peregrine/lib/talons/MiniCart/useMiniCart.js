@@ -108,10 +108,10 @@ export const useMiniCart = props => {
                 const selectedOption = confgItem.configurable_options.map(
                     ({ configurable_product_option_value_uid }) => configurable_product_option_value_uid
                 );
-                const selectedVariant = confgItem.product.variants.find(varEle => {
+                const selectedVariant = confgItem.product.variants ? confgItem.product.variants.find(varEle => {
                     const variantOption = varEle.attributes.map(({ uid }) => uid);
                     return arrayCompare(selectedOption, variantOption);
-                });
+                }) : null;
                 return {
                     name: selectedVariant?.product.name,
                     sku: selectedVariant?.product.sku,

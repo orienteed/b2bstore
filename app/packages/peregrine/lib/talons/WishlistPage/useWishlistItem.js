@@ -1,10 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
-import mergeOperations from '../../util/shallowMerge';
 
-import PRODUCT_OPERATIONS from '../ProductFullDetail/productFullDetail.gql';
 import { useEventingContext } from '../../context/eventing';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
@@ -49,11 +46,6 @@ export const useWishlistItem = props => {
         [props.supportedProductTypes, productType]
     );
 
-    const operations = mergeOperations(PRODUCT_OPERATIONS, props.operations);
-    const {
-        addProductToCartMutation,
-        addConfigurableProductToCartMutation
-    } = operations;
     const {
         addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
         addProductToCart,
@@ -93,24 +85,19 @@ export const useWishlistItem = props => {
         return item;
     }, [configurableOptions, selectedConfigurableOptions, sku]);
 
-    const [addWishlistSimpleProductToCart] = useMutation(addConfigurableProductToCartMutation, {
-        variables: {
-            cartId,
-            quantity: 1.0,
-            sku: item.product.sku,
-            parentSku: item.product.orParentSku
-        }
+    const { addConfigurableProductToCart: addWishlistSimpleProductToCart } = addConfigurableProductToCartFromAdapter({
+        cartId: cartId,
+        quantity: 1.0,
+        sku: item.product.sku,
+        parentSku: item.product.orParentSku,
+        hasProps: true
     });
 
-    const [
+    const {
         addWishlistItemToCart,
-        { error: addWishlistItemToCartError, loading: addWishlistItemToCartLoading }
-    ] = useMutation(addProductToCartMutation, {
-        variables: {
-            cartId,
-            product: cartItem
-        }
-    });
+        error: addWishlistItemToCartError,
+        loading: addWishlistItemToCartLoading
+    } = addProductToCart({ cartId: cartId, product: cartItem, initialRun: true });
 
     const { removeProductsFromWishlist } = removeProductsFromWishlistFromAdapter({
         wishlistId: wishlistId,

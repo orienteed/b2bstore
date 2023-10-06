@@ -4,15 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useNoReorderProductContext } from '@magento/venia-ui/lib/components/NoReorderProductProvider/noReorderProductProvider.js';
 
-const useReOrderItems = ({ order, addConfigurableProductToCartMutation }) => {
+const useReOrderItems = ({ order, addConfigurableProductToCartFromAdapter }) => {
     const history = useHistory();
     const { setNoProduct, setLoadingProduct } = useNoReorderProductContext();
     const [isLoading, setIsLoading] = useState(false);
     const [{ cartId }] = useCartContext();
 
-    const [addConfigurableProductToCart] = useMutation(
-        addConfigurableProductToCartMutation || operations.addConfigurableProductToCartMutation
-    );
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
 
     const handleAddToCart = useCallback(
         async product => {

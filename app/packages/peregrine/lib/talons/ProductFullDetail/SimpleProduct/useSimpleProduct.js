@@ -14,7 +14,7 @@ import { useAdapter } from '../../../hooks/useAdapter';
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 
 export const useSimpleProduct = (props = {}) => {
-    const { addConfigurableProductToCartMutation, productQuantity } = props;
+    const { addConfigurableProductToCartFromAdapter, addSimpleProductToCartFromAdapter, productQuantity } = props;
     const { formatMessage } = useIntl();
     const { search } = useLocation();
     const [{ isSignedIn }] = useUserContext();
@@ -54,13 +54,13 @@ export const useSimpleProduct = (props = {}) => {
         buttonText: isSelected =>
             isSelected
                 ? formatMessage({
-                      id: 'wishlistButton.addedText',
-                      defaultMessage: 'Added to Favorites'
-                  })
+                    id: 'wishlistButton.addedText',
+                    defaultMessage: 'Added to Favorites'
+                })
                 : formatMessage({
-                      id: 'wishlistButton.addText',
-                      defaultMessage: 'Add to Favorites'
-                  }),
+                    id: 'wishlistButton.addText',
+                    defaultMessage: 'Add to Favorites'
+                }),
         item: wishlistItemOptions,
         storeConfig: storeConfigData ? storeConfigData.storeConfig : {}
     };
@@ -71,10 +71,17 @@ export const useSimpleProduct = (props = {}) => {
 
     const [{ cartId }] = useCartContext();
 
-    const [
+    const {
         addConfigurableProductToCart,
-        { error: errorAddingConfigurableProduct, loading: isAddConfigurableLoading }
-    ] = useMutation(addConfigurableProductToCartMutation);
+        error: errorAddingConfigurableProduct,
+        loading: isAddConfigurableLoading
+    } = addConfigurableProductToCartFromAdapter({ hasProps: false });
+
+    const {
+        addSimpleProductToCart,
+        error: errorAddingSimpleProduct,
+        loading: isAddSimpleLoading
+    } = addSimpleProductToCartFromAdapter();
 
     const handleAddToCart = useCallback(async () => {
         const payload = {
@@ -94,21 +101,27 @@ export const useSimpleProduct = (props = {}) => {
 
             if (productType === 'SimpleProduct') {
                 try {
-                    await addConfigurableProductToCart({
+                    await addSimpleProductToCart({
                         variables
                     });
                 } catch {
                     return;
                 }
             } else if (productType === 'ConfigurableProduct') {
-                return;
+                try {
+                    await addConfigurableProductToCart({
+                        variables
+                    });
+                } catch {
+                    return;
+                }
             }
         } else {
             console.error('Unsupported product type. Cannot add to cart.');
         }
     }, [addConfigurableProductToCart, cartId, isSupportedProductType, data, loading, productType, productQuantity]);
 
-    const derivedErrorMessage = useMemo(() => deriveErrorMessage([errorAddingConfigurableProduct]), [
+    const derivedErrorMessage = useMemo(() => deriveErrorMessage([errorAddingConfigurableProduct || errorAddingSimpleProduct]), [
         errorAddingConfigurableProduct
     ]);
 
@@ -121,6 +134,6 @@ export const useSimpleProduct = (props = {}) => {
         fetchedData: !data ? null : data,
         error,
         isB2B,
-        isAddConfigurableLoading
+        isAddConfigurableLoading: isAddConfigurableLoading || isAddSimpleLoading
     };
 };

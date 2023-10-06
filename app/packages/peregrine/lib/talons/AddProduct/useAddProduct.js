@@ -5,7 +5,7 @@ import { useCartContext } from '@magento/peregrine/lib/context/cart';
 const SUPPORTED_PRODUCT_TYPES = ['SimpleProduct'];
 
 export const useAddProduct = props => {
-    const { addConfigurableProductToCartMutation, suggested_Product } = props;
+    const { addConfigurableProductToCartFromAdapter, addSimpleProductToCartFromAdapter, suggested_Product } = props;
 
     const productType = suggested_Product.__typename;
 
@@ -15,9 +15,9 @@ export const useAddProduct = props => {
 
     const [{ cartId }] = useCartContext();
 
-    const [addConfigurableProductToCart] = useMutation(
-        addConfigurableProductToCartMutation
-    );
+    const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
+
+    const { addSimpleProductToCart } = addSimpleProductToCartFromAdapter();
 
     const handleAddToCart = useCallback(
         async formValues => {
@@ -38,14 +38,20 @@ export const useAddProduct = props => {
 
                 if (productType === 'SimpleProduct') {
                     try {
-                        await addConfigurableProductToCart({
+                        await addSimpleProductToCart({
                             variables
                         });
                     } catch {
                         return;
                     }
                 } else if (productType === 'ConfigurableProduct') {
-                    return;
+                    try {
+                        await addConfigurableProductToCart({
+                            variables
+                        });
+                    } catch {
+                        return;
+                    }
                 }
             } else {
                 console.error('Unsupported product type. Cannot add to cart.');
