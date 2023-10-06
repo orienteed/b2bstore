@@ -6,7 +6,6 @@ import useReOrderItems from '@magento/peregrine/lib/talons/OrderHistoryPage/useR
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { fullPageLoadingIndicator } from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { FormattedMessage } from 'react-intl';
-import { ADD_CONFIGURABLE_PRODUCT_TO_CART } from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql';
 
 const ReOrder = props => {
     const { orderNumber, order, config } = props;

@@ -14,8 +14,6 @@ import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import defaultClasses from './cartOptions.module.css';
 
-import { ADD_CONFIGURABLE_PRODUCT_TO_CART, ADD_SIMPLE_PRODUCT_TO_CART } from '../ProductFullDetail/productFullDetail.gql';
-
 const Options = React.lazy(() => import('../ProductOptions'));
 
 const LOADING_TEXT = 'Fetching Options...';

@@ -12,10 +12,6 @@ import defaultClasses from './suggestedProduct.module.css';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { useAddProduct } from '@magento/peregrine/lib/talons/AddProduct/useAddProduct';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-import {
-    ADD_CONFIGURABLE_PRODUCT_TO_CART,
-    ADD_SIMPLE_PRODUCT_TO_CART
-} from '@magento/peregrine/lib/talons/ProductFullDetail/productFullDetail.gql';
 
 import { ShoppingBag as ShoppingCartIcon } from 'react-feather';
 
