@@ -6,10 +6,12 @@ import { FormattedMessage } from 'react-intl';
 import { Bell } from 'react-feather';
 import Icon from '../../Icon';
 import Tippy from '@tippyjs/react';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 const NotifyPrice = props => {
     const { handleOpenPriceModal } = props;
     const classes = useStyle(defaultClasses, props.classes);
+    const { tenantConfig } = useModulesContext();
 
     const iconB2B = (
         <Tippy
@@ -33,7 +35,7 @@ const NotifyPrice = props => {
         </Button>
     );
 
-    return <div>{process.env.IS_B2B === 'true' ? iconB2B : buttonAlertPrice}</div>;
+    return <div>{tenantConfig.b2bProductDetailView ? iconB2B : buttonAlertPrice}</div>;
 };
 
 export default NotifyPrice;

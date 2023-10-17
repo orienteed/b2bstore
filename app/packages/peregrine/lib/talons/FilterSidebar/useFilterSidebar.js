@@ -5,6 +5,7 @@ import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useAdapter } from '../../hooks/useAdapter';
 
 import { useFilterState } from '../FilterModal';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 import { getSearchFromState, getStateFromSearch, sortFiltersArray, stripHtml } from '../FilterModal/helpers';
 
 const DRAWER_NAME = 'filter';
@@ -20,6 +21,7 @@ export const useFilterSidebar = props => {
 
     const history = useHistory();
     const { pathname, search } = useLocation();
+    const { tenantConfig } = useModulesContext();
 
     const { getFilterInputs } = useAdapter();
     const { data: introspectionData } = getFilterInputs();
@@ -33,6 +35,9 @@ export const useFilterSidebar = props => {
         if (pathname !== '/search.html') {
             disabled.add('category_id');
             disabled.add('category_uid');
+        }
+        if (!tenantConfig.stockVisibility) {
+            disabled.add('stock_status');
         }
 
         return disabled;

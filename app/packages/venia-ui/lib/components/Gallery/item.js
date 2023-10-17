@@ -23,6 +23,7 @@ import { useToasts } from '@magento/peregrine';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useProductsAlert } from '@magento/peregrine/lib/talons/productsAlert/useProductsAlert';
 import StockAlertModal from '@magento/venia-ui/lib/components/ProductsAlert/StockAlertModal';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import defaultClasses from './item.module.css';
 
@@ -60,6 +61,7 @@ const GalleryItem = props => {
     const compareProps = useCompareProduct();
     const { addProductsToCompare } = compareProps;
     const [isConfigurableProductUnselected, setIsConfigurableProductUnselected] = useState(true);
+    const { tenantConfig } = useModulesContext();
 
     const productsAlert = useProductsAlert({ ItemSku: item.sku });
     const {
@@ -287,9 +289,9 @@ const GalleryItem = props => {
                 <div onClick={shareClick} className={classes.shareIcon}>
                     <ShareIcon />
                 </div>
-                <div className={classes.stockIcon}>
+                {tenantConfig.stockVisibility && (<div className={classes.stockIcon}>
                     <StockStatus status={stock_status} />
-                </div>
+                </div>)}
                 {ratingAverage}
             </div>
             <Link
@@ -357,7 +359,7 @@ const GalleryItem = props => {
                     classes.multibaleActions}`}
             >
                 {addButton}
-                {isSignedIn && (
+                {isSignedIn && tenantConfig.productComparator && (
                     <button className={classes.compareIcon} onClick={addToCompare}>
                         <CompareIcon />
                     </button>

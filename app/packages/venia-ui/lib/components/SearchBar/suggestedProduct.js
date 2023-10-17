@@ -12,6 +12,7 @@ import defaultClasses from './suggestedProduct.module.css';
 import Button from '@magento/venia-ui/lib/components/Button';
 import { useAddProduct } from '@magento/peregrine/lib/talons/AddProduct/useAddProduct';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import { ShoppingBag as ShoppingCartIcon } from 'react-feather';
 
@@ -25,6 +26,7 @@ const SuggestedProduct = props => {
     const suggested_Product = props;
     const classes = useStyle(defaultClasses, props.classes);
     const { url_key, small_image, name, onNavigate, price, url_suffix, sku, stock_status } = props;
+    const { tenantConfig } = useModulesContext();
     const { 
         addConfigurableProductToCart: addConfigurableProductToCartFromAdapter,
         addSimpleProductToCart: addSimpleProductToCartFromAdapter
@@ -61,7 +63,7 @@ const SuggestedProduct = props => {
     return (
         <div className={classes.root}>
             <Link
-                to={suggested_Product.__typename === 'SimpleProduct' ? simpleProductLink : uri}
+                to={suggested_Product.__typename === 'SimpleProduct' && tenantConfig.addToCartFromSearch ? simpleProductLink : uri}
                 onClick={handleClick}
                 data-cy="SuggestedProduct-root"
             >
@@ -86,7 +88,7 @@ const SuggestedProduct = props => {
                     </div>
                 )}
             </span>
-            {suggested_Product.__typename === 'SimpleProduct' ? (
+            {suggested_Product.__typename === 'SimpleProduct' && tenantConfig.addToCartFromSearch ? (
                 <Button
                     className={classes.addButton}
                     onClick={handleAddToCart}

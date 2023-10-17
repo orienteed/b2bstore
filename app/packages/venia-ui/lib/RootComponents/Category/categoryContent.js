@@ -4,6 +4,7 @@ import { array, number, shape, string } from 'prop-types';
 
 import { useIsInViewport } from '@magento/peregrine/lib/hooks/useIsInViewport';
 import { useCategoryContent } from '@magento/peregrine/lib/talons/RootComponents/Category';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import { useStyle } from '../../classify';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -34,6 +35,7 @@ const CategoryContent = props => {
         data,
         pageSize
     });
+    const { tenantConfig } = useModulesContext();
 
     const {
         availableSortMethods,
@@ -149,7 +151,7 @@ const CategoryContent = props => {
                             <div className={classes.headerButtons}>
                                 {maybeFilterButtons}
                                 {maybeSortButton}
-                                <DownloadCsv />
+                                {tenantConfig.downloadCsv && <DownloadCsv />}
                             </div>
                         </div>
                         {content}

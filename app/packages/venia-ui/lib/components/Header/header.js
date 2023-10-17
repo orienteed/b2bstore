@@ -24,6 +24,7 @@ import { useIntl } from 'react-intl';
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
 import CompareIcon from '@magento/venia-ui/lib/assets/compare.svg';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 const SearchBar = React.lazy(() => import('../SearchBar'));
 
@@ -41,6 +42,7 @@ const Header = props => {
     const storage = new BrowserPersistence();
     const [{ isSignedIn }] = useUserContext();
     const { productsCount } = useCompareProduct();
+    const { tenantConfig } = useModulesContext();
     const storeConfigRequiredLogin = storage.getItem('is_required_login');
     const isRequiredLogin = storeConfigRequiredLogin === '1';
 
@@ -92,13 +94,13 @@ const Header = props => {
                         <SearchTrigger onClick={handleSearchTriggerClick} ref={searchTriggerRef} />
                         <AccountTrigger />
                         <CartTrigger />
-                        {isSignedIn && productsCount > 0 && (
+                        {isSignedIn && productsCount > 0 && tenantConfig.productComparator && (
                             <Link className={classes.compareLink} to="/compare_products">
                                 <span className={classes.productsCount}>{productsCount}</span>
                                 <img src={CompareIcon} alt=" compare Icon" />
                             </Link>
                         )}
-                        <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm />}</div>
+                        {tenantConfig.quickCart && <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm />}</div>}
                     </div>
                 </div>
                 {searchBar}

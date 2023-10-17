@@ -10,6 +10,7 @@ import Icon from '../../../Icon';
 import Button from '../../../Button';
 import defaultClasses from './ProductItem.module.css';
 import { useToasts } from '@magento/peregrine';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import PlaceholderImage from '../../../Image/placeholderImage';
 
@@ -44,6 +45,7 @@ const ProductItem = props => {
     const [copied, setCopied] = useState(false);
     const productAlertStatus = variant?.product?.mp_product_alert;
     const [isItemDisabled, setIsItemDisabled] = useState(false);
+    const { tenantConfig } = useModulesContext();
     const productsAlert = useProductsAlert({ ItemSku: variant?.product?.sku });
     const {
         isStockModalOpened,
@@ -258,7 +260,7 @@ const ProductItem = props => {
                     <span>-</span>
                 )}
                 <div className={classes.stockAddContainer}>
-                    {stockStatus}
+                    {tenantConfig.stockVisibility && stockStatus}
                     {stockButton}
                 </div>
             </div>
@@ -274,10 +276,10 @@ const ProductItem = props => {
                     <div className={classes.productItemHeaderTextMobile}>
                         <h2>{nameTag}</h2>
                         <small className={classes.skuTextMobile}>{variant.product.sku}</small>
-                        <div className={classes.stockStatusContainer}>
+                        {tenantConfig.stockVisibility && (<div className={classes.stockStatusContainer}>
                             <div>{stockStatusText}:</div>
                             <div className={classes.stockStatusCircle}>{stockStatus}</div>
-                        </div>
+                        </div>)}
                         {variant?.product.stock_status === 'IN_STOCK' && <h2>{priceTag}</h2>}
                     </div>
                 </div>

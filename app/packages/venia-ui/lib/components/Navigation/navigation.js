@@ -14,6 +14,7 @@ import defaultClasses from './navigation.module.css';
 import { FocusScope } from 'react-aria';
 import { Portal } from '../Portal';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 import QuickOrderForm from '../QuickOrderForm';
 import useCompareProduct from '@magento/peregrine/lib/talons/ComparePage/useCompareProduct';
 import CompareIcon from '../../assets/compare.svg';
@@ -48,6 +49,7 @@ const Navigation = props => {
     const bodyClassName = hasModal ? classes.body_masked : classes.body;
     const tabIndex = isOpen ? '0' : '-1';
     const [{ isSignedIn }] = useUserContext();
+    const { tenantConfig } = useModulesContext();
 
     // Lazy load the auth modal because it may not be needed.
     const authModal = hasModal ? (
@@ -84,13 +86,13 @@ const Navigation = props => {
                     </div>
                     <div className={classes.footer}>
                         <div className={classes.actionsContainer}>
-                            {isSignedIn && productsCount > 0 && (
+                            {isSignedIn && productsCount > 0 && tenantConfig.productComparator && (
                                 <Link className={classes.compareLink} onClick={handleClose} to="/compare_products">
                                     <span className={classes.productsCount}>{productsCount}</span>
                                     <img src={CompareIcon} alt=" compare Icon" />
                                 </Link>
                             )}
-                            <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm />}</div>
+                            {tenantConfig.quickCart && <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm />}</div>}
                         </div>
                         <div className={classes.switchers}>
                             <StoreSwitcher />

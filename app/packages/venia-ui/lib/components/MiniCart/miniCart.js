@@ -6,6 +6,7 @@ import { bool, shape, string } from 'prop-types';
 import { useScrollLock, Price, useToasts } from '@magento/peregrine';
 import { useMiniCart } from '@magento/peregrine/lib/talons/MiniCart/useMiniCart';
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import Button from '../Button';
 import Icon from '../Icon';
@@ -52,6 +53,7 @@ const MiniCart = React.forwardRef((props, ref) => {
         isSubmitQuoteDisabled
     } = talonProps;
     const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+    const { tenantConfig } = useModulesContext();
 
     const confirmRequestQuote = async () => {
         await submitQuote();
@@ -146,7 +148,7 @@ const MiniCart = React.forwardRef((props, ref) => {
                     />
                     <FormattedMessage id={'miniCart.checkout'} defaultMessage={'CHECKOUT'} />
                 </Button>
-                {process.env.B2BSTORE_VERSION === 'PREMIUM' && requestQuoteButton}
+                {process.env.B2BSTORE_VERSION === 'PREMIUM' && tenantConfig.requestForQuote && requestQuoteButton}
                 <Button
                     onClick={handleEditCart}
                     priority="high"

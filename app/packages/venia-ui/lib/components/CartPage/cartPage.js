@@ -5,6 +5,7 @@ import { Check } from 'react-feather';
 import { useCartPage } from '@magento/peregrine/lib/talons/CartPage/useCartPage';
 import { useStyle } from '../../classify';
 import { useToasts } from '@magento/peregrine';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import Icon from '../Icon';
 import Button from '../Button';
@@ -66,6 +67,7 @@ const CartPage = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const { formatMessage } = useIntl();
     const [, { addToast }] = useToasts();
+    const { tenantConfig } = useModulesContext();
     const isPremium = process.env.B2BSTORE_VERSION === 'PREMIUM';
 
     const requestQuoteButton = (
@@ -143,8 +145,8 @@ const CartPage = props => {
                         {priceSummary}
                         <div className={classes.additionalOptionsContainer}>
                             {hasItems && isPremium ? <SavedCartButton /> : null}
-                            {hasItems && isPremium && requestQuoteButton}
-                            {hasItems ? printPdfButton : null}
+                            {hasItems && isPremium && tenantConfig.requestForQuote && requestQuoteButton}
+                            {hasItems && tenantConfig.printPdfOfTheCart && printPdfButton}
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@ import { useStyle } from '../../classify';
 import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
 import { useQuickOrderForm } from '@magento/peregrine/lib/talons/QuickOrderForm/useQuickOrderForm';
 import { useAddToQuote } from '@magento/peregrine/lib/talons/QuickOrderForm/useAddToQuote';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import defaultClasses from './quickOrderForm.module.css';
 
@@ -27,6 +28,7 @@ const QuickOrderForm = props => {
     const [, { addToast }] = useToasts();
     const { formatMessage } = useIntl();
     const { push } = useHistory();
+    const { tenantConfig } = useModulesContext();
 
     // States
     const [csvData, setCsvData] = useState([]);
@@ -191,7 +193,7 @@ const QuickOrderForm = props => {
                 <Icon className={classes.addCartIcon} src={ArrowDown} alt="arrowDown-icon" />
             </Button>
         </div>,
-        process.env.B2BSTORE_VERSION === 'PREMIUM' && (
+        process.env.B2BSTORE_VERSION === 'PREMIUM' && tenantConfig.requestForQuote && (
             <div>
                 <Button disabled={isLoadingAddQuote} type="button" priority="high" onClick={addQuoteClick}>
                     <FormattedMessage id="quickOrder.GetQuote" defaultMessage="Get Quote" />

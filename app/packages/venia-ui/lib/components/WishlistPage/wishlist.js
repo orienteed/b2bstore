@@ -15,6 +15,7 @@ import ActionMenu from './actionMenu';
 import { useToasts } from '@magento/peregrine';
 import { useReactToPrint } from 'react-to-print';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import { ShareWithBorderIcon } from '@magento/venia-ui/lib/assets/shareWithBorderIcon';
 import { ThrashIcon } from '@magento/venia-ui/lib/assets/ThrashIcon';
@@ -32,6 +33,7 @@ const Wishlist = props => {
     const { id, items_count: itemsCount, name, visibility } = data;
 
     const { removeProductsFromWishlist: removeProductsFromWishlistFromAdapter } = useAdapter();
+    const { tenantConfig } = useModulesContext();
 
     const [isRemovalInProgress, setIsRemovalInProgress] = useState(false);
     const [, { addToast }] = useToasts();
@@ -178,11 +180,11 @@ const Wishlist = props => {
                     <FormattedMessage id={'wishlist.printPage'} defaultMessage={'Print page'} />
                 </span>
             </button>
-            <CSVLink filename="Downloaded-favourateItems.csv" data={csvItems}>
+            {tenantConfig.downloadCsv && (<CSVLink filename="Downloaded-favourateItems.csv" data={csvItems}>
                 <Button priority='high'>
                     <FormattedMessage id={'download'} defaultMessage={'download'} />
                 </Button>
-            </CSVLink>
+            </CSVLink>)}
         </section>
     );
 

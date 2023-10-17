@@ -79,11 +79,6 @@ export const useAccountMenuItems = props => {
             url: '/order-history'
         },
         {
-            name: 'Offers',
-            id: 'accountMenu.myQuotes',
-            url: '/mprequestforquote/customer/quotes'
-        },
-        {
             name: 'Favorites Lists',
             id: 'accountMenu.favoritesListsLink',
             url: '/wishlist'
@@ -113,6 +108,15 @@ export const useAccountMenuItems = props => {
         };
         MENU_ITEMS_BASIC.push(lmsItem);
         MENU_ITEMS_PREMIUM.push(lmsItem);
+    }
+
+    if (tenantConfig.requestForQuote) {
+        const quoteItem = {
+            name: 'Offers',
+            id: 'accountMenu.myQuotes',
+            url: '/mprequestforquote/customer/quotes'
+        };
+        MENU_ITEMS_PREMIUM.push(quoteItem);
     }
 
     if (tenantConfig?.productAlertEnabled) {
