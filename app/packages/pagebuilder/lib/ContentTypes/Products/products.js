@@ -111,11 +111,11 @@ const Products = props => {
         return productUrlSuffix ? slug.replace(productUrlSuffix, '') : slug;
     });
 
-    const { loading, error, data, refetch } = useQuery(getProductsQuery, {
-        variables: { url_keys: urlKeys, pageSize: urlKeys.length }
-    });
+    // const { loading, error, data, refetch } = useQuery(getProductsQuery, {
+    //     variables: { url_keys: urlKeys, pageSize: urlKeys.length }
+    // });
 
-    // const { loading, error, data, refetch } = getProductsForPagebuilderByUrlKey({ url_keys: urlKeys, pageSize: urlKeys.length });
+    const { loading, error, data, refetch } = getProductsForPagebuilderByUrlKey({ url_keys: urlKeys, pageSize: urlKeys.length });
 
     useEffect(() => {
         if (isSignedIn) refetch();

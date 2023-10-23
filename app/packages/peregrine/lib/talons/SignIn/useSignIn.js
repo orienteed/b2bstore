@@ -46,7 +46,7 @@ export const useSignIn = props => {
 
     // BIGCOMMERCE ADAPTER
 
-    const { data: tokenData } = generateToken();
+    const { data: tokenData } = generateToken({channelId: tenantConfig.bigcommerceChannelId});
 
     const { signIn, error: signInError } = signInFromAdapter();
 

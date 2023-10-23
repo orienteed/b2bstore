@@ -10,13 +10,13 @@ import { Message } from '../Field';
 import defaultClasses from './quantityStepper.module.css';
 
 const QuantityStepper = props => {
-    const { initialValue, itemId, label, min, onChange, message, fieldName = 'quantity', textProps } = props;
+    const { initialValue, itemId, label, min, onChange, message, fieldName = 'quantity', textProps, value } = props;
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
     const iconClasses = { root: classes.icon };
 
     const talonProps = useQuantityStepper({
-        initialValue,
+        initialValue: value || initialValue,
         min,
         onChange,
         fieldName

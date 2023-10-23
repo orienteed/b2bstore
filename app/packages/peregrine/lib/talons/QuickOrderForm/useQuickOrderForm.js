@@ -24,7 +24,7 @@ export const useQuickOrderForm = props => {
 
     const { addConfigurableProductToCart } = addConfigurableProductToCartFromAdapter({ hasProps: false });
     const { getParentSku } = getParentSkuBySku();
-    const getproduct = useAwaitQuery(getProductBySkuQuery);
+    const { getproduct } = getProductDetailForQuickOrderBySku();
 
     const handleCSVFile = () => {
         const input = document.createElement('input');
@@ -45,7 +45,7 @@ export const useQuickOrderForm = props => {
             setIsCsvDialogOpen(true);
         } else {
             Papa.parse(file, {
-                complete: function(result) {
+                complete: function (result) {
                     const dataValidated = formatData(result.data);
                     setProducts([]);
                     dataValidated.map(async item => {

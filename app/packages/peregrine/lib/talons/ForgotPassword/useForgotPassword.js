@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 
 import { useGoogleReCaptcha } from '@magento/peregrine/lib/hooks/useGoogleReCaptcha';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 import DEFAULT_OPERATIONS from './forgotPassword.gql';
 import mergeOperations from '../../util/shallowMerge';
@@ -25,12 +26,13 @@ export const useForgotPassword = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { requestPasswordResetEmailMutation } = operations;
+    const { tenantConfig } = useModulesContext();
     const { requestPasswordResetEmail, generateToken } = useAdapter();
 
     const [hasCompleted, setCompleted] = useState(false);
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState(null);
 
-    const { data: tokenData } = generateToken();
+    const { data: tokenData } = generateToken({channelId: tenantConfig.bigcommerceChannelId});
 
     const { requestResetEmail, error: requestResetEmailError, loading: isResettingPassword } = requestPasswordResetEmail();
 
