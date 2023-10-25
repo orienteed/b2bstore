@@ -185,6 +185,17 @@ const toEqualFilter = values => {
     }
 };
 
+const toEqualStockStatus = values => {
+    if (values.size > 1) {
+        return {
+            in: Array.from(values).map(getValueFromFilterString)
+        };
+    } else {
+        return {
+            eq: getValueFromFilterString(Array.from(values)[0])
+        };
+    }
+};
 /**
  * Converts a set of values into a match filter
  * @param {Set} values
@@ -196,7 +207,9 @@ const toMatchFilter = values => {
 const CONVERSION_FUNCTIONS = {
     FilterEqualTypeInput: toEqualFilter,
     FilterMatchTypeInput: toMatchFilter,
-    FilterRangeTypeInput: toRangeFilter
+    FilterRangeTypeInput: toRangeFilter,
+    ProductStockStatusFilterInput:toEqualStockStatus
+
 };
 
 /**

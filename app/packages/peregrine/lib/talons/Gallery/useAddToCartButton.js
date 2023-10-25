@@ -29,7 +29,7 @@ export const useAddToCartButton = props => {
     const [, { addToast }] = useToasts();
     const { formatMessage } = useIntl();
     const { location } = useHistory();
-    const isHomePage = location.pathname === '/';
+    const isNotSelectablePage = location.pathname === '/' || 'compare_products';
 
     const { item, urlSuffix, quantity, setIsConfigurableProductUnselected } = props;
 
@@ -78,7 +78,7 @@ export const useAddToCartButton = props => {
                     timeout: 6000
                 });
             } else if (productType === 'ConfigurableProduct') {
-                if (!isHomePage) {
+                if (!isNotSelectablePage) {
                     setIsConfigurableProductUnselected(false);
                     addToast({
                         type: 'error',
@@ -89,7 +89,7 @@ export const useAddToCartButton = props => {
                         timeout: 6000
                     });
                     return;
-                } else if (isHomePage) {
+                } else if (isNotSelectablePage) {
                     const productLink = resourceUrl(`/${item.url_key}${urlSuffix || ''}`);
                     history.push(productLink);
                 }
@@ -98,7 +98,7 @@ export const useAddToCartButton = props => {
             }
         } catch (err) {
             console.error('Failed to add product to cart', err);
-            setIsLoading(false)
+            setIsLoading(false);
             addToast({
                 type: 'error',
                 message: formatMessage({
