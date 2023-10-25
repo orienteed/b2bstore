@@ -1,5 +1,16 @@
 # B2BStore 0.13
 ## 🪄 Enhancements
+  - Add a new filter "Stock status" in the PLP
+  - In Compare Products page, possible to Add to Cart
+## 🛠 Bug fixes 
+  - Order email received with the lastname generic field
+  - Research when Create Support tickets are with NaN undefined at Creation Date, Last Update and Status
+  - Black box at saved carts are still with no content
+  - Some Emails are in English when the user is at Spain site
+  - Every Email link it goes to Luma Site
+
+# B2BStore 0.13
+## 🪄 Enhancements
   - Shipment: Post code field has an index validator
   - Shipment: phone number has a validator 
   - Shipment: Added back option in checkout page
