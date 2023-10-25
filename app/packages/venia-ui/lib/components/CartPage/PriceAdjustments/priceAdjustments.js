@@ -5,7 +5,7 @@ import { func } from 'prop-types';
 import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator';
 import { useStyle } from '../../../classify';
 import { Accordion, Section } from '../../Accordion';
-import GiftCardSection from './giftCardSection';
+import GiftCardSection from './giftCardSection.ee'; // Change import when adding Magento
 import GiftOptionsSection from './giftOptionsSection';
 import defaultClasses from './priceAdjustments.module.css';
 
