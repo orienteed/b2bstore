@@ -1,4 +1,4 @@
-# B2BStore 0.13
+# B2BStore 0.14
 ## 🪄 Enhancements
   - Add a new filter "Stock status" in the PLP
   - In Compare Products page, possible to Add to Cart
