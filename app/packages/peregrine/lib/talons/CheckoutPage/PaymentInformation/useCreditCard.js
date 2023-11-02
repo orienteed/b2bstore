@@ -12,7 +12,6 @@ import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
 import BILLING_ADDRESS_OPERATIONS from '../BillingAddress/billingAddress.gql';
 import PAYMENT_INFORMATION_OPERATIONS from './paymentInformation.gql';
 import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 
 /**
  * Maps address response data from GET_BILLING_ADDRESS and GET_SHIPPING_ADDRESS
@@ -112,7 +111,6 @@ export const useCreditCard = props => {
         BILLING_ADDRESS_OPERATIONS,
         PAYMENT_INFORMATION_OPERATIONS,
         PAYMENT_METHODS_OPERATIONS,
-        SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
 
@@ -121,12 +119,11 @@ export const useCreditCard = props => {
         getCustomerAddressesQuery,
         getIsBillingAddressSameQuery,
         getPaymentNonceQuery,
-        getShippingInformationQuery,
         setBillingAddressMutation,
         setDefaultBillingAddressMutation,
         setPaymentMethodOnCartMutation
     } = operations;
-    const { getCustomerAddressesForAddressBook } = useAdapter();
+    const { getCustomerAddressesForAddressBook, getBillingAddress, setBillingAddress: setBillingAddressFromAdapter, getShippingInformation } = useAdapter();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'BRAINTREE',
@@ -164,13 +161,11 @@ export const useCreditCard = props => {
 
     const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
+    const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
+
     // END
 
     const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
-    const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
         skip: !cartId,
         variables: { cartId }
     });

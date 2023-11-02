@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useAppContext } from '../../../context/app';
@@ -14,9 +13,9 @@ import { deriveErrorMessage } from '../../../util/deriveErrorMessage';
 export const useAddressBook = props => {
     const { toggleActiveContent, onSuccess } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, SHIPPING_INFORMATION_OPERATIONS, props.operations);
-    const { getCustomerAddressesQuery, getCustomerCartAddressQuery, setDefaultAddressIdOnCartMutation } = operations;
-    const { getCustomerAddressesForAddressBook } = useAdapter();
+    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
+    const { getCustomerCartAddressQuery } = operations;
+    const { getCustomerAddressesForAddressBook, setCustomerAddressIdOnCart } = useAdapter();
 
     const [, { toggleDrawer }] = useAppContext();
     const [{ cartId }] = useCartContext();
@@ -32,14 +31,11 @@ export const useAddressBook = props => {
 
     // END
 
-    const [
+    const {
         setCustomerAddressOnCart,
-        { error: setCustomerAddressOnCartError, loading: setCustomerAddressOnCartLoading }
-    ] = useMutation(setDefaultAddressIdOnCartMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: setCustomerAddressOnCartError,
+        loading: setCustomerAddressOnCartLoading
+    } = setCustomerAddressIdOnCart({ onSuccess: onSuccess, hasOnSuccess: true });
 
     const { data: customerCartAddressData, loading: customerCartAddressLoading } = useQuery(
         getCustomerCartAddressQuery,

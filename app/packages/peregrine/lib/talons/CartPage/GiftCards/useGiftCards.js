@@ -4,7 +4,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
-import DEFAULT_OPERATIONS from './giftCardQueries.gql';
+import DEFAULT_OPERATIONS from './giftCardQueries.gql.ee';
 
 // To keep track of the most recent action taken.
 const actions = {

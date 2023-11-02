@@ -1,11 +1,9 @@
 import { useCallback, useMemo } from 'react';
-import { useMutation } from '@apollo/client';
 
 import { useEventingContext } from '../../../../context/eventing';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-import SHIPPING_INFORMATION_OPERATIONS from '../shippingInformation.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../../AddressBookPage/addressBookPage.gql';
 
 export const useCustomerForm = props => {
@@ -13,13 +11,11 @@ export const useCustomerForm = props => {
 
     const operations = mergeOperations(
         ADDRESS_BOOK_OPERATIONS,
-        SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
 
     const {
-        getCustomerAddressesQuery,
-        getDefaultShippingQuery
+        getCustomerAddressesQuery
     } = operations;
     const {
         updateCustomerAddressInAddressBook,
@@ -134,7 +130,7 @@ export const useCustomerForm = props => {
                         variables: {
                             address: customerAddress
                         },
-                        refetchQueries: [{ query: getCustomerAddressesQuery }, { query: getDefaultShippingQuery }]
+                        refetchQueries: [{ query: getCustomerAddressesQuery }/*, { query: getDefaultShippingQuery }*/]
                     });
                     dispatchEvent('ADD', customerAddress);
                 }
@@ -150,7 +146,7 @@ export const useCustomerForm = props => {
             afterSubmit,
             createCustomerAddress,
             getCustomerAddressesQuery,
-            getDefaultShippingQuery,
+            //getDefaultShippingQuery,
             isUpdate,
             shippingData,
             updateCustomerAddress,

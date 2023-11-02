@@ -8,7 +8,6 @@ import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import DEFAULT_OPERATIONS from './billingAddress.gql';
 import ADDRESS_BOOK_OPERATIONS from '../../AddressBookPage/addressBookPage.gql';
-import SHIPPING_INFORMATION_OPERATIONS from '../ShippingInformation/shippingInformation.gql';
 
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
@@ -101,7 +100,6 @@ export const useBillingAddress = props => {
     const operations = mergeOperations(
         DEFAULT_OPERATIONS,
         ADDRESS_BOOK_OPERATIONS,
-        SHIPPING_INFORMATION_OPERATIONS,
         props.operations
     );
     const [, { addToast }] = useToasts();
@@ -110,11 +108,10 @@ export const useBillingAddress = props => {
         getBillingAddressQuery,
         getCustomerAddressesQuery,
         getIsBillingAddressSameQuery,
-        getShippingInformationQuery,
         setBillingAddressMutation,
         setDefaultBillingAddressMutation
     } = operations;
-    const { getCustomerAddressesForAddressBook } = useAdapter();
+    const { getCustomerAddressesForAddressBook, getBillingAddress, setBillingAddress: setBillingAddressFromAdapter, getShippingInformation } = useAdapter();
 
     const client = useApolloClient();
     const formState = useFormState();
@@ -127,12 +124,9 @@ export const useBillingAddress = props => {
 
     const { data: customerAddressesData } = getCustomerAddressesForAddressBook({ isSignedIn: isSignedIn });
 
-    // END
+    const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
 
-    const { data: shippingAddressData } = useQuery(getShippingInformationQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    // END
 
     const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
         skip: !cartId,
