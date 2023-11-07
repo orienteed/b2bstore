@@ -41,7 +41,7 @@ export const useAutocomplete = props => {
 
     // Handle results.
     const products = data && data.products;
-    const filters = data && data.products.aggregations;
+    const filters = data && data.products?.aggregations;
     const hasResult = products && products.items;
     const resultCount = products && products.total_count;
     const displayResult = valid && hasResult;
