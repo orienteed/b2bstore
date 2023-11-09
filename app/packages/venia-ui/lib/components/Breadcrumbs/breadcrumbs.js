@@ -33,33 +33,32 @@ const Breadcrumbs = props => {
     const { currentCategory, currentCategoryPath, hasError, isLoading, normalizedData, handleClick } = talonProps;
 
     const productLink = product => resourceUrl(`/${product.url_key}${product.url_suffix || ''}`);
+    const configurableProducts = currentUrlKeys?.items.filter(({ __typename }) => __typename === 'ConfigurableProduct');
 
     const moveToOtherProcuct = type => {
-        const configrableProducts = currentUrlKeys?.items.filter(
-            ({ __typename }) => __typename === 'ConfigurableProduct'
-        );
-        const configrableIndex = configrableProducts.findIndex(ele => ele.sku === productSku);
-        if (type === 'next' && configrableIndex === configrableProducts?.length - 1) {
-            const product = configrableProducts[0];
+
+        const configrableIndex = configurableProducts.findIndex(ele => ele.sku === productSku);
+        if (type === 'next' && configrableIndex === configurableProducts?.length - 1) {
+            const product = configurableProducts[0];
             history.push({
                 pathname: productLink(product),
                 state: { urlKeys: currentUrlKeys }
             });
         } else if (type === 'prev' && configrableIndex === 0) {
-            const product = configrableProducts[configrableProducts?.length - 1];
+            const product = configurableProducts[configurableProducts?.length - 1];
             history.push({
                 pathname: productLink(product),
                 state: { urlKeys: currentUrlKeys }
             });
-        } else if (configrableIndex < configrableProducts?.length) {
+        } else if (configrableIndex < configurableProducts?.length) {
             if (type === 'prev') {
-                const prevProduct = configrableProducts[configrableIndex - 1];
+                const prevProduct = configurableProducts[configrableIndex - 1];
                 history.push({
                     pathname: productLink(prevProduct),
                     state: { urlKeys: currentUrlKeys }
                 });
             } else if (type === 'next') {
-                const nextProduct = configrableProducts[configrableIndex + 1];
+                const nextProduct = configurableProducts[configrableIndex + 1];
                 history.push({
                     pathname: productLink(nextProduct),
                     state: { urlKeys: currentUrlKeys }
@@ -122,11 +121,11 @@ const Breadcrumbs = props => {
             </div>
 
             {(urlKeysHistory || currentUrlKeys) && (
-                <div className={classes.rightNav}>
-                    <button onClick={() => moveToOtherProcuct('prev')}>
+                <div className={`${classes.rightNav} ${(configurableProducts?.length < 2) ? 'disabled' : ''}`}>
+                    <button onClick={() => moveToOtherProcuct('prev')} disabled={configurableProducts?.length < 2}>
                         <Icon src={ChevronLeftIcon} />
                     </button>
-                    <button onClick={() => moveToOtherProcuct('next')}>
+                    <button onClick={() => moveToOtherProcuct('next')} disabled={configurableProducts?.length < 2}>
                         <Icon src={ChevronRightIcon} />
                     </button>
                 </div>

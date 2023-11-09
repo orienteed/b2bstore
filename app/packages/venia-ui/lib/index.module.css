@@ -99,6 +99,13 @@
     touch-action: none;
 }
 
+:global(.disabled) {
+    cursor: default;
+    touch-action: none;
+    pointer-events:none;
+    opacity:0.25;
+}
+
 :global(.braintree-sheet__content--form
         .braintree-form__field-group
         .braintree-form__field
