@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 const CourseMiddleware = () => {
     const talonProps = useLearningRoute();
     const [{ isSignedIn }] = useUserContext();
-    const { userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty, courses } = talonProps;
+    const { userCoursesIdList, setUserCoursesIdList, courses } = talonProps;
     const { courseId } = useParams();
     console.log({ talonProps });
     return isSignedIn ? (
@@ -16,8 +16,7 @@ const CourseMiddleware = () => {
             courseId={courseId}
             courses={courses}
             userCoursesIdList={userCoursesIdList}
-            setUserCoursesIdList={setUserCoursesIdList}
-            setMarkAsDoneListQty={setMarkAsDoneListQty}
+            setUserCoursesIdList={setUserCoursesIdList}    
         />
     ) : (
         <Redirect to={'/sign-in'} />

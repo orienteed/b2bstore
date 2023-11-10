@@ -25,13 +25,12 @@ import { ViewIcon } from '@magento/venia-ui/lib/assets/viewIcon';
 import { DownloadIcon } from '@magento/venia-ui/lib/assets/downloadIcon';
 
 const CourseModuleContent = props => {
-    const { courseModule, isEnrolled, setMarkAsDoneListQty, white } = props;
+    const { courseModule, isEnrolled, setModulesDoneList, modulesDoneList, white } = props;
     const classes = useStyle(defaultClasses, props.classes);
 
     const {
         courseModuleUrl,
         isConfirmationModalOpen,
-        isDone,
         isModalOpen,
         setConfirmationModalOpen,
         setIsDone,
@@ -42,7 +41,7 @@ const CourseModuleContent = props => {
         completiondata: courseModule.completiondata,
         isEnrolled
     });
-
+    
     const { formatMessage } = useIntl();
 
     const markAsDoneText = formatMessage({ id: 'lms.markAsDone', defaultMessage: 'Mark as done' });
@@ -68,8 +67,8 @@ const CourseModuleContent = props => {
 
     const handleMarkAsDone = () => {
         setConfirmationModalOpen(false);
-        markAsDone(courseModule.id).then(reply =>
-            reply ? setIsDone(true) && setMarkAsDoneListQty(list => [...list, true]) : null
+        markAsDone(courseModule.id).then(reply => 
+                reply ? (modulesDoneList.indexOf(courseModule.id) < 0) && setModulesDoneList(list => [...list, courseModule.id]) : null            
         );
     };
 
@@ -103,7 +102,7 @@ const CourseModuleContent = props => {
     };
 
     const markAsDoneButton = () => {
-        return isDone ? (
+        return (modulesDoneList.indexOf(courseModule.id) >= 0) ? (
             <img title={doneText} src={checkFillIcon} className={classes.actionIconsDisabled} alt="Done" />
         ) : (
             <button className={classes.actionIcons} onClick={() => handleOpenConfirmationModal()}>

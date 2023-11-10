@@ -20,7 +20,7 @@ import LoadingIndicator from '@magento/venia-ui/lib/components/LoadingIndicator'
 const DELIMITER = '/';
 
 const CourseContent = props => {
-    const { courseId, userCoursesIdList, setUserCoursesIdList, setMarkAsDoneListQty, courses } = props;
+    const { courseId, userCoursesIdList, setUserCoursesIdList, courses } = props;
     const classes = useStyle(defaultClasses, props.classes);
     const {
         courseContent,
@@ -51,7 +51,8 @@ const CourseContent = props => {
     const [sectionSelected, setSectionSelected] = useState('');
     const [modules, setModules] = useState([]);
     const [moduleSelected, setModuleSelected] = useState();
-
+    const [modulesDoneList, setModulesDoneList] = useState([]);
+    
     useEffect(() => {
         if (courseContent !== undefined && courseDetails !== undefined) {
             // TODO_B2B: Translations
@@ -63,11 +64,17 @@ const CourseContent = props => {
                     moduleList.push(course);
                 }
             });
-
             setSections(sectionList);
             setSectionSelected(sectionList[0]);
             setModules(moduleList);
             setModuleSelected(moduleList[0]);
+            //for each module in each topic in the course we check if is done and set the modulesDoneList
+            let modulesDone = [];
+            courseContent.forEach((el) => { 
+                if(el.modules?.length > 0)
+                    el.modules.forEach((mod) => (mod.completiondata?.state > 0) && modulesDone.push(mod.id) );
+            });
+            setModulesDoneList(modulesDone);
         }
     }, [courseContent, courseDetails]);
 
@@ -212,7 +219,8 @@ const CourseContent = props => {
                                                         <CourseModuleContent
                                                             courseModule={module}
                                                             isEnrolled={enrolled}
-                                                            setMarkAsDoneListQty={setMarkAsDoneListQty}
+                                                            modulesDoneList={modulesDoneList}
+                                                            setModulesDoneList={setModulesDoneList}
                                                             key={module.id}
                                                             white={i % 2 === 0}
                                                         />
