@@ -23,7 +23,8 @@ const CustomerCreditSystem = props => {
         onPaymentError,
         resetShouldSubmit,
         shouldSubmit,
-        paymentMethodMutationData
+        paymentMethodMutationData,
+        cartId
     });
     const { data } = getPriceSummary({ cartId: cartId });
     const priceSummary = data?.cart?.prices.grand_total;

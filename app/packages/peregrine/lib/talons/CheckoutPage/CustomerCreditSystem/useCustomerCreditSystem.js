@@ -6,6 +6,7 @@ import Icon from '@magento/venia-ui/lib/components/Icon';
 
 import { useQuery } from '@apollo/client';
 import { useToasts } from '@magento/peregrine/lib/Toasts/useToasts';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import DEFAULT_OPERATIONS from './customerCreditSystem.gql';
@@ -15,10 +16,11 @@ const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 export const useCustomerCreditSystem = props => {
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getWebkulPaymentCreditSystemConfigQuery } = operations;
+    const { getWebkulPaymentCreditSystemConfig } = useAdapter();
 
     const { formatMessage } = useIntl();
 
-    const { onPaymentSuccess, resetShouldSubmit, shouldSubmit, onPaymentError, paymentMethodMutationData } = props;
+    const { onPaymentSuccess, resetShouldSubmit, shouldSubmit, onPaymentError, paymentMethodMutationData, cartId } = props;
 
     const [, { addToast }] = useToasts();
 
@@ -29,10 +31,7 @@ export const useCustomerCreditSystem = props => {
     const paymentMethodMutationCalled = paymentMethodMutationData?.paymentMethodMutationCalled;
 
     // Get config details
-    const { data, loading } = useQuery(getWebkulPaymentCreditSystemConfigQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first'
-    });
+    const { data, loading } = getWebkulPaymentCreditSystemConfig({ cartId: cartId });
 
     useEffect(() => {
         if (data != undefined) {
