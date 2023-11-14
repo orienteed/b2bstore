@@ -42,7 +42,6 @@ const SearchBar = React.forwardRef((props, ref) => {
                     <div className={classes.search}>
                         <SearchField
                             value={value || searchText}
-                            isSearchOpen={isOpen}
                             onChange={e => {
                                 handleChange(e);
                                 setSearchText && setSearchText(e);
