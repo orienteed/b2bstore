@@ -41,7 +41,7 @@ export const useCategoryContent = props => {
                 }
             });
         }
-    }, [categoryId, getFilters]);
+    }, [categoryId]);
 
     useEffect(() => {
         if (categoryId) {
@@ -61,7 +61,7 @@ export const useCategoryContent = props => {
             setItems(itemsData);
         }
     }, [data, placeholderItems]);
-
+    
     const filters = filterData ? filterData.products.aggregations : null;
     const totalPagesFromData = data ? data.products.page_info.total_pages : null;
     const totalCount = data ? data.products.total_count : null;
