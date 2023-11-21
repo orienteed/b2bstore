@@ -204,7 +204,7 @@ export const useSearchPage = (props = {}) => {
         return () => {
             setTotalPages(null);
         };
-    }, [data, setTotalPages]);
+    }, [data]);
 
     useEffect(() => {
         if (inputText) {
@@ -214,7 +214,7 @@ export const useSearchPage = (props = {}) => {
                 }
             });
         }
-    }, [inputText, getSortMethods]);
+    }, [inputText]);
 
     // Fetch category filters for when a user is searching in a category.
     const { getFilters, data: filterData } = getProductFiltersBySearch();
@@ -227,7 +227,7 @@ export const useSearchPage = (props = {}) => {
                 }
             });
         }
-    }, [getFilters, inputText, search]);
+    }, [inputText, search]);
 
     // Use static category filters when filtering by category otherwise use the
     // default (and potentially changing!) aggregations from the product query.

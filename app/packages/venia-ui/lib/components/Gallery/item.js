@@ -200,11 +200,11 @@ const GalleryItem = props => {
         }));
     };
     const customAttributes = () =>
-        custom_attributes?.slice(0, 3).map(({ attribute_metadata, selected_attribute_options }) => {
+        custom_attributes?.slice(0, 3).map(({ attribute_metadata, selected_attribute_options },index) => {
             let labelValue = selected_attribute_options.attribute_option[0]?.label;
             labelValue?.length > 15 ? (labelValue = labelValue.slice(0, 15) + '...') : labelValue;
             return (
-                <div className={classes.customAttributes}>
+                <div className={classes.customAttributes} key={index} >
                     <span>{attribute_metadata?.label}:</span>
                     <span>{labelValue}</span>
                 </div>
