@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useGoogleReCaptcha } from '../../../hooks/useGoogleReCaptcha';
@@ -115,15 +115,17 @@ export const useCreditCard = props => {
     );
 
     const {
-        getBillingAddressQuery,
-        getCustomerAddressesQuery,
         getIsBillingAddressSameQuery,
-        getPaymentNonceQuery,
-        setBillingAddressMutation,
-        setDefaultBillingAddressMutation,
-        setPaymentMethodOnCartMutation
+        getPaymentNonceQuery
     } = operations;
-    const { getCustomerAddressesForAddressBook, getBillingAddress, setBillingAddress: setBillingAddressFromAdapter, getShippingInformation } = useAdapter();
+    const { 
+        getCustomerAddressesForAddressBook, 
+        getBillingAddress, 
+        setBillingAddress: setBillingAddressFromAdapter,
+        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
+        getShippingInformation,
+        setPaymentMethodOnCart,
+    } = useAdapter();
 
     const { recaptchaLoading, generateReCaptchaData, recaptchaWidgetProps } = useGoogleReCaptcha({
         currentForm: 'BRAINTREE',
@@ -163,38 +165,34 @@ export const useCreditCard = props => {
 
     const { data: shippingAddressData } = getShippingInformation({ cartId: cartId });
 
+    const {
+        fetch: updateCCDetails,
+        error: ccMutationError,
+        called: ccMutationCalled,
+        loading: ccMutationLoading
+    } = setPaymentMethodOnCart();
+
     // END
 
-    const { data: billingAddressData } = useQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { data: billingAddressData } = getBillingAddress({ cartId: cartId });
+
     const { data: isBillingAddressSameData } = useQuery(getIsBillingAddressSameQuery, {
         skip: !cartId,
         variables: { cartId }
     });
-    const [
+    const {
         updateBillingAddress,
-        {
-            error: billingAddressMutationError,
-            called: billingAddressMutationCalled,
-            loading: billingAddressMutationLoading
-        }
-    ] = useMutation(setBillingAddressMutation);
+        error: billingAddressMutationError,
+        called: billingAddressMutationCalled,
+        loading: billingAddressMutationLoading
+    } = setBillingAddressFromAdapter();
 
-    const [
+    const {
         updateDefaultBillingAddress,
-        {
-            error: defaultBillingAddressMutationError,
-            called: defaultBillingAddressMutationCalled,
-            loading: defaultBillingAddressMutationLoading
-        }
-    ] = useMutation(setDefaultBillingAddressMutation);
-
-    const [
-        updateCCDetails,
-        { error: ccMutationError, called: ccMutationCalled, loading: ccMutationLoading }
-    ] = useMutation(setPaymentMethodOnCartMutation);
+        error: defaultBillingAddressMutationError,
+        called: defaultBillingAddressMutationCalled,
+        loading: defaultBillingAddressMutationLoading
+    } = setDefaultBillingAddressFromAdapter();
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart.shipping_addresses[0].country.code
@@ -262,12 +260,13 @@ export const useCreditCard = props => {
                 sameAsShipping: true
             }
         });
-    }, [updateBillingAddress, shippingAddressData, cartId]);
+    }, [shippingAddressData, cartId]);
 
     const setDefaultBillingAddress = useCallback(() => {
         const {
             defaultBillingAddressObject: { id }
         } = initialValues;
+        console.log(1)
 
         updateDefaultBillingAddress({
             variables: {
@@ -275,7 +274,7 @@ export const useCreditCard = props => {
                 customerAddressId: id
             }
         });
-    }, [updateDefaultBillingAddress, initialValues, cartId]);
+    }, [initialValues, cartId]);
 
     /**
      * This function sets the billing address on the cart using the
@@ -308,7 +307,7 @@ export const useCreditCard = props => {
                 sameAsShipping: false
             }
         });
-    }, [formState.values, updateBillingAddress, cartId]);
+    }, [formState.values, cartId]);
 
     /**
      * This function sets the payment nonce details in the cache.
@@ -360,7 +359,7 @@ export const useCreditCard = props => {
                 }
             });
         },
-        [updateCCDetails, cartId]
+        [cartId]
     );
 
     /**

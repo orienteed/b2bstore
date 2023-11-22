@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import DEFAULT_OPERATIONS from './shippingMethod.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useEventingContext } from '../../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 export const displayStates = {
     DONE: 'done',
@@ -45,12 +43,7 @@ const DEFAULT_AVAILABLE_SHIPPING_METHODS = [];
 export const useShippingMethod = props => {
     const { onSave, onSuccess, setPageIsUpdating } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-
-    const {
-        getSelectedAndAvailableShippingMethodsQuery,
-        setShippingMethodMutation
-    } = operations;
+    const { getSelectedAndAvailableShippingMethods, setShippingMethod } = useAdapter();
 
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
@@ -59,24 +52,13 @@ export const useShippingMethod = props => {
     /*
      *  Apollo Hooks.
      */
-    const [
+    const {
         setShippingMethodCall,
-        { error: setShippingMethodError, loading: isSettingShippingMethod }
-    ] = useMutation(setShippingMethodMutation, {
-        onCompleted: () => {
-            onSuccess();
-        }
-    });
+        error: setShippingMethodError,
+        loading: isSettingShippingMethod
+    } = setShippingMethod({ onSuccess: onSuccess, hasOnSuccess: true });
 
-    const { data, loading: isLoadingShippingMethods } = useQuery(
-        getSelectedAndAvailableShippingMethodsQuery,
-        {
-            fetchPolicy: 'cache-and-network',
-            nextFetchPolicy: 'cache-first',
-            skip: !cartId,
-            variables: { cartId }
-        }
-    );
+    const { data, loading: isLoadingShippingMethods } = getSelectedAndAvailableShippingMethods({ cartId: cartId });
 
     /*
      *  State / Derived state.
@@ -90,16 +72,16 @@ export const useShippingMethod = props => {
 
     const derivedPrimaryShippingAddress =
         data &&
-        data.cart.shipping_addresses &&
-        data.cart.shipping_addresses.length
+            data.cart.shipping_addresses &&
+            data.cart.shipping_addresses.length
             ? data.cart.shipping_addresses[0]
             : null;
 
     const derivedSelectedShippingMethod = useMemo(() => {
         return derivedPrimaryShippingAddress
             ? addSerializedProperty(
-                  derivedPrimaryShippingAddress.selected_shipping_method
-              )
+                derivedPrimaryShippingAddress.selected_shipping_method
+            )
             : DEFAULT_SELECTED_SHIPPING_METHOD;
     }, [derivedPrimaryShippingAddress]);
 
@@ -125,9 +107,9 @@ export const useShippingMethod = props => {
     const displayState = derivedSelectedShippingMethod
         ? displayStates.DONE
         : isLoadingShippingMethods ||
-          (isSettingShippingMethod && isBackgroundAutoSelecting)
-        ? displayStates.INITIALIZING
-        : displayStates.EDITING;
+            (isSettingShippingMethod && isBackgroundAutoSelecting)
+            ? displayStates.INITIALIZING
+            : displayStates.EDITING;
 
     /*
      *  Callbacks.

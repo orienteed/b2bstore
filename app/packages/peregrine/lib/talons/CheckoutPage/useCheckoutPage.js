@@ -78,14 +78,15 @@ export const useCheckoutPage = props => {
     const [{ isSignedIn }] = useUserContext();
 
     const {
-        getCheckoutDetailsQuery,
-        getOrderDetailsQuery,
-        placeOrderMutation,
-        setPaymentMethodOnCartMutation
+        getOrderDetailsQuery
     } = operations;
     const {
         getCustomerInformation,
-        createCart: createCartFromAdapter
+        createCart: createCartFromAdapter,
+        getCheckoutDetails,
+        getOrderDetails: getOrderDetailsFromAdapter,
+        placeOrder,
+        setPaymentMethodOnCart
     } = useAdapter();
 
     // BIGCOMMERCE ADAPTER
@@ -93,6 +94,13 @@ export const useCheckoutPage = props => {
     const { data: customerData, loading: customerLoading } = getCustomerInformation({ hasSkip: true, isSignedIn: isSignedIn });
 
     const { fetchCartId } = createCartFromAdapter();
+
+    const {
+        fetch: updatePaymentMethod,
+        error: paymentMethodMutationError,
+        called: paymentMethodMutationCalled,
+        loading: paymentMethodMutationLoading
+    } = setPaymentMethodOnCart();
 
     // END
 
@@ -119,9 +127,7 @@ export const useCheckoutPage = props => {
 
     const [{ cartId }, { createCart, removeCart }] = useCartContext();
 
-    const [placeOrder, { data: placeOrderData, error: placeOrderError, loading: placeOrderLoading }] = useMutation(
-        placeOrderMutation
-    );
+    const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
 
     const [getOrderDetails, { data: orderDetailsData, loading: orderDetailsLoading }] = useLazyQuery(
         getOrderDetailsQuery,
@@ -132,27 +138,9 @@ export const useCheckoutPage = props => {
             fetchPolicy: 'no-cache'
         }
     );
+     // const { getOrderDetails, data: orderDetailsData, loading: orderDetailsLoading } = getOrderDetailsFromAdapter();
 
-    const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = useQuery(getCheckoutDetailsQuery, {
-        /**
-         * Skip fetching checkout details if the `cartId`
-         * is a falsy value.
-         */
-        skip: !cartId,
-        notifyOnNetworkStatusChange: true,
-        variables: {
-            cartId
-        }
-    });
-    
-    const [
-        updatePaymentMethod,
-        {
-            error: paymentMethodMutationError,
-            called: paymentMethodMutationCalled,
-            loading: paymentMethodMutationLoading
-        }
-    ] = useMutation(setPaymentMethodOnCartMutation);
+     const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = getCheckoutDetails({ cartId: cartId });
 
     const paymentMethodMutationData = {
         paymentMethodMutationError,
@@ -274,7 +262,7 @@ export const useCheckoutPage = props => {
             action: 'Place order clicked',
             label: `Checkout page- Place order clicked`
         });
-    }, [cartId, getOrderDetails, setNoProduct]);
+    }, [cartId, setNoProduct]);
 
     const [, { dispatch }] = useEventingContext();
 
@@ -286,11 +274,12 @@ export const useCheckoutPage = props => {
     }, [isSignedIn]);
 
     useEffect(() => {
+        // setCheckoutStep(CHECKOUT_STEP.REVIEW)
         async function placeOrderAndCleanup() {
             try {
                 const reCaptchaData = await generateReCaptchaData();
                 const { cart } = orderDetailsData;
-                const { data } = await placeOrder({
+                const { data } = await runPlaceOrder({
                     variables: {
                         cartId
                     },
@@ -349,7 +338,7 @@ export const useCheckoutPage = props => {
         fetchCartId,
         generateReCaptchaData,
         orderDetailsData,
-        placeOrder,
+        runPlaceOrder,
         removeCart,
         isPlacingOrder
     ]);

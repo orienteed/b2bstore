@@ -1,10 +1,9 @@
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { useCartContext } from '../../../../context/cart';
-
-import DEFAULT_OPERATIONS from './shippingMethods.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 /**
  * GraphQL currently requires a complete address before it will return
@@ -46,17 +45,21 @@ export const MOCKED_ADDRESS = {
  * import { useShippingForm } from '@magento/peregrine/lib/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
  */
 export const useShippingForm = props => {
-    const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const { getShippingMethodsQuery, setShippingAddressMutation } = operations;
+    const { getShippingMethods, setShippingAddress: setShippingAddressFromAdapter } = useAdapter();
     const { selectedValues, setIsCartUpdating } = props;
 
     const [{ cartId }] = useCartContext();
     const apolloClient = useApolloClient();
+    const { tenantConfig } = useModulesContext();
 
-    const [
+    const {
         setShippingAddress,
-        { called: isSetShippingAddressCalled, error: errorSettingShippingAddress, loading: isSetShippingLoading }
-    ] = useMutation(setShippingAddressMutation);
+        called: isSetShippingAddressCalled,
+        error: errorSettingShippingAddress,
+        loading: isSetShippingLoading
+    } = setShippingAddressFromAdapter();
+
+    const { getShippingMethodsQuery } = getShippingMethods({ cartId: cartId });
 
     useEffect(() => {
         if (isSetShippingAddressCalled) {
@@ -75,7 +78,7 @@ export const useShippingForm = props => {
      */
     const handleZipChange = useCallback(
         zip => {
-            if (zip !== selectedValues.zip) {
+            if (zip !== selectedValues.zip && tenantConfig.backendTechnology === 'magento') {
                 const data = apolloClient.readQuery({
                     query: getShippingMethodsQuery,
                     variables: {

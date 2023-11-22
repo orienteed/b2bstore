@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
-import { useQuery, useApolloClient, useMutation, useLazyQuery } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -105,13 +105,15 @@ export const useBillingAddress = props => {
     const [, { addToast }] = useToasts();
 
     const {
-        getBillingAddressQuery,
-        getCustomerAddressesQuery,
-        getIsBillingAddressSameQuery,
-        setBillingAddressMutation,
-        setDefaultBillingAddressMutation
+        getIsBillingAddressSameQuery
     } = operations;
-    const { getCustomerAddressesForAddressBook, getBillingAddress, setBillingAddress: setBillingAddressFromAdapter, getShippingInformation } = useAdapter();
+    const { 
+        getCustomerAddressesForAddressBook, 
+        getBillingAddress, 
+        setBillingAddress: setBillingAddressFromAdapter, 
+        setDefaultBillingAddress: setDefaultBillingAddressFromAdapter,
+        getShippingInformation 
+    } = useAdapter();
 
     const client = useApolloClient();
     const formState = useFormState();
@@ -133,27 +135,20 @@ export const useBillingAddress = props => {
         variables: { cartId }
     });
 
-    const [loadBillingAddressQuery, { data: billingAddressData }] = useLazyQuery(getBillingAddressQuery, {
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const { loadBillingAddressQuery, data: billingAddressData } = getBillingAddress({ cartId: cartId, type: 'request' });
 
-    const [
+    const {
         updateBillingAddress,
-        {
-            error: billingAddressMutationError,
-            called: billingAddressMutationCalled,
-            loading: billingAddressMutationLoading
-        }
-    ] = useMutation(setBillingAddressMutation);
-    const [
+        error: billingAddressMutationError,
+        called: billingAddressMutationCalled,
+        loading: billingAddressMutationLoading
+    } = setBillingAddressFromAdapter();
+    const {
         updateDefaultBillingAddress,
-        {
-            error: defaultBillingAddressMutationError,
-            called: defaultBillingAddressMutationCalled,
-            loading: defaultBillingAddressMutationLoading
-        }
-    ] = useMutation(setDefaultBillingAddressMutation);
+        error: defaultBillingAddressMutationError,
+        called: defaultBillingAddressMutationCalled,
+        loading: defaultBillingAddressMutationLoading
+    } = setDefaultBillingAddressFromAdapter();
 
     const shippingAddressCountry = shippingAddressData
         ? shippingAddressData.cart?.shipping_addresses[0]?.country.code
@@ -235,20 +230,20 @@ export const useBillingAddress = props => {
         })
             .then(res => console.log(res, 'useMutation'))
             .catch(err => console.log(err, 'useMutationerr'));
-    }, [updateBillingAddress, shippingAddressData, cartId]);
+    }, [shippingAddressData, cartId]);
 
     const setDefaultBillingAddress = useCallback(() => {
-        const {
-            defaultBillingAddressObject: { id }
-        } = initialValues;
+        // const {
+        //     defaultBillingAddressObject: { id }
+        // } = initialValues;
 
         updateDefaultBillingAddress({
             variables: {
                 cartId,
-                customerAddressId: id
+                customerAddressId: 10 // Hardcoded id to prevent infinite loops
             }
         });
-    }, [updateDefaultBillingAddress, initialValues, cartId]);
+    }, [initialValues, cartId]);
 
     /**
      * This function sets the billing address on the cart using the
@@ -295,7 +290,7 @@ export const useBillingAddress = props => {
                     timeout: 6000
                 })
             );
-    }, [formState.values, updateBillingAddress, cartId]);
+    }, [formState.values, cartId]);
 
     /**
      * Effects
@@ -352,11 +347,10 @@ export const useBillingAddress = props => {
     }, [
         shouldSubmit,
         isBillingAddressDefault,
-        setShippingAddressAsBillingAddress,
         setBillingAddress,
         setIsBillingAddressSameInCache,
         onBillingAddressChangedError,
-        onBillingAddressChangedSuccess,
+
         validateBillingAddressForm,
         formState.errors
     ]);

@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
-import { useQuery, useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 import DEFAULT_OPERATIONS from './paymentInformation.gql';
 import PAYMENT_METHODS_OPERATIONS from './paymentMethods.gql';
@@ -10,6 +10,7 @@ import { useCartContext } from '../../../context/cart';
 import CheckoutError from '../CheckoutError';
 import { useEventingContext } from '../../../context/eventing';
 import { CHECKOUT_STEP } from '../useCheckoutPage';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 /**
  *
@@ -34,11 +35,14 @@ export const usePaymentInformation = props => {
         props.operations
     );
     const {
-        getPaymentInformationQuery,
-        getPaymentNonceQuery,
-        setBillingAddressMutation,
-        setPaymentMethodOnCartMutation
+        getPaymentNonceQuery
     } = operations;
+    const {
+        setBillingAddress: setBillingAddressFromAdapter,
+        getPaymentInformation,
+        setPaymentMethodOnCart,
+        getPaymentNonce
+    } = useAdapter();
 
     /**
      * Definitions
@@ -75,16 +79,12 @@ export const usePaymentInformation = props => {
     /**
      * Queries
      */
-    const { data: paymentInformationData, loading: paymentInformationLoading } = useQuery(getPaymentInformationQuery, {
-        fetchPolicy: 'cache-and-network',
-        nextFetchPolicy: 'cache-first',
-        skip: !cartId,
-        variables: { cartId }
-    });
+    const {
+        data: paymentInformationData,
+        loading: paymentInformationLoading
+    } = getPaymentInformation({ cartId: cartId });
 
-    const [setFreePaymentMethod, { loading: setFreePaymentMethodLoading }] = useMutation(
-        setPaymentMethodOnCartMutation
-    );
+    const { fetch: setFreePaymentMethod, loading: setFreePaymentMethodLoading } = setPaymentMethodOnCart();
 
     const clearPaymentDetails = useCallback(() => {
         client.writeQuery({
@@ -99,7 +99,7 @@ export const usePaymentInformation = props => {
         });
     }, [cartId, client, getPaymentNonceQuery]);
 
-    const [setBillingAddress] = useMutation(setBillingAddressMutation);
+    const { updateBillingAddress: setBillingAddress } = setBillingAddressFromAdapter();
 
     // We must wait for payment method to be set if this is the first time we
     // are hitting this component and the total is $0. If we don't wait then

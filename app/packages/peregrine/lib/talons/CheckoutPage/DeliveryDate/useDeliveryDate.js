@@ -5,6 +5,7 @@ import { useReducer, useMemo } from 'react';
 import DEFAULT_OPERATIONS from './deliveryDate.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useStoreConfigContext } from '../../../context/storeConfigProvider';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 
 const deliveryDateData = {
     mp_delivery_date: '',
@@ -30,6 +31,7 @@ function reducer(state, action) {
 
 export const useDeliveryDate = () => {
     const [state, dispatch] = useReducer(reducer, deliveryDateData);
+    const { tenantConfig } = useModulesContext();
 
     const operations = mergeOperations(DEFAULT_OPERATIONS);
     const { getDeliveryDateQuery, setDeliveryTimeMutation } = operations;
@@ -38,7 +40,7 @@ export const useDeliveryDate = () => {
         dispatch({ type: name, value });
     };
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const local = useMemo(() => {
         return storeConfigData && storeConfigData.storeConfig.locale;
@@ -54,11 +56,11 @@ export const useDeliveryDate = () => {
     const [deliverytime] = useMutation(setDeliveryTimeMutation);
 
     const deliveryDateIsActivated = useMemo(() => {
-        if (deliveryDate?.deliveryTime) {
+        if (deliveryDate?.deliveryTime && tenantConfig.backendTechnology === 'magento') {
             return Object.keys(deliveryDate?.deliveryTime).every(
                 ele => deliveryDate.deliveryTime[ele] || deliveryDate.deliveryTime[ele] === ''
             );
-        }
+        } else { return false }
     }, [deliveryDate]);
 
     const submitDeliveryDate = async () => {
