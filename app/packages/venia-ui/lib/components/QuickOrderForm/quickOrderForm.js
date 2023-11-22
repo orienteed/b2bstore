@@ -187,7 +187,7 @@ const QuickOrderForm = props => {
 
     const dialogButtonsArray = [
         <div>
-            <Button type="button" priority="high" onClick={addToCartClick}>
+            <Button type="button" priority="high" disabled={!(csvData.length && csvData[0]?.sku)} onClick={addToCartClick}>
                 <FormattedMessage id="quickOrder.AddToCart" defaultMessage="Add to cart" />
                 <Icon className={classes.addCartIcon} src={ArrowDown} alt="arrowDown-icon" />
             </Button>
