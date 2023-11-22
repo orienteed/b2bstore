@@ -1,3 +1,18 @@
+# B2BStore 0.15
+## 🪄 Enhancements
+  - Navigation arrows functionality
+  - Quick order Add to cart button functionality 
+## 🛠 Bug fixes 
+  - Bug, Download CSV file was not compatible in quick order
+  - Payment method empty error displayed
+  - Issues during checkout 
+  - Quick Order Search Functionality Bug
+  - API BigCommerce general issue : PLP Sorting 
+  - API BigComerce general issue : Category Page
+  - Saved cart page Black box at products attribute was with no content
+  - Download CSV file not compatible in quick order
+  - Accounts auth error (last name field)
+
 # B2BStore 0.14
 ## 🪄 Enhancements
   - Add a new filter "Stock status" in the PLP
