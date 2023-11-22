@@ -49,7 +49,7 @@ veniaSecurityHeaders:
                 "
         default:
           inline: "
-            script-src http: https: {{ backend }} 'sha256-5EjhvnzivcXLIqERhMRtKZk9nq4KiTLq3rCoaGXo294=';
+            script-src http: https: {{ backend }} 'sha256-D3LUzFR4hecM/4+1N7Wqsnf33RnELIdj/dmlT2aqZMg=';
             style-src 'self' blob: https: 'unsafe-inline' {{ backend }};
             img-src data: http: https: blob:;
             object-src 'none';
