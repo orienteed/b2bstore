@@ -23,7 +23,6 @@ export const useAutocomplete = props => {
 
     // Prepare to run the queries.
     const { runSearch, productResult } = getAutocompleteResults({ hasVars: false });
-
     // Get the search term from the field.
     const { value } = useFieldState('search_query');
 
@@ -57,9 +56,9 @@ export const useAutocomplete = props => {
     }, [debouncedRunQuery, valid, value, visible, dispatch]);
 
     const { data, error, loading } = productResult;
-
+    
     // Handle results.
-    const categories = data && data.products?.aggregations[1]?.options;
+    const categories = data && Array.isArray(data.products?.aggregations) ? data.products?.aggregations[1]?.options : '';
     const products = data && data.products;
     const filters = data && data.products.aggregations;
     const hasResult = products && products.items;

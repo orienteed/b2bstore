@@ -42,7 +42,7 @@ const SimpleProduct = props => {
 
     const simpleProductData = fetchedData.products.items[0];
     const simpleProductAggregation = fetchedData.products.aggregations;
-    const simpleProductAggregationFiltered = simpleProductAggregation.filter(
+    const simpleProductAggregationFiltered = simpleProductAggregation?.filter(
         product => product.label !== 'Category' && product.label !== 'Price' && product.label !== 'Material estructura'
     );
 
@@ -165,7 +165,7 @@ const SimpleProduct = props => {
                 SKU
             </li>
             <li className={classes.categoriesItemList}>
-                {simpleProductAggregationFiltered.map(category => (
+                {simpleProductAggregationFiltered?.map(category => (
                     <p key={category.label} className={classes.indexFixedCategory}>
                         {category.label}
                     </p>
