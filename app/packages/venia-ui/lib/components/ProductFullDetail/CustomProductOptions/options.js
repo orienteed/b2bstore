@@ -8,7 +8,8 @@ const Options = props => {
     const { simpleProductAggregationFiltered } = props;
 
     return (
-        <main className={classes.optionsContainer}>
+        (simpleProductAggregationFiltered.length > 0) ?
+        (<main className={classes.optionsContainer}>
             <header className={classes.labelContainer}>
                 <h3>Attributes</h3>
             </header>
@@ -27,7 +28,8 @@ const Options = props => {
                     );
                 })}
             </section>
-        </main>
+        </main>)
+         : null
     );
 };
 

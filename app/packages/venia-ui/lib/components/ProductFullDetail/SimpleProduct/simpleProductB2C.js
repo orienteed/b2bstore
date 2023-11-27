@@ -143,7 +143,7 @@ const SimpleProductB2C = props => {
                     errors={errors.get('form') || []}
                 />
 
-                <Options simpleProductAggregationFiltered={simpleProductAggregationFiltered} />
+                <Options simpleProductAggregationFiltered={simpleProductAggregationFiltered || []} />
 
                 <section className={classes.quantity}>
                     <span className={classes.quantityTitle}>

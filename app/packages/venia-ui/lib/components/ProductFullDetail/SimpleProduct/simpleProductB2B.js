@@ -148,7 +148,7 @@ const SimpleProductB2B = props => {
                     errors={errors}
                     handleAddToCart={handleAddToCart}
                     simpleProductData={simpleProductData}
-                    aggregations={simpleProductAggregation}
+                    aggregations={simpleProductAggregation || []}
                     tempTotalPrice={tempTotalPrice}
                     handleQuantityChange={handleQuantityChange}
                     isAddConfigurableLoading={isAddConfigurableLoading}
