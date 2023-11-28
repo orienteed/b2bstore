@@ -52,6 +52,17 @@ export const useAddToCartButton = props => {
     const handleAddToCart = useCallback(async () => {
         try {
             if (productType === 'SimpleProduct') {
+                if(!quantity){
+                    addToast({
+                        type: 'error',
+                        message: formatMessage({
+                            id: 'cartPage.ConfigurableProductPutQuantity',
+                            defaultMessage: 'Please insert a product quantity.'
+                        }),
+                        timeout: 6000
+                    });
+                    return;
+                }
                 setIsLoading(true);
 
                 const parentSkuResponse = await getParentSku({

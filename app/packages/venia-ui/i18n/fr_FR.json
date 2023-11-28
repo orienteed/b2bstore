@@ -58,6 +58,7 @@
     "cartPage.AddedSuccessfully": "Ajouté au panier avec succès.",
     "cartPage.couponCode": "Code De Coupon",
     "cartPage.ConfigurableProductSelectionRequired": "Veuillez sélectionner un article.",
+    "cartPage.ConfigurableProductPutQuantity": "Ajouter la quantité du produit.",
     "cartPage.emptyCart": "Il n'y a aucun article dans votre panier.",
     "cartPage.heading": "Panier",
     "cartPage.signIn": "Se connecter",

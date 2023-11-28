@@ -58,6 +58,7 @@
     "cartPage.AddedSuccessfully": "Adicionado ao carrinho com sucesso.",
     "cartPage.couponCode": "Codigo do cupão",
     "cartPage.ConfigurableProductSelectionRequired": "Selecionar um artigo.",
+    "cartPage.ConfigurableProductPutQuantity": "Inserir a quantidade do produto.",
     "cartPage.emptyCart": "Não tem itens no seu carrinho.",
     "cartPage.heading": "Carrinho de compras",
     "cartPage.signIn": "Iniciar sessão",

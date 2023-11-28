@@ -59,6 +59,7 @@
     "cartPage.AddedSuccessfully": "Added to cart successfully.",
     "cartPage.couponCode": "Coupon Code",
     "cartPage.ConfigurableProductSelectionRequired": "Please select an item.",
+    "cartPage.ConfigurableProductPutQuantity": "Please insert a product quantity.",
     "cartPage.emptyCart": "There are no items in your cart.",
     "cartPage.heading": "Cart",
     "cartPage.signIn": "Sign in",
