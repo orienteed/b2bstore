@@ -2,9 +2,7 @@ import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { Form } from 'informed';
 import { func, number, string } from 'prop-types';
-
 import { useQuantityStepper } from '@magento/peregrine/lib/talons/QuantityStepper/useQuantityStepper';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import { Message } from '@magento/venia-ui/lib/components/Field';
 import defaultClasses from './quantity.module.css';
@@ -32,11 +30,13 @@ export const QuantityStepper = props => {
 
     const handleChange = e => {
         const newValue = e.target.value;
-        if (newValue < min) {
-            e.target.value = min;
-        } else if (newValue > max) {
-            e.target.value = max;
-        }
+        if(newValue){
+            if (newValue < min) {
+                e.target.value = min;
+            } else if (newValue > max) {
+                e.target.value = max;
+            }        
+        } 
         onChange(e.target.value);
     };
 
@@ -53,7 +53,6 @@ export const QuantityStepper = props => {
                     min={min}
                     max={max}
                     onChange={handleChange}
-                    // pattern="[0-9]*"
                 />
             </div>
             {errorMessage}
