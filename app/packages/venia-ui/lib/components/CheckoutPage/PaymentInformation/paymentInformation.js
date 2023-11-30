@@ -23,7 +23,8 @@ const PaymentInformation = props => {
         shouldSubmit,
         checkoutError,
         setCurrentSelectedPaymentMethod,
-        paymentMethodMutationData
+        paymentMethodMutationData,
+        setPaymentData
     } = props;
 
     const classes = useStyle(defaultClasses, propClasses);
@@ -68,6 +69,7 @@ const PaymentInformation = props => {
                 resetShouldSubmit={resetShouldSubmit}
                 shouldSubmit={shouldSubmit}
                 paymentMethodMutationData={paymentMethodMutationData}
+                setPaymentData={setPaymentData}
             />
         </Form>
     );

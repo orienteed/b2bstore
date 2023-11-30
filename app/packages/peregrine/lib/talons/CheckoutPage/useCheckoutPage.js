@@ -122,6 +122,7 @@ export const useCheckoutPage = props => {
     const [activeContent, setActiveContent] = useState('checkout');
     const [checkoutStep, setCheckoutStep] = useState(CHECKOUT_STEP.SHIPPING_ADDRESS);
     const [guestSignInUsername, setGuestSignInUsername] = useState('');
+    const [paymentData, setPaymentData] = useState(null);
 
     const [currentSelectedPaymentMethod, setCurrentSelectedPaymentMethod] = useState('');
 
@@ -152,7 +153,7 @@ export const useCheckoutPage = props => {
         updatePaymentMethod({
             variables: { cartId, payment_method: currentSelectedPaymentMethod }
         });
-    }, [updatePaymentMethod, cartId, currentSelectedPaymentMethod]);
+    }, [cartId, currentSelectedPaymentMethod]);
 
     const cartItems = useMemo(() => {
         return (checkoutData && checkoutData?.cart?.items) || [];
@@ -283,6 +284,7 @@ export const useCheckoutPage = props => {
                     variables: {
                         cartId
                     },
+                    paymentData,
                     ...reCaptchaData
                 });
 
@@ -445,6 +447,7 @@ export const useCheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod 
+        currentSelectedPaymentMethod,
+        setPaymentData
     };
 };

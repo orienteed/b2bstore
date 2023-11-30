@@ -18,7 +18,8 @@ const PaymentMethods = props => {
         resetShouldSubmit,
         shouldSubmit,
         setCurrentSelectedPaymentMethod,
-        paymentMethodMutationData
+        paymentMethodMutationData,
+        setPaymentData
     } = props;
 
     const { formatMessage } = useIntl();
@@ -59,6 +60,7 @@ const PaymentMethods = props => {
                     resetShouldSubmit={resetShouldSubmit}
                     shouldSubmit={shouldSubmit}
                     paymentMethodMutationData={paymentMethodMutationData}
+                    setPaymentData={setPaymentData}
                 />
             ) : null;
 

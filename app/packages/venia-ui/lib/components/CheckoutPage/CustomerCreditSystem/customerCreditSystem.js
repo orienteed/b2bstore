@@ -15,7 +15,7 @@ import defaultClasses from './customerCreditSystem.module.css';
 const CustomerCreditSystem = props => {
     const { formatMessage } = useIntl();
     const classes = useStyle(defaultClasses, props.classes);
-    const { onPaymentSuccess, onPaymentError, resetShouldSubmit, shouldSubmit, paymentMethodMutationData } = props;
+    const { onPaymentSuccess, onPaymentError, resetShouldSubmit, shouldSubmit, paymentMethodMutationData, setPaymentData } = props;
     const { getPriceSummary } = useAdapter();
     const [{ cartId }] = useCartContext();
     const talonProps = useCustomerCreditSystem({
@@ -24,7 +24,8 @@ const CustomerCreditSystem = props => {
         resetShouldSubmit,
         shouldSubmit,
         paymentMethodMutationData,
-        cartId
+        cartId,
+        setPaymentData
     });
     const { data } = getPriceSummary({ cartId: cartId });
     const priceSummary = data?.cart?.prices.grand_total;

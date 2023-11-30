@@ -20,7 +20,7 @@ export const useCustomerCreditSystem = props => {
 
     const { formatMessage } = useIntl();
 
-    const { onPaymentSuccess, resetShouldSubmit, shouldSubmit, onPaymentError, paymentMethodMutationData, cartId } = props;
+    const { onPaymentSuccess, resetShouldSubmit, shouldSubmit, onPaymentError, paymentMethodMutationData, cartId, setPaymentData } = props;
 
     const [, { addToast }] = useToasts();
 
@@ -59,6 +59,8 @@ export const useCustomerCreditSystem = props => {
                     timeout: 7000
                 });
                 resetShouldSubmit();
+            } else {
+                setPaymentData({type: 'store_credit'})
             }
         }
     }, [checkoutData, shouldSubmit, resetShouldSubmit, formatMessage, addToast]);

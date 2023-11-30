@@ -111,7 +111,8 @@ const CheckoutPage = props => {
         setCurrentSelectedPaymentMethod,
         onBillingAddressChangedSuccess,
         paymentMethodMutationData,
-        currentSelectedPaymentMethod
+        currentSelectedPaymentMethod,
+        setPaymentData
     } = talonProps;
     const [, { addToast }] = useToasts();
 
@@ -245,6 +246,7 @@ const CheckoutPage = props => {
                     shouldSubmit={reviewOrderButtonClicked}
                     setCurrentSelectedPaymentMethod={setCurrentSelectedPaymentMethod}
                     paymentMethodMutationData={paymentMethodMutationData}
+                    setPaymentData={setPaymentData}
                 />
             ) : (
                 <h3 className={classes.payment_information_heading}>
