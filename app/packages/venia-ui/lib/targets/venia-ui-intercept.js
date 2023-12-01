@@ -66,10 +66,18 @@ module.exports = veniaTargets => {
         })
     );
 
+    /*veniaTargets.of('@magento/venia-ui').checkoutPagePaymentTypes.tap(checkoutPagePaymentTypes =>
+        checkoutPagePaymentTypes.add({
+            paymentCode: 'banktransfe',
+            importPath: '@magento/venia-ui/lib/components/CheckoutPage/BankTransfer/bankTransfer'
+        })
+    );*/
+
     veniaTargets.of('@magento/venia-ui').checkoutPagePaymentTypes.tap(checkoutPagePaymentTypes =>
         checkoutPagePaymentTypes.add({
-            paymentCode: 'banktransfer',
-            importPath: '@magento/venia-ui/lib/components/CheckoutPage/BankTransfer/bankTransfer'
+            paymentCode: 'giftcertificate',
+            importPath: '@magento/venia-ui/lib/components/CheckoutPage/GiftCertificate/giftCertificate'
+            //importPath: '@magento/venia-ui/lib/components/CheckoutPage/BankTransfer/bankTransfer'
         })
     );
 };

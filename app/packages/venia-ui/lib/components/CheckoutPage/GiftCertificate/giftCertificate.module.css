@@ -1,0 +1,29 @@
+.root {
+}
+
+.addButton {
+    composes: root_highPriority from '../../Button/button.module.css';
+    min-width: auto;
+    width: fit-content;
+    padding: 0.5rem;
+}
+
+.giftTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 100%;
+    display: table;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgb(var(--venia-global-color-gray-100));
+}
+
+.gift_code {
+    composes: col-end-span2 from global;
+    composes: lg_col-end-span1 from global;
+    composes: gap-x-xs from global;
+    composes: gap-y-sm from global;
+    composes: grid from global;
+    composes: px-0 from global;
+    composes: py-xs from global;
+}
