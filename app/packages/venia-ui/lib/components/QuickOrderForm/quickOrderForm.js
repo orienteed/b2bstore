@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import Button from '../Button';
 import Dialog from '../Dialog';
 import Icon from '../Icon';
-import QuantityStepper from '../QuantityStepper';
 import SearchBar from './SearchBar';
 
 import { useStyle } from '../../classify';
@@ -19,8 +18,11 @@ import defaultClasses from './quickOrderForm.module.css';
 
 import fastCart from '@magento/venia-ui/lib/assets/fastCart.svg';
 import Price from '../Price';
+import QuantityStepperSimple from '../QuantityStepperSimple';
 
-const initialArray = [{ name: '', quantity: 1 }];
+//Minimum quantity value for each item
+const qtyMin = 1;
+const initialArray = [{ name: '', quantity: qtyMin }];
 
 const QuickOrderForm = props => {
     const classes = useStyle(defaultClasses, props.classes);
@@ -32,7 +34,7 @@ const QuickOrderForm = props => {
     const [csvData, setCsvData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [products, setProducts] = useState(JSON.parse(JSON.stringify(initialArray)));
-
+    
     const success = () => {
         displayMessage(
             'success',
@@ -119,7 +121,7 @@ const QuickOrderForm = props => {
         newProducts[index] = product;
         newProducts[index] = {
             ...newProducts[index],
-            quantity: 1
+            quantity: qtyMin
         };
         setProducts([...newProducts, { name: '' }]);
     };
@@ -130,13 +132,12 @@ const QuickOrderForm = props => {
         newProducts[key].price && delete newProducts[key].price;
         setProducts(newProducts);
     };
-
+    
     const onChangeQty = (value, index) => {
         const newProducts = [...products];
-        const isNumeric = !isNaN(parseFloat(value)) && isFinite(value);
         newProducts[index] = {
             ...newProducts[index],
-            quantity: isNumeric ? value : 1
+            quantity: value
         };
         setProducts(newProducts);
     };
@@ -261,21 +262,13 @@ const QuickOrderForm = props => {
                                                     />
                                                 </div>
                                                 <div className={classes.inputQtyQuick}>
-                                                    <QuantityStepper
-                                                        min={1}
-                                                        initialValue={item.quantity}
+                                                    <QuantityStepperSimple                                                    
+                                                        min={qtyMin}
+                                                        value={!item?.price ? qtyMin : item.quantity}
                                                         fieldName={`quantity-${key}`}
-                                                        textProps={{
-                                                            onChange(e) {
-                                                                onChangeQty(e.target.value, key);
-                                                            },
-                                                            disabled: !item?.price
-                                                        }}
-                                                        classes={{
-                                                            button_increment: classes.disable,
-                                                            button_decrement: classes.disable,
-                                                            root: classes.disable_gap
-                                                        }}
+                                                        onChange={onChangeQty}
+                                                        inputKey={key} 
+                                                        disabled={!item?.price}
                                                     />
                                                 </div>
                                                 <div className={classes.priceWrapper}>
