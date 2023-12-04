@@ -40,6 +40,7 @@ const Product = props => {
         isProductUpdating
     } = talonProps;
 
+    const errorMsg = (errorMessage == 'Variable "$quantity" of non-null type "Float!" must not be null.') ? 'Insert a value for the quantity of the product.' : errorMessage;
     const { currency, image, name, options, quantity, stockStatus, unitPrice, urlKey, urlSuffix } = product;
 
     const classes = useStyle(defaultClasses, props.classes);
@@ -73,7 +74,7 @@ const Product = props => {
 
     return (
         <li className={classes.root} data-cy="Product-root">
-            <span className={classes.errorText}>{errorMessage}</span>
+            <span className={classes.errorText}>{errorMsg}</span>
             <div className={itemClassName}>
                 <Link to={itemLink} className={classes.imageContainer} data-cy="Product-imageContainer">
                     <Image
