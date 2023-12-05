@@ -24,7 +24,7 @@ import QuantityStepperSimple from '../QuantityStepperSimple';
 const qtyMin = 1;
 const initialArray = [{ name: '', quantity: qtyMin }];
 
-const QuickOrderForm = props => {
+const QuickOrderForm = (props) => {
     const classes = useStyle(defaultClasses, props.classes);
     const [, { addToast }] = useToasts();
     const { formatMessage } = useIntl();
@@ -111,6 +111,7 @@ const QuickOrderForm = props => {
 
     // Methods
     const onOrderClick = () => {
+        props.handleClose();
         setIsOpen(!isOpen);
         setProducts(JSON.parse(JSON.stringify(initialArray)));
     };
