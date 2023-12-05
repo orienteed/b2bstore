@@ -90,7 +90,7 @@ const Navigation = props => {
                                     <img src={CompareIcon} alt=" compare Icon" />
                                 </Link>
                             )}
-                            <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm />}</div>
+                            <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm handleClose={handleClose} />}</div>
                         </div>
                         <div className={classes.switchers}>
                             <StoreSwitcher />

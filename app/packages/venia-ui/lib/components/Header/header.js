@@ -98,7 +98,7 @@ const Header = props => {
                                 <img src={CompareIcon} alt=" compare Icon" />
                             </Link>
                         )}
-                        <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm />}</div>
+                        <div className={classes.quickOrderContainer}>{isSignedIn && <QuickOrderForm  handleClose={()=> {}} />}</div>
                     </div>
                 </div>
                 {searchBar}
