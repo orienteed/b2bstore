@@ -318,6 +318,7 @@
     "createAccountNonCustomer.location": "Location",
     "createAccountNonCustomer.name": "Name",
     "createAccountNonCustomer.nif": "NIF",
+    "createAccountNonCustomer.phone": "Phone",
     "createAccountNonCustomer.postalCode": "Postal Code",
     "createAccountNonCustomer.province": "Province",
     "createAccountNonCustomer.sent": "Send email",

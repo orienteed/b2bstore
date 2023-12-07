@@ -30,7 +30,7 @@ const ShippingInformation = props => {
                     <span>{currentUser?.email}</span>
                     <span className={classes.name}>{fullName}</span>
                     <span>
-                        <FormattedMessage id="deliveryDate.phone" defaultMessage="Phone" />
+                        <FormattedMessage id="deliveryDate.phone" defaultMessage="Phone" />&nbsp;
                         {telephone}
                     </span>
                 </div>
