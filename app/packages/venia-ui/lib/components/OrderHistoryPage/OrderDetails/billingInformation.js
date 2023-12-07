@@ -33,7 +33,7 @@ const BillingInformation = props => {
                     <span className={classes.name}>{fullName}</span>
                     <br />
                     <span className={classes.name}>
-                        <FormattedMessage id={'createAccountNonCustomer.phone'} defaultMessage={'Phone'} />
+                        <FormattedMessage id="createAccountNonCustomer.phone" defaultMessage="Phone" />
                         &nbsp;
                         {telephone}
                     </span>

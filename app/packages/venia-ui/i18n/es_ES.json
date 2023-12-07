@@ -313,6 +313,7 @@
     "createAccountNonCustomer.location": "Ubicación",
     "createAccountNonCustomer.name": "Nombre",
     "createAccountNonCustomer.nif": "NIF",
+    "createAccountNonCustomer.phone": "Teléfono",
     "createAccountNonCustomer.postalCode": "Código Postal",
     "createAccountNonCustomer.province": "Provincia",
     "createAccountNonCustomer.sent": "Enviar email",
