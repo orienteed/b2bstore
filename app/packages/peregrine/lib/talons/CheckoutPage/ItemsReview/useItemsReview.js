@@ -11,7 +11,7 @@ export const useItemsReview = props => {
 
     const [{ cartId }] = useCartContext();
 
-        const { data: storeConfigData } = useStoreConfigContext();
+    const { data: storeConfigData } = useStoreConfigContext();
 
     const configurableThumbnailSource = useMemo(() => {
         if (storeConfigData) {
@@ -19,7 +19,9 @@ export const useItemsReview = props => {
         }
     }, [storeConfigData]);
 
-    const { fetchItemsInCart, data: queryData, error, loading } = getItemsInCart();
+    //TODO: when calling from the checkout page, the loading is set to false, but when calling
+    //from order details view, the loading is never set to false
+    const { data: queryData, loading, error, fetchItemsInCart  } = getItemsInCart();
 
     // If static data was provided, use that instead of query data.
     const data = props.data || queryData;
@@ -34,7 +36,7 @@ export const useItemsReview = props => {
                 }
             });
         }
-    }, [cartId, fetchItemsInCart, props.data]);
+    }, [cartId, props.data]);
 
     useEffect(() => {
         /**
