@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import React, { Fragment } from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'informed';
 import { BrowserRouter, Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -366,6 +366,30 @@ const ContentDialog = props => {
         });
     }
 
+    useEffect(()=>{
+        if(tenantConfig.chatbotEnabled){
+            let scriptExists = document.querySelector("script[src='https://d2zasqxhmd6ne4.cloudfront.net/amazon-connect-chat-interface-client.js']");
+            if (!scriptExists)
+                document.head.insertAdjacentHTML("beforeend",<script type="text/javascript" id="chatbotTag">{chatBotButton()}</script>);
+          }
+
+          return () => { 
+            let scriptExists = document.querySelector("script[src='https://d2zasqxhmd6ne4.cloudfront.net/amazon-connect-chat-interface-client.js']");
+            let styleExists = document.querySelectorAll("style[data-jss]");
+            let chatButton = document.getElementById('amazon-connect-chat-widget');
+            let linkTags = document.querySelectorAll("link[href^='https://d2zasqxhmd6ne4.cloudfront.net/']");
+            if (scriptExists)
+                scriptExists.remove();
+            if (styleExists.length > 0)
+                styleExists.forEach((el)=> el.remove());
+            if (chatButton)
+                chatButton.remove();
+            if (linkTags.length > 0)
+                linkTags.forEach((el)=> el.remove());                       
+         }
+         
+    },[]);    
+
     if (!isEnabled) {
         return <ErrorView message={errorViewText} />;
     }
@@ -424,7 +448,6 @@ const ContentDialog = props => {
             />
             {successToast && successToastContainer}
             {errorToast && errorToastContainer}
-            {tenantConfig.chatbotEnabled ? <script type="text/javascript">{chatBotButton()}</script> : null}
         </div>
     );
 };
