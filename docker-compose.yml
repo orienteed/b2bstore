@@ -11,3 +11,10 @@ services:
 
     ports:
       - 10000:10000
+  tls:
+    image: nginx
+    ports:
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/certs/:/etc/nginx/certificates/
