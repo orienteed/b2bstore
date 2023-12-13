@@ -25,6 +25,8 @@ export const useItemsReview = props => {
 
     // If static data was provided, use that instead of query data.
     const data = props.data || queryData;
+    // If static data was provided, set loading to false
+    let loadingData = props.data ? false : loading;
 
     const setShowAllItemsFlag = useCallback(() => setShowAllItems(true), [setShowAllItems]);
 
@@ -53,7 +55,7 @@ export const useItemsReview = props => {
     const totalQuantity = data ? +data.cart.total_quantity : 0;
 
     return {
-        isLoading: !!loading,
+        isLoading: !!loadingData,
         items,
         hasErrors: !!error,
         totalQuantity,
