@@ -5,6 +5,7 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from './quotesView.module.css';
 import Price from '@magento/venia-ui/lib/components/Price';
 import QuotesViewTableRow from '../quotesViewTableRow';
+import moment from 'moment';
 
 const DATE_FORMAT = {
     month: 'short',
@@ -20,10 +21,12 @@ const QuotesView = props => {
     const classes = useStyle(defaultClasses, props.classes);
 
     // Format Date
-    const createdAt = new Date(created_at?.replace(/-/g, '/')).toLocaleDateString(
-        undefined,
-        DATE_FORMAT
-    );
+    // const createdAt = new Date(created_at?.replace(/-/g, '/')).toLocaleDateString(
+    //     undefined,
+    //     DATE_FORMAT
+    // );
+    const localDate = moment.utc(created_at).local();
+    const createdAt = localDate.format('M/DD/YYYY');
 
     const quotesDate = (
         <div className={classes.quotesDateCol}>

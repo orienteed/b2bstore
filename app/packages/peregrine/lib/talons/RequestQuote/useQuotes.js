@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 
 import { setQuoteId } from './Store';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 const DEFAULT_PAGE_SIZE = 5;
 const DEFAULT_CURRENT_PAGE = 1;
@@ -29,6 +30,14 @@ export const useQuotes = () => {
         duplicateQuoteMutation,
         addQuoteToCartMutation
     } = operations;
+    const {
+        addQuoteToCart,
+        cancelQuote,
+        deleteSubmittedQuote,
+        duplicateQuote,
+        getConfigDetailsForQuote,
+        getQuoteList
+    } = useAdapter();
 
     const history = useHistory();
     const [quotes, setQuotes] = useState([]);
@@ -61,12 +70,9 @@ export const useQuotes = () => {
     const [addMpQuoteToCart] = useMutation(addQuoteToCartMutation);
 
     // Get quotes details
-    const { data: quoteList, refetch, loading } = useQuery(getQuoteListQuery, {
-        fetchPolicy: 'network-only',
-        variables: {
-            pageSize: pageSize,
-            currentPage: currentPage || 1
-        }
+    const { data: quoteList, refetch, loading } = getQuoteList({
+        pageSize: pageSize,
+        currentPage: currentPage || 1
     });
 
     const handleContentToggle = useCallback(() => {
