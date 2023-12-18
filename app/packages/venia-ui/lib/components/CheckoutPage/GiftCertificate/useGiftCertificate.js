@@ -15,6 +15,7 @@ export const useGiftCertificate = props => {
         async formValues => {
             const variables = {
                 cartId,
+                //Ensure you use a valid and active gift certificate code
                 giftCardCode: "2LI-615-46W-YGG"
             };
             try {

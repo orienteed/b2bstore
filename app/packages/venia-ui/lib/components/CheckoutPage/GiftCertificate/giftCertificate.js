@@ -45,6 +45,7 @@ const GiftCertificate = props => {
                 <div className={classes.gift_code}>
                     <Field
                     //TODO: solve Incorrect use of <label for=FORM_ELEMENT> (inside DevTools -> Issues when activate this class)
+                    //TODO: swap hardcoded values from the table to a new ones extracted from the endpoint
                         id="giftCerts"
                         label={formatMessage({
                             id: 'giftCertificate.giftCerts', 

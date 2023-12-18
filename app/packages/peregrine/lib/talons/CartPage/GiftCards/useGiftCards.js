@@ -69,6 +69,9 @@ export const useGiftCards = props => {
         fetchPolicy: 'no-cache'
     });
 
+    /*
+  TODO: Replace the applyGiftCardToCartMutation useMutation by direct resolver function call (applyGiftCardToCart)
+  */
     const [applyCard, applyCardResult] = useMutation(applyGiftCardToCartMutation);
     const [removeCard, removeCardResult] = useMutation(removeGiftCardFromCartMutation);
 

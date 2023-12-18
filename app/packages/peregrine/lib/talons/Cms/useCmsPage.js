@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import mergeOperations from '../../util/shallowMerge';
 import { useAppContext } from '../../context/app';
 import { useEventingContext } from '../../context/eventing';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from './cmsPage.gql';
 
@@ -20,9 +21,15 @@ export const useCmsPage = props => {
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
     const { getCmsPageQuery } = operations;
+    const { getCmsPage } = useAdapter();
 
     const [, { dispatch }] = useEventingContext();
 
+    //Uncoment this code snippet to use bigcommerce home page
+    const { loading, data } = getCmsPage({identifier: identifier});
+
+    //Uncoment this code snippet to use magento home page
+    /*
     const { loading, data } = useQuery(getCmsPageQuery, {
         variables: {
             identifier: identifier
@@ -30,6 +37,7 @@ export const useCmsPage = props => {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
     });
+    */
 
     const [
         ,
