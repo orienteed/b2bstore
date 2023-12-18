@@ -61,7 +61,7 @@ export const useQuotes = () => {
     const [deleteSubmittedMpQuote] = useMutation(deleteSubmittedQuoteMutation);
 
     // Cancel Quote Mutation
-    const [cancelMpQuote] = useMutation(cancelQuoteMutation);
+    const { cancelMpQuote } = cancelQuote();
 
     // Duplicate Quote Mutation
     const [duplicateMpQuote] = useMutation(duplicateQuoteMutation);
@@ -105,16 +105,15 @@ export const useQuotes = () => {
     // Handle Page Size
     const handlePageSize = useCallback(async event => {
         await setIsLoading(true);
-        await setCurrentPage(DEFAULT_CURRENT_PAGE);
         await setPageSize(parseInt(event.target.value));
         await setIsLoading(false);
     }, []);
 
     // Handle Current Page
-    const handleCurrentPage = useCallback(async value => {
-        await setIsLoading(true);
-        await setCurrentPage(value);
-        await setIsLoading(false);
+    const handleCurrentPage = useCallback(value => {
+        setIsLoading(true);
+        setCurrentPage(value);
+        setIsLoading(false);
     }, []);
 
     // Handle Delete Page
