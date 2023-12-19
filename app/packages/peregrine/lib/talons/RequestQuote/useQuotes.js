@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
+import { useCartContext } from '../../context/cart';
 
 import { setQuoteId } from './Store';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
@@ -40,6 +41,7 @@ export const useQuotes = () => {
     } = useAdapter();
 
     const history = useHistory();
+    const [{ cartId }] = useCartContext();
     const [quotes, setQuotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
@@ -67,7 +69,7 @@ export const useQuotes = () => {
     const [duplicateMpQuote] = useMutation(duplicateQuoteMutation);
 
     // Add Quote To Cart Mutation
-    const [addMpQuoteToCart] = useMutation(addQuoteToCartMutation);
+    const { addMpQuoteToCart } = addQuoteToCart();
 
     // Get quotes details
     const { data: quoteList, refetch, loading } = getQuoteList({
@@ -182,7 +184,8 @@ export const useQuotes = () => {
             await setIsLoading(true);
             await addMpQuoteToCart({
                 variables: {
-                    quoteId: parseInt(value)
+                    quoteId: parseInt(value),
+                    cartId: cartId
                 }
             });
             await refetch({

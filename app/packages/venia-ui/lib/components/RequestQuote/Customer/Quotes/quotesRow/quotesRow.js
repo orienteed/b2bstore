@@ -6,6 +6,7 @@ import { useQuotes } from '@magento/peregrine/lib/talons/RequestQuote/useQuotes'
 import Price from '@magento/venia-ui/lib/components/Price';
 import QuotesView from '../quotesView';
 import defaultClasses from './quotesRow.module.css';
+import { useModulesContext } from '@magento/peregrine/lib/context/modulesProvider';
 import moment from 'moment';
 export const DATE_FORMAT = {
     month: 'short',
@@ -22,6 +23,7 @@ const QuotesTable = props => {
     const { created_at, entity_id, expired_at, quote_currency_code, status, subtotal } = quote;
 
     const classes = useStyle(defaultClasses, props.classes);
+    const { tenantConfig } = useModulesContext();
     const talonProps = useQuotes();
     const { isOpen, handleContentToggle } = talonProps;
     const contentClass = isOpen ? classes.content : classes.content_collapsed;
@@ -56,7 +58,7 @@ const QuotesTable = props => {
             <button className={classes.quotesLinkView} type="button" onClick={handleContentToggle}>
                 <FormattedMessage id={'quotesTable.quotesViewText'} defaultMessage={'View'} />
             </button>
-            {status === 'approved' && (
+            {(status === 'approved' || (tenantConfig?.backendTechnology === 'bigcommerce' && status === 'pending')) && (
                 <button className={classes.quotesLinkAddtocart} type="button" onClick={handleQuoteToCart}>
                     <FormattedMessage id={'quotesTable.quotesAddtocartText'} defaultMessage={'Add To Cart'} />
                 </button>
