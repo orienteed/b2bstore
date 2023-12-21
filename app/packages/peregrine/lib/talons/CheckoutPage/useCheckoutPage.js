@@ -130,16 +130,7 @@ export const useCheckoutPage = props => {
 
     const { runPlaceOrder, data: placeOrderData, loading: placeOrderLoading, error: placeOrderError } = placeOrder();
 
-    const [getOrderDetails, { data: orderDetailsData, loading: orderDetailsLoading }] = useLazyQuery(
-        getOrderDetailsQuery,
-        {
-            // We use this query to fetch details _just_ before submission, so we
-            // want to make sure it is fresh. We also don't want to cache this data
-            // because it may contain PII.
-            fetchPolicy: 'no-cache'
-        }
-    );
-     // const { getOrderDetails, data: orderDetailsData, loading: orderDetailsLoading } = getOrderDetailsFromAdapter();
+    const { getOrderDetails, data: orderDetailsData, loading: orderDetailsLoading } = getOrderDetailsFromAdapter();
 
      const { data: checkoutData, networkStatus: checkoutQueryNetworkStatus } = getCheckoutDetails({ cartId: cartId });
 
