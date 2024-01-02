@@ -10,6 +10,8 @@ import { useStyle } from '../../../classify';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 import { useGiftCertificate } from './useGiftCertificate';
 
+import { useState } from 'react';
+
 import defaultClasses from './giftCertificate.module.css';
 
 //This view is based on the behavior that gift certificates have on bigcommerce storefront.
@@ -39,11 +41,19 @@ const GiftCertificate = props => {
     });
 
     const { useGift } = talonProps;
+
+    const [giftCode, setGiftCode] = useState('');
+
+    const handleApplyGift = () => {
+        console.log(giftCode)
+        useGift(giftCode);
+      };
+
     return (
         <div className={classes.root}>
             <div>
                 <div className={classes.gift_code}>
-                    <Field
+                    {/* <Field
                     //TODO: solve Incorrect use of <label for=FORM_ELEMENT> (inside DevTools -> Issues when activate this class)
                     //TODO: swap hardcoded values from the table to a new ones extracted from the endpoint
                         id="giftCerts"
@@ -116,8 +126,10 @@ const GiftCertificate = props => {
                                     </td>
                                 </tr>
                             </tbody>
-                    </table>
+                    </table> 
                     </Field>
+                    */}
+                    
                     <Field
                         id="giftCode"
                         label={formatMessage({
@@ -130,6 +142,7 @@ const GiftCertificate = props => {
                             field="giftCode"
                             placeholder='XXX-XXX-XXX-XXX'
                             validate={value => isFieldRequired(value)}
+                            onChange={(event) => setGiftCode(event.target.value)}
                         />
                         <Button 
                         label={formatMessage({
@@ -138,7 +151,7 @@ const GiftCertificate = props => {
                         })}
                         className={classes.addButton}
                         //Triggering the resolver
-                        onClick={useGift}
+                        onClick={handleApplyGift}
                         >APPLY</Button>
                     </Field>
                 </div>

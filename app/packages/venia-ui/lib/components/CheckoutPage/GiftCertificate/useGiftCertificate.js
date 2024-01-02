@@ -12,11 +12,10 @@ export const useGiftCertificate = props => {
     const { applyGiftCardToCart } = applyGiftCardToCartFromAdapter();
     //See https://developer.bigcommerce.com/docs/rest-storefront/checkouts/checkout-gift-certificates
     const useGift = useCallback(
-        async formValues => {
+        async (giftCode) => {
             const variables = {
                 cartId,
-                //Ensure you use a valid and active gift certificate code
-                giftCardCode: "2LI-615-46W-YGG"
+                giftCode
             };
             try {
                 await applyGiftCardToCart({
