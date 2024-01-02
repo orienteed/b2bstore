@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { shape, string } from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 
 import Price from '../Price';
 import SavedCartViewTableItems from './SavedCartViewTableItems';
@@ -19,7 +20,9 @@ const SavedCartsView = props => {
     } = props;
 
     // Format Date
-    const formattedDate = new Date(created_at?.replace(/-/g, '/')).toLocaleDateString(undefined, DATE_FORMAT);
+    // const formattedDate = new Date(created_at?.replace(/-/g, '/')).toLocaleDateString(undefined, DATE_FORMAT);
+    const localDate = moment.utc(created_at).local();
+    const formattedDate = localDate.format('M/DD/YYYY');
 
     const classes = useStyle(defaultClasses, props.classes);
 

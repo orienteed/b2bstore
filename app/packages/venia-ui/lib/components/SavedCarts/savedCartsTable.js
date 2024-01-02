@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { shape, string } from 'prop-types';
+import moment from 'moment';
 
 import Price from '../Price';
 import SavedCartsView from './savedCartsView';
@@ -77,7 +78,9 @@ const SavedCartTable = props => {
     );
 
     // Format Date
-    const formattedDate = new Date(created_at.replace(/-/g, "/")).toLocaleDateString(undefined, DATE_FORMAT);
+    // const formattedDate = new Date(created_at.replace(/-/g, "/")).toLocaleDateString(undefined, DATE_FORMAT);
+    const localDate = moment.utc(created_at).local();
+    const formattedDate = localDate.format('M/DD/YYYY');
 
     const cartItems = useMemo(() => {
         return items.map(item => {

@@ -17,7 +17,8 @@ export const useSavedCart = () => {
     } = operations;
     const {
         createCart: createCartFromAdapter,
-        getCartDetails: getCartDetailsFromAdapter
+        getCartDetails: getCartDetailsFromAdapter,
+        saveSavedCarts
     } = useAdapter();
 
     const [isShow, setIsShow] = useState(false);
@@ -41,7 +42,7 @@ export const useSavedCart = () => {
 
     const history = useHistory();
 
-    const [getMpSaveCart] = useMutation(saveSavedCartsMutation);
+    const { getMpSaveCart } = saveSavedCarts();
 
     // Popup Open
     const handleSaveCart = useCallback(() => {
