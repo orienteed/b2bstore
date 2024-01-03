@@ -15,15 +15,15 @@ import { useAdapter } from '../../hooks/useAdapter';
  * @returns {SavedCartsTableProps}
  */
 export const useSavedCartsTable = props => {
-    const { handleIsLoading, getSavedCarts } = props;
+    const { handleIsLoading, getSavedCarts, token: tokenProp } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, props.operations);
     const { restoreSavedCartsMutation, deleteSavedCartsMutation } = operations;
-    const { getCartDetails: getCartDetailsFromAdapter } = useAdapter();
+    const { getCartDetails: getCartDetailsFromAdapter, deleteSavedCarts, restoreSavedCarts } = useAdapter();
 
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
-    const [token, setToken] = useState();
+    const [token, setToken] = useState(tokenProp);
 
     const [{ cartId }, { getCartDetails }] = useCartContext();
 
@@ -43,12 +43,7 @@ export const useSavedCartsTable = props => {
     });
 
     // Delete save cart
-    const [deleteSaveCart] = useMutation(deleteSavedCartsMutation, {
-        fetchPolicy: 'no-cache',
-        variables: {
-            token: token
-        }
-    });
+    const { deleteSaveCart } = deleteSavedCarts({ token: token });
 
     const handleContentToggle = useCallback(() => {
         setIsOpen(currentValue => !currentValue);
