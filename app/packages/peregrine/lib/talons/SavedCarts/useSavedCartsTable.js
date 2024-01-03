@@ -1,10 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
-import CART_OPERATIONS from '../CartPage/cartPage.gql';
-import DEFAULT_OPERATIONS from './savedCarts.gql';
-import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
 import { useAdapter } from '../../hooks/useAdapter';
 
 /**
@@ -17,8 +13,6 @@ import { useAdapter } from '../../hooks/useAdapter';
 export const useSavedCartsTable = props => {
     const { handleIsLoading, getSavedCarts, token: tokenProp } = props;
 
-    const operations = mergeOperations(DEFAULT_OPERATIONS, CART_OPERATIONS, props.operations);
-    const { restoreSavedCartsMutation, deleteSavedCartsMutation } = operations;
     const { getCartDetails: getCartDetailsFromAdapter, deleteSavedCarts, restoreSavedCarts } = useAdapter();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -34,13 +28,7 @@ export const useSavedCartsTable = props => {
     // END
 
     // Restore Cart
-    const [restoreSaveCart] = useMutation(restoreSavedCartsMutation, {
-        fetchPolicy: 'no-cache',
-        variables: {
-            token: token,
-            cartId: cartId
-        }
-    });
+    const { restoreSaveCart } = restoreSavedCarts({ token: token, cartId: cartId });
 
     // Delete save cart
     const { deleteSaveCart } = deleteSavedCarts({ token: token });
