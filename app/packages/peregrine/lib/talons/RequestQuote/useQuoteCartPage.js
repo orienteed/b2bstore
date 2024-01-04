@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { AFTER_UPDATE_MY_QUOTE } from './useQuoteCartTrigger';
 import { deleteQuoteId } from './Store';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 
 import DEFAULT_OPERATIONS from '../RequestQuote/requestQuote.gql';
 import mergeOperations from '@magento/peregrine/lib/util/shallowMerge';
@@ -17,6 +18,12 @@ export const useQuoteCartPage = props => {
         submitCurrentQuoteMutation,
         getQuoteConfigDetailsQuery
     } = operations;
+    const {
+        deleteCurrentQuote: deleteCurrentQuoteFromAdapter,
+        getConfigDetailsForQuote,
+        getQuoteById,
+        submitCurrentQuote: submitCurrentQuoteFromAdapter
+    } = useAdapter();
 
     const [myQuote, setMyQuote] = useState({});
     const [submittedQuoteId, setSubmittedQuoteId] = useState(0);
@@ -26,9 +33,7 @@ export const useQuoteCartPage = props => {
     const history = useHistory();
 
     // Get config details
-    const { loading: configLoading, data: configData } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { loading: configLoading, data: configData } = getConfigDetailsForQuote();
     useMemo(() => {
         if (!configLoading && configData === undefined) {
             history.push('/');

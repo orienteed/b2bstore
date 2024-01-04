@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { BrowserPersistence } from '@magento/peregrine/lib/util';
+import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
 const storage = new BrowserPersistence();
 const MP_QUOTE_ID = 'mp_QUOTE_id';
 
@@ -13,11 +14,10 @@ const { getQuoteConfigDetailsQuery, getQuoteByIdQuery } = operations;
 export const getConfigData = () => {
     const [isEnable, setIsEnable] = useState(false);
     const [configData, setConfigData] = useState();
+    const { getConfigDetailsForQuote } = useAdapter();
 
     // Get config details
-    const { data } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { data } = getConfigDetailsForQuote();
 
     useEffect(() => {
         if (data != undefined) {

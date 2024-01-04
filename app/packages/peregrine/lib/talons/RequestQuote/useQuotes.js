@@ -50,9 +50,7 @@ export const useQuotes = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     // Get config details
-    const { data: configData, loading: configLoading } = useQuery(getQuoteConfigDetailsQuery, {
-        fetchPolicy: 'network-only'
-    });
+    const { data: configData, loading: configLoading } = getConfigDetailsForQuote();
     useMemo(() => {
         if (!configLoading && configData == undefined) {
             history.push('/account-information');
