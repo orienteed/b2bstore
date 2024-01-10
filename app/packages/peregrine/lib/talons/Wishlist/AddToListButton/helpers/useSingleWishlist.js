@@ -34,7 +34,7 @@ export const useSingleWishlist = props => {
     const { data, error, fetchMore } = queryResult;
     useEffect(() => {
             fetchWishlistItems();
-    }, [fetchWishlistItems, data, wishlistUpdated]);
+    }, [wishlistUpdated]);
     
     // Retrieving wishlist item id by item sku
     const wishlistItems = data?.customer?.wishlist_v2?.items_v2?.items?.filter(el => el.product.sku == item.sku);
