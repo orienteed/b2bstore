@@ -4,6 +4,11 @@
     composes: items-center from global;
     /* min-height: 3rem; */
     composes: min-w-[3rem] from global;
+    outline: none;
+}
+
+.root:hover{
+    opacity: 0.8;
 }
 
 .root_selected {

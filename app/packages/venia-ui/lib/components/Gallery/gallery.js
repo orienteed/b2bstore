@@ -1,15 +1,12 @@
 import React, { useMemo, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { string, shape, array } from 'prop-types';
-
 import GalleryItem from './item';
 import GalleryItemShimmer from './item.shimmer';
-
 import { useDownloadCsvContext } from './DownloadCsvProvider/downloadCsvProvider';
 import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
 import { useHistory } from 'react-router-dom';
 import { useStyle } from '../../classify';
-
 import defaultClasses from './gallery.module.css';
 
 /**

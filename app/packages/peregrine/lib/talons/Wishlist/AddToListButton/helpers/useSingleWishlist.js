@@ -1,11 +1,19 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useAdapter } from '@magento/peregrine/lib/hooks/useAdapter';
-
+import { useWishlistPage } from '@magento/peregrine/lib/talons/WishlistPage/useWishlistPage';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 export const useSingleWishlist = props => {
     const { afterAdd, beforeAdd, item } = props;
+    const talonProps = useWishlistPage();
+    const {
+        errors,
+        loading,
+        shouldRenderVisibilityToggle,
+        wishlists
+    } = talonProps;
+    const wishlistId = (wishlists?.length) ? wishlists[0].id: "";  
 
     const {
         addProductToWishlist: addProductToWishlistFromAdapter,
@@ -19,16 +27,30 @@ export const useSingleWishlist = props => {
         error: errorAddingProduct,
         loading: isAddingToWishlist
     } = addProductToWishlistFromAdapter();
+         
+    const [wishlistUpdated, setWishlistUpdated] = useState(0);
 
+    const { fetchWishlistItems, queryResult } = getWishlistProducts({ id: wishlistId, currentPage: 1 });
+    const { data, error, fetchMore } = queryResult;
+    useEffect(() => {
+            fetchWishlistItems();
+    }, [wishlistUpdated]);
+    
+    // Retrieving wishlist item id by item sku
+    const wishlistItems = data?.customer?.wishlist_v2?.items_v2?.items?.filter(el => el.product.sku == item.sku);
+    const wishlistItemIds = wishlistItems?.map(item => item.id);
+    
     const {
         removeProductsFromWishlist,
         data: removeProductData,
         error: errorRemovingProduct
-    } = removeProductsFromWishlistFromAdapter({ isFromUseSingle: true, item });
-
-    const { data } = getWishlistProducts({ isUseQuery: true, id: '0' });
-    const wishlistItems = data?.customer?.wishlist_v2.items_v2.items;
-    const wishlistItemIds = wishlistItems?.map(item => item.id);
+    } = removeProductsFromWishlistFromAdapter({
+        wishlistId: wishlistId,
+        wishlistItemsId: wishlistItemIds,
+        item,
+        sku: item.sku,
+        isFromUse: true
+    });    
 
     const {
         client,
@@ -52,12 +74,7 @@ export const useSingleWishlist = props => {
         } else {
             try {
                 if (isSelected) {
-                    await removeProductsFromWishlist({
-                        variables: {
-                            wishlistId: '0',
-                            wishlistItemsId: wishlistItemIds
-                        }
-                    });
+                    await removeProductsFromWishlist();
                 } else {
                     if (beforeAdd) {
                         await beforeAdd();
@@ -66,7 +83,7 @@ export const useSingleWishlist = props => {
                     await addProductToWishlist({
                         variables: { wishlistId: '0', itemOptions: item }
                     });
-
+                    setWishlistUpdated(prev => prev + 1);
                     client.writeQuery({
                         query: getProductsInWishlistsQuery,
                         data: {
