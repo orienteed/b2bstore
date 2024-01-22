@@ -2,6 +2,10 @@
 	path = app/packages/adapters/b2bstore-boilerplate-adapter
 	url = https://github.com/orienteed/b2bstore-boilerplate-adapter
 	branch = develop
+[submodule "app/packages/adapters/b2bstore-magento-adapter"]
+	path = app/packages/adapters/b2bstore-magento-adapter
+	url = https://github.com/orienteed-lab/b2bstore-magento2-adapter
+	branch = main
 [submodule "app/packages/adapters/b2bstore-bigcommerce-adapter"]
 	path = app/packages/adapters/b2bstore-bigcommerce-adapter
 	url = https://github.com/orienteed-lab/b2bstore-bigcommerce-adapter
